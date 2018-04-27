@@ -1,15 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using FullInspector;
 using UnityEngine;
 using System.Linq;
 using Unity.Linq;
 using UniRx;
 using System;
+#if FullInspector
+using FullInspector;
+#endif
 
 namespace CloudMacaca.ViewSystem
 {
+#if FullInspector
     public class ViewController : BaseBehavior
+#else
+    public class ViewController : MonoBehavior
+#endif
     {
         public event EventHandler<ViewStateEventArgs> OnViewStateChange;
         public class ViewStateEventArgs : EventArgs
@@ -32,7 +38,7 @@ namespace CloudMacaca.ViewSystem
         //[HideInInspector]
         public List<ViewPage> viewPage = new List<ViewPage>();
         public List<ViewState> viewStates = new List<ViewState>();
-        private static IEnumerable<string> viewStatesNames ;
+        private static IEnumerable<string> viewStatesNames;
         [ShowInInspector]
         private List<ViewElement> currentLiveElement = new List<ViewElement>();
         [HideInInspector]
@@ -55,8 +61,8 @@ namespace CloudMacaca.ViewSystem
 
             GameController.Instance.CallMissionHintUI += CallMissionUI;
 
-            viewStatesNames = viewStates.Select(m=>m.name);
-            
+            viewStatesNames = viewStates.Select(m => m.name);
+
         }
         void CallMissionUI()
         {
@@ -189,11 +195,12 @@ namespace CloudMacaca.ViewSystem
 
             //要被移開的元件
             List<ViewElement> viewElementNeedsLeave = new List<ViewElement>();
-             
+
             //尋找應該離場的元件
             //就是存在 currentLiveElement 中但不存在 viewItemForNextPage 的傢伙要 OnLeave
             var allViewElementForNextPage = viewItemForNextPage.Select(m => m.viewElement).ToList();
-            foreach(var item in currentLiveElement.ToArray()){
+            foreach (var item in currentLiveElement.ToArray())
+            {
                 //不存在的話就讓他加入應該移除的列表
                 if (!allViewElementForNextPage.Contains(item))
                 {
@@ -204,30 +211,35 @@ namespace CloudMacaca.ViewSystem
                     currentLiveElement.Remove(item);
                 }
             }
-            
+
             //整理已經存在的頁面
-            foreach(var item in viewItemForNextPage.ToArray()){
+            foreach (var item in viewItemForNextPage.ToArray())
+            {
                 //currentLiveElement 有找到代表不應該執行 OnShow 除非他要改變 Parent
-                if(currentLiveElement.Contains(item.viewElement)){
-                    if(item.parent == null){
+                if (currentLiveElement.Contains(item.viewElement))
+                {
+                    if (item.parent == null)
+                    {
                         viewItemForNextPage.Remove(item);
                     }
                     //因為 有 Parent 的物件會在執行一次 OnShow 所以避免被加入 currentLiveElement 兩次 要移除
-                    else{
+                    else
+                    {
                         currentLiveElement.Remove(item.viewElement);
-                        
-                       
+
+
 
                     }
                 }
-                 //最後 在下個頁面中是isFloating 又沒有 parent 的要 OnLeave
-                if(item.viewElement.isFloating == true && item.parent == null){
+                //最後 在下個頁面中是isFloating 又沒有 parent 的要 OnLeave
+                if (item.viewElement.isFloating == true && item.parent == null)
+                {
                     viewElementNeedsLeave.Add(item.viewElement);
                 }
             }
 
 
-            
+
 
 
             //所有下個頁面應該出現的 ViewElement
@@ -249,7 +261,7 @@ namespace CloudMacaca.ViewSystem
             //     else
             //     {
             //         var vpItem = viewItemForNextPage.Where(m => m.viewElement == item).SingleOrDefault();
-                  
+
             //         if (vpItem != null)
             //         {
             //             //存在但沒有 parent 物件的才移除 OnShow
@@ -323,13 +335,13 @@ namespace CloudMacaca.ViewSystem
                 currentLiveElement.Add(item.viewElement);
 
                 //Tween 的時間
-                if (item.parent != null && !lastPageItemTweenOutTimes.ContainsKey(item.viewElement.name)) 
+                if (item.parent != null && !lastPageItemTweenOutTimes.ContainsKey(item.viewElement.name))
                     lastPageItemTweenOutTimes.Add(item.viewElement.name, item.parentMoveTweenOut);
                 else
                     lastPageItemTweenOutTimes[item.viewElement.name] = item.parentMoveTweenOut;
 
                 //在 float 裝態時是否要直接離開
-                if (item.parent != null && !lastPageNeedLeaveOnFloat.ContainsKey(item.viewElement.name)) 
+                if (item.parent != null && !lastPageNeedLeaveOnFloat.ContainsKey(item.viewElement.name))
                     lastPageNeedLeaveOnFloat.Add(item.viewElement.name, item.NeedLeaveWhileIsFloating);
                 else
                     lastPageNeedLeaveOnFloat[item.viewElement.name] = item.NeedLeaveWhileIsFloating;
@@ -345,7 +357,7 @@ namespace CloudMacaca.ViewSystem
             UpdateCurrentViewState(vp);
             //通知事件
             OnViewStateChange(this, new ViewStateEventArgs(currentViewPage, lastViewPage, currentViewState, lastViewState));
-           
+
             //OnComplete Callback
             if (OnComplete != null && vp.autoLeaveTimes <= 0) OnComplete();
         }
@@ -450,7 +462,7 @@ namespace CloudMacaca.ViewSystem
             if (!string.IsNullOrEmpty(vp.viewState) && viewStatesNames.Contains(vp.viewState))
             {
                 lastViewState = currentViewState;
-                currentViewState = viewStates.SingleOrDefault(m=>m.name == vp.viewState);
+                currentViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
             }
         }
         float CalculateWaitingTimeForNextOnShow(IEnumerable<ViewElement> viewElements)
