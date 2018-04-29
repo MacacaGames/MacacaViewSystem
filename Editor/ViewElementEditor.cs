@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+
 namespace CloudMacaca.ViewSystem
 {
 
-    [CustomEditor(typeof(ViewElement))]
+
     [CanEditMultipleObjects]
+
+    [CustomEditor(typeof(ViewElement))]
     public class ViewElementEditor : Editor
     {
         private ViewElement viewElement = null;
@@ -14,7 +17,7 @@ namespace CloudMacaca.ViewSystem
         private SerializedProperty onShowHandle;
         private SerializedProperty onLeaveHandle;
 
-        
+
         void OnEnable()
         {
             viewElement = (ViewElement)target;
@@ -61,8 +64,8 @@ namespace CloudMacaca.ViewSystem
                     break;
                 case ViewElement.TransitionType.Custom:
                     EditorGUILayout.BeginVertical();
-                    EditorGUILayout.PropertyField(onShowHandle,true);
-                    EditorGUILayout.PropertyField(onLeaveHandle,true);
+                    EditorGUILayout.PropertyField(onShowHandle, true);
+                    EditorGUILayout.PropertyField(onLeaveHandle, true);
                     EditorGUILayout.EndVertical();
                     break;
             }

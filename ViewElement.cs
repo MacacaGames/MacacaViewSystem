@@ -7,16 +7,10 @@ using System;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.Events;
-#if FullInspector
-using FullInspector;
-#endif
+
 namespace CloudMacaca.ViewSystem
 {
-#if FullInspector
-    public class ViewElement : BaseBehavior
-#else
     public class ViewElement : MonoBehaviour
-#endif
     {
         public enum TransitionType
         {
