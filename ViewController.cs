@@ -225,15 +225,18 @@ namespace CloudMacaca.ViewSystem
                     //因為 有 Parent 的物件會在執行一次 OnShow 所以避免被加入 currentLiveElement 兩次 要移除
                     else
                     {
+                                            
                         currentLiveElement.Remove(item.viewElement);
-
-
 
                     }
                 }
                 //最後 在下個頁面中是isFloating 又沒有 parent 的要 OnLeave
                 if (item.viewElement.isFloating == true && item.parent == null)
                 {
+                    //如果下個頁面時這個 viewElemant 還在 而且當前parent 跟下個頁面的 parent 不同，則不能直接 Leave 應該先退回原位
+                    if(item.parent != item.viewElement.transform.parent && lastPageNeedLeaveOnFloat.ContainsKey(item.viewElement.name)){
+                        lastPageNeedLeaveOnFloat[item.viewElement.name] = false;
+                    }
                     viewElementNeedsLeave.Add(item.viewElement);
                 }
             }
