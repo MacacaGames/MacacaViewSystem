@@ -34,7 +34,7 @@ namespace CloudMacaca.ViewSystem
         public List<ViewPage> viewPage = new List<ViewPage>();
         public List<ViewState> viewStates = new List<ViewState>();
         private static IEnumerable<string> viewStatesNames;
-        [ShowInInspector]
+        [SerializeField]
         private List<ViewElement> currentLiveElement = new List<ViewElement>();
         [HideInInspector]
         public ViewPage lastViewPage;
