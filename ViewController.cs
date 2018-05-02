@@ -13,21 +13,27 @@ namespace CloudMacaca.ViewSystem
     public class ViewController : MonoBehaviour
     {
         public event EventHandler<ViewStateEventArgs> OnViewStateChange;
+        public event EventHandler<ViewPageEventArgs> OnViewPageChange;
         public class ViewStateEventArgs : EventArgs
+        {
+            public ViewState currentViewState;
+            public ViewState lastViewState;
+            public ViewStateEventArgs(ViewState CurrentViewState, ViewState LastVilastViewState)
+            {
+                this.currentViewState = CurrentViewState;
+                this.lastViewState = LastVilastViewState;
+            }
+        }
+        public class ViewPageEventArgs : EventArgs
         {
             // ...省略額外參數
             public ViewPage currentViewPage;
             public ViewPage lastViewPage;
-            public ViewState currentViewState;
-            public ViewState lastViewState;
-            public ViewStateEventArgs(ViewPage CurrentViewPage, ViewPage LastViewPage, ViewState CurrentViewState, ViewState LastVilastViewStateew)
+            public ViewPageEventArgs(ViewPage CurrentViewPage, ViewPage LastViewPage)
             {
                 this.currentViewPage = CurrentViewPage;
                 this.lastViewPage = LastViewPage;
-                this.currentViewState = CurrentViewState;
-                this.lastViewState = LastVilastViewStateew;
             }
-
         }
         public static ViewController Instance;
         //[HideInInspector]
@@ -352,9 +358,8 @@ namespace CloudMacaca.ViewSystem
             }
 
             //更新狀態
-            UpdateCurrentViewState(vp);
+            UpdateCurrentViewStateAndNotifyEvent(vp);
             //通知事件
-            OnViewStateChange(this, new ViewStateEventArgs(currentViewPage, lastViewPage, currentViewState, lastViewState));
 
             //OnComplete Callback
             if (OnComplete != null && vp.autoLeaveTimes <= 0) OnComplete();
@@ -449,18 +454,21 @@ namespace CloudMacaca.ViewSystem
                 }
                 item.viewElement.OnLeave();
             }
-            UpdateCurrentViewState(vp);
-
+            UpdateCurrentViewStateAndNotifyEvent(vp);
         }
 
-        void UpdateCurrentViewState(ViewPage vp)
+        void UpdateCurrentViewStateAndNotifyEvent(ViewPage vp)
         {
             lastViewPage = currentViewPage;
             currentViewPage = vp;
+            OnViewPageChange(this, new ViewPageEventArgs(  currentViewPage, lastViewPage));
             if (!string.IsNullOrEmpty(vp.viewState) && viewStatesNames.Contains(vp.viewState))
             {
                 lastViewState = currentViewState;
                 currentViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
+                
+                OnViewStateChange(this, new ViewStateEventArgs(  currentViewState, lastViewState));
+
             }
         }
         float CalculateWaitingTimeForNextOnShow(IEnumerable<ViewElement> viewElements)
