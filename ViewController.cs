@@ -5,17 +5,12 @@ using System.Linq;
 using Unity.Linq;
 using UniRx;
 using System;
-#if FullInspector
-using FullInspector;
-#endif
+
 
 namespace CloudMacaca.ViewSystem
 {
-#if FullInspector
-    public class ViewController : BaseBehavior
-#else
-    public class ViewController : MonoBehavior
-#endif
+
+    public class ViewController : MonoBehaviour
     {
         public event EventHandler<ViewStateEventArgs> OnViewStateChange;
         public class ViewStateEventArgs : EventArgs
