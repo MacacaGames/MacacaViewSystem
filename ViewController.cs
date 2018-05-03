@@ -59,20 +59,7 @@ namespace CloudMacaca.ViewSystem
         }
         void Start()
         {
-
-            GameController.Instance.CallMissionHintUI += CallMissionUI;
-
             viewStatesNames = viewStates.Select(m => m.name);
-
-        }
-        void CallMissionUI()
-        {
-            ChangePageTo("Play_ShowMission",
-                () =>
-                {
-                    GameController.Instance.MissionCheckDone = true;
-                }
-            );
         }
 
         // Stack 後進先出
