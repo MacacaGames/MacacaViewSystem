@@ -213,7 +213,7 @@ namespace CloudMacaca.ViewSystem
                     //因為 有 Parent 的物件會在執行一次 OnShow 所以避免被加入 currentLiveElement 兩次 要移除
                     else
                     {
-                                            
+
                         currentLiveElement.Remove(item.viewElement);
 
                     }
@@ -222,60 +222,13 @@ namespace CloudMacaca.ViewSystem
                 if (item.viewElement.isFloating == true && item.parent == null)
                 {
                     //如果下個頁面時這個 viewElemant 還在 而且當前parent 跟下個頁面的 parent 不同，則不能直接 Leave 應該先退回原位
-                    if(item.parent != item.viewElement.transform.parent && lastPageNeedLeaveOnFloat.ContainsKey(item.viewElement.name)){
+                    if (item.parent != item.viewElement.transform.parent && lastPageNeedLeaveOnFloat.ContainsKey(item.viewElement.name))
+                    {
                         lastPageNeedLeaveOnFloat[item.viewElement.name] = false;
                     }
                     viewElementNeedsLeave.Add(item.viewElement);
                 }
             }
-
-
-
-
-
-            //所有下個頁面應該出現的 ViewElement
-            //var allViewElementForNextPage = viewItemForNextPage.Select(m => m.viewElement).ToList();
-            //檢查所有下個頁面應該出現的 ViewElement 中是不是有已經在 當前頁面存在了
-            // foreach (var item in currentLiveElement.ToArray())
-            // {
-
-            //     //不存在的話就讓他加入應該移除的列表
-            //     if (!allViewElementForNextPage.Contains(item))
-            //     {
-            //         //加入該移除的列表
-            //         viewElementNeedsLeave.Add(item);
-
-            //         //從目前存在的頁面移除
-            //         currentLiveElement.Remove(item);
-            //     }
-            //     //存在的話 從下個頁面該執行 OnShow 的列表移除
-            //     else
-            //     {
-            //         var vpItem = viewItemForNextPage.Where(m => m.viewElement == item).SingleOrDefault();
-
-            //         if (vpItem != null)
-            //         {
-            //             //存在但沒有 parent 物件的才移除 OnShow
-            //             if (vpItem.parent == null)
-            //             {
-            //                 viewItemForNextPage.Remove(vpItem);
-            //             }
-
-            //         }
-            //         else
-            //         {
-            //             //浮起來的物件要 call OnLeave 而且下一頁 parent 是 null 的情況要 OnLeave
-            //             if (item.isFloating )
-            //             {
-            //                 //加入該移除的列表
-            //                 viewElementNeedsLeave.Add(item);
-            //             }
-            //             currentLiveElement.Remove(item);
-
-            //         }
-            //     }
-            // }
-
 
 
             //對該離開的元件呼叫 OnLeave
@@ -352,7 +305,14 @@ namespace CloudMacaca.ViewSystem
             if (OnComplete != null && vp.autoLeaveTimes <= 0) OnComplete();
         }
 
-
+        public bool HasOverlayPageLive()
+        {
+            return overlayViewPageQueue.Count > 0;
+        }
+        public bool IsOverPageLive(string viewPageName)
+        {
+            return overlayViewPageQueue.Where(m => m.name == viewPageName).Count() > 0;
+        }
         List<ViewPage> overlayViewPageQueue = new List<ViewPage>();
         Dictionary<string, IDisposable> autoLeaveQueue = new Dictionary<string, IDisposable>();
         public void ShowOverlayViewPage(string viewPageName, bool extendShowTimeWhenTryToShowSamePage = false, Action OnComplete = null)
@@ -367,7 +327,12 @@ namespace CloudMacaca.ViewSystem
                 overlayViewPageQueue.Add(vp);
                 foreach (var item in vp.viewPageItem)
                 {
-                    item.viewElement.OnShow(item.parent);
+                    bool playInAnimtionWhileParentOverwrite = false;
+                    if (item.parent != null && item.viewElement.gameObject.activeSelf == false)
+                    {
+                        playInAnimtionWhileParentOverwrite = true;
+                    }
+                    item.viewElement.OnShow(item.parent, playInAnimtionWhileParentOverwrite, item.parentMoveTweenIn, item.delayOut);
                 }
             }
 
@@ -422,7 +387,9 @@ namespace CloudMacaca.ViewSystem
 
             foreach (var item in vp.viewPageItem)
             {
-                item.viewElement.OnLeave();
+                item.viewElement.OnLeave(parentChangeTweenTime: item.parentMoveTweenOut,
+                                        directLeaveWhileFloat: item.NeedLeaveWhileIsFloating,
+                                        delayOut: item.delayOut);
             }
 
             overlayViewPageQueue.Remove(vp);
@@ -448,13 +415,13 @@ namespace CloudMacaca.ViewSystem
         {
             lastViewPage = currentViewPage;
             currentViewPage = vp;
-            OnViewPageChange(this, new ViewPageEventArgs(  currentViewPage, lastViewPage));
+            OnViewPageChange(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
             if (!string.IsNullOrEmpty(vp.viewState) && viewStatesNames.Contains(vp.viewState))
             {
                 lastViewState = currentViewState;
                 currentViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-                
-                OnViewStateChange(this, new ViewStateEventArgs(  currentViewState, lastViewState));
+
+                OnViewStateChange(this, new ViewStateEventArgs(currentViewState, lastViewState));
 
             }
         }
