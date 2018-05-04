@@ -14,6 +14,8 @@ namespace CloudMacaca.ViewSystem
     {
         public event EventHandler<ViewStateEventArgs> OnViewStateChange;
         public event EventHandler<ViewPageEventArgs> OnViewPageChange;
+        public event EventHandler<ViewPageEventArgs> OnOverlayPageShow;
+        public event EventHandler<ViewPageEventArgs> OnOverlayPageLeave;
         public class ViewStateEventArgs : EventArgs
         {
             public ViewState currentViewState;
@@ -371,7 +373,7 @@ namespace CloudMacaca.ViewSystem
                 if (extendShowTimeWhenTryToShowSamePage == true)
                     autoLeaveQueue.Add(vp.name, d);
             }
-
+            OnOverlayPageShow(this,new ViewPageEventArgs(vp,null));
         }
 
         public void LeaveOverlayViewPage(string viewPageName)
@@ -393,6 +395,7 @@ namespace CloudMacaca.ViewSystem
             }
 
             overlayViewPageQueue.Remove(vp);
+            OnOverlayPageLeave(this,new ViewPageEventArgs(vp,null));
         }
 
 
