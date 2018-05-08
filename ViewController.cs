@@ -379,16 +379,20 @@ namespace CloudMacaca.ViewSystem
         public void LeaveOverlayViewPage(string viewPageName)
         {
             var vp = overlayViewPageQueue.Where(m => m.name == viewPageName).SingleOrDefault();
-
+            
             if (vp == null)
             {
                 Debug.Log("No live overlay viewPage of name: " + viewPageName + "  found");
                 return;
             }
 
-
+            var currentVe = currentViewPage.viewPageItem.Select(m=>m.viewElement);
             foreach (var item in vp.viewPageItem)
             {
+                if(currentVe.Contains(item.viewElement)){
+                    //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
+                    continue;
+                }
                 item.viewElement.OnLeave(parentChangeTweenTime: item.parentMoveTweenOut,
                                         directLeaveWhileFloat: item.NeedLeaveWhileIsFloating,
                                         delayOut: item.delayOut);
