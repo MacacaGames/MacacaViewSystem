@@ -113,7 +113,7 @@ namespace CloudMacaca.ViewSystem
             if (vp.viewPageType == ViewPage.ViewPageType.Overlay)
             {
                 Debug.LogWarning("To show Overlay ViewPage use ShowOverlayViewPage() method \n current version will redirect to this method automatically.");
-                ShowOverlayViewPage(vp.name, true, OnComplete);
+                ShowOverlayViewPageBase(vp, true, OnComplete);
 
                 //return;
                 yield break;
@@ -178,10 +178,12 @@ namespace CloudMacaca.ViewSystem
 
             //從 ViewPage 尋找
             //viewElementForNextPage.AddRange(vp.viewPageItem.viewElement);
-            foreach (var item in vp.viewPageItem)
-            {
-                viewItemForNextPage.Add(item);
-            }
+            viewItemForNextPage.AddRange(vp.viewPageItem);
+
+            // foreach (var item in vp.viewPageItem)
+            // {
+            //     viewItemForNextPage.Add(item);
+            // }
 
             //要被移開的元件
             List<ViewElement> viewElementNeedsLeave = new List<ViewElement>();
@@ -324,6 +326,9 @@ namespace CloudMacaca.ViewSystem
         }
         public void ShowOverlayViewPageBase(ViewPage vp, bool extendShowTimeWhenTryToShowSamePage, Action OnComplete)
         {
+            if(vp == null){
+                Debug.Log("ViewPage is null");
+            }
             if (overlayViewPageQueue.Contains(vp) == false)
             {
                 overlayViewPageQueue.Add(vp);

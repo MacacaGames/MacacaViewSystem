@@ -49,11 +49,15 @@ namespace CloudMacaca.ViewSystem
         public UnityEvent OnLeaveHandle;
 
 
-        private Transform oriParent;
-        private Vector3 oriPosition;
-        private Vector3 oriScale;
+        private Transform poolParent;
+        private Vector3 poolPosition;
+        private Vector3 poolScale;
+        private Transform lastParent;
+        private Vector3 lastPosition;
+        private Vector3 lastScale;
         private RectTransform rectTransform;
         public bool isFloating = false;
+        public bool isUsing = false;
 
         private Animator _animator;
         public Animator animator
@@ -79,9 +83,9 @@ namespace CloudMacaca.ViewSystem
         public void Setup()
         {
             rectTransform = GetComponent<RectTransform>();
-            oriParent = transform.parent;
-            oriScale = transform.localScale;
-            oriPosition = rectTransform.anchoredPosition3D;
+            poolParent = transform.parent;
+            poolScale = transform.localScale;
+            poolPosition = rectTransform.anchoredPosition3D;
             //Get Animator From self first
             _animator = GetComponent<Animator>();
             if (_animator != null) return;
@@ -102,12 +106,23 @@ namespace CloudMacaca.ViewSystem
             }
             gameObject.SetActive(true);
 
-            if (parentOverwrite != null)
+            // 還在 pool 中
+            if (rectTransform.parent == poolParent)
+            {
+                rectTransform.SetParent(parentOverwrite, true);
+                rectTransform.anchoredPosition = Vector2.zero;
+                rectTransform.localScale = Vector3.one;
+            }
+            else if (parentOverwrite != null)
             {
                 rectTransform.SetParent(parentOverwrite, true);
                 rectTransform.DOAnchorPos3D(Vector3.zero, parentChangeTweenTime);
                 rectTransform.DOScale(Vector3.one, parentChangeTweenTime);
                 isFloating = true;
+
+                lastParent = rectTransform.parent;
+                lastPosition = rectTransform.anchoredPosition3D;
+                lastScale = rectTransform.localScale;
                 if (playInAnimtionWhileParentOverwrite == false)
                 {
                     return;
@@ -145,9 +160,8 @@ namespace CloudMacaca.ViewSystem
         {
             if (isFloating == true && directLeaveWhileFloat == false)
             {
-                transform.SetParent(oriParent, true);
-
-                rectTransform.DOAnchorPos3D(oriPosition, parentChangeTweenTime);
+                rectTransform.SetParent(poolParent, true);
+                rectTransform.DOAnchorPos3D(poolPosition, parentChangeTweenTime);
                 rectTransform.DOScale(Vector3.one, parentChangeTweenTime);
                 isFloating = false;
                 return;
@@ -185,6 +199,7 @@ namespace CloudMacaca.ViewSystem
                         catch
                         {
                             gameObject.SetActive(false);
+                            OnLeaveAnimationFinish();
                         }
 
                     }
@@ -196,18 +211,29 @@ namespace CloudMacaca.ViewSystem
                             {
                                 if (disableGameObjectOnComplete == true)
                                     gameObject.SetActive(false);
+
+                                OnLeaveAnimationFinish();
                             }
                         );
                     }
                     else if (transition == TransitionType.Custom)
                     {
                         OnLeaveHandle.Invoke();
+                        OnLeaveAnimationFinish();
                     }
                     else
                     {
                         gameObject.SetActive(false);
+                        OnLeaveAnimationFinish();
                     }
                 });
+        }
+
+        public void OnLeaveAnimationFinish()
+        {
+            rectTransform.SetParent(poolParent, true);
+            rectTransform.anchoredPosition = Vector2.zero;
+            rectTransform.localScale = Vector3.one;
         }
 
         bool DirectLeaveWhileFloat = false;
@@ -233,8 +259,8 @@ namespace CloudMacaca.ViewSystem
         {
             if (DirectLeaveWhileFloat)
             {
-                transform.SetParent(oriParent, true);
-                rectTransform.DOAnchorPos3D(oriPosition, 0);
+                rectTransform.SetParent(poolParent, true);
+                rectTransform.DOAnchorPos3D(poolPosition, 0);
                 isFloating = false;
             }
         }
