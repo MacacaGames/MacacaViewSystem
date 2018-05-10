@@ -42,7 +42,6 @@ namespace CloudMacaca.ViewSystem
         public List<ViewPage> viewPage = new List<ViewPage>();
         public List<ViewState> viewStates = new List<ViewState>();
         private static IEnumerable<string> viewStatesNames;
-        [SerializeField]
         private List<ViewElement> currentLiveElement = new List<ViewElement>();
         [HideInInspector]
         public ViewPage lastViewPage;
@@ -169,10 +168,11 @@ namespace CloudMacaca.ViewSystem
                 viewPagePresetTemp = viewStates.SingleOrDefault(m => m.name == vp.viewState);
                 if (viewPagePresetTemp != null)
                 {
-                    foreach (var k in viewPagePresetTemp.viewElements)
-                    {
-                        viewItemForNextPage.Add(new ViewPageItem(k));
-                    }
+                    // foreach (var k in viewPagePresetTemp.viewPageItems)
+                    // {
+                    //     viewItemForNextPage.Add(new ViewPageItem(k));
+                    // }
+                    viewItemForNextPage.AddRange(viewPagePresetTemp.viewPageItems);
                 }
             }
 

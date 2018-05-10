@@ -25,7 +25,7 @@ namespace CloudMacaca.ViewSystem
     public class ViewState
     {
         public string name;
-        public List<ViewElement> viewElements = new List<ViewElement>();
+        public List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
     }
 
     [System.Serializable]
