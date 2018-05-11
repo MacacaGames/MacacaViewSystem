@@ -9,11 +9,11 @@ namespace CloudMacaca.ViewSystem
     {
         public ViewElement viewElement;
         public Transform parent;
-        public float parentMoveTweenIn = 0.4f;
-        public float parentMoveTweenOut = 0.4f;
+        public float TweenTime = 0.4f;
+        //public float parentMoveTweenOut = 0.4f;
         public float delayIn;
         public float delayOut;
-        public bool NeedLeaveWhileIsFloating = false;
+        //public bool NeedLeaveWhileIsFloating = false;
         public ViewPageItem(ViewElement ve)
         {
             viewElement = ve;

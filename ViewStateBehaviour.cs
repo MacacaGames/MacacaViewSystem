@@ -19,6 +19,8 @@ public class ViewStateBehaviour : StateMachineBehaviour
         viewElement.FloatingObjectCheck();
         if(viewElement.DisableGameObjectOnComplete)
             viewElement.gameObject.SetActive(false);
+
+        viewElement.OnLeaveAnimationFinish();
     }
     // override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     // {
