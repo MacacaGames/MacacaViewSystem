@@ -7,70 +7,70 @@ using CloudMacaca.ViewSystem;
 using System.Linq;
 public class ViewSystemEditor : Editor
 {
-    [MenuItem("CloudMacaca/ViewSystem/Make All Parent Set", false, 0)]
-    static void Test()
-    {
-        var gos = Selection.gameObjects;
-        var ViewElementPool = GameObject.Find("ViewElementPool").transform;
-        foreach (var go in gos)
-        {
-            var SelectViewElement = go.GetComponent<ViewElement>();
-            if (SelectViewElement == null)
-            {
-                Debug.LogError("SelectViewElement is null");
-                return;
-            }
+    // [MenuItem("CloudMacaca/ViewSystem/Make All Parent Set", false, 0)]
+    // static void Test()
+    // {
+    //     var gos = Selection.gameObjects;
+    //     var ViewElementPool = GameObject.Find("ViewElementPool").transform;
+    //     foreach (var go in gos)
+    //     {
+    //         var SelectViewElement = go.GetComponent<ViewElement>();
+    //         if (SelectViewElement == null)
+    //         {
+    //             Debug.LogError("SelectViewElement is null");
+    //             return;
+    //         }
 
 
-            foreach (var item in viewController.viewPage)
-            {
-                foreach (var item2 in item.viewPageItem.Where(m => m.viewElement == SelectViewElement))
-                {
-                    if (item2.parent == null) item2.parent = SelectViewElement.transform.parent;
-                }
-            }
-            EditorUtility.SetDirty(viewController);
-            Debug.Log(go.name + " finish is ViewPages");
+    //         foreach (var item in viewController.viewPage)
+    //         {
+    //             foreach (var item2 in item.viewPageItem.Where(m => m.viewElement == SelectViewElement))
+    //             {
+    //                 if (item2.parent == null) item2.parent = SelectViewElement.transform.parent;
+    //             }
+    //         }
+    //         EditorUtility.SetDirty(viewController);
+    //         Debug.Log(go.name + " finish is ViewPages");
 
-            foreach (var item in viewController.viewStates)
-            {
-                foreach (var item2 in item.viewPageItems.Where(m => m.viewElement == SelectViewElement))
-                {
-                    if (item2.parent == null) item2.parent = SelectViewElement.transform.parent;
-                }
-            }
+    //         foreach (var item in viewController.viewStates)
+    //         {
+    //             foreach (var item2 in item.viewPageItems.Where(m => m.viewElement == SelectViewElement))
+    //             {
+    //                 if (item2.parent == null) item2.parent = SelectViewElement.transform.parent;
+    //             }
+    //         }
 
-            go.transform.SetParent(ViewElementPool);
+    //         go.transform.SetParent(ViewElementPool);
 
-            EditorUtility.SetDirty(viewController);
-            Debug.Log(go.name + " finish is ViewSates");
-        }
-    }
+    //         EditorUtility.SetDirty(viewController);
+    //         Debug.Log(go.name + " finish is ViewSates");
+    //     }
+    // }
 
-    [MenuItem("CloudMacaca/ViewSystem/Custom", false, 0)]
-    static void Test2()
-    {
-        // var ViewElementPool = GameObject.Find("ViewElementPool").transform;
+    // [MenuItem("CloudMacaca/ViewSystem/Custom", false, 0)]
+    // static void Test2()
+    // {
+    //     // var ViewElementPool = GameObject.Find("ViewElementPool").transform;
         
      
-        // foreach (var item in viewController.viewPage)
-        // {
-        //     foreach (var item2 in item.viewPageItem)
-        //     {
-        //         item2.TweenTime = 0.4f;
-        //     }
-        // }
+    // foreach (var item in viewController.viewPage)
+    // {
+    //     foreach (var item2 in item.viewPageItem)
+    //     {
+    //         item2.TweenTime = 0.4f;
+    //     }
+    // }
 
-        // foreach (var item in viewController.viewStates)
-        // {
-        //     foreach (var item2 in item.viewPageItems)
-        //     {
-        //         item2.TweenTime = 0.4f;
-        //     }
-        // }
+    // foreach (var item in viewController.viewStates)
+    // {
+    //     foreach (var item2 in item.viewPageItems)
+    //     {
+    //         item2.TweenTime = 0.4f;
+    //     }
+    // }
 
-        // EditorUtility.SetDirty(viewController);
-    }
+    //     // EditorUtility.SetDirty(viewController);
+    // }
     [MenuItem("CloudMacaca/ViewSystem/Bake ViewPage and ViewState to script", false, 0)]
     static void BakeAllViewPageName()
     {
