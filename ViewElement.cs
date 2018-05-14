@@ -33,13 +33,17 @@ namespace CloudMacaca.ViewSystem
         //Canvas
         public float canvasInTime = 0.4f;
         public float canvasOutTime = 0.4f;
+        public Ease canvasInEase = Ease.OutQuad;
+        public Ease canvasOutEase = Ease.OutQuad;
         private CanvasGroup _canvasGroup;
         public CanvasGroup canvasGroup
         {
             get
             {
-                if (_canvasGroup) return _canvasGroup;
-                _canvasGroup = GetComponent<CanvasGroup>();
+                if (_canvasGroup == null)
+                {
+                    _canvasGroup = GetComponent<CanvasGroup>();
+                }
                 return _canvasGroup;
             }
         }
@@ -66,9 +70,12 @@ namespace CloudMacaca.ViewSystem
         }
         Stack<LastTransform> lastTransform = new Stack<LastTransform>();
         private RectTransform _rectTransform;
-        private RectTransform rectTransform{
-            get{
-                if(_rectTransform == null){
+        private RectTransform rectTransform
+        {
+            get
+            {
+                if (_rectTransform == null)
+                {
                     _rectTransform = GetComponent<RectTransform>();
                 }
                 return _rectTransform;
@@ -97,6 +104,10 @@ namespace CloudMacaca.ViewSystem
         }
         void Reset()
         {
+
+            //如果還是沒有抓到 Animator 那就設定成一般開關模式
+            if (_animator == null)
+                transition = TransitionType.ActiveSwitch;
             Setup();
         }
         void Awake()
@@ -115,36 +126,40 @@ namespace CloudMacaca.ViewSystem
             //Get Animator From child
             _animator = GetComponentInChildren<Animator>();
 
-            //如果還是沒有抓到 Animator 那就設定成一般開關模式
-            if (_animator == null ) 
-                transition = TransitionType.ActiveSwitch;
         }
         Coroutine AnimationIsEndCheck = null;
 
-        public void Reshow(){
+        public void Reshow()
+        {
             OnShow(0);
         }
-        public void ChangePage(bool show,Transform parent,float TweenTime,float delayIn,float delayOut){
-            if(show){
+        public void ChangePage(bool show, Transform parent, float TweenTime, float delayIn, float delayOut)
+        {
+            if (show)
+            {
 
-                if(parent == null){
+                if (parent == null)
+                {
                     throw new NullReferenceException(gameObject.name + " does not set the parent for next viewpage.");
                 }
 
                 //還在池子裡，應該先 OnShow
-                if(rectTransform.parent == poolParent){
-                    rectTransform.SetParent(parent,true);
+                if (rectTransform.parent == poolParent)
+                {
+                    rectTransform.SetParent(parent, true);
                     rectTransform.anchoredPosition3D = Vector3.zero;
                     rectTransform.localScale = Vector3.one;
                     OnShow(delayIn);
                 }
-                else{
-                    rectTransform.SetParent(parent,true);
-                    rectTransform.DOAnchorPos3D(Vector3.zero,TweenTime);
-                    rectTransform.DOScale(Vector3.one,TweenTime);
+                else
+                {
+                    rectTransform.SetParent(parent, true);
+                    rectTransform.DOAnchorPos3D(Vector3.zero, TweenTime);
+                    rectTransform.DOScale(Vector3.one, TweenTime);
                 }
             }
-            else{
+            else
+            {
                 OnLeave(delayOut);
             }
         }
@@ -162,7 +177,7 @@ namespace CloudMacaca.ViewSystem
                     }
                     else if (transition == TransitionType.CanvasGroupAlpha)
                     {
-                        canvasGroup.DOFade(1, canvasInTime);
+                        canvasGroup.DOFade(1, canvasInTime).SetEase(canvasInEase);
                     }
                     else if (transition == TransitionType.Custom)
                     {
@@ -214,11 +229,12 @@ namespace CloudMacaca.ViewSystem
                     else if (transition == TransitionType.CanvasGroupAlpha)
                     {
                         if (canvasGroup == null) Debug.LogError("No Canvas Group Found on this Object");
-                        canvasGroup.DOFade(0, canvasOutTime).OnComplete(
+                        canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase)
+                            .OnComplete(
                             () =>
                             {
-                                    //if (disableGameObjectOnComplete == true)
-                                    gameObject.SetActive(false);
+                                //if (disableGameObjectOnComplete == true)
+                                gameObject.SetActive(false);
                                 OnLeaveAnimationFinish();
                             }
                         );

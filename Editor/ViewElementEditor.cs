@@ -55,7 +55,9 @@ namespace CloudMacaca.ViewSystem
                     }
                     break;
                 case ViewElement.TransitionType.CanvasGroupAlpha:
+                    viewElement.canvasInEase = (DG.Tweening.Ease)EditorGUILayout.EnumPopup("Tween 進場曲線", viewElement.canvasInEase);
                     viewElement.canvasInTime = EditorGUILayout.FloatField("Tween 進場時間", viewElement.canvasInTime);
+                    viewElement.canvasOutEase = (DG.Tweening.Ease)EditorGUILayout.EnumPopup("Tween 離場曲線", viewElement.canvasOutEase);
                     viewElement.canvasOutTime = EditorGUILayout.FloatField("Tween 離場時間", viewElement.canvasOutTime);
 
                     break;
