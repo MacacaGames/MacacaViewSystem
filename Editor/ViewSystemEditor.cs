@@ -47,30 +47,13 @@ public class ViewSystemEditor : Editor
     //     }
     // }
 
-    // [MenuItem("CloudMacaca/ViewSystem/Custom", false, 0)]
-    // static void Test2()
-    // {
-    //     // var ViewElementPool = GameObject.Find("ViewElementPool").transform;
-        
-     
-    // foreach (var item in viewController.viewPage)
-    // {
-    //     foreach (var item2 in item.viewPageItem)
-    //     {
-    //         item2.TweenTime = 0.4f;
-    //     }
-    // }
+    [MenuItem("CloudMacaca/ViewSystem/Custom", false, 0)]
+    static void Test2()
+    {
+      
 
-    // foreach (var item in viewController.viewStates)
-    // {
-    //     foreach (var item2 in item.viewPageItems)
-    //     {
-    //         item2.TweenTime = 0.4f;
-    //     }
-    // }
-
-    //     // EditorUtility.SetDirty(viewController);
-    // }
+        EditorUtility.SetDirty(viewController);
+    }
     [MenuItem("CloudMacaca/ViewSystem/Bake ViewPage and ViewState to script", false, 0)]
     static void BakeAllViewPageName()
     {

@@ -99,17 +99,17 @@ namespace CloudMacaca.ViewSystem
             }
 
             // 普通的頁面不可以再有 overlay 頁面存在時進行轉換
-            if (subPageViewPage.Count > 0 && vp.viewPageType != ViewPage.ViewPageType.SubPage)
-            {
-                Debug.LogError("Full Page viewPage only can change while there is no SubPage viewPage exsit");
-                Debug.LogError("Current live SubPage ViewPage");
-                foreach (var item in subPageViewPage)
-                {
-                    Debug.LogError(item.name);
-                }
-                //return;
-                yield break;
-            }
+            // if (subPageViewPage.Count > 0 && vp.viewPageType != ViewPage.ViewPageType.SubPage)
+            // {
+            //     Debug.LogError("Full Page viewPage only can change while there is no SubPage viewPage exsit");
+            //     Debug.LogError("Current live SubPage ViewPage");
+            //     foreach (var item in subPageViewPage)
+            //     {
+            //         Debug.LogError(item.name);
+            //     }
+            //     //return;
+            //     yield break;
+            // }
 
             if (vp.viewPageType == ViewPage.ViewPageType.Overlay)
             {
@@ -121,40 +121,40 @@ namespace CloudMacaca.ViewSystem
             }
 
 
-            //SubPage 頁面最後處理
-            if (vp.viewPageType == ViewPage.ViewPageType.SubPage)
-            {
-                //在已經存在的 SubPage viewpage 中檢查是否有跟下一個要切換的ViewPage相同
-                if (subPageViewPage.Count > 0)
-                {
-                    //是的話
-                    if (subPageViewPage.Last() == vp)
-                    {
-                        Debug.LogWarning("This SubPage ViewPage is in the Front");
-                        //return;
-                        yield break;
-                    }
-                    //如果佇列中沒有相同的頁面時就允許繼續加入新頁面
-                    if (subPageViewPage.Where(m => m == vp).Count() == 0)
-                        subPageViewPage.Push(vp);
-                }
-                else
-                {
+            // //SubPage 頁面最後處理
+            // if (vp.viewPageType == ViewPage.ViewPageType.SubPage)
+            // {
+            //     //在已經存在的 SubPage viewpage 中檢查是否有跟下一個要切換的ViewPage相同
+            //     if (subPageViewPage.Count > 0)
+            //     {
+            //         //是的話
+            //         if (subPageViewPage.Last() == vp)
+            //         {
+            //             Debug.LogWarning("This SubPage ViewPage is in the Front");
+            //             //return;
+            //             yield break;
+            //         }
+            //         //如果佇列中沒有相同的頁面時就允許繼續加入新頁面
+            //         if (subPageViewPage.Where(m => m == vp).Count() == 0)
+            //             subPageViewPage.Push(vp);
+            //     }
+            //     else
+            //     {
 
-                    subPageViewPage.Push(vp);
-                }
+            //         subPageViewPage.Push(vp);
+            //     }
 
-                //check if is subPag viewpage add to stack 
+            //     //check if is subPag viewpage add to stack 
 
-                foreach (var item in subPageViewPage.Pop().viewPageItem)
-                {
-                    if (vp.viewPageItem.Where(m => m.viewElement == item.viewElement).Count() > 0) continue;
-                    item.viewElement.OnLeave();
-                    //return;
-                    //yield break;
-                }
+            //     foreach (var item in subPageViewPage.Pop().viewPageItem)
+            //     {
+            //         if (vp.viewPageItem.Where(m => m.viewElement == item.viewElement).Count() > 0) continue;
+            //         item.viewElement.OnLeave();
+            //         //return;
+            //         //yield break;
+            //     }
 
-            }
+            // }
 
             //先整理出下個頁面應該出現的 ViewItem
             ViewState viewPagePresetTemp;
@@ -408,6 +408,12 @@ namespace CloudMacaca.ViewSystem
             if (vp == null)
             {
                 Debug.Log("ViewPage is null");
+                return;
+            }
+            if (vp.viewPageType != ViewPage.ViewPageType.Overlay)
+            {
+                Debug.LogError("ViewPage " + vp.name + " is not an Overlay page");
+                return;
             }
             if (overlayViewPageQueue.Contains(vp) == false)
             {
@@ -427,26 +433,36 @@ namespace CloudMacaca.ViewSystem
 
                     item.viewElement.ChangePage(true, item.parent, item.TweenTime, item.delayIn, item.delayOut);
                     // item.viewElement.OnShow(item.parent, playInAnimtionWhileParentOverwrite, item.parentMoveTweenIn, item.delayOut);
+
                 }
             }
 
+            if (extendShowTimeWhenTryToShowSamePage == false)
+            {
+                foreach (var item in vp.viewPageItem)
+                {
+
+
+                    item.viewElement.OnShow();
+
+                }
+            }
+
+            //找到上一個相同名稱的代表這個頁面要繼續出現，所以把上一個計時器移除
+            IDisposable lastAutoLeaveQueue;
+            if (autoLeaveQueue.TryGetValue(vp.name, out lastAutoLeaveQueue))
+            {
+                Debug.Log("find last");
+                //停止計時器
+                lastAutoLeaveQueue.Dispose();
+                //從字典移除
+                autoLeaveQueue.Remove(vp.name);
+            }
+
+
+
             if (vp.autoLeaveTimes > 0)
             {
-                IDisposable lastAutoLeaveQueue;
-                if (extendShowTimeWhenTryToShowSamePage == true)
-                {
-                    //找到上一個相同名稱的代表這個頁面要繼續出現，所以把上一個計時器移除
-                    if (autoLeaveQueue.TryGetValue(vp.name, out lastAutoLeaveQueue))
-                    {
-                        Debug.Log("find last");
-                        //停止計時器
-                        lastAutoLeaveQueue.Dispose();
-                        //從字典移除
-                        autoLeaveQueue.Remove(vp.name);
-                    }
-                }
-
-
                 var d = Observable
                 .Timer(TimeSpan.FromSeconds(vp.autoLeaveTimes))
                 .Subscribe(
@@ -462,8 +478,7 @@ namespace CloudMacaca.ViewSystem
                         }
                     }
                 );
-                if (extendShowTimeWhenTryToShowSamePage == true)
-                    autoLeaveQueue.Add(vp.name, d);
+                autoLeaveQueue.Add(vp.name, d);
             }
             OnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
         }
@@ -479,6 +494,8 @@ namespace CloudMacaca.ViewSystem
             }
 
             var currentVe = currentViewPage.viewPageItem.Select(m => m.viewElement);
+            var finishTime = CalculateWaitingTimeForNextOnShow(currentVe);
+
             foreach (var item in vp.viewPageItem)
             {
                 if (currentVe.Contains(item.viewElement))
@@ -501,21 +518,6 @@ namespace CloudMacaca.ViewSystem
         }
 
 
-        void RemoveLastestOverlayView(string revertViewPageName)
-        {
-            Debug.Log(revertViewPageName);
-            var vp = viewPage.Where(m => m.name == revertViewPageName).SingleOrDefault();
-            foreach (var item in subPageViewPage.Pop().viewPageItem)
-            {
-                if (vp != null)
-                {
-                    if (vp.viewPageItem.Where(m => m.viewElement == item.viewElement).Count() > 0) continue;
-                }
-                item.viewElement.OnLeave();
-            }
-            UpdateCurrentViewStateAndNotifyEvent(vp);
-        }
-
         void UpdateCurrentViewStateAndNotifyEvent(ViewPage vp)
         {
             lastViewPage = currentViewPage;
@@ -536,7 +538,16 @@ namespace CloudMacaca.ViewSystem
 
             foreach (var item in viewElements)
             {
-                float t = item.GetOutAnimationLength();
+                float t = 0;
+                if (item.transition == ViewElement.TransitionType.Animator)
+                {
+                    t = item.GetOutAnimationLength();
+                }
+                else if (item.transition == ViewElement.TransitionType.CanvasGroupAlpha)
+                {
+                    t = item.canvasOutTime;
+                }
+
                 if (t > maxOutAnitionTime)
                 {
                     maxOutAnitionTime = t;
@@ -559,9 +570,6 @@ namespace CloudMacaca.ViewSystem
 
             return maxDelayTime;
         }
-        public bool CheckIsOverpageIsLive(string viewPageName)
-        {
-            return overlayViewPageQueue.Where(m => m.name == viewPageName).Count() > 0 ? true : false;
-        }
+
     }
 }

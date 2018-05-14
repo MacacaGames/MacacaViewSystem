@@ -116,14 +116,21 @@ namespace CloudMacaca.ViewSystem
             _animator = GetComponentInChildren<Animator>();
 
             //如果還是沒有抓到 Animator 那就設定成一般開關模式
-            // if (_animator == null ) 
-            //     transition = TransitionType.ActiveSwitch;
+            if (_animator == null ) 
+                transition = TransitionType.ActiveSwitch;
         }
         Coroutine AnimationIsEndCheck = null;
 
-
+        public void Reshow(){
+            OnShow(0);
+        }
         public void ChangePage(bool show,Transform parent,float TweenTime,float delayIn,float delayOut){
             if(show){
+
+                if(parent == null){
+                    throw new NullReferenceException(gameObject.name + " does not set the parent for next viewpage.");
+                }
+
                 //還在池子裡，應該先 OnShow
                 if(rectTransform.parent == poolParent){
                     rectTransform.SetParent(parent,true);

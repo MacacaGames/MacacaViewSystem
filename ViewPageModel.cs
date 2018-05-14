@@ -33,7 +33,7 @@ namespace CloudMacaca.ViewSystem
     {
         public enum ViewPageType
         {
-            FullPage, SubPage, Overlay
+            FullPage, Overlay
         }
         public enum ViewPageTransitionTimingType
         {
