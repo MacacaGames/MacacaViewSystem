@@ -14,6 +14,15 @@ public class ViewSwitcherEditor : EditorWindow
     public static void Init()
     {
         EditorWindow window = GetWindow<ViewSwitcherEditor>();
+        try
+        {
+            var a = (ViewElementPool)FindObjectOfType(typeof(ViewElementPool));
+            poolTransform = a.transform;
+        }
+        catch
+        {
+
+        }
     }
     public static void Normalized()
     {
