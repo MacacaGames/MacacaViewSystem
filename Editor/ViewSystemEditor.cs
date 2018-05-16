@@ -117,7 +117,7 @@ public class ViewSystemEditor : Editor
         sb.AppendLine("		{");
         foreach (var item in vps)
         {
-            sb.AppendLine("		    public static string  " + item.name + " = \"" + item.name + "\";");
+            sb.AppendLine("		    public const string  " + item.name + " = \"" + item.name + "\";");
             sb.AppendLine();
         }
         sb.AppendLine("		}");
@@ -137,7 +137,7 @@ public class ViewSystemEditor : Editor
         sb.AppendLine("		{");
         foreach (var item in vss)
         {
-            sb.AppendLine("		    public static string  " + item.name + " = \"" + item.name + "\";");
+            sb.AppendLine("		    public const string  " + item.name + " = \"" + item.name + "\";");
             sb.AppendLine();
         }
         sb.AppendLine("		}");
