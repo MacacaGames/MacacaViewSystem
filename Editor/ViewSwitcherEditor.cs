@@ -73,26 +73,38 @@ public class ViewSwitcherEditor : EditorWindow
         foreach (ViewPage viewPage in viewPages)
         {
             bool isCurrentViewPage = currentViewPage == viewPage;
+            
+            EditorGUILayout.BeginHorizontal();
             if (isCurrentViewPage)
             {
                 GUI.backgroundColor = Color.grey;
             }
-
             if (GUILayout.Button(viewPage.name))
             {
                 if (!isCurrentViewPage)
                     OnChangePage(viewPage);
             }
-
             if (isCurrentViewPage)
             {
                 GUI.backgroundColor = Color.white;
             }
+            if (GUILayout.Button("Highligh Object",GUILayout.Width(100)))
+            {
+                
+                HighlightObject(viewPage);
+            }
+            EditorGUILayout.EndHorizontal();
+           
         }
 
         EditorGUILayout.EndScrollView();
     }
-
+    static void HighlightObject(ViewPage viewPage)
+    {
+        foreach(var item in viewPage.viewPageItem){
+            EditorGUIUtility.PingObject(item.viewElement);
+        }
+    }
     static void OnChangePage(ViewPage viewPage)
     {
         if (poolTransform == null)
