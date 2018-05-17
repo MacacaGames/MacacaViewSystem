@@ -14,6 +14,10 @@ public class ViewSwitcherEditor : EditorWindow
     public static void Init()
     {
         EditorWindow window = GetWindow<ViewSwitcherEditor>();
+        
+    }
+
+    void OnFocus(){
         try
         {
             var a = (ViewElementPool)FindObjectOfType(typeof(ViewElementPool));
