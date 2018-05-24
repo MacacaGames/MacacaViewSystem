@@ -6,7 +6,6 @@ using Unity.Linq;
 using UniRx;
 using System;
 
-
 namespace CloudMacaca.ViewSystem
 {
 
@@ -38,7 +37,6 @@ namespace CloudMacaca.ViewSystem
             }
         }
         public static ViewController Instance;
-        //[HideInInspector]
         public List<ViewPage> viewPage = new List<ViewPage>();
         public List<ViewState> viewStates = new List<ViewState>();
         private static IEnumerable<string> viewStatesNames;
@@ -54,13 +52,47 @@ namespace CloudMacaca.ViewSystem
         // Use this for initialization
         void Awake()
         {
-
             Instance = this;
-
         }
+        CloudMacaca.ViewSystem.ViewPageItem.PlatformOption platform;
         void Start()
         {
             viewStatesNames = viewStates.Select(m => m.name);
+
+
+#if UNITY_EDITOR
+            if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.iOS)
+            {
+                platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.iOS;
+            }
+            else if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.tvOS)
+            {
+                platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.tvOS;
+            }
+            else if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.Android)
+            {
+                platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.Android;
+            }
+            else if(UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.WSAPlayer){
+                 platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.UWP;
+            }
+#else
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.iOS;
+            }
+            else if(Application.platform == RuntimePlatform.tvOS){
+                platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.tvOS;
+            }
+            else if(Application.platform == RuntimePlatform.Android){
+                platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.Android;
+            }
+            else if(Application.platform == RuntimePlatform.WSAPlayerARM 
+                || Application.platform == RuntimePlatform.WSAPlayerX64 
+                || Application.platform == RuntimePlatform.WSAPlayerX86){
+                platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.UWP;
+            }
+#endif
         }
 
         // Stack 後進先出
@@ -72,17 +104,17 @@ namespace CloudMacaca.ViewSystem
         private Dictionary<string, float> lastPageItemDelayOutTimesOverlay = new Dictionary<string, float>();
         private Dictionary<string, bool> lastPageNeedLeaveOnFloat = new Dictionary<string, bool>();
 
-        public void ChangePageTo(string viewPageName, Action OnComplete = null)
+        public Coroutine ChangePageTo(string viewPageName, Action OnComplete = null)
         {
             foreach (var item in currentLiveElement)
             {
                 if (!item.AnimatorIsInLoopOrEmptyOrDisableState())
                 {
                     Debug.LogWarning("Animation is not in loop state will not continue" + item.name);
-                    return;
+                    return null;
                 }
             }
-            StartCoroutine(ChangePageToBase(viewPageName, OnComplete));
+            return StartCoroutine(ChangePageToBase(viewPageName, OnComplete));
         }
         public IEnumerator ChangePageToBase(string viewPageName, Action OnComplete)
         {
@@ -98,63 +130,13 @@ namespace CloudMacaca.ViewSystem
                 yield break;
             }
 
-            // 普通的頁面不可以再有 overlay 頁面存在時進行轉換
-            // if (subPageViewPage.Count > 0 && vp.viewPageType != ViewPage.ViewPageType.SubPage)
-            // {
-            //     Debug.LogError("Full Page viewPage only can change while there is no SubPage viewPage exsit");
-            //     Debug.LogError("Current live SubPage ViewPage");
-            //     foreach (var item in subPageViewPage)
-            //     {
-            //         Debug.LogError(item.name);
-            //     }
-            //     //return;
-            //     yield break;
-            // }
-
             if (vp.viewPageType == ViewPage.ViewPageType.Overlay)
             {
                 Debug.LogWarning("To show Overlay ViewPage use ShowOverlayViewPage() method \n current version will redirect to this method automatically.");
                 ShowOverlayViewPageBase(vp, true, OnComplete);
-
                 //return;
                 yield break;
             }
-
-
-            // //SubPage 頁面最後處理
-            // if (vp.viewPageType == ViewPage.ViewPageType.SubPage)
-            // {
-            //     //在已經存在的 SubPage viewpage 中檢查是否有跟下一個要切換的ViewPage相同
-            //     if (subPageViewPage.Count > 0)
-            //     {
-            //         //是的話
-            //         if (subPageViewPage.Last() == vp)
-            //         {
-            //             Debug.LogWarning("This SubPage ViewPage is in the Front");
-            //             //return;
-            //             yield break;
-            //         }
-            //         //如果佇列中沒有相同的頁面時就允許繼續加入新頁面
-            //         if (subPageViewPage.Where(m => m == vp).Count() == 0)
-            //             subPageViewPage.Push(vp);
-            //     }
-            //     else
-            //     {
-
-            //         subPageViewPage.Push(vp);
-            //     }
-
-            //     //check if is subPag viewpage add to stack 
-
-            //     foreach (var item in subPageViewPage.Pop().viewPageItem)
-            //     {
-            //         if (vp.viewPageItem.Where(m => m.viewElement == item.viewElement).Count() > 0) continue;
-            //         item.viewElement.OnLeave();
-            //         //return;
-            //         //yield break;
-            //     }
-
-            // }
 
             //先整理出下個頁面應該出現的 ViewItem
             ViewState viewPagePresetTemp;
@@ -174,29 +156,40 @@ namespace CloudMacaca.ViewSystem
             viewItemForNextPage.AddRange(vp.viewPageItem);
 
 
-            List<ViewElement> viewPageItemDoesExitsInNextPage = new List<ViewElement>();
-            //List<ViewPageItem> viewPageItemParentIsDifferentInNextPage = new List<ViewPageItem>();
+            List<ViewPageItem> realViewPageItem = new List<ViewPageItem>();
+
+            foreach (var item in viewItemForNextPage)
+            {
+                if (item.excludePlatform.Contains(platform))
+                {
+                    item.parentGameObject.SetActive(false);
+                }
+                else
+                {
+                    item.parentGameObject.SetActive(true);
+                    realViewPageItem.Add(item);
+                }
+            }
+
+            List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
 
             //尋找這個頁面還在，但下個頁面沒有的元件
             //就是存在 currentLiveElement 中但不存在 viewItemForNextPage 的傢伙要 ChangePage 
-            var allViewElementForNextPage = viewItemForNextPage.Select(m => m.viewElement).ToList();
+            var allViewElementForNextPage = realViewPageItem.Select(m => m.viewElement).ToList();
             foreach (var item in currentLiveElement.ToArray())
             {
                 //不存在的話就讓他加入應該移除的列表
                 if (allViewElementForNextPage.Contains(item) == false)
                 {
                     //加入該移除的列表
-                    viewPageItemDoesExitsInNextPage.Add(item);
+                    viewElementDoesExitsInNextPage.Add(item);
                     //從目前存在的頁面移除
                     currentLiveElement.Remove(item);
                 }
             }
 
-
-
-
             //對離場的呼叫改變狀態
-            foreach (var item in viewPageItemDoesExitsInNextPage)
+            foreach (var item in viewElementDoesExitsInNextPage)
             {
                 float delayOut = 0;
                 lastPageItemDelayOutTimes.TryGetValue(item.name, out delayOut);
@@ -211,7 +204,7 @@ namespace CloudMacaca.ViewSystem
             switch (vp.viewPageTransitionTimingType)
             {
                 case ViewPage.ViewPageTransitionTimingType.接續前動畫:
-                    OnStartWaitTime = CalculateWaitingTimeForNextOnShow(viewItemForNextPage.Select(m => m.viewElement));
+                    OnStartWaitTime = CalculateWaitingTimeForNextOnShow(realViewPageItem.Select(m => m.viewElement));
                     break;
                 case ViewPage.ViewPageTransitionTimingType.與前動畫同時:
                     OnStartWaitTime = 0;
@@ -220,11 +213,11 @@ namespace CloudMacaca.ViewSystem
                     OnStartWaitTime = vp.customPageTransitionWaitTime;
                     break;
             }
-            nextViewPageWaitTime = CalculateWaitingTimeForCurrentOnLeave(viewItemForNextPage);
+            nextViewPageWaitTime = CalculateWaitingTimeForCurrentOnLeave(realViewPageItem);
             yield return new WaitForSeconds(OnStartWaitTime);
 
             //對進場的呼叫改變狀態
-            foreach (var item in viewItemForNextPage)
+            foreach (var item in realViewPageItem)
             {
                 //Delay 時間
                 if (!lastPageItemDelayOutTimes.ContainsKey(item.viewElement.name))
@@ -237,149 +230,6 @@ namespace CloudMacaca.ViewSystem
 
             }
 
-            /*
-            //先整理出下個頁面應該出現的 ViewItem
-            ViewState viewPagePresetTemp;
-            List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
-
-            //從 ViewPagePreset 尋找
-            if (!string.IsNullOrEmpty(vp.viewState))
-            {
-                //viewState.TryGetValue(vp.viewState, out viewPagePresetTemp);
-                viewPagePresetTemp = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-                if (viewPagePresetTemp != null)
-                {
-                    // foreach (var k in viewPagePresetTemp.viewPageItems)
-                    // {
-                    //     viewItemForNextPage.Add(new ViewPageItem(k));
-                    // }
-                    viewItemForNextPage.AddRange(viewPagePresetTemp.viewPageItems);
-                }
-            }
-
-            //從 ViewPage 尋找
-            //viewElementForNextPage.AddRange(vp.viewPageItem.viewElement);
-            viewItemForNextPage.AddRange(vp.viewPageItem);
-
-            // foreach (var item in vp.viewPageItem)
-            // {
-            //     viewItemForNextPage.Add(item);
-            // }
-
-            //要被移開的元件
-            List<ViewElement> viewElementNeedsLeave = new List<ViewElement>();
-
-            //尋找應該離場的元件
-            //就是存在 currentLiveElement 中但不存在 viewItemForNextPage 的傢伙要 OnLeave
-            var allViewElementForNextPage = viewItemForNextPage.Select(m => m.viewElement).ToList();
-            foreach (var item in currentLiveElement.ToArray())
-            {
-                //不存在的話就讓他加入應該移除的列表
-                if (!allViewElementForNextPage.Contains(item))
-                {
-                    //加入該移除的列表
-                    viewElementNeedsLeave.Add(item);
-
-                    //從目前存在的頁面移除
-                    currentLiveElement.Remove(item);
-                }
-            }
-
-            //整理已經存在的頁面
-            foreach (var item in viewItemForNextPage.ToArray())
-            {
-                //currentLiveElement 有找到代表不應該執行 OnShow 除非他要改變 Parent
-                if (currentLiveElement.Contains(item.viewElement))
-                {
-                    if (item.parent == item.viewElement.transform.parent)
-                    {
-                        viewItemForNextPage.Remove(item);
-                    }
-                    //因為 有 Parent 的物件會在執行一次 OnShow 所以避免被加入 currentLiveElement 兩次 要移除
-                    else
-                    {
-                        currentLiveElement.Remove(item.viewElement);
-                    }
-                }
-                //最後 在下個頁面中是isFloating 又沒有 parent 的要 OnLeave
-                if (item.viewElement.isFloating == true)
-                {
-                    //如果下個頁面時這個 viewElemant 還在 而且當前parent 跟下個頁面的 parent 不同，則不能直接 Leave 應該先退回原位
-                    if (item.parent != item.viewElement.transform.parent && lastPageNeedLeaveOnFloat.ContainsKey(item.viewElement.name))
-                    {
-                        lastPageNeedLeaveOnFloat[item.viewElement.name] = false;
-                    }
-                    viewElementNeedsLeave.Add(item.viewElement);
-                }
-            }
-
-
-            //對該離開的元件呼叫 OnLeave
-            foreach (var item in viewElementNeedsLeave)
-            {
-
-                float t = 0;
-                float d = 0;
-                bool needLeaveWhileFloat = false;
-                lastPageItemTweenOutTimes.TryGetValue(item.name, out t);
-                lastPageNeedLeaveOnFloat.TryGetValue(item.name, out needLeaveWhileFloat);
-                lastPageItemDelayOutTimes.TryGetValue(item.name, out d);
-                item.OnLeave(t, needLeaveWhileFloat, d);
-            }
-
-            lastPageItemTweenOutTimes.Clear();
-            lastPageNeedLeaveOnFloat.Clear();
-            lastPageItemDelayOutTimes.Clear();
-
-            //等待上一個頁面的OnLeaveDelay
-
-            yield return new WaitForSeconds(nextViewPageWaitTime);
-
-            float OnStartWaitTime = 0;
-            switch (vp.viewPageTransitionTimingType)
-            {
-                case ViewPage.ViewPageTransitionTimingType.接續前動畫:
-                    OnStartWaitTime = CalculateWaitingTimeForNextOnShow(viewItemForNextPage.Select(m => m.viewElement));
-                    break;
-                case ViewPage.ViewPageTransitionTimingType.與前動畫同時:
-                    OnStartWaitTime = 0;
-                    break;
-                case ViewPage.ViewPageTransitionTimingType.自行設定:
-                    OnStartWaitTime = vp.customPageTransitionWaitTime;
-                    break;
-            }
-            nextViewPageWaitTime = CalculateWaitingTimeForCurrentOnLeave(viewItemForNextPage);
-            yield return new WaitForSeconds(OnStartWaitTime);
-            //對該進場的元件呼叫 OnShow
-            foreach (var item in viewItemForNextPage)
-            {
-                bool playInAnimtionWhileParentOverwrite = false;
-                if (item.parent != null && item.viewElement.gameObject.activeSelf == false)
-                {
-                    playInAnimtionWhileParentOverwrite = true;
-                }
-                item.viewElement.OnShow(item.parent, playInAnimtionWhileParentOverwrite, item.parentMoveTweenIn, item.delayIn);
-                currentLiveElement.Add(item.viewElement);
-
-                //Tween 的時間
-                if (item.parent != null && !lastPageItemTweenOutTimes.ContainsKey(item.viewElement.name))
-                    lastPageItemTweenOutTimes.Add(item.viewElement.name, item.parentMoveTweenOut);
-                else
-                    lastPageItemTweenOutTimes[item.viewElement.name] = item.parentMoveTweenOut;
-
-                //在 float 裝態時是否要直接離開
-                if (item.parent != null && !lastPageNeedLeaveOnFloat.ContainsKey(item.viewElement.name))
-                    lastPageNeedLeaveOnFloat.Add(item.viewElement.name, item.NeedLeaveWhileIsFloating);
-                else
-                    lastPageNeedLeaveOnFloat[item.viewElement.name] = item.NeedLeaveWhileIsFloating;
-
-                //Delay 時間
-                if (!lastPageItemDelayOutTimes.ContainsKey(item.viewElement.name))
-                    lastPageItemDelayOutTimes.Add(item.viewElement.name, item.delayOut);
-                else
-                    lastPageItemDelayOutTimes[item.viewElement.name] = item.delayOut;
-            }
-             */
             //更新狀態
             UpdateCurrentViewStateAndNotifyEvent(vp);
             //通知事件
@@ -420,11 +270,6 @@ namespace CloudMacaca.ViewSystem
                 overlayViewPageQueue.Add(vp);
                 foreach (var item in vp.viewPageItem)
                 {
-                    // bool playInAnimtionWhileParentOverwrite = false;
-                    // if (item.parent != null && item.viewElement.gameObject.activeSelf == false)
-                    // {
-                    //     playInAnimtionWhileParentOverwrite = true;
-                    // }
                     //Delay 時間
                     if (!lastPageItemDelayOutTimesOverlay.ContainsKey(item.viewElement.name))
                         lastPageItemDelayOutTimesOverlay.Add(item.viewElement.name, item.delayOut);
@@ -432,8 +277,6 @@ namespace CloudMacaca.ViewSystem
                         lastPageItemDelayOutTimesOverlay[item.viewElement.name] = item.delayOut;
 
                     item.viewElement.ChangePage(true, item.parent, item.TweenTime, item.delayIn, item.delayOut);
-                    // item.viewElement.OnShow(item.parent, playInAnimtionWhileParentOverwrite, item.parentMoveTweenIn, item.delayOut);
-
                 }
             }
 
@@ -452,7 +295,7 @@ namespace CloudMacaca.ViewSystem
             IDisposable lastAutoLeaveQueue;
             if (autoLeaveQueue.TryGetValue(vp.name, out lastAutoLeaveQueue))
             {
-                Debug.Log("find last");
+                //Debug.Log("find last");
                 //停止計時器
                 lastAutoLeaveQueue.Dispose();
                 //從字典移除
@@ -507,10 +350,6 @@ namespace CloudMacaca.ViewSystem
                 float delayOut = 0;
                 lastPageItemDelayOutTimesOverlay.TryGetValue(item.viewElement.name, out delayOut);
                 item.viewElement.ChangePage(false, null, 0, 0, delayOut);
-
-                // item.viewElement.OnLeave(parentChangeTweenTime: item.parentMoveTweenOut,
-                //                         directLeaveWhileFloat: item.NeedLeaveWhileIsFloating,
-                //                         delayOut: item.delayOut);
             }
 
             overlayViewPageQueue.Remove(vp);

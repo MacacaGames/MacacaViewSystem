@@ -7,19 +7,34 @@ namespace CloudMacaca.ViewSystem
     [System.Serializable]
     public class ViewPageItem
     {
+        public enum PlatformOption
+        {
+            Android, iOS, UWP,tvOS
+        }
         public ViewElement viewElement;
+        [Tooltip("ViewElement 在該頁面時應該對其的父物件")]
         public Transform parent;
+        GameObject _parentGameObject;
+        [HideInInspector]
+        public GameObject parentGameObject
+        {
+            get { 
+                if(_parentGameObject == null){
+                    _parentGameObject = parent.gameObject;
+                }
+                return _parentGameObject;
+            }
+        }
         public float TweenTime = 0.4f;
-        //public float parentMoveTweenOut = 0.4f;
         public float delayIn;
         public float delayOut;
-        //public bool NeedLeaveWhileIsFloating = false;
+        [Tooltip("這個可以讓該項目在特定平台時不會出現")]
+        public List<PlatformOption> excludePlatform = new List<PlatformOption>();
         public ViewPageItem(ViewElement ve)
         {
             viewElement = ve;
             parent = null;
         }
-        
     }
     [System.Serializable]
     public class ViewState
@@ -43,7 +58,6 @@ namespace CloudMacaca.ViewSystem
         public float autoLeaveTimes = 0;
         public float customPageTransitionWaitTime = 0.5f;
         public string viewState = "";
-        //public bool allowWithOtherPageView = false;
         public ViewPageType viewPageType = ViewPageType.FullPage;
         public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.接續前動畫;
         public List<ViewPageItem> viewPageItem = new List<ViewPageItem>();
