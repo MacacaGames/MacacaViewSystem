@@ -88,7 +88,6 @@ namespace CloudMacaca.ViewSystem
                 return lastTransform.Count > 0;
             }
         }
-        public bool isUsing = false;
 
         private Animator _animator;
         public Animator animator
@@ -144,7 +143,8 @@ namespace CloudMacaca.ViewSystem
                 }
 
                 //還在池子裡，應該先 OnShow
-                if (rectTransform.parent == poolParent)
+                //或是正在離開，都要重播 OnShow
+                if (rectTransform.parent == poolParent || OnLeaveWorking)
                 {
                     rectTransform.SetParent(parent, true);
                     rectTransform.anchoredPosition3D = Vector3.zero;
@@ -189,9 +189,10 @@ namespace CloudMacaca.ViewSystem
                     }
                 });
         }
-
+        bool OnLeaveWorking = false;
         public void OnLeave(float delayOut = 0)
         {
+            OnLeaveWorking = true;
             Observable
                 .Timer(TimeSpan.FromSeconds(delayOut))
                 .Subscribe(_ =>
@@ -208,8 +209,6 @@ namespace CloudMacaca.ViewSystem
                                     animator.Play(AnimationStateName_Out);
                                 else
                                     animator.Play("Disable");
-
-
                             }
                             else
                             {
@@ -391,7 +390,7 @@ namespace CloudMacaca.ViewSystem
             rectTransform.SetParent(poolParent, true);
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
-            isUsing = false;
+            OnLeaveWorking = false;
         }
 
         bool DirectLeaveWhileFloat = false;
