@@ -166,6 +166,11 @@ namespace CloudMacaca.ViewSystem
 
         public void OnShow(float delayIn = 0)
         {
+            //停掉正在播放的 Leave 動畫
+            if (OnLeaveDisposable != null)
+            {
+                OnLeaveDisposable.Dispose();
+            }
             gameObject.SetActive(true);
             Observable
                 .Timer(TimeSpan.FromSeconds(delayIn))
@@ -190,10 +195,11 @@ namespace CloudMacaca.ViewSystem
                 });
         }
         bool OnLeaveWorking = false;
+        IDisposable OnLeaveDisposable;
         public void OnLeave(float delayOut = 0)
         {
             OnLeaveWorking = true;
-            Observable
+            OnLeaveDisposable = Observable
                 .Timer(TimeSpan.FromSeconds(delayOut))
                 .Subscribe(_ =>
                 {
@@ -391,6 +397,7 @@ namespace CloudMacaca.ViewSystem
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
             OnLeaveWorking = false;
+            OnLeaveDisposable = null;
         }
 
         bool DirectLeaveWhileFloat = false;
