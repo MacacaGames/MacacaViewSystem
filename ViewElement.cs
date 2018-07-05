@@ -196,8 +196,9 @@ namespace CloudMacaca.ViewSystem
         }
         bool OnLeaveWorking = false;
         IDisposable OnLeaveDisposable;
-        public void OnLeave(float delayOut = 0)
+        public void OnLeave(float delayOut = 0,bool NeedPool = true)
         {
+            needPool = NeedPool;
             OnLeaveWorking = true;
             OnLeaveDisposable = Observable
                 .Timer(TimeSpan.FromSeconds(delayOut))
@@ -390,14 +391,19 @@ namespace CloudMacaca.ViewSystem
         //             }
         //         });
         // }
-
+        bool needPool = true;
         public void OnLeaveAnimationFinish()
         {
+            OnLeaveWorking = false;
+            OnLeaveDisposable = null;
+            
+            if(needPool == false){
+                return;
+            }
             rectTransform.SetParent(poolParent, true);
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
-            OnLeaveWorking = false;
-            OnLeaveDisposable = null;
+            
         }
 
         bool DirectLeaveWhileFloat = false;
