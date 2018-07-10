@@ -234,7 +234,7 @@ namespace CloudMacaca.ViewSystem
                     }
                     else if (transition == TransitionType.CanvasGroupAlpha)
                     {
-                        if (canvasGroup == null) Debug.LogError("No Canvas Group Found on this Object");
+                        if (canvasGroup == null) Debug.LogError("No Canvas Group Found on this Object",this);
                         canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase)
                             .OnComplete(
                             () =>
