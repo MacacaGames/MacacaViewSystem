@@ -52,7 +52,6 @@ namespace CloudMacaca.ViewSystem
         public UnityEvent OnShowHandle;
         public UnityEvent OnLeaveHandle;
 
-
         private Transform poolParent;
         private Vector3 poolPosition;
         private Vector3 poolScale;
@@ -68,7 +67,6 @@ namespace CloudMacaca.ViewSystem
             public Vector3 Position;
             public Vector3 Scale;
         }
-        Stack<LastTransform> lastTransform = new Stack<LastTransform>();
         private RectTransform _rectTransform;
         private RectTransform rectTransform
         {
@@ -81,13 +79,7 @@ namespace CloudMacaca.ViewSystem
                 return _rectTransform;
             }
         }
-        public bool isFloating
-        {
-            get
-            {
-                return lastTransform.Count > 0;
-            }
-        }
+     
 
         private Animator _animator;
         public Animator animator
@@ -144,7 +136,7 @@ namespace CloudMacaca.ViewSystem
 
                 //還在池子裡，應該先 OnShow
                 //或是正在離開，都要重播 OnShow
-                if (rectTransform.parent == poolParent || OnLeaveWorking)
+                if (!IsShowed() || OnLeaveWorking)
                 {
                     rectTransform.SetParent(parent, true);
                     rectTransform.anchoredPosition3D = Vector3.zero;
@@ -256,6 +248,10 @@ namespace CloudMacaca.ViewSystem
                         OnLeaveAnimationFinish();
                     }
                 });
+        }
+
+        public bool IsShowed(){
+            return rectTransform.parent != poolParent;
         }
 
         //OnShow OnLeave 應該只在乎要進場或出場
