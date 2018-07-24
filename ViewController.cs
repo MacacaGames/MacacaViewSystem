@@ -273,7 +273,7 @@ namespace CloudMacaca.ViewSystem {
             OnOverlayPageShow (this, new ViewPageEventArgs (vp, null));
         }
 
-        public void LeaveOverlayViewPage (string viewPageName, Action OnComplete = null) {
+        public void LeaveOverlayViewPage (string viewPageName, float tweenTimeIfNeed = 0.4f, Action OnComplete = null) {
             var vp = overlayViewPageQueue.Where (m => m.name == viewPageName).SingleOrDefault ();
 
             if (vp == null) {
@@ -281,16 +281,21 @@ namespace CloudMacaca.ViewSystem {
                 return;
             }
 
-            StartCoroutine (LeaveOverlayViewPageBase (vp, OnComplete));
+            StartCoroutine (LeaveOverlayViewPageBase (vp, tweenTimeIfNeed, OnComplete));
         }
 
-        public IEnumerator LeaveOverlayViewPageBase (ViewPage vp, Action OnComplete) {
+        public IEnumerator LeaveOverlayViewPageBase (ViewPage vp, float tweenTimeIfNeed, Action OnComplete) {
             var currentVe = currentViewPage.viewPageItem.Select (m => m.viewElement);
             var finishTime = CalculateWaitingTimeForNextOnShow (currentVe);
 
             foreach (var item in vp.viewPageItem) {
                 if (currentVe.Contains (item.viewElement)) {
                     //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
+                    try {
+                        var vpi = currentViewPage.viewPageItem.FirstOrDefault (m => m.viewElement == item.viewElement);
+                        Debug.LogWarning ("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                        item.viewElement.ChangePage (true, vpi.parent, tweenTimeIfNeed, 0, 0);
+                    } catch { }
                     continue;
                 }
 
@@ -301,7 +306,7 @@ namespace CloudMacaca.ViewSystem {
 
             overlayViewPageQueue.Remove (vp);
             OnOverlayPageLeave (this, new ViewPageEventArgs (vp, null));
-            yield return Yielders.GetWaitForSeconds(finishTime);
+            yield return Yielders.GetWaitForSeconds (finishTime);
             if (OnComplete != null) {
                 OnComplete ();
             }
