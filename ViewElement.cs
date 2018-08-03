@@ -89,7 +89,7 @@ namespace CloudMacaca.ViewSystem {
                 transition = TransitionType.ActiveSwitch;
             Setup ();
         }
-        void Awake () {
+        void Start () {
             Setup ();
         }
 
@@ -97,12 +97,7 @@ namespace CloudMacaca.ViewSystem {
             poolParent = transform.parent;
             poolScale = transform.localScale;
             poolPosition = rectTransform.anchoredPosition3D;
-            //Get Animator From self first
-            _animator = GetComponent<Animator> ();
-            if (_animator != null) return;
-            //Get Animator From child
-            _animator = GetComponentInChildren<Animator> ();
-
+            gameObject.SetActive(false);
         }
         Coroutine AnimationIsEndCheck = null;
 
