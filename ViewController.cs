@@ -286,6 +286,10 @@ namespace CloudMacaca.ViewSystem {
 
         public IEnumerator LeaveOverlayViewPageBase (ViewPage vp, float tweenTimeIfNeed, Action OnComplete) {
             var currentVe = currentViewPage.viewPageItem.Select (m => m.viewElement);
+            var currentVs = currentViewState.viewPageItems.Select (m => m.viewElement);
+            // List<ViewElement> finalCurrentVe = new List<ViewElement>();
+            // finalCurrentVe.AddRange(currentVe);
+            // finalCurrentVe.AddRange(currentVs);
             var finishTime = CalculateWaitingTimeForNextOnShow (currentVe);
 
             foreach (var item in vp.viewPageItem) {
@@ -298,7 +302,15 @@ namespace CloudMacaca.ViewSystem {
                     } catch { }
                     continue;
                 }
-
+                if (currentVs.Contains (item.viewElement)) {
+                    //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
+                    try {
+                        var vpi = currentViewState.viewPageItems.FirstOrDefault (m => m.viewElement == item.viewElement);
+                        Debug.LogWarning ("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                        item.viewElement.ChangePage (true, vpi.parent, tweenTimeIfNeed, 0, 0);
+                    } catch { }
+                    continue;
+                }
                 float delayOut = 0;
                 lastPageItemDelayOutTimesOverlay.TryGetValue (item.viewElement.name, out delayOut);
                 item.viewElement.ChangePage (false, null, 0, 0, delayOut);
