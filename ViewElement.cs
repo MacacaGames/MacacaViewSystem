@@ -172,6 +172,10 @@ namespace CloudMacaca.ViewSystem {
             OnLeaveDisposable = Observable
                 .Timer (TimeSpan.FromSeconds (delayOut))
                 .Subscribe (_ => {
+                    //在試圖 leave 時 如果已經是 disable 的 那就直接把他送回池子
+                    if(gameObject.activeSelf == false){
+                        OnLeaveAnimationFinish ();
+                    }
                     if (transition == TransitionType.Animator) {
                         try {
 
