@@ -155,8 +155,19 @@ namespace CloudMacaca.ViewSystem {
                 }
             }
 
+            var CurrentOverlayViewPageItem = new List<ViewPageItem> ();
+
+            foreach (var item in overlayViewPageQueue.Select (m => m.viewPageItem)) {
+                CurrentOverlayViewPageItem.AddRange (item);
+            }
+            var CurrentOverlayViewElement = CurrentOverlayViewPageItem.Select (m => m.viewElement);
             //對離場的呼叫改變狀態
             foreach (var item in viewElementDoesExitsInNextPage) {
+                //如果 ViewElement 被 Overlay 頁面使用中就不執行 ChangePage
+                if (CurrentOverlayViewElement.Contains (item)) {
+                    Debug.Log(item.name);
+                    continue;
+                }
                 float delayOut = 0;
                 lastPageItemDelayOutTimes.TryGetValue (item.name, out delayOut);
                 item.ChangePage (false, null, 0, 0, delayOut);
@@ -183,6 +194,12 @@ namespace CloudMacaca.ViewSystem {
 
             //對進場的呼叫改變狀態
             foreach (var item in realViewPageItem) {
+                //如果 ViewElement 被 Overlay 頁面使用中就不執行 ChangePage
+                if (CurrentOverlayViewElement.Contains (item.viewElement)) {
+                    Debug.Log(item.viewElement.name);
+                    continue;
+                }
+
                 //Delay 時間
                 if (!lastPageItemDelayOutTimes.ContainsKey (item.viewElement.name))
                     lastPageItemDelayOutTimes.Add (item.viewElement.name, item.delayOut);
