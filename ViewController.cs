@@ -194,20 +194,23 @@ namespace CloudMacaca.ViewSystem {
 
             //對進場的呼叫改變狀態
             foreach (var item in realViewPageItem) {
-                //如果 ViewElement 被 Overlay 頁面使用中就不執行 ChangePage
-                if (CurrentOverlayViewElement.Contains (item.viewElement)) {
-                    Debug.Log(item.viewElement.name);
-                    continue;
-                }
-
+                
+                currentLiveElement.Add (item.viewElement);
                 //Delay 時間
                 if (!lastPageItemDelayOutTimes.ContainsKey (item.viewElement.name))
                     lastPageItemDelayOutTimes.Add (item.viewElement.name, item.delayOut);
                 else
                     lastPageItemDelayOutTimes[item.viewElement.name] = item.delayOut;
 
+                //如果 ViewElement 被 Overlay 頁面使用中就不執行 ChangePage
+                if (CurrentOverlayViewElement.Contains (item.viewElement)) {
+                    Debug.Log(item.viewElement.name);
+                    continue;
+                }
+
+
                 item.viewElement.ChangePage (true, item.parent, item.TweenTime, item.delayIn, item.delayOut);
-                currentLiveElement.Add (item.viewElement);
+    
 
             }
 
