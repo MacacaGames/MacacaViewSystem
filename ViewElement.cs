@@ -208,7 +208,7 @@ namespace CloudMacaca.ViewSystem {
                             );
                     } else if (transition == TransitionType.Custom) {
                         OnLeaveHandle.Invoke ();
-                        OnLeaveAnimationFinish ();
+                        //OnLeaveAnimationFinish ();
                     } else {
                         gameObject.SetActive (false);
                         OnLeaveAnimationFinish ();
