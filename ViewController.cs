@@ -165,7 +165,7 @@ namespace CloudMacaca.ViewSystem {
             foreach (var item in viewElementDoesExitsInNextPage) {
                 //如果 ViewElement 被 Overlay 頁面使用中就不執行 ChangePage
                 if (CurrentOverlayViewElement.Contains (item)) {
-                    Debug.Log(item.name);
+                    Debug.Log (item.name);
                     continue;
                 }
                 float delayOut = 0;
@@ -194,7 +194,7 @@ namespace CloudMacaca.ViewSystem {
 
             //對進場的呼叫改變狀態
             foreach (var item in realViewPageItem) {
-                
+
                 currentLiveElement.Add (item.viewElement);
                 //Delay 時間
                 if (!lastPageItemDelayOutTimes.ContainsKey (item.viewElement.name))
@@ -204,13 +204,11 @@ namespace CloudMacaca.ViewSystem {
 
                 //如果 ViewElement 被 Overlay 頁面使用中就不執行 ChangePage
                 if (CurrentOverlayViewElement.Contains (item.viewElement)) {
-                    Debug.Log(item.viewElement.name);
+                    Debug.Log (item.viewElement.name);
                     continue;
                 }
 
-
                 item.viewElement.ChangePage (true, item.parent, item.TweenTime, item.delayIn, item.delayOut);
-    
 
             }
 
@@ -292,7 +290,11 @@ namespace CloudMacaca.ViewSystem {
             }
             OnOverlayPageShow (this, new ViewPageEventArgs (vp, null));
         }
-
+        public void TryLeaveAllOverlayPage () {
+            for (int i = 0; i < overlayViewPageQueue.Count; i++) {
+                StartCoroutine (LeaveOverlayViewPageBase (overlayViewPageQueue[i], 0.4f, null));
+            }
+        }
         public void LeaveOverlayViewPage (string viewPageName, float tweenTimeIfNeed = 0.4f, Action OnComplete = null) {
             var vp = overlayViewPageQueue.Where (m => m.name == viewPageName).SingleOrDefault ();
 
@@ -307,9 +309,7 @@ namespace CloudMacaca.ViewSystem {
         public IEnumerator LeaveOverlayViewPageBase (ViewPage vp, float tweenTimeIfNeed, Action OnComplete) {
             var currentVe = currentViewPage.viewPageItem.Select (m => m.viewElement);
             var currentVs = currentViewState.viewPageItems.Select (m => m.viewElement);
-            // List<ViewElement> finalCurrentVe = new List<ViewElement>();
-            // finalCurrentVe.AddRange(currentVe);
-            // finalCurrentVe.AddRange(currentVs);
+
             var finishTime = CalculateWaitingTimeForNextOnShow (currentVe);
 
             foreach (var item in vp.viewPageItem) {
