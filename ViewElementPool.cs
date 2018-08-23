@@ -5,6 +5,7 @@ using UniRx;
 [ExecuteInEditMode]
 public class ViewElementPool : MonoBehaviour
 {
+	public bool EnableWidthAndHeightSyneInEditorMode = false;
     Canvas _canvas;
     Canvas canvas
     {
@@ -54,7 +55,8 @@ public class ViewElementPool : MonoBehaviour
 #if UNITY_EDITOR
     void OnGUI()
     {
-        rectTransform.sizeDelta = new Vector2(canvasRectTransform.sizeDelta.x, canvasRectTransform.sizeDelta.y);
+        if(EnableWidthAndHeightSyneInEditorMode == true)
+			rectTransform.sizeDelta = new Vector2(canvasRectTransform.sizeDelta.x, canvasRectTransform.sizeDelta.y);
     }
 
 #endif
