@@ -416,6 +416,20 @@ namespace CloudMacaca.ViewSystem {
             }
 
         }
+        public float GetInAnimationLength () {
+            if (transition != TransitionType.Animator)
+                return 0;
+            if (animator == null)
+                return 0;
+
+            var clip = animator.runtimeAnimatorController.animationClips.SingleOrDefault (m => m.name.Contains (AnimationStateName_In));
+            if (clip == null) {
+                return 0;
+            } else {
+                return clip.length;
+            }
+
+        }
         public void SampleToOutLastFrame () {
             if (animator == null) {
                 return;
