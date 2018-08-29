@@ -8,11 +8,22 @@ using UnityEngine;
 
 namespace CloudMacaca.ViewSystem
 {
-
     public class ViewController : MonoBehaviour
     {
         public event EventHandler<ViewStateEventArgs> OnViewStateChange;
+ 
+        /// <summary>
+        /// OnViewPageChange Calls on last page has leave finished, next page is ready to show.
+        /// </summary>
         public event EventHandler<ViewPageEventArgs> OnViewPageChange;
+        /// <summary>
+        /// OnViewPageChangeStart Calls on page is ready to change with no error(eg. no page fonud etc.), and in this moment last page is still in view. 
+        /// </summary>
+        public event EventHandler<ViewPageTrisitionEventArgs> OnViewPageChangeStart;
+        /// <summary>
+        /// OnViewPageChangeEnd Calls on page is changed finish, all animation include in OnShow or OnLeave is finished.
+        /// </summary>
+        public event EventHandler<ViewPageEventArgs> OnViewPageChangeEnd;
         public event EventHandler<ViewPageEventArgs> OnOverlayPageShow;
         public event EventHandler<ViewPageEventArgs> OnOverlayPageLeave;
         public class ViewStateEventArgs : EventArgs
@@ -34,6 +45,17 @@ namespace CloudMacaca.ViewSystem
             {
                 this.currentViewPage = CurrentViewPage;
                 this.lastViewPage = LastViewPage;
+            }
+        }
+        public class ViewPageTrisitionEventArgs : EventArgs
+        {
+            // ...省略額外參數
+            public ViewPage viewPageWillLeave;
+            public ViewPage viewPageWillShow;
+            public ViewPageTrisitionEventArgs(ViewPage viewPageWillLeave, ViewPage viewPageWillShow)
+            {
+                this.viewPageWillLeave = viewPageWillLeave;
+                this.viewPageWillShow = viewPageWillShow;
             }
         }
         public static ViewController Instance;
@@ -137,6 +159,9 @@ namespace CloudMacaca.ViewSystem
 
             //所有檢查都通過開始換頁
             IsPageTransition = true;
+
+            if(OnViewPageChangeStart != null)
+                OnViewPageChangeStart(this, new ViewPageTrisitionEventArgs(currentViewPage, vp));
 
             //先整理出下個頁面應該出現的 ViewItem
             ViewState viewPagePresetTemp;
@@ -264,7 +289,10 @@ namespace CloudMacaca.ViewSystem
             //通知事件
             yield return Yielders.GetWaitForSeconds(OnShowAnimationFinish);
             IsPageTransition = false;
-    
+
+            if(OnViewPageChangeEnd != null)
+                OnViewPageChangeEnd(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
+
         }
 
         public bool HasOverlayPageLive()
@@ -349,7 +377,8 @@ namespace CloudMacaca.ViewSystem
                     );
                 autoLeaveQueue.Add(vp.name, d);
             }
-            OnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
+            if(OnOverlayPageShow != null)
+                OnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
         }
         public void TryLeaveAllOverlayPage()
         {
@@ -410,8 +439,12 @@ namespace CloudMacaca.ViewSystem
             }
 
             overlayViewPageQueue.Remove(vp);
-            OnOverlayPageLeave(this, new ViewPageEventArgs(vp, null));
+
+            if(OnOverlayPageShow != null)
+                OnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
+            
             yield return Yielders.GetWaitForSeconds(finishTime);
+            
             if (OnComplete != null)
             {
                 OnComplete();
@@ -422,14 +455,15 @@ namespace CloudMacaca.ViewSystem
         {
             lastViewPage = currentViewPage;
             currentViewPage = vp;
-            OnViewPageChange(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
+            if(OnViewPageChange != null)
+                OnViewPageChange(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
             if (!string.IsNullOrEmpty(vp.viewState) && viewStatesNames.Contains(vp.viewState))
             {
                 lastViewState = currentViewState;
                 currentViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 
-                OnViewStateChange(this, new ViewStateEventArgs(currentViewState, lastViewState));
-
+                if(OnViewStateChange != null)
+                    OnViewStateChange(this, new ViewStateEventArgs(currentViewState, lastViewState));
             }
         }
         float CalculateTimesNeedsForOnLeave(IEnumerable<ViewElement> viewElements)
