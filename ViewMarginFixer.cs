@@ -25,16 +25,22 @@ public class ViewMarginFixer : MonoBehaviour
     // Use this for initialization
     void OnEnable()
     {
-        rectTransform.offsetMin = new Vector2(margin.left, margin.bottom); // new Vector2(left, bottom); 
-        rectTransform.offsetMax = new Vector2(-margin.right, -margin.top); // new Vector2(-right, -top);
+        rectTransform.offsetMin = new Vector2(margin.modifyLeft ? margin.left : rectTransform.offsetMin.x, 
+												margin.modifyBottom ? margin.bottom : rectTransform.offsetMin.y ); // new Vector2(left, bottom); 
+        rectTransform.offsetMax = new Vector2(margin.modifyRight ? -margin.right : rectTransform.offsetMax.x,
+											 margin.modifyTop ? -margin.top : rectTransform.offsetMax.y); // new Vector2(-right, -top);
     }
 
     [System.Serializable]
     public class Margin
     {
+		public bool modifyTop = true;
         public float top;
+		public bool modifyBottom = true;
         public float bottom;
+		public bool modifyRight = true;
         public float right;
+		public bool modifyLeft = true;
         public float left;
     }
 }
