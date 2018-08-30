@@ -125,13 +125,16 @@ namespace CloudMacaca.ViewSystem
         public bool IsPageTransition = false;
         public Coroutine ChangePageTo(string viewPageName, Action OnComplete = null)
         {
-            foreach (var item in currentLiveElement)
-            {
-                if (!item.AnimatorIsInLoopOrEmptyOrDisableState())
-                {
-                    Debug.LogWarning("Animation is not in loop state will not continue" + item.name);
-                    return null;
-                }
+            // foreach (var item in currentLiveElement)
+            // {
+            //     if (!item.AnimatorIsInLoopOrEmptyOrDisableState())
+            //     {
+            //         Debug.LogWarning("Animation is not in loop state will not continue" + item.name);
+            //         return null;
+            //     }
+            // }
+            if(IsPageTransition){
+                return null;
             }
             return StartCoroutine(ChangePageToBase(viewPageName, OnComplete));
         }
@@ -466,6 +469,9 @@ namespace CloudMacaca.ViewSystem
                     OnViewStateChange(this, new ViewStateEventArgs(currentViewState, lastViewState));
             }
         }
+
+        static float maxClampTime = 1;
+
         float CalculateTimesNeedsForOnLeave(IEnumerable<ViewElement> viewElements)
         {
             float maxOutAnitionTime = 0;
@@ -487,13 +493,12 @@ namespace CloudMacaca.ViewSystem
                     maxOutAnitionTime = t;
                 }
             }
-
-            return maxOutAnitionTime;
+            return Mathf.Clamp(maxOutAnitionTime,0,maxClampTime);
         }
 
         float CalculateTimesNeedsForOnShow(IEnumerable<ViewElement> viewElements)
         {
-            float maxOutAnitionTime = 0;
+            float maxInAnitionTime = 0;
 
             foreach (var item in viewElements)
             {
@@ -507,13 +512,13 @@ namespace CloudMacaca.ViewSystem
                     t = item.canvasInTime;
                 }
 
-                if (t > maxOutAnitionTime)
+                if (t > maxInAnitionTime)
                 {
-                    maxOutAnitionTime = t;
+                    maxInAnitionTime = t;
                 }
             }
-
-            return maxOutAnitionTime;
+            return Mathf.Clamp(maxInAnitionTime,0,maxClampTime);
+            //return maxOutAnitionTime;
         }
         float CalculateWaitingTimeForCurrentOnLeave(IEnumerable<ViewPageItem> viewPageItem)
         {
