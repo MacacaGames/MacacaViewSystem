@@ -123,7 +123,7 @@ namespace CloudMacaca.ViewSystem
             OnShow(0);
         }
         IDisposable OnShowObservable;
-        public void ChangePage(bool show, Transform parent, float TweenTime, float delayIn, float delayOut)
+        public void ChangePage(bool show, Transform parent, float TweenTime, float delayIn, float delayOut,bool ignoreTransition = false)
         {
             if (show)
             {
@@ -153,7 +153,7 @@ namespace CloudMacaca.ViewSystem
                     else
                     {
                         //TweenTime 設定為 0 的情況下，代表要完整 OnLeave 在 OnShow
-                        OnLeave(0);
+                        OnLeave(0,ignoreTransition: ignoreTransition);
                         OnShowObservable = Observable.EveryUpdate().Where(_ => OnLeaveWorking == false).Subscribe(
                             x =>
                             {
@@ -170,7 +170,7 @@ namespace CloudMacaca.ViewSystem
             }
             else
             {
-                OnLeave(delayOut);
+                OnLeave(delayOut,ignoreTransition: ignoreTransition);
             }
         }
 
@@ -206,7 +206,7 @@ namespace CloudMacaca.ViewSystem
         }
         bool OnLeaveWorking = false;
         IDisposable OnLeaveDisposable;
-        public void OnLeave(float delayOut = 0, bool NeedPool = true)
+        public void OnLeave(float delayOut = 0, bool NeedPool = true,bool ignoreTransition = false)
         {
             needPool = NeedPool;
             OnLeaveWorking = true;
@@ -215,7 +215,8 @@ namespace CloudMacaca.ViewSystem
                 .Subscribe(_ =>
                 {
                     //在試圖 leave 時 如果已經是 disable 的 那就直接把他送回池子
-                    if (gameObject.activeSelf == false)
+                    //如果 ignoreTransition 也直接把他送回池子
+                    if (gameObject.activeSelf == false || ignoreTransition)
                     {
                         OnLeaveAnimationFinish();
                     }
