@@ -463,7 +463,8 @@ namespace CloudMacaca.ViewSystem
             currentViewPage = vp;
             if (OnViewPageChange != null)
                 OnViewPageChange(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
-            if (!string.IsNullOrEmpty(vp.viewState) && viewStatesNames.Contains(vp.viewState))
+
+            if (!string.IsNullOrEmpty(vp.viewState) && viewStatesNames.Contains(vp.viewState) && currentViewState.name != vp.viewState)
             {
                 lastViewState = currentViewState;
                 currentViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
