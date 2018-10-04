@@ -14,10 +14,11 @@ public class ViewSwitcherEditor : EditorWindow
     public static void Init()
     {
         EditorWindow window = GetWindow<ViewSwitcherEditor>();
-        
-    }
 
-    void OnFocus(){
+    }
+    List<bool> firstPageSetting = new List<bool>();
+    void OnFocus()
+    {
         try
         {
             var a = (ViewElementPool)FindObjectOfType(typeof(ViewElementPool));
@@ -27,6 +28,8 @@ public class ViewSwitcherEditor : EditorWindow
         {
 
         }
+
+
     }
     public static void Normalized()
     {
@@ -41,6 +44,7 @@ public class ViewSwitcherEditor : EditorWindow
             var rt = viewElement.GetComponent<RectTransform>();
             rt.SetParent(poolTransform);
         }
+
     }
 
     static ViewController _viewController;
@@ -61,12 +65,20 @@ public class ViewSwitcherEditor : EditorWindow
     private void OnGUI()
     {
         poolTransform = (Transform)EditorGUILayout.ObjectField(poolTransform, typeof(Transform), true);
-
-        if (GUILayout.Button("Normalized View Element"))
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Set to Init or Normized"))
+        {
+            SetupToInitPage();
+        }
+        if (GUILayout.Button("Normized Only"))
         {
             Normalized();
         }
-
+        if (GUILayout.Button("Disable any Init Page"))
+        {
+            viewController.viewPage.All((x) => { x.initPage = false; return true; });
+        }
+        EditorGUILayout.EndHorizontal();
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
 
@@ -77,8 +89,18 @@ public class ViewSwitcherEditor : EditorWindow
         foreach (ViewPage viewPage in viewPages)
         {
             bool isCurrentViewPage = currentViewPage == viewPage;
-            
+
             EditorGUILayout.BeginHorizontal();
+
+            EditorGUI.BeginChangeCheck();
+            viewPage.initPage = EditorGUILayout.ToggleLeft("", viewPage.initPage,GUILayout.MaxWidth(20));
+            if (EditorGUI.EndChangeCheck())
+            {
+                viewPages.All((x) => { x.initPage = false; return true; });
+                viewPage.initPage = true;
+                EditorUtility.SetDirty(viewController);
+            }
+
             if (isCurrentViewPage)
             {
                 GUI.backgroundColor = Color.grey;
@@ -92,20 +114,21 @@ public class ViewSwitcherEditor : EditorWindow
             {
                 GUI.backgroundColor = Color.white;
             }
-            if (GUILayout.Button("Highligh Object",GUILayout.Width(100)))
+            if (GUILayout.Button("Highligh Object", GUILayout.Width(100)))
             {
-                
+
                 HighlightObject(viewPage);
             }
             EditorGUILayout.EndHorizontal();
-           
+
         }
 
         EditorGUILayout.EndScrollView();
     }
     static void HighlightObject(ViewPage viewPage)
     {
-        foreach(var item in viewPage.viewPageItem){
+        foreach (var item in viewPage.viewPageItem)
+        {
             EditorGUIUtility.PingObject(item.viewElement);
         }
     }
@@ -167,6 +190,25 @@ public class ViewSwitcherEditor : EditorWindow
     }
     void OnDestroy()
     {
-        Normalized();
+        //SetupToInitPage();
+    }
+
+    void SetupToInitPage()
+    {
+        //
+        var fp = viewController.viewPage.Where(x => x.initPage);
+        if (fp.Count() > 1)
+        {
+            Debug.LogError("Only one viewPage can set as init Page");
+        }
+        else if (fp.Count() == 1)
+        {
+            OnChangePage(fp.First());
+        }
+        else
+        {
+            Debug.LogWarning("No ViewPage set as Init Page only Normized");
+            Normalized();
+        }
     }
 }
