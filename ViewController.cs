@@ -76,12 +76,40 @@ namespace CloudMacaca.ViewSystem
         void Awake()
         {
             Instance = this;
+            if (viewElementPool == null)
+            {
+                try
+                {
+                    viewElementPool = (ViewElementPool)FindObjectOfType(typeof(ViewElementPool));
+                }
+                catch
+                {
+
+                }
+            }
         }
         CloudMacaca.ViewSystem.ViewPageItem.PlatformOption platform;
         void Start()
         {
             viewStatesNames = viewStates.Select(m => m.name);
 
+            SetupPlatformDefine();
+
+            var initPage = viewPage.Where(m=>m.initPage == true);
+            if(initPage.Count() > 1){
+                Debug.LogError("More than 1 viewPage is set to Init Page");
+            }
+            else if(initPage.Count() == 1){
+                foreach(var item in initPage.First().viewPageItem){
+                    currentLiveElement.Add(item.viewElement);
+                }
+            }
+            
+
+        }
+
+        void SetupPlatformDefine(){
+            
 #if UNITY_EDITOR
             if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.iOS)
             {
@@ -537,6 +565,6 @@ namespace CloudMacaca.ViewSystem
             }
             return maxDelayTime;
         }
-
+        public ViewElementPool viewElementPool;
     }
 }

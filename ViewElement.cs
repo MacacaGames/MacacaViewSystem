@@ -111,10 +111,11 @@ namespace CloudMacaca.ViewSystem
 
         public void Setup()
         {
-            poolParent = transform.parent;
+            poolParent = ViewController.Instance.viewElementPool.transform;
             poolScale = transform.localScale;
             poolPosition = rectTransform.anchoredPosition3D;
-            gameObject.SetActive(false);
+            if(transform.parent == poolParent)
+                gameObject.SetActive(false);
         }
         Coroutine AnimationIsEndCheck = null;
 
