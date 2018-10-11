@@ -474,8 +474,8 @@ namespace CloudMacaca.ViewSystem
 
             overlayViewPageQueue.Remove(vp);
 
-            if (OnOverlayPageShow != null)
-                OnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
+            if (OnOverlayPageLeave != null)
+                OnOverlayPageLeave(this, new ViewPageEventArgs(vp, null));
 
             yield return Yielders.GetWaitForSeconds(finishTime);
 
