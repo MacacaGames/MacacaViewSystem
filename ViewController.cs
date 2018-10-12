@@ -95,21 +95,25 @@ namespace CloudMacaca.ViewSystem
 
             SetupPlatformDefine();
 
-            var initPage = viewPage.Where(m=>m.initPage == true);
-            if(initPage.Count() > 1){
+            var initPage = viewPage.Where(m => m.initPage == true);
+            if (initPage.Count() > 1)
+            {
                 Debug.LogError("More than 1 viewPage is set to Init Page");
             }
-            else if(initPage.Count() == 1){
-                foreach(var item in initPage.First().viewPageItem){
+            else if (initPage.Count() == 1)
+            {
+                foreach (var item in initPage.First().viewPageItem)
+                {
                     currentLiveElement.Add(item.viewElement);
                 }
             }
-            
+
 
         }
 
-        void SetupPlatformDefine(){
-            
+        void SetupPlatformDefine()
+        {
+
 #if UNITY_EDITOR
             if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.iOS)
             {
@@ -151,7 +155,7 @@ namespace CloudMacaca.ViewSystem
         private Dictionary<string, float> lastPageItemDelayOutTimesOverlay = new Dictionary<string, float>();
         private Dictionary<string, bool> lastPageNeedLeaveOnFloat = new Dictionary<string, bool>();
         public bool IsPageTransition = false;
-        public Coroutine ChangePageTo(string viewPageName, Action OnComplete = null)
+        public Coroutine ChangePageTo(string viewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false)
         {
             // foreach (var item in currentLiveElement)
             // {
@@ -161,12 +165,22 @@ namespace CloudMacaca.ViewSystem
             //         return null;
             //     }
             // }
-            if (IsPageTransition)
+            if (IsPageTransition && AutoWaitPreviousPageFinish == false)
             {
                 Debug.LogError("Page is in Transition.");
                 return null;
             }
+            else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
+            {
+                Debug.LogError("Page is in Transition but AutoWaitPreviousPageFinish");
+                return StartCoroutine(WaitPrevious(viewPageName, OnComplete));
+            }
             return StartCoroutine(ChangePageToBase(viewPageName, OnComplete));
+        }
+        public IEnumerator WaitPrevious(string viewPageName, Action OnComplete)
+        {
+            yield return new WaitUntil(() => IsPageTransition == false);
+            yield return ChangePageToBase(viewPageName, OnComplete);
         }
         public IEnumerator ChangePageToBase(string viewPageName, Action OnComplete)
         {
