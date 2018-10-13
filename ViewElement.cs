@@ -138,6 +138,7 @@ namespace CloudMacaca.ViewSystem
                 //或是正在離開，都要重播 OnShow
                 if (!IsShowed() || OnLeaveWorking)
                 {
+                    
                     rectTransform.SetParent(parent, true);
                     rectTransform.anchoredPosition3D = Vector3.zero;
                     rectTransform.localScale = Vector3.one;
@@ -145,6 +146,7 @@ namespace CloudMacaca.ViewSystem
                 }
                 else
                 {
+                    
                     if (TweenTime >= 0)
                     {
                         rectTransform.SetParent(parent, true);
@@ -209,6 +211,7 @@ namespace CloudMacaca.ViewSystem
         IDisposable OnLeaveDisposable;
         public void OnLeave(float delayOut = 0, bool NeedPool = true,bool ignoreTransition = false)
         {
+
             needPool = NeedPool;
             OnLeaveWorking = true;
             OnLeaveDisposable = Observable
