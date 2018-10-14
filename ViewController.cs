@@ -256,8 +256,23 @@ namespace CloudMacaca.ViewSystem
             // 10/13 新邏輯 使用兩個 ViewPageItem 先連集在差集
 
             // 目前頁面 差集 （目前頁面與目標頁面的交集）
-            var viewElementDoesExitsInNextPage = viewItemCurrentPage.Except(viewItemCurrentPage.Intersect(viewItemNextPage)).Select(m => m.viewElement).ToList();
+            //var viewElementDoesExitsInNextPage = viewItemCurrentPage.Except(viewItemCurrentPage.Intersect(viewItemNextPage)).Select(m => m.viewElement).ToList();
             var viewElementExitsInBothPage = viewItemNextPage.Intersect(viewItemCurrentPage).Select(m => m.viewElement).ToList();
+
+            List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
+
+            //尋找這個頁面還在，但下個頁面沒有的元件
+            //就是存在 currentLiveElement 中但不存在 viewItemForNextPage 的傢伙要 ChangePage 
+            var allViewElementForNextPage = viewItemNextPage.Select(m => m.viewElement).ToList();
+            foreach (var item in currentLiveElement.ToArray())
+            {
+                //不存在的話就讓他加入應該移除的列表
+                if (allViewElementForNextPage.Contains(item) == false)
+                {
+                    //加入該移除的列表
+                    viewElementDoesExitsInNextPage.Add(item);
+                }
+            }
 
 
             currentLiveElement.Clear();
@@ -325,11 +340,7 @@ namespace CloudMacaca.ViewSystem
                     Debug.Log(item.viewElement.name);
                     continue;
                 }
-                if (viewElementExitsInBothPage.Contains(item.viewElement))
-                {
-                    Debug.LogError("發現" + item.viewElement.name +"已經存在於上一個頁面 跳過");
-                    continue;
-                }
+                
                 item.viewElement.ChangePage(true, item.parent, item.TweenTime, item.delayIn, item.delayOut);
             }
 

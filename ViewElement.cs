@@ -114,7 +114,7 @@ namespace CloudMacaca.ViewSystem
             poolParent = ViewController.Instance.viewElementPool.transform;
             poolScale = transform.localScale;
             poolPosition = rectTransform.anchoredPosition3D;
-            if(transform.parent == poolParent)
+            if (transform.parent == poolParent)
                 gameObject.SetActive(false);
         }
         Coroutine AnimationIsEndCheck = null;
@@ -124,8 +124,9 @@ namespace CloudMacaca.ViewSystem
             OnShow(0);
         }
         IDisposable OnShowObservable;
-        public void ChangePage(bool show, Transform parent, float TweenTime, float delayIn, float delayOut,bool ignoreTransition = false)
+        public void ChangePage(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition = false)
         {
+            //Debug.LogError("ChangePage " + name);
             if (show)
             {
 
@@ -146,7 +147,10 @@ namespace CloudMacaca.ViewSystem
                 }
                 else
                 {
-                    
+                    if(parent.GetInstanceID() == rectTransform.parent.GetInstanceID()){
+                        //Debug.LogWarning("Due to already set the same parent with target parent, ignore " +  name);
+                        return;
+                    }
                     if (TweenTime >= 0)
                     {
                         rectTransform.SetParent(parent, true);
@@ -156,7 +160,7 @@ namespace CloudMacaca.ViewSystem
                     else
                     {
                         //TweenTime 設定為 0 的情況下，代表要完整 OnLeave 在 OnShow
-                        OnLeave(0,ignoreTransition: ignoreTransition);
+                        OnLeave(0, ignoreTransition: ignoreTransition);
                         OnShowObservable = Observable.EveryUpdate().Where(_ => OnLeaveWorking == false).Subscribe(
                             x =>
                             {
@@ -173,12 +177,13 @@ namespace CloudMacaca.ViewSystem
             }
             else
             {
-                OnLeave(delayOut,ignoreTransition: ignoreTransition);
+                OnLeave(delayOut, ignoreTransition: ignoreTransition);
             }
         }
 
         public void OnShow(float delayIn = 0)
         {
+            //Debug.LogError("OnShow " + name);
             //停掉正在播放的 Leave 動畫
             if (OnLeaveDisposable != null)
             {
@@ -209,8 +214,9 @@ namespace CloudMacaca.ViewSystem
         }
         bool OnLeaveWorking = false;
         IDisposable OnLeaveDisposable;
-        public void OnLeave(float delayOut = 0, bool NeedPool = true,bool ignoreTransition = false)
+        public void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
         {
+            //Debug.LogError("OnLeave " + name);
 
             needPool = NeedPool;
             OnLeaveWorking = true;
