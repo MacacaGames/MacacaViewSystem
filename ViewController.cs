@@ -371,12 +371,12 @@ namespace CloudMacaca.ViewSystem
         }
         List<ViewPage> overlayViewPageQueue = new List<ViewPage>();
         Dictionary<string, IDisposable> autoLeaveQueue = new Dictionary<string, IDisposable>();
-        public void ShowOverlayViewPage(string viewPageName, bool extendShowTimeWhenTryToShowSamePage = false, Action OnComplete = null)
+        public void ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
         {
             var vp = viewPage.Where(m => m.name == viewPageName).SingleOrDefault();
-            ShowOverlayViewPageBase(vp, extendShowTimeWhenTryToShowSamePage, OnComplete);
+            ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete);
         }
-        public void ShowOverlayViewPageBase(ViewPage vp, bool extendShowTimeWhenTryToShowSamePage, Action OnComplete)
+        public void ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
         {
             if (vp == null)
             {
@@ -403,13 +403,11 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
-            if (extendShowTimeWhenTryToShowSamePage == false)
+            if (RePlayOnShowWhileSamePage == true )
             {
                 foreach (var item in vp.viewPageItem)
                 {
-
                     item.viewElement.OnShow();
-
                 }
             }
 
