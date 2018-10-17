@@ -89,7 +89,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
         CloudMacaca.ViewSystem.ViewPageItem.PlatformOption platform;
-        void Start()
+        IEnumerator Start()
         {
             viewStatesNames = viewStates.Select(m => m.name);
 
@@ -104,8 +104,14 @@ namespace CloudMacaca.ViewSystem
             {
                 currentLiveElement = GetAllViewPageItemInViewPage(initPage.First()).Select(m => m.viewElement).ToList();
                 currentViewPage = initPage.First();
+                yield return null;
+                foreach (var item in currentLiveElement)
+                {
+                    item.SampleToLoopState();
+                }
             }
         }
+
 
         void SetupPlatformDefine()
         {
@@ -340,7 +346,7 @@ namespace CloudMacaca.ViewSystem
                     Debug.Log(item.viewElement.name);
                     continue;
                 }
-                
+
                 item.viewElement.ChangePage(true, item.parent, item.TweenTime, item.delayIn, item.delayOut);
             }
 
@@ -371,12 +377,12 @@ namespace CloudMacaca.ViewSystem
         }
         List<ViewPage> overlayViewPageQueue = new List<ViewPage>();
         Dictionary<string, IDisposable> autoLeaveQueue = new Dictionary<string, IDisposable>();
-        public void ShowOverlayViewPage(string viewPageName, bool extendShowTimeWhenTryToShowSamePage = false, Action OnComplete = null)
+        public void ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
         {
             var vp = viewPage.Where(m => m.name == viewPageName).SingleOrDefault();
-            ShowOverlayViewPageBase(vp, extendShowTimeWhenTryToShowSamePage, OnComplete);
+            ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete);
         }
-        public void ShowOverlayViewPageBase(ViewPage vp, bool extendShowTimeWhenTryToShowSamePage, Action OnComplete)
+        public void ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
         {
             if (vp == null)
             {
@@ -403,13 +409,11 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
-            if (extendShowTimeWhenTryToShowSamePage == false)
+            if (RePlayOnShowWhileSamePage == true)
             {
                 foreach (var item in vp.viewPageItem)
                 {
-
                     item.viewElement.OnShow();
-
                 }
             }
 
