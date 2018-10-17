@@ -172,7 +172,7 @@ public class ViewSwitcherEditor : EditorWindow
             rectTransform.anchoredPosition3D = Vector3.zero;
             rectTransform.localScale = Vector3.one;
 
-
+            //item.viewElement.SampleToLoopState();
             if (item.viewElement.transition != ViewElement.TransitionType.Animator)
                 continue;
 

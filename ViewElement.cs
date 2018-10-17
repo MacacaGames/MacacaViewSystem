@@ -139,7 +139,7 @@ namespace CloudMacaca.ViewSystem
                 //或是正在離開，都要重播 OnShow
                 if (!IsShowed() || OnLeaveWorking)
                 {
-                    
+
                     rectTransform.SetParent(parent, true);
                     rectTransform.anchoredPosition3D = Vector3.zero;
                     rectTransform.localScale = Vector3.one;
@@ -147,7 +147,8 @@ namespace CloudMacaca.ViewSystem
                 }
                 else
                 {
-                    if(parent.GetInstanceID() == rectTransform.parent.GetInstanceID()){
+                    if (parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
+                    {
                         //Debug.LogWarning("Due to already set the same parent with target parent, ignore " +  name);
                         return;
                     }
@@ -418,6 +419,23 @@ namespace CloudMacaca.ViewSystem
         //             }
         //         });
         // }
+
+        public void SampleToLoopState()
+        {
+
+            if (transition != ViewElement.TransitionType.Animator)
+                return;
+          
+            animator.Play(AnimationStateName_Loop);
+            // AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+            // foreach (AnimationClip clip in clips)
+            // {
+            //     if (clip.name.ToLower().Contains(AnimationStateName_Loop.ToLower()))
+            //     {
+            //         clip.SampleAnimation(animator.gameObject, 0);
+            //     }
+            // }
+        }
         bool needPool = true;
         public void OnLeaveAnimationFinish()
         {

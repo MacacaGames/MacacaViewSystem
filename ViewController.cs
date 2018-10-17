@@ -89,7 +89,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
         CloudMacaca.ViewSystem.ViewPageItem.PlatformOption platform;
-        void Start()
+        IEnumerator Start()
         {
             viewStatesNames = viewStates.Select(m => m.name);
 
@@ -104,8 +104,14 @@ namespace CloudMacaca.ViewSystem
             {
                 currentLiveElement = GetAllViewPageItemInViewPage(initPage.First()).Select(m => m.viewElement).ToList();
                 currentViewPage = initPage.First();
+                yield return null;
+                foreach (var item in currentLiveElement)
+                {
+                    item.SampleToLoopState();
+                }
             }
         }
+
 
         void SetupPlatformDefine()
         {
@@ -340,7 +346,7 @@ namespace CloudMacaca.ViewSystem
                     Debug.Log(item.viewElement.name);
                     continue;
                 }
-                
+
                 item.viewElement.ChangePage(true, item.parent, item.TweenTime, item.delayIn, item.delayOut);
             }
 
@@ -403,7 +409,7 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
-            if (RePlayOnShowWhileSamePage == true )
+            if (RePlayOnShowWhileSamePage == true)
             {
                 foreach (var item in vp.viewPageItem)
                 {
