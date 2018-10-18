@@ -103,12 +103,13 @@ namespace CloudMacaca.ViewSystem
             else if (initPage.Count() == 1)
             {
                 currentLiveElement = GetAllViewPageItemInViewPage(initPage.First()).Select(m => m.viewElement).ToList();
-                currentViewPage = initPage.First();
+                //wait one frame that other script need register the event 
                 yield return null;
                 foreach (var item in currentLiveElement)
                 {
                     item.SampleToLoopState();
                 }
+                UpdateCurrentViewStateAndNotifyEvent(initPage.First());
             }
         }
 
