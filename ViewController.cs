@@ -10,6 +10,8 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewController : MonoBehaviour
     {
+        [SerializeField]
+        public string InitViewPageName;
         public event EventHandler<ViewStateEventArgs> OnViewStateChange;
 
         /// <summary>
@@ -87,6 +89,7 @@ namespace CloudMacaca.ViewSystem
 
                 }
             }
+
         }
         CloudMacaca.ViewSystem.ViewPageItem.PlatformOption platform;
         IEnumerator Start()
@@ -95,24 +98,27 @@ namespace CloudMacaca.ViewSystem
 
             SetupPlatformDefine();
 
-            var initPage = viewPage.Where(m => m.initPage == true);
-            if (initPage.Count() > 1)
+            if (!string.IsNullOrEmpty(InitViewPageName))
             {
-                Debug.LogError("More than 1 viewPage is set to Init Page");
-            }
-            else if (initPage.Count() == 1)
-            {
-                currentLiveElement = GetAllViewPageItemInViewPage(initPage.First()).Select(m => m.viewElement).ToList();
+                var vp = GetInitViewPage();
+                if (vp == null)
+                {
+                    yield break;
+                }
+
+                currentLiveElement = GetAllViewPageItemInViewPage(vp).Select(m => m.viewElement).ToList();
                 //wait one frame that other script need register the event 
                 yield return null;
                 foreach (var item in currentLiveElement)
                 {
                     item.SampleToLoopState();
                 }
-                UpdateCurrentViewStateAndNotifyEvent(initPage.First());
+                UpdateCurrentViewStateAndNotifyEvent(vp);
             }
         }
-
+        public ViewPage GetInitViewPage(){
+            return viewPage.SingleOrDefault(m => m.name == InitViewPageName);
+        }
 
         void SetupPlatformDefine()
         {

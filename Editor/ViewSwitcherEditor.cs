@@ -74,10 +74,7 @@ public class ViewSwitcherEditor : EditorWindow
         {
             Normalized();
         }
-        if (GUILayout.Button("Disable any Init Page"))
-        {
-            viewController.viewPage.All((x) => { x.initPage = false; return true; });
-        }
+        
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
@@ -91,15 +88,6 @@ public class ViewSwitcherEditor : EditorWindow
             bool isCurrentViewPage = currentViewPage == viewPage;
 
             EditorGUILayout.BeginHorizontal();
-
-            EditorGUI.BeginChangeCheck();
-            viewPage.initPage = EditorGUILayout.ToggleLeft("", viewPage.initPage,GUILayout.MaxWidth(20));
-            if (EditorGUI.EndChangeCheck())
-            {
-                viewPages.All((x) => { x.initPage = false; return true; });
-                viewPage.initPage = true;
-                EditorUtility.SetDirty(viewController);
-            }
 
             if (isCurrentViewPage)
             {
@@ -196,14 +184,10 @@ public class ViewSwitcherEditor : EditorWindow
     void SetupToInitPage()
     {
         //
-        var fp = viewController.viewPage.Where(x => x.initPage);
-        if (fp.Count() > 1)
+        var fp = viewController.GetInitViewPage();
+        if (fp != null)
         {
-            Debug.LogError("Only one viewPage can set as init Page");
-        }
-        else if (fp.Count() == 1)
-        {
-            OnChangePage(fp.First());
+            OnChangePage(fp);
         }
         else
         {
