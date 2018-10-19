@@ -106,14 +106,15 @@ namespace CloudMacaca.ViewSystem
                     yield break;
                 }
 
-                currentLiveElement = GetAllViewPageItemInViewPage(vp).Select(m => m.viewElement).ToList();
+                //currentLiveElement = GetAllViewPageItemInViewPage(vp).Select(m => m.viewElement).ToList();
                 //wait one frame that other script need register the event 
                 yield return null;
-                foreach (var item in currentLiveElement)
-                {
-                    item.SampleToLoopState();
-                }
-                UpdateCurrentViewStateAndNotifyEvent(vp);
+                // foreach (var item in currentLiveElement)
+                // {
+                //     item.SampleToLoopState();
+                // }
+                //UpdateCurrentViewStateAndNotifyEvent(vp);
+                ChangePageTo(InitViewPageName);
             }
         }
         public ViewPage GetInitViewPage(){

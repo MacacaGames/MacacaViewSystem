@@ -66,10 +66,10 @@ public class ViewSwitcherEditor : EditorWindow
     {
         poolTransform = (Transform)EditorGUILayout.ObjectField(poolTransform, typeof(Transform), true);
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Set to Init or Normized"))
-        {
-            SetupToInitPage();
-        }
+        // if (GUILayout.Button("Set to Init or Normized"))
+        // {
+        //     SetupToInitPage();
+        // }
         if (GUILayout.Button("Normized Only"))
         {
             Normalized();
