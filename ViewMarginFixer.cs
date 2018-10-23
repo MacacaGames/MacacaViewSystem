@@ -5,12 +5,7 @@ using CloudMacaca;
 [ExecuteInEditMode]
 public class ViewMarginFixer : MonoBehaviour
 {
-    public enum TriggerBy
-    {
-        OnEnable,
-        ViewSystemEvent
-    }
-    public TriggerBy triggerBy = TriggerBy.OnEnable;
+   
     [SerializeField]
     Margin margin;
 
@@ -28,20 +23,13 @@ public class ViewMarginFixer : MonoBehaviour
 
     }
     RectTransform _rectTransform;
-    void Start()
-    {
-        if (triggerBy == TriggerBy.ViewSystemEvent)
-        {
-            CloudMacaca.ViewSystem.ViewController.Instance.OnViewPageChange += delegate (object sender, CloudMacaca.ViewSystem.ViewController.ViewPageEventArgs arg)
-            {
-                ApplyModifyValue();
-            };
-        }
-    }
+    
     // Use this for initialization
     void OnEnable()
-    {
-        if (triggerBy == TriggerBy.OnEnable) ApplyModifyValue();
+    {   
+        
+        ApplyModifyValue();
+        
     }
     public void SetModifyValueFromRectTransform()
     {
