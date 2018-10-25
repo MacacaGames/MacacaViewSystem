@@ -117,7 +117,8 @@ namespace CloudMacaca.ViewSystem
                 ChangePageTo(InitViewPageName);
             }
         }
-        public ViewPage GetInitViewPage(){
+        public ViewPage GetInitViewPage()
+        {
             return viewPage.SingleOrDefault(m => m.name == InitViewPageName);
         }
 
@@ -155,44 +156,6 @@ namespace CloudMacaca.ViewSystem
             }
 #endif
         }
-
-        // Stack 後進先出
-        private GameObject currentActiveObject;
-        private Stack<ViewPage> subPageViewPage = new Stack<ViewPage>();
-        private float nextViewPageWaitTime = 0;
-        private Dictionary<string, float> lastPageItemTweenOutTimes = new Dictionary<string, float>();
-        private Dictionary<string, float> lastPageItemDelayOutTimes = new Dictionary<string, float>();
-        private Dictionary<string, float> lastPageItemDelayOutTimesOverlay = new Dictionary<string, float>();
-        private Dictionary<string, bool> lastPageNeedLeaveOnFloat = new Dictionary<string, bool>();
-        public bool IsPageTransition = false;
-        public Coroutine ChangePageTo(string viewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false)
-        {
-            // foreach (var item in currentLiveElement)
-            // {
-            //     if (!item.AnimatorIsInLoopOrEmptyOrDisableState())
-            //     {
-            //         Debug.LogWarning("Animation is not in loop state will not continue" + item.name);
-            //         return null;
-            //     }
-            // }
-            if (IsPageTransition && AutoWaitPreviousPageFinish == false)
-            {
-                Debug.LogError("Page is in Transition.");
-                return null;
-            }
-            else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
-            {
-                Debug.LogError("Page is in Transition but AutoWaitPreviousPageFinish");
-                return StartCoroutine(WaitPrevious(viewPageName, OnComplete));
-            }
-            return StartCoroutine(ChangePageToBase(viewPageName, OnComplete));
-        }
-        public IEnumerator WaitPrevious(string viewPageName, Action OnComplete)
-        {
-            yield return new WaitUntil(() => IsPageTransition == false);
-            yield return ChangePageToBase(viewPageName, OnComplete);
-        }
-
         IEnumerable<ViewPageItem> GetAllViewPageItemInViewPage(ViewPage vp)
         {
             List<ViewPageItem> realViewPageItem = new List<ViewPageItem>();
@@ -231,6 +194,44 @@ namespace CloudMacaca.ViewSystem
 
             return viewItemForNextPage;
         }
+
+        // Stack 後進先出
+        private GameObject currentActiveObject;
+        private Stack<ViewPage> subPageViewPage = new Stack<ViewPage>();
+        private float nextViewPageWaitTime = 0;
+        private Dictionary<string, float> lastPageItemTweenOutTimes = new Dictionary<string, float>();
+        private Dictionary<string, float> lastPageItemDelayOutTimes = new Dictionary<string, float>();
+        private Dictionary<string, float> lastPageItemDelayOutTimesOverlay = new Dictionary<string, float>();
+        private Dictionary<string, bool> lastPageNeedLeaveOnFloat = new Dictionary<string, bool>();
+        public bool IsPageTransition{
+            get{
+                return ChangePageToCoroutine != null;
+            }
+        }
+        Coroutine ChangePageToCoroutine = null;
+        public Coroutine ChangePageTo(string viewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false)
+        {
+            if (IsPageTransition && AutoWaitPreviousPageFinish == false)
+            {
+                Debug.LogError("Page is in Transition.");
+                return null;
+            }
+            else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
+            {
+                Debug.LogError("Page is in Transition but AutoWaitPreviousPageFinish");
+                ChangePageToCoroutine = StartCoroutine(WaitPrevious(viewPageName, OnComplete));
+                return ChangePageToCoroutine;
+            }
+            ChangePageToCoroutine = StartCoroutine(ChangePageToBase(viewPageName, OnComplete));
+            return ChangePageToCoroutine;
+        }
+
+        public IEnumerator WaitPrevious(string viewPageName, Action OnComplete)
+        {
+            yield return new WaitUntil(() => IsPageTransition == false);
+            yield return ChangePageToBase(viewPageName, OnComplete);
+        }
+
         public IEnumerator ChangePageToBase(string viewPageName, Action OnComplete)
         {
 
@@ -242,6 +243,7 @@ namespace CloudMacaca.ViewSystem
             {
                 Debug.LogError("No view page match" + viewPageName + "Found");
                 //return;
+                ChangePageToCoroutine = null;
                 yield break;
             }
 
@@ -249,12 +251,13 @@ namespace CloudMacaca.ViewSystem
             {
                 Debug.LogWarning("To show Overlay ViewPage use ShowOverlayViewPage() method \n current version will redirect to this method automatically.");
                 ShowOverlayViewPageBase(vp, true, OnComplete);
+                ChangePageToCoroutine = null;
                 //return;
                 yield break;
             }
 
             //所有檢查都通過開始換頁
-            IsPageTransition = true;
+            //IsPageTransition = true;
 
             if (OnViewPageChangeStart != null)
                 OnViewPageChangeStart(this, new ViewPageTrisitionEventArgs(currentViewPage, vp));
@@ -368,11 +371,12 @@ namespace CloudMacaca.ViewSystem
 
             //通知事件
             yield return Yielders.GetWaitForSeconds(OnShowAnimationFinish);
-            IsPageTransition = false;
 
+            ChangePageToCoroutine = null;
+
+            //Callback
             if (OnViewPageChangeEnd != null)
                 OnViewPageChangeEnd(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
-
         }
 
         public bool HasOverlayPageLive()
