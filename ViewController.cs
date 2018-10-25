@@ -484,7 +484,7 @@ namespace CloudMacaca.ViewSystem
             var currentVe = currentViewPage.viewPageItem.Select(m => m.viewElement);
             var currentVs = currentViewState.viewPageItems.Select(m => m.viewElement);
 
-            var finishTime = CalculateTimesNeedsForOnLeave(currentVe);
+            var finishTime = CalculateTimesNeedsForOnLeave(vp.viewPageItem.Select(m=>m.viewElement));
 
             foreach (var item in vp.viewPageItem)
             {
