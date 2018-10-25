@@ -492,6 +492,7 @@ namespace CloudMacaca.ViewSystem
             var currentVs = currentViewState.viewPageItems.Select(m => m.viewElement);
 
             var finishTime = CalculateTimesNeedsForOnLeave(vp.viewPageItem.Select(m=>m.viewElement));
+            overlayViewPageQueue.Remove(vp);
 
             foreach (var item in vp.viewPageItem)
             {
@@ -524,7 +525,6 @@ namespace CloudMacaca.ViewSystem
                 item.viewElement.ChangePage(false, null, 0, 0, delayOut, ignoreTransition);
             }
 
-            overlayViewPageQueue.Remove(vp);
 
             if (OnOverlayPageLeave != null)
                 OnOverlayPageLeave(this, new ViewPageEventArgs(vp, null));
