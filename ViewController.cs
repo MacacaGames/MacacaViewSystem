@@ -387,6 +387,9 @@ namespace CloudMacaca.ViewSystem
         {
             return overlayViewPageQueue.Where(m => m.name == viewPageName).Count() > 0;
         }
+        public IEnumerable<string> GetCurrentOverpageNames(){
+            return overlayViewPageQueue.Select(m=>m.name);
+        }
         List<ViewPage> overlayViewPageQueue = new List<ViewPage>();
         Dictionary<string, IDisposable> autoLeaveQueue = new Dictionary<string, IDisposable>();
         public void ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
