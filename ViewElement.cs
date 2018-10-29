@@ -190,11 +190,19 @@ namespace CloudMacaca.ViewSystem
             {
                 OnLeaveDisposable.Dispose();
             }
-            gameObject.SetActive(true);
+            if (transition != TransitionType.ActiveSwitch)gameObject.SetActive(true);
+
+            //簡單暴力的解決 canvasGroup 一開始如果不是 0 的石後的情況
+            if (transition == TransitionType.CanvasGroupAlpha){
+                if(canvasGroup.alpha != 0){
+                    canvasGroup.alpha = 0;
+                }
+            }
             Observable
                 .Timer(TimeSpan.FromSeconds(delayIn))
                 .Subscribe(_ =>
                 {
+                    
                     if (transition == TransitionType.Animator)
                     {
                         animator.Play(AnimationStateName_In);
@@ -207,9 +215,9 @@ namespace CloudMacaca.ViewSystem
                     {
                         OnShowHandle.Invoke();
                     }
-                    else
+                    else if (transition == TransitionType.ActiveSwitch)
                     {
-
+                        gameObject.SetActive(true);
                     }
                 });
         }

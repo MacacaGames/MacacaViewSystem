@@ -251,10 +251,11 @@ namespace CloudMacaca.ViewSystem
 
             if (vp.viewPageType == ViewPage.ViewPageType.Overlay)
             {
-                Debug.LogWarning("To show Overlay ViewPage use ShowOverlayViewPage() method \n current version will redirect to this method automatically.");
+                Debug.LogError("To show Overlay ViewPage use ShowOverlayViewPage() method \n current version will redirect to this method automatically.");
                 ShowOverlayViewPageBase(vp, true, OnComplete);
                 ChangePageToCoroutine = null;
                 //return;
+
                 yield break;
             }
 
@@ -397,25 +398,26 @@ namespace CloudMacaca.ViewSystem
         Dictionary<string, IDisposable> autoLeaveQueue = new Dictionary<string, IDisposable>();
 
 
-        public void ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
+        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
         {
             var vp = viewPage.Where(m => m.name == viewPageName).SingleOrDefault();
-            ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete);
+            return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete));
         }
-        public void ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
+        public IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
         {
-           
+
             if (vp == null)
             {
                 Debug.Log("ViewPage is null");
-                return;
+                yield break;
             }
             if (vp.viewPageType != ViewPage.ViewPageType.Overlay)
             {
                 Debug.LogError("ViewPage " + vp.name + " is not an Overlay page");
-                return;
+                yield break;
             }
-
+            float onShowTime = CalculateTimesNeedsForOnShow(GetAllViewPageItemInViewPage(vp).Select(m => m.viewElement));
+            float onShowDelay = CalculateWaitingTimeForCurrentOnShow(GetAllViewPageItemInViewPage(vp));
             if (OverlayTransitionProtectionCoroutine != null) { StopCoroutine(OverlayTransitionProtectionCoroutine); }
             StartCoroutine(OverlayTransitionProtection());
 
@@ -474,6 +476,13 @@ namespace CloudMacaca.ViewSystem
             }
             if (OnOverlayPageShow != null)
                 OnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
+
+            yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
+
+            if (OnComplete != null)
+            {
+                OnComplete();
+            }
         }
         public void TryLeaveAllOverlayPage()
         {
@@ -633,6 +642,19 @@ namespace CloudMacaca.ViewSystem
             foreach (var item in viewPageItem)
             {
                 float t2 = item.delayOut;
+                if (t2 > maxDelayTime)
+                {
+                    maxDelayTime = t2;
+                }
+            }
+            return maxDelayTime;
+        }
+        float CalculateWaitingTimeForCurrentOnShow(IEnumerable<ViewPageItem> viewPageItem)
+        {
+            float maxDelayTime = 0;
+            foreach (var item in viewPageItem)
+            {
+                float t2 = item.delayIn;
                 if (t2 > maxDelayTime)
                 {
                     maxDelayTime = t2;
