@@ -435,7 +435,7 @@ namespace CloudMacaca.ViewSystem
                     item.viewElement.ChangePage(true, item.parent, item.TweenTime, item.delayIn, item.delayOut);
                 }
             }
-
+ 
             if (RePlayOnShowWhileSamePage == true)
             {
                 foreach (var item in vp.viewPageItem)

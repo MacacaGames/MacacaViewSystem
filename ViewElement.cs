@@ -196,9 +196,20 @@ namespace CloudMacaca.ViewSystem
             }
             else
             {
-                if (delayIn == 0) gameObject.SetActive(true); 
+                if (delayIn == 0) gameObject.SetActive(true);
             }
 
+            if (IsShowed() && delayIn > 0)
+            {
+                if (transition == TransitionType.Animator)
+                {
+                    animator.Play("Empty");
+                }
+                else if (transition == TransitionType.CanvasGroupAlpha)
+                {
+                    canvasGroup.alpha = 0;
+                }
+            }
 
             //簡單暴力的解決 canvasGroup 一開始如果不是 0 的石後的情況
             if (transition == TransitionType.CanvasGroupAlpha)
