@@ -78,7 +78,7 @@ public class ViewSystemEditor : Editor
         sb.AppendLine();
         sb.AppendLine("namespace CloudMacaca.ViewSystem");
         sb.AppendLine("{");
-        sb.AppendLine("	public static class ViewSystemScriptable");
+        sb.AppendLine("	public struct ViewSystemScriptable");
         sb.AppendLine("	{");
         sb.AppendLine();
 
@@ -113,7 +113,7 @@ public class ViewSystemEditor : Editor
         {
             return;
         }
-        sb.AppendLine("		public static class ViewPages");
+        sb.AppendLine("		public struct ViewPages");
         sb.AppendLine("		{");
         foreach (var item in vps)
         {
@@ -133,7 +133,7 @@ public class ViewSystemEditor : Editor
         {
             return;
         }
-        sb.AppendLine("		public static class ViewStates");
+        sb.AppendLine("		public struct ViewStates");
         sb.AppendLine("		{");
         foreach (var item in vss)
         {

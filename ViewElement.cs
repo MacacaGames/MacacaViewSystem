@@ -190,11 +190,40 @@ namespace CloudMacaca.ViewSystem
             {
                 OnLeaveDisposable.Dispose();
             }
-            gameObject.SetActive(true);
+            if (transition != TransitionType.ActiveSwitch)
+            {
+                gameObject.SetActive(true);
+            }
+            else
+            {
+                if (delayIn == 0) gameObject.SetActive(true);
+            }
+
+            if (IsShowed() && delayIn > 0)
+            {
+                if (transition == TransitionType.Animator)
+                {
+                    animator.Play("Empty");
+                }
+                else if (transition == TransitionType.CanvasGroupAlpha)
+                {
+                    canvasGroup.alpha = 0;
+                }
+            }
+
+            //簡單暴力的解決 canvasGroup 一開始如果不是 0 的石後的情況
+            if (transition == TransitionType.CanvasGroupAlpha)
+            {
+                if (canvasGroup.alpha != 0)
+                {
+                    canvasGroup.alpha = 0;
+                }
+            }
             Observable
                 .Timer(TimeSpan.FromSeconds(delayIn))
                 .Subscribe(_ =>
                 {
+
                     if (transition == TransitionType.Animator)
                     {
                         animator.Play(AnimationStateName_In);
@@ -207,9 +236,9 @@ namespace CloudMacaca.ViewSystem
                     {
                         OnShowHandle.Invoke();
                     }
-                    else
+                    else if (transition == TransitionType.ActiveSwitch)
                     {
-
+                        gameObject.SetActive(true);
                     }
                 });
         }
@@ -425,7 +454,7 @@ namespace CloudMacaca.ViewSystem
 
             if (transition != ViewElement.TransitionType.Animator)
                 return;
-          
+
             animator.Play(AnimationStateName_Loop);
             // AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
             // foreach (AnimationClip clip in clips)

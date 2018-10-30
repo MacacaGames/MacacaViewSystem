@@ -5,6 +5,7 @@ using CloudMacaca;
 [ExecuteInEditMode]
 public class ViewMarginFixer : MonoBehaviour
 {
+   
     [SerializeField]
     Margin margin;
 
@@ -22,11 +23,13 @@ public class ViewMarginFixer : MonoBehaviour
 
     }
     RectTransform _rectTransform;
-
+    
     // Use this for initialization
     void OnEnable()
-    {
+    {   
+        
         ApplyModifyValue();
+        
     }
     public void SetModifyValueFromRectTransform()
     {

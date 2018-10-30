@@ -61,7 +61,6 @@ namespace CloudMacaca.ViewSystem
         public ViewPageType viewPageType = ViewPageType.FullPage;
         public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.接續前動畫;
         public List<ViewPageItem> viewPageItem = new List<ViewPageItem>();
-        public bool initPage = false;
     }
 
 }

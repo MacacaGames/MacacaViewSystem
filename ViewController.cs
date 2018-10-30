@@ -10,6 +10,8 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewController : MonoBehaviour
     {
+        [SerializeField]
+        public string InitViewPageName;
         public event EventHandler<ViewStateEventArgs> OnViewStateChange;
 
         /// <summary>
@@ -87,6 +89,7 @@ namespace CloudMacaca.ViewSystem
 
                 }
             }
+
         }
         CloudMacaca.ViewSystem.ViewPageItem.PlatformOption platform;
         IEnumerator Start()
@@ -95,23 +98,29 @@ namespace CloudMacaca.ViewSystem
 
             SetupPlatformDefine();
 
-            var initPage = viewPage.Where(m => m.initPage == true);
-            if (initPage.Count() > 1)
+            if (!string.IsNullOrEmpty(InitViewPageName))
             {
-                Debug.LogError("More than 1 viewPage is set to Init Page");
-            }
-            else if (initPage.Count() == 1)
-            {
-                currentLiveElement = GetAllViewPageItemInViewPage(initPage.First()).Select(m => m.viewElement).ToList();
-                currentViewPage = initPage.First();
-                yield return null;
-                foreach (var item in currentLiveElement)
+                var vp = GetInitViewPage();
+                if (vp == null)
                 {
-                    item.SampleToLoopState();
+                    yield break;
                 }
+
+                //currentLiveElement = GetAllViewPageItemInViewPage(vp).Select(m => m.viewElement).ToList();
+                //wait one frame that other script need register the event 
+                yield return null;
+                // foreach (var item in currentLiveElement)
+                // {
+                //     item.SampleToLoopState();
+                // }
+                //UpdateCurrentViewStateAndNotifyEvent(vp);
+                ChangePageTo(InitViewPageName);
             }
         }
-
+        public ViewPage GetInitViewPage()
+        {
+            return viewPage.SingleOrDefault(m => m.name == InitViewPageName);
+        }
 
         void SetupPlatformDefine()
         {
@@ -147,44 +156,6 @@ namespace CloudMacaca.ViewSystem
             }
 #endif
         }
-
-        // Stack 後進先出
-        private GameObject currentActiveObject;
-        private Stack<ViewPage> subPageViewPage = new Stack<ViewPage>();
-        private float nextViewPageWaitTime = 0;
-        private Dictionary<string, float> lastPageItemTweenOutTimes = new Dictionary<string, float>();
-        private Dictionary<string, float> lastPageItemDelayOutTimes = new Dictionary<string, float>();
-        private Dictionary<string, float> lastPageItemDelayOutTimesOverlay = new Dictionary<string, float>();
-        private Dictionary<string, bool> lastPageNeedLeaveOnFloat = new Dictionary<string, bool>();
-        public bool IsPageTransition = false;
-        public Coroutine ChangePageTo(string viewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false)
-        {
-            // foreach (var item in currentLiveElement)
-            // {
-            //     if (!item.AnimatorIsInLoopOrEmptyOrDisableState())
-            //     {
-            //         Debug.LogWarning("Animation is not in loop state will not continue" + item.name);
-            //         return null;
-            //     }
-            // }
-            if (IsPageTransition && AutoWaitPreviousPageFinish == false)
-            {
-                Debug.LogError("Page is in Transition.");
-                return null;
-            }
-            else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
-            {
-                Debug.LogError("Page is in Transition but AutoWaitPreviousPageFinish");
-                return StartCoroutine(WaitPrevious(viewPageName, OnComplete));
-            }
-            return StartCoroutine(ChangePageToBase(viewPageName, OnComplete));
-        }
-        public IEnumerator WaitPrevious(string viewPageName, Action OnComplete)
-        {
-            yield return new WaitUntil(() => IsPageTransition == false);
-            yield return ChangePageToBase(viewPageName, OnComplete);
-        }
-
         IEnumerable<ViewPageItem> GetAllViewPageItemInViewPage(ViewPage vp)
         {
             List<ViewPageItem> realViewPageItem = new List<ViewPageItem>();
@@ -223,6 +194,46 @@ namespace CloudMacaca.ViewSystem
 
             return viewItemForNextPage;
         }
+
+        // Stack 後進先出
+        private GameObject currentActiveObject;
+        private Stack<ViewPage> subPageViewPage = new Stack<ViewPage>();
+        private float nextViewPageWaitTime = 0;
+        private Dictionary<string, float> lastPageItemTweenOutTimes = new Dictionary<string, float>();
+        private Dictionary<string, float> lastPageItemDelayOutTimes = new Dictionary<string, float>();
+        private Dictionary<string, float> lastPageItemDelayOutTimesOverlay = new Dictionary<string, float>();
+        private Dictionary<string, bool> lastPageNeedLeaveOnFloat = new Dictionary<string, bool>();
+        public bool IsPageTransition
+        {
+            get
+            {
+                return ChangePageToCoroutine != null;
+            }
+        }
+        Coroutine ChangePageToCoroutine = null;
+        public Coroutine ChangePageTo(string viewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false)
+        {
+            if (IsPageTransition && AutoWaitPreviousPageFinish == false)
+            {
+                Debug.LogError("Page is in Transition.");
+                return null;
+            }
+            else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
+            {
+                Debug.LogError("Page is in Transition but AutoWaitPreviousPageFinish");
+                ChangePageToCoroutine = StartCoroutine(WaitPrevious(viewPageName, OnComplete));
+                return ChangePageToCoroutine;
+            }
+            ChangePageToCoroutine = StartCoroutine(ChangePageToBase(viewPageName, OnComplete));
+            return ChangePageToCoroutine;
+        }
+
+        public IEnumerator WaitPrevious(string viewPageName, Action OnComplete)
+        {
+            yield return new WaitUntil(() => IsPageTransition == false);
+            yield return ChangePageToBase(viewPageName, OnComplete);
+        }
+
         public IEnumerator ChangePageToBase(string viewPageName, Action OnComplete)
         {
 
@@ -234,19 +245,22 @@ namespace CloudMacaca.ViewSystem
             {
                 Debug.LogError("No view page match" + viewPageName + "Found");
                 //return;
+                ChangePageToCoroutine = null;
                 yield break;
             }
 
             if (vp.viewPageType == ViewPage.ViewPageType.Overlay)
             {
-                Debug.LogWarning("To show Overlay ViewPage use ShowOverlayViewPage() method \n current version will redirect to this method automatically.");
+                Debug.LogError("To show Overlay ViewPage use ShowOverlayViewPage() method \n current version will redirect to this method automatically.");
                 ShowOverlayViewPageBase(vp, true, OnComplete);
+                ChangePageToCoroutine = null;
                 //return;
+
                 yield break;
             }
 
             //所有檢查都通過開始換頁
-            IsPageTransition = true;
+            //IsPageTransition = true;
 
             if (OnViewPageChangeStart != null)
                 OnViewPageChangeStart(this, new ViewPageTrisitionEventArgs(currentViewPage, vp));
@@ -287,7 +301,7 @@ namespace CloudMacaca.ViewSystem
             //整理目前在畫面上 Overlay page 的 ViewPageItem
             var CurrentOverlayViewPageItem = new List<ViewPageItem>();
 
-            foreach (var item in overlayViewPageQueue.Select(m => m.viewPageItem))
+            foreach (var item in overlayPageStates.Select(m => m.Value.viewPage).Select(x => x.viewPageItem))
             {
                 CurrentOverlayViewPageItem.AddRange(item);
             }
@@ -360,43 +374,69 @@ namespace CloudMacaca.ViewSystem
 
             //通知事件
             yield return Yielders.GetWaitForSeconds(OnShowAnimationFinish);
-            IsPageTransition = false;
 
+            ChangePageToCoroutine = null;
+
+            //Callback
             if (OnViewPageChangeEnd != null)
                 OnViewPageChangeEnd(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
-
         }
 
         public bool HasOverlayPageLive()
         {
-            return overlayViewPageQueue.Count > 0;
+            return overlayPageStates.Count > 0;
         }
         public bool IsOverPageLive(string viewPageName)
         {
-            return overlayViewPageQueue.Where(m => m.name == viewPageName).Count() > 0;
+            return overlayPageStates.Where(m => m.Key == viewPageName).Count() > 0;
         }
-        List<ViewPage> overlayViewPageQueue = new List<ViewPage>();
+        public IEnumerable<string> GetCurrentOverpageNames()
+        {
+            return overlayPageStates.Select(m => m.Key);
+        }
+        // List<ViewPage> overlayViewPageQueue = new List<ViewPage>();
         Dictionary<string, IDisposable> autoLeaveQueue = new Dictionary<string, IDisposable>();
-        public void ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
+
+        Dictionary<string, OverlayPageState> overlayPageStates = new Dictionary<string, OverlayPageState>();
+
+        public class OverlayPageState
+        {
+            public bool IsTransition = false;
+            public ViewPage viewPage;
+        }
+
+        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
         {
             var vp = viewPage.Where(m => m.name == viewPageName).SingleOrDefault();
-            ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete);
+            return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete));
         }
-        public void ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
+        public IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
         {
             if (vp == null)
             {
                 Debug.Log("ViewPage is null");
-                return;
+                yield break;
             }
             if (vp.viewPageType != ViewPage.ViewPageType.Overlay)
             {
                 Debug.LogError("ViewPage " + vp.name + " is not an Overlay page");
-                return;
+                yield break;
             }
-            if (overlayViewPageQueue.Contains(vp) == false)
+
+            float onShowTime = CalculateTimesNeedsForOnShow(GetAllViewPageItemInViewPage(vp).Select(m => m.viewElement));
+            float onShowDelay = CalculateWaitingTimeForCurrentOnShow(GetAllViewPageItemInViewPage(vp));
+
+            //if (OverlayTransitionProtectionCoroutine != null) { StopCoroutine(OverlayTransitionProtectionCoroutine); }
+            //StartCoroutine(OverlayTransitionProtection());
+
+            var overlayPageState = new OverlayPageState();
+
+            if (overlayPageStates.ContainsKey(vp.name) == false)
             {
-                overlayViewPageQueue.Add(vp);
+                overlayPageState.viewPage = vp;
+                overlayPageState.IsTransition = true;
+
+                overlayPageStates.Add(vp.name, overlayPageState);
                 foreach (var item in vp.viewPageItem)
                 {
                     //Delay 時間
@@ -449,18 +489,31 @@ namespace CloudMacaca.ViewSystem
             }
             if (OnOverlayPageShow != null)
                 OnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
+
+            yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
+
+            overlayPageState.IsTransition = false;
+            if (OnComplete != null)
+            {
+                OnComplete();
+            }
         }
         public void TryLeaveAllOverlayPage()
         {
-            for (int i = 0; i < overlayViewPageQueue.Count; i++)
+            for (int i = 0; i < overlayPageStates.Count; i++)
             {
-                Debug.Log(overlayViewPageQueue[i].name);
-                StartCoroutine(LeaveOverlayViewPageBase(overlayViewPageQueue[i], 0.4f, null, true));
+                //Debug.Log(overlayPageStates[i].name);
+                // var item = ;
+                //overlayPageStates.ElementAt(i)
+                //StartCoroutine(LeaveOverlayViewPageBase(, 0.4f, null, true));
             }
         }
         public void LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4f, Action OnComplete = null)
         {
-            var vp = overlayViewPageQueue.Where(m => m.name == viewPageName).SingleOrDefault();
+            // var vp = overlayPageStates.Where(m => m.name == viewPageName).SingleOrDefault();
+            OverlayPageState vp = null;
+
+            overlayPageStates.TryGetValue(viewPageName, out vp);
 
             if (vp == null)
             {
@@ -471,14 +524,19 @@ namespace CloudMacaca.ViewSystem
             StartCoroutine(LeaveOverlayViewPageBase(vp, tweenTimeIfNeed, OnComplete));
         }
 
-        public IEnumerator LeaveOverlayViewPageBase(ViewPage vp, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false)
+        public IEnumerator LeaveOverlayViewPageBase(OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false)
         {
+            //if (OverlayTransitionProtectionCoroutine != null) { StopCoroutine(OverlayTransitionProtectionCoroutine); }
+            //StartCoroutine(OverlayTransitionProtection());
+
             var currentVe = currentViewPage.viewPageItem.Select(m => m.viewElement);
             var currentVs = currentViewState.viewPageItems.Select(m => m.viewElement);
 
-            var finishTime = CalculateTimesNeedsForOnLeave(currentVe);
+            var finishTime = CalculateTimesNeedsForOnLeave(overlayPageState.viewPage.viewPageItem.Select(m => m.viewElement));
+            // overlayViewPageQueue.Remove(vp);
+            overlayPageState.IsTransition = true;
 
-            foreach (var item in vp.viewPageItem)
+            foreach (var item in overlayPageState.viewPage.viewPageItem)
             {
                 if (currentVe.Contains(item.viewElement))
                 {
@@ -509,18 +567,38 @@ namespace CloudMacaca.ViewSystem
                 item.viewElement.ChangePage(false, null, 0, 0, delayOut, ignoreTransition);
             }
 
-            overlayViewPageQueue.Remove(vp);
-
             if (OnOverlayPageLeave != null)
-                OnOverlayPageLeave(this, new ViewPageEventArgs(vp, null));
+                OnOverlayPageLeave(this, new ViewPageEventArgs(overlayPageState.viewPage, null));
 
             yield return Yielders.GetWaitForSeconds(finishTime);
 
+            overlayPageState.IsTransition = false;
+
+            overlayPageStates.Remove(overlayPageState.viewPage.name);
             if (OnComplete != null)
             {
                 OnComplete();
             }
         }
+
+        public float OverlayTransitionProtectionTime = 0.2f;
+        public bool IsOverlayTransition {
+            get{
+                foreach(var item in overlayPageStates){
+                    if(item.Value.IsTransition == true){
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        // Coroutine OverlayTransitionProtectionCoroutine;
+        // IEnumerator OverlayTransitionProtection()
+        // {
+        //     IsOverlayTransition = true;
+        //     yield return Yielders.GetWaitForSeconds(OverlayTransitionProtectionTime);
+        //     IsOverlayTransition = false;
+        // }
 
         void UpdateCurrentViewStateAndNotifyEvent(ViewPage vp)
         {
@@ -595,6 +673,19 @@ namespace CloudMacaca.ViewSystem
             foreach (var item in viewPageItem)
             {
                 float t2 = item.delayOut;
+                if (t2 > maxDelayTime)
+                {
+                    maxDelayTime = t2;
+                }
+            }
+            return maxDelayTime;
+        }
+        float CalculateWaitingTimeForCurrentOnShow(IEnumerable<ViewPageItem> viewPageItem)
+        {
+            float maxDelayTime = 0;
+            foreach (var item in viewPageItem)
+            {
+                float t2 = item.delayIn;
                 if (t2 > maxDelayTime)
                 {
                     maxDelayTime = t2;
