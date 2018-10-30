@@ -301,7 +301,7 @@ namespace CloudMacaca.ViewSystem
             //整理目前在畫面上 Overlay page 的 ViewPageItem
             var CurrentOverlayViewPageItem = new List<ViewPageItem>();
 
-            foreach (var item in overlayViewPageQueue.Select(m => m.viewPageItem))
+            foreach (var item in overlayPageStates.Select(m => m.Value.viewPage).Select(x => x.viewPageItem))
             {
                 CurrentOverlayViewPageItem.AddRange(item);
             }
@@ -384,19 +384,26 @@ namespace CloudMacaca.ViewSystem
 
         public bool HasOverlayPageLive()
         {
-            return overlayViewPageQueue.Count > 0;
+            return overlayPageStates.Count > 0;
         }
         public bool IsOverPageLive(string viewPageName)
         {
-            return overlayViewPageQueue.Where(m => m.name == viewPageName).Count() > 0;
+            return overlayPageStates.Where(m => m.Key == viewPageName).Count() > 0;
         }
         public IEnumerable<string> GetCurrentOverpageNames()
         {
-            return overlayViewPageQueue.Select(m => m.name);
+            return overlayPageStates.Select(m => m.Key);
         }
-        List<ViewPage> overlayViewPageQueue = new List<ViewPage>();
+        // List<ViewPage> overlayViewPageQueue = new List<ViewPage>();
         Dictionary<string, IDisposable> autoLeaveQueue = new Dictionary<string, IDisposable>();
 
+        Dictionary<string, OverlayPageState> overlayPageStates = new Dictionary<string, OverlayPageState>();
+
+        public class OverlayPageState
+        {
+            public bool IsTransition = false;
+            public ViewPage viewPage;
+        }
 
         public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
         {
@@ -405,7 +412,6 @@ namespace CloudMacaca.ViewSystem
         }
         public IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
         {
-
             if (vp == null)
             {
                 Debug.Log("ViewPage is null");
@@ -416,14 +422,21 @@ namespace CloudMacaca.ViewSystem
                 Debug.LogError("ViewPage " + vp.name + " is not an Overlay page");
                 yield break;
             }
+
             float onShowTime = CalculateTimesNeedsForOnShow(GetAllViewPageItemInViewPage(vp).Select(m => m.viewElement));
             float onShowDelay = CalculateWaitingTimeForCurrentOnShow(GetAllViewPageItemInViewPage(vp));
-            if (OverlayTransitionProtectionCoroutine != null) { StopCoroutine(OverlayTransitionProtectionCoroutine); }
-            StartCoroutine(OverlayTransitionProtection());
 
-            if (overlayViewPageQueue.Contains(vp) == false)
+            //if (OverlayTransitionProtectionCoroutine != null) { StopCoroutine(OverlayTransitionProtectionCoroutine); }
+            //StartCoroutine(OverlayTransitionProtection());
+
+            var overlayPageState = new OverlayPageState();
+
+            if (overlayPageStates.ContainsKey(vp.name) == false)
             {
-                overlayViewPageQueue.Add(vp);
+                overlayPageState.viewPage = vp;
+                overlayPageState.IsTransition = true;
+
+                overlayPageStates.Add(vp.name, overlayPageState);
                 foreach (var item in vp.viewPageItem)
                 {
                     //Delay 時間
@@ -435,7 +448,7 @@ namespace CloudMacaca.ViewSystem
                     item.viewElement.ChangePage(true, item.parent, item.TweenTime, item.delayIn, item.delayOut);
                 }
             }
- 
+
             if (RePlayOnShowWhileSamePage == true)
             {
                 foreach (var item in vp.viewPageItem)
@@ -479,6 +492,7 @@ namespace CloudMacaca.ViewSystem
 
             yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
 
+            overlayPageState.IsTransition = false;
             if (OnComplete != null)
             {
                 OnComplete();
@@ -486,15 +500,20 @@ namespace CloudMacaca.ViewSystem
         }
         public void TryLeaveAllOverlayPage()
         {
-            for (int i = 0; i < overlayViewPageQueue.Count; i++)
+            for (int i = 0; i < overlayPageStates.Count; i++)
             {
-                Debug.Log(overlayViewPageQueue[i].name);
-                StartCoroutine(LeaveOverlayViewPageBase(overlayViewPageQueue[i], 0.4f, null, true));
+                //Debug.Log(overlayPageStates[i].name);
+                // var item = ;
+                //overlayPageStates.ElementAt(i)
+                //StartCoroutine(LeaveOverlayViewPageBase(, 0.4f, null, true));
             }
         }
         public void LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4f, Action OnComplete = null)
         {
-            var vp = overlayViewPageQueue.Where(m => m.name == viewPageName).SingleOrDefault();
+            // var vp = overlayPageStates.Where(m => m.name == viewPageName).SingleOrDefault();
+            OverlayPageState vp = null;
+
+            overlayPageStates.TryGetValue(viewPageName, out vp);
 
             if (vp == null)
             {
@@ -505,18 +524,19 @@ namespace CloudMacaca.ViewSystem
             StartCoroutine(LeaveOverlayViewPageBase(vp, tweenTimeIfNeed, OnComplete));
         }
 
-        public IEnumerator LeaveOverlayViewPageBase(ViewPage vp, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false)
+        public IEnumerator LeaveOverlayViewPageBase(OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false)
         {
-            if (OverlayTransitionProtectionCoroutine != null) { StopCoroutine(OverlayTransitionProtectionCoroutine); }
-            StartCoroutine(OverlayTransitionProtection());
+            //if (OverlayTransitionProtectionCoroutine != null) { StopCoroutine(OverlayTransitionProtectionCoroutine); }
+            //StartCoroutine(OverlayTransitionProtection());
 
             var currentVe = currentViewPage.viewPageItem.Select(m => m.viewElement);
             var currentVs = currentViewState.viewPageItems.Select(m => m.viewElement);
 
-            var finishTime = CalculateTimesNeedsForOnLeave(vp.viewPageItem.Select(m => m.viewElement));
-            overlayViewPageQueue.Remove(vp);
+            var finishTime = CalculateTimesNeedsForOnLeave(overlayPageState.viewPage.viewPageItem.Select(m => m.viewElement));
+            // overlayViewPageQueue.Remove(vp);
+            overlayPageState.IsTransition = true;
 
-            foreach (var item in vp.viewPageItem)
+            foreach (var item in overlayPageState.viewPage.viewPageItem)
             {
                 if (currentVe.Contains(item.viewElement))
                 {
@@ -547,12 +567,14 @@ namespace CloudMacaca.ViewSystem
                 item.viewElement.ChangePage(false, null, 0, 0, delayOut, ignoreTransition);
             }
 
-
             if (OnOverlayPageLeave != null)
-                OnOverlayPageLeave(this, new ViewPageEventArgs(vp, null));
+                OnOverlayPageLeave(this, new ViewPageEventArgs(overlayPageState.viewPage, null));
 
             yield return Yielders.GetWaitForSeconds(finishTime);
 
+            overlayPageState.IsTransition = false;
+
+            overlayPageStates.Remove(overlayPageState.viewPage.name);
             if (OnComplete != null)
             {
                 OnComplete();
@@ -560,14 +582,23 @@ namespace CloudMacaca.ViewSystem
         }
 
         public float OverlayTransitionProtectionTime = 0.2f;
-        public bool IsOverlayTransition = false;
-        Coroutine OverlayTransitionProtectionCoroutine;
-        IEnumerator OverlayTransitionProtection()
-        {
-            IsOverlayTransition = true;
-            yield return Yielders.GetWaitForSeconds(OverlayTransitionProtectionTime);
-            IsOverlayTransition = false;
+        public bool IsOverlayTransition {
+            get{
+                foreach(var item in overlayPageStates){
+                    if(item.Value.IsTransition == true){
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
+        // Coroutine OverlayTransitionProtectionCoroutine;
+        // IEnumerator OverlayTransitionProtection()
+        // {
+        //     IsOverlayTransition = true;
+        //     yield return Yielders.GetWaitForSeconds(OverlayTransitionProtectionTime);
+        //     IsOverlayTransition = false;
+        // }
 
         void UpdateCurrentViewStateAndNotifyEvent(ViewPage vp)
         {
