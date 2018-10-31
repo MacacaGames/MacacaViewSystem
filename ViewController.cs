@@ -502,10 +502,8 @@ namespace CloudMacaca.ViewSystem
         {
             for (int i = 0; i < overlayPageStates.Count; i++)
             {
-                //Debug.Log(overlayPageStates[i].name);
-                // var item = ;
-                //overlayPageStates.ElementAt(i)
-                //StartCoroutine(LeaveOverlayViewPageBase(, 0.4f, null, true));
+                var item = overlayPageStates.ElementAt(i);
+                StartCoroutine(LeaveOverlayViewPageBase(item.Value, 0.4f, null, true));
             }
         }
         public void LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4f, Action OnComplete = null)
@@ -582,10 +580,14 @@ namespace CloudMacaca.ViewSystem
         }
 
         public float OverlayTransitionProtectionTime = 0.2f;
-        public bool IsOverlayTransition {
-            get{
-                foreach(var item in overlayPageStates){
-                    if(item.Value.IsTransition == true){
+        public bool IsOverlayTransition
+        {
+            get
+            {
+                foreach (var item in overlayPageStates)
+                {
+                    if (item.Value.IsTransition == true)
+                    {
                         return true;
                     }
                 }
