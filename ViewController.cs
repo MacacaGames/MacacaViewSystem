@@ -406,7 +406,7 @@ namespace CloudMacaca.ViewSystem
             return overlayPageStates.Select(m => m.Key);
         }
         // List<ViewPage> overlayViewPageQueue = new List<ViewPage>();
-         [SerializeField]
+        [SerializeField]
         Dictionary<string, OverlayPageState> overlayPageStates = new Dictionary<string, OverlayPageState>();
 
         [SerializeField]
@@ -459,13 +459,15 @@ namespace CloudMacaca.ViewSystem
                     item.viewElement.ChangePage(true, item.parent, item.TweenTime, item.delayIn, item.delayOut);
                 }
             }
-            else{
+            else
+            {
                 //如果已經存在的話要更新數值
                 overlayPageState = overlayPageStates[vp.name];
-                if(overlayPageState.pageChangeCoroutine != null){
+                if (overlayPageState.pageChangeCoroutine != null)
+                {
                     StopCoroutine(overlayPageState.pageChangeCoroutine);
                 }
-                 overlayPageStates[vp.name].IsTransition = true;
+                overlayPageStates[vp.name].IsTransition = true;
             }
 
 
@@ -500,7 +502,8 @@ namespace CloudMacaca.ViewSystem
 
             yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
 
-             overlayPageStates[vp.name].IsTransition = false;
+            if (overlayPageStates.ContainsKey(vp.name)) overlayPageStates[vp.name].IsTransition = false;
+            
             if (OnComplete != null)
             {
                 OnComplete();
