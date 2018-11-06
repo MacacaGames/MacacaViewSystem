@@ -399,20 +399,22 @@ namespace CloudMacaca.ViewSystem
         }
         public bool IsOverPageLive(string viewPageName)
         {
-            return overlayPageStates.Where(m => m.Key == viewPageName).Count() > 0;
+            return overlayPageStates.ContainsKey(viewPageName);
         }
         public IEnumerable<string> GetCurrentOverpageNames()
         {
             return overlayPageStates.Select(m => m.Key);
         }
         // List<ViewPage> overlayViewPageQueue = new List<ViewPage>();
-
+         [SerializeField]
         Dictionary<string, OverlayPageState> overlayPageStates = new Dictionary<string, OverlayPageState>();
 
+        [SerializeField]
         public class OverlayPageState
         {
             public bool IsTransition = false;
             public ViewPage viewPage;
+            public Coroutine pageChangeCoroutine;
         }
 
         public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
@@ -440,12 +442,11 @@ namespace CloudMacaca.ViewSystem
             //StartCoroutine(OverlayTransitionProtection());
 
             var overlayPageState = new OverlayPageState();
+            overlayPageState.viewPage = vp;
+            overlayPageState.IsTransition = true;
 
             if (overlayPageStates.ContainsKey(vp.name) == false)
             {
-                overlayPageState.viewPage = vp;
-                overlayPageState.IsTransition = true;
-
                 overlayPageStates.Add(vp.name, overlayPageState);
                 foreach (var item in vp.viewPageItem)
                 {
@@ -458,6 +459,15 @@ namespace CloudMacaca.ViewSystem
                     item.viewElement.ChangePage(true, item.parent, item.TweenTime, item.delayIn, item.delayOut);
                 }
             }
+            else{
+                //如果已經存在的話要更新數值
+                overlayPageState = overlayPageStates[vp.name];
+                if(overlayPageState.pageChangeCoroutine != null){
+                    StopCoroutine(overlayPageState.pageChangeCoroutine);
+                }
+                 overlayPageStates[vp.name].IsTransition = true;
+            }
+
 
             if (RePlayOnShowWhileSamePage == true)
             {
@@ -486,9 +496,11 @@ namespace CloudMacaca.ViewSystem
             if (OnOverlayPageShow != null)
                 OnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
 
+
+
             yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
 
-            overlayPageState.IsTransition = false;
+             overlayPageStates[vp.name].IsTransition = false;
             if (OnComplete != null)
             {
                 OnComplete();
@@ -500,7 +512,8 @@ namespace CloudMacaca.ViewSystem
         {
             public string name;
             public float times;
-            public AutoLeaveData(string _name,float _times){
+            public AutoLeaveData(string _name, float _times)
+            {
                 name = _name;
                 times = _times;
             }
@@ -542,17 +555,27 @@ namespace CloudMacaca.ViewSystem
         public void LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4f, Action OnComplete = null)
         {
             // var vp = overlayPageStates.Where(m => m.name == viewPageName).SingleOrDefault();
-            OverlayPageState vp = null;
+            OverlayPageState overlayPageState = null;
 
-            overlayPageStates.TryGetValue(viewPageName, out vp);
+            overlayPageStates.TryGetValue(viewPageName, out overlayPageState);
 
-            if (vp == null)
+            if (overlayPageState == null)
             {
-                Debug.Log("No live overlay viewPage of name: " + viewPageName + "  found");
-                return;
+                Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found");
+
+
+                //如果 字典裡找不到 則 new 一個
+                overlayPageState = new OverlayPageState();
+                overlayPageState.viewPage = viewPage.SingleOrDefault(m => m.name == viewPageName);
+                if (overlayPageState == null)
+                {
+                    return;
+                }
+
+                Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
             }
 
-            StartCoroutine(LeaveOverlayViewPageBase(vp, tweenTimeIfNeed, OnComplete));
+            overlayPageState.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageState, tweenTimeIfNeed, OnComplete));
         }
 
         public IEnumerator LeaveOverlayViewPageBase(OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false)
@@ -665,6 +688,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     if (item.Value.IsTransition == true)
                     {
+                        Debug.LogError("Due to " + item.Key + "is Transition");
                         return true;
                     }
                 }
