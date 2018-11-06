@@ -74,6 +74,10 @@ namespace CloudMacaca.ViewSystem
         public ViewPage currentViewPage;
         [HideInInspector]
         public ViewState currentViewState;
+        [HideInInspector]
+        public ViewPage nextViewPage;
+        [HideInInspector]
+        public ViewState nextViewState;
         // Use this for initialization
         void Awake()
         {
@@ -116,6 +120,9 @@ namespace CloudMacaca.ViewSystem
                 //UpdateCurrentViewStateAndNotifyEvent(vp);
                 ChangePageTo(InitViewPageName);
             }
+
+            //開啟無限檢查自動離場的迴圈
+            StartCoroutine(AutoLeaveOverlayPage());
         }
         public ViewPage GetInitViewPage()
         {
@@ -263,7 +270,11 @@ namespace CloudMacaca.ViewSystem
             //IsPageTransition = true;
 
             if (OnViewPageChangeStart != null)
+            {
                 OnViewPageChangeStart(this, new ViewPageTrisitionEventArgs(currentViewPage, vp));
+            }
+            nextViewPage = vp;
+            nextViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 
 
 
@@ -395,7 +406,6 @@ namespace CloudMacaca.ViewSystem
             return overlayPageStates.Select(m => m.Key);
         }
         // List<ViewPage> overlayViewPageQueue = new List<ViewPage>();
-        Dictionary<string, IDisposable> autoLeaveQueue = new Dictionary<string, IDisposable>();
 
         Dictionary<string, OverlayPageState> overlayPageStates = new Dictionary<string, OverlayPageState>();
 
@@ -457,36 +467,22 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
-            //找到上一個相同名稱的代表這個頁面要繼續出現，所以把上一個計時器移除
-            IDisposable lastAutoLeaveQueue;
-            if (autoLeaveQueue.TryGetValue(vp.name, out lastAutoLeaveQueue))
-            {
-                //Debug.Log("find last");
-                //停止計時器
-                lastAutoLeaveQueue.Dispose();
-                //從字典移除
-                autoLeaveQueue.Remove(vp.name);
-            }
 
             if (vp.autoLeaveTimes > 0)
             {
-                var d = Observable
-                    .Timer(TimeSpan.FromSeconds(vp.autoLeaveTimes))
-                    .Subscribe(
-                        _ =>
-                        {
-                            //Debug.Log("Try to Leave Page");
-                            LeaveOverlayViewPage(vp.name);
-                            //計時器成功完成時也要從字典移除
-                            autoLeaveQueue.Remove(vp.name);
-                            if (OnComplete != null)
-                            {
-                                OnComplete();
-                            }
-                        }
-                    );
-                autoLeaveQueue.Add(vp.name, d);
+                var currentAutoLeave = autoLeaveQueue.SingleOrDefault(m => m.name == vp.name);
+                if (currentAutoLeave != null)
+                {
+                    //更新倒數計時器
+                    currentAutoLeave.times = vp.autoLeaveTimes;
+                }
+                else
+                {
+                    //沒有的話新增一個
+                    autoLeaveQueue.Add(new AutoLeaveData(vp.name, vp.autoLeaveTimes));
+                }
             }
+
             if (OnOverlayPageShow != null)
                 OnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
 
@@ -498,8 +494,45 @@ namespace CloudMacaca.ViewSystem
                 OnComplete();
             }
         }
+
+        List<AutoLeaveData> autoLeaveQueue = new List<AutoLeaveData>();
+        class AutoLeaveData
+        {
+            public string name;
+            public float times;
+            public AutoLeaveData(string _name,float _times){
+                name = _name;
+                times = _times;
+            }
+        }
+        IEnumerator AutoLeaveOverlayPage()
+        {
+            float deltaTime = 0;
+            while (true)
+            {
+                //Debug.LogError("Find auto leave count " + autoLeaveQueue.Count);
+                deltaTime = Time.deltaTime;
+                ///更新每個 倒數值
+                for (int i = 0; i < autoLeaveQueue.Count; i++)
+                {
+                    //Debug.LogError("Update auto leave value " + autoLeaveQueue[i].name);
+
+                    autoLeaveQueue[i].times -= deltaTime;
+                    if (autoLeaveQueue[i].times <= 0)
+                    {
+                        LeaveOverlayViewPage(autoLeaveQueue[i].name);
+                        autoLeaveQueue.Remove(autoLeaveQueue[i]);
+                    }
+                }
+
+                yield return null;
+            }
+        }
         public void TryLeaveAllOverlayPage()
         {
+            //清空自動離場
+            autoLeaveQueue.Clear();
+
             for (int i = 0; i < overlayPageStates.Count; i++)
             {
                 var item = overlayPageStates.ElementAt(i);
@@ -536,30 +569,74 @@ namespace CloudMacaca.ViewSystem
 
             foreach (var item in overlayPageState.viewPage.viewPageItem)
             {
-                if (currentVe.Contains(item.viewElement))
+                if (IsPageTransition == false)
                 {
-                    //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
-                    try
+                    if (currentVe.Contains(item.viewElement))
                     {
-                        var vpi = currentViewPage.viewPageItem.FirstOrDefault(m => m.viewElement == item.viewElement);
-                        Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
-                        item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
+                        //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
+                        try
+                        {
+                            var vpi = currentViewPage.viewPageItem.FirstOrDefault(m => m.viewElement == item.viewElement);
+                            Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                            item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
+                        }
+                        catch { }
+                        continue;
                     }
-                    catch { }
-                    continue;
+                    if (currentVs.Contains(item.viewElement))
+                    {
+                        //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
+                        try
+                        {
+                            var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.viewElement == item.viewElement);
+                            Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                            item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
+                        }
+                        catch { }
+                        continue;
+                    }
                 }
-                if (currentVs.Contains(item.viewElement))
+                else
                 {
-                    //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
-                    try
+                    ///如果 正在換頁應該以下個頁面來檢查
+                    IEnumerable<ViewElement> nextVe = null;
+                    IEnumerable<ViewElement> nextVs = null;
+
+                    if (nextViewPage != null)
                     {
-                        var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.viewElement == item.viewElement);
-                        Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
-                        item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
+                        nextVe = nextViewPage.viewPageItem.Select(m => m.viewElement);
                     }
-                    catch { }
-                    continue;
+                    if (nextViewState != null)
+                    {
+                        nextVs = currentViewState.viewPageItems.Select(m => m.viewElement);
+                    }
+
+                    if (currentVe.Contains(item.viewElement))
+                    {
+                        //準備自動離場的 ViewElement 下一個頁面正在使用中 所以不要對他操作
+                        try
+                        {
+                            var vpi = currentViewPage.viewPageItem.FirstOrDefault(m => m.viewElement == item.viewElement);
+                            Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                            item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
+                        }
+                        catch { }
+                        continue;
+                    }
+                    if (currentVs.Contains(item.viewElement))
+                    {
+                        //準備自動離場的 ViewElement 下一個頁面正在使用中 所以不要對他操作
+                        try
+                        {
+                            var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.viewElement == item.viewElement);
+                            Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                            item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
+                        }
+                        catch { }
+                        continue;
+                    }
                 }
+
                 float delayOut = 0;
                 lastPageItemDelayOutTimesOverlay.TryGetValue(item.viewElement.name, out delayOut);
                 item.viewElement.ChangePage(false, null, 0, 0, delayOut, ignoreTransition);
@@ -594,6 +671,7 @@ namespace CloudMacaca.ViewSystem
                 return false;
             }
         }
+
         // Coroutine OverlayTransitionProtectionCoroutine;
         // IEnumerator OverlayTransitionProtection()
         // {
@@ -604,6 +682,9 @@ namespace CloudMacaca.ViewSystem
 
         void UpdateCurrentViewStateAndNotifyEvent(ViewPage vp)
         {
+            nextViewPage = null;
+            nextViewState = null;
+
             lastViewPage = currentViewPage;
             currentViewPage = vp;
             if (OnViewPageChange != null)
