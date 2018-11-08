@@ -169,7 +169,7 @@ namespace CloudMacaca.ViewSystem
                                 rectTransform.SetParent(parent, true);
                                 rectTransform.anchoredPosition3D = Vector3.zero;
                                 rectTransform.localScale = Vector3.one;
-                                OnShow(0);
+                                OnShow(delayIn);
                                 OnShowObservable.Dispose();
                             }
                         );

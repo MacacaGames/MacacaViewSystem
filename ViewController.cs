@@ -123,6 +123,33 @@ namespace CloudMacaca.ViewSystem
 
             //開啟無限檢查自動離場的迴圈
             StartCoroutine(AutoLeaveOverlayPage());
+            
+            //Debug Code
+
+            // var a = viewPage.Select(m => m.viewPageItem);
+            // var b = viewStates.Select(m => m.viewPageItems);
+
+            // foreach (var item in viewPage)
+            // {
+            //     foreach (var pageItem in item.viewPageItem)
+            //     {
+            //         if (pageItem.TweenTime < 0)
+            //         {
+            //             Debug.LogError("ViewPage : " + item.name + " , ViewElement" + pageItem.viewElement.name);
+            //         }
+            //     }
+            // }
+
+            // foreach (var item in viewStates)
+            // {
+            //     foreach (var pageItem in item.viewPageItems)
+            //     {
+            //         if (pageItem.TweenTime < 0)
+            //         {
+            //             Debug.LogError("ViewPage : " + item.name + " , ViewElement" + pageItem.viewElement.name);
+            //         }
+            //     }
+            // }
         }
         public ViewPage GetInitViewPage()
         {
@@ -503,7 +530,7 @@ namespace CloudMacaca.ViewSystem
             yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
 
             if (overlayPageStates.ContainsKey(vp.name)) overlayPageStates[vp.name].IsTransition = false;
-            
+
             if (OnComplete != null)
             {
                 OnComplete();
