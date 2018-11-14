@@ -652,42 +652,42 @@ namespace CloudMacaca.ViewSystem
                 else
                 {
                     ///如果 正在換頁應該以下個頁面來檢查
-                    IEnumerable<ViewElement> nextVe = null;
-                    IEnumerable<ViewElement> nextVs = null;
+                    // IEnumerable<ViewElement> nextVe = null;
+                    // IEnumerable<ViewElement> nextVs = null;
 
-                    if (nextViewPage != null)
-                    {
-                        nextVe = nextViewPage.viewPageItem.Select(m => m.viewElement);
-                    }
-                    if (nextViewState != null)
-                    {
-                        nextVs = currentViewState.viewPageItems.Select(m => m.viewElement);
-                    }
+                    // if (nextViewPage != null)
+                    // {
+                    //     nextVe = nextViewPage.viewPageItem.Select(m => m.viewElement);
+                    // }
+                    // if (nextViewState != null)
+                    // {
+                    //     nextVs = currentViewState.viewPageItems.Select(m => m.viewElement);
+                    // }
 
-                    if (currentVe.Contains(item.viewElement))
-                    {
-                        //準備自動離場的 ViewElement 下一個頁面正在使用中 所以不要對他操作
-                        try
-                        {
-                            var vpi = currentViewPage.viewPageItem.FirstOrDefault(m => m.viewElement == item.viewElement);
-                            Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
-                            item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
-                        }
-                        catch { }
-                        continue;
-                    }
-                    if (currentVs.Contains(item.viewElement))
-                    {
-                        //準備自動離場的 ViewElement 下一個頁面正在使用中 所以不要對他操作
-                        try
-                        {
-                            var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.viewElement == item.viewElement);
-                            Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
-                            item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
-                        }
-                        catch { }
-                        continue;
-                    }
+                    // if (currentVe.Contains(item.viewElement))
+                    // {
+                    //     //準備自動離場的 ViewElement 下一個頁面正在使用中 所以不要對他操作
+                    //     try
+                    //     {
+                    //         var vpi = currentViewPage.viewPageItem.FirstOrDefault(m => m.viewElement == item.viewElement);
+                    //         Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                    //         item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
+                    //     }
+                    //     catch { }
+                    //     continue;
+                    // }
+                    // if (currentVs.Contains(item.viewElement))
+                    // {
+                    //     //準備自動離場的 ViewElement 下一個頁面正在使用中 所以不要對他操作
+                    //     try
+                    //     {
+                    //         var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.viewElement == item.viewElement);
+                    //         Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                    //         item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
+                    //     }
+                    //     catch { }
+                    //     continue;
+                    // }
                 }
 
                 float delayOut = 0;
