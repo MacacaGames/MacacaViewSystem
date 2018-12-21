@@ -1,0 +1,429 @@
+﻿using UnityEngine;
+using UnityEditor;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace CloudMacaca.ViewSystem
+{
+    public class ViewSystemNodeEditor : EditorWindow
+    {
+        static Texture2D miniInfoIcon;
+        static Texture2D miniErrorIcon;
+        static Texture2D refreshIcon;
+
+        enum EditorMode
+        {
+            V1, V2
+        }
+        static EditorMode currentEditorMode;
+
+        static ViewSystemNodeEditor window;
+        static ViewSystemDateReader dataReader;
+        static ViewSystemNodeSideBar sideBar;
+
+        [MenuItem("CloudMacaca/ViewSystem/NodeEditor(Open as V1)")]
+        private static void OpenWindowAsV1()
+        {
+            window = GetWindow<ViewSystemNodeEditor>();
+            window.titleContent = new GUIContent("Node Based Editor");
+            window.minSize = new Vector2(600, 400);
+            currentEditorMode = EditorMode.V1;
+        }
+        void RefreshDataUsingV1()
+        {
+            ClearEditor();
+            if (currentEditorMode == EditorMode.V1)
+            {
+                dataReader = new ViewSystemDateReaderV1(this);
+                dataReader.Init();
+            }
+        }
+        void ClearEditor()
+        {
+            nodeConnectionLineList.Clear();
+            viewStateList.Clear();
+            viewPageList.Clear();
+        }
+        void OnFocus()
+        {
+            if (sideBar == null) sideBar = new ViewSystemNodeSideBar(this);
+            if (miniInfoIcon == null) miniInfoIcon = EditorGUIUtility.Load("icons/console.infoicon.sml.png") as Texture2D;
+            if (miniErrorIcon == null) miniErrorIcon = EditorGUIUtility.Load("icons/console.erroricon.sml.png") as Texture2D;
+            if (refreshIcon == null) refreshIcon = EditorGUIUtility.Load((EditorGUIUtility.isProSkin) ? "icons/d_Refresh.png" : "icons/Refresh.png") as Texture2D;
+        }
+        List<ViewPageNode> viewPageList = new List<ViewPageNode>();
+
+        List<ViewStateNode> viewStateList = new List<ViewStateNode>();
+        List<ViewSystemNodeLine> nodeConnectionLineList = new List<ViewSystemNodeLine>();
+        ViewSystemNodeConsole console = new ViewSystemNodeConsole();
+        void OnGUI()
+        {
+
+            DrawGrid(20, 0.2f, Color.gray);
+            DrawGrid(100, 0.4f, Color.gray);
+
+            BeginWindows();
+            foreach (var item in nodeConnectionLineList.ToArray())
+            {
+                item.Draw();
+            }
+            foreach (var item in viewPageList.ToArray())
+            {
+                item.Draw();
+            }
+            foreach (var item in viewStateList.ToArray())
+            {
+                item.Draw();
+            }
+
+
+            EndWindows();
+            GUI.depth = -100;
+            if (showConsole) console.Draw(new Vector2(position.width, position.height));
+
+            DrawMenuBar();
+            sideBar.Draw();
+            DrawCurrentConnectionLine(Event.current);
+            ProcessEvents(Event.current);
+            CheckRepaint();
+        }
+        public void CheckRepaint()
+        {
+            //if (Event.current.type == EventType.Repaint || Event.current.type == EventType.Layout) return;
+            if (GUI.changed) Repaint();
+        }
+
+        private void ProcessEvents(Event e)
+        {
+            drag = Vector2.zero;
+
+            switch (e.type)
+            {
+                case EventType.MouseDrag:
+                    if (e.button == 2)
+                    {
+                        OnDrag(e.delta);
+                    }
+                    break;
+                case EventType.MouseDown:
+                    if (selectedViewPageNode != null || selectedViewStateNode != null)
+                    {
+                        ClearConnectionSelection();
+                        return;
+                    }
+                    if (e.button == 1)
+                    {
+                        GenericMenu genericMenu = new GenericMenu();
+
+                        genericMenu.AddItem(new GUIContent("Add FullPage"), false,
+                            () =>
+                            {
+                                AddViewPageNode(e.mousePosition, false);
+                            }
+                        );
+                        genericMenu.AddItem(new GUIContent("Add OverlayPage"), false,
+                            () =>
+                            {
+                                AddViewPageNode(e.mousePosition, true);
+                            }
+                        );
+                        genericMenu.AddItem(new GUIContent("Add ViewState"), false,
+                            () =>
+                            {
+                                AddViewStateNode(e.mousePosition);
+                            }
+                        );
+                        genericMenu.ShowAsContext();
+                    }
+                    break;
+            }
+        }
+
+        public ViewStateNode AddViewStateNode(Vector2 position, ViewState viewState = null)
+        {
+            var node = new ViewStateNode(position, CheckCanMakeConnect, viewState);
+            node.OnNodeSelect += (m) =>
+            {
+                sideBar.SetCurrentSelectItem(m);
+            };
+            node.OnNodeDelete += (line) =>
+            {
+                dataReader.OnViewStateDelete(node);
+                viewStateList.Remove(node);
+                foreach (var item in line)
+                {
+                    nodeConnectionLineList.Remove(item);
+                }
+            };
+
+            if (viewState == null)
+            {
+                dataReader.OnViewStateAdd(node);
+            }
+            viewStateList.Add(node);
+            return node;
+        }
+
+        public ViewPageNode AddViewPageNode(Vector2 position, bool isOverlay, ViewPage viewPage = null)
+        {
+            var node = new ViewPageNode(position, isOverlay, CheckCanMakeConnect,
+                (vsn, vpn) =>
+                {
+                    var oriLine = FindViewSystemNodeConnectionLine(vsn, vpn);
+                    if (vsn != null) vsn.currentLinkedViewPageNode.Remove(vpn);
+                    if (oriLine != null) nodeConnectionLineList.Remove(oriLine);
+                },
+                viewPage
+            );
+            node.OnNodeSelect += (m) =>
+            {
+                sideBar.SetCurrentSelectItem(m);
+            };
+            node.OnNodeDelete += (line) =>
+            {
+                dataReader.OnViewPageDelete(node);
+                viewPageList.Remove(node);
+                foreach (var item in line)
+                {
+                    nodeConnectionLineList.Remove(item);
+                }
+            };
+            if (viewPage == null)
+            {
+                dataReader.OnViewPageAdd(node);
+            }
+            viewPageList.Add(node);
+            return node;
+        }
+
+        void CheckCanMakeConnect(ViewSystemNode currentClickNode)
+        {
+            switch (currentClickNode.nodeType)
+            {
+                case ViewSystemNode.NodeType.ViewState:
+                    selectedViewStateNode = (ViewStateNode)currentClickNode;
+                    //如果當前的 ViewPagePoint 不是 null
+                    if (selectedViewPageNode != null)
+                    {
+                        //檢查是不是已經有跟這個 ViewPageNode 節點連線過了
+                        if (!selectedViewStateNode.currentLinkedViewPageNode.Contains(selectedViewPageNode) &&
+                            selectedViewPageNode.currentLinkedViewStateNode == null
+                            )
+                        {
+                            CreateConnection();
+                            ClearConnectionSelection();
+                        }
+                        // 如果連線的節點跟原本的不同 刪掉舊的連線 然後建立新了
+                        else if (selectedViewPageNode.currentLinkedViewStateNode != null)
+                        {
+                            //刪掉 ViewStateNode 裡的 ViewPageNode
+                            selectedViewPageNode.currentLinkedViewStateNode.currentLinkedViewPageNode.Remove(selectedViewPageNode);
+
+                            //刪掉線
+                            console.LogWarringMessage("Break original link, create new link");
+                            var oriConnect = FindViewSystemNodeConnectionLine(selectedViewPageNode.currentLinkedViewStateNode, selectedViewPageNode);
+                            nodeConnectionLineList.Remove(oriConnect);
+                            CreateConnection();
+                            ClearConnectionSelection();
+                        }
+                        else
+                        {
+                            console.LogErrorMessage("The node has linked before");
+                            ClearConnectionSelection();
+                        }
+                    }
+                    break;
+                case ViewSystemNode.NodeType.FullPage:
+                    selectedViewPageNode = (ViewPageNode)currentClickNode;
+                    if (selectedViewStateNode != null)
+                    {
+                        //檢查是不是已經有跟這個 ViewStateNode 節點連線過了
+                        if (selectedViewPageNode.currentLinkedViewStateNode == null)
+                        {
+                            CreateConnection();
+                            ClearConnectionSelection();
+                        }
+                        // 如果連線的節點跟原本的不同 刪掉舊的連線 然後建立新了
+                        else if (selectedViewPageNode.currentLinkedViewStateNode != selectedViewStateNode)
+                        {
+                            console.LogWarringMessage("Break original link, create new link");
+                            //刪掉 ViewStateNode 裡的 ViewPageNode
+                            selectedViewPageNode.currentLinkedViewStateNode.currentLinkedViewPageNode.Remove(selectedViewPageNode);
+
+                            //刪掉線
+                            var oriConnect = FindViewSystemNodeConnectionLine(selectedViewPageNode.currentLinkedViewStateNode, selectedViewPageNode);
+                            nodeConnectionLineList.Remove(oriConnect);
+                            CreateConnection();
+                            ClearConnectionSelection();
+                        }
+                        else
+                        {
+                            console.LogErrorMessage("The node has linked before");
+                            ClearConnectionSelection();
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void CreateConnection()
+        {
+            CreateConnection(selectedViewStateNode, selectedViewPageNode);
+        }
+        public void CreateConnection(ViewStateNode viewStateNode)
+        {
+            var vps = viewPageList.Where(m => m.viewPage.viewState == viewStateNode.viewState.name);
+            if (vps.Count() == 0)
+            {
+                return;
+            }
+            foreach (var item in vps)
+            {
+                if (item.nodeType == ViewSystemNode.NodeType.Overlay)
+                {
+                    continue;
+                }
+                CreateConnection(viewStateNode, item);
+            }
+        }
+        private void CreateConnection(ViewStateNode viewStateNode, ViewPageNode viewPageNode)
+        {
+            viewStateNode.currentLinkedViewPageNode.Add(viewPageNode);
+            viewPageNode.currentLinkedViewStateNode = viewStateNode;
+            var line = new ViewSystemNodeLine(
+                viewStateNode,
+                viewPageNode,
+                RemoveConnection);
+
+            viewStateNode.OnNodeConnect(viewPageNode, line);
+            viewPageNode.OnNodeConnect(viewStateNode, line);
+            // View
+            nodeConnectionLineList.Add(line);
+            console.LogMessage("Create Link State:" + viewStateNode.viewState.name + ", Page :" + viewPageNode.viewPage.name);
+        }
+
+        ViewSystemNodeLine FindViewSystemNodeConnectionLine(ViewStateNode viewStateNode, ViewPageNode viewPageNode)
+        {
+            return nodeConnectionLineList.SingleOrDefault(x => x.viewPageNode == viewPageNode && x.viewStateNode == viewStateNode);
+        }
+
+        void RemoveConnection(ViewSystemNodeLine connectionLine)
+        {
+            connectionLine.viewPageNode.currentLinkedViewStateNode = null;
+            connectionLine.viewStateNode.currentLinkedViewPageNode.Clear();
+            nodeConnectionLineList.Remove(connectionLine);
+        }
+        private void ClearConnectionSelection()
+        {
+            selectedViewStateNode = null;
+            selectedViewPageNode = null;
+        }
+
+        private void OnDrag(Vector2 delta)
+        {
+            drag = delta;
+            foreach (var item in viewPageList)
+            {
+                item.Drag(delta);
+            }
+            foreach (var item in viewStateList)
+            {
+                item.Drag(delta);
+            }
+            GUI.changed = true;
+        }
+
+
+        int nodeId = 0;
+
+        private Vector2 drag;
+        private Vector2 offset;
+        private void DrawGrid(float gridSpacing, float gridOpacity, Color gridColor)
+        {
+            int widthDivs = Mathf.CeilToInt(position.width / gridSpacing);
+            int heightDivs = Mathf.CeilToInt(position.height / gridSpacing);
+
+            Handles.BeginGUI();
+            Handles.color = new Color(gridColor.r, gridColor.g, gridColor.b, gridOpacity);
+
+            offset += drag * 0.5f;
+            Vector3 newOffset = new Vector3(offset.x % gridSpacing, offset.y % gridSpacing, 0);
+
+            for (int i = 0; i < widthDivs; i++)
+            {
+                Handles.DrawLine(new Vector3(gridSpacing * i, -gridSpacing, 0) + newOffset, new Vector3(gridSpacing * i, position.height, 0f) + newOffset);
+            }
+
+            for (int j = 0; j < heightDivs; j++)
+            {
+                Handles.DrawLine(new Vector3(-gridSpacing, gridSpacing * j, 0) + newOffset, new Vector3(position.width, gridSpacing * j, 0f) + newOffset);
+            }
+
+            Handles.color = Color.white;
+            Handles.EndGUI();
+        }
+
+        private float menuBarHeight = 20f;
+        private Rect menuBar;
+        bool showConsole = true;
+        private void DrawMenuBar()
+        {
+            menuBar = new Rect(0, 0, position.width, menuBarHeight);
+
+            GUILayout.BeginArea(menuBar, EditorStyles.toolbar);
+            GUILayout.BeginHorizontal();
+
+            // GUILayout.Space(5);
+            // GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(35));
+            // GUILayout.Space(5);
+            // GUILayout.Button(new GUIContent("Load"), EditorStyles.toolbarButton, GUILayout.Width(35));
+            GUILayout.Space(5);
+            if (GUILayout.Button(new GUIContent("Reload", refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))
+            {
+                RefreshDataUsingV1();
+            }
+
+            GUILayout.Space(5);
+            showConsole = GUILayout.Toggle(showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+            //m_showDescription = GUILayout.Toggle(m_showDescription, new GUIContent(m_miniInfoIcon, "Show graph description"), EditorStyles.toolbarButton, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
+            //m_showVerboseLog = GUILayout.Toggle(m_showVerboseLog, new GUIContent("Verbose Log", "Increse console log messages"), EditorStyles.toolbarButton, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
+            GUILayout.EndHorizontal();
+            GUILayout.EndArea();
+        }
+
+        private ViewStateNode selectedViewStateNode;
+        private ViewPageNode selectedViewPageNode;
+        private void DrawCurrentConnectionLine(Event e)
+        {
+            if (selectedViewStateNode != null && selectedViewPageNode == null)
+            {
+                // Handles.DrawBezier(
+                //     e.mousePosition,
+                //     selectedViewStateNode.nodeConnectionLinker.rect.center,
+                //     e.mousePosition + Vector2.up * 20f,
+                //     selectedViewStateNode.rect.center + Vector2.up * 20f,
+                //     Color.yellow,
+                //     null,
+                //     2f
+                // );
+                Handles.DrawLine(e.mousePosition, selectedViewStateNode.nodeConnectionLinker.rect.center);
+                GUI.changed = true;
+            }
+
+            if (selectedViewPageNode != null && selectedViewStateNode == null)
+            {
+                // Handles.DrawBezier(
+
+                //     selectedViewPageNode.nodeConnectionLinker.rect.center, e.mousePosition,
+                //     e.mousePosition - Vector2.up * 20f,
+                //     selectedViewPageNode.rect.center + Vector2.up * 20f,
+                //     Color.yellow,
+                //     null,
+                //     2f
+                // );
+                Handles.DrawLine(e.mousePosition, selectedViewPageNode.nodeConnectionLinker.rect.center);
+                GUI.changed = true;
+            }
+        }
+    }
+}
