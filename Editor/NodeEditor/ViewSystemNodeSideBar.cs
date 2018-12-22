@@ -35,6 +35,10 @@ namespace CloudMacaca.ViewSystem
                 alignment = TextAnchor.MiddleCenter
             };
         }
+        public bool isMouseInSideBar()
+        {
+            return rect.Contains(Event.current.mousePosition);
+        }
 
         private Rect rect;
         List<ViewPageItem> list;
@@ -134,10 +138,10 @@ namespace CloudMacaca.ViewSystem
                 return;
             }
         }
-
+        const int SideBarWidth = 350;
         public void Draw()
         {
-            rect = new Rect(0, 20f, 350, editor.position.height - 20f);
+            rect = new Rect(0, 20f, SideBarWidth, editor.position.height - 20f);
 
             GUILayout.BeginArea(rect, "", "box");
             if (currentSelectNode != null)
@@ -215,7 +219,7 @@ namespace CloudMacaca.ViewSystem
                         }
                     );
                 }
-                EditorGUI.BeginDisabledGroup(false);
+                EditorGUI.BeginDisabledGroup(true);
                 EditorGUILayout.FloatField("AutoLeaveTimes", 0);
                 EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", ViewPage.ViewPageTransitionTimingType.接續前動畫);
                 EditorGUILayout.FloatField("CustomPageTransitionWaitTime", 0);

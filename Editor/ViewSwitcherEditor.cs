@@ -44,7 +44,6 @@ public class ViewSwitcherEditor : EditorWindow
             var rt = viewElement.GetComponent<RectTransform>();
             rt.SetParent(poolTransform);
         }
-
     }
 
     static ViewController _viewController;

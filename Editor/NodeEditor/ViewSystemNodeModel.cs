@@ -248,6 +248,7 @@ namespace CloudMacaca.ViewSystem
         // ViewPageNode 只能連一條線
         public ViewStateNode currentLinkedViewStateNode;
         public Action<ViewStateNode, ViewPageNode> OnNodeTypeConvert;
+        public Action<ViewPage> OnPreviewBtnClick;
 
         public ViewPageNode(Vector2 mousePosition, bool isOverlay, Action<ViewSystemNode> OnConnectionPointClick, Action<ViewStateNode, ViewPageNode> OnNodeTypeConvert, ViewPage viewPage)
         {
@@ -282,11 +283,14 @@ namespace CloudMacaca.ViewSystem
             var btnRect = new Rect(rect.x, rect.y + rect.height - 40, rect.width * 0.5f - 0.5f, 18);
             if (GUI.Button(btnRect, "Preview", new GUIStyle("ObjectPickerResultsEven")))
             {
-
+                if (OnPreviewBtnClick != null)
+                {
+                    OnPreviewBtnClick(viewPage);
+                }
             }
             btnRect.x += rect.width * 0.5f;
             btnRect.x += 1;
-            if (GUI.Button(btnRect, "btn2", new GUIStyle("ObjectPickerResultsEven")))
+            if (GUI.Button(btnRect, "btn(no func yet)", new GUIStyle("ObjectPickerResultsEven")))
             {
 
             }

@@ -10,7 +10,8 @@ namespace CloudMacaca.ViewSystem
         static Texture2D miniInfoIcon;
         static Texture2D miniErrorIcon;
         static Texture2D refreshIcon;
-
+        static Texture2D sideBarIcon;
+        static Texture2D normalizedIcon;
         enum EditorMode
         {
             V1, V2
@@ -21,15 +22,18 @@ namespace CloudMacaca.ViewSystem
         static ViewSystemDateReader dataReader;
         static ViewSystemNodeSideBar sideBar;
 
+
+
         [MenuItem("CloudMacaca/ViewSystem/NodeEditor(Open as V1)")]
         private static void OpenWindowAsV1()
         {
             window = GetWindow<ViewSystemNodeEditor>();
-            window.titleContent = new GUIContent("Node Based Editor");
+            window.titleContent = new GUIContent("ViewSystem Node Editor");
             window.minSize = new Vector2(600, 400);
             currentEditorMode = EditorMode.V1;
+            window.RefreshData();
         }
-        void RefreshDataUsingV1()
+        void RefreshData()
         {
             ClearEditor();
             if (currentEditorMode == EditorMode.V1)
@@ -44,9 +48,16 @@ namespace CloudMacaca.ViewSystem
             viewStateList.Clear();
             viewPageList.Clear();
         }
+        void OnDestroy()
+        {
+            dataReader.Normalized();
+        }
         void OnFocus()
         {
+
             if (sideBar == null) sideBar = new ViewSystemNodeSideBar(this);
+            if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
+            if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture("UnityEditor.SceneHierarchyWindow") as Texture2D;
             if (miniInfoIcon == null) miniInfoIcon = EditorGUIUtility.Load("icons/console.infoicon.sml.png") as Texture2D;
             if (miniErrorIcon == null) miniErrorIcon = EditorGUIUtility.Load("icons/console.erroricon.sml.png") as Texture2D;
             if (refreshIcon == null) refreshIcon = EditorGUIUtility.Load((EditorGUIUtility.isProSkin) ? "icons/d_Refresh.png" : "icons/Refresh.png") as Texture2D;
@@ -79,10 +90,9 @@ namespace CloudMacaca.ViewSystem
 
             EndWindows();
             GUI.depth = -100;
-            if (showConsole) console.Draw(new Vector2(position.width, position.height));
-
             DrawMenuBar();
-            sideBar.Draw();
+            if (showConsole) console.Draw(new Vector2(position.width, position.height));
+            if (showSideBar) sideBar.Draw();
             DrawCurrentConnectionLine(Event.current);
             ProcessEvents(Event.current);
             CheckRepaint();
@@ -113,6 +123,9 @@ namespace CloudMacaca.ViewSystem
                     }
                     if (e.button == 1)
                     {
+                        if(sideBar.isMouseInSideBar() && showSideBar){
+                            return;
+                        }
                         GenericMenu genericMenu = new GenericMenu();
 
                         genericMenu.AddItem(new GUIContent("Add FullPage"), false,
@@ -175,6 +188,10 @@ namespace CloudMacaca.ViewSystem
                 },
                 viewPage
             );
+            node.OnPreviewBtnClick += (m) =>
+            {
+                dataReader.OnViewPagePreview(m);
+            };
             node.OnNodeSelect += (m) =>
             {
                 sideBar.SetCurrentSelectItem(m);
@@ -366,6 +383,7 @@ namespace CloudMacaca.ViewSystem
         private float menuBarHeight = 20f;
         private Rect menuBar;
         bool showConsole = true;
+        bool showSideBar = true;
         private void DrawMenuBar()
         {
             menuBar = new Rect(0, 0, position.width, menuBarHeight);
@@ -373,18 +391,29 @@ namespace CloudMacaca.ViewSystem
             GUILayout.BeginArea(menuBar, EditorStyles.toolbar);
             GUILayout.BeginHorizontal();
 
-            // GUILayout.Space(5);
-            // GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(35));
+            GUILayout.Space(5);
+            if (GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(35)))
+            {
+                dataReader.Save(viewPageList, viewStateList);
+            }
             // GUILayout.Space(5);
             // GUILayout.Button(new GUIContent("Load"), EditorStyles.toolbarButton, GUILayout.Width(35));
             GUILayout.Space(5);
             if (GUILayout.Button(new GUIContent("Reload", refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))
             {
-                RefreshDataUsingV1();
+                RefreshData();
             }
+            GUILayout.Space(5);
+            showSideBar = GUILayout.Toggle(showSideBar, new GUIContent(sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
 
             GUILayout.Space(5);
             showConsole = GUILayout.Toggle(showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button(new GUIContent("Normalized", normalizedIcon, "Normalized Preview"), EditorStyles.toolbarButton, GUILayout.Width(80)))
+            {
+                dataReader.Normalized();
+            }
             //m_showDescription = GUILayout.Toggle(m_showDescription, new GUIContent(m_miniInfoIcon, "Show graph description"), EditorStyles.toolbarButton, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
             //m_showVerboseLog = GUILayout.Toggle(m_showVerboseLog, new GUIContent("Verbose Log", "Increse console log messages"), EditorStyles.toolbarButton, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
             GUILayout.EndHorizontal();
