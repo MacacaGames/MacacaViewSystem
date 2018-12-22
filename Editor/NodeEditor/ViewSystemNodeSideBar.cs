@@ -144,11 +144,12 @@ namespace CloudMacaca.ViewSystem
             rect = new Rect(0, 20f, SideBarWidth, editor.position.height - 20f);
 
             GUILayout.BeginArea(rect, "", "box");
+
+
             if (currentSelectNode != null)
             {
                 if (currentSelectNode.nodeType == ViewStateNode.NodeType.FullPage || currentSelectNode.nodeType == ViewStateNode.NodeType.Overlay)
                 {
-
                     DrawViewPageDetail(((ViewPageNode)currentSelectNode));
                 }
                 if (currentSelectNode.nodeType == ViewStateNode.NodeType.ViewState)
@@ -166,6 +167,8 @@ namespace CloudMacaca.ViewSystem
         {
             var vp = viewPageNode.viewPage;
             EditorGUILayout.BeginVertical();
+
+            GUILayout.Label(string.IsNullOrEmpty(vp.name) ? "Unnamed" : vp.name, new GUIStyle("TL Selection H2"));
 
             showBasicInfo.target = EditorGUILayout.Foldout(showBasicInfo.target, "Basic Info");
             if (EditorGUILayout.BeginFadeGroup(showBasicInfo.faded))
@@ -202,6 +205,7 @@ namespace CloudMacaca.ViewSystem
 
 
             EditorGUILayout.BeginVertical();
+            GUILayout.Label(string.IsNullOrEmpty(vs.name) ? "Unnamed" : vs.name, new GUIStyle("TL Selection H2"));
 
             showBasicInfo.target = EditorGUILayout.Foldout(showBasicInfo.target, "Basic Info");
             if (EditorGUILayout.BeginFadeGroup(showBasicInfo.faded))

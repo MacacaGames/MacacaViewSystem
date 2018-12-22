@@ -41,6 +41,10 @@ namespace CloudMacaca.ViewSystem
                 dataReader = new ViewSystemDateReaderV1(this);
                 dataReader.Init();
             }
+
+            viewStatesPopup.Add("All");
+            viewStatesPopup.Add("Overlay Only");
+            viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));
         }
         void ClearEditor()
         {
@@ -54,7 +58,7 @@ namespace CloudMacaca.ViewSystem
         }
         void OnFocus()
         {
-
+            if (console == null) console = new ViewSystemNodeConsole(this);
             if (sideBar == null) sideBar = new ViewSystemNodeSideBar(this);
             if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
             if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture("UnityEditor.SceneHierarchyWindow") as Texture2D;
@@ -66,7 +70,7 @@ namespace CloudMacaca.ViewSystem
 
         List<ViewStateNode> viewStateList = new List<ViewStateNode>();
         List<ViewSystemNodeLine> nodeConnectionLineList = new List<ViewSystemNodeLine>();
-        ViewSystemNodeConsole console = new ViewSystemNodeConsole();
+        ViewSystemNodeConsole console;
         void OnGUI()
         {
 
@@ -123,7 +127,8 @@ namespace CloudMacaca.ViewSystem
                     }
                     if (e.button == 1)
                     {
-                        if(sideBar.isMouseInSideBar() && showSideBar){
+                        if (sideBar.isMouseInSideBar() && showSideBar)
+                        {
                             return;
                         }
                         GenericMenu genericMenu = new GenericMenu();
@@ -382,8 +387,11 @@ namespace CloudMacaca.ViewSystem
 
         private float menuBarHeight = 20f;
         private Rect menuBar;
-        bool showConsole = true;
+        public bool showConsole = true;
         bool showSideBar = true;
+        int currentIndex = 0;
+        List<string> viewStatesPopup = new List<string>();
+        string targetViewState;
         private void DrawMenuBar()
         {
             menuBar = new Rect(0, 0, position.width, menuBarHeight);
@@ -410,6 +418,16 @@ namespace CloudMacaca.ViewSystem
             showConsole = GUILayout.Toggle(showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
 
             GUILayout.FlexibleSpace();
+
+            GUILayout.Label("ViewState:");
+            int newIndex = EditorGUILayout.Popup(currentIndex, viewStatesPopup.ToArray(),
+                EditorStyles.toolbarPopup, GUILayout.Width(80));
+            if (newIndex != currentIndex)
+            {
+                currentIndex = newIndex;
+                targetViewState = viewStatesPopup[currentIndex];
+            }
+
             if (GUILayout.Button(new GUIContent("Normalized", normalizedIcon, "Normalized Preview"), EditorStyles.toolbarButton, GUILayout.Width(80)))
             {
                 dataReader.Normalized();

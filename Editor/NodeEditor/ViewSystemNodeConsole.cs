@@ -7,7 +7,11 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewSystemNodeConsole
     {
-
+        ViewSystemNodeEditor editor;
+        public ViewSystemNodeConsole(ViewSystemNodeEditor editor)
+        {
+            this.editor = editor;
+        }
         public struct ConsoleMsg
         {
             public string msg;
@@ -51,9 +55,10 @@ namespace CloudMacaca.ViewSystem
             rect = new Rect(EditorindowWidthAndHeight.x - width - 10, EditorindowWidthAndHeight.y - height, width, height);
 
             GUI.depth = 1;
-            GUILayout.BeginArea(rect,"Console", new GUIStyle("window"));
+            GUILayout.BeginArea(rect, "Console", new GUIStyle("window"));
+
             GUILayout.BeginVertical();
-            GUILayout.Label("");  
+            GUILayout.Label("");
             scrollPos = GUILayout.BeginScrollView(scrollPos);
             foreach (var item in allMsg.ToArray())
             {
@@ -75,18 +80,23 @@ namespace CloudMacaca.ViewSystem
             GUILayout.EndArea();
             GUI.depth = -200;
             DrawMenuBar(rect);
+            if (GUI.Button(new Rect(rect.x + rect.width - 15, rect.y + 2, 15 , menuBarHeight), new GUIContent(EditorGUIUtility.FindTexture("winbtn_win_close")), GUIStyle.none))
+            {
+                editor.showConsole = false;
+            }
         }
 
         private float menuBarHeight = 20f;
         private Rect menuBar;
         private void DrawMenuBar(Rect consoleRect)
         {
-            menuBar = new Rect(rect.x +1, rect.y + 16, rect.width-1, menuBarHeight);
+            menuBar = new Rect(rect.x + 1, rect.y + 16, rect.width - 1, menuBarHeight);
 
             GUILayout.BeginArea(menuBar, EditorStyles.toolbar);
             GUILayout.BeginHorizontal();
             GUILayout.Space(5);
-            if(GUILayout.Button(new GUIContent("Clear"), EditorStyles.toolbarButton, GUILayout.Width(40))){
+            if (GUILayout.Button(new GUIContent("Clear"), EditorStyles.toolbarButton, GUILayout.Width(40)))
+            {
                 allMsg.Clear();
             }
             GUILayout.EndHorizontal();
