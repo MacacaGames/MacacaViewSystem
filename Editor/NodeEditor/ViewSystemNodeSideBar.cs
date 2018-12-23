@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using UnityEditor.AnimatedValues;
 using UnityEditorInternal;
+using System.Reflection;
 
 namespace CloudMacaca.ViewSystem
 {
@@ -69,7 +70,7 @@ namespace CloudMacaca.ViewSystem
             viewPageItemList = new ReorderableList(list, typeof(List<ViewPageItem>), true, true, true, false);
             viewPageItemList.drawElementCallback += DrawViewItemElement;
             viewPageItemList.drawHeaderCallback += DrawViewItemHeader;
-            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 5;
+            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 5.5f;
             viewPageItemList.onAddCallback += AddItem;
         }
 
@@ -96,12 +97,75 @@ namespace CloudMacaca.ViewSystem
 
 
         const int removeBtnWidth = 25;
+        ViewPageItem copyPasteBuffer;
         private void DrawViewItemElement(Rect rect, int index, bool isActive, bool isFocused)
         {
             if (index > list.Count)
             {
                 return;
             }
+            var e = Event.current;
+            if (rect.Contains(e.mousePosition))
+            {
+                if (e.button == 1 && e.type == EventType.MouseDown)
+                {
+                    GenericMenu genericMenu = new GenericMenu();
+
+                    genericMenu.AddItem(new GUIContent("Copy"), false,
+                        () =>
+                        {
+                            copyPasteBuffer = new ViewPageItem(list[index].viewElement);
+                            copyPasteBuffer.TweenTime = list[index].TweenTime;
+                            copyPasteBuffer.delayOut = list[index].delayOut;
+                            copyPasteBuffer.delayIn = list[index].delayIn;
+
+                            var excludePlatformCopyed = new List<ViewPageItem.PlatformOption>();
+                            foreach (var item in list[index].excludePlatform)
+                            {
+                                switch (item)
+                                {
+                                    case ViewPageItem.PlatformOption.Android:
+                                        excludePlatformCopyed.Add(ViewPageItem.PlatformOption.Android);
+                                        break;
+                                    case ViewPageItem.PlatformOption.iOS:
+                                        excludePlatformCopyed.Add(ViewPageItem.PlatformOption.iOS);
+
+                                        break;
+                                    case ViewPageItem.PlatformOption.UWP:
+                                        excludePlatformCopyed.Add(ViewPageItem.PlatformOption.UWP);
+
+                                        break;
+                                    case ViewPageItem.PlatformOption.tvOS:
+                                        excludePlatformCopyed.Add(ViewPageItem.PlatformOption.tvOS);
+
+                                        break;
+                                }
+                            }
+                            copyPasteBuffer.excludePlatform = excludePlatformCopyed;
+                            copyPasteBuffer.parent = list[index].parent;
+                        }
+                    );
+                    if (copyPasteBuffer != null)
+                    {
+                        genericMenu.AddItem(new GUIContent("Paste"), false,
+                            () =>
+                            {
+                                list[index] = copyPasteBuffer;
+                                copyPasteBuffer = null;
+                                GUI.changed = true;
+                            }
+                        );
+                    }
+                    else
+                    {
+                        genericMenu.AddDisabledItem(new GUIContent("Paste"));
+                    }
+                    genericMenu.ShowAsContext();
+                }
+            }
+
+
+
             EditorGUIUtility.labelWidth = 80.0f;
             float oriwidth = rect.width;
             float oriHeigh = rect.height;
@@ -117,6 +181,8 @@ namespace CloudMacaca.ViewSystem
             //Currently use a try-catch to avoid console message.
             try
             {
+                rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
+
                 list[index].viewElement = (ViewElement)EditorGUI.ObjectField(rect, "View Element", list[index].viewElement, typeof(ViewElement));
                 rect.y += EditorGUIUtility.singleLineHeight;
 
@@ -172,7 +238,7 @@ namespace CloudMacaca.ViewSystem
                     }
 
                 }
-
+                rect.y += EditorGUIUtility.singleLineHeight;
             }
             catch
             {
@@ -235,6 +301,7 @@ namespace CloudMacaca.ViewSystem
             {
                 SideBarWidth += Event.current.delta.x;
                 SideBarWidth = Mathf.Clamp(SideBarWidth, 270, 450);
+                Event.current.Use();
                 GUI.changed = true;
             }
         }

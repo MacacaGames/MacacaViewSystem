@@ -119,6 +119,9 @@ namespace CloudMacaca.ViewSystem
                         OnDrag(e.delta);
                     }
                     break;
+                case EventType.ScrollWheel:
+                    OnDrag(e.delta * -1);
+                    break;
                 case EventType.MouseDown:
                     if (selectedViewPageNode != null || selectedViewStateNode != null)
                     {
