@@ -58,7 +58,7 @@ namespace CloudMacaca.ViewSystem
         }
         void OnFocus()
         {
-            if (console == null) console = new ViewSystemNodeConsole(this);
+            if (console == null) console = new ViewSystemNodeConsole();
             if (sideBar == null) sideBar = new ViewSystemNodeSideBar(this);
             if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
             if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture("UnityEditor.SceneHierarchyWindow") as Texture2D;
@@ -95,7 +95,7 @@ namespace CloudMacaca.ViewSystem
             EndWindows();
             GUI.depth = -100;
             DrawMenuBar();
-            if (showConsole) console.Draw(new Vector2(position.width, position.height));
+            if (console.showConsole) console.Draw(new Vector2(position.width, position.height));
             if (showSideBar) sideBar.Draw();
             DrawCurrentConnectionLine(Event.current);
             ProcessEvents(Event.current);
@@ -387,7 +387,6 @@ namespace CloudMacaca.ViewSystem
 
         private float menuBarHeight = 20f;
         private Rect menuBar;
-        public bool showConsole = true;
         bool showSideBar = true;
         int currentIndex = 0;
         List<string> viewStatesPopup = new List<string>();
@@ -415,7 +414,7 @@ namespace CloudMacaca.ViewSystem
             showSideBar = GUILayout.Toggle(showSideBar, new GUIContent(sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
 
             GUILayout.Space(5);
-            showConsole = GUILayout.Toggle(showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+            console.showConsole = GUILayout.Toggle(console.showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
 
             GUILayout.FlexibleSpace();
 

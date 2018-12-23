@@ -290,9 +290,12 @@ namespace CloudMacaca.ViewSystem
             }
             btnRect.x += rect.width * 0.5f;
             btnRect.x += 1;
-            if (GUI.Button(btnRect, "btn(no func yet)", new GUIStyle("ObjectPickerResultsEven")))
+            if (GUI.Button(btnRect, "Highlight", new GUIStyle("ObjectPickerResultsEven")))
             {
-
+                foreach (var item in viewPage.viewPageItem)
+                {
+                    EditorGUIUtility.PingObject(item.viewElement);
+                }
             }
         }
 

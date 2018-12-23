@@ -7,11 +7,8 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewSystemNodeConsole
     {
-        ViewSystemNodeEditor editor;
-        public ViewSystemNodeConsole(ViewSystemNodeEditor editor)
-        {
-            this.editor = editor;
-        }
+        public bool showConsole = true;
+      
         public struct ConsoleMsg
         {
             public string msg;
@@ -48,6 +45,9 @@ namespace CloudMacaca.ViewSystem
         GUIStyle renderStyle;
         public void Draw(Vector2 EditorindowWidthAndHeight)
         {
+            if(!showConsole){
+                return;
+            }
             if (renderStyle == null)
             {
                 renderStyle = new GUIStyle(GUI.skin.label);
@@ -80,9 +80,9 @@ namespace CloudMacaca.ViewSystem
             GUILayout.EndArea();
             GUI.depth = -200;
             DrawMenuBar(rect);
-            if (GUI.Button(new Rect(rect.x + rect.width - 15, rect.y + 2, 15 , menuBarHeight), new GUIContent(EditorGUIUtility.FindTexture("winbtn_win_close")), GUIStyle.none))
+            if (GUI.Button(new Rect(rect.x + rect.width - 15, rect.y + 2, 15, menuBarHeight), new GUIContent(EditorGUIUtility.FindTexture("winbtn_win_close")), GUIStyle.none))
             {
-                editor.showConsole = false;
+                showConsole = false;
             }
         }
 
