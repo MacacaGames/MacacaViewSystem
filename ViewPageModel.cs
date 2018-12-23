@@ -9,7 +9,10 @@ namespace CloudMacaca.ViewSystem
     {
         public enum PlatformOption
         {
-            Android, iOS, UWP,tvOS
+            Android, // 1 << 0
+            iOS, // 1 << 1
+            UWP, // 1 << 2
+            tvOS // 1 << 3
         }
         public ViewElement viewElement;
         [Tooltip("ViewElement 在該頁面時應該對其的父物件")]
@@ -18,8 +21,10 @@ namespace CloudMacaca.ViewSystem
         [HideInInspector]
         public GameObject parentGameObject
         {
-            get { 
-                if(_parentGameObject == null){
+            get
+            {
+                if (_parentGameObject == null)
+                {
                     _parentGameObject = parent.gameObject;
                 }
                 return _parentGameObject;

@@ -34,6 +34,13 @@ namespace CloudMacaca.ViewSystem
                 imagePosition = ImagePosition.ImageOnly,
                 alignment = TextAnchor.MiddleCenter
             };
+
+            excludePlatformOptions.Clear();
+
+            foreach (var item in Enum.GetValues(typeof(ViewPageItem.PlatformOption)))
+            {
+                excludePlatformOptions.Add(item.ToString());
+            }
         }
         public bool isMouseInSideBar()
         {
@@ -121,6 +128,51 @@ namespace CloudMacaca.ViewSystem
 
                 list[index].delayOut = EditorGUI.Slider(rect, "Delay Out", list[index].delayOut, 0, 1);
                 rect.y += EditorGUIUtility.singleLineHeight;
+
+                bool isExcloudAndroid = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.Android);
+                bool isExcloudiOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.iOS);
+                bool isExcloudtvOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.tvOS);
+                bool isExcloudUWP = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.UWP);
+
+
+                EditorGUIUtility.labelWidth = 20.0f;
+                rect.width = oriwidth * 0.25f;
+                EditorGUI.BeginChangeCheck();
+
+                isExcloudAndroid = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture("d_BuildSettings.Android.Small")), isExcloudAndroid);
+                rect.x += rect.width;
+
+                isExcloudiOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture("d_BuildSettings.iPhone.Small")), isExcloudiOS);
+                rect.x += rect.width;
+
+                isExcloudtvOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture("d_BuildSettings.tvOS.Small")), isExcloudtvOS);
+                rect.x += rect.width;
+
+                isExcloudUWP = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture("d_BuildSettings.Standalone.Small")), isExcloudUWP);
+
+                if (EditorGUI.EndChangeCheck())
+                {
+                    list[index].excludePlatform.Clear();
+
+                    if (!isExcloudAndroid)
+                    {
+                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.Android);
+                    }
+                    if (!isExcloudiOS)
+                    {
+                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.iOS);
+                    }
+                    if (!isExcloudtvOS)
+                    {
+                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
+                    }
+                    if (!isExcloudUWP)
+                    {
+                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
+                    }
+
+                }
+
             }
             catch
             {
@@ -138,13 +190,12 @@ namespace CloudMacaca.ViewSystem
                 return;
             }
         }
-        const int SideBarWidth = 350;
+        static float SideBarWidth = 350;
         public void Draw()
         {
             rect = new Rect(0, 20f, SideBarWidth, editor.position.height - 20f);
 
-            GUILayout.BeginArea(rect, "", "box");
-
+            GUILayout.BeginArea(rect, "", new GUIStyle("flow node 0"));
 
             if (currentSelectNode != null)
             {
@@ -159,10 +210,38 @@ namespace CloudMacaca.ViewSystem
                 }
             }
             GUILayout.EndArea();
+            DrawResizeBar();
+        }
+        Rect ResizeBarRect;
+        bool resizeBarPressed = false;
+        void DrawResizeBar()
+        {
+            ResizeBarRect = new Rect(rect.x + SideBarWidth, rect.y, 4, rect.height);
+            EditorGUIUtility.AddCursorRect(ResizeBarRect, MouseCursor.ResizeHorizontal);
 
+            GUI.Box(ResizeBarRect, "");
+            if (ResizeBarRect.Contains(Event.current.mousePosition))
+            {
+                if (Event.current.type == EventType.MouseDown)
+                {
+                    resizeBarPressed = true;
+                }
+            }
+            if (Event.current.type == EventType.MouseUp)
+            {
+                resizeBarPressed = false;
+            }
+            if (resizeBarPressed && Event.current.type == EventType.MouseDrag)
+            {
+                SideBarWidth += Event.current.delta.x;
+                SideBarWidth = Mathf.Clamp(SideBarWidth, 270, 450);
+                GUI.changed = true;
+            }
         }
 
         Vector2 scrollerPos;
+        static List<string> excludePlatformOptions = new List<string>();
+        int currentSelect;
         void DrawViewPageDetail(ViewPageNode viewPageNode)
         {
             var vp = viewPageNode.viewPage;
@@ -175,7 +254,9 @@ namespace CloudMacaca.ViewSystem
             {
                 EditorGUILayout.BeginVertical(GUILayout.Height(70));
                 vp.name = EditorGUILayout.TextField("Name", vp.name);
+                EditorGUI.BeginDisabledGroup(vp.viewPageType != ViewPage.ViewPageType.Overlay);
                 vp.autoLeaveTimes = EditorGUILayout.FloatField("AutoLeaveTimes", vp.autoLeaveTimes);
+                EditorGUI.EndDisabledGroup();
                 vp.viewPageTransitionTimingType = (ViewPage.ViewPageTransitionTimingType)EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", vp.viewPageTransitionTimingType);
                 EditorGUI.BeginDisabledGroup(vp.viewPageTransitionTimingType != ViewPage.ViewPageTransitionTimingType.自行設定);
                 vp.customPageTransitionWaitTime = EditorGUILayout.FloatField("CustomPageTransitionWaitTime", vp.customPageTransitionWaitTime);
