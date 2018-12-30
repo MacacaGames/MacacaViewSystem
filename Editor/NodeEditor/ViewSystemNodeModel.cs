@@ -255,6 +255,9 @@ namespace CloudMacaca.ViewSystem
             if (viewPage == null)
             {
                 this.viewPage = new ViewPage();
+                if(isOverlay){
+                    this.viewPage.viewPageType = ViewPage.ViewPageType.Overlay;
+                }
             }
             else
             {
