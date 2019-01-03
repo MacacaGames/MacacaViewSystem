@@ -11,6 +11,7 @@ namespace CloudMacaca.ViewSystem
         static Texture2D miniErrorIcon;
         static Texture2D refreshIcon;
         static Texture2D sideBarIcon;
+        static Texture2D zoomIcon;
         static Texture2D normalizedIcon;
         enum EditorMode
         {
@@ -65,19 +66,29 @@ namespace CloudMacaca.ViewSystem
             if (miniInfoIcon == null) miniInfoIcon = EditorGUIUtility.Load("icons/console.infoicon.sml.png") as Texture2D;
             if (miniErrorIcon == null) miniErrorIcon = EditorGUIUtility.Load("icons/console.erroricon.sml.png") as Texture2D;
             if (refreshIcon == null) refreshIcon = EditorGUIUtility.Load((EditorGUIUtility.isProSkin) ? "icons/d_Refresh.png" : "icons/Refresh.png") as Texture2D;
+            if (zoomIcon == null) zoomIcon = EditorGUIUtility.FindTexture("ViewToolZoom On") as Texture2D;
         }
         List<ViewPageNode> viewPageList = new List<ViewPageNode>();
 
         List<ViewStateNode> viewStateList = new List<ViewStateNode>();
         List<ViewSystemNodeLine> nodeConnectionLineList = new List<ViewSystemNodeLine>();
         ViewSystemNodeConsole console;
+
+        float zoomScale = 1.0f;
+        Vector2 vanishingPoint = new Vector2(0, 21);
+        Rect zoomArea;
         void OnGUI()
         {
 
             DrawGrid(20, 0.2f, Color.gray);
             DrawGrid(100, 0.4f, Color.gray);
+            zoomArea = position;
+            zoomArea.height -= menuBarHeight;
+            zoomArea.y = menuBarHeight;
+            zoomArea.x = 0;
 
-            BeginWindows();
+            EditorZoomArea.Begin(zoomScale, zoomArea, Event.current);
+
             foreach (var item in nodeConnectionLineList.ToArray())
             {
                 item.Draw();
@@ -90,14 +101,15 @@ namespace CloudMacaca.ViewSystem
             {
                 item.Draw();
             }
+            DrawCurrentConnectionLine(Event.current);
+            EditorZoomArea.End();
 
 
-            EndWindows();
             GUI.depth = -100;
             DrawMenuBar();
             if (console.showConsole) console.Draw(new Vector2(position.width, position.height));
             if (showSideBar) sideBar.Draw();
-            DrawCurrentConnectionLine(Event.current);
+
             ProcessEvents(Event.current);
             CheckRepaint();
         }
@@ -114,13 +126,16 @@ namespace CloudMacaca.ViewSystem
             switch (e.type)
             {
                 case EventType.MouseDrag:
-                    if (e.button == 2)
+                    if (e.button == 0 && viewPageList.Where(m => m.isSelect).Count() == 0 && viewStateList.Where(m => m.isSelect).Count() == 0 && zoomArea.Contains(e.mousePosition))
                     {
                         OnDrag(e.delta);
                     }
                     break;
                 case EventType.ScrollWheel:
-                    OnDrag(e.delta * -1);
+                    //OnDrag(e.delta * -1);
+                    float target = zoomScale - e.delta.y * 0.05f;
+                    zoomScale = Mathf.Clamp(target, 0.1f, 1f);
+                    GUI.changed = true;
                     break;
                 case EventType.MouseDown:
                     if (selectedViewPageNode != null || selectedViewStateNode != null)
@@ -346,14 +361,14 @@ namespace CloudMacaca.ViewSystem
 
         private void OnDrag(Vector2 delta)
         {
-            drag = delta;
+            drag = delta * 1 / zoomScale;
             foreach (var item in viewPageList)
             {
-                item.Drag(delta);
+                item.Drag(delta * zoomScale);
             }
             foreach (var item in viewStateList)
             {
-                item.Drag(delta);
+                item.Drag(delta * zoomScale);
             }
             GUI.changed = true;
         }
@@ -420,6 +435,8 @@ namespace CloudMacaca.ViewSystem
             console.showConsole = GUILayout.Toggle(console.showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
 
             GUILayout.FlexibleSpace();
+            GUILayout.Label(new GUIContent(zoomIcon, "Zoom"));
+            zoomScale = EditorGUILayout.Slider(zoomScale, 0.1f, 1, GUILayout.Width(120));
 
             GUILayout.Label("ViewState:");
             int newIndex = EditorGUILayout.Popup(currentIndex, viewStatesPopup.ToArray(),
