@@ -130,7 +130,7 @@ namespace CloudMacaca.ViewSystem
         }
         public void OnViewPageAdd(ViewPageNode node)
         {
-            var vp = new ViewPage();
+            var vp = node.viewPage;
             viewController.viewPage.Add(vp);
             node.viewPage = vp;
         }
