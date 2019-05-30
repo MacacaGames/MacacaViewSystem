@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Unity.Linq;
 namespace CloudMacaca.ViewSystem
 {
     interface ViewSystemDateReader
@@ -164,7 +165,9 @@ namespace CloudMacaca.ViewSystem
                 Debug.LogError("Please Set ViewElementPool");
                 return;
             }
-            ViewElement[] allElements = FindObjectsOfType<ViewElement>();
+            TryToBreakPrefab();
+            var allElements = viewController.gameObject.DescendantsAndSelf().OfComponent<ViewElement>();
+            // ViewElement[] allElements = FindObjectsOfType<ViewElement>();
             foreach (ViewElement viewElement in allElements)
             {
                 var rt = viewElement.GetComponent<RectTransform>();
@@ -173,12 +176,14 @@ namespace CloudMacaca.ViewSystem
         }
         public void OnViewPagePreview(ViewPage viewPage)
         {
+
             if (poolTransform == null)
             {
                 Debug.LogError("Please Set ViewElementPool");
                 return;
             }
-
+            
+            TryToBreakPrefab();
             Normalized();
 
             //打開所有相關 ViewElements
@@ -222,6 +227,19 @@ namespace CloudMacaca.ViewSystem
                     }
                 }
             }
+        }
+
+        void TryToBreakPrefab(){
+#if UNITY_2018_3_OR_NEWER
+            try{
+                PrefabUtility.UnpackPrefabInstance(viewController.gameObject,PrefabUnpackMode.OutermostRoot,InteractionMode.AutomatedAction);
+            }
+            catch{
+
+            }
+#else
+        return;
+#endif
         }
 
     }
