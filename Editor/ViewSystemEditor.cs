@@ -55,7 +55,7 @@ public class ViewSystemEditor : Editor
         EditorUtility.SetDirty(viewController);
     }
     [MenuItem("CloudMacaca/ViewSystem/Bake ViewPage and ViewState to script", false, 0)]
-    static void BakeAllViewPageName()
+    public static void BakeAllViewPageName()
     {
         BuildScriptWithSelectedTerms();
     }
