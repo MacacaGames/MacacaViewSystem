@@ -201,7 +201,7 @@ namespace CloudMacaca.ViewSystem
             }
 
             //從 ViewPage 尋找
-            viewItemForNextPage.AddRange(viewPage.viewPageItem);
+            viewItemForNextPage.AddRange(viewPage.viewPageItems);
 
             //打開相對應物件
             foreach (ViewPageItem item in viewItemForNextPage)

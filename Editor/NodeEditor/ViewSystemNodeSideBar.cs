@@ -56,7 +56,7 @@ namespace CloudMacaca.ViewSystem
             this.currentSelectNode = currentSelectNode;
             if (currentSelectNode is ViewPageNode)
             {
-                list = ((ViewPageNode)currentSelectNode).viewPage.viewPageItem;
+                list = ((ViewPageNode)currentSelectNode).viewPage.viewPageItems;
             }
             if (currentSelectNode is ViewStateNode)
             {
@@ -211,7 +211,7 @@ namespace CloudMacaca.ViewSystem
                 else{
                     proIconFix = "";
                 }
-                
+
                 EditorGUI.BeginChangeCheck();
 
                 isExcloudAndroid = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Android.Small")), isExcloudAndroid);

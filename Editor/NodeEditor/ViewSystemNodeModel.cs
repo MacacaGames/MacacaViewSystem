@@ -295,7 +295,7 @@ namespace CloudMacaca.ViewSystem
             btnRect.x += 1;
             if (GUI.Button(btnRect, "Highlight", new GUIStyle("ObjectPickerResultsEven")))
             {
-                foreach (var item in viewPage.viewPageItem)
+                foreach (var item in viewPage.viewPageItems)
                 {
                     EditorGUIUtility.PingObject(item.viewElement);
                 }
