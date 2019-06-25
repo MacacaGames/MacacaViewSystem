@@ -140,7 +140,7 @@ namespace CloudMacaca.ViewSystem
             {
                 if (name.Length > 26) titleStyle = new GUIStyle("MiniLabel");
                 else if (name.Length > 15) titleStyle = new GUIStyle("ControlLabel");
-                else titleStyle = new GUIStyle("TL Selection H2");
+                else titleStyle = new GUIStyle("DefaultCenteredLargeText");
                 GUI.Label(new Rect(rect.x, rect.y + 5, rect.width, 16), name, titleStyle);
             }
 
@@ -295,7 +295,7 @@ namespace CloudMacaca.ViewSystem
             btnRect.x += 1;
             if (GUI.Button(btnRect, "Highlight", new GUIStyle("ObjectPickerResultsEven")))
             {
-                foreach (var item in viewPage.viewPageItem)
+                foreach (var item in viewPage.viewPageItems)
                 {
                     EditorGUIUtility.PingObject(item.viewElement);
                 }

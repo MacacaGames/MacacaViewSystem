@@ -114,7 +114,7 @@ public class ViewSwitcherEditor : EditorWindow
     }
     static void HighlightObject(ViewPage viewPage)
     {
-        foreach (var item in viewPage.viewPageItem)
+        foreach (var item in viewPage.viewPageItems)
         {
             EditorGUIUtility.PingObject(item.viewElement);
         }
@@ -147,7 +147,7 @@ public class ViewSwitcherEditor : EditorWindow
         }
 
         //從 ViewPage 尋找
-        viewItemForNextPage.AddRange(viewPage.viewPageItem);
+        viewItemForNextPage.AddRange(viewPage.viewPageItems);
 
 
         //打開相對應物件

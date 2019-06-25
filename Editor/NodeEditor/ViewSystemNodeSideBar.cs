@@ -56,7 +56,7 @@ namespace CloudMacaca.ViewSystem
             this.currentSelectNode = currentSelectNode;
             if (currentSelectNode is ViewPageNode)
             {
-                list = ((ViewPageNode)currentSelectNode).viewPage.viewPageItem;
+                list = ((ViewPageNode)currentSelectNode).viewPage.viewPageItems;
             }
             if (currentSelectNode is ViewStateNode)
             {
@@ -203,18 +203,27 @@ namespace CloudMacaca.ViewSystem
 
                 EditorGUIUtility.labelWidth = 20.0f;
                 rect.width = oriwidth * 0.25f;
+
+                string proIconFix = "";
+                if(EditorGUIUtility.isProSkin){
+                    proIconFix = "d_";
+                }
+                else{
+                    proIconFix = "";
+                }
+
                 EditorGUI.BeginChangeCheck();
 
-                isExcloudAndroid = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture("d_BuildSettings.Android.Small")), isExcloudAndroid);
+                isExcloudAndroid = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Android.Small")), isExcloudAndroid);
                 rect.x += rect.width;
 
-                isExcloudiOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture("d_BuildSettings.iPhone.Small")), isExcloudiOS);
+                isExcloudiOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.iPhone.Small")), isExcloudiOS);
                 rect.x += rect.width;
 
-                isExcloudtvOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture("d_BuildSettings.tvOS.Small")), isExcloudtvOS);
+                isExcloudtvOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.tvOS.Small")), isExcloudtvOS);
                 rect.x += rect.width;
 
-                isExcloudUWP = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture("d_BuildSettings.Standalone.Small")), isExcloudUWP);
+                isExcloudUWP = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Standalone.Small")), isExcloudUWP);
 
                 if (EditorGUI.EndChangeCheck())
                 {
@@ -314,7 +323,7 @@ namespace CloudMacaca.ViewSystem
             var vp = viewPageNode.viewPage;
             EditorGUILayout.BeginVertical();
 
-            GUILayout.Label(string.IsNullOrEmpty(vp.name) ? "Unnamed" : vp.name, new GUIStyle("TL Selection H2"));
+            GUILayout.Label(string.IsNullOrEmpty(vp.name) ? "Unnamed" : vp.name, new GUIStyle("DefaultCenteredLargeText"));
 
             showBasicInfo.target = EditorGUILayout.Foldout(showBasicInfo.target, "Basic Info");
             if (EditorGUILayout.BeginFadeGroup(showBasicInfo.faded))
@@ -353,7 +362,7 @@ namespace CloudMacaca.ViewSystem
 
 
             EditorGUILayout.BeginVertical();
-            GUILayout.Label(string.IsNullOrEmpty(vs.name) ? "Unnamed" : vs.name, new GUIStyle("TL Selection H2"));
+            GUILayout.Label(string.IsNullOrEmpty(vs.name) ? "Unnamed" : vs.name,new GUIStyle("DefaultCenteredLargeText"));
 
             showBasicInfo.target = EditorGUILayout.Foldout(showBasicInfo.target, "Basic Info");
             if (EditorGUILayout.BeginFadeGroup(showBasicInfo.faded))

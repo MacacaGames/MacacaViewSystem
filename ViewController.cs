@@ -209,7 +209,7 @@ namespace CloudMacaca.ViewSystem
             }
 
             //從 ViewPage 尋找
-            viewItemForNextPage.AddRange(vp.viewPageItem);
+            viewItemForNextPage.AddRange(vp.viewPageItems);
 
             //並排除 Platform 該隔離的 ViewElement 放入 realViewPageItem
             realViewPageItem.Clear();
@@ -339,7 +339,7 @@ namespace CloudMacaca.ViewSystem
             //整理目前在畫面上 Overlay page 的 ViewPageItem
             var CurrentOverlayViewPageItem = new List<ViewPageItem>();
 
-            foreach (var item in overlayPageStates.Select(m => m.Value.viewPage).Select(x => x.viewPageItem))
+            foreach (var item in overlayPageStates.Select(m => m.Value.viewPage).Select(x => x.viewPageItems))
             {
                 CurrentOverlayViewPageItem.AddRange(item);
             }
@@ -475,7 +475,7 @@ namespace CloudMacaca.ViewSystem
             if (overlayPageStates.ContainsKey(vp.name) == false)
             {
                 overlayPageStates.Add(vp.name, overlayPageState);
-                foreach (var item in vp.viewPageItem)
+                foreach (var item in vp.viewPageItems)
                 {
                     //Delay 時間
                     if (!lastPageItemDelayOutTimesOverlay.ContainsKey(item.viewElement.name))
@@ -500,7 +500,7 @@ namespace CloudMacaca.ViewSystem
 
             if (RePlayOnShowWhileSamePage == true)
             {
-                foreach (var item in vp.viewPageItem)
+                foreach (var item in vp.viewPageItems)
                 {
                     item.viewElement.OnShow();
                 }
@@ -613,14 +613,14 @@ namespace CloudMacaca.ViewSystem
             //if (OverlayTransitionProtectionCoroutine != null) { StopCoroutine(OverlayTransitionProtectionCoroutine); }
             //StartCoroutine(OverlayTransitionProtection());
 
-            var currentVe = currentViewPage.viewPageItem.Select(m => m.viewElement);
+            var currentVe = currentViewPage.viewPageItems.Select(m => m.viewElement);
             var currentVs = currentViewState.viewPageItems.Select(m => m.viewElement);
 
-            var finishTime = CalculateTimesNeedsForOnLeave(overlayPageState.viewPage.viewPageItem.Select(m => m.viewElement));
+            var finishTime = CalculateTimesNeedsForOnLeave(overlayPageState.viewPage.viewPageItems.Select(m => m.viewElement));
             // overlayViewPageQueue.Remove(vp);
             overlayPageState.IsTransition = true;
 
-            foreach (var item in overlayPageState.viewPage.viewPageItem)
+            foreach (var item in overlayPageState.viewPage.viewPageItems)
             {
                 if (IsPageTransition == false)
                 {
@@ -629,7 +629,7 @@ namespace CloudMacaca.ViewSystem
                         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
                         try
                         {
-                            var vpi = currentViewPage.viewPageItem.FirstOrDefault(m => m.viewElement == item.viewElement);
+                            var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => m.viewElement == item.viewElement);
                             Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
                             item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
                         }
@@ -804,10 +804,10 @@ namespace CloudMacaca.ViewSystem
             return Mathf.Clamp(maxInAnitionTime, 0, maxClampTime);
             //return maxOutAnitionTime;
         }
-        float CalculateWaitingTimeForCurrentOnLeave(IEnumerable<ViewPageItem> viewPageItem)
+        float CalculateWaitingTimeForCurrentOnLeave(IEnumerable<ViewPageItem> viewPageItems)
         {
             float maxDelayTime = 0;
-            foreach (var item in viewPageItem)
+            foreach (var item in viewPageItems)
             {
                 float t2 = item.delayOut;
                 if (t2 > maxDelayTime)
@@ -817,10 +817,10 @@ namespace CloudMacaca.ViewSystem
             }
             return maxDelayTime;
         }
-        float CalculateWaitingTimeForCurrentOnShow(IEnumerable<ViewPageItem> viewPageItem)
+        float CalculateWaitingTimeForCurrentOnShow(IEnumerable<ViewPageItem> viewPageItems)
         {
             float maxDelayTime = 0;
-            foreach (var item in viewPageItem)
+            foreach (var item in viewPageItems)
             {
                 float t2 = item.delayIn;
                 if (t2 > maxDelayTime)
