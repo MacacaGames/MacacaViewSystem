@@ -323,7 +323,7 @@ namespace CloudMacaca.ViewSystem
             var vp = viewPageNode.viewPage;
             EditorGUILayout.BeginVertical();
 
-            GUILayout.Label(string.IsNullOrEmpty(vp.name) ? "Unnamed" : vp.name, new GUIStyle("TL Selection H2"));
+            GUILayout.Label(string.IsNullOrEmpty(vp.name) ? "Unnamed" : vp.name, new GUIStyle("DefaultCenteredLargeText"));
 
             showBasicInfo.target = EditorGUILayout.Foldout(showBasicInfo.target, "Basic Info");
             if (EditorGUILayout.BeginFadeGroup(showBasicInfo.faded))
@@ -362,7 +362,7 @@ namespace CloudMacaca.ViewSystem
 
 
             EditorGUILayout.BeginVertical();
-            GUILayout.Label(string.IsNullOrEmpty(vs.name) ? "Unnamed" : vs.name, new GUIStyle("TL Selection H2"));
+            GUILayout.Label(string.IsNullOrEmpty(vs.name) ? "Unnamed" : vs.name,new GUIStyle("DefaultCenteredLargeText"));
 
             showBasicInfo.target = EditorGUILayout.Foldout(showBasicInfo.target, "Basic Info");
             if (EditorGUILayout.BeginFadeGroup(showBasicInfo.faded))
