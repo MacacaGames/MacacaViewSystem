@@ -45,6 +45,7 @@ namespace CloudMacaca.ViewSystem
     public class ViewState
     {
         public string name;
+        public int targetFrameRate = -1;
         public List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
     }
 

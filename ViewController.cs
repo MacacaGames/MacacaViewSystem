@@ -748,6 +748,7 @@ namespace CloudMacaca.ViewSystem
             {
                 lastViewState = currentViewState;
                 currentViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
+                Application.targetFrameRate = currentViewState.targetFrameRate;
 
                 if (OnViewStateChange != null)
                     OnViewStateChange(this, new ViewStateEventArgs(currentViewState, lastViewState));

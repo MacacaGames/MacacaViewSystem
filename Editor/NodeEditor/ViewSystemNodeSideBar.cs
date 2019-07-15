@@ -205,10 +205,12 @@ namespace CloudMacaca.ViewSystem
                 rect.width = oriwidth * 0.25f;
 
                 string proIconFix = "";
-                if(EditorGUIUtility.isProSkin){
+                if (EditorGUIUtility.isProSkin)
+                {
                     proIconFix = "d_";
                 }
-                else{
+                else
+                {
                     proIconFix = "";
                 }
 
@@ -330,14 +332,17 @@ namespace CloudMacaca.ViewSystem
             {
                 EditorGUILayout.BeginVertical(GUILayout.Height(70));
                 vp.name = EditorGUILayout.TextField("Name", vp.name);
+                vp.viewPageTransitionTimingType = (ViewPage.ViewPageTransitionTimingType)EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", vp.viewPageTransitionTimingType);
                 EditorGUI.BeginDisabledGroup(vp.viewPageType != ViewPage.ViewPageType.Overlay);
                 vp.autoLeaveTimes = EditorGUILayout.FloatField("AutoLeaveTimes", vp.autoLeaveTimes);
                 EditorGUI.EndDisabledGroup();
-                vp.viewPageTransitionTimingType = (ViewPage.ViewPageTransitionTimingType)EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", vp.viewPageTransitionTimingType);
                 EditorGUI.BeginDisabledGroup(vp.viewPageTransitionTimingType != ViewPage.ViewPageTransitionTimingType.自行設定);
                 vp.customPageTransitionWaitTime = EditorGUILayout.FloatField("CustomPageTransitionWaitTime", vp.customPageTransitionWaitTime);
                 EditorGUI.EndDisabledGroup();
                 EditorGUILayout.EndVertical();
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.IntField("TargetFrameRate", -1);
+                EditorGUI.EndDisabledGroup();
             }
             EditorGUILayout.EndFadeGroup();
 
@@ -362,7 +367,7 @@ namespace CloudMacaca.ViewSystem
 
 
             EditorGUILayout.BeginVertical();
-            GUILayout.Label(string.IsNullOrEmpty(vs.name) ? "Unnamed" : vs.name,new GUIStyle("DefaultCenteredLargeText"));
+            GUILayout.Label(string.IsNullOrEmpty(vs.name) ? "Unnamed" : vs.name, new GUIStyle("DefaultCenteredLargeText"));
 
             showBasicInfo.target = EditorGUILayout.Foldout(showBasicInfo.target, "Basic Info");
             if (EditorGUILayout.BeginFadeGroup(showBasicInfo.faded))
@@ -381,10 +386,11 @@ namespace CloudMacaca.ViewSystem
                     );
                 }
                 EditorGUI.BeginDisabledGroup(true);
-                EditorGUILayout.FloatField("AutoLeaveTimes", 0);
                 EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", ViewPage.ViewPageTransitionTimingType.接續前動畫);
+                EditorGUILayout.FloatField("AutoLeaveTimes", 0);
                 EditorGUILayout.FloatField("CustomPageTransitionWaitTime", 0);
                 EditorGUI.EndDisabledGroup();
+                vs.targetFrameRate = EditorGUILayout.IntField("TargetFrameRate", vs.targetFrameRate);
                 EditorGUILayout.EndVertical();
             }
             EditorGUILayout.EndFadeGroup();
