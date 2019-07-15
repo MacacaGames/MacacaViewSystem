@@ -110,14 +110,9 @@ namespace CloudMacaca.ViewSystem
                     yield break;
                 }
 
-                //currentLiveElement = GetAllViewPageItemInViewPage(vp).Select(m => m.viewElement).ToList();
-                //wait one frame that other script need register the event 
+              
                 yield return null;
-                // foreach (var item in currentLiveElement)
-                // {
-                //     item.SampleToLoopState();
-                // }
-                //UpdateCurrentViewStateAndNotifyEvent(vp);
+               
                 ChangePageTo(InitViewPageName);
             }
 
@@ -725,14 +720,6 @@ namespace CloudMacaca.ViewSystem
                 return false;
             }
         }
-
-        // Coroutine OverlayTransitionProtectionCoroutine;
-        // IEnumerator OverlayTransitionProtection()
-        // {
-        //     IsOverlayTransition = true;
-        //     yield return Yielders.GetWaitForSeconds(OverlayTransitionProtectionTime);
-        //     IsOverlayTransition = false;
-        // }
 
         void UpdateCurrentViewStateAndNotifyEvent(ViewPage vp)
         {
