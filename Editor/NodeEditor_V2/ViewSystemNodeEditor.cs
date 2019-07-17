@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CloudMacaca.ViewSystem
+namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNodeEditor : EditorWindow
     {
@@ -21,16 +21,16 @@ namespace CloudMacaca.ViewSystem
         static EditorMode currentEditorMode;
 
         static ViewSystemNodeEditor window;
-        static ViewSystemDateReader dataReader;
+        static IViewSystemDateReader dataReader;
         static ViewSystemNodeSideBar sideBar;
 
 
 
-        [MenuItem("CloudMacaca/ViewSystem/NodeEditor(Open as V1)")]
+        [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
         private static void OpenWindowAsV1()
         {
             window = GetWindow<ViewSystemNodeEditor>();
-            window.titleContent = new GUIContent("ViewSystem Node Editor");
+            window.titleContent = new GUIContent("View System Visual Editor");
             window.minSize = new Vector2(600, 400);
             currentEditorMode = EditorMode.V1;
             window.RefreshData();
@@ -38,11 +38,9 @@ namespace CloudMacaca.ViewSystem
         void RefreshData()
         {
             ClearEditor();
-            if (currentEditorMode == EditorMode.V1)
-            {
-                dataReader = new ViewSystemDateReaderV1(this);
-                dataReader.Init();
-            }
+
+            dataReader = new ViewSystemDataReaderV2(this);
+            dataReader.Init();
 
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
@@ -63,9 +61,9 @@ namespace CloudMacaca.ViewSystem
             if (console == null) console = new ViewSystemNodeConsole();
             if (sideBar == null) sideBar = new ViewSystemNodeSideBar(this);
             if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
-            if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture( "pane options" ) as Texture2D;
-            if (bakeScritpIcon == null) bakeScritpIcon =  EditorGUIUtility.FindTexture( "TextAsset Icon" ) as Texture2D;
-           
+            if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture("pane options") as Texture2D;
+            if (bakeScritpIcon == null) bakeScritpIcon = EditorGUIUtility.FindTexture("TextAsset Icon") as Texture2D;
+
             if (miniInfoIcon == null) miniInfoIcon = EditorGUIUtility.Load("icons/console.infoicon.sml.png") as Texture2D;
             if (miniErrorIcon == null) miniErrorIcon = EditorGUIUtility.Load("icons/console.erroricon.sml.png") as Texture2D;
             if (refreshIcon == null) refreshIcon = EditorGUIUtility.Load((EditorGUIUtility.isProSkin) ? "icons/d_Refresh.png" : "icons/Refresh.png") as Texture2D;
@@ -75,7 +73,7 @@ namespace CloudMacaca.ViewSystem
 
         List<ViewStateNode> viewStateList = new List<ViewStateNode>();
         List<ViewSystemNodeLine> nodeConnectionLineList = new List<ViewSystemNodeLine>();
-        ViewSystemNodeConsole console;
+        public ViewSystemNodeConsole console;
 
         float zoomScale = 1.0f;
         Vector2 vanishingPoint = new Vector2(0, 21);
@@ -90,7 +88,7 @@ namespace CloudMacaca.ViewSystem
             zoomArea.y = menuBarHeight;
             zoomArea.x = 0;
 
-            EditorZoomArea.Begin(zoomScale, zoomArea, Event.current);
+            EditorZoomArea.Begin(zoomScale, zoomArea);
 
             foreach (var item in nodeConnectionLineList.ToArray())
             {
@@ -129,14 +127,14 @@ namespace CloudMacaca.ViewSystem
             switch (e.type)
             {
                 case EventType.MouseDrag:
-                    if (e.button == 0 && viewPageList.Where(m => m.isSelect).Count() == 0 && viewStateList.Where(m => m.isSelect).Count() == 0 && zoomArea.Contains(e.mousePosition))
+                    if (e.button == 2 && zoomArea.Contains(e.mousePosition))
                     {
-                        OnDrag(e.delta);
+                        OnDrag(e.delta * 1 / zoomScale);
                     }
                     break;
                 case EventType.ScrollWheel:
                     //OnDrag(e.delta * -1);
-                    float target = zoomScale - e.delta.y * 0.05f;
+                    float target = zoomScale - e.delta.y * 0.1f;
                     zoomScale = Mathf.Clamp(target, 0.1f, 1f);
                     GUI.changed = true;
                     break;
