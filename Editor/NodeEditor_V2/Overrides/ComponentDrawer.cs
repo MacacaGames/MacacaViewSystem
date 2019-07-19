@@ -13,6 +13,7 @@ public class ComponentDrawer : Drawer
     public override void Draw()
     {
         base.Draw();
+        
         using (var vertical = new GUILayout.VerticalScope())
         {
             foreach (var item in serializedObjects)

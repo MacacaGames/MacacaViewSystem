@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEditor.AnimatedValues;
 using UnityEditorInternal;
 using System.Reflection;
+using UnityEditor.IMGUI.Controls;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
@@ -183,7 +184,40 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 var veRect = rect;
 
                 veRect.width = rect.width - 20;
-                list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), false);
+                using (var check = new EditorGUI.ChangeCheckScope())
+                {
+                    list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), true);
+                    if (check.changed)
+                    {
+                        if (string.IsNullOrEmpty(list[index].viewElement.gameObject.scene.name))
+                        {
+                            //is prefabs
+                            return;
+                        }
+
+                        var cache = list[index].viewElement;
+                        var original = PrefabUtility.GetCorrespondingObjectFromOriginalSource(cache);
+                        var modifiedObject = PrefabUtility.GetObjectOverrides(cache.gameObject, false);
+
+                       
+                        foreach (var item in modifiedObject)
+                        {
+                            Debug.Log(item.instanceObject.name);
+                            Debug.Log(item.instanceObject);
+                            
+                            // var modify = PrefabUtility.GetPropertyModifications(cache);
+                            // foreach (var item2 in modify)
+                            // {
+                            //     Debug.Log("____propertyPath: "+item2.propertyPath );
+                            //     Debug.Log("____target "+item2.target );
+                            //     Debug.Log("____value "+item2.value );
+                            //     Debug.Log("____objectReference "+item2.objectReference );
+                            // }
+                        }
+                        list[index].viewElement = original;
+                    }
+                }
+
                 veRect.x += veRect.width;
                 veRect.width = 20;
 
@@ -210,6 +244,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     list[index].parent = (Transform)EditorGUI.ObjectField(rect, "Parent", list[index].parent, typeof(Transform), true);
                     if (check.changed)
                     {
+                        if (string.IsNullOrEmpty(list[index].parent.gameObject.scene.name))
+                        {
+                            list[index].parent = null;
+                            editor.console.LogErrorMessage("Parent Object only can set a scene object");
+                            return;
+                        }
                         list[index].parentPath = AnimationUtility.CalculateTransformPath(list[index].parent, null);
                     }
                 }

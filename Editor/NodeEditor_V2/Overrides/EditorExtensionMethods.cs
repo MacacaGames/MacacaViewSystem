@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
- 
+
 public static class EditorExtensionMethods
 {
     public static IEnumerable<SerializedProperty> GetChildren(this SerializedProperty property)
@@ -13,7 +13,7 @@ public static class EditorExtensionMethods
         {
             nextElement = null;
         }
- 
+
         property.NextVisible(true);
         while (true)
         {
@@ -21,9 +21,9 @@ public static class EditorExtensionMethods
             {
                 yield break;
             }
- 
+
             yield return property;
- 
+
             bool hasNext = property.NextVisible(false);
             if (!hasNext)
             {
@@ -31,5 +31,11 @@ public static class EditorExtensionMethods
             }
         }
     }
+    public static Rect Contract(this Rect rect, float left, float top, float right, float bottom)
+    {
+        return new Rect(rect.x + left, rect.y + top, rect.width - right - left, rect.height - bottom - top);
+    }
+
 }
- 
+
+
