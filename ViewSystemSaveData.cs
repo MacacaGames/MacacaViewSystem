@@ -33,4 +33,15 @@ namespace CloudMacaca.ViewSystem
             public ViewState viewState;
         }
     }
+
+    public class ViewElementPropertyOverrideData : ScriptableObject
+    {
+        public string id;
+        public string targetTransformPath;
+        public string targetComponentType;
+        public string targetPropertyName;
+        public UnityEngine.Object targetOverrideData;
+       
+    }
+
 }
