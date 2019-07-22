@@ -6,6 +6,7 @@ namespace CloudMacaca.ViewSystem
     [CreateAssetMenu]
     public class ViewSystemSaveData : ScriptableObject
     {
+        public ViewSystemBaseSetting baseSetting;
         public List<ViewStateSaveData> viewStates = new List<ViewStateSaveData>();
         public List<ViewPageSaveData> viewPages = new List<ViewPageSaveData>();
 
@@ -21,6 +22,7 @@ namespace CloudMacaca.ViewSystem
             public ViewPage viewPage;
         }
 
+        //Save Data Model
         [System.Serializable]
         public class ViewStateSaveData
         {
@@ -32,6 +34,16 @@ namespace CloudMacaca.ViewSystem
             public Vector2 nodePosition;
             public ViewState viewState;
         }
+
+        [System.Serializable]
+        public class ViewSystemBaseSetting
+        {
+            public Vector2 nodePosition = new Vector2(500, 500);
+            public string ViewControllerObjectPath;
+            public GameObject UIRoot;
+            public GameObject UIRootScene;
+        }
+
     }
 
     public class ViewElementPropertyOverrideData : ScriptableObject
@@ -41,7 +53,7 @@ namespace CloudMacaca.ViewSystem
         public string targetComponentType;
         public string targetPropertyName;
         public UnityEngine.Object targetOverrideData;
-       
+
     }
 
 }

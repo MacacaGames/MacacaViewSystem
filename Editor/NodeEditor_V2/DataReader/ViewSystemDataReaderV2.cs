@@ -39,51 +39,59 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             return data ? true : false;
         }
 
-        public void Normalized()
-        {
-            //throw new System.NotImplementedException();
-        }
-
         public void OnViewPageAdd(ViewPageNode node)
         {
-            //throw new System.NotImplementedException();
+            data.viewPages.Add(new ViewSystemSaveData.ViewPageSaveData(new Vector2(node.rect.x, node.rect.y), node.viewPage));
+        }
+        public void OnViewStateAdd(ViewStateNode node)
+        {
+            data.viewStates.Add(new ViewSystemSaveData.ViewStateSaveData(new Vector2(node.rect.x, node.rect.y), node.viewState));
         }
 
         public void OnViewPageDelete(ViewPageNode node)
         {
-            //throw new System.NotImplementedException();
+            var s = data.viewPages.SingleOrDefault(m => m.viewPage == node.viewPage);
+            data.viewPages.Remove(s);
+        }
+
+
+        public void OnViewStateDelete(ViewStateNode node)
+        {
+            var s = data.viewStates.SingleOrDefault(m => m.viewState == node.viewState);
+            data.viewStates.Remove(s);
         }
 
         public void OnViewPagePreview(ViewPage viewPage)
         {
             //throw new System.NotImplementedException();
         }
-
-        public void OnViewStateAdd(ViewStateNode node)
-        {
-           // throw new System.NotImplementedException();
-        }
-
-        public void OnViewStateDelete(ViewStateNode node)
+        public void Normalized()
         {
             //throw new System.NotImplementedException();
         }
 
         public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes)
         {
-            data.viewPages.Clear();
-            data.viewStates.Clear();
+
             foreach (var item in viewPageNodes)
             {
-                data.viewPages.Add(new ViewSystemSaveData.ViewPageSaveData(new Vector2(item.rect.x, item.rect.y), item.viewPage));
+                var vp = data.viewPages.SingleOrDefault(m => m.viewPage.name == item.viewPage.name);
+                vp.nodePosition = new Vector2(item.rect.x, item.rect.y);
             }
 
             foreach (var item in viewStateNodes)
             {
-                data.viewStates.Add(new ViewSystemSaveData.ViewStateSaveData(new Vector2(item.rect.x, item.rect.y), item.viewState));
+                var vs = data.viewStates.SingleOrDefault(m => m.viewState.name == item.viewState.name);
+                vs.nodePosition = new Vector2(item.rect.x, item.rect.y);
             }
             UnityEditor.EditorUtility.SetDirty(data);
         }
+
+        public ViewSystemSaveData GetSetting()
+        {
+            return data;
+        }
+
     }
 
 }

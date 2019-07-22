@@ -12,14 +12,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public ViewSystemNodeLinker nodeConnectionLinker;
         public enum NodeType
         {
-            FullPage, Overlay, ViewState
+            FullPage, Overlay, ViewState, BaseSetting
         }
         public NodeType nodeType;
         public System.Action<IEnumerable<ViewSystemNodeLine>> OnNodeDelete;
         public System.Action<ViewSystemNode> OnNodeSelect;
+        public System.Action<Vector2> OnDrag;
         string name;
         protected static int currentMaxId = 0;
         public Rect rect;
+        public Rect clickContainRect = Rect.zero;
         const int lableHeight = 15;
         GUIStyle titleStyle;
         static GUIStyle _TextBarStyle;
@@ -55,6 +57,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         protected void GenerateRightBtnMenu()
         {
+            if (nodeType == NodeType.BaseSetting)
+            {
+                return;
+            }
             GenericMenu genericMenu = new GenericMenu();
             genericMenu.AddItem(new GUIContent("Remove node"), false,
                 () =>
@@ -100,6 +106,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         public virtual void Draw() { }
         public virtual void SetupNode() { }
+        protected string nodeStyleString = "";
         protected void DrawNode(string _name)
         {
             this.name = _name;
@@ -110,20 +117,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (nodeType == ViewStateNode.NodeType.ViewState)
             {
                 GUI.depth = -1;
-            }
-
-            string nodeStyleString = "";
-            switch (nodeType)
-            {
-                case NodeType.FullPage:
-                    nodeStyleString = "flow node 2";
-                    break;
-                case NodeType.Overlay:
-                    nodeStyleString = "flow node 0";
-                    break;
-                case NodeType.ViewState:
-                    nodeStyleString = "flow node 1";
-                    break;
             }
 
             if (isSelect)
@@ -148,7 +141,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             GUI.Label(new Rect(rect.x, rect.y + rect.height - 20, rect.width, 16), "  " + nodeType.ToString(), TextBarStyle);
 
             //Draw Linker
-            nodeConnectionLinker.Draw(rect);
+            if (nodeConnectionLinker != null) nodeConnectionLinker.Draw(rect);
 
             if (ProcessEvents(Event.current))
             {
@@ -159,6 +152,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void Drag(Vector2 delta)
         {
             rect = new Rect(rect.x + delta.x, rect.y + delta.y, rect.width, rect.height);
+            OnDrag?.Invoke(new Vector2(rect.x, rect.y));
         }
 
         public bool isMouseInside(Vector2 mousePosition)
@@ -170,7 +164,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public bool isSelect = false; public bool isDragged;
         public bool ProcessEvents(Event e)
         {
-            bool isMouseInNode = rect.Contains(e.mousePosition);
+            bool isMouseInNode = rect.Contains(e.mousePosition) || clickContainRect.Contains(e.mousePosition);
 
             switch (e.type)
             {
@@ -220,6 +214,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 case EventType.MouseDrag:
                     if (e.button == 0 && isSelect)
                     {
+                        if (clickContainRect != Rect.zero && clickContainRect.Contains(e.mousePosition))
+                        {
+                            return false;
+                        }
                         Drag(e.delta);
                         if (this is ViewStateNode)
                         {
@@ -268,6 +266,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             this.nodeType = isOverlay ? NodeType.Overlay : NodeType.FullPage;
             this.nodeConnectionLinker = new ViewSystemNodeLinker(nodeType == NodeType.Overlay ? ConnectionPointType.None : ConnectionPointType.Down, this, OnConnectionPointClick);
             this.OnNodeTypeConvert = OnNodeTypeConvert;
+            switch (nodeType)
+            {
+                case NodeType.FullPage:
+                    nodeStyleString = "flow node 2";
+                    break;
+                case NodeType.Overlay:
+                    nodeStyleString = "flow node 0";
+                    break;
+            }
         }
         public override void SetupNode()
         {
@@ -323,6 +330,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             this.rect = new Rect(mousePosition.x, mousePosition.y, 160, 60);
             this.nodeType = NodeType.ViewState;
             this.nodeConnectionLinker = new ViewSystemNodeLinker(ConnectionPointType.Up, this, OnConnectionPointClick);
+            nodeStyleString = "flow node 1";
         }
 
         public override void Draw()

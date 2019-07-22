@@ -23,7 +23,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static ViewSystemNodeEditor window;
         static IViewSystemDateReader dataReader;
         static ViewSystemNodeSideBar sideBar;
-
+        static ViewSystemNodeBaseSettingWindow baseSettingWindow;
 
 
         [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
@@ -41,6 +41,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             dataReader = new ViewSystemDataReaderV2(this);
             dataReader.Init();
+            baseSettingWindow = new ViewSystemNodeBaseSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
 
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
@@ -58,6 +59,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         void OnFocus()
         {
+
             if (console == null) console = new ViewSystemNodeConsole();
             if (sideBar == null) sideBar = new ViewSystemNodeSideBar(this);
             if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
@@ -103,11 +105,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 item.Draw();
             }
             DrawCurrentConnectionLine(Event.current);
+            if (baseSettingWindow != null) baseSettingWindow.node.Draw();
             EditorZoomArea.End();
 
 
             GUI.depth = -100;
             DrawMenuBar();
+            if (baseSettingWindow != null)
+            {
+                baseSettingWindow.Draw();
+            }
             if (console.showConsole) console.Draw(new Vector2(position.width, position.height));
             if (showSideBar) sideBar.Draw();
 
@@ -371,6 +378,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 item.Drag(delta * zoomScale);
             }
+            if (baseSettingWindow != null) baseSettingWindow.node.Drag(delta * zoomScale);
             GUI.changed = true;
         }
 
@@ -452,12 +460,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 ViewSystemEditor.BakeAllViewPageName();
             }
-            if (GUILayout.Button(new GUIContent("Normalized", normalizedIcon, "Normalized Preview"), EditorStyles.toolbarButton, GUILayout.Width(80)))
-            {
-                dataReader.Normalized();
-            }
-            //m_showDescription = GUILayout.Toggle(m_showDescription, new GUIContent(m_miniInfoIcon, "Show graph description"), EditorStyles.toolbarButton, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
-            //m_showVerboseLog = GUILayout.Toggle(m_showVerboseLog, new GUIContent("Verbose Log", "Increse console log messages"), EditorStyles.toolbarButton, GUILayout.Height(Model.Settings.GUI.TOOLBAR_HEIGHT));
+
             GUILayout.EndHorizontal();
             GUILayout.EndArea();
         }
@@ -468,30 +471,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             if (selectedViewStateNode != null && selectedViewPageNode == null)
             {
-                // Handles.DrawBezier(
-                //     e.mousePosition,
-                //     selectedViewStateNode.nodeConnectionLinker.rect.center,
-                //     e.mousePosition + Vector2.up * 20f,
-                //     selectedViewStateNode.rect.center + Vector2.up * 20f,
-                //     Color.yellow,
-                //     null,
-                //     2f
-                // );
                 Handles.DrawLine(e.mousePosition, selectedViewStateNode.nodeConnectionLinker.rect.center);
                 GUI.changed = true;
             }
 
             if (selectedViewPageNode != null && selectedViewStateNode == null)
             {
-                // Handles.DrawBezier(
-
-                //     selectedViewPageNode.nodeConnectionLinker.rect.center, e.mousePosition,
-                //     e.mousePosition - Vector2.up * 20f,
-                //     selectedViewPageNode.rect.center + Vector2.up * 20f,
-                //     Color.yellow,
-                //     null,
-                //     2f
-                // );
                 Handles.DrawLine(e.mousePosition, selectedViewPageNode.nodeConnectionLinker.rect.center);
                 GUI.changed = true;
             }

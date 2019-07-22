@@ -174,9 +174,9 @@ public class OverridePopup : PopupWindowContent
 
             var viewElementPropertyOverrideData = ScriptableObject.CreateInstance<ViewElementPropertyOverrideData>();
 
-            viewElementPropertyOverrideData.targetComponentType = so.targetObject.GetType().ToString();
-            viewElementPropertyOverrideData.targetPropertyName = sp.name;
-            viewElementPropertyOverrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, null);
+            // viewElementPropertyOverrideData.targetComponentType = so.targetObject.GetType().ToString();
+            // viewElementPropertyOverrideData.targetPropertyName = sp.name;
+            // viewElementPropertyOverrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, null);
         };
     }
 
