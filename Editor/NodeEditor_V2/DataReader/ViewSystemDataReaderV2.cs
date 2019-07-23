@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEditor;
+using System.IO;
+using System;
+
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
     public class ViewSystemDataReaderV2 : IViewSystemDateReader
     {
+        const string ViewSystemResourceFolder = "Assets/ViewSystemResources/";
+        const string ViewSystemSaveDataFileName = "ViewSystemData.asset";
         public ViewSystemDataReaderV2(ViewSystemNodeEditor editor)
         {
             this.editor = editor;
@@ -15,7 +21,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ViewSystemSaveData data;
         public bool Init()
         {
-            data = Resources.Load<ViewSystemSaveData>("ViewSystemData");
+            CheckAndCreateResourceFolder();
+
+            data = CheckOrReadSaveData();
 
             List<ViewPageNode> viewPageNodes = new List<ViewPageNode>();
             //先整理 ViewPage Node
@@ -92,6 +100,47 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             return data;
         }
 
+        public GameObject SetUIRootObject(GameObject obj)
+        {
+            if (!Directory.Exists(ViewSystemResourceFolder))
+            {
+                CheckAndCreateResourceFolder();
+            }
+            return PrefabUtility.SaveAsPrefabAsset(obj, ViewSystemResourceFolder + obj.name + ".prefab");
+        }
+
+        void CheckAndCreateResourceFolder()
+        {
+            if (!Directory.Exists(ViewSystemResourceFolder))
+            {
+                Directory.CreateDirectory(ViewSystemResourceFolder);
+                using (FileStream fs = File.Create(ViewSystemResourceFolder + "Auto Create by ViewSystem.txt"))
+                {
+                    Byte[] info = System.Text.Encoding.UTF8.GetBytes("This folder and contain datas is auto Created by ViewSystem, Delete this folder or any datas may cause ViewSystem works not properly.");
+                    // Add some information to the file.
+                    fs.Write(info, 0, info.Length);
+                }
+                AssetDatabase.Refresh();
+            }
+        }
+
+        ViewSystemSaveData CheckOrReadSaveData()
+        {
+            ViewSystemSaveData result = null;
+            var filePath = ViewSystemResourceFolder + ViewSystemSaveDataFileName;
+
+            if (!File.Exists(filePath))
+            {
+                result = ScriptableObject.CreateInstance<ViewSystemSaveData>();
+                AssetDatabase.CreateAsset(result, filePath);
+                AssetImporter.GetAtPath(filePath);
+                AssetDatabase.Refresh();
+                return result;
+            }
+
+            result = AssetDatabase.LoadAssetAtPath<ViewSystemSaveData>(filePath);
+            return result;
+        }
     }
 
 }

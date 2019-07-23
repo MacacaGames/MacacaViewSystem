@@ -15,6 +15,7 @@ namespace CloudMacaca.ViewSystem
             tvOS // 1 << 3
         }
         public ViewElement viewElement;
+        public ViewElement runtimeViewElement;
         [Tooltip("ViewElement 在該頁面時應該對其的父物件")]
         public Transform parent;
         public string parentPath;
