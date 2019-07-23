@@ -23,47 +23,60 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             node.OnDrag += (p) =>
             {
                 saveData.baseSetting.nodePosition = p;
+
             };
+            node.OnNodeSelect += (v) =>
+            {
+                rect.x = v.rect.x + v.rect.width;
+                rect.y = v.rect.y + v.rect.height;
+                rect.width = 350;
+                rect.height = 250;
+                showBaseSettingWindow = true;
+            };
+
         }
 
         int windowWidth = 300;
         public void Draw()
         {
-            if (!node.isSelect)
-            {
-
-                return;
-            }
-
-            rect = new Rect(editor.position.width - windowWidth, 20f, windowWidth, editor.position.height - 20f);
             node.clickContainRect = rect;
-            GUILayout.BeginArea(rect, "", new GUIStyle("flow node 0"));
-            GUILayout.Label("Base Setting", new GUIStyle("DefaultCenteredLargeText"));
-            saveData.baseSetting.ViewControllerObjectPath = EditorGUILayout.TextField("View Controller GameObject", saveData.baseSetting.ViewControllerObjectPath);
-            EditorGUILayout.HelpBox("View Controller GameObject is the GameObject name in scene which has ViewController attach on.", MessageType.Info);
-
-            using (var check = new EditorGUI.ChangeCheckScope())
+            using (var area = new GUILayout.AreaScope(rect, "Base Setting", new GUIStyle("window")))
             {
-                saveData.baseSetting.UIRootScene = (GameObject)EditorGUILayout.ObjectField("UI Root Object (In Scene)", saveData.baseSetting.UIRootScene, typeof(GameObject), true);
-                if (check.changed)
+                //GUILayout.Label("Base Setting", new GUIStyle("DefaultCenteredLargeText"));
+                saveData.baseSetting.ViewControllerObjectPath = EditorGUILayout.TextField("View Controller GameObject", saveData.baseSetting.ViewControllerObjectPath);
+                EditorGUILayout.HelpBox("View Controller GameObject is the GameObject name in scene which has ViewController attach on.", MessageType.Info);
+
+                using (var check = new EditorGUI.ChangeCheckScope())
                 {
-                    if (saveData.baseSetting.UIRootScene == null)
+                    saveData.baseSetting.UIRootScene = (GameObject)EditorGUILayout.ObjectField("UI Root Object (In Scene)", saveData.baseSetting.UIRootScene, typeof(GameObject), true);
+                    if (check.changed)
                     {
-                        saveData.baseSetting.UIRoot = null;
-                        return;
+                        if (saveData.baseSetting.UIRootScene == null)
+                        {
+                            saveData.baseSetting.UIRoot = null;
+                        }
+                        else
+                        {
+                            var go = dataReader.SetUIRootObject(saveData.baseSetting.UIRootScene);
+                            saveData.baseSetting.UIRoot = go;
+                        }
                     }
-                    var go = dataReader.SetUIRootObject(saveData.baseSetting.UIRootScene);
-                    saveData.baseSetting.UIRoot = go;
                 }
-            }
-            using (var disable = new EditorGUI.DisabledGroupScope(true))
-            {
-                EditorGUILayout.ObjectField("UI Root Object (In Assets)", saveData.baseSetting.UIRoot, typeof(GameObject), true);
-            }
-            EditorGUILayout.HelpBox("UI Root Object will generate and set as a child of 'View Controller GameObject' after View System init.", MessageType.Info);
-            GUILayout.EndArea();
-        }
+                using (var disable = new EditorGUI.DisabledGroupScope(true))
+                {
+                    EditorGUILayout.ObjectField("UI Root Object (In Assets)", saveData.baseSetting.UIRoot, typeof(GameObject), true);
+                }
+                EditorGUILayout.HelpBox("UI Root Object will generate and set as a child of 'View Controller GameObject' after View System init.", MessageType.Info);
 
+            }
+
+            showBaseSettingWindow = node.isSelect;
+            if (!showBaseSettingWindow)
+            {
+                rect = Rect.zero;
+            }
+
+        }
     }
     public class BaseSettingNode : ViewSystemNode
     {

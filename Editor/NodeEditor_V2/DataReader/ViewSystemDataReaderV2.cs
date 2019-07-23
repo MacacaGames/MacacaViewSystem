@@ -19,12 +19,25 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ViewSystemNodeEditor editor;
 
         ViewSystemSaveData data;
+        Transform ViewControllerTransform;
         public bool Init()
         {
             CheckAndCreateResourceFolder();
 
             data = CheckOrReadSaveData();
 
+            //建立 UI Hierarchy 環境
+            if (!string.IsNullOrEmpty(data.baseSetting.ViewControllerObjectPath))
+                ViewControllerTransform = GameObject.Find(data.baseSetting.ViewControllerObjectPath).transform;
+
+            if (data.baseSetting.UIRoot != null && data.baseSetting.UIRootScene == null)
+            {
+                var ui_root = PrefabUtility.InstantiatePrefab(data.baseSetting.UIRoot, ViewControllerTransform);
+                data.baseSetting.UIRootScene = (GameObject)ui_root;
+            }
+
+
+            // 整理 Editor 資料
             List<ViewPageNode> viewPageNodes = new List<ViewPageNode>();
             //先整理 ViewPage Node
             foreach (var item in data.viewPages)
@@ -75,6 +88,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         public void Normalized()
         {
+            //Clear UI Root Object
+            UnityEngine.Object.DestroyImmediate(data.baseSetting.UIRootScene);
+
+
             //throw new System.NotImplementedException();
         }
 

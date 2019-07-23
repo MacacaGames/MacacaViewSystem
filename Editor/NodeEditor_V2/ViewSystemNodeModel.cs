@@ -430,6 +430,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 null,
                 4f
             );
+            // Handles.BeginGUI();
+            // Handles.color = new Color(0.5f, 0.5f, 0.5f, 1);
+            // Handles.DrawLine(viewPageNode.nodeConnectionLinker.rect.center, viewStateNode.nodeConnectionLinker.rect.center);
+            // Handles.color = Color.white;
+            // Handles.EndGUI();
+
             var pos = (viewPageNode.nodeConnectionLinker.rect.center + viewStateNode.nodeConnectionLinker.rect.center) * 0.5f;
             if (GUI.Button(new Rect(pos.x - 8, pos.y - 8, 16, 16), EditorGUIUtility.FindTexture("d_winbtn_mac_close_h"), GUIStyle.none))
             {

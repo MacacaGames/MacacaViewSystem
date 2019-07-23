@@ -67,38 +67,40 @@ namespace CloudMacaca.ViewSystem
             rect = new Rect(EditorindowWidthAndHeight.x - width - 10, EditorindowWidthAndHeight.y - height, width, height);
 
             GUI.depth = 1;
-            GUILayout.BeginArea(rect, "Console", new GUIStyle("window"));
-
-            GUILayout.BeginVertical();
-            GUILayout.Label("");
-            using (var scroll = new GUILayout.ScrollViewScope(scrollPos))
+            using (var area = new GUILayout.AreaScope(rect, "Console", new GUIStyle("window")))
             {
-                scrollPos = scroll.scrollPosition;
-                foreach (var item in allMsg.ToArray())
+                GUILayout.Label("");
+
+                using (var scroll = new EditorGUILayout.ScrollViewScope(scrollPos))
                 {
-                    switch (item.type)
+                    scrollPos = scroll.scrollPosition;
+                    using (var vertical = new EditorGUILayout.VerticalScope())
                     {
-                        case MessageType.Normal:
-                            iconStyle = new GUIStyle("CN EntryInfoIconSmall");
-                            break;
-                        case MessageType.Error:
-                            iconStyle = new GUIStyle("CN EntryErrorIconSmall");
-                            break;
-                        case MessageType.Warring:
-                            iconStyle = new GUIStyle("CN EntryWarnIconSmall");
-                            break;
-                    }
+                        foreach (var item in allMsg.ToArray())
+                        {
+                            switch (item.type)
+                            {
+                                case MessageType.Normal:
+                                    iconStyle = new GUIStyle("CN EntryInfoIconSmall");
+                                    break;
+                                case MessageType.Error:
+                                    iconStyle = new GUIStyle("CN EntryErrorIconSmall");
+                                    break;
+                                case MessageType.Warring:
+                                    iconStyle = new GUIStyle("CN EntryWarnIconSmall");
+                                    break;
+                            }
 
-                    using (var horizontalScope = new EditorGUILayout.HorizontalScope())
-                    {
-                        EditorGUILayout.LabelField("", iconStyle, GUILayout.Width(15));
-                        EditorGUILayout.SelectableLabel(item.msg, renderStyle);
+                            using (var horizontalScope = new EditorGUILayout.HorizontalScope())
+                            {
+                                EditorGUILayout.LabelField("", iconStyle, GUILayout.Width(15));
+                                EditorGUILayout.SelectableLabel(item.msg, renderStyle);
+                            }
+                        }
                     }
-
                 }
             }
-            GUILayout.EndVertical();
-            GUILayout.EndArea();
+
             GUI.depth = -200;
             DrawMenuBar(rect);
 
@@ -118,15 +120,18 @@ namespace CloudMacaca.ViewSystem
         {
             menuBar = new Rect(rect.x + 1, rect.y + 16, rect.width - 1, menuBarHeight);
 
-            GUILayout.BeginArea(menuBar, EditorStyles.toolbar);
-            GUILayout.BeginHorizontal();
-            GUILayout.Space(5);
-            if (GUILayout.Button(new GUIContent("Clear"), EditorStyles.toolbarButton, GUILayout.Width(40)))
+            using (var area = new GUILayout.AreaScope(menuBar, "", EditorStyles.toolbar))
             {
-                allMsg.Clear();
+                using (var horizon = new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.Space(5);
+                    if (GUILayout.Button(new GUIContent("Clear"), EditorStyles.toolbarButton, GUILayout.Width(40)))
+                    {
+                        allMsg.Clear();
+                    }
+                }
             }
-            GUILayout.EndHorizontal();
-            GUILayout.EndArea();
+
         }
 
     }

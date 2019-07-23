@@ -14,12 +14,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static Texture2D zoomIcon;
         static Texture2D normalizedIcon;
         static Texture2D bakeScritpIcon;
-        enum EditorMode
-        {
-            V1, V2
-        }
-        static EditorMode currentEditorMode;
-
         static ViewSystemNodeEditor window;
         static IViewSystemDateReader dataReader;
         static ViewSystemNodeSideBar sideBar;
@@ -27,12 +21,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
 
         [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
-        private static void OpenWindowAsV1()
+        private static void OpenWindow()
         {
             window = GetWindow<ViewSystemNodeEditor>();
             window.titleContent = new GUIContent("View System Visual Editor");
             window.minSize = new Vector2(600, 400);
-            currentEditorMode = EditorMode.V1;
             window.RefreshData();
         }
         void RefreshData()
@@ -108,13 +101,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (baseSettingWindow != null) baseSettingWindow.node.Draw();
             EditorZoomArea.End();
 
-
-            GUI.depth = -100;
-            DrawMenuBar();
             if (baseSettingWindow != null)
             {
-                baseSettingWindow.Draw();
+                if (baseSettingWindow.showBaseSettingWindow) baseSettingWindow.Draw();
             }
+            GUI.depth = -100;
+            DrawMenuBar();
+
             if (console.showConsole) console.Draw(new Vector2(position.width, position.height));
             if (showSideBar) sideBar.Draw();
 
@@ -347,7 +340,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewPageNode.OnNodeConnect(viewStateNode, line);
             // View
             nodeConnectionLineList.Add(line);
-            console.LogMessage("Create Link State:" + viewStateNode.viewState.name + ", Page :" + viewPageNode.viewPage.name);
+            console.LogMessage("Create Link, State:" + viewStateNode.viewState.name + ", Page :" + viewPageNode.viewPage.name);
         }
 
         ViewSystemNodeLine FindViewSystemNodeConnectionLine(ViewStateNode viewStateNode, ViewPageNode viewPageNode)
@@ -421,51 +414,50 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             menuBar = new Rect(0, 0, position.width, menuBarHeight);
 
-            GUILayout.BeginArea(menuBar, EditorStyles.toolbar);
-            GUILayout.BeginHorizontal();
-
-            GUILayout.Space(5);
-            if (GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(35)))
+            using (var area = new GUILayout.AreaScope(menuBar, "", EditorStyles.toolbar))
             {
-                dataReader.Save(viewPageList, viewStateList);
-            }
-            // GUILayout.Space(5);
-            // GUILayout.Button(new GUIContent("Load"), EditorStyles.toolbarButton, GUILayout.Width(35));
-            GUILayout.Space(5);
-            if (GUILayout.Button(new GUIContent("Reload", refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))
-            {
-                RefreshData();
-            }
-            GUILayout.Space(5);
-            showSideBar = GUILayout.Toggle(showSideBar, new GUIContent(sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+                using (var horizon = new GUILayout.HorizontalScope())
+                {
+                    GUILayout.Space(5);
+                    if (GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(35)))
+                    {
+                        dataReader.Save(viewPageList, viewStateList);
+                    }
+                    GUILayout.Space(5);
+                    if (GUILayout.Button(new GUIContent("Reload", refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))
+                    {
+                        RefreshData();
+                    }
+                    GUILayout.Space(5);
+                    showSideBar = GUILayout.Toggle(showSideBar, new GUIContent(sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
 
-            GUILayout.Space(5);
-            console.showConsole = GUILayout.Toggle(console.showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+                    GUILayout.Space(5);
+                    console.showConsole = GUILayout.Toggle(console.showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
 
-            GUILayout.FlexibleSpace();
-            GUILayout.Label(new GUIContent(zoomIcon, "Zoom"));
-            zoomScale = EditorGUILayout.Slider(zoomScale, 0.1f, 1, GUILayout.Width(120));
+                    GUILayout.FlexibleSpace();
+                    GUILayout.Label(new GUIContent(zoomIcon, "Zoom"));
+                    zoomScale = EditorGUILayout.Slider(zoomScale, 0.1f, 1, GUILayout.Width(120));
 
-            GUILayout.Label("ViewState:");
-            int newIndex = EditorGUILayout.Popup(currentIndex, viewStatesPopup.ToArray(),
-                EditorStyles.toolbarPopup, GUILayout.Width(80));
-            if (newIndex != currentIndex)
-            {
-                currentIndex = newIndex;
-                targetViewState = viewStatesPopup[currentIndex];
+                    GUILayout.Label("ViewState:");
+                    int newIndex = EditorGUILayout.Popup(currentIndex, viewStatesPopup.ToArray(),
+                        EditorStyles.toolbarPopup, GUILayout.Width(80));
+                    if (newIndex != currentIndex)
+                    {
+                        currentIndex = newIndex;
+                        targetViewState = viewStatesPopup[currentIndex];
+                    }
+
+                    if (GUILayout.Button(new GUIContent("Baked to Scritpable", bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton, GUILayout.Width(140)))
+                    {
+                        ViewSystemEditor.BakeAllViewPageName();
+                    }
+
+                    if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item"), EditorStyles.toolbarButton, GUILayout.Width(100)))
+                    {
+                        dataReader.Normalized();
+                    }
+                }
             }
-
-            if (GUILayout.Button(new GUIContent("Baked to Scritpable", bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton, GUILayout.Width(140)))
-            {
-                ViewSystemEditor.BakeAllViewPageName();
-            }
-
-            if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item"), EditorStyles.toolbarButton, GUILayout.Width(100)))
-            {
-                dataReader.Normalized();
-            }
-            GUILayout.EndHorizontal();
-            GUILayout.EndArea();
         }
 
         private ViewStateNode selectedViewStateNode;
