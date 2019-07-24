@@ -180,18 +180,5 @@ public class ViewSwitcherEditor : EditorWindow
         //SetupToInitPage();
     }
 
-    void SetupToInitPage()
-    {
-        //
-        var fp = viewController.GetInitViewPage();
-        if (fp != null)
-        {
-            OnChangePage(fp);
-        }
-        else
-        {
-            Debug.LogWarning("No ViewPage set as Init Page only Normized");
-            Normalized();
-        }
-    }
+   
 }

@@ -5,6 +5,14 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewSystemUtilitys
     {
+        [SerializeField]
+        public class OverlayPageState
+        {
+            public bool IsTransition = false;
+            public ViewPage viewPage;
+            public Coroutine pageChangeCoroutine;
+        }
+        
         static CloudMacaca.ViewSystem.ViewPageItem.PlatformOption _platform;
         public static CloudMacaca.ViewSystem.ViewPageItem.PlatformOption SetupPlatformDefine()
         {
@@ -40,6 +48,7 @@ namespace CloudMacaca.ViewSystem
 #endif
             return _platform;
         }
+
 
 
         public static float CalculateWaitingTimeForCurrentOnLeave(IEnumerable<ViewPageItem> viewPageItems)
