@@ -45,7 +45,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             int notSetPosY = 100;
             List<ViewPageNode> viewPageNodes = new List<ViewPageNode>();
             //先整理 ViewPage Node
-            var vps = viewController.viewPage.OrderBy(m => m.viewState);
+            var vps = viewController.viewPages.OrderBy(m => m.viewState);
             foreach (var item in vps)
             {
                 int finalY = 0;
@@ -104,7 +104,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         public void OnViewPageDelete(ViewPageNode node)
         {
-            viewController.viewPage.RemoveAll(m => m == node.viewPage);
+            viewController.viewPages.RemoveAll(m => m == node.viewPage);
         }
         public void OnViewStateDelete(ViewStateNode node)
         {
@@ -122,7 +122,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void OnViewPageAdd(ViewPageNode node)
         {
             var vp = node.viewPage;
-            viewController.viewPage.Add(vp);
+            viewController.viewPages.Add(vp);
             node.viewPage = vp;
         }
         public void OnViewStateAdd(ViewStateNode node)

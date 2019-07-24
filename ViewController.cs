@@ -43,7 +43,7 @@ namespace CloudMacaca.ViewSystem
         {
 
             //取得 ViewPage 物件
-            var vp = viewPage.Where(m => m.name == viewPageName).SingleOrDefault();
+            var vp = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
 
             //沒有找到 
             if (vp == null)
@@ -91,7 +91,7 @@ namespace CloudMacaca.ViewSystem
             //尋找這個頁面還在，但下個頁面沒有的元件
             //就是存在 currentLiveElement 中但不存在 viewItemForNextPage 的傢伙要 ChangePage 
             var allViewElementForNextPage = viewItemNextPage.Select(m => m.viewElement).ToList();
-            foreach (var item in currentLiveElement.ToArray())
+            foreach (var item in currentLiveElements.ToArray())
             {
                 //不存在的話就讓他加入應該移除的列表
                 if (allViewElementForNextPage.Contains(item) == false)
@@ -102,8 +102,8 @@ namespace CloudMacaca.ViewSystem
             }
 
 
-            currentLiveElement.Clear();
-            currentLiveElement = viewItemNextPage.Select(m => m.viewElement).ToList();
+            currentLiveElements.Clear();
+            currentLiveElements = viewItemNextPage.Select(m => m.viewElement).ToList();
 
             //整理目前在畫面上 Overlay page 的 ViewPageItem
             var CurrentOverlayViewPageItem = new List<ViewPageItem>();

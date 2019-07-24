@@ -40,6 +40,11 @@ namespace CloudMacaca.ViewSystem
         }
         protected override void Start()
         {
+            //Load ViewPages and ViewStates from ViewSystemSaveData
+
+            viewStates = viewSystemSaveData.viewStates.Select(m=>m.viewState).ToList();
+            viewPages = viewSystemSaveData.viewPages.Select(m=>m.viewPage).ToList();
+
             viewStatesNames = viewStates.Select(m => m.name);
 
             base.Start();

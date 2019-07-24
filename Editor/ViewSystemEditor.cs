@@ -104,7 +104,7 @@ public class ViewSystemEditor : Editor
 
     static void BuildScriptWithViewPages(StringBuilder sb)
     {
-        var vps = viewController.viewPage;
+        var vps = viewController.viewPages;
         if (vps == null)
         {
             return;

@@ -78,7 +78,7 @@ public class ViewSwitcherEditor : EditorWindow
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
 
-        List<ViewPage> viewPages = viewController.viewPage;
+        List<ViewPage> viewPages = viewController.viewPages;
 
         scroll = EditorGUILayout.BeginScrollView(scroll);
 

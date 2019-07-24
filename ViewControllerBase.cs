@@ -12,7 +12,7 @@ namespace CloudMacaca.ViewSystem
         #region Interface Impletetment
         public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
         {
-            var vp = viewPage.Where(m => m.name == viewPageName).SingleOrDefault();
+            var vp = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
             return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete));
         }
 
@@ -28,7 +28,7 @@ namespace CloudMacaca.ViewSystem
 
                 //如果 字典裡找不到 則 new 一個
                 overlayPageState = new ViewSystemUtilitys.OverlayPageState();
-                overlayPageState.viewPage = viewPage.SingleOrDefault(m => m.name == viewPageName);
+                overlayPageState.viewPage = viewPages.SingleOrDefault(m => m.name == viewPageName);
                 if (overlayPageState == null)
                 {
                     return;
@@ -128,12 +128,12 @@ namespace CloudMacaca.ViewSystem
         #endregion  
 
 
-        public List<ViewPage> viewPage = new List<ViewPage>();
+        public List<ViewPage> viewPages = new List<ViewPage>();
         public List<ViewState> viewStates = new List<ViewState>();
         protected static IEnumerable<string> viewStatesNames;
 
         [ReadOnly, SerializeField]
-        protected List<ViewElement> currentLiveElement = new List<ViewElement>();
+        protected List<ViewElement> currentLiveElements = new List<ViewElement>();
 
         [HideInInspector]
         public ViewPage lastViewPage;
