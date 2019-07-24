@@ -10,21 +10,51 @@ namespace CloudMacaca.ViewSystem
     {
 
         #region Interface Impletetment
-        public virtual Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
+        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
         {
-            //Empty implement will override in child class
-            return null;
+            var vp = viewPage.Where(m => m.name == viewPageName).SingleOrDefault();
+            return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete));
         }
 
-        public virtual void LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null)
+        public void LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null)
         {
-            //Empty implement will override in child class
+            ViewSystemUtilitys.OverlayPageState overlayPageState = null;
+
+            overlayPageStates.TryGetValue(viewPageName, out overlayPageState);
+
+            if (overlayPageState == null)
+            {
+                Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found");
+
+                //如果 字典裡找不到 則 new 一個
+                overlayPageState = new ViewSystemUtilitys.OverlayPageState();
+                overlayPageState.viewPage = viewPage.SingleOrDefault(m => m.name == viewPageName);
+                if (overlayPageState == null)
+                {
+                    return;
+                }
+
+                Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
+            }
+
+            overlayPageState.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageState, tweenTimeIfNeed, OnComplete));
         }
 
-        public virtual Coroutine ChangePage(string targetViewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false)
+        public Coroutine ChangePage(string targetViewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false)
         {
-            //Empty implement will override in child class
-            return null;
+            if (IsPageTransition && AutoWaitPreviousPageFinish == false)
+            {
+                Debug.LogError("Page is in Transition.");
+                return null;
+            }
+            else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
+            {
+                Debug.LogError("Page is in Transition but AutoWaitPreviousPageFinish");
+                ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnComplete));
+                return ChangePageToCoroutine;
+            }
+            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnComplete));
+            return ChangePageToCoroutine;
         }
 
         public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
@@ -92,6 +122,7 @@ namespace CloudMacaca.ViewSystem
         }
         protected virtual void Start()
         {
+            //開啟無限檢查自動離場的迴圈
             StartCoroutine(AutoLeaveOverlayPage());
         }
         #endregion  

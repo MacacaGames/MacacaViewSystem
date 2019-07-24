@@ -12,6 +12,7 @@ namespace CloudMacaca.ViewSystem
     {
 
         public static ViewController Instance;
+        public ViewElementPool viewElementPool;
 
         // Use this for initialization
         protected override void Awake()
@@ -30,35 +31,15 @@ namespace CloudMacaca.ViewSystem
         protected override void Start()
         {
             viewStatesNames = viewStates.Select(m => m.name);
-            //開啟無限檢查自動離場的迴圈
             base.Start();
         }
-
-
 
         // Stack 後進先出
         private float nextViewPageWaitTime = 0;
         private Dictionary<string, float> lastPageItemDelayOutTimes = new Dictionary<string, float>();
         private Dictionary<string, float> lastPageItemDelayOutTimesOverlay = new Dictionary<string, float>();
 
-        public override Coroutine ChangePage(string targetViewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false)
-        {
-            if (IsPageTransition && AutoWaitPreviousPageFinish == false)
-            {
-                Debug.LogError("Page is in Transition.");
-                return null;
-            }
-            else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
-            {
-                Debug.LogError("Page is in Transition but AutoWaitPreviousPageFinish");
-                ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnComplete));
-                return ChangePageToCoroutine;
-            }
-            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnComplete));
-            return ChangePageToCoroutine;
-        }
-
-        public IEnumerator ChangePageBase(string viewPageName, Action OnComplete)
+        public override IEnumerator ChangePageBase(string viewPageName, Action OnComplete)
         {
 
             //取得 ViewPage 物件
@@ -207,11 +188,6 @@ namespace CloudMacaca.ViewSystem
             InvokeOnViewPageChangeEnd(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
         }
 
-        public override Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
-        {
-            var vp = viewPage.Where(m => m.name == viewPageName).SingleOrDefault();
-            return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete));
-        }
         public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
         {
             if (vp == null)
@@ -297,32 +273,6 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        public override void LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4f, Action OnComplete = null)
-        {
-            // var vp = overlayPageStates.Where(m => m.name == viewPageName).SingleOrDefault();
-            ViewSystemUtilitys.OverlayPageState overlayPageState = null;
-
-            overlayPageStates.TryGetValue(viewPageName, out overlayPageState);
-
-            if (overlayPageState == null)
-            {
-                Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found");
-
-
-                //如果 字典裡找不到 則 new 一個
-                overlayPageState = new ViewSystemUtilitys.OverlayPageState();
-                overlayPageState.viewPage = viewPage.SingleOrDefault(m => m.name == viewPageName);
-                if (overlayPageState == null)
-                {
-                    return;
-                }
-
-                Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
-            }
-
-            overlayPageState.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageState, tweenTimeIfNeed, OnComplete));
-        }
-
         public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false)
         {
             var currentVe = currentViewPage.viewPageItems.Select(m => m.viewElement);
@@ -406,6 +356,5 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        public ViewElementPool viewElementPool;
     }
 }
