@@ -32,10 +32,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             if (data.baseSetting.UIRoot != null && data.baseSetting.UIRootScene == null)
             {
-                var ui_root = PrefabUtility.InstantiatePrefab(data.baseSetting.UIRoot, ViewControllerTransform);
-                data.baseSetting.UIRootScene = (GameObject)ui_root;
+                //Try find exsit first
+                var current = ViewControllerTransform.Find(data.baseSetting.UIRoot.name);
+                if (current != null)
+                {
+                    data.baseSetting.UIRootScene = current.gameObject;
+                }
+                //Or Instantiate a Prefab
+                else
+                {
+                    var ui_root = PrefabUtility.InstantiatePrefab(data.baseSetting.UIRoot, ViewControllerTransform);
+                    data.baseSetting.UIRootScene = (GameObject)ui_root;
+                }
             }
-
 
             // 整理 Editor 資料
             List<ViewPageNode> viewPageNodes = new List<ViewPageNode>();
@@ -79,6 +88,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void OnViewStateDelete(ViewStateNode node)
         {
             var s = data.viewStates.SingleOrDefault(m => m.viewState == node.viewState);
+            node.currentLinkedViewPageNode.All(
+                (m) =>
+                {
+                    m.currentLinkedViewStateNode = null;
+                    m.viewPage.viewState = "";
+                    return true;
+                }
+            );
             data.viewStates.Remove(s);
         }
 
@@ -157,6 +174,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             result = AssetDatabase.LoadAssetAtPath<ViewSystemSaveData>(filePath);
             return result;
+        }
+
+        public Transform GetViewControllerRoot(){
+            return ViewControllerTransform;
         }
     }
 

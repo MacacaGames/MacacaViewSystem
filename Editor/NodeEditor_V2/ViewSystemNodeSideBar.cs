@@ -71,7 +71,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewPageItemList = new ReorderableList(list, typeof(List<ViewPageItem>), true, true, true, false);
             viewPageItemList.drawElementCallback += DrawViewItemElement;
             viewPageItemList.drawHeaderCallback += DrawViewItemHeader;
-            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 6.5f;
+            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 8.5f;
             viewPageItemList.onAddCallback += AddItem;
         }
 
@@ -254,35 +254,43 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     if (item.Length > 1)
                     {
                         editor.console.LogErrorMessage("Only object can be selected.");
-                        return;
+                        goto PICK_BREAK;
                     }
                     if (item.Length == 0)
                     {
                         editor.console.LogErrorMessage("No object is been select, please check object is in scene or not.");
-                        return;
+                        goto PICK_BREAK;
                     }
-                    list[index].parentPath = AnimationUtility.CalculateTransformPath(item.First(), null);
+
+                    var path = AnimationUtility.CalculateTransformPath(item.First(), null);
+                    var sp = path.Split('/');
+                    if (sp.First() == editor.ViewControllerRoot.name)
+                    {
+                        list[index].parentPath = path.Substring(sp.First().Length + 1);
+                    }
+                    else
+                    {
+                        editor.console.LogErrorMessage("Selected Parent is not child of ViewController GameObject");
+                        Debug.LogError("Selected Parent is not child of ViewController GameObject");
+                    }
                 }
+            // Due to while using auto layout we cannot return
+            // Therefore use goto to escap the if scope
+            PICK_BREAK:
                 parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.1f;
                 if (GUI.Button(parentFunctionRect, "Highlight Current"))
                 {
                     var go = GameObject.Find(list[index].parentPath);
                     if (go) EditorGUIUtility.PingObject(go);
+                    else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
                 }
-                // using (var check = new EditorGUI.ChangeCheckScope())
-                // {
-                //     list[index].parent = (Transform)EditorGUI.ObjectField(rect, "Parent", list[index].parent, typeof(Transform), true);
-                //     if (check.changed)
-                //     {
-                //         if (string.IsNullOrEmpty(list[index].parent.gameObject.scene.name))
-                //         {
-                //             list[index].parent = null;
-                //             editor.console.LogErrorMessage("Parent Object only can set a scene object");
-                //             return;
-                //         }
-                //         list[index].parentPath = AnimationUtility.CalculateTransformPath(list[index].parent, null);
-                //     }
-                // }
+
+                rect.y += EditorGUIUtility.singleLineHeight;
+
+                list[index].easeType = (DG.Tweening.Ease)EditorGUI.EnumPopup(rect, new GUIContent("Ease", "The EaseType when needs to tween."), list[index].easeType);
+                rect.y += EditorGUIUtility.singleLineHeight;
+
+                list[index].TweenTime = EditorGUI.Slider(rect, new GUIContent("Tween Time", "Tween Time use to control when ViewElement needs change parent."), list[index].TweenTime, 0, 1);
                 rect.y += EditorGUIUtility.singleLineHeight;
 
                 list[index].delayIn = EditorGUI.Slider(rect, "Delay In", list[index].delayIn, 0, 1);
@@ -427,22 +435,25 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 showBasicInfo.target = EditorGUILayout.Foldout(showBasicInfo.target, "Basic Info");
                 using (var fade = new EditorGUILayout.FadeGroupScope(showBasicInfo.faded))
                 {
-                    using (var vertial_in = new EditorGUILayout.VerticalScope())
+                    if (fade.visible)
                     {
-                        vp.name = EditorGUILayout.TextField("Name", vp.name);
-                        vp.viewPageTransitionTimingType = (ViewPage.ViewPageTransitionTimingType)EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", vp.viewPageTransitionTimingType);
-                        using (var disable = new EditorGUI.DisabledGroupScope(vp.viewPageType != ViewPage.ViewPageType.Overlay))
+                        using (var vertial_in = new EditorGUILayout.VerticalScope())
                         {
-                            vp.autoLeaveTimes = EditorGUILayout.FloatField("AutoLeaveTimes", vp.autoLeaveTimes);
-                        }
-                        using (var disable = new EditorGUI.DisabledGroupScope(vp.viewPageTransitionTimingType != ViewPage.ViewPageTransitionTimingType.自行設定))
-                        {
-                            vp.customPageTransitionWaitTime = EditorGUILayout.FloatField("CustomPageTransitionWaitTime", vp.customPageTransitionWaitTime);
-                        }
+                            vp.name = EditorGUILayout.TextField("Name", vp.name);
+                            vp.viewPageTransitionTimingType = (ViewPage.ViewPageTransitionTimingType)EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", vp.viewPageTransitionTimingType);
+                            using (var disable = new EditorGUI.DisabledGroupScope(vp.viewPageType != ViewPage.ViewPageType.Overlay))
+                            {
+                                vp.autoLeaveTimes = EditorGUILayout.FloatField("AutoLeaveTimes", vp.autoLeaveTimes);
+                            }
+                            using (var disable = new EditorGUI.DisabledGroupScope(vp.viewPageTransitionTimingType != ViewPage.ViewPageTransitionTimingType.自行設定))
+                            {
+                                vp.customPageTransitionWaitTime = EditorGUILayout.FloatField("CustomPageTransitionWaitTime", vp.customPageTransitionWaitTime);
+                            }
 
-                        using (var disable = new EditorGUI.DisabledGroupScope(true))
-                        {
-                            EditorGUILayout.IntField("TargetFrameRate", -1);
+                            using (var disable = new EditorGUI.DisabledGroupScope(true))
+                            {
+                                EditorGUILayout.IntField("TargetFrameRate", -1);
+                            }
                         }
                     }
                 }
@@ -453,7 +464,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     scrollerPos = scroll.scrollPosition;
                     using (var fade = new EditorGUILayout.FadeGroupScope(showViewPageItem.faded))
                     {
-                        if (viewPageItemList != null) viewPageItemList.DoLayoutList();
+                        if (viewPageItemList != null && fade.visible) viewPageItemList.DoLayoutList();
                     }
                 }
             }
@@ -469,29 +480,32 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 showBasicInfo.target = EditorGUILayout.Foldout(showBasicInfo.target, "Basic Info");
                 using (var fade = new EditorGUILayout.FadeGroupScope(showBasicInfo.faded))
                 {
-                    using (var vertical = new EditorGUILayout.VerticalScope(GUILayout.Height(70)))
+                    if (fade.visible)
                     {
-                        using (var check = new EditorGUI.ChangeCheckScope())
+                        using (var vertical = new EditorGUILayout.VerticalScope(GUILayout.Height(70)))
                         {
-                            vs.name = EditorGUILayout.TextField("name", vs.name);
-                            if (check.changed)
+                            using (var check = new EditorGUI.ChangeCheckScope())
                             {
-                                viewStateNode.currentLinkedViewPageNode.All(
-                                    m =>
-                                    {
-                                        m.viewPage.viewState = vs.name;
-                                        return true;
-                                    }
-                                );
+                                vs.name = EditorGUILayout.TextField("name", vs.name);
+                                if (check.changed)
+                                {
+                                    viewStateNode.currentLinkedViewPageNode.All(
+                                        m =>
+                                        {
+                                            m.viewPage.viewState = vs.name;
+                                            return true;
+                                        }
+                                    );
+                                }
                             }
+                            using (var disable = new EditorGUI.DisabledGroupScope(true))
+                            {
+                                EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", ViewPage.ViewPageTransitionTimingType.接續前動畫);
+                                EditorGUILayout.FloatField("AutoLeaveTimes", 0);
+                                EditorGUILayout.FloatField("CustomPageTransitionWaitTime", 0);
+                            }
+                            vs.targetFrameRate = EditorGUILayout.IntField("TargetFrameRate", vs.targetFrameRate);
                         }
-                        using (var disable = new EditorGUI.DisabledGroupScope(true))
-                        {
-                            EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", ViewPage.ViewPageTransitionTimingType.接續前動畫);
-                            EditorGUILayout.FloatField("AutoLeaveTimes", 0);
-                            EditorGUILayout.FloatField("CustomPageTransitionWaitTime", 0);
-                        }
-                        vs.targetFrameRate = EditorGUILayout.IntField("TargetFrameRate", vs.targetFrameRate);
                     }
                 }
 
@@ -502,7 +516,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     scrollerPos = scroll.scrollPosition;
                     using (var fade = new EditorGUILayout.FadeGroupScope(showViewPageItem.faded))
                     {
-                        if (viewPageItemList != null) viewPageItemList.DoLayoutList();
+                        if (viewPageItemList != null && fade.visible) viewPageItemList.DoLayoutList();
                     }
                 }
             }

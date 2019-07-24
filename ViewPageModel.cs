@@ -33,6 +33,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
         public float TweenTime = 0.4f;
+        public DG.Tweening.Ease easeType = DG.Tweening.Ease.OutQuad;
         public float delayIn;
         public float delayOut;
         [Tooltip("這個可以讓該項目在特定平台時不會出現")]

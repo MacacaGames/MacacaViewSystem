@@ -18,7 +18,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static IViewSystemDateReader dataReader;
         static ViewSystemNodeSideBar sideBar;
         static ViewSystemNodeBaseSettingWindow baseSettingWindow;
-
+        public Transform ViewControllerRoot;
 
         [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
         private static void OpenWindow()
@@ -34,6 +34,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             dataReader = new ViewSystemDataReaderV2(this);
             dataReader.Init();
+            ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             baseSettingWindow = new ViewSystemNodeBaseSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
 
             viewStatesPopup.Add("All");
@@ -57,12 +58,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (sideBar == null) sideBar = new ViewSystemNodeSideBar(this);
             if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
             if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture("pane options") as Texture2D;
-            if (bakeScritpIcon == null) bakeScritpIcon = EditorGUIUtility.FindTexture("TextAsset Icon") as Texture2D;
+            if (bakeScritpIcon == null) bakeScritpIcon = EditorGUIUtility.FindTexture("cs Script Icon") as Texture2D;
 
-            if (miniInfoIcon == null) miniInfoIcon = EditorGUIUtility.Load("icons/console.infoicon.sml.png") as Texture2D;
+            if (miniInfoIcon == null) miniInfoIcon = EditorGUIUtility.FindTexture("console.infoicon.sml") as Texture2D;
             if (miniErrorIcon == null) miniErrorIcon = EditorGUIUtility.Load("icons/console.erroricon.sml.png") as Texture2D;
             if (refreshIcon == null) refreshIcon = EditorGUIUtility.Load((EditorGUIUtility.isProSkin) ? "icons/d_Refresh.png" : "icons/Refresh.png") as Texture2D;
             if (zoomIcon == null) zoomIcon = EditorGUIUtility.FindTexture("ViewToolZoom On") as Texture2D;
+
         }
         List<ViewPageNode> viewPageList = new List<ViewPageNode>();
 

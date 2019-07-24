@@ -74,8 +74,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (!showBaseSettingWindow)
             {
                 rect = Rect.zero;
+                node.clickContainRect = rect;
             }
-
         }
     }
     public class BaseSettingNode : ViewSystemNode
