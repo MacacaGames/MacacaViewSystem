@@ -51,13 +51,8 @@ namespace CloudMacaca.ViewSystem
                 if (!veDicts.TryGetValue(source.name, out Queue<ViewElement> veQueue))
                 {
                     veQueue = new Queue<ViewElement>();
-
-                    var a = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
-                    a.name = source.name + "(Pooled)";
-                    veQueue.Enqueue(a);
                     veDicts.Add(source.name, veQueue);
                 }
-
                 if (veQueue.Count == 0)
                 {
                     var a = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
@@ -178,8 +173,7 @@ namespace CloudMacaca.ViewSystem
 
             //尋找這個頁面還在，但下個頁面沒有的元件，這些元件應該先移除
             // 10/13 新邏輯 使用兩個 ViewPageItem 先連集在差集
-
-            var viewElementExitsInBothPage = viewItemNextPage.Where(m=>m.runtimeViewElement.IsUnique).Intersect(viewItemCurrentPage.Where(m=>m.runtimeViewElement.IsUnique)).Select(m => m.viewElement).ToList();
+            var viewElementExitsInBothPage = viewItemNextPage.Where(m => m.runtimeViewElement.IsUnique).Intersect(viewItemCurrentPage.Where(m => m.runtimeViewElement.IsUnique)).Select(m => m.viewElement).ToList();
 
             List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
 
