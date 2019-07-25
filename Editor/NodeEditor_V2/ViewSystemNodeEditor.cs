@@ -72,7 +72,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         List<ViewSystemNodeLine> nodeConnectionLineList = new List<ViewSystemNodeLine>();
         public ViewSystemNodeConsole console;
 
-        float zoomScale = 1.0f;
+        public float zoomScale = 1.0f;
         Vector2 vanishingPoint = new Vector2(0, 21);
         Rect zoomArea;
         void OnGUI()

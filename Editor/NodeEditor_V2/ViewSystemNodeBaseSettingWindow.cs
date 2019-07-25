@@ -27,8 +27,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             };
             node.OnNodeSelect += (v) =>
             {
-                rect.x = v.rect.x + v.rect.width;
-                rect.y = v.rect.y + v.rect.height;
+                rect.x = v.rect.x * editor.zoomScale + v.rect.width * editor.zoomScale;
+                rect.y = v.rect.y * editor.zoomScale + v.rect.height * editor.zoomScale;
                 rect.width = 350;
                 rect.height = 250;
                 showBaseSettingWindow = true;
