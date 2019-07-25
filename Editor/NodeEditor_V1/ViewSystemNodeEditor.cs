@@ -63,9 +63,9 @@ namespace CloudMacaca.ViewSystem
             if (console == null) console = new ViewSystemNodeConsole();
             if (sideBar == null) sideBar = new ViewSystemNodeSideBar(this);
             if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
-            if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture( "pane options" ) as Texture2D;
-            if (bakeScritpIcon == null) bakeScritpIcon =  EditorGUIUtility.FindTexture( "TextAsset Icon" ) as Texture2D;
-           
+            if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture("pane options") as Texture2D;
+            if (bakeScritpIcon == null) bakeScritpIcon = EditorGUIUtility.FindTexture("TextAsset Icon") as Texture2D;
+
             if (miniInfoIcon == null) miniInfoIcon = EditorGUIUtility.Load("icons/console.infoicon.sml.png") as Texture2D;
             if (miniErrorIcon == null) miniErrorIcon = EditorGUIUtility.Load("icons/console.erroricon.sml.png") as Texture2D;
             if (refreshIcon == null) refreshIcon = EditorGUIUtility.Load((EditorGUIUtility.isProSkin) ? "icons/d_Refresh.png" : "icons/Refresh.png") as Texture2D;
@@ -452,7 +452,7 @@ namespace CloudMacaca.ViewSystem
 
             if (GUILayout.Button(new GUIContent("Baked to Scritpable", bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton, GUILayout.Width(140)))
             {
-                ViewSystemEditor.BakeAllViewPageName();
+                ViewSystemScriptBaker.BakeAllViewPageName(viewPageList.Select(m => m.viewPage).ToList(), viewStateList.Select(m => m.viewState).ToList());
             }
             if (GUILayout.Button(new GUIContent("Normalized", normalizedIcon, "Normalized Preview"), EditorStyles.toolbarButton, GUILayout.Width(80)))
             {

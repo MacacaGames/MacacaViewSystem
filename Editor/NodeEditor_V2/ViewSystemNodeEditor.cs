@@ -451,7 +451,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                     if (GUILayout.Button(new GUIContent("Baked to Scritpable", bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton, GUILayout.Width(140)))
                     {
-                        ViewSystemEditor.BakeAllViewPageName();
+                        ViewSystemScriptBaker.BakeAllViewPageName(viewPageList.Select(m => m.viewPage).ToList(), viewStateList.Select(m => m.viewState).ToList());
                     }
 
                     if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item"), EditorStyles.toolbarButton, GUILayout.Width(100)))

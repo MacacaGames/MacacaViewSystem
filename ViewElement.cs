@@ -12,6 +12,14 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewElement : MonoBehaviour
     {
+        #region  V2 Data
+        public static ViewElementRuntimePool runtimePool;
+        public static ViewElementPool viewElementPool;
+        public string PoolKey;
+
+        public bool IsUnique = false;
+        #endregion
+
         public enum TransitionType
         {
             Animator,
@@ -56,7 +64,6 @@ namespace CloudMacaca.ViewSystem
         public UnityEvent OnShowHandle;
         public UnityEvent OnLeaveHandle;
 
-        private Transform poolParent;
         private Vector3 poolPosition;
         private Vector3 poolScale;
         class LastTransform
@@ -110,11 +117,11 @@ namespace CloudMacaca.ViewSystem
 
         public void Setup()
         {
-            poolParent = ViewController.Instance.viewElementPool.transform;
-            poolScale = transform.localScale;
-            poolPosition = rectTransform.anchoredPosition3D;
-            if (transform.parent == poolParent)
-                gameObject.SetActive(false);
+            // poolParent = viewElementPool.transform;
+            // poolScale = transform.localScale;
+            // poolPosition = rectTransform.anchoredPosition3D;
+            // if (transform.parent == poolParent)
+            //     gameObject.SetActive(false);
         }
         Coroutine AnimationIsEndCheck = null;
 
@@ -136,7 +143,7 @@ namespace CloudMacaca.ViewSystem
 
                 //還在池子裡，應該先 OnShow
                 //或是正在離開，都要重播 OnShow
-                if (IsShowed() == false || OnLeaveWorking)
+                if (IsShowed == false || OnLeaveWorking)
                 {
                     rectTransform.SetParent(parent, true);
                     rectTransform.anchoredPosition3D = Vector3.zero;
@@ -200,7 +207,7 @@ namespace CloudMacaca.ViewSystem
                 if (delayIn == 0) gameObject.SetActive(true);
             }
 
-            if (IsShowed() && delayIn > 0)
+            if (IsShowed && delayIn > 0)
             {
                 if (transition == TransitionType.Animator)
                 {
@@ -315,9 +322,12 @@ namespace CloudMacaca.ViewSystem
                 });
         }
 
-        public bool IsShowed()
+        public bool IsShowed
         {
-            return rectTransform.parent != poolParent;
+            get
+            {
+                return rectTransform.parent != viewElementPool.transformCache;
+            }
         }
 
         public void SampleToLoopState()
@@ -338,10 +348,14 @@ namespace CloudMacaca.ViewSystem
             {
                 return;
             }
-            rectTransform.SetParent(poolParent, true);
+            rectTransform.SetParent(viewElementPool.transformCache, true);
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
 
+            if (runtimePool != null)
+            {
+                runtimePool.RecoverViewElement(this);
+            }
         }
         public bool DisableGameObjectOnComplete = true;
 

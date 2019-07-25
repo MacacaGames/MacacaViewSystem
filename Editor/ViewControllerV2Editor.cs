@@ -40,7 +40,15 @@ namespace CloudMacaca.ViewSystem
         {
             so.Update();
 
-            EditorGUILayout.PropertyField(s_SaveData);
+            using (var change = new EditorGUI.ChangeCheckScope())
+            {
+                EditorGUILayout.PropertyField(s_SaveData);
+                if (change.changed)
+                {
+                    EditorUtility.SetDirty(viewController);
+                }
+            }
+
             serializedObject.ApplyModifiedProperties();
 
             showDebugView.target = EditorGUILayout.Foldout(showDebugView.target, "Debug");

@@ -7,17 +7,13 @@ namespace CloudMacaca.ViewSystem
     [System.Serializable]
     public class ViewPageItem
     {
-        public enum PlatformOption
-        {
-            Android, // 1 << 0
-            iOS, // 1 << 1
-            UWP, // 1 << 2
-            tvOS // 1 << 3
-        }
+        static Transform ViewControllerObject;
+
         public ViewElement viewElement;
-        public ViewElement runtimeViewElement;
+        public ViewElement runtimeViewElement = null;
         [Tooltip("ViewElement 在該頁面時應該對其的父物件")]
         public Transform parent;
+        public Transform runtimeParent = null;
         public string parentPath;
         GameObject _parentGameObject;
         [HideInInspector]
@@ -27,7 +23,7 @@ namespace CloudMacaca.ViewSystem
             {
                 if (_parentGameObject == null)
                 {
-                    _parentGameObject = parent.gameObject;
+                    _parentGameObject = runtimeParent.gameObject;
                 }
                 return _parentGameObject;
             }
@@ -38,6 +34,13 @@ namespace CloudMacaca.ViewSystem
         public float delayOut;
         [Tooltip("這個可以讓該項目在特定平台時不會出現")]
         public List<PlatformOption> excludePlatform = new List<PlatformOption>();
+        public enum PlatformOption
+        {
+            Android, // 1 << 0
+            iOS, // 1 << 1
+            UWP, // 1 << 2
+            tvOS // 1 << 3
+        }
         public ViewPageItem(ViewElement ve)
         {
             viewElement = ve;

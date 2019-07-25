@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace CloudMacaca.ViewSystem
 {
-    public class ViewControllerBase : MonoBehaviour, IViewController
+    public class ViewControllerBase : TransformCacheBase, IViewController
     {
 
         #region Interface Impletetment
@@ -42,9 +42,14 @@ namespace CloudMacaca.ViewSystem
 
         public Coroutine ChangePage(string targetViewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false)
         {
+            if (currentViewPage.name == targetViewPageName)
+            {
+                Debug.LogError("The ViewPage request to change is same as current ViewPage, nothing will happen!");
+                return null;
+            }
             if (IsPageTransition && AutoWaitPreviousPageFinish == false)
             {
-                Debug.LogError("Page is in Transition.");
+                Debug.LogError("Page is in Transition. You can set AutoWaitPreviousPageFinish to 'True' then page will auto transition to next page while previous page transition finished.");
                 return null;
             }
             else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
@@ -189,11 +194,11 @@ namespace CloudMacaca.ViewSystem
             {
                 if (item.excludePlatform.Contains(platform))
                 {
-                    item.parentGameObject.SetActive(false);
+                    //item.parentGameObject.SetActive(false);
                 }
                 else
                 {
-                    item.parentGameObject.SetActive(true);
+                    //item.parentGameObject.SetActive(true);
                     realViewPageItem.Add(item);
                 }
             }

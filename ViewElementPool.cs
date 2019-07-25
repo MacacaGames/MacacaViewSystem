@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 [ExecuteInEditMode]
-public class ViewElementPool : MonoBehaviour
+public class ViewElementPool : TransformCacheBase
 {
 	public bool EnableWidthAndHeightSyneInEditorMode = false;
     Canvas _canvas;
@@ -31,7 +31,7 @@ public class ViewElementPool : MonoBehaviour
         }
     }
     RectTransform _rectTransform;
-    RectTransform rectTransform
+    public RectTransform rectTransform
     {
         get
         {

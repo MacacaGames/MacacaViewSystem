@@ -68,6 +68,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
                 EditorGUILayout.HelpBox("UI Root Object will generate and set as a child of 'View Controller GameObject' after View System init.", MessageType.Info);
 
+                saveData.baseSetting._maxWaitingTime = EditorGUILayout.Slider(new GUIContent("Change Page Max Waitning", "The max waiting for change page, if previous page need time more than this value ,ViewController wiil force transition to next page."), saveData.baseSetting._maxWaitingTime, 0, 1);
+                EditorGUILayout.HelpBox("The max waiting for change page, if previous page need time more than this value ,ViewController wiil force transition to next page.", MessageType.Info);
+
             }
 
             showBaseSettingWindow = node.isSelect;

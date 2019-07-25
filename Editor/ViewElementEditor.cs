@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.AnimatedValues;
 
 namespace CloudMacaca.ViewSystem
 {
@@ -16,15 +17,19 @@ namespace CloudMacaca.ViewSystem
         private SerializedProperty m_AnimTriggerProperty;
         private SerializedProperty onShowHandle;
         private SerializedProperty onLeaveHandle;
-
+        AnimBool showV2Setting = new AnimBool(true);
 
         void OnEnable()
         {
             viewElement = (ViewElement)target;
             onShowHandle = serializedObject.FindProperty("OnShowHandle");
             onLeaveHandle = serializedObject.FindProperty("OnLeaveHandle");
+            showV2Setting.valueChanged.AddListener(Repaint);
         }
-
+        void OnDisable()
+        {
+            showV2Setting.valueChanged.RemoveListener(Repaint);
+        }
         public override void OnInspectorGUI()
         {
 
@@ -72,6 +77,16 @@ namespace CloudMacaca.ViewSystem
                     break;
             }
 
+
+            showV2Setting.target = EditorGUILayout.Foldout(showV2Setting.target, new GUIContent("V2 Setting", "Below scope is only used in V2 Version"));
+
+            using (var fade = new EditorGUILayout.FadeGroupScope(showV2Setting.faded))
+            {
+                if (fade.visible)
+                {
+                    viewElement.IsUnique = EditorGUILayout.Toggle("Is Unique", viewElement.IsUnique);
+                }
+            }
 
             serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(viewElement);

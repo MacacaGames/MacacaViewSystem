@@ -42,6 +42,14 @@ namespace CloudMacaca.ViewSystem
             public string ViewControllerObjectPath;
             public GameObject UIRoot;
             public GameObject UIRootScene;
+            public float MaxWaitingTime
+            {
+                get
+                {
+                    return Mathf.Clamp01(_maxWaitingTime);
+                }
+            }
+            public float _maxWaitingTime = 1;
         }
 
     }

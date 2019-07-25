@@ -12,7 +12,7 @@ namespace CloudMacaca.ViewSystem
             public ViewPage viewPage;
             public Coroutine pageChangeCoroutine;
         }
-        
+
         static CloudMacaca.ViewSystem.ViewPageItem.PlatformOption _platform;
         public static CloudMacaca.ViewSystem.ViewPageItem.PlatformOption SetupPlatformDefine()
         {
@@ -77,8 +77,8 @@ namespace CloudMacaca.ViewSystem
             }
             return maxDelayTime;
         }
-        static float maxClampTime = 1;
-        public static float CalculateTimesNeedsForOnShow(IEnumerable<ViewElement> viewElements)
+
+        public static float CalculateTimesNeedsForOnShow(IEnumerable<ViewElement> viewElements, float maxClampTime = 1)
         {
             float maxInAnitionTime = 0;
 
@@ -102,7 +102,7 @@ namespace CloudMacaca.ViewSystem
             return Mathf.Clamp(maxInAnitionTime, 0, maxClampTime);
             //return maxOutAnitionTime;
         }
-        public static float CalculateTimesNeedsForOnLeave(IEnumerable<ViewElement> viewElements)
+        public static float CalculateTimesNeedsForOnLeave(IEnumerable<ViewElement> viewElements, float maxClampTime = 1)
         {
             float maxOutAnitionTime = 0;
 
