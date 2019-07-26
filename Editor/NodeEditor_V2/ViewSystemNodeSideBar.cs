@@ -120,6 +120,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             copyPasteBuffer.TweenTime = list[index].TweenTime;
                             copyPasteBuffer.delayOut = list[index].delayOut;
                             copyPasteBuffer.delayIn = list[index].delayIn;
+                            copyPasteBuffer.parentPath = list[index].parentPath;
 
                             var excludePlatformCopyed = new List<ViewPageItem.PlatformOption>();
                             foreach (var item in list[index].excludePlatform)
