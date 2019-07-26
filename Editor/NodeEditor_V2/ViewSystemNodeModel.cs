@@ -266,15 +266,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             this.nodeType = isOverlay ? NodeType.Overlay : NodeType.FullPage;
             this.nodeConnectionLinker = new ViewSystemNodeLinker(nodeType == NodeType.Overlay ? ConnectionPointType.None : ConnectionPointType.Down, this, OnConnectionPointClick);
             this.OnNodeTypeConvert = OnNodeTypeConvert;
-            switch (nodeType)
-            {
-                case NodeType.FullPage:
-                    nodeStyleString = "flow node 2";
-                    break;
-                case NodeType.Overlay:
-                    nodeStyleString = "flow node 0";
-                    break;
-            }
+            SetupNode();
         }
         public override void SetupNode()
         {
@@ -287,6 +279,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             this.viewPage.viewPageType = isOverlay ? ViewPage.ViewPageType.Overlay : ViewPage.ViewPageType.FullPage;
             this.nodeConnectionLinker.type = isOverlay ? ConnectionPointType.None : ConnectionPointType.Down;
+            switch (nodeType)
+            {
+                case NodeType.FullPage:
+                    nodeStyleString = "flow node 2";
+                    break;
+                case NodeType.Overlay:
+                    nodeStyleString = "flow node 0";
+                    break;
+            }
         }
         public override void Draw()
         {

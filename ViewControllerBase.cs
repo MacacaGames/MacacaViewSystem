@@ -24,13 +24,13 @@ namespace CloudMacaca.ViewSystem
 
             if (overlayPageState == null)
             {
-                Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found");
 
                 //如果 字典裡找不到 則 new 一個
                 overlayPageState = new ViewSystemUtilitys.OverlayPageState();
                 overlayPageState.viewPage = viewPages.SingleOrDefault(m => m.name == viewPageName);
                 if (overlayPageState == null)
                 {
+                    Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found, even cannot find in setting file");
                     return;
                 }
 

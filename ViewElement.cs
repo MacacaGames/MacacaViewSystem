@@ -354,7 +354,7 @@ namespace CloudMacaca.ViewSystem
 
             if (runtimePool != null)
             {
-                runtimePool.RecoverViewElement(this);
+                runtimePool.QueueViewElementToRecovery(this);
             }
         }
         public bool DisableGameObjectOnComplete = true;
