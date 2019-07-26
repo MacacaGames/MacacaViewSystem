@@ -40,6 +40,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void Draw()
         {
             node.clickContainRect = rect;
+           
             using (var area = new GUILayout.AreaScope(rect, "Base Setting", new GUIStyle("window")))
             {
                 //GUILayout.Label("Base Setting", new GUIStyle("DefaultCenteredLargeText"));

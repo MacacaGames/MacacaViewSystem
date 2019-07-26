@@ -13,7 +13,7 @@ public class ComponentDrawer : Drawer
     public override void Draw()
     {
         base.Draw();
-        
+
         using (var vertical = new GUILayout.VerticalScope())
         {
             foreach (var item in serializedObjects)
@@ -44,6 +44,7 @@ public class ComponentDrawer : Drawer
     List<SerializedObject> serializedObjects = new List<SerializedObject>();
     void CacheItem(GameObject go, int layer)
     {
+        serializedObjects.Add(new SerializedObject(go));
         var components = go.GetComponents(typeof(Component));
         foreach (var item in components)
         {

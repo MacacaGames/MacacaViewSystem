@@ -119,7 +119,15 @@ public class PropertiesDrawer : Drawer
     List<SerializedProperty> serializedPropertys = new List<SerializedProperty>();
     void CacheItem(SerializedObject obj, int layer)
     {
+
         var prop = obj.GetIterator().Copy();
+        //GameObject Hack
+        var active = obj.FindProperty("m_IsActive");
+        if (active != null)
+        {
+            serializedPropertys.Add(active.Copy());
+        }
+        
         prop.NextVisible(true);
         do
         {
