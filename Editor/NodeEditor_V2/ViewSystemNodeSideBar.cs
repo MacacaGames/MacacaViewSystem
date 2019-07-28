@@ -18,6 +18,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         AnimBool showViewPageItem;
         ReorderableList viewPageItemList;
         GUIStyle removeButtonStyle;
+        OverridePopup popWindow;
         public ViewSystemNodeSideBar(ViewSystemNodeEditor editor)
         {
             this.editor = editor;
@@ -213,7 +214,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             //     Debug.Log("____target "+item2.target );
                             //     Debug.Log("____value "+item2.value );
                             //     Debug.Log("____objectReference "+item2.objectReference );
-                            // }
+                            // } 
                         }
                         list[index].viewElement = original;
                     }
@@ -231,7 +232,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         editor.console.LogErrorMessage("ViewElement has not been select yet!");
                         return;
                     }
-                    PopupWindow.Show(_popupArea, new OverridePopup(500, 300, list[index].viewElement.gameObject));
+                    if (popWindow != null)
+                    {
+                        popWindow.Close();
+                    }
+                    popWindow = EditorWindow.CreateInstance<OverridePopup>();
+
+                    popWindow.EndWindows();
+                    popWindow.titleContent = new GUIContent(list[index].viewElement.gameObject.name);
+                    popWindow.Init(list[index]);
+                    popWindow.ShowUtility();
                 }
                 if (Event.current.type == EventType.Repaint)
                 {

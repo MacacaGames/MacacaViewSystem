@@ -5,26 +5,31 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-public class OverridePopup : PopupWindowContent
+public class OverridePopup : EditorWindow
 {
     GameObject target;
-    public OverridePopup(float width, float height, GameObject gameObject)
+    ViewPageItem viewPageItem;
+    public void Init(ViewPageItem viewPageItem)
     {
-        target = gameObject;
-        _time = Time.realtimeSinceStartup;
-        maxSize = new Vector2(width * 1.5f, height * 1.5f);
-        minSize = new Vector2(width, height);
+        target = viewPageItem.viewElement.gameObject;
+        this.viewPageItem = viewPageItem;
+        // maxSize = new Vector2(width * 1.5f, height * 1.5f);
+        // minSize = new Vector2(width, height);
         currentSelectGameObject = null;
         CacheHierarchy();
     }
     Vector2 maxSize;
     Vector2 minSize;
-
-    public override void OnGUI(Rect rect)
+    public void Awake()
     {
-        editorWindow.maxSize = maxSize;
-        editorWindow.minSize = minSize;
-        // DrawTab();
+
+    }
+    public void OnGUI()
+    {
+
+        //editorWindow.maxSize = maxSize;
+        //editorWindow.minSize = minSize;
+        DrawTab();
         switch (_selectedTab)
         {
             case 0:
@@ -35,7 +40,7 @@ public class OverridePopup : PopupWindowContent
 
                 break;
         }
-        base.editorWindow.Repaint();
+        //base.editorWindow.Repaint();
     }
 
     GUIContent header = new GUIContent();
@@ -57,7 +62,7 @@ public class OverridePopup : PopupWindowContent
         }
         using (var horizon = new GUILayout.HorizontalScope())
         {
-            if (GUILayout.Button(header, new GUIStyle("dockareaStandalone"), GUILayout.Width(editorWindow.position.width)))
+            if (GUILayout.Button(header, new GUIStyle("dockareaStandalone"), GUILayout.Width(position.width)))
             {
                 if (currentSelectGameObject)
                 {
@@ -179,6 +184,4 @@ public class OverridePopup : PopupWindowContent
             // viewElementPropertyOverrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, null);
         };
     }
-
-    private float _time = 2;
 }

@@ -12,7 +12,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         private Rect rect;
         ViewSystemSaveData saveData;
         public BaseSettingNode node;
-
+        
         public ViewSystemNodeBaseSettingWindow(ViewSystemNodeEditor editor, ViewSystemDataReaderV2 dataReader)
         {
             this.editor = editor;
@@ -36,11 +36,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         }
 
+  
         int windowWidth = 300;
         public void Draw()
         {
             node.clickContainRect = rect;
-           
+
             using (var area = new GUILayout.AreaScope(rect, "Base Setting", new GUIStyle("window")))
             {
                 //GUILayout.Label("Base Setting", new GUIStyle("DefaultCenteredLargeText"));

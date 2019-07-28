@@ -61,7 +61,7 @@ public class PropertiesDrawer : Drawer
     }
     protected void DrawLabel(SerializedProperty Target)
     {
-        GUILayout.Label(Target.displayName);
+        GUILayout.Label("    " + Target.displayName);
     }
     protected void DrawValue(SerializedProperty Target)
     {
@@ -127,7 +127,7 @@ public class PropertiesDrawer : Drawer
         {
             serializedPropertys.Add(active.Copy());
         }
-        
+
         prop.NextVisible(true);
         do
         {

@@ -113,6 +113,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (console.showConsole) console.Draw(new Vector2(position.width, position.height));
             if (showSideBar) sideBar.Draw();
 
+
             ProcessEvents(Event.current);
             CheckRepaint();
         }
