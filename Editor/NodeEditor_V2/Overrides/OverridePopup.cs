@@ -4,6 +4,8 @@ using CloudMacaca.ViewSystem;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
+using System.Linq;
+using UnityEditorInternal;
 
 public class OverridePopup : EditorWindow
 {
@@ -17,9 +19,8 @@ public class OverridePopup : EditorWindow
         // minSize = new Vector2(width, height);
         currentSelectGameObject = null;
         CacheHierarchy();
+
     }
-    Vector2 maxSize;
-    Vector2 minSize;
     public void Awake()
     {
 
@@ -34,10 +35,10 @@ public class OverridePopup : EditorWindow
         {
             case 0:
                 DrawHeader();
-                DrawScrollView();
+                DrawScrollViewHierarchy();
                 break;
             case 1:
-
+                DrawScrollViewModify();
                 break;
         }
         //base.editorWindow.Repaint();
@@ -80,12 +81,12 @@ public class OverridePopup : EditorWindow
         }
     }
 
-    Vector2 scrollPosition;
-    void DrawScrollView()
+    Vector2 scrollPositionHierarchy;
+    void DrawScrollViewHierarchy()
     {
-        using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPosition))
+        using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionHierarchy))
         {
-            scrollPosition = scrollViewScope.scrollPosition;
+            scrollPositionHierarchy = scrollViewScope.scrollPosition;
 
             if (currentSelectGameObject)
             {
@@ -109,7 +110,97 @@ public class OverridePopup : EditorWindow
             if (hierarchyDrawer != null) hierarchyDrawer.Draw();
         }
     }
+    Vector2 scrollPositionModified;
+    ReorderableList reorderableListViewModify;
 
+    void DrawScrollViewModify()
+    {
+        if (reorderableListViewModify == null)
+        {
+            reorderableListViewModify = new ReorderableList(viewPageItem.overrideDatas, typeof(List<ViewElementPropertyOverrideData>), true, false, false, true);
+            reorderableListViewModify.elementHeight = EditorGUIUtility.singleLineHeight * 2.5f;
+            reorderableListViewModify.drawElementCallback += (rect, index, isActive, isFocused) =>
+            {
+                var ori_Rect = rect;
+                rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
+                rect.height = EditorGUIUtility.singleLineHeight;
+                // using (var areaScope = new GUILayout.AreaScope(rect))
+                // {
+                var item = viewPageItem.overrideDatas[index];
+                var targetObject = viewPageItem.viewElement.transform.Find(item.targetTransformPath);
+                Object targetComponent = targetObject.GetComponent(item.targetComponentType);
+                if (item.targetComponentType.Contains("GameObject"))
+                {
+                    targetComponent = targetObject.gameObject;
+                }
+
+                if (targetComponent == null)
+                {
+                    GUI.Label(rect, new GUIContent("Unsupport ComponentType", EditorGUIUtility.FindTexture("console.erroricon.sml")));
+                    rect.y += EditorGUIUtility.singleLineHeight;
+                    GUI.Label(rect, new GUIContent("ComponentType : " + item.targetComponentType));
+                    return;
+                }
+                var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
+                var so = new SerializedObject(targetComponent);
+                var sp = so.FindProperty(item.targetPropertyName);
+
+                rect.width = 20;
+                GUI.Label(rect, EditorGUIUtility.FindTexture("Prefab Icon"));
+                rect.x += rect.width;
+
+                GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)));
+                rect.width = GUI.skin.label.CalcSize(l).x;
+                GUI.Label(rect, l);
+                rect.x += rect.width;
+
+                rect.width = 20;
+                GUI.Label(rect, EditorGUIUtility.FindTexture("Animation.Play"));
+                rect.x += rect.width;
+
+                rect.width = GUI.skin.label.CalcSize(_cachedContent).x; ;
+                GUI.Label(rect, _cachedContent);
+
+                rect.y += EditorGUIUtility.singleLineHeight;
+                rect.height = EditorGUIUtility.singleLineHeight;
+                rect.width = ori_Rect.width;
+                rect.x = ori_Rect.x;
+
+                EditorGUI.PropertyField(rect, sp);
+                //}
+            };
+        }
+        using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionModified))
+        {
+            scrollPositionModified = scrollViewScope.scrollPosition;
+            reorderableListViewModify.DoLayoutList();
+            // foreach (var item in viewPageItem.overrideDatas)
+            // {
+            //     using (var vertical = new GUILayout.VerticalScope("box"))
+            //     {
+            //         var targetObject = viewPageItem.viewElement.transform.Find(item.targetTransformPath);
+            //         Object targetComponent = targetObject.GetComponent(item.targetComponentType);
+            //         if (item.targetComponentType.Contains("GameObject"))
+            //         {
+            //             targetComponent = targetObject.gameObject;
+            //         }
+            //         var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
+            //         var so = new SerializedObject(targetComponent);
+            //         var sp = so.FindProperty(item.targetPropertyName);
+
+            //         using (var horizon = new GUILayout.HorizontalScope())
+            //         {
+            //             GUILayout.Label(EditorGUIUtility.FindTexture("Prefab Icon"), GUILayout.Width(20), GUILayout.Height(20));
+            //             var l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)));
+            //             GUILayout.Label(l, GUILayout.Width(GUI.skin.label.CalcSize(l).x), GUILayout.Height(20));
+            //             GUILayout.Label(EditorGUIUtility.FindTexture("Animation.Play"), GUILayout.Width(15), GUILayout.Height(20));
+            //             GUILayout.Label(_cachedContent, GUILayout.Height(20));
+            //         }
+            //         EditorGUILayout.PropertyField(sp);
+            //     }
+            // }
+        }
+    }
     private int _selectedTab;
     private void DrawTab()
     {
@@ -168,20 +259,42 @@ public class OverridePopup : EditorWindow
         propertiesDrawer = new PropertiesDrawer(currentSelectSerializedObject);
         propertiesDrawer.OnItemClick += (so, sp) =>
         {
-            Debug.Log("Target Object : " + so.targetObject.name);
-            Debug.Log("Type : " + so.targetObject.GetType().ToString());
+            var overrideData = new ViewElementPropertyOverrideData();
 
-            Debug.Log("SerializedPropertyType : " + sp.propertyType);
-            Debug.Log("Property Type : " + sp.type);
-            Debug.Log("Property Name : " + sp.name);
-            Debug.Log("Property DisplayName : " + sp.displayName);
-            Debug.Log("GameObject Name : " + lastSelectGameObject.name);
+            // Debug.Log("Target Object : " + so.targetObject.name);
+            // Debug.Log("Type : " + so.targetObject.GetType().ToString());
 
-            var viewElementPropertyOverrideData = ScriptableObject.CreateInstance<ViewElementPropertyOverrideData>();
+            // Debug.Log("SerializedPropertyType : " + sp.propertyType);
+            // Debug.Log("Property Type : " + sp.type);
+            // Debug.Log("Property Name : " + sp.name);
+            // Debug.Log("Property DisplayName : " + sp.displayName);
+            // Debug.Log("GameObject Name : " + lastSelectGameObject.name);
+            // Debug.Log("Transform Path : " + AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, target.transform));
 
-            // viewElementPropertyOverrideData.targetComponentType = so.targetObject.GetType().ToString();
-            // viewElementPropertyOverrideData.targetPropertyName = sp.name;
-            // viewElementPropertyOverrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, null);
+            overrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, target.transform);
+            overrideData.targetPropertyName = sp.name;
+            overrideData.targetComponentType = so.targetObject.GetType().ToString();
+
+            if (viewPageItem.overrideDatas == null)
+            {
+                viewPageItem.overrideDatas = new List<ViewElementPropertyOverrideData>();
+            }
+
+            var current = viewPageItem.overrideDatas
+                .SingleOrDefault(x =>
+                    x.targetTransformPath == overrideData.targetTransformPath &&
+                    x.targetComponentType == overrideData.targetComponentType &&
+                    x.targetPropertyName == overrideData.targetPropertyName
+                );
+
+            if (current != null)
+            {
+                current = overrideData;
+            }
+            else
+            {
+                viewPageItem.overrideDatas.Add(overrideData);
+            }
         };
     }
 }

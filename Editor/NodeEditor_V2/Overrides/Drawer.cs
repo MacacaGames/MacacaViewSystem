@@ -32,10 +32,10 @@ public class Drawer
     }
 
 
-   
 
-    Texture2D _prefabIcon;
-    protected Texture2D prefabIcon
+
+    static Texture2D _prefabIcon;
+    static protected Texture2D prefabIcon
     {
         get
         {
@@ -46,8 +46,8 @@ public class Drawer
             return _prefabIcon;
         }
     }
-    Texture2D _arrowIcon;
-    protected Texture2D arrowIcon
+    static Texture2D _arrowIcon;
+    static protected Texture2D arrowIcon
     {
         get
         {

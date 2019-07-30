@@ -30,7 +30,6 @@ public class PropertiesDrawer : Drawer
                 if (GUI.Button(GUILayoutUtility.GetLastRect(), GUIContent.none))
                 {
                     OnItemClick?.Invoke(serializedObject, item);
-                    Debug.Log("click");
                 }
                 GUI.color = new Color(1, 1, 1, 1);
             }

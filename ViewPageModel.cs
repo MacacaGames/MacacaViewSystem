@@ -8,14 +8,17 @@ namespace CloudMacaca.ViewSystem
     public class ViewPageItem
     {
         static Transform ViewControllerObject;
-
+        
         public ViewElement viewElement;
         public ViewElement runtimeViewElement = null;
+        public List<ViewElementPropertyOverrideData> overrideDatas;
+
         [Tooltip("ViewElement 在該頁面時應該對其的父物件")]
         public Transform parent;
         public Transform runtimeParent = null;
         public string parentPath;
         GameObject _parentGameObject;
+
         [HideInInspector]
         public GameObject parentGameObject
         {
@@ -32,6 +35,8 @@ namespace CloudMacaca.ViewSystem
         public DG.Tweening.Ease easeType = DG.Tweening.Ease.OutQuad;
         public float delayIn;
         public float delayOut;
+
+
         [Tooltip("這個可以讓該項目在特定平台時不會出現")]
         public List<PlatformOption> excludePlatform = new List<PlatformOption>();
         public enum PlatformOption
