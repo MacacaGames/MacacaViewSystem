@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace CloudMacaca.ViewSystem
 {
-    [CreateAssetMenu]
     public class ViewSystemSaveData : ScriptableObject
     {
         public ViewSystemBaseSetting baseSetting;
@@ -53,8 +52,8 @@ namespace CloudMacaca.ViewSystem
         }
 
     }
-
-    public class ViewElementPropertyOverrideData : ScriptableObject
+    [System.Serializable]
+    public class ViewElementPropertyOverrideData
     {
         public string id;
         public string targetTransformPath;
