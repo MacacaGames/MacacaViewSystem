@@ -29,7 +29,6 @@ namespace CloudMacaca.ViewSystem
             {
                 runtimeOverride = gameObject.AddComponent<ViewRuntimeOverride>();
             }
-            runtimeOverride.ResetLastOverride();
             runtimeOverride.ApplyOverride(overrideDatas);
         }
 
@@ -367,9 +366,11 @@ namespace CloudMacaca.ViewSystem
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
 
+
             if (runtimePool != null)
             {
                 runtimePool.QueueViewElementToRecovery(this);
+                if (runtimeOverride != null) runtimeOverride.ResetLastOverride();
             }
         }
         public bool DisableGameObjectOnComplete = true;

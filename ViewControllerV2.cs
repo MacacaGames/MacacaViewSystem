@@ -143,10 +143,6 @@ namespace CloudMacaca.ViewSystem
                 {
                     item.runtimeViewElement = runtimePool.RequestViewElement(item.viewElement, isOverlay);
                 }
-                if (item.overrideDatas != null)
-                {
-                    item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
-                }
             }
             return viewPageItems;
         }
@@ -245,6 +241,9 @@ namespace CloudMacaca.ViewSystem
             //對進場的呼叫改變狀態
             foreach (var item in viewItemNextPage)
             {
+                //套用複寫值
+                item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
+
                 //Delay 時間
                 if (!lastPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))
                     lastPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);

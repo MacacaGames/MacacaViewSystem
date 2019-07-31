@@ -18,6 +18,8 @@ namespace CloudMacaca.ViewSystem
                 {
                     SetField(item.type, cachedComponent[item.id], item.field, item.orignalValue);
                 }
+                Debug.Log("set " + item.type + " to " + item.orignalValue + " on " + cachedComponent[item.id], this);
+
             }
             modifiedFields.Clear();
         }
@@ -67,11 +69,6 @@ namespace CloudMacaca.ViewSystem
         }
         public static void SetProperty(System.Type t, object inObj, string fieldName, object newValue)
         {
-            // if (fieldName == "active")
-            // {
-            //     ((GameObject)inObj).SetActive((bool)newValue);
-            // }
-
             System.Reflection.PropertyInfo info = t.GetProperty(fieldName, bindingFlags);
             if (info != null)
                 info.SetValue(inObj, newValue);
@@ -100,6 +97,7 @@ namespace CloudMacaca.ViewSystem
         }
         [SerializeField]
         List<ModifiedField> modifiedFields = new List<ModifiedField>();
+
         [System.Serializable]
         class ModifiedField
         {
