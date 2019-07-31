@@ -6,6 +6,7 @@ using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using System.Linq;
 using UnityEditorInternal;
+using System;
 
 public class OverridePopup : EditorWindow
 {
@@ -128,7 +129,7 @@ public class OverridePopup : EditorWindow
                 // {
                 var item = viewPageItem.overrideDatas[index];
                 var targetObject = viewPageItem.viewElement.transform.Find(item.targetTransformPath);
-                Object targetComponent = targetObject.GetComponent(item.targetComponentType);
+                UnityEngine.Object targetComponent = targetObject.GetComponent(item.targetComponentType);
                 if (item.targetComponentType.Contains("GameObject"))
                 {
                     targetComponent = targetObject.gameObject;
@@ -166,7 +167,12 @@ public class OverridePopup : EditorWindow
                 rect.width = ori_Rect.width;
                 rect.x = ori_Rect.x;
 
-                EditorGUI.PropertyField(rect, sp);
+                //EditorGUI.PropertyField(rect, sp);
+                if (EditorGUICM.EditorableField(rect, new GUIContent(sp.displayName), sp, item.Value))
+                {
+
+                }
+                //var result = EditorGUICM.GetPropertyType(sp);
                 //}
             };
         }
@@ -174,31 +180,6 @@ public class OverridePopup : EditorWindow
         {
             scrollPositionModified = scrollViewScope.scrollPosition;
             reorderableListViewModify.DoLayoutList();
-            // foreach (var item in viewPageItem.overrideDatas)
-            // {
-            //     using (var vertical = new GUILayout.VerticalScope("box"))
-            //     {
-            //         var targetObject = viewPageItem.viewElement.transform.Find(item.targetTransformPath);
-            //         Object targetComponent = targetObject.GetComponent(item.targetComponentType);
-            //         if (item.targetComponentType.Contains("GameObject"))
-            //         {
-            //             targetComponent = targetObject.gameObject;
-            //         }
-            //         var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
-            //         var so = new SerializedObject(targetComponent);
-            //         var sp = so.FindProperty(item.targetPropertyName);
-
-            //         using (var horizon = new GUILayout.HorizontalScope())
-            //         {
-            //             GUILayout.Label(EditorGUIUtility.FindTexture("Prefab Icon"), GUILayout.Width(20), GUILayout.Height(20));
-            //             var l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)));
-            //             GUILayout.Label(l, GUILayout.Width(GUI.skin.label.CalcSize(l).x), GUILayout.Height(20));
-            //             GUILayout.Label(EditorGUIUtility.FindTexture("Animation.Play"), GUILayout.Width(15), GUILayout.Height(20));
-            //             GUILayout.Label(_cachedContent, GUILayout.Height(20));
-            //         }
-            //         EditorGUILayout.PropertyField(sp);
-            //     }
-            // }
         }
     }
     private int _selectedTab;
@@ -274,6 +255,8 @@ public class OverridePopup : EditorWindow
             overrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, target.transform);
             overrideData.targetPropertyName = sp.name;
             overrideData.targetComponentType = so.targetObject.GetType().ToString();
+            overrideData.targetPropertyType = sp.propertyType.ToString();
+            overrideData.Value = EditorGUICM.GetValue(sp);
 
             if (viewPageItem.overrideDatas == null)
             {
@@ -296,5 +279,80 @@ public class OverridePopup : EditorWindow
                 viewPageItem.overrideDatas.Add(overrideData);
             }
         };
+    }
+
+    class EditorGUICM
+    {
+
+
+        public static Type GetPropertyType(SerializedProperty property)
+        {
+            var type = property.type;
+            var match = System.Text.RegularExpressions.Regex.Match(type, @"PPtr<\$(.*?)>");
+            if (match.Success)
+                type = "UnityEngine." + match.Groups[1].Value;
+            return CloudMacaca.Utility.GetType(type);
+        }
+
+        // public static Type GetPropertyObjectType(SerializedProperty property)
+        // {
+        //     return typeof(UnityEngine.Object).Assembly.GetType("UnityEngine." + GetPropertyType(property));
+        // }
+
+        public static bool EditorableField(Rect rect, GUIContent content, SerializedProperty Target, PropertyOverride overProperty)
+        {
+            EditorGUI.BeginChangeCheck();
+            switch (Target.propertyType)
+            {
+                case SerializedPropertyType.Float:
+                    overProperty.FloatValue = EditorGUI.FloatField(rect, content, overProperty.FloatValue);
+                    break;
+                case SerializedPropertyType.Integer:
+                    overProperty.IntValue = EditorGUI.IntField(rect, content, overProperty.IntValue);
+                    break;
+                case SerializedPropertyType.String:
+                    overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
+                    break;
+                case SerializedPropertyType.Boolean:
+                    overProperty.BooleanValue = EditorGUI.Toggle(rect, content, overProperty.BooleanValue);
+                    break;
+                case SerializedPropertyType.Color:
+                    overProperty.ColorValue = EditorGUI.ColorField(rect, content, overProperty.ColorValue);
+                    break;
+                case SerializedPropertyType.ObjectReference:
+                    overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, GetPropertyType(Target), false);
+                    break;
+            }
+            return EditorGUI.EndChangeCheck();
+        }
+
+        public static PropertyOverride GetValue(SerializedProperty property)
+        {
+            PropertyOverride overProperty = new PropertyOverride();
+
+            switch (property.propertyType)
+            {
+                case SerializedPropertyType.Float:
+                    overProperty.FloatValue = property.floatValue;
+                    break;
+                case SerializedPropertyType.Integer:
+                    overProperty.IntValue = property.intValue;
+                    break;
+                case SerializedPropertyType.String:
+                    overProperty.StringValue = property.stringValue;
+                    break;
+                case SerializedPropertyType.Boolean:
+                    overProperty.BooleanValue = property.boolValue;
+                    break;
+                case SerializedPropertyType.Color:
+                    overProperty.ColorValue = property.colorValue;
+                    break;
+                case SerializedPropertyType.ObjectReference:
+                    overProperty.ObjectReferenceValue = property.objectReferenceValue;
+                    break;
+            }
+
+            return overProperty;
+        }
     }
 }

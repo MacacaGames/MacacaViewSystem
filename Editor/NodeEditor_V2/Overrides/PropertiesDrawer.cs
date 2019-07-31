@@ -130,6 +130,28 @@ public class PropertiesDrawer : Drawer
         prop.NextVisible(true);
         do
         {
+            if (prop.name == "m_Script" ||
+                prop.propertyType == SerializedPropertyType.LayerMask ||
+                prop.propertyType == SerializedPropertyType.Enum ||
+                prop.propertyType == SerializedPropertyType.Rect ||
+                prop.propertyType == SerializedPropertyType.RectInt ||
+                prop.propertyType == SerializedPropertyType.Bounds ||
+                prop.propertyType == SerializedPropertyType.BoundsInt ||
+                prop.propertyType == SerializedPropertyType.Quaternion ||
+                prop.propertyType == SerializedPropertyType.Vector2 ||
+                prop.propertyType == SerializedPropertyType.Vector2Int ||
+                prop.propertyType == SerializedPropertyType.Vector3 ||
+                prop.propertyType == SerializedPropertyType.Vector3Int ||
+                prop.propertyType == SerializedPropertyType.Vector4 ||
+                prop.propertyType == SerializedPropertyType.Gradient ||
+                prop.propertyType == SerializedPropertyType.ArraySize ||
+                prop.propertyType == SerializedPropertyType.AnimationCurve ||
+                prop.propertyType == SerializedPropertyType.Character ||
+                prop.propertyType == SerializedPropertyType.FixedBufferSize
+            )
+            {
+                continue;
+            }
             serializedPropertys.Add(prop.Copy());
         }
         while (prop.NextVisible(false));

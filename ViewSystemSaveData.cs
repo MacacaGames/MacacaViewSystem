@@ -59,8 +59,41 @@ namespace CloudMacaca.ViewSystem
         public string targetTransformPath;
         public string targetComponentType;
         public string targetPropertyName;
-        public UnityEngine.Object targetOverrideData;
+        public string targetPropertyType;
+        public PropertyOverride Value;
 
     }
+    [System.Serializable]
+    public class PropertyOverride
+    {
+        // public AnimationCurve AnimationCurveValue;
 
+        public bool BooleanValue;
+
+        //public Bounds BoundsValue;
+
+        public Color ColorValue;
+
+        //public double DoubleValue;
+
+        public float FloatValue;
+
+        public int IntValue;
+
+        //public long LongValue;
+
+        public UnityEngine.Object ObjectReferenceValue;
+
+        //public Quaternion QuaternionValue;
+
+        //public Rect RectValue;
+
+        public string StringValue;
+
+        //public Vector2 Vector2Value;
+
+        //public Vector3 Vector3Value;
+
+        //public Vector4 Vector4Value;
+    }
 }
