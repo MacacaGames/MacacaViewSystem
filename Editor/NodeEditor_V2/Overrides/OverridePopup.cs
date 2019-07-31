@@ -81,7 +81,9 @@ public class OverridePopup : EditorWindow
             }
         }
     }
+    [SerializeField] TreeViewState m_TreeViewState;
 
+    HierarchyTreeView hierarchyTreeView;
     Vector2 scrollPositionHierarchy;
     void DrawScrollViewHierarchy()
     {
@@ -96,6 +98,8 @@ public class OverridePopup : EditorWindow
                     CacheComponent();
                 }
                 componentDrawer.Draw();
+
+                // 這裡可能有問題
                 return;
             }
 
@@ -106,9 +110,12 @@ public class OverridePopup : EditorWindow
                     CacheProperties();
                 }
                 propertiesDrawer.Draw();
+                // 這裡可能有問題
                 return;
             }
-            if (hierarchyDrawer != null) hierarchyDrawer.Draw();
+            //if (hierarchyDrawer != null) hierarchyDrawer.Draw();
+            if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, position.width, position.height));
+
         }
     }
     Vector2 scrollPositionModified;
@@ -140,6 +147,8 @@ public class OverridePopup : EditorWindow
                     GUI.Label(rect, new GUIContent("Unsupport ComponentType", EditorGUIUtility.FindTexture("console.erroricon.sml")));
                     rect.y += EditorGUIUtility.singleLineHeight;
                     GUI.Label(rect, new GUIContent("ComponentType : " + item.targetComponentType));
+
+             
                     return;
                 }
                 var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
@@ -212,11 +221,20 @@ public class OverridePopup : EditorWindow
     GameObject lastSelectGameObject;
     private void CacheHierarchy()
     {
-        hierarchyDrawer = new HierarchyDrawer(target.transform);
-        hierarchyDrawer.OnItemClick += (go) =>
+
+        if (m_TreeViewState == null)
+            m_TreeViewState = new TreeViewState();
+
+        hierarchyTreeView = new HierarchyTreeView(target.transform, m_TreeViewState);
+        hierarchyTreeView.OnItemClick += (go) =>
         {
             currentSelectGameObject = (GameObject)go;
         };
+        // hierarchyDrawer = new HierarchyDrawer(target.transform);
+        // hierarchyDrawer.OnItemClick += (go) =>
+        // {
+        //     currentSelectGameObject = (GameObject)go;
+        // };
     }
 
     ComponentDrawer componentDrawer;

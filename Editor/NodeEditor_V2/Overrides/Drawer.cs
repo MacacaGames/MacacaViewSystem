@@ -35,7 +35,7 @@ public class Drawer
 
 
     static Texture2D _prefabIcon;
-    static protected Texture2D prefabIcon
+    static public Texture2D prefabIcon
     {
         get
         {
@@ -47,7 +47,7 @@ public class Drawer
         }
     }
     static Texture2D _arrowIcon;
-    static protected Texture2D arrowIcon
+    static public Texture2D arrowIcon
     {
         get
         {
