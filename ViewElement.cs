@@ -16,8 +16,23 @@ namespace CloudMacaca.ViewSystem
         public static ViewElementRuntimePool runtimePool;
         public static ViewElementPool viewElementPool;
         public string PoolKey;
-
         public bool IsUnique = false;
+
+        private ViewRuntimeOverride runtimeOverride;
+        public void ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
+        {
+            if (overrideDatas == null)
+            {
+                return;
+            }
+            if (runtimeOverride == null)
+            {
+                runtimeOverride = gameObject.AddComponent<ViewRuntimeOverride>();
+            }
+            runtimeOverride.ResetLastOverride();
+            runtimeOverride.ApplyOverride(overrideDatas);
+        }
+
         #endregion
 
         public enum TransitionType

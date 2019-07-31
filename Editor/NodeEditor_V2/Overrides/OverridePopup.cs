@@ -256,6 +256,7 @@ public class OverridePopup : EditorWindow
             overrideData.targetPropertyName = sp.name;
             overrideData.targetComponentType = so.targetObject.GetType().ToString();
             overrideData.targetPropertyType = sp.propertyType.ToString();
+            overrideData.targetPropertyPath = sp.propertyPath;
             overrideData.Value = EditorGUICM.GetValue(sp);
 
             if (viewPageItem.overrideDatas == null)
@@ -334,21 +335,27 @@ public class OverridePopup : EditorWindow
             {
                 case SerializedPropertyType.Float:
                     overProperty.FloatValue = property.floatValue;
+                    overProperty.SetType(PropertyOverride.S_Type._float);
                     break;
                 case SerializedPropertyType.Integer:
                     overProperty.IntValue = property.intValue;
+                    overProperty.SetType(PropertyOverride.S_Type._float);
                     break;
                 case SerializedPropertyType.String:
                     overProperty.StringValue = property.stringValue;
+                    overProperty.SetType(PropertyOverride.S_Type._string);
                     break;
                 case SerializedPropertyType.Boolean:
                     overProperty.BooleanValue = property.boolValue;
+                    overProperty.SetType(PropertyOverride.S_Type._bool);
                     break;
                 case SerializedPropertyType.Color:
                     overProperty.ColorValue = property.colorValue;
+                    overProperty.SetType(PropertyOverride.S_Type._color);
                     break;
                 case SerializedPropertyType.ObjectReference:
                     overProperty.ObjectReferenceValue = property.objectReferenceValue;
+                    overProperty.SetType(PropertyOverride.S_Type._objcetReferenct);
                     break;
             }
 

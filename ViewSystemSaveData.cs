@@ -60,12 +60,43 @@ namespace CloudMacaca.ViewSystem
         public string targetComponentType;
         public string targetPropertyName;
         public string targetPropertyType;
+        public string targetPropertyPath;
         public PropertyOverride Value;
 
     }
     [System.Serializable]
     public class PropertyOverride
     {
+        public object GetDirtyValue()
+        {
+            switch (s_Type)
+            {
+                case S_Type._bool:
+                    return BooleanValue;
+                case S_Type._float:
+                    return FloatValue;
+                case S_Type._int:
+                    return IntValue;
+                case S_Type._color:
+                    return ColorValue;
+                case S_Type._objcetReferenct:
+                    return ObjectReferenceValue;
+                case S_Type._string:
+                    return StringValue;
+                default:
+                    return null;
+            }
+        }
+
+        public void SetType(S_Type t)
+        {
+            s_Type = t;
+        }
+        public enum S_Type
+        {
+            _bool, _float, _int, _color, _objcetReferenct, _string
+        }
+        public S_Type s_Type;
         // public AnimationCurve AnimationCurveValue;
 
         public bool BooleanValue;

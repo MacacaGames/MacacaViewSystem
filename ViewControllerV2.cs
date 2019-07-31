@@ -143,6 +143,10 @@ namespace CloudMacaca.ViewSystem
                 {
                     item.runtimeViewElement = runtimePool.RequestViewElement(item.viewElement, isOverlay);
                 }
+                if (item.overrideDatas != null)
+                {
+                    item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
+                }
             }
             return viewPageItems;
         }
@@ -159,7 +163,7 @@ namespace CloudMacaca.ViewSystem
             //沒有找到 
             if (vp == null)
             {
-                Debug.LogError("No view page match" + viewPageName + "Found");
+                Debug.LogError("No view page match " + viewPageName + " Found");
                 ChangePageToCoroutine = null;
                 yield break;
             }

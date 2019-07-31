@@ -134,7 +134,6 @@ namespace CloudMacaca.ViewSystem
 
 
         public List<ViewPage> viewPages = new List<ViewPage>();
-        public List<ViewPage> viewPage = new List<ViewPage>();
         public List<ViewState> viewStates = new List<ViewState>();
         protected static IEnumerable<string> viewStatesNames;
 
