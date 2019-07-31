@@ -251,14 +251,14 @@ public class OverridePopup : EditorWindow
             // Debug.Log("Property DisplayName : " + sp.displayName);
             // Debug.Log("GameObject Name : " + lastSelectGameObject.name);
             // Debug.Log("Transform Path : " + AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, target.transform));
+            // Debug.Log("Name Of : " + nameof(sp));
 
             overrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, target.transform);
             overrideData.targetPropertyName = sp.name;
             overrideData.targetComponentType = so.targetObject.GetType().ToString();
             overrideData.targetPropertyType = sp.propertyType.ToString();
-            overrideData.targetPropertyPath = sp.propertyPath;
+            overrideData.targetPropertyPath = EditorGUICM.ParseUnityEngineProperty(sp.propertyPath);
             overrideData.Value = EditorGUICM.GetValue(sp);
-
             if (viewPageItem.overrideDatas == null)
             {
                 viewPageItem.overrideDatas = new List<ViewElementPropertyOverrideData>();
@@ -284,7 +284,24 @@ public class OverridePopup : EditorWindow
 
     class EditorGUICM
     {
-
+        public static string ParseUnityEngineProperty(string ori)
+        {
+            if (ori.ToLower().Contains("material"))
+            {
+                return "material";
+            }
+            if (ori.ToLower().Contains("sprite"))
+            {
+                return "sprite";
+            }
+            if (ori.ToLower().Contains("active"))
+            {
+                return "active";
+            }
+            string result = ori.Replace("m_", "");
+            result = result.Substring(0, 1).ToLower() + result.Substring(1);
+            return result;
+        }
 
         public static Type GetPropertyType(SerializedProperty property)
         {
