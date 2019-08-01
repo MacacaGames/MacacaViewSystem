@@ -7,23 +7,8 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewRuntimeOverride : TransformCacheBase
     {
-        class Group
-        {
-            public List<string> names = new List<string>();
-        }
-
         public void ResetLastOverride()
         {
-
-
-            List<string> names = new List<string>();
-
-            List<Group> group = new List<Group>();
-            group[0].names = new List<string> { "A", "B", "C" };
-            group[1].names = new List<string> { "D", "E", "F" };
-
-            group.Where(m => m.names.Where(x => x.Contains("D")).Count() > 0);
-
 
             foreach (var item in modifiedFields)
             {
