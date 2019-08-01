@@ -2,12 +2,29 @@
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using System.Linq;
 namespace CloudMacaca.ViewSystem
 {
     public class ViewRuntimeOverride : TransformCacheBase
     {
+        class Group
+        {
+            public List<string> names = new List<string>();
+        }
+
         public void ResetLastOverride()
         {
+
+
+            List<string> names = new List<string>();
+
+            List<Group> group = new List<Group>();
+            group[0].names = new List<string> { "A", "B", "C" };
+            group[1].names = new List<string> { "D", "E", "F" };
+
+            group.Where(m => m.names.Where(x => x.Contains("D")).Count() > 0);
+
+
             foreach (var item in modifiedFields)
             {
                 if (isUnityEngineType(item.type))
@@ -18,7 +35,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     SetField(item.type, cachedComponent[item.id], item.field, item.orignalValue);
                 }
-                Debug.Log("set " + item.type + " to " + item.orignalValue + " on " + cachedComponent[item.id], this);
+                //Debug.Log("set " + item.type + " to " + item.orignalValue + " on " + cachedComponent[item.id], this);
 
             }
             modifiedFields.Clear();

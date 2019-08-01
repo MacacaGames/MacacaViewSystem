@@ -59,8 +59,8 @@ public class Drawer
         }
     }
 
-    GUIStyle _labelStyle;
-    protected GUIStyle labelStyle
+    static GUIStyle _labelStyle;
+    static public GUIStyle labelStyle
     {
         get
         {
@@ -71,6 +71,28 @@ public class Drawer
                 _labelStyle.fontSize = 14;
             }
             return _labelStyle;
+        }
+    }
+    private static GUIStyle _valueBoxStyle;
+    public static GUIStyle valueBoxStyle
+    {
+        get
+        {
+            if (_valueBoxStyle == null)
+            {
+                _valueBoxStyle = new GUIStyle(GUI.skin.FindStyle("box"));
+                _valueBoxStyle.border = new RectOffset(1, 1, 1, 1);
+                _valueBoxStyle.contentOffset = Vector2.zero;
+                _valueBoxStyle.margin = new RectOffset(0, 0, 0, 0);
+                _valueBoxStyle.padding = new RectOffset(0, 0, 0, 0);
+                _valueBoxStyle.alignment = TextAnchor.MiddleCenter;
+                _valueBoxStyle.wordWrap = false;
+                _valueBoxStyle.clipping = TextClipping.Clip;
+                _valueBoxStyle.normal.textColor = EditorStyles.label.normal.textColor;
+                _valueBoxStyle.stretchHeight = true;
+                _valueBoxStyle.stretchWidth = true;
+            }
+            return _valueBoxStyle;
         }
     }
 }

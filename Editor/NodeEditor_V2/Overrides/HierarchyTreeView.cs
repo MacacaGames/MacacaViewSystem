@@ -13,6 +13,7 @@ public class HierarchyTreeView : TreeView
     {
         this.root = root;
         CacheItem(root, 0);
+        showBorder = true;
         Reload();
     }
 

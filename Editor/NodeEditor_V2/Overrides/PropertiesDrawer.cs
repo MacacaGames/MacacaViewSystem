@@ -105,7 +105,6 @@ public class PropertiesDrawer : Drawer
                 GUI.backgroundColor = backgroundColor;
             }
         }
-
     }
 
     protected void DrawFoldout(SerializedProperty Target)

@@ -81,9 +81,11 @@ public class OverridePopup : EditorWindow
             }
         }
     }
-    [SerializeField] TreeViewState m_TreeViewState;
-
+    [SerializeField] TreeViewState m_HierachyTreeViewState;
     HierarchyTreeView hierarchyTreeView;
+
+    [SerializeField] TreeViewState m_ComponentTreeViewState;
+    ComponentTreeView componentTreeView;
     Vector2 scrollPositionHierarchy;
     void DrawScrollViewHierarchy()
     {
@@ -91,31 +93,38 @@ public class OverridePopup : EditorWindow
         {
             scrollPositionHierarchy = scrollViewScope.scrollPosition;
 
+            // if (currentSelectGameObject)
+            // {
+            //     if (componentDrawer == null)
+            //     {
+            //         CacheComponent();
+            //     }
+            //     componentDrawer.Draw();
+
+            //     // 這裡可能有問題
+            //     return;
+            // }
+
+            // if (currentSelectSerializedObject != null)
+            // {
+            //     if (propertiesDrawer == null)
+            //     {
+            //         CacheProperties();
+            //     }
+            //     propertiesDrawer.Draw();
+            //     // 這裡可能有問題
+            //     return;
+            // }
+
             if (currentSelectGameObject)
             {
-                if (componentDrawer == null)
-                {
-                    CacheComponent();
-                }
-                componentDrawer.Draw();
-
-                // 這裡可能有問題
-                return;
+                if (componentTreeView != null) componentTreeView.OnGUI(new Rect(0, 0, position.width, position.height));
             }
-
-            if (currentSelectSerializedObject != null)
+            else
             {
-                if (propertiesDrawer == null)
-                {
-                    CacheProperties();
-                }
-                propertiesDrawer.Draw();
-                // 這裡可能有問題
-                return;
+                //if (hierarchyDrawer != null) hierarchyDrawer.Draw();
+                if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, position.width, position.height));
             }
-            //if (hierarchyDrawer != null) hierarchyDrawer.Draw();
-            if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, position.width, position.height));
-
         }
     }
     Vector2 scrollPositionModified;
@@ -148,7 +157,7 @@ public class OverridePopup : EditorWindow
                     rect.y += EditorGUIUtility.singleLineHeight;
                     GUI.Label(rect, new GUIContent("ComponentType : " + item.targetComponentType));
 
-             
+
                     return;
                 }
                 var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
@@ -222,13 +231,15 @@ public class OverridePopup : EditorWindow
     private void CacheHierarchy()
     {
 
-        if (m_TreeViewState == null)
-            m_TreeViewState = new TreeViewState();
+        if (m_HierachyTreeViewState == null)
+            m_HierachyTreeViewState = new TreeViewState();
 
-        hierarchyTreeView = new HierarchyTreeView(target.transform, m_TreeViewState);
+
+        hierarchyTreeView = new HierarchyTreeView(target.transform, m_HierachyTreeViewState);
         hierarchyTreeView.OnItemClick += (go) =>
         {
             currentSelectGameObject = (GameObject)go;
+            CacheComponent();
         };
         // hierarchyDrawer = new HierarchyDrawer(target.transform);
         // hierarchyDrawer.OnItemClick += (go) =>
@@ -237,18 +248,25 @@ public class OverridePopup : EditorWindow
         // };
     }
 
+
     ComponentDrawer componentDrawer;
     SerializedObject currentSelectSerializedObject;
 
     private void CacheComponent()
     {
-        componentDrawer = new ComponentDrawer(currentSelectGameObject);
-        componentDrawer.OnItemClick += (go) =>
-        {
-            currentSelectSerializedObject = go;
-            lastSelectGameObject = currentSelectGameObject;
-            currentSelectGameObject = null;
-        };
+
+        if (m_ComponentTreeViewState == null)
+            m_ComponentTreeViewState = new TreeViewState();
+
+        componentTreeView = new ComponentTreeView(currentSelectGameObject, m_ComponentTreeViewState);
+
+        // componentDrawer = new ComponentDrawer(currentSelectGameObject);
+        // componentDrawer.OnItemClick += (go) =>
+        // {
+        //     currentSelectSerializedObject = go;
+        //     lastSelectGameObject = currentSelectGameObject;
+        //     currentSelectGameObject = null;
+        // };
     }
 
     PropertiesDrawer propertiesDrawer;
