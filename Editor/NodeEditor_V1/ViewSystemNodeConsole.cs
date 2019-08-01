@@ -44,7 +44,7 @@ namespace CloudMacaca.ViewSystem
         Vector2 scrollPos;
         GUIStyle renderStyle;
 
-        public bool isMinimal = false;
+        public bool isMinimal = true;
         GUIStyle iconStyle;
         public void Draw(Vector2 EditorindowWidthAndHeight)
         {

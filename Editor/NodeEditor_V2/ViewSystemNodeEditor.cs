@@ -2,6 +2,8 @@
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using CloudMacaca.ViewSystem;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
@@ -27,7 +29,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             window.titleContent = new GUIContent("View System Visual Editor");
             window.minSize = new Vector2(600, 400);
             window.RefreshData();
+            EditorApplication.playModeStateChanged += playModeStateChanged;
         }
+
+        private static void playModeStateChanged(PlayModeStateChange obj)
+        {
+            if (obj == PlayModeStateChange.EnteredPlayMode)
+            {
+                dataReader.Normalized();
+            }
+        }
+
         void RefreshData()
         {
             ClearEditor();
@@ -50,6 +62,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         void OnDestroy()
         {
             dataReader.Normalized();
+            EditorApplication.playModeStateChanged -= playModeStateChanged;
         }
         void OnFocus()
         {
@@ -64,14 +77,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (miniErrorIcon == null) miniErrorIcon = EditorGUIUtility.Load("icons/console.erroricon.sml.png") as Texture2D;
             if (refreshIcon == null) refreshIcon = EditorGUIUtility.Load((EditorGUIUtility.isProSkin) ? "icons/d_Refresh.png" : "icons/Refresh.png") as Texture2D;
             if (zoomIcon == null) zoomIcon = EditorGUIUtility.FindTexture("ViewToolZoom On") as Texture2D;
-
         }
-        List<ViewPageNode> viewPageList = new List<ViewPageNode>();
 
+        List<ViewPageNode> viewPageList = new List<ViewPageNode>();
         List<ViewStateNode> viewStateList = new List<ViewStateNode>();
         List<ViewSystemNodeLine> nodeConnectionLineList = new List<ViewSystemNodeLine>();
         public ViewSystemNodeConsole console;
-
         public float zoomScale = 1.0f;
         Vector2 vanishingPoint = new Vector2(0, 21);
         Rect zoomArea;
@@ -424,7 +435,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     GUILayout.Space(5);
                     if (GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(35)))
                     {
-                        dataReader.Save(viewPageList, viewStateList);
+                        dataReader.Save(viewPageList, viewStateList, baseSettingWindow.node);
                     }
                     GUILayout.Space(5);
                     if (GUILayout.Button(new GUIContent("Reload", refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))

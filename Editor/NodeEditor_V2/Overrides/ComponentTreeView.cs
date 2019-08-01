@@ -218,13 +218,11 @@ public class ComponentTreeView : TreeView
                     break;
                 case SerializedPropertyType.Color:
                     {
-                        // GUILayout.Box(rect, string.Empty, Drawer.valueBoxStyle);
-                        // var rect2 = GUILayoutUtility.GetLastRect();
-                        // Rect rect3 = rect2.Contract(1f, 1f, 1f, 1f);
-                        // EditorGUI.DrawRect(rect3, new Color(Target.colorValue.r, Target.colorValue.g, Target.colorValue.b, 1f));
-                        // Rect rect4 = rect3.Contract(0f, 16f, 0f, 0f);
-                        // EditorGUI.DrawRect(rect4, Color.black);
-                        // EditorGUI.DrawRect(new Rect(rect4.x, rect4.y, rect4.width * Target.colorValue.a, rect4.height), Color.white);
+                        Rect rect3 = rect.Contract(1f, 1f, 1f, 1f);
+                        EditorGUI.DrawRect(rect3, new Color(Target.colorValue.r, Target.colorValue.g, Target.colorValue.b, 1f));
+                        Rect rect4 = rect3.Contract(0f, 16f, 0f, 0f);
+                        EditorGUI.DrawRect(rect4, Color.black);
+                        EditorGUI.DrawRect(new Rect(rect4.x, rect4.y, rect4.width * Target.colorValue.a, rect4.height), Color.white);
                         break;
                     }
                 case SerializedPropertyType.LayerMask:

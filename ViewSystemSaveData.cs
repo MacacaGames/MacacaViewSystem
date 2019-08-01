@@ -41,6 +41,7 @@ namespace CloudMacaca.ViewSystem
             public string ViewControllerObjectPath;
             public GameObject UIRoot;
             public GameObject UIRootScene;
+            public List<MonoBehaviour> EventHandleBehaviour;
             public float MaxWaitingTime
             {
                 get

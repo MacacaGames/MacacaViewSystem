@@ -112,7 +112,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //throw new System.NotImplementedException();
         }
 
-        public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes)
+        public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes, BaseSettingNode baseSettingNode)
         {
 
             foreach (var item in viewPageNodes)
@@ -126,6 +126,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 var vs = data.viewStates.SingleOrDefault(m => m.viewState.name == item.viewState.name);
                 vs.nodePosition = new Vector2(item.rect.x, item.rect.y);
             }
+
+            data.baseSetting.nodePosition = new Vector2(baseSettingNode.rect.x, baseSettingNode.rect.y);
+
             UnityEditor.EditorUtility.SetDirty(data);
         }
 
@@ -176,7 +179,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             return result;
         }
 
-        public Transform GetViewControllerRoot(){
+        public Transform GetViewControllerRoot()
+        {
             return ViewControllerTransform;
         }
     }

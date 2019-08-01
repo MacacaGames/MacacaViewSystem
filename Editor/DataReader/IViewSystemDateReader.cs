@@ -12,7 +12,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         void OnViewStateDelete(ViewStateNode node);
         void OnViewPageAdd(ViewPageNode node);
         void OnViewStateAdd(ViewStateNode node);
-        void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes);
+        void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes, BaseSettingNode baseSettingNode);
         void OnViewPagePreview(ViewPage viewPage);
         void Normalized();
     }

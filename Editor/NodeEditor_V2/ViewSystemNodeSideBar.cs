@@ -232,16 +232,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         editor.console.LogErrorMessage("ViewElement has not been select yet!");
                         return;
                     }
-                    if (popWindow != null)
-                    {
-                        popWindow.Close();
-                    }
-                    popWindow = EditorWindow.CreateInstance<OverridePopup>();
+                   
+                    popWindow = EditorWindow.GetWindow<OverridePopup>();
 
-                    popWindow.EndWindows();
                     popWindow.titleContent = new GUIContent(list[index].viewElement.gameObject.name);
                     popWindow.Init(list[index]);
-                    popWindow.ShowUtility();
+                    popWindow.Show();
                 }
                 if (Event.current.type == EventType.Repaint)
                 {

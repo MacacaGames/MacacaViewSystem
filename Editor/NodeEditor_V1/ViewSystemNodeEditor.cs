@@ -21,7 +21,7 @@ namespace CloudMacaca.ViewSystem
         static EditorMode currentEditorMode;
 
         static ViewSystemNodeEditor window;
-        static ViewSystemDateReader dataReader;
+        static ViewSystemDateReaderV1 dataReader;
         static ViewSystemNodeSideBar sideBar;
 
 

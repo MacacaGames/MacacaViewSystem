@@ -7,6 +7,8 @@ using UnityEngine;
 using System.Linq;
 using UnityEditorInternal;
 using System;
+using CloudMacaca;
+using System.Reflection;
 
 public class OverridePopup : EditorWindow
 {
@@ -14,6 +16,7 @@ public class OverridePopup : EditorWindow
     ViewPageItem viewPageItem;
     public void Init(ViewPageItem viewPageItem)
     {
+        title = "ViewElement Override";
         target = viewPageItem.viewElement.gameObject;
         this.viewPageItem = viewPageItem;
         // maxSize = new Vector2(width * 1.5f, height * 1.5f);
@@ -92,29 +95,6 @@ public class OverridePopup : EditorWindow
         using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionHierarchy))
         {
             scrollPositionHierarchy = scrollViewScope.scrollPosition;
-
-            // if (currentSelectGameObject)
-            // {
-            //     if (componentDrawer == null)
-            //     {
-            //         CacheComponent();
-            //     }
-            //     componentDrawer.Draw();
-
-            //     // 這裡可能有問題
-            //     return;
-            // }
-
-            // if (currentSelectSerializedObject != null)
-            // {
-            //     if (propertiesDrawer == null)
-            //     {
-            //         CacheProperties();
-            //     }
-            //     propertiesDrawer.Draw();
-            //     // 這裡可能有問題
-            //     return;
-            // }
 
             if (currentSelectGameObject)
             {
@@ -197,9 +177,36 @@ public class OverridePopup : EditorWindow
         using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionModified))
         {
             scrollPositionModified = scrollViewScope.scrollPosition;
-            reorderableListViewModify.DoLayoutList();
+
+            if (hierarchyTreeView != null) reorderableListViewModify.DoLayoutList();
+
         }
     }
+    //對應 方法名稱與 pop index 的字典
+    //第 n 個腳本的參照
+    // List<string[]> methodListOfScriptObject = new List<string[]>();
+    // List<string> scriptObjectName = new List<string>();
+    Dictionary<string, string[]> classMethodInfo = new Dictionary<string, string[]>();
+    List<UnityEditor.MonoScript> scriptsObjects = new List<UnityEditor.MonoScript>();
+    BindingFlags BindFlagsForScript = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+    void RefreshMethodDatabase()
+    {
+        classMethodInfo.Clear();
+
+        for (int i = 0; i < scriptsObjects.Count; i++)
+        {
+            if (scriptsObjects[i] == null) return;
+            MethodInfo[] methodInfos = Utility.GetType(scriptsObjects[i].name).GetMethods(BindFlagsForScript);
+            classMethodInfo.Add(scriptsObjects[i].name, methodInfos.Select(m => m.Name).ToArray());
+        }
+
+
+    }
+    void DrawEvent()
+    {
+
+    }
+
     private int _selectedTab;
     private void DrawTab()
     {
