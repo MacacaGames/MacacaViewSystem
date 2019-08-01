@@ -240,17 +240,19 @@ public class ComponentTreeView : TreeView
 
     protected override void DoubleClickedItem(int id)
     {
-        // var select = hierarchyData.SingleOrDefault(x => x.id == id);
-        // if (select == null)
-        // {
-        //     return;
-        // }
-        // OnItemClick?.Invoke(select.transform.gameObject);
+        var single = serializedPropertys.SelectMany(x => x.Value).SingleOrDefault(m => m.id == id);
+        if (single == null)
+        {
+            return;
+        }
+        if (single.values is SerializedProperty)
+        {
+            OnItemClick?.Invoke((SerializedProperty)single.values);
+        }
     }
 
 
-    public delegate void _OnItemClick(Object target);
-
+    public delegate void _OnItemClick(SerializedProperty targetProperty);
     public event _OnItemClick OnItemClick;
 
 

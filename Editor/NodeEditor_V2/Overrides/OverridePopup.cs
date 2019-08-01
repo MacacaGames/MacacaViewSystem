@@ -260,13 +260,47 @@ public class OverridePopup : EditorWindow
 
         componentTreeView = new ComponentTreeView(currentSelectGameObject, m_ComponentTreeViewState);
 
-        // componentDrawer = new ComponentDrawer(currentSelectGameObject);
-        // componentDrawer.OnItemClick += (go) =>
-        // {
-        //     currentSelectSerializedObject = go;
-        //     lastSelectGameObject = currentSelectGameObject;
-        //     currentSelectGameObject = null;
-        // };
+        componentTreeView.OnItemClick += (sp) =>
+        {
+            var overrideData = new ViewElementPropertyOverrideData();
+
+            Component c;
+            try
+            {
+                c = (Component)sp.serializedObject.targetObject;
+            }
+            catch
+            {
+                c = ((GameObject)sp.serializedObject.targetObject).transform;
+            }
+
+            overrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(c.transform, target.transform);
+            overrideData.targetPropertyName = sp.name;
+            overrideData.targetComponentType = sp.serializedObject.targetObject.GetType().ToString();
+            overrideData.targetPropertyType = sp.propertyType.ToString();
+            overrideData.targetPropertyPath = EditorGUICM.ParseUnityEngineProperty(sp.propertyPath);
+            overrideData.Value = EditorGUICM.GetValue(sp);
+            if (viewPageItem.overrideDatas == null)
+            {
+                viewPageItem.overrideDatas = new List<ViewElementPropertyOverrideData>();
+            }
+
+            var current = viewPageItem.overrideDatas
+                .SingleOrDefault(x =>
+                    x.targetTransformPath == overrideData.targetTransformPath &&
+                    x.targetComponentType == overrideData.targetComponentType &&
+                    x.targetPropertyName == overrideData.targetPropertyName
+                );
+
+            if (current != null)
+            {
+                current = overrideData;
+            }
+            else
+            {
+                viewPageItem.overrideDatas.Add(overrideData);
+            }
+        };
     }
 
     PropertiesDrawer propertiesDrawer;
