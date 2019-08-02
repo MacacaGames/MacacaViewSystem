@@ -56,21 +56,25 @@ namespace CloudMacaca.ViewSystem
 
     }
     [System.Serializable]
-    public class ViewElementEventData
-    {
-        public string scriptName;
-        public string methodName;
-    }
-    [System.Serializable]
-    public class ViewElementPropertyOverrideData
+    public class ViewSystemComponentData
     {
         public string targetTransformPath;
         public string targetComponentType;
         public string targetPropertyName;
         public string targetPropertyType;
         public string targetPropertyPath;
-        public PropertyOverride Value;
+    }
 
+    [System.Serializable]
+    public class ViewElementEventData : ViewSystemComponentData
+    {
+        public string scriptName;
+        public string methodName;
+    }
+    [System.Serializable]
+    public class ViewElementPropertyOverrideData : ViewSystemComponentData
+    {
+        public PropertyOverride Value;
     }
     [System.Serializable]
     public class PropertyOverride
