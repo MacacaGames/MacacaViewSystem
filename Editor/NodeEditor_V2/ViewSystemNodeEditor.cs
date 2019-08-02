@@ -20,6 +20,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static IViewSystemDateReader dataReader;
         static ViewSystemNodeSideBar sideBar;
         static ViewSystemNodeBaseSettingWindow baseSettingWindow;
+        public static ViewSystemSaveData saveData;
+
         public Transform ViewControllerRoot;
 
         [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
@@ -46,9 +48,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             dataReader = new ViewSystemDataReaderV2(this);
             dataReader.Init();
+            saveData = ((ViewSystemDataReaderV2)dataReader).GetBaseSetting();
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             baseSettingWindow = new ViewSystemNodeBaseSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
-
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
             viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));

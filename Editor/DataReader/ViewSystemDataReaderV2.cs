@@ -132,7 +132,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             UnityEditor.EditorUtility.SetDirty(data);
         }
 
-        public ViewSystemSaveData GetSetting()
+        public ViewSystemSaveData GetBaseSetting()
         {
             return data;
         }

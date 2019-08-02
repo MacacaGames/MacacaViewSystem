@@ -12,15 +12,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ViewSystemDataReaderV2 dataReader;
         public bool showBaseSettingWindow;
         private Rect rect;
-        ViewSystemSaveData saveData;
         public BaseSettingNode node;
+        static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
 
         public ViewSystemNodeBaseSettingWindow(ViewSystemNodeEditor editor, ViewSystemDataReaderV2 dataReader)
         {
             this.editor = editor;
             this.dataReader = dataReader;
             showBaseSettingWindow = false;
-            saveData = dataReader.GetSetting();
             node = new BaseSettingNode(saveData.baseSetting.nodePosition);
             node.OnDrag += (p) =>
             {
@@ -99,7 +98,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                     {
                                         saveData.baseSetting.EventHandleBehaviour.Remove(saveData.baseSetting.EventHandleBehaviour[i]);
                                     }
-                                    saveData.baseSetting.EventHandleBehaviour[i] = (MonoBehaviour)EditorGUILayout.ObjectField(saveData.baseSetting.EventHandleBehaviour[i], typeof(MonoBehaviour), false);
+                                    saveData.baseSetting.EventHandleBehaviour[i] = (MonoScript)EditorGUILayout.ObjectField(saveData.baseSetting.EventHandleBehaviour[i], typeof(MonoScript), false);
 
                                 }
                             }

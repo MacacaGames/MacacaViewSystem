@@ -41,7 +41,9 @@ namespace CloudMacaca.ViewSystem
             public string ViewControllerObjectPath;
             public GameObject UIRoot;
             public GameObject UIRootScene;
-            public List<MonoBehaviour> EventHandleBehaviour;
+#if UNITY_EDITOR
+            public List<UnityEditor.MonoScript> EventHandleBehaviour;
+#endif
             public float MaxWaitingTime
             {
                 get
@@ -54,9 +56,14 @@ namespace CloudMacaca.ViewSystem
 
     }
     [System.Serializable]
+    public class ViewElementEventData
+    {
+        public string scriptName;
+        public string methodName;
+    }
+    [System.Serializable]
     public class ViewElementPropertyOverrideData
     {
-        public string id;
         public string targetTransformPath;
         public string targetComponentType;
         public string targetPropertyName;

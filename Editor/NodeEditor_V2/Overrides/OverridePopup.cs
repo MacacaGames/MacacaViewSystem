@@ -10,450 +10,533 @@ using System;
 using CloudMacaca;
 using System.Reflection;
 
-public class OverridePopup : EditorWindow
+namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
-    GameObject target;
-    ViewPageItem viewPageItem;
-    public void Init(ViewPageItem viewPageItem)
+    public class OverridePopup : EditorWindow
     {
-        title = "ViewElement Override";
-        target = viewPageItem.viewElement.gameObject;
-        this.viewPageItem = viewPageItem;
-        // maxSize = new Vector2(width * 1.5f, height * 1.5f);
-        // minSize = new Vector2(width, height);
-        currentSelectGameObject = null;
-        CacheHierarchy();
-
-    }
-    public void Awake()
-    {
-
-    }
-    public void OnGUI()
-    {
-
-        //editorWindow.maxSize = maxSize;
-        //editorWindow.minSize = minSize;
-        DrawTab();
-        switch (_selectedTab)
+        static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
+        GameObject target;
+        ViewPageItem viewPageItem;
+        bool isInit => target != null;
+        public void Init(ViewPageItem viewPageItem)
         {
-            case 0:
-                DrawHeader();
-                DrawScrollViewHierarchy();
-                break;
-            case 1:
-                DrawScrollViewModify();
-                break;
+            title = "ViewElement Override";
+            target = viewPageItem.viewElement.gameObject;
+            this.viewPageItem = viewPageItem;
+            // maxSize = new Vector2(width * 1.5f, height * 1.5f);
+            // minSize = new Vector2(width, height);
+            currentSelectGameObject = null;
+            CacheHierarchy();
+            RefreshMethodDatabase();
         }
-        //base.editorWindow.Repaint();
-    }
+        public void Awake()
+        {
 
-    GUIContent header = new GUIContent();
-    private void DrawHeader()
-    {
-        if (currentSelectGameObject)
-        {
-            header.image = EditorGUIUtility.FindTexture("Prefab Icon");
-            header.text = currentSelectGameObject.gameObject.name;
         }
-        else if (currentSelectSerializedObject != null)
+        public void OnGUI()
         {
-            header = new GUIContent(EditorGUIUtility.ObjectContent(currentSelectSerializedObject.targetObject, currentSelectSerializedObject.targetObject.GetType()));
-        }
-        else
-        {
-            header.text = target.gameObject.name;
-            header.image = EditorGUIUtility.FindTexture("Prefab Icon");
-        }
-        using (var horizon = new GUILayout.HorizontalScope())
-        {
-            if (GUILayout.Button(header, new GUIStyle("dockareaStandalone"), GUILayout.Width(position.width)))
+            DrawTab();
+            if (!isInit)
             {
-                if (currentSelectGameObject)
-                {
-                    currentSelectGameObject = null;
-                    componentDrawer = null;
-                }
-                if (currentSelectSerializedObject != null)
-                {
-                    currentSelectGameObject = lastSelectGameObject;
-                    currentSelectSerializedObject = null;
-                    propertiesDrawer = null;
-                    componentDrawer = null;
-                }
+                return;
+            }
+            switch (_selectedTab)
+            {
+                case 0:
+                    DrawHeader();
+                    DrawScrollViewHierarchy();
+                    break;
+                case 1:
+                    DrawScrollViewModify();
+                    break;
+                case 2:
+                    DrawEvent();
+                    break;
             }
         }
-    }
-    [SerializeField] TreeViewState m_HierachyTreeViewState;
-    HierarchyTreeView hierarchyTreeView;
 
-    [SerializeField] TreeViewState m_ComponentTreeViewState;
-    ComponentTreeView componentTreeView;
-    Vector2 scrollPositionHierarchy;
-    void DrawScrollViewHierarchy()
-    {
-        using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionHierarchy))
+        GUIContent header = new GUIContent();
+        private void DrawHeader()
         {
-            scrollPositionHierarchy = scrollViewScope.scrollPosition;
-
             if (currentSelectGameObject)
             {
-                if (componentTreeView != null) componentTreeView.OnGUI(new Rect(0, 0, position.width, position.height));
+                header.image = EditorGUIUtility.FindTexture("Prefab Icon");
+                header.text = currentSelectGameObject.gameObject.name;
+            }
+            else if (currentSelectSerializedObject != null)
+            {
+                header = new GUIContent(EditorGUIUtility.ObjectContent(currentSelectSerializedObject.targetObject, currentSelectSerializedObject.targetObject.GetType()));
+            }
+            else if (target != null)
+            {
+                header.text = target.gameObject.name;
+                header.image = EditorGUIUtility.FindTexture("Prefab Icon");
             }
             else
             {
-                //if (hierarchyDrawer != null) hierarchyDrawer.Draw();
-                if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, position.width, position.height));
+                header.text = "Nothing is selected";
+            }
+            using (var horizon = new GUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button(header, new GUIStyle("dockareaStandalone"), GUILayout.Width(position.width)))
+                {
+                    if (currentSelectGameObject)
+                    {
+                        currentSelectGameObject = null;
+                        componentDrawer = null;
+                    }
+                    if (currentSelectSerializedObject != null)
+                    {
+                        currentSelectGameObject = lastSelectGameObject;
+                        currentSelectSerializedObject = null;
+                        propertiesDrawer = null;
+                        componentDrawer = null;
+                    }
+                }
             }
         }
-    }
-    Vector2 scrollPositionModified;
-    ReorderableList reorderableListViewModify;
+        [SerializeField] TreeViewState m_HierachyTreeViewState;
+        HierarchyTreeView hierarchyTreeView;
 
-    void DrawScrollViewModify()
-    {
-        if (reorderableListViewModify == null)
+        [SerializeField] TreeViewState m_ComponentTreeViewState;
+        ComponentTreeView componentTreeView;
+        Vector2 scrollPositionHierarchy;
+        void DrawScrollViewHierarchy()
         {
-            reorderableListViewModify = new ReorderableList(viewPageItem.overrideDatas, typeof(List<ViewElementPropertyOverrideData>), true, false, false, true);
-            reorderableListViewModify.elementHeight = EditorGUIUtility.singleLineHeight * 2.5f;
-            reorderableListViewModify.drawElementCallback += (rect, index, isActive, isFocused) =>
+            using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionHierarchy))
             {
-                var ori_Rect = rect;
-                rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
-                rect.height = EditorGUIUtility.singleLineHeight;
-                // using (var areaScope = new GUILayout.AreaScope(rect))
-                // {
-                var item = viewPageItem.overrideDatas[index];
-                var targetObject = viewPageItem.viewElement.transform.Find(item.targetTransformPath);
-                UnityEngine.Object targetComponent = targetObject.GetComponent(item.targetComponentType);
-                if (item.targetComponentType.Contains("GameObject"))
-                {
-                    targetComponent = targetObject.gameObject;
-                }
+                scrollPositionHierarchy = scrollViewScope.scrollPosition;
 
-                if (targetComponent == null)
+                if (currentSelectGameObject)
                 {
-                    GUI.Label(rect, new GUIContent("Unsupport ComponentType", EditorGUIUtility.FindTexture("console.erroricon.sml")));
+                    if (componentTreeView != null) componentTreeView.OnGUI(new Rect(0, 0, position.width, position.height));
+                }
+                else
+                {
+                    //if (hierarchyDrawer != null) hierarchyDrawer.Draw();
+                    if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, position.width, position.height));
+                }
+            }
+        }
+        Vector2 scrollPositionModified;
+        ReorderableList reorderableListViewModify;
+
+        void DrawScrollViewModify()
+        {
+            if (reorderableListViewModify == null)
+            {
+                reorderableListViewModify = new ReorderableList(viewPageItem.overrideDatas, typeof(List<ViewElementPropertyOverrideData>), true, false, false, true);
+                reorderableListViewModify.elementHeight = EditorGUIUtility.singleLineHeight * 2.5f;
+                reorderableListViewModify.drawElementCallback += (rect, index, isActive, isFocused) =>
+                {
+                    var ori_Rect = rect;
+                    rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
+                    rect.height = EditorGUIUtility.singleLineHeight;
+                    // using (var areaScope = new GUILayout.AreaScope(rect))
+                    // {
+                    var item = viewPageItem.overrideDatas[index];
+                    var targetObject = viewPageItem.viewElement.transform.Find(item.targetTransformPath);
+                    UnityEngine.Object targetComponent = targetObject.GetComponent(item.targetComponentType);
+                    if (item.targetComponentType.Contains("GameObject"))
+                    {
+                        targetComponent = targetObject.gameObject;
+                    }
+
+                    if (targetComponent == null)
+                    {
+                        GUI.Label(rect, new GUIContent("Unsupport ComponentType", EditorGUIUtility.FindTexture("console.erroricon.sml")));
+                        rect.y += EditorGUIUtility.singleLineHeight;
+                        GUI.Label(rect, new GUIContent("ComponentType : " + item.targetComponentType));
+
+
+                        return;
+                    }
+                    var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
+                    var so = new SerializedObject(targetComponent);
+                    var sp = so.FindProperty(item.targetPropertyName);
+
+                    rect.width = 20;
+                    GUI.Label(rect, EditorGUIUtility.FindTexture("Prefab Icon"));
+                    rect.x += rect.width;
+
+                    GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)));
+                    rect.width = GUI.skin.label.CalcSize(l).x;
+                    GUI.Label(rect, l);
+                    rect.x += rect.width;
+
+                    rect.width = 20;
+                    GUI.Label(rect, EditorGUIUtility.FindTexture("Animation.Play"));
+                    rect.x += rect.width;
+
+                    rect.width = GUI.skin.label.CalcSize(_cachedContent).x; ;
+                    GUI.Label(rect, _cachedContent);
+
                     rect.y += EditorGUIUtility.singleLineHeight;
-                    GUI.Label(rect, new GUIContent("ComponentType : " + item.targetComponentType));
+                    rect.height = EditorGUIUtility.singleLineHeight;
+                    rect.width = ori_Rect.width;
+                    rect.x = ori_Rect.x;
 
+                    //EditorGUI.PropertyField(rect, sp);
+                    if (EditorGUICM.EditorableField(rect, new GUIContent(sp.displayName), sp, item.Value))
+                    {
 
-                    return;
-                }
-                var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
-                var so = new SerializedObject(targetComponent);
-                var sp = so.FindProperty(item.targetPropertyName);
+                    }
+                    //var result = EditorGUICM.GetPropertyType(sp);
+                    //}
+                };
+            }
+            using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionModified))
+            {
+                scrollPositionModified = scrollViewScope.scrollPosition;
 
-                rect.width = 20;
-                GUI.Label(rect, EditorGUIUtility.FindTexture("Prefab Icon"));
-                rect.x += rect.width;
+                if (hierarchyTreeView != null) reorderableListViewModify.DoLayoutList();
 
-                GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)));
-                rect.width = GUI.skin.label.CalcSize(l).x;
-                GUI.Label(rect, l);
-                rect.x += rect.width;
+            }
+        }
+        //對應 方法名稱與 pop index 的字典
+        //第 n 個腳本的參照
+        // List<string[]> methodListOfScriptObject = new List<string[]>();
+        // List<string> scriptObjectName = new List<string>();
+        Dictionary<string, string[]> classMethodInfo = new Dictionary<string, string[]>();
+        BindingFlags BindFlagsForScript = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+        void RefreshMethodDatabase()
+        {
+            classMethodInfo.Clear();
+            classMethodInfo.Add("Nothing Select", null);
+            List<string> VerifiedMethod = new List<string>();
+            for (int i = 0; i < saveData.baseSetting.EventHandleBehaviour.Count; i++)
+            {
 
-                rect.width = 20;
-                GUI.Label(rect, EditorGUIUtility.FindTexture("Animation.Play"));
-                rect.x += rect.width;
-
-                rect.width = GUI.skin.label.CalcSize(_cachedContent).x; ;
-                GUI.Label(rect, _cachedContent);
-
-                rect.y += EditorGUIUtility.singleLineHeight;
-                rect.height = EditorGUIUtility.singleLineHeight;
-                rect.width = ori_Rect.width;
-                rect.x = ori_Rect.x;
-
-                //EditorGUI.PropertyField(rect, sp);
-                if (EditorGUICM.EditorableField(rect, new GUIContent(sp.displayName), sp, item.Value))
+                var type = Utility.GetType(saveData.baseSetting.EventHandleBehaviour[i].name);
+                if (saveData.baseSetting.EventHandleBehaviour[i] == null) return;
+                MethodInfo[] methodInfos = type.GetMethods(BindFlagsForScript);
+                VerifiedMethod.Clear();
+                VerifiedMethod.Add("Nothing Select");
+                foreach (var item in methodInfos)
                 {
-
+                    var para = item.GetParameters();
+                    if (para.Where(m => m.ParameterType.IsAssignableFrom(typeof(UnityEngine.UI.Selectable))).Count() == 0)
+                    {
+                        continue;
+                    }
+                    VerifiedMethod.Add(item.Name);
                 }
-                //var result = EditorGUICM.GetPropertyType(sp);
-                //}
+                classMethodInfo.Add(type.ToString(), VerifiedMethod.ToArray());
+            }
+        }
+
+
+        Vector2 scrollPositionEvent;
+        void DrawEvent()
+        {
+            if (classMethodInfo.Count == 0)
+            {
+                return;
+            }
+
+            using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionEvent))
+            {
+                scrollPositionEvent = scrollViewScope.scrollPosition;
+
+                foreach (var item in viewPageItem.eventDatas)
+                {
+                    using (var vertical = new EditorGUILayout.VerticalScope("box"))
+                    {
+                        int currentSelectClass = string.IsNullOrEmpty(item.scriptName) ? 0 : classMethodInfo.Values.ToList().IndexOf(classMethodInfo[item.scriptName]);
+
+                        using (var check = new EditorGUI.ChangeCheckScope())
+                        {
+                            currentSelectClass = EditorGUILayout.Popup("Event Script", currentSelectClass, classMethodInfo.Select(m => m.Key).ToArray());
+                            if (check.changed)
+                            {
+                                if (currentSelectClass != 0)
+                                {
+                                    var c = classMethodInfo.ElementAt(currentSelectClass);
+                                    item.scriptName = c.Key;
+                                    item.methodName = "";
+                                }
+                                else
+                                {
+                                    item.scriptName = "";
+                                    item.methodName = "";
+                                }
+                            }
+                        }
+                        if (currentSelectClass != 0)
+                        {
+                            using (var check = new EditorGUI.ChangeCheckScope())
+                            {
+                                var c = classMethodInfo.ElementAt(currentSelectClass).Value;
+
+                                int currentSelectMethod = string.IsNullOrEmpty(item.methodName) ? 0 : c.ToList().IndexOf(item.methodName);
+                                currentSelectMethod = EditorGUILayout.Popup("Event Method", currentSelectMethod, c);
+
+                                if (check.changed)
+                                {
+                                    if (currentSelectMethod != 0)
+                                    {
+                                        item.methodName = c[currentSelectMethod];
+                                    }
+                                    else
+                                    {
+                                        item.methodName = "";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            EditorGUILayout.HelpBox("Only the method which has UnityEngine.UI.Selectable parameters will be shown", MessageType.Info);
+        }
+
+        private int _selectedTab;
+        static string[] tabs = new string[3] { "Hierarchy", "Modified Properties", "Event" };
+        private void DrawTab()
+        {
+            using (var horizon = new GUILayout.HorizontalScope())
+            {
+                using (var check = new EditorGUI.ChangeCheckScope())
+                {
+                    _selectedTab = GUILayout.Toolbar(_selectedTab, tabs, EditorStyles.toolbarButton);
+                    if (check.changed)
+                    {
+                        // if (_selectedTab == 1)
+                        // {
+                        //     CacheModifiedProperties();
+                        // }
+                        // else
+                        // {
+                        //     CacheHierarchy();
+                        // }
+                    }
+                }
+            }
+        }
+
+        HierarchyDrawer hierarchyDrawer;
+        GameObject currentSelectGameObject;
+        GameObject lastSelectGameObject;
+        private void CacheHierarchy()
+        {
+
+            if (m_HierachyTreeViewState == null)
+                m_HierachyTreeViewState = new TreeViewState();
+
+
+            hierarchyTreeView = new HierarchyTreeView(target.transform, m_HierachyTreeViewState);
+            hierarchyTreeView.OnItemClick += (go) =>
+            {
+                currentSelectGameObject = (GameObject)go;
+                CacheComponent();
+            };
+            // hierarchyDrawer = new HierarchyDrawer(target.transform);
+            // hierarchyDrawer.OnItemClick += (go) =>
+            // {
+            //     currentSelectGameObject = (GameObject)go;
+            // };
+        }
+
+
+        ComponentDrawer componentDrawer;
+        SerializedObject currentSelectSerializedObject;
+
+        private void CacheComponent()
+        {
+
+            if (m_ComponentTreeViewState == null)
+                m_ComponentTreeViewState = new TreeViewState();
+
+            componentTreeView = new ComponentTreeView(currentSelectGameObject, m_ComponentTreeViewState);
+
+            componentTreeView.OnItemClick += (sp) =>
+            {
+                var overrideData = new ViewElementPropertyOverrideData();
+
+                Component c;
+                try
+                {
+                    c = (Component)sp.serializedObject.targetObject;
+                }
+                catch
+                {
+                    c = ((GameObject)sp.serializedObject.targetObject).transform;
+                }
+
+                overrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(c.transform, target.transform);
+                overrideData.targetPropertyName = sp.name;
+                overrideData.targetComponentType = sp.serializedObject.targetObject.GetType().ToString();
+                overrideData.targetPropertyType = sp.propertyType.ToString();
+                overrideData.targetPropertyPath = EditorGUICM.ParseUnityEngineProperty(sp.propertyPath);
+                overrideData.Value = EditorGUICM.GetValue(sp);
+                if (viewPageItem.overrideDatas == null)
+                {
+                    viewPageItem.overrideDatas = new List<ViewElementPropertyOverrideData>();
+                }
+
+                var current = viewPageItem.overrideDatas
+                    .SingleOrDefault(x =>
+                        x.targetTransformPath == overrideData.targetTransformPath &&
+                        x.targetComponentType == overrideData.targetComponentType &&
+                        x.targetPropertyName == overrideData.targetPropertyName
+                    );
+
+                if (current != null)
+                {
+                    current = overrideData;
+                }
+                else
+                {
+                    viewPageItem.overrideDatas.Add(overrideData);
+                }
             };
         }
-        using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionModified))
+
+        PropertiesDrawer propertiesDrawer;
+
+        private void CacheProperties()
         {
-            scrollPositionModified = scrollViewScope.scrollPosition;
-
-            if (hierarchyTreeView != null) reorderableListViewModify.DoLayoutList();
-
-        }
-    }
-    //對應 方法名稱與 pop index 的字典
-    //第 n 個腳本的參照
-    // List<string[]> methodListOfScriptObject = new List<string[]>();
-    // List<string> scriptObjectName = new List<string>();
-    Dictionary<string, string[]> classMethodInfo = new Dictionary<string, string[]>();
-    List<UnityEditor.MonoScript> scriptsObjects = new List<UnityEditor.MonoScript>();
-    BindingFlags BindFlagsForScript = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-    void RefreshMethodDatabase()
-    {
-        classMethodInfo.Clear();
-
-        for (int i = 0; i < scriptsObjects.Count; i++)
-        {
-            if (scriptsObjects[i] == null) return;
-            MethodInfo[] methodInfos = Utility.GetType(scriptsObjects[i].name).GetMethods(BindFlagsForScript);
-            classMethodInfo.Add(scriptsObjects[i].name, methodInfos.Select(m => m.Name).ToArray());
-        }
-
-
-    }
-    void DrawEvent()
-    {
-
-    }
-
-    private int _selectedTab;
-    private void DrawTab()
-    {
-        using (var horizon = new GUILayout.HorizontalScope())
-        {
-            using (var check = new EditorGUI.ChangeCheckScope())
+            propertiesDrawer = new PropertiesDrawer(currentSelectSerializedObject);
+            propertiesDrawer.OnItemClick += (so, sp) =>
             {
-                _selectedTab = GUILayout.Toolbar(_selectedTab, new string[2]
-                    { "Hierarchy","Modified Properties"},
-                    EditorStyles.toolbarButton);
-                if (check.changed)
+                var overrideData = new ViewElementPropertyOverrideData();
+
+                // Debug.Log("Target Object : " + so.targetObject.name);
+                // Debug.Log("Type : " + so.targetObject.GetType().ToString());
+
+                // Debug.Log("SerializedPropertyType : " + sp.propertyType);
+                // Debug.Log("Property Type : " + sp.type);
+                // Debug.Log("Property Name : " + sp.name);
+                // Debug.Log("Property DisplayName : " + sp.displayName);
+                // Debug.Log("GameObject Name : " + lastSelectGameObject.name);
+                // Debug.Log("Transform Path : " + AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, target.transform));
+                // Debug.Log("Name Of : " + nameof(sp));
+
+                overrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, target.transform);
+                overrideData.targetPropertyName = sp.name;
+                overrideData.targetComponentType = so.targetObject.GetType().ToString();
+                overrideData.targetPropertyType = sp.propertyType.ToString();
+                overrideData.targetPropertyPath = EditorGUICM.ParseUnityEngineProperty(sp.propertyPath);
+                overrideData.Value = EditorGUICM.GetValue(sp);
+                if (viewPageItem.overrideDatas == null)
                 {
-                    // if (_selectedTab == 1)
-                    // {
-                    //     CacheModifiedProperties();
-                    // }
-                    // else
-                    // {
-                    //     CacheHierarchy();
-                    // }
+                    viewPageItem.overrideDatas = new List<ViewElementPropertyOverrideData>();
                 }
-            }
-        }
-    }
 
-    HierarchyDrawer hierarchyDrawer;
-    GameObject currentSelectGameObject;
-    GameObject lastSelectGameObject;
-    private void CacheHierarchy()
-    {
+                var current = viewPageItem.overrideDatas
+                    .SingleOrDefault(x =>
+                        x.targetTransformPath == overrideData.targetTransformPath &&
+                        x.targetComponentType == overrideData.targetComponentType &&
+                        x.targetPropertyName == overrideData.targetPropertyName
+                    );
 
-        if (m_HierachyTreeViewState == null)
-            m_HierachyTreeViewState = new TreeViewState();
-
-
-        hierarchyTreeView = new HierarchyTreeView(target.transform, m_HierachyTreeViewState);
-        hierarchyTreeView.OnItemClick += (go) =>
-        {
-            currentSelectGameObject = (GameObject)go;
-            CacheComponent();
-        };
-        // hierarchyDrawer = new HierarchyDrawer(target.transform);
-        // hierarchyDrawer.OnItemClick += (go) =>
-        // {
-        //     currentSelectGameObject = (GameObject)go;
-        // };
-    }
-
-
-    ComponentDrawer componentDrawer;
-    SerializedObject currentSelectSerializedObject;
-
-    private void CacheComponent()
-    {
-
-        if (m_ComponentTreeViewState == null)
-            m_ComponentTreeViewState = new TreeViewState();
-
-        componentTreeView = new ComponentTreeView(currentSelectGameObject, m_ComponentTreeViewState);
-
-        componentTreeView.OnItemClick += (sp) =>
-        {
-            var overrideData = new ViewElementPropertyOverrideData();
-
-            Component c;
-            try
-            {
-                c = (Component)sp.serializedObject.targetObject;
-            }
-            catch
-            {
-                c = ((GameObject)sp.serializedObject.targetObject).transform;
-            }
-
-            overrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(c.transform, target.transform);
-            overrideData.targetPropertyName = sp.name;
-            overrideData.targetComponentType = sp.serializedObject.targetObject.GetType().ToString();
-            overrideData.targetPropertyType = sp.propertyType.ToString();
-            overrideData.targetPropertyPath = EditorGUICM.ParseUnityEngineProperty(sp.propertyPath);
-            overrideData.Value = EditorGUICM.GetValue(sp);
-            if (viewPageItem.overrideDatas == null)
-            {
-                viewPageItem.overrideDatas = new List<ViewElementPropertyOverrideData>();
-            }
-
-            var current = viewPageItem.overrideDatas
-                .SingleOrDefault(x =>
-                    x.targetTransformPath == overrideData.targetTransformPath &&
-                    x.targetComponentType == overrideData.targetComponentType &&
-                    x.targetPropertyName == overrideData.targetPropertyName
-                );
-
-            if (current != null)
-            {
-                current = overrideData;
-            }
-            else
-            {
-                viewPageItem.overrideDatas.Add(overrideData);
-            }
-        };
-    }
-
-    PropertiesDrawer propertiesDrawer;
-
-    private void CacheProperties()
-    {
-        propertiesDrawer = new PropertiesDrawer(currentSelectSerializedObject);
-        propertiesDrawer.OnItemClick += (so, sp) =>
-        {
-            var overrideData = new ViewElementPropertyOverrideData();
-
-            // Debug.Log("Target Object : " + so.targetObject.name);
-            // Debug.Log("Type : " + so.targetObject.GetType().ToString());
-
-            // Debug.Log("SerializedPropertyType : " + sp.propertyType);
-            // Debug.Log("Property Type : " + sp.type);
-            // Debug.Log("Property Name : " + sp.name);
-            // Debug.Log("Property DisplayName : " + sp.displayName);
-            // Debug.Log("GameObject Name : " + lastSelectGameObject.name);
-            // Debug.Log("Transform Path : " + AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, target.transform));
-            // Debug.Log("Name Of : " + nameof(sp));
-
-            overrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, target.transform);
-            overrideData.targetPropertyName = sp.name;
-            overrideData.targetComponentType = so.targetObject.GetType().ToString();
-            overrideData.targetPropertyType = sp.propertyType.ToString();
-            overrideData.targetPropertyPath = EditorGUICM.ParseUnityEngineProperty(sp.propertyPath);
-            overrideData.Value = EditorGUICM.GetValue(sp);
-            if (viewPageItem.overrideDatas == null)
-            {
-                viewPageItem.overrideDatas = new List<ViewElementPropertyOverrideData>();
-            }
-
-            var current = viewPageItem.overrideDatas
-                .SingleOrDefault(x =>
-                    x.targetTransformPath == overrideData.targetTransformPath &&
-                    x.targetComponentType == overrideData.targetComponentType &&
-                    x.targetPropertyName == overrideData.targetPropertyName
-                );
-
-            if (current != null)
-            {
-                current = overrideData;
-            }
-            else
-            {
-                viewPageItem.overrideDatas.Add(overrideData);
-            }
-        };
-    }
-
-    class EditorGUICM
-    {
-        public static string ParseUnityEngineProperty(string ori)
-        {
-            if (ori.ToLower().Contains("material"))
-            {
-                return "material";
-            }
-            if (ori.ToLower().Contains("sprite"))
-            {
-                return "sprite";
-            }
-            if (ori.ToLower().Contains("active"))
-            {
-                return "active";
-            }
-            string result = ori.Replace("m_", "");
-            result = result.Substring(0, 1).ToLower() + result.Substring(1);
-            return result;
+                if (current != null)
+                {
+                    current = overrideData;
+                }
+                else
+                {
+                    viewPageItem.overrideDatas.Add(overrideData);
+                }
+            };
         }
 
-        public static Type GetPropertyType(SerializedProperty property)
+        class EditorGUICM
         {
-            var type = property.type;
-            var match = System.Text.RegularExpressions.Regex.Match(type, @"PPtr<\$(.*?)>");
-            if (match.Success)
-                type = "UnityEngine." + match.Groups[1].Value;
-            return CloudMacaca.Utility.GetType(type);
-        }
-
-        // public static Type GetPropertyObjectType(SerializedProperty property)
-        // {
-        //     return typeof(UnityEngine.Object).Assembly.GetType("UnityEngine." + GetPropertyType(property));
-        // }
-
-        public static bool EditorableField(Rect rect, GUIContent content, SerializedProperty Target, PropertyOverride overProperty)
-        {
-            EditorGUI.BeginChangeCheck();
-            switch (Target.propertyType)
+            public static string ParseUnityEngineProperty(string ori)
             {
-                case SerializedPropertyType.Float:
-                    overProperty.FloatValue = EditorGUI.FloatField(rect, content, overProperty.FloatValue);
-                    break;
-                case SerializedPropertyType.Integer:
-                    overProperty.IntValue = EditorGUI.IntField(rect, content, overProperty.IntValue);
-                    break;
-                case SerializedPropertyType.String:
-                    overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
-                    break;
-                case SerializedPropertyType.Boolean:
-                    overProperty.BooleanValue = EditorGUI.Toggle(rect, content, overProperty.BooleanValue);
-                    break;
-                case SerializedPropertyType.Color:
-                    overProperty.ColorValue = EditorGUI.ColorField(rect, content, overProperty.ColorValue);
-                    break;
-                case SerializedPropertyType.ObjectReference:
-                    overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, GetPropertyType(Target), false);
-                    break;
-            }
-            return EditorGUI.EndChangeCheck();
-        }
-
-        public static PropertyOverride GetValue(SerializedProperty property)
-        {
-            PropertyOverride overProperty = new PropertyOverride();
-
-            switch (property.propertyType)
-            {
-                case SerializedPropertyType.Float:
-                    overProperty.FloatValue = property.floatValue;
-                    overProperty.SetType(PropertyOverride.S_Type._float);
-                    break;
-                case SerializedPropertyType.Integer:
-                    overProperty.IntValue = property.intValue;
-                    overProperty.SetType(PropertyOverride.S_Type._float);
-                    break;
-                case SerializedPropertyType.String:
-                    overProperty.StringValue = property.stringValue;
-                    overProperty.SetType(PropertyOverride.S_Type._string);
-                    break;
-                case SerializedPropertyType.Boolean:
-                    overProperty.BooleanValue = property.boolValue;
-                    overProperty.SetType(PropertyOverride.S_Type._bool);
-                    break;
-                case SerializedPropertyType.Color:
-                    overProperty.ColorValue = property.colorValue;
-                    overProperty.SetType(PropertyOverride.S_Type._color);
-                    break;
-                case SerializedPropertyType.ObjectReference:
-                    overProperty.ObjectReferenceValue = property.objectReferenceValue;
-                    overProperty.SetType(PropertyOverride.S_Type._objcetReferenct);
-                    break;
+                if (ori.ToLower().Contains("material"))
+                {
+                    return "material";
+                }
+                if (ori.ToLower().Contains("sprite"))
+                {
+                    return "sprite";
+                }
+                if (ori.ToLower().Contains("active"))
+                {
+                    return "active";
+                }
+                string result = ori.Replace("m_", "");
+                result = result.Substring(0, 1).ToLower() + result.Substring(1);
+                return result;
             }
 
-            return overProperty;
+            public static Type GetPropertyType(SerializedProperty property)
+            {
+                var type = property.type;
+                var match = System.Text.RegularExpressions.Regex.Match(type, @"PPtr<\$(.*?)>");
+                if (match.Success)
+                    type = "UnityEngine." + match.Groups[1].Value;
+                return CloudMacaca.Utility.GetType(type);
+            }
+
+            // public static Type GetPropertyObjectType(SerializedProperty property)
+            // {
+            //     return typeof(UnityEngine.Object).Assembly.GetType("UnityEngine." + GetPropertyType(property));
+            // }
+
+            public static bool EditorableField(Rect rect, GUIContent content, SerializedProperty Target, PropertyOverride overProperty)
+            {
+                EditorGUI.BeginChangeCheck();
+                switch (Target.propertyType)
+                {
+                    case SerializedPropertyType.Float:
+                        overProperty.FloatValue = EditorGUI.FloatField(rect, content, overProperty.FloatValue);
+                        break;
+                    case SerializedPropertyType.Integer:
+                        overProperty.IntValue = EditorGUI.IntField(rect, content, overProperty.IntValue);
+                        break;
+                    case SerializedPropertyType.String:
+                        overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
+                        break;
+                    case SerializedPropertyType.Boolean:
+                        overProperty.BooleanValue = EditorGUI.Toggle(rect, content, overProperty.BooleanValue);
+                        break;
+                    case SerializedPropertyType.Color:
+                        overProperty.ColorValue = EditorGUI.ColorField(rect, content, overProperty.ColorValue);
+                        break;
+                    case SerializedPropertyType.ObjectReference:
+                        overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, GetPropertyType(Target), false);
+                        break;
+                }
+                return EditorGUI.EndChangeCheck();
+            }
+
+            public static PropertyOverride GetValue(SerializedProperty property)
+            {
+                PropertyOverride overProperty = new PropertyOverride();
+
+                switch (property.propertyType)
+                {
+                    case SerializedPropertyType.Float:
+                        overProperty.FloatValue = property.floatValue;
+                        overProperty.SetType(PropertyOverride.S_Type._float);
+                        break;
+                    case SerializedPropertyType.Integer:
+                        overProperty.IntValue = property.intValue;
+                        overProperty.SetType(PropertyOverride.S_Type._float);
+                        break;
+                    case SerializedPropertyType.String:
+                        overProperty.StringValue = property.stringValue;
+                        overProperty.SetType(PropertyOverride.S_Type._string);
+                        break;
+                    case SerializedPropertyType.Boolean:
+                        overProperty.BooleanValue = property.boolValue;
+                        overProperty.SetType(PropertyOverride.S_Type._bool);
+                        break;
+                    case SerializedPropertyType.Color:
+                        overProperty.ColorValue = property.colorValue;
+                        overProperty.SetType(PropertyOverride.S_Type._color);
+                        break;
+                    case SerializedPropertyType.ObjectReference:
+                        overProperty.ObjectReferenceValue = property.objectReferenceValue;
+                        overProperty.SetType(PropertyOverride.S_Type._objcetReferenct);
+                        break;
+                }
+
+                return overProperty;
+            }
         }
     }
 }
