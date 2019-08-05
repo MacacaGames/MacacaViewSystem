@@ -227,7 +227,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 foreach (var item in methodInfos)
                 {
                     var para = item.GetParameters();
-                    if (para.Where(m => m.ParameterType.IsAssignableFrom(typeof(UnityEngine.UI.Selectable)) || m.ParameterType.IsSubclassOf(typeof(UnityEngine.UI.Selectable))).Count() == 0)
+                    if (para.Where(m => m.ParameterType.IsAssignableFrom(typeof(UnityEngine.UI.Selectable))).Count() == 0)
                     {
                         continue;
                     }

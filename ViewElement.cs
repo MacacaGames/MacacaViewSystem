@@ -19,9 +19,29 @@ namespace CloudMacaca.ViewSystem
         public bool IsUnique = false;
 
         private ViewRuntimeOverride runtimeOverride;
+        public void ApplyEvent(IEnumerable<ViewElementEventData> eventDatas)
+        {
+            if (eventDatas == null)
+            {
+                return;
+            }
+            if (eventDatas.Count() == 0)
+            {
+                return;
+            }
+            if (runtimeOverride == null)
+            {
+                runtimeOverride = gameObject.AddComponent<ViewRuntimeOverride>();
+            }
+            runtimeOverride.SetEvent(eventDatas);
+        }
         public void ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
             if (overrideDatas == null)
+            {
+                return;
+            }
+            if (overrideDatas.Count() == 0)
             {
                 return;
             }

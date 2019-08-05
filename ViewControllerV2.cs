@@ -243,6 +243,7 @@ namespace CloudMacaca.ViewSystem
             {
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
+                item.runtimeViewElement.ApplyEvent(item.eventDatas);
 
                 //Delay 時間
                 if (!lastPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))

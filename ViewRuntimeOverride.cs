@@ -3,10 +3,157 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Events;
+using System;
+using UnityEngine.UI;
+
 namespace CloudMacaca.ViewSystem
 {
     public class ViewRuntimeOverride : TransformCacheBase
     {
+
+
+        public ViewElementEventData[] currentEventDatas;
+        class EventRuntimeDatas
+        {
+            public EventRuntimeDatas(UnityEvent unityEvent, Component selectable)
+            {
+                this.unityEvent = unityEvent;
+                this.selectable = selectable;
+
+            }
+            public UnityEvent unityEvent;
+            public Component selectable;
+        }
+        delegate void EventDelegate<Self>(Self selectable);
+        private static EventDelegate<Selectable> CreateOpenDelegate(string method, Component target)
+        {
+            return (EventDelegate<Selectable>)Delegate.CreateDelegate(type: typeof(EventDelegate<Selectable>), target, method, true, true);
+        }
+        Dictionary<string, EventDelegate<Selectable>> cachedDelegate = new Dictionary<string, EventDelegate<Selectable>>();
+        Dictionary<string, EventRuntimeDatas> cachedUnityEvent = new Dictionary<string, EventRuntimeDatas>();
+        public void SetEvent(IEnumerable<ViewElementEventData> eventDatas)
+        {
+            currentEventDatas = eventDatas.ToArray();
+
+            //Group by Component transform_component_property
+            var groupedEventData = eventDatas.GroupBy(item => item.targetTransformPath + "_" + item.targetComponentType + "_" + item.targetPropertyPath);
+
+            foreach (var item in groupedEventData)
+            {
+                string[] p = item.Key.Split('_');
+                //p[0] is targetTransformPath
+                Transform targetTansform;
+                if (string.IsNullOrEmpty(p[0]))
+                {
+                    targetTansform = transformCache;
+                }
+                else
+                {
+                    targetTansform = transformCache.Find(p[0]);
+                }
+
+                EventRuntimeDatas eventRuntimeDatas;
+
+                if (!cachedUnityEvent.TryGetValue(item.Key, out eventRuntimeDatas))
+                {
+                    //p[1] is targetComponentType
+                    Component selectable = targetTansform.GetComponent(p[1]);
+                    System.Type t = selectable.GetType();
+
+                    //p[2] is targetPropertyPath
+                    UnityEvent unityEvent = (UnityEvent)GetProperty(t, selectable, p[2]);
+                    eventRuntimeDatas = new EventRuntimeDatas(unityEvent, selectable);
+                    cachedUnityEvent.Add(item.Key, eventRuntimeDatas);
+                }
+
+                // Clear last event
+                eventRuntimeDatas.unityEvent.RemoveAllListeners();
+
+                // Usually there is only one event on one Selectable
+                // But the system allow mutil event on one Selectable
+                foreach (var item2 in item)
+                {
+                    var id_delegate = item2.scriptName + "_" + item2.methodName;
+                    EventDelegate<Selectable> openDelegate;
+                    if (!cachedDelegate.TryGetValue(id_delegate, out openDelegate))
+                    {
+                        // Get Method
+                        Type type = Utility.GetType(item2.scriptName);
+                        //MethodInfo method = type.GetMethod(item2.methodName);
+
+                        //The method impletment Object
+                        Component scriptInstance = (Component)FindObjectOfType(type);
+
+                        if (scriptInstance == null)
+                        {
+                            scriptInstance = GenerateScriptInstance(type);
+                        }
+
+                        //Create Open Delegate
+                        openDelegate = CreateOpenDelegate(item2.methodName, scriptInstance);
+                        cachedDelegate.Add(id_delegate, openDelegate);
+                    }
+                    eventRuntimeDatas.unityEvent.AddListener(delegate { openDelegate.Invoke((Selectable)eventRuntimeDatas.selectable); });
+                }
+            }
+            // foreach (var item in eventDatas)
+            // {
+            //     var id_unityEvent = item.targetTransformPath + "_" + item.targetComponentType;
+
+            //     Transform targetTansform;
+            //     if (string.IsNullOrEmpty(item.targetTransformPath))
+            //     {
+            //         targetTansform = transformCache;
+            //     }
+            //     else
+            //     {
+            //         targetTansform = transformCache.Find(item.targetTransformPath);
+            //     }
+
+            //     EventRuntimeDatas eventRuntimeDatas;
+
+            //     if (!cachedUnityEvent.TryGetValue(id_unityEvent, out eventRuntimeDatas))
+            //     {
+            //         Component selectable = targetTansform.GetComponent(item.targetComponentType);
+            //         System.Type t = selectable.GetType();
+            //         UnityEvent unityEvent = (UnityEvent)GetProperty(t, selectable, item.targetPropertyPath);
+            //         eventRuntimeDatas = new EventRuntimeDatas(unityEvent, selectable);
+            //         cachedUnityEvent.Add(id_unityEvent, eventRuntimeDatas);
+            //     }
+
+            //     var id_delegate = item.scriptName + "_" + item.methodName;
+            //     EventDelegate<Selectable> openDelegate;
+            //     if (!cachedDelegate.TryGetValue(id_delegate, out openDelegate))
+            //     {
+            //         // Get Method
+            //         Type type = Utility.GetType(item.scriptName);
+            //         MethodInfo method = type.GetMethod(item.methodName);
+
+            //         //The method impletment Object
+            //         var scriptInstance = (MonoBehaviour)FindObjectOfType(type);
+
+            //         //Create Open Delegate
+            //         openDelegate = CreateOpenDelegate(method, scriptInstance);
+            //         cachedDelegate.Add(id_delegate, openDelegate);
+            //     }
+            //     eventRuntimeDatas.unityEvent.RemoveAllListeners();
+            //     eventRuntimeDatas.unityEvent.AddListener(delegate { openDelegate.Invoke((Selectable)eventRuntimeDatas.selectable); });
+            // }
+        }
+
+        const string GeneratedScriptInstanceGameObjectName = "Generated_ViewSystem";
+        Component GenerateScriptInstance(Type type)
+        {
+            var go = GameObject.Find(GeneratedScriptInstanceGameObjectName);
+
+            if (go == null)
+            {
+                go = new GameObject(GeneratedScriptInstanceGameObjectName);
+            }
+            return go.AddComponent(type);
+        }
+
         public void ResetLastOverride()
         {
 
@@ -26,18 +173,17 @@ namespace CloudMacaca.ViewSystem
             modifiedFields.Clear();
         }
         static BindingFlags bindingFlags =
-         BindingFlags.NonPublic |
-
-                            BindingFlags.Public |
-                                BindingFlags.Instance |
-                                BindingFlags.Static;
-        Dictionary<string, Object> cachedComponent = new Dictionary<string, Object>();
+            BindingFlags.NonPublic |
+            BindingFlags.Public |
+            BindingFlags.Instance |
+            BindingFlags.Static;
+        Dictionary<string, UnityEngine.Object> cachedComponent = new Dictionary<string, UnityEngine.Object>();
         public void ApplyOverride(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
             foreach (var item in overrideDatas)
             {
                 var id = item.targetTransformPath + "_" + item.targetComponentType;
-                Object c;
+                UnityEngine.Object c;
                 Transform targetTansform = transformCache.Find(item.targetTransformPath);
                 if (!cachedComponent.TryGetValue(id, out c))
                 {
