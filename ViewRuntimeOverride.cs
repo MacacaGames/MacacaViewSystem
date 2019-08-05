@@ -26,11 +26,11 @@ namespace CloudMacaca.ViewSystem
             public Component selectable;
         }
         delegate void EventDelegate<Self>(Self selectable);
-        private static EventDelegate<Selectable> CreateOpenDelegate(string method, Component target)
+        private static EventDelegate<UnityEngine.EventSystems.UIBehaviour> CreateOpenDelegate(string method, Component target)
         {
-            return (EventDelegate<Selectable>)Delegate.CreateDelegate(type: typeof(EventDelegate<Selectable>), target, method, true, true);
+            return (EventDelegate<UnityEngine.EventSystems.UIBehaviour>)Delegate.CreateDelegate(type: typeof(EventDelegate<UnityEngine.EventSystems.UIBehaviour>), target, method, true, true);
         }
-        Dictionary<string, EventDelegate<Selectable>> cachedDelegate = new Dictionary<string, EventDelegate<Selectable>>();
+        Dictionary<string, EventDelegate<UnityEngine.EventSystems.UIBehaviour>> cachedDelegate = new Dictionary<string, EventDelegate<UnityEngine.EventSystems.UIBehaviour>>();
         Dictionary<string, EventRuntimeDatas> cachedUnityEvent = new Dictionary<string, EventRuntimeDatas>();
         public void SetEvent(IEnumerable<ViewElementEventData> eventDatas)
         {
@@ -75,7 +75,7 @@ namespace CloudMacaca.ViewSystem
                 foreach (var item2 in item)
                 {
                     var id_delegate = item2.scriptName + "_" + item2.methodName;
-                    EventDelegate<Selectable> openDelegate;
+                    EventDelegate<UnityEngine.EventSystems.UIBehaviour> openDelegate;
                     if (!cachedDelegate.TryGetValue(id_delegate, out openDelegate))
                     {
                         // Get Method
@@ -94,7 +94,7 @@ namespace CloudMacaca.ViewSystem
                         openDelegate = CreateOpenDelegate(item2.methodName, scriptInstance);
                         cachedDelegate.Add(id_delegate, openDelegate);
                     }
-                    eventRuntimeDatas.unityEvent.AddListener(delegate { openDelegate.Invoke((Selectable)eventRuntimeDatas.selectable); });
+                    eventRuntimeDatas.unityEvent.AddListener(delegate { openDelegate.Invoke((UnityEngine.EventSystems.UIBehaviour)eventRuntimeDatas.selectable); });
                 }
             }
             // foreach (var item in eventDatas)

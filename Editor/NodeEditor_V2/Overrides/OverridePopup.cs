@@ -25,8 +25,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             title = "ViewElement Override";
             target = viewPageItem.viewElement.gameObject;
             this.viewPageItem = viewPageItem;
-            // maxSize = new Vector2(width * 1.5f, height * 1.5f);
-            // minSize = new Vector2(width, height);
+
             currentSelectGameObject = null;
             CacheHierarchy();
             RefreshMethodDatabase();
@@ -227,7 +226,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 foreach (var item in methodInfos)
                 {
                     var para = item.GetParameters();
-                    if (para.Where(m => m.ParameterType.IsAssignableFrom(typeof(UnityEngine.UI.Selectable))).Count() == 0)
+                    if (para.Where(m => m.ParameterType.IsAssignableFrom(typeof(UnityEngine.EventSystems.UIBehaviour))).Count() == 0)
                     {
                         continue;
                     }
@@ -246,7 +245,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 return;
             }
 
-            EditorGUILayout.HelpBox("Only the method which has UnityEngine.UI.Selectable(or SubClass) parameters will be shown", MessageType.Info);
+            EditorGUILayout.HelpBox("Only the method which has UnityEngine.EventSystems.UIBehaviour parameters will be shown", MessageType.Info);
 
             using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionEvent))
             {

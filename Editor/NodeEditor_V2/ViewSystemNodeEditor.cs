@@ -19,7 +19,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static ViewSystemNodeEditor window;
         static IViewSystemDateReader dataReader;
         static ViewSystemNodeSideBar sideBar;
-        static ViewSystemNodeBaseSettingWindow baseSettingWindow;
+        static ViewSystemNodeGlobalSettingWindow globalSettingWindow;
         public static ViewSystemSaveData saveData;
 
         public Transform ViewControllerRoot;
@@ -50,7 +50,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             dataReader.Init();
             saveData = ((ViewSystemDataReaderV2)dataReader).GetBaseSetting();
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
-            baseSettingWindow = new ViewSystemNodeBaseSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
+            globalSettingWindow = new ViewSystemNodeGlobalSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
             viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));
@@ -72,7 +72,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (console == null) console = new ViewSystemNodeConsole();
             if (sideBar == null) sideBar = new ViewSystemNodeSideBar(this);
             if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
-            if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture("pane options") as Texture2D;
+            if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture("CustomSorting");
             if (bakeScritpIcon == null) bakeScritpIcon = EditorGUIUtility.FindTexture("cs Script Icon") as Texture2D;
 
             if (miniInfoIcon == null) miniInfoIcon = EditorGUIUtility.FindTexture("console.infoicon.sml") as Texture2D;
@@ -113,12 +113,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 item.Draw();
             }
             DrawCurrentConnectionLine(Event.current);
-            if (baseSettingWindow != null) baseSettingWindow.node.Draw();
             EditorZoomArea.End();
 
-            if (baseSettingWindow != null)
+            if (globalSettingWindow != null)
             {
-                if (baseSettingWindow.showBaseSettingWindow) baseSettingWindow.Draw();
+                BeginWindows();
+                if (ViewSystemNodeGlobalSettingWindow.showGlobalSetting) globalSettingWindow.OnGUI();
+                EndWindows();
             }
             GUI.depth = -100;
             DrawMenuBar();
@@ -387,7 +388,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 item.Drag(delta * zoomScale);
             }
-            if (baseSettingWindow != null) baseSettingWindow.node.Drag(delta * zoomScale);
             GUI.changed = true;
         }
 
@@ -437,7 +437,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     GUILayout.Space(5);
                     if (GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(35)))
                     {
-                        dataReader.Save(viewPageList, viewStateList, baseSettingWindow.node);
+                        dataReader.Save(viewPageList, viewStateList);
                     }
                     GUILayout.Space(5);
                     if (GUILayout.Button(new GUIContent("Reload", refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))
@@ -449,6 +449,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                     GUILayout.Space(5);
                     console.showConsole = GUILayout.Toggle(console.showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+                    GUILayout.Space(5);
+                    ViewSystemNodeGlobalSettingWindow.showGlobalSetting = GUILayout.Toggle(ViewSystemNodeGlobalSettingWindow.showGlobalSetting, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("CustomTool")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(zoomIcon, "Zoom"));
@@ -463,12 +465,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         targetViewState = viewStatesPopup[currentIndex];
                     }
 
-                    if (GUILayout.Button(new GUIContent("Baked to Scritpable", bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton, GUILayout.Width(140)))
+                    if (GUILayout.Button(new GUIContent("Baked to Scritpable", bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton))
                     {
                         ViewSystemScriptBaker.BakeAllViewPageName(viewPageList.Select(m => m.viewPage).ToList(), viewStateList.Select(m => m.viewState).ToList());
                     }
 
-                    if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item"), EditorStyles.toolbarButton, GUILayout.Width(100)))
+                    if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item"), EditorStyles.toolbarButton))
                     {
                         dataReader.Normalized();
                     }

@@ -151,6 +151,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         public void Drag(Vector2 delta)
         {
+            if (ViewSystemNodeGlobalSettingWindow.showGlobalSetting)
+            {
+                return;
+            }
             rect = new Rect(rect.x + delta.x, rect.y + delta.y, rect.width, rect.height);
             OnDrag?.Invoke(new Vector2(rect.x, rect.y));
         }
@@ -162,8 +166,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             return rect.Contains(mousePosition);
         }
         public bool isSelect = false; public bool isDragged;
+        public bool IsInactivable
+        {
+            get
+            {
+                return !ViewSystemNodeGlobalSettingWindow.showGlobalSetting;
+            }
+        }
         public bool ProcessEvents(Event e)
         {
+            if (!IsInactivable)
+            {
+                return false;
+            }
             bool isMouseInNode = rect.Contains(e.mousePosition) || clickContainRect.Contains(e.mousePosition);
 
             switch (e.type)

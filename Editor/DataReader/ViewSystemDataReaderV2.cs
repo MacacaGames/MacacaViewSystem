@@ -106,13 +106,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void Normalized()
         {
             //Clear UI Root Object
-            UnityEngine.Object.DestroyImmediate(data.baseSetting.UIRootScene);
-
+            try
+            {
+                UnityEngine.Object.DestroyImmediate(data.baseSetting.UIRootScene);
+            }
+            catch
+            {
+                var c = ViewControllerTransform.Find(data.baseSetting.UIRoot.name);
+                UnityEngine.Object.DestroyImmediate(c);
+            }
 
             //throw new System.NotImplementedException();
         }
 
-        public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes, BaseSettingNode baseSettingNode)
+        public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes)
         {
 
             foreach (var item in viewPageNodes)
@@ -126,8 +133,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 var vs = data.viewStates.SingleOrDefault(m => m.viewState.name == item.viewState.name);
                 vs.nodePosition = new Vector2(item.rect.x, item.rect.y);
             }
-
-            data.baseSetting.nodePosition = new Vector2(baseSettingNode.rect.x, baseSettingNode.rect.y);
 
             UnityEditor.EditorUtility.SetDirty(data);
         }
