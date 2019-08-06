@@ -100,6 +100,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         const int removeBtnWidth = 25;
         ViewPageItem copyPasteBuffer;
+        OverridePopupChecker overrideChecker;
         private void DrawViewItemElement(Rect rect, int index, bool isActive, bool isFocused)
         {
             if (index > list.Count)
@@ -199,23 +200,29 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                         var cache = list[index].viewElement;
                         var original = PrefabUtility.GetCorrespondingObjectFromOriginalSource(cache);
-                        var modifiedObject = PrefabUtility.GetObjectOverrides(cache.gameObject, false);
+                        
+                        overrideChecker = EditorWindow.GetWindow<OverridePopupChecker>();
+                        overrideChecker.Close();
+                        overrideChecker.SetData(cache.transform, list[index]);
+                        overrideChecker.ShowPopup();
+                        // foreach (var item in modifiedObject)
+                        // {
+                        //     Debug.Log(item.instanceObject);
 
+                        //     var modify = PrefabUtility.GetPropertyModifications(item.instanceObject);
+                        //     foreach (var item2 in modify)
+                        //     {
+                        //         if (PrefabUtility.IsDefaultOverride(item2))
+                        //         {
+                        //             continue;
+                        //         }
 
-                        foreach (var item in modifiedObject)
-                        {
-                            Debug.Log(item.instanceObject.name);
-                            Debug.Log(item.instanceObject);
-
-                            // var modify = PrefabUtility.GetPropertyModifications(cache);
-                            // foreach (var item2 in modify)
-                            // {
-                            //     Debug.Log("____propertyPath: "+item2.propertyPath );
-                            //     Debug.Log("____target "+item2.target );
-                            //     Debug.Log("____value "+item2.value );
-                            //     Debug.Log("____objectReference "+item2.objectReference );
-                            // } 
-                        }
+                        //         Debug.Log("____propertyPath: " + item2.propertyPath);
+                        //         Debug.Log("____target " + item2.target);
+                        //         Debug.Log("____value " + item2.value);
+                        //         Debug.Log("____objectReference " + item2.objectReference);
+                        //     }
+                        // }
                         list[index].viewElement = original;
                     }
                 }

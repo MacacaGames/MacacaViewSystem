@@ -14,6 +14,7 @@ public class ComponentTreeView : TreeView
         this.go = go;
         rowHeight = 24;
         showBorder = true;
+        showAlternatingRowBackgrounds = true;
         CacheComponent(go, 0);
         Reload();
     }

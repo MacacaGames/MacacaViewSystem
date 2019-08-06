@@ -412,6 +412,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
 
             hierarchyTreeView = new HierarchyTreeView(target.transform, m_HierachyTreeViewState);
+            hierarchyTreeView.ExpandAll();
             hierarchyTreeView.OnItemClick += (go) =>
             {
                 currentSelectGameObject = (GameObject)go;

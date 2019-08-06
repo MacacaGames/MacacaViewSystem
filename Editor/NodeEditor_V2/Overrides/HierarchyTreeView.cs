@@ -14,6 +14,7 @@ public class HierarchyTreeView : TreeView
         this.root = root;
         CacheItem(root, 0);
         showBorder = true;
+        showAlternatingRowBackgrounds = true;
         Reload();
     }
 
@@ -67,6 +68,11 @@ public class HierarchyTreeView : TreeView
         // Return root of the tree
         return treeRoot;
     }
+    protected override void RowGUI(RowGUIArgs args)
+    {
+        base.RowGUI(args);
+
+    }
 
     protected override void DoubleClickedItem(int id)
     {
@@ -77,7 +83,36 @@ public class HierarchyTreeView : TreeView
         }
         OnItemClick?.Invoke(select.transform.gameObject);
     }
+    // protected override void ContextClickedItem(int id)
+    // {
+    //     base.ContextClickedItem(id);
+    //     var select = hierarchyData.SingleOrDefault(x => x.id == id);
+    //     if (select == null)
+    //     {
+    //         return;
+    //     }
 
+    //     if (Event.current.type != EventType.MouseDown)
+    //     {
+    //         return;
+    //     }
+
+    //     if (Event.current.button != 1)
+    //     {
+    //         return;
+    //     }
+    //     GenericMenu genericMenu = new GenericMenu();
+
+    //     genericMenu.AddItem(new GUIContent("Add Component"), false,
+    //         () =>
+    //         {
+    //             Debug.Log("right click");
+    //         }
+    //     );
+
+    //     genericMenu.ShowAsContext();
+    //     Event.current.Use();
+    // }
     class HierarchyData
     {
         public HierarchyData(int layer, Transform transform, int id)
