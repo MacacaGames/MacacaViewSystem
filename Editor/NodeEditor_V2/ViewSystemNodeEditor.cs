@@ -20,6 +20,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static IViewSystemDateReader dataReader;
         static ViewSystemNodeSideBar sideBar;
         static ViewSystemNodeGlobalSettingWindow globalSettingWindow;
+        public OverridePopupWindow overridePopupWindow;
         public static ViewSystemSaveData saveData;
 
         public Transform ViewControllerRoot;
@@ -51,6 +52,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             saveData = ((ViewSystemDataReaderV2)dataReader).GetBaseSetting();
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemNodeGlobalSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
+            overridePopupWindow = new OverridePopupWindow(this);
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
             viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));
@@ -68,7 +70,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         void OnFocus()
         {
-
             if (console == null) console = new ViewSystemNodeConsole();
             if (sideBar == null) sideBar = new ViewSystemNodeSideBar(this);
             if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
@@ -90,7 +91,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         Rect zoomArea;
         void OnGUI()
         {
-
 
             zoomArea = position;
             zoomArea.height -= menuBarHeight;
@@ -115,18 +115,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             DrawCurrentConnectionLine(Event.current);
             EditorZoomArea.End();
 
-            if (globalSettingWindow != null)
-            {
-                BeginWindows();
-                if (ViewSystemNodeGlobalSettingWindow.showGlobalSetting) globalSettingWindow.OnGUI();
-                EndWindows();
-            }
             GUI.depth = -100;
             DrawMenuBar();
 
             if (console.showConsole) console.Draw(new Vector2(position.width, position.height));
             if (showSideBar) sideBar.Draw();
+            
+            BeginWindows();
+            if (globalSettingWindow != null)
+                if (ViewSystemNodeGlobalSettingWindow.showGlobalSetting) globalSettingWindow.OnGUI();
 
+            if (overridePopupWindow != null) overridePopupWindow.OnGUI();
+            EndWindows();
 
             ProcessEvents(Event.current);
             CheckRepaint();

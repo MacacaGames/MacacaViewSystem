@@ -18,7 +18,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         AnimBool showViewPageItem;
         ReorderableList viewPageItemList;
         GUIStyle removeButtonStyle;
-        OverridePopup popWindow;
+        OverridePopupWindow popWindow;
         public ViewSystemNodeSideBar(ViewSystemNodeEditor editor)
         {
             this.editor = editor;
@@ -100,7 +100,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         const int removeBtnWidth = 25;
         ViewPageItem copyPasteBuffer;
-        private Rect _popupArea;
         private void DrawViewItemElement(Rect rect, int index, bool isActive, bool isFocused)
         {
             if (index > list.Count)
@@ -167,13 +166,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
 
             EditorGUIUtility.labelWidth = 80.0f;
-            float oriwidth = rect.width;
-            float oriHeigh = rect.height;
-            float oriX = rect.x;
-            float oriY = rect.y;
+            // float oriwidth = rect.width;
+            // float oriHeigh = rect.height;
+            // float oriX = rect.x;
+            // float oriY = rect.y;
+            Rect oriRect = rect;
 
-            rect.x = oriX;
-            rect.width = oriwidth - removeBtnWidth;
+            rect.x = oriRect.x;
+            rect.width = oriRect.width - removeBtnWidth;
             rect.height = EditorGUIUtility.singleLineHeight;
 
             //Still shows OutOfRangeException when remove item (but everything working fine)
@@ -223,8 +223,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 veRect.x += veRect.width;
                 veRect.width = 20;
 
-                _popupArea.x = veRect.x + 20;
-                _popupArea.y = veRect.y;
+
                 if (GUI.Button(veRect, "", new GUIStyle("AssetLabel Icon")))
                 {
                     if (list[index].viewElement == null)
@@ -232,16 +231,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         editor.console.LogErrorMessage("ViewElement has not been select yet!");
                         return;
                     }
-                   
-                    popWindow = EditorWindow.GetWindow<OverridePopup>();
 
-                    popWindow.titleContent = new GUIContent(list[index].viewElement.gameObject.name);
-                    popWindow.Init(list[index]);
-                    popWindow.Show();
-                }
-                if (Event.current.type == EventType.Repaint)
-                {
-                    _popupArea = GUILayoutUtility.GetLastRect();
+                    veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
+                    editor.overridePopupWindow.SetViewPageItem(list[index]);
+                    editor.overridePopupWindow.Show(veRect);
+                    // popWindow = EditorWindow.GetWindow<OverridePopupWindow>();
+                    // popWindow.titleContent = new GUIContent(list[index].viewElement.gameObject.name);
+                    // popWindow.Init(list[index]);
+                    // popWindow.Show();
                 }
 
                 rect.y += EditorGUIUtility.singleLineHeight;
@@ -313,7 +310,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
 
                 EditorGUIUtility.labelWidth = 20.0f;
-                rect.width = oriwidth * 0.25f;
+                rect.width = oriRect.width * 0.25f;
 
                 string proIconFix = "";
                 if (EditorGUIUtility.isProSkin)
@@ -369,18 +366,22 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             }
 
-            rect.x = oriwidth;
-            rect.y = oriY;
-            rect.height = oriHeigh;
+            rect.x = oriRect.width;
+            rect.y = oriRect.y;
+            rect.height = oriRect.height;
             rect.width = removeBtnWidth;
             if (GUI.Button(rect, ReorderableList.defaultBehaviours.iconToolbarMinus, removeButtonStyle))
             {
-                list.RemoveAt(index);
-                RefreshSideBar();
-                return;
+                if (EditorUtility.DisplayDialog("Remove", "Do you really want to remove this item", "Sure", "Not now"))
+                {
+                    list.RemoveAt(index);
+                    RefreshSideBar();
+                    return;
+                }
             }
         }
         static float SideBarWidth = 350;
+        Rect infoAreaRect;
         public void Draw()
         {
             rect = new Rect(0, 20f, SideBarWidth, editor.position.height - 20f);
@@ -396,9 +397,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 if (currentSelectNode.nodeType == ViewStateNode.NodeType.ViewState)
                 {
                     DrawViewStateDetail(((ViewStateNode)currentSelectNode));
-
+                }
+                infoAreaRect = GUILayoutUtility.GetLastRect();
+                showViewPageItem.target = EditorGUILayout.Foldout(showViewPageItem.target, "ViewPageItems");
+                using (var scroll = new EditorGUILayout.ScrollViewScope(scrollerPos))
+                {
+                    scrollerPos = scroll.scrollPosition;
+                    using (var fade = new EditorGUILayout.FadeGroupScope(showViewPageItem.faded))
+                    {
+                        if (viewPageItemList != null && fade.visible) viewPageItemList.DoLayoutList();
+                    }
                 }
             }
+
             GUILayout.EndArea();
             DrawResizeBar();
         }
@@ -465,15 +476,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
                 }
 
-                showViewPageItem.target = EditorGUILayout.Foldout(showViewPageItem.target, "ViewPageItems");
-                using (var scroll = new EditorGUILayout.ScrollViewScope(scrollerPos))
-                {
-                    scrollerPos = scroll.scrollPosition;
-                    using (var fade = new EditorGUILayout.FadeGroupScope(showViewPageItem.faded))
-                    {
-                        if (viewPageItemList != null && fade.visible) viewPageItemList.DoLayoutList();
-                    }
-                }
             }
         }
         void DrawViewStateDetail(ViewStateNode viewStateNode)
@@ -516,16 +518,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
                 }
 
-                showViewPageItem.target = EditorGUILayout.Foldout(showViewPageItem.target, "ViewPageItems");
+                // showViewPageItem.target = EditorGUILayout.Foldout(showViewPageItem.target, "ViewPageItems");
 
-                using (var scroll = new EditorGUILayout.ScrollViewScope(scrollerPos))
-                {
-                    scrollerPos = scroll.scrollPosition;
-                    using (var fade = new EditorGUILayout.FadeGroupScope(showViewPageItem.faded))
-                    {
-                        if (viewPageItemList != null && fade.visible) viewPageItemList.DoLayoutList();
-                    }
-                }
+                // using (var scroll = new EditorGUILayout.ScrollViewScope(scrollerPos))
+                // {
+                //     scrollerPos = scroll.scrollPosition;
+                //     using (var fade = new EditorGUILayout.FadeGroupScope(showViewPageItem.faded))
+                //     {
+                //         if (viewPageItemList != null && fade.visible) viewPageItemList.DoLayoutList();
+                //     }
+                // }
             }
         }
 

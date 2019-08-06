@@ -27,22 +27,22 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             data = CheckOrReadSaveData();
 
             //建立 UI Hierarchy 環境
-            if (!string.IsNullOrEmpty(data.baseSetting.ViewControllerObjectPath))
-                ViewControllerTransform = GameObject.Find(data.baseSetting.ViewControllerObjectPath).transform;
+            if (!string.IsNullOrEmpty(data.globalSetting.ViewControllerObjectPath))
+                ViewControllerTransform = GameObject.Find(data.globalSetting.ViewControllerObjectPath).transform;
 
-            if (data.baseSetting.UIRoot != null && data.baseSetting.UIRootScene == null)
+            if (data.globalSetting.UIRoot != null && data.globalSetting.UIRootScene == null)
             {
                 //Try find exsit first
-                var current = ViewControllerTransform.Find(data.baseSetting.UIRoot.name);
+                var current = ViewControllerTransform.Find(data.globalSetting.UIRoot.name);
                 if (current != null)
                 {
-                    data.baseSetting.UIRootScene = current.gameObject;
+                    data.globalSetting.UIRootScene = current.gameObject;
                 }
                 //Or Instantiate a Prefab
                 else
                 {
-                    var ui_root = PrefabUtility.InstantiatePrefab(data.baseSetting.UIRoot, ViewControllerTransform);
-                    data.baseSetting.UIRootScene = (GameObject)ui_root;
+                    var ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot, ViewControllerTransform);
+                    data.globalSetting.UIRootScene = (GameObject)ui_root;
                 }
             }
 
@@ -108,11 +108,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //Clear UI Root Object
             try
             {
-                UnityEngine.Object.DestroyImmediate(data.baseSetting.UIRootScene);
+                UnityEngine.Object.DestroyImmediate(data.globalSetting.UIRootScene);
             }
             catch
             {
-                var c = ViewControllerTransform.Find(data.baseSetting.UIRoot.name);
+                var c = ViewControllerTransform.Find(data.globalSetting.UIRoot.name);
                 UnityEngine.Object.DestroyImmediate(c);
             }
 
@@ -134,6 +134,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 vs.nodePosition = new Vector2(item.rect.x, item.rect.y);
             }
 
+            if (data.globalSetting != null)
+            {
+                //Apply Prefab
+                PrefabUtility.ApplyPrefabInstance(data.globalSetting.UIRootScene, InteractionMode.AutomatedAction);
+            }
             UnityEditor.EditorUtility.SetDirty(data);
         }
 

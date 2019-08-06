@@ -12,23 +12,21 @@ using System.Reflection;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
-    public class OverridePopup : EditorWindow
+    public class OverridePopupWindow
     {
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
+        ViewSystemNodeEditor editor;
         GameObject target;
         ViewPageItem viewPageItem;
         GUIStyle removeButtonStyle;
         static float toastMessageFadeOutTimt = 1.5f;
         bool isInit => target != null;
-        public void Init(ViewPageItem viewPageItem)
+        public static bool show = false;
+        Rect windowRect = new Rect(0, 0, 350, 400);
+        GUIStyle windowStyle;
+        public OverridePopupWindow(ViewSystemNodeEditor editor)
         {
-            title = "ViewElement Override";
-            target = viewPageItem.viewElement.gameObject;
-            this.viewPageItem = viewPageItem;
-
-            currentSelectGameObject = null;
-            CacheHierarchy();
-            RefreshMethodDatabase();
+            this.editor = editor;
             removeButtonStyle = new GUIStyle
             {
                 fixedWidth = 25f,
@@ -39,13 +37,62 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 imagePosition = ImagePosition.ImageOnly,
                 alignment = TextAnchor.MiddleCenter
             };
+            show = false;
+            windowStyle = GUI.skin.window;
+            RectOffset padding = windowStyle.padding;
+            padding.left = 0;
+            padding.right = 1;
+            padding.bottom = 0;
         }
-        public void Awake()
+        public void SetViewPageItem(ViewPageItem viewPageItem)
         {
-
+            this.viewPageItem = viewPageItem;
+            currentSelectGameObject = null;
+            if (viewPageItem == null) return;
+            target = viewPageItem.viewElement.gameObject;
+            CacheHierarchy();
+            RefreshMethodDatabase();
         }
+
+        Rect itemRect;
+        public void Show(Rect item)
+        {
+            itemRect = item;
+            windowRect.x = item.x + item.width + 50;
+            windowRect.y = 200;
+            show = true;
+        }
+        float closeBtnSize = 20;
         public void OnGUI()
         {
+            if (!show)
+            {
+                return;
+            }
+
+            windowRect = GUILayout.Window(999, windowRect, Draw, "", GUIStyle.none);
+
+            GUI.Box(windowRect, "ViewElement Override", windowStyle);
+            if (GUI.Button(new Rect(windowRect.x + windowRect.width, windowRect.y, closeBtnSize, closeBtnSize), new GUIContent(EditorGUIUtility.FindTexture("winbtn_win_close"))))
+            {
+                Debug.Log("click");
+                show = false;
+                SetViewPageItem(null);
+            }
+            Handles.DrawLine(itemRect.center, windowRect.position);
+            // Handles.DrawBezier(
+            //     itemRect.center,
+            //     windowRect.position,
+            //     itemRect.center,
+            //     windowRect.position,
+            //     Color.magenta,
+            //     null,
+            //     3f
+            // );
+        }
+        void Draw(int window)
+        {
+            GUILayout.Space(windowStyle.padding.top);
             DrawTab();
             if (!isInit)
             {
@@ -64,8 +111,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     DrawEvent();
                     break;
             }
+            GUI.DragWindow();
         }
-
         GUIContent header = new GUIContent();
         private void DrawHeader()
         {
@@ -89,7 +136,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             using (var horizon = new GUILayout.HorizontalScope())
             {
-                if (GUILayout.Button(header, new GUIStyle("dockareaStandalone"), GUILayout.Width(position.width)))
+                if (GUILayout.Button(header, new GUIStyle("dockareaStandalone")))
                 {
                     if (currentSelectGameObject)
                     {
@@ -120,12 +167,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 if (currentSelectGameObject)
                 {
-                    if (componentTreeView != null) componentTreeView.OnGUI(new Rect(0, 0, position.width, position.height));
+                    if (componentTreeView != null) componentTreeView.OnGUI(new Rect(0, 0, windowRect.width, windowRect.height));
                 }
                 else
                 {
                     //if (hierarchyDrawer != null) hierarchyDrawer.Draw();
-                    if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, position.width, position.height));
+                    if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, windowRect.width, windowRect.height));
                 }
             }
         }
@@ -215,11 +262,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             classMethodInfo.Clear();
             classMethodInfo.Add("Nothing Select", null);
             List<string> VerifiedMethod = new List<string>();
-            for (int i = 0; i < saveData.baseSetting.EventHandleBehaviour.Count; i++)
+            for (int i = 0; i < saveData.globalSetting.EventHandleBehaviour.Count; i++)
             {
 
-                var type = Utility.GetType(saveData.baseSetting.EventHandleBehaviour[i].name);
-                if (saveData.baseSetting.EventHandleBehaviour[i] == null) return;
+                var type = Utility.GetType(saveData.globalSetting.EventHandleBehaviour[i].name);
+                if (saveData.globalSetting.EventHandleBehaviour[i] == null) return;
                 MethodInfo[] methodInfos = type.GetMethods(BindFlagsForScript);
                 VerifiedMethod.Clear();
                 VerifiedMethod.Add("Nothing Select");
@@ -408,7 +455,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     if (fi == null)
                     {
                         Debug.LogError("property not found");
-                        this.ShowNotification(new GUIContent("property not found"), toastMessageFadeOutTimt);
+                        editor.ShowNotification(new GUIContent("property not found"), toastMessageFadeOutTimt);
 
                         return;
                     }
@@ -416,7 +463,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     if (!fi.PropertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEvent)))
                     {
                         Debug.LogError("Currently Gereric type only support UnityEvent");
-                        this.ShowNotification(new GUIContent("Currently Gereric type only support UnityEvent"), toastMessageFadeOutTimt);
+                        editor.ShowNotification(new GUIContent("Currently Gereric type only support UnityEvent"), toastMessageFadeOutTimt);
 
                         return;
                     }
@@ -442,7 +489,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     if (current != null)
                     {
                         Debug.LogError("You Have 1 event doesn't setup yet");
-                        this.ShowNotification(new GUIContent("You Have 1 event doesn't setup yet"), toastMessageFadeOutTimt);
+                        editor.ShowNotification(new GUIContent("You Have 1 event doesn't setup yet"), toastMessageFadeOutTimt);
                         return;
                     }
                     // else
@@ -476,12 +523,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     if (current != null)
                     {
                         current = overrideData;
-                        this.ShowNotification(new GUIContent("This property is already in override list."), toastMessageFadeOutTimt);
+                        editor.ShowNotification(new GUIContent("This property is already in override list."), toastMessageFadeOutTimt);
                     }
                     else
                     {
                         viewPageItem.overrideDatas.Add(overrideData);
-                        this.ShowNotification(new GUIContent("Property override add success"), toastMessageFadeOutTimt);
+                        editor.ShowNotification(new GUIContent("Property override add success"), toastMessageFadeOutTimt);
                     }
                 }
             };

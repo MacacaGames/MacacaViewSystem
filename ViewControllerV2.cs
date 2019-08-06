@@ -97,16 +97,16 @@ namespace CloudMacaca.ViewSystem
             Instance = this;
 
             //Create ViewElementPool
-            if (gameObject.name != viewSystemSaveData.baseSetting.ViewControllerObjectPath)
+            if (gameObject.name != viewSystemSaveData.globalSetting.ViewControllerObjectPath)
             {
                 Debug.LogWarning("The GameObject which attached ViewController is not match the setting in Base Setting.");
             }
 
             //Create UIRoot
-            var ui = Instantiate(viewSystemSaveData.baseSetting.UIRoot);
+            var ui = Instantiate(viewSystemSaveData.globalSetting.UIRoot);
             ui.transform.SetParent(transformCache);
-            ui.transform.localPosition = viewSystemSaveData.baseSetting.UIRoot.transform.localPosition;
-            ui.name = viewSystemSaveData.baseSetting.UIRoot.name;
+            ui.transform.localPosition = viewSystemSaveData.globalSetting.UIRoot.transform.localPosition;
+            ui.name = viewSystemSaveData.globalSetting.UIRoot.name;
 
             var go = new GameObject("ViewElementPool");
             go.transform.SetParent(transformCache);
@@ -117,7 +117,7 @@ namespace CloudMacaca.ViewSystem
             ViewElement.runtimePool = runtimePool;
             ViewElement.viewElementPool = viewElementPool;
 
-            maxClampTime = viewSystemSaveData.baseSetting.MaxWaitingTime;
+            maxClampTime = viewSystemSaveData.globalSetting.MaxWaitingTime;
         }
         protected override void Start()
         {

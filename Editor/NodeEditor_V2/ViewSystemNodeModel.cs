@@ -170,12 +170,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             get
             {
-                return !ViewSystemNodeGlobalSettingWindow.showGlobalSetting;
+                return !(ViewSystemNodeGlobalSettingWindow.showGlobalSetting || OverridePopupWindow.show);
             }
         }
         public bool ProcessEvents(Event e)
         {
-            if (!IsInactivable)
+            if (IsInactivable == false)
             {
                 return false;
             }
@@ -310,6 +310,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var btnRect = new Rect(rect.x, rect.y + rect.height - 40, rect.width * 0.5f - 0.5f, 18);
             if (GUI.Button(btnRect, "Preview", new GUIStyle("ObjectPickerResultsEven")))
             {
+                if (IsInactivable == false) return;
                 if (OnPreviewBtnClick != null)
                 {
                     OnPreviewBtnClick(viewPage);
@@ -319,6 +320,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             btnRect.x += 1;
             if (GUI.Button(btnRect, "Highlight", new GUIStyle("ObjectPickerResultsEven")))
             {
+                if (IsInactivable == false) return;
                 foreach (var item in viewPage.viewPageItems)
                 {
                     EditorGUIUtility.PingObject(item.viewElement);
@@ -403,6 +405,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             GUI.depth = -2;
             if (GUI.Button(rect, "", style))
             {
+                if (viewSystemNode.IsInactivable == false) return;
                 if (OnConnectionPointClick != null) OnConnectionPointClick(viewSystemNode);
             }
             GUI.Label(rect, new GUIContent(ButtonBackground, "Show Console"));
