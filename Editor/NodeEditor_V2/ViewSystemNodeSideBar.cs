@@ -19,7 +19,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ReorderableList viewPageItemList;
         GUIStyle removeButtonStyle;
         OverridePopupWindow popWindow;
-        static GUIContent EditoModifyBUtton = new GUIContent(CloudMacaca.CMEditorUtility.TryGetEditorTexture("EditPencil"), "Show/Edit Modify");
+        static GUIContent EditoModifyButton = new GUIContent(CloudMacaca.CMEditorUtility.TryGetEditorTexture("EditPencil"), "Show/Edit Modify");
         public ViewSystemNodeSideBar(ViewSystemNodeEditor editor)
         {
             this.editor = editor;
@@ -53,6 +53,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         private Rect rect;
         List<ViewPageItem> list;
+        List<bool> editableLock = new List<bool>();
 
         public void SetCurrentSelectItem(ViewSystemNode currentSelectNode)
         {
@@ -65,6 +66,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 list = ((ViewStateNode)currentSelectNode).viewState.viewPageItems;
             }
+
+            editableLock.Clear();
+            list.All(x =>
+            {
+                editableLock.Add(true);
+                return true;
+            });
             RefreshSideBar();
         }
         void RefreshSideBar()
@@ -80,6 +88,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         private void AddItem(ReorderableList rlist)
         {
             list.Add(new ViewPageItem(null));
+            editableLock.Add(true);
         }
 
         private void DrawViewItemHeader(Rect rect)
@@ -248,7 +257,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 veRect.width = 20;
 
 
-                if (GUI.Button(veRect, EditoModifyBUtton))
+                if (GUI.Button(veRect, EditoModifyButton))
                 {
                     if (list[index].viewElement == null)
                     {
@@ -274,10 +283,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 rect.y += EditorGUIUtility.singleLineHeight;
 
-                using (var disable = new EditorGUI.DisabledGroupScope(true))
+                veRect = rect;
+                veRect.width = rect.width - 20;
+                using (var disable = new EditorGUI.DisabledGroupScope(editableLock[index]))
                 {
-                    EditorGUI.TextField(rect, new GUIContent("Parent", list[index].parentPath), list[index].parentPath);
+                    EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), list[index].parentPath);
                 }
+                veRect.x += veRect.width;
+                veRect.width = 20;
+                editableLock[index] = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index], new GUIStyle("IN LockButton"));
 
                 rect.y += EditorGUIUtility.singleLineHeight;
                 var parentFunctionRect = rect;
@@ -406,6 +420,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 if (EditorUtility.DisplayDialog("Remove", "Do you really want to remove this item", "Sure", "Not now"))
                 {
                     list.RemoveAt(index);
+                    editableLock.RemoveAt(index);
                     RefreshSideBar();
                     return;
                 }
