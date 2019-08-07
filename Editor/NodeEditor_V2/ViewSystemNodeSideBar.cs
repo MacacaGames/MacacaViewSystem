@@ -122,6 +122,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             copyPasteBuffer.delayOut = list[index].delayOut;
                             copyPasteBuffer.delayIn = list[index].delayIn;
                             copyPasteBuffer.parentPath = list[index].parentPath;
+                            copyPasteBuffer.overrideDatas = list[index].overrideDatas;
+                            copyPasteBuffer.eventDatas = list[index].eventDatas;
 
                             var excludePlatformCopyed = new List<ViewPageItem.PlatformOption>();
                             foreach (var item in list[index].excludePlatform)
@@ -149,19 +151,44 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     );
                     if (copyPasteBuffer != null)
                     {
-                        genericMenu.AddItem(new GUIContent("Paste"), false,
+                        genericMenu.AddItem(new GUIContent("Paste (Default)"), false,
                             () =>
                             {
                                 list[index] = copyPasteBuffer;
+                                list[index].eventDatas.Clear();
+                                list[index].overrideDatas.Clear();
                                 copyPasteBuffer = null;
                                 GUI.changed = true;
                             }
                         );
+                        genericMenu.AddItem(new GUIContent("Paste (with Property Data)"), false,
+                            () =>
+                            {
+                                list[index] = copyPasteBuffer;
+                                list[index].eventDatas.Clear();
+                                copyPasteBuffer = null;
+                                GUI.changed = true;
+                            }
+                        );
+                        genericMenu.AddItem(new GUIContent("Paste (with Events Data)"), false,
+                           () =>
+                           {
+                               list[index] = copyPasteBuffer;
+                               list[index].overrideDatas.Clear();
+                               copyPasteBuffer = null;
+                               GUI.changed = true;
+                           }
+                       );
+                        genericMenu.AddItem(new GUIContent("Paste (with All Data)"), false,
+                           () =>
+                           {
+                               list[index] = copyPasteBuffer;
+                               copyPasteBuffer = null;
+                               GUI.changed = true;
+                           }
+                       );
                     }
-                    else
-                    {
-                        genericMenu.AddDisabledItem(new GUIContent("Paste"));
-                    }
+
                     genericMenu.ShowAsContext();
                 }
             }
@@ -189,12 +216,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 veRect.width = rect.width - 20;
                 using (var check = new EditorGUI.ChangeCheckScope())
                 {
+                    var oriViewElement = list[index].viewElement.name;
                     list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), true);
                     if (check.changed)
                     {
                         if (string.IsNullOrEmpty(list[index].viewElement.gameObject.scene.name))
                         {
                             //is prefabs
+                            if (list[index].viewElement.gameObject.name != oriViewElement)
+                            {
+                                list[index].overrideDatas.Clear();
+                                list[index].eventDatas.Clear();
+                            }
+
                             return;
                         }
 
@@ -205,24 +239,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
                         overrideChecker.SetData(cache.transform, list[index], currentSelectNode);
                         overrideChecker.ShowUtility();
-                        // foreach (var item in modifiedObject)
-                        // {
-                        //     Debug.Log(item.instanceObject);
 
-                        //     var modify = PrefabUtility.GetPropertyModifications(item.instanceObject);
-                        //     foreach (var item2 in modify)
-                        //     {
-                        //         if (PrefabUtility.IsDefaultOverride(item2))
-                        //         {
-                        //             continue;
-                        //         }
-
-                        //         Debug.Log("____propertyPath: " + item2.propertyPath);
-                        //         Debug.Log("____target " + item2.target);
-                        //         Debug.Log("____value " + item2.value);
-                        //         Debug.Log("____objectReference " + item2.objectReference);
-                        //     }
-                        // }
                         list[index].viewElement = original;
                     }
                 }

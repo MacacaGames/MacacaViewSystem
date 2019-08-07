@@ -124,9 +124,10 @@ public class ComponentTreeView : TreeView
         }
         while (prop.NextVisible(false));
     }
+    TreeViewItem treeRoot;
     protected override TreeViewItem BuildRoot()
     {
-        var treeRoot = new TreeViewItem { id = 1, depth = -1, displayName = go.name, icon = Drawer.prefabIcon };
+        TreeViewItem treeRoot = new TreeViewItem { id = 1, depth = -1, displayName = go.name, icon = Drawer.prefabIcon };
 
         var allTreeItem = new List<TreeViewItem>();
         foreach (var item in serializedObjects)
@@ -242,12 +243,15 @@ public class ComponentTreeView : TreeView
         var single = serializedPropertys.SelectMany(x => x.Value).SingleOrDefault(m => m.id == id);
         if (single == null)
         {
+            SetExpandedRecursive(id, true);
             return;
         }
         if (single.values is SerializedProperty)
         {
+            var sp = (SerializedProperty)single.values;
             OnItemClick?.Invoke((SerializedProperty)single.values);
         }
+
     }
 
 

@@ -138,6 +138,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
                 if (mFix != null) mFix.ApplyModifyValue();
 
+                tempViewElement.ApplyOverrides(item.overrideDatas);
+
                 //item.viewElement.SampleToLoopState();
                 if (tempViewElement.transition != ViewElement.TransitionType.Animator)
                     continue;

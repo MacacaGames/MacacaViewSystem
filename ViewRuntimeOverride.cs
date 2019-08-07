@@ -91,7 +91,14 @@ namespace CloudMacaca.ViewSystem
                         }
 
                         //Create Open Delegate
-                        openDelegate = CreateOpenDelegate(item2.methodName, scriptInstance);
+                        try
+                        {
+                            openDelegate = CreateOpenDelegate(item2.methodName, scriptInstance);
+                        }
+                        catch
+                        {
+                            Debug.LogError("Binding Event faild", this);
+                        }
                         cachedDelegate.Add(id_delegate, openDelegate);
                     }
                     eventRuntimeDatas.unityEvent.AddListener(delegate { openDelegate.Invoke((UnityEngine.EventSystems.UIBehaviour)eventRuntimeDatas.selectable); });
