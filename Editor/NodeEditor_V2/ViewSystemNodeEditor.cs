@@ -53,7 +53,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             saveData = ((ViewSystemDataReaderV2)dataReader).GetGlobalSetting();
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemNodeGlobalSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
-            overridePopupWindow = new OverridePopupWindow(this);
+            overridePopupWindow = new OverridePopupWindow(this, sideBar);
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
             viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));
@@ -445,7 +445,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         }
                         if (EditorUtility.DisplayDialog("Save", "Save action will also delete all ViewElement in scene. \nDo you really want to continue?", "Yes", "No"))
                         {
-                            dataReader.Save(viewPageList, viewStateList); 
+                            dataReader.Save(viewPageList, viewStateList);
                         }
                     }
                     GUILayout.Space(5);
@@ -459,7 +459,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     GUILayout.Space(5);
                     console.showConsole = GUILayout.Toggle(console.showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
                     GUILayout.Space(5);
-                    ViewSystemNodeGlobalSettingWindow.showGlobalSetting = GUILayout.Toggle(ViewSystemNodeGlobalSettingWindow.showGlobalSetting, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("CustomTool")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
+                    ViewSystemNodeGlobalSettingWindow.showGlobalSetting = GUILayout.Toggle(ViewSystemNodeGlobalSettingWindow.showGlobalSetting, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("SceneViewTools")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(zoomIcon, "Zoom"));

@@ -17,16 +17,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
         ViewSystemNodeEditor editor;
         GameObject target;
-        ViewPageItem viewPageItem;
+        public ViewPageItem viewPageItem;
         GUIStyle removeButtonStyle;
         static float toastMessageFadeOutTimt = 1.5f;
         bool isInit => target != null;
         public static bool show = false;
         Rect windowRect = new Rect(0, 0, 350, 400);
         GUIStyle windowStyle;
-        public OverridePopupWindow(ViewSystemNodeEditor editor)
+        ViewSystemNodeSideBar sideBar;
+        public OverridePopupWindow(ViewSystemNodeEditor editor, ViewSystemNodeSideBar sideBar)
         {
             this.editor = editor;
+            this.sideBar = sideBar;
             removeButtonStyle = new GUIStyle
             {
                 fixedWidth = 25f,
@@ -57,10 +59,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
 
         Rect itemRect;
-        public void Show(Rect item)
+        public void Show(Rect itemRect)
         {
-            itemRect = item;
-            windowRect.x = item.x + item.width + 50;
+            this.itemRect = itemRect;
+            windowRect.x = itemRect.x + itemRect.width + 50;
             windowRect.y = 200;
             show = true;
         }
@@ -72,26 +74,27 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 return;
             }
             EditorGUIUtility.labelWidth = 0;
+
             windowRect = GUILayout.Window(999, windowRect, Draw, "", GUIStyle.none);
 
             GUI.Box(windowRect, "ViewElement Override", windowStyle);
 
-            if (GUI.Button(new Rect(windowRect.x + windowRect.width, windowRect.y, closeBtnSize, closeBtnSize), new GUIContent(EditorGUIUtility.FindTexture("winbtn_win_close"))))
-            {
-                Debug.Log("click");
-                show = false;
-                SetViewPageItem(null);
-            }
-            Handles.DrawLine(itemRect.center, windowRect.position);
-            // Handles.DrawBezier(
-            //     itemRect.center,
-            //     windowRect.position,
-            //     itemRect.center,
-            //     windowRect.position,
-            //     Color.magenta,
-            //     null,
-            //     3f
-            // );
+            // if (GUI.Button(new Rect(windowRect.x + windowRect.width, windowRect.y, closeBtnSize, closeBtnSize), new GUIContent(EditorGUIUtility.FindTexture("winbtn_win_close"))))
+            // {
+            //     show = false;
+            //     SetViewPageItem(null);
+            // }
+            var targetPos = new Vector2(itemRect.center.x, itemRect.center.y - sideBar.scrollerPos.y);
+            //Handles.DrawLine(targetPos, windowRect.position);
+            Handles.DrawBezier(
+                targetPos,
+                windowRect.position,
+                targetPos,
+                windowRect.position,
+                Color.black,
+                null,
+                5f
+            );
         }
         void Draw(int window)
         {
@@ -113,6 +116,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 case 2:
                     DrawEvent();
                     break;
+            }
+            if (GUILayout.Button(new GUIContent("Close")))
+            {
+                show = false;
+                SetViewPageItem(null);
             }
             GUI.DragWindow();
         }

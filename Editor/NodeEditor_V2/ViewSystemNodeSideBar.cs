@@ -19,6 +19,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ReorderableList viewPageItemList;
         GUIStyle removeButtonStyle;
         OverridePopupWindow popWindow;
+        static GUIContent EditoModifyBUtton = new GUIContent(CloudMacaca.CMEditorUtility.TryGetEditorTexture("EditPencil"), "Show/Edit Modify");
         public ViewSystemNodeSideBar(ViewSystemNodeEditor editor)
         {
             this.editor = editor;
@@ -230,17 +231,24 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 veRect.width = 20;
 
 
-                if (GUI.Button(veRect, "", new GUIStyle("AssetLabel Icon")))
+                if (GUI.Button(veRect, EditoModifyBUtton))
                 {
                     if (list[index].viewElement == null)
                     {
                         editor.console.LogErrorMessage("ViewElement has not been select yet!");
                         return;
                     }
+                    if (OverridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
+                    {
+                        veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
+                        editor.overridePopupWindow.SetViewPageItem(list[index]);
+                        editor.overridePopupWindow.Show(veRect);
+                    }
+                    else
+                    {
+                        OverridePopupWindow.show = false;
+                    }
 
-                    veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
-                    editor.overridePopupWindow.SetViewPageItem(list[index]);
-                    editor.overridePopupWindow.Show(veRect);
                     // popWindow = EditorWindow.GetWindow<OverridePopupWindow>();
                     // popWindow.titleContent = new GUIContent(list[index].viewElement.gameObject.name);
                     // popWindow.Init(list[index]);
@@ -388,6 +396,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         static float SideBarWidth = 350;
         Rect infoAreaRect;
+        public Vector2 scrollerPos;
+
         public void Draw()
         {
             rect = new Rect(0, 20f, SideBarWidth, editor.position.height - 20f);
@@ -447,7 +457,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
-        Vector2 scrollerPos;
         static List<string> excludePlatformOptions = new List<string>();
         int currentSelect;
         void DrawViewPageDetail(ViewPageNode viewPageNode)

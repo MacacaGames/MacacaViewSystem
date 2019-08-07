@@ -14,6 +14,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ViewPageItem viewPageItem;
         PropertyModification[] propertyModification;
         List<OverridesPropertiesCheckerData> overridesPropertiesCheckerDatas = new List<OverridesPropertiesCheckerData>();
+
         public void SetData(Transform root, ViewPageItem viewPageItem, ViewSystemNode node)
         {
             this.root = root;
