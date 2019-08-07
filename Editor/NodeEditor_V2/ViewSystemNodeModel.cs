@@ -307,7 +307,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public override void Draw()
         {
             DrawNode(viewPage.name);
-            var btnRect = new Rect(rect.x, rect.y + rect.height - 40, rect.width * 0.5f - 0.5f, 18);
+            var btnRect = new Rect(rect.x, rect.y + rect.height - 40, rect.width, 18);
             if (GUI.Button(btnRect, "Preview", new GUIStyle("ObjectPickerResultsEven")))
             {
                 if (IsInactivable == false) return;
@@ -316,16 +316,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     OnPreviewBtnClick(viewPage);
                 }
             }
-            btnRect.x += rect.width * 0.5f;
-            btnRect.x += 1;
-            if (GUI.Button(btnRect, "Highlight", new GUIStyle("ObjectPickerResultsEven")))
-            {
-                if (IsInactivable == false) return;
-                foreach (var item in viewPage.viewPageItems)
-                {
-                    EditorGUIUtility.PingObject(item.viewElement);
-                }
-            }
+            // btnRect.x += rect.width * 0.5f;
+            // btnRect.x += 1;
+            // if (GUI.Button(btnRect, "Highlight", new GUIStyle("ObjectPickerResultsEven")))
+            // {
+            //     if (IsInactivable == false) return;
+            //     foreach (var item in viewPage.viewPageItems)
+            //     {
+            //         EditorGUIUtility.PingObject(item.viewElement);
+            //     }
+            // }
         }
 
         public ViewPage viewPage;

@@ -104,6 +104,54 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void OnViewPagePreview(ViewPage viewPage)
         {
             //throw new System.NotImplementedException();
+            ClearAllViewElementInScene();
+            // 打開所有相關 ViewElements
+            ViewState viewPagePresetTemp;
+            List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
+
+            //從 ViewPagePreset 尋找 (ViewState)
+            if (!string.IsNullOrEmpty(viewPage.viewState))
+            {
+                viewPagePresetTemp = data.viewStates.Select(m => m.viewState).SingleOrDefault(m => m.name == viewPage.viewState);
+                if (viewPagePresetTemp != null)
+                {
+                    viewItemForNextPage.AddRange(viewPagePresetTemp.viewPageItems);
+                }
+            }
+
+            //從 ViewPage 尋找
+            viewItemForNextPage.AddRange(viewPage.viewPageItems);
+
+            Transform root = GameObject.Find(data.globalSetting.ViewControllerObjectPath).transform;
+
+            //打開相對應物件
+            foreach (ViewPageItem item in viewItemForNextPage)
+            {
+                ViewElement tempViewElement = UnityEngine.Object.Instantiate(item.viewElement);
+                tempViewElement.gameObject.SetActive(true);
+                var rectTransform = tempViewElement.GetComponent<RectTransform>();
+                Transform tempParent = root.Find(item.parentPath);
+                rectTransform.SetParent(tempParent, true);
+                rectTransform.anchoredPosition3D = Vector3.zero;
+                rectTransform.localScale = Vector3.one;
+
+                var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
+                if (mFix != null) mFix.ApplyModifyValue();
+
+                //item.viewElement.SampleToLoopState();
+                if (tempViewElement.transition != ViewElement.TransitionType.Animator)
+                    continue;
+
+                Animator animator = tempViewElement.animator;
+                AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+                foreach (AnimationClip clip in clips)
+                {
+                    if (clip.name.ToLower().Contains(tempViewElement.AnimationStateName_Loop.ToLower()))
+                    {
+                        clip.SampleAnimation(animator.gameObject, 0);
+                    }
+                }
+            }
         }
         public void Normalized()
         {
@@ -160,7 +208,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             UnityEditor.EditorUtility.SetDirty(data);
         }
 
-        public ViewSystemSaveData GetBaseSetting()
+        public ViewSystemSaveData GetGlobalSetting()
         {
             return data;
         }

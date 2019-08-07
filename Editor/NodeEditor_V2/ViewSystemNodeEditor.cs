@@ -50,7 +50,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             dataReader = new ViewSystemDataReaderV2(this);
             isInit = dataReader.Init();
-            saveData = ((ViewSystemDataReaderV2)dataReader).GetBaseSetting();
+            saveData = ((ViewSystemDataReaderV2)dataReader).GetGlobalSetting();
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemNodeGlobalSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
             overridePopupWindow = new OverridePopupWindow(this);

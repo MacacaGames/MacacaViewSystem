@@ -297,6 +297,10 @@ namespace CloudMacaca.ViewSystem
                 overlayPageStates.Add(vp.name, overlayPageState);
                 foreach (var item in vp.viewPageItems)
                 {
+                    //套用複寫值
+                    item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
+                    item.runtimeViewElement.ApplyEvent(item.eventDatas);
+                    
                     //Delay 時間
                     //Need review
                     if (!lastOverlayPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))
