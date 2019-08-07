@@ -18,7 +18,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public System.Action<IEnumerable<ViewSystemNodeLine>> OnNodeDelete;
         public System.Action<ViewSystemNode> OnNodeSelect;
         public System.Action<Vector2> OnDrag;
-        string name;
+        public string name;
         protected static int currentMaxId = 0;
         public Rect rect;
         public Rect clickContainRect = Rect.zero;

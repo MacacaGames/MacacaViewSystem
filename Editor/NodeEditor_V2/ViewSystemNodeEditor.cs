@@ -22,6 +22,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static ViewSystemNodeGlobalSettingWindow globalSettingWindow;
         public OverridePopupWindow overridePopupWindow;
         public static ViewSystemSaveData saveData;
+        bool isInit = false;
 
         public Transform ViewControllerRoot;
 
@@ -48,7 +49,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             ClearEditor();
 
             dataReader = new ViewSystemDataReaderV2(this);
-            dataReader.Init();
+            isInit = dataReader.Init();
             saveData = ((ViewSystemDataReaderV2)dataReader).GetBaseSetting();
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemNodeGlobalSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
@@ -120,7 +121,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             if (console.showConsole) console.Draw(new Vector2(position.width, position.height));
             if (showSideBar) sideBar.Draw();
-            
+
             BeginWindows();
             if (globalSettingWindow != null)
                 if (ViewSystemNodeGlobalSettingWindow.showGlobalSetting) globalSettingWindow.OnGUI();
@@ -437,7 +438,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     GUILayout.Space(5);
                     if (GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(35)))
                     {
-                        dataReader.Save(viewPageList, viewStateList);
+                        if (isInit == false)
+                        {
+                            ShowNotification(new GUIContent("Editor is not Initial."), 2);
+                            return;
+                        }
+                        if (EditorUtility.DisplayDialog("Save", "Save action will also delete all ViewElement in scene. \nDo you really want to continue?", "Yes", "No"))
+                        {
+                            dataReader.Save(viewPageList, viewStateList); 
+                        }
                     }
                     GUILayout.Space(5);
                     if (GUILayout.Button(new GUIContent("Reload", refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))

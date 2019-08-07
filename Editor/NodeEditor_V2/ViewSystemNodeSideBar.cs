@@ -97,10 +97,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
-
         const int removeBtnWidth = 25;
         ViewPageItem copyPasteBuffer;
-        OverridePopupChecker overrideChecker;
+        ViewElementOverridesImporterWindow overrideChecker;
         private void DrawViewItemElement(Rect rect, int index, bool isActive, bool isFocused)
         {
             if (index > list.Count)
@@ -200,11 +199,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                         var cache = list[index].viewElement;
                         var original = PrefabUtility.GetCorrespondingObjectFromOriginalSource(cache);
-                        
-                        overrideChecker = EditorWindow.GetWindow<OverridePopupChecker>();
-                        overrideChecker.Close();
-                        overrideChecker.SetData(cache.transform, list[index]);
-                        overrideChecker.ShowPopup();
+
+                        if (overrideChecker) overrideChecker.Close();
+                        overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
+                        overrideChecker.SetData(cache.transform, list[index], currentSelectNode);
+                        overrideChecker.ShowUtility();
                         // foreach (var item in modifiedObject)
                         // {
                         //     Debug.Log(item.instanceObject);

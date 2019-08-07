@@ -20,6 +20,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         ViewSystemSaveData data;
         Transform ViewControllerTransform;
+        bool isInit = false;
         public bool Init()
         {
             CheckAndCreateResourceFolder();
@@ -43,6 +44,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     var ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot, ViewControllerTransform);
                     data.globalSetting.UIRootScene = (GameObject)ui_root;
+                    PrefabUtility.UnpackPrefabInstance(data.globalSetting.UIRootScene, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
                 }
             }
 
@@ -65,8 +67,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 var node = editor.AddViewStateNode(item.nodePosition, item.viewState);
                 editor.CreateConnection(node);
             }
-
-            return data ? true : false;
+            isInit = data ? true : false;
+            return isInit;
         }
 
         public void OnViewPageAdd(ViewPageNode node)
@@ -106,17 +108,30 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void Normalized()
         {
             //Clear UI Root Object
-            try
-            {
-                UnityEngine.Object.DestroyImmediate(data.globalSetting.UIRootScene);
-            }
-            catch
-            {
-                var c = ViewControllerTransform.Find(data.globalSetting.UIRoot.name);
-                UnityEngine.Object.DestroyImmediate(c);
-            }
-
+            // try
+            // {
+            //     UnityEngine.Object.DestroyImmediate(data.globalSetting.UIRootScene);
+            // }
+            // catch
+            // {
+            //     var c = ViewControllerTransform.Find(data.globalSetting.UIRoot.name);
+            //     UnityEngine.Object.DestroyImmediate(c);
+            // }
+            ClearAllViewElementInScene();
             //throw new System.NotImplementedException();
+        }
+
+        void ClearAllViewElementInScene()
+        {
+            var allViewElement = UnityEngine.Object.FindObjectsOfType<ViewElement>();
+            foreach (var item in allViewElement)
+            {
+                if (string.IsNullOrEmpty(item.gameObject.scene.name))
+                {
+                    continue;
+                }
+                UnityEngine.Object.DestroyImmediate(item.gameObject);
+            }
         }
 
         public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes)
@@ -136,8 +151,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             if (data.globalSetting != null)
             {
+                //Delete all ViewElement in scene before save!!!!
+                ClearAllViewElementInScene();
                 //Apply Prefab
-                PrefabUtility.ApplyPrefabInstance(data.globalSetting.UIRootScene, InteractionMode.AutomatedAction);
+                //PrefabUtility.ApplyPrefabInstance(data.globalSetting.UIRootScene, InteractionMode.AutomatedAction);
+                PrefabUtility.SaveAsPrefabAsset(data.globalSetting.UIRootScene, ViewSystemResourceFolder + data.globalSetting.UIRootScene.name + ".prefab");
             }
             UnityEditor.EditorUtility.SetDirty(data);
         }

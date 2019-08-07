@@ -17,7 +17,7 @@ namespace CloudMacaca.ViewSystem
         public NodeType nodeType;
         public System.Action<IEnumerable<ViewSystemNodeLine>> OnNodeDelete;
         public System.Action<ViewSystemNode> OnNodeSelect;
-        string name;
+        public string name;
         protected static int currentMaxId = 0;
         public Rect rect;
         const int lableHeight = 15;
@@ -255,7 +255,8 @@ namespace CloudMacaca.ViewSystem
             if (viewPage == null)
             {
                 this.viewPage = new ViewPage();
-                if(isOverlay){
+                if (isOverlay)
+                {
                     this.viewPage.viewPageType = ViewPage.ViewPageType.Overlay;
                 }
             }
