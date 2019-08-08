@@ -19,6 +19,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ReorderableList viewPageItemList;
         GUIStyle removeButtonStyle;
         OverridePopupWindow popWindow;
+        static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
+
         static GUIContent EditoModifyButton = new GUIContent(CloudMacaca.CMEditorUtility.TryGetEditorTexture("EditPencil"), "Show/Edit Modify");
         public ViewSystemNodeSideBar(ViewSystemNodeEditor editor)
         {
@@ -289,31 +291,69 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             veRect.width = rect.width - 20;
             using (var disable = new EditorGUI.DisabledGroupScope(editableLock[index]))
             {
-                EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), list[index].parentPath);
+                using (var check = new EditorGUI.ChangeCheckScope())
+                {
+                    list[index].parentPath = EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), list[index].parentPath);
+                    if (check.changed)
+                    {
+                        if (!string.IsNullOrEmpty(list[index].parentPath))
+                        {
+                            var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
+                            if (target)
+                            {
+                                list[index].parent = target.transform;
+                            }
+                        }
+                        else
+                            list[index].parent = null;
+                    }
+                }
             }
             veRect.x += veRect.width;
             veRect.width = 20;
             editableLock[index] = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index], new GUIStyle("IN LockButton"));
 
             rect.y += EditorGUIUtility.singleLineHeight;
-            var parentFunctionRect = rect;
-            parentFunctionRect.width = rect.width * 0.4f;
-            parentFunctionRect.x += rect.width * 0.05f;
-            if (GUI.Button(parentFunctionRect, "Pick Current"))
-            {
-                var item = Selection.transforms;
-                if (item.Length > 1)
-                {
-                    editor.console.LogErrorMessage("Only object can be selected.");
-                    goto PICK_BREAK;
-                }
-                if (item.Length == 0)
-                {
-                    editor.console.LogErrorMessage("No object is been select, please check object is in scene or not.");
-                    goto PICK_BREAK;
-                }
 
-                var path = AnimationUtility.CalculateTransformPath(item.First(), null);
+            if (editableLock[index])
+            {
+                var parentFunctionRect = rect;
+                parentFunctionRect.width = rect.width * 0.4f;
+                parentFunctionRect.x += rect.width * 0.05f;
+                if (GUI.Button(parentFunctionRect, "Pick Current"))
+                {
+                    var item = Selection.transforms;
+                    if (item.Length > 1)
+                    {
+                        editor.console.LogErrorMessage("Only object can be selected.");
+                        goto PICK_BREAK;
+                    }
+                    if (item.Length == 0)
+                    {
+                        editor.console.LogErrorMessage("No object is been select, please check object is in scene or not.");
+                        goto PICK_BREAK;
+                    }
+                    list[index].parent = item.First();
+                }
+            // Due to while using auto layout we cannot return
+            // Therefore use goto to escap the if scope
+            PICK_BREAK:
+                parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.1f;
+                if (GUI.Button(parentFunctionRect, "Highlight Current"))
+                {
+                    var go = GameObject.Find(list[index].parentPath);
+                    if (go) EditorGUIUtility.PingObject(go);
+                    else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                }
+            }
+            else
+            {
+                list[index].parent = (Transform)EditorGUI.ObjectField(rect, "Drag to here", list[index].parent, typeof(Transform), true);
+            }
+
+            if (list[index].parent != null)
+            {
+                var path = AnimationUtility.CalculateTransformPath(list[index].parent, null);
                 var sp = path.Split('/');
                 if (sp.First() == editor.ViewControllerRoot.name)
                 {
@@ -325,16 +365,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     Debug.LogError("Selected Parent is not child of ViewController GameObject");
                 }
             }
-        // Due to while using auto layout we cannot return
-        // Therefore use goto to escap the if scope
-        PICK_BREAK:
-            parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.1f;
-            if (GUI.Button(parentFunctionRect, "Highlight Current"))
-            {
-                var go = GameObject.Find(list[index].parentPath);
-                if (go) EditorGUIUtility.PingObject(go);
-                else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-            }
+
+
+
+
 
             rect.y += EditorGUIUtility.singleLineHeight;
 
