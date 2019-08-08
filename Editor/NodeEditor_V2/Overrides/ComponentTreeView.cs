@@ -44,6 +44,10 @@ public class ComponentTreeView : TreeView
         var components = go.GetComponents(typeof(Component));
         foreach (var item in components)
         {
+            if(item == null){
+                Debug.LogError("It seems there is some Component's script is missing, Please check your prefab");
+                continue;
+            }
             var t1 = new TreeViewWrapper(Id);
             var so1 = new SerializedObject(item);
             t1.values = so1;
