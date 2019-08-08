@@ -271,8 +271,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         //is prefabs
                         if (list[index].viewElement.gameObject.name != oriViewElement)
                         {
-                            list[index].overrideDatas.Clear();
-                            list[index].eventDatas.Clear();
+                            list[index].overrideDatas?.Clear();
+                            list[index].eventDatas?.Clear();
                         }
 
                         return;

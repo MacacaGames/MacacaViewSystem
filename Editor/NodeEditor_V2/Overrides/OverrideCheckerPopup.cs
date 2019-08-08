@@ -60,8 +60,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 var path = AnimationUtility.CalculateTransformPath(t, root);
                 //Debug.Log(path);
                 var selfName = root_prefab.name.Length + 1;
-                if (path.Length > root.name.Length) path = path.Substring(selfName, path.Length - selfName);
-                else if (path.Length == root.name.Length) path = "";
+                if (path.Length > selfName - 1) path = path.Substring(selfName, path.Length - selfName);
+                else if (path.Length == selfName - 1) path = "";
                 temp.overrideData.targetTransformPath = path;
                 temp.overrideData.targetComponentType = item.target.GetType().ToString();
                 temp.overrideData.Value = VS_EditorUtility.GetValue(sp.propertyType, item);
@@ -93,8 +93,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     temp.overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(property);
                     Component c = (Component)sp.serializedObject.targetObject;
                     var path = AnimationUtility.CalculateTransformPath(c.transform, root);
-                    var selfName = root.name.Length + 1;
-                    path = path.Substring(selfName, path.Length - selfName);
+                    var selfName = root_prefab.name.Length + 1;
+                    if (path.Length > selfName - 1) path = path.Substring(selfName, path.Length - selfName);
+                    else if (path.Length == selfName - 1) path = "";
                     temp.overrideData.targetTransformPath = path;
                     temp.overrideData.targetComponentType = target.GetType().ToString();
 
@@ -120,7 +121,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                 continue;
                         }
                     }
-                    Debug.Log(overProperty.ColorValue);
+                    //Debug.Log(overProperty.ColorValue);
                     temp.overrideData.Value = overProperty;
                     temp.displayName = sp.displayName;
                     overridesPropertiesCheckerDatas.Add(temp);
@@ -147,8 +148,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     foreach (var item in overridesPropertiesCheckerDatas)
                     {
                         //Currently ignore transform and gameobject property override
-                        if (item.overrideData.targetComponentType.ToLower().Contains("transform") ||
-                            item.overrideData.targetComponentType.ToLower().Contains("gameobject")
+                        if (item.overrideData.targetComponentType.ToLower().Contains("transform")
                         )
                         {
                             continue;
@@ -167,14 +167,42 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                     GUILayout.Label(l, GUILayout.Height(16), GUILayout.Width(EditorGUIUtility.labelWidth));
                                     GUILayout.Label(EditorGUIUtility.FindTexture("Animation.Play"), GUILayout.Height(16), GUILayout.Width(16));
                                     Transform targetObject;
+                                    //Debug.Log(item.overrideData.targetTransformPath);
+
                                     if (string.IsNullOrEmpty(item.overrideData.targetTransformPath))
                                         targetObject = root;
                                     else
                                         targetObject = root.Find(item.overrideData.targetTransformPath);
+                                    //Debug.Log(item.overrideData.targetComponentType);
 
-                                    UnityEngine.Object targetComponent = targetObject.GetComponent(item.overrideData.targetComponentType);
-                                    var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
-                                    GUILayout.Label(_cachedContent, GUILayout.Height(16), GUILayout.Width(EditorGUIUtility.labelWidth));
+                                    UnityEngine.Object targetComponent;
+
+                                    if (item.overrideData.targetComponentType.ToLower().Contains("gameobject"))
+                                    {
+                                        targetComponent = targetObject.gameObject;
+                                    }
+                                    else
+                                    {
+                                        targetComponent = targetObject.GetComponent(item.overrideData.targetComponentType);
+                                    }
+                                    // var type = CloudMacaca.Utility.GetType(item.overrideData.targetComponentType);
+                                    // UnityEngine.Object targetComponent = targetObject.GetComponent(type);
+                                    if (targetComponent == null)
+                                    {
+                                        var type = CloudMacaca.Utility.GetType(item.overrideData.targetComponentType);
+                                        targetComponent = targetObject.GetComponent(type);
+                                        //targetComponent = targetObject.GetComponent(item.overrideData.targetComponentType.Replace("UnityEngine.", ""));
+                                    }
+                                    GUIContent _cachedContent;
+                                    if (targetComponent == null)
+                                    {
+                                        _cachedContent = new GUIContent("This property or Component is not support " + item.overrideData.targetComponentType);
+                                    }
+                                    else
+                                    {
+                                        _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
+                                    }
+                                    GUILayout.Label(_cachedContent, GUILayout.Height(16), GUILayout.Width(position.width * 0.5f));
                                 }
                                 using (var horizon2 = new GUILayout.HorizontalScope())
                                 {
