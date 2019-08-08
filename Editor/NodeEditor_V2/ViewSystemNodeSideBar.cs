@@ -202,6 +202,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
             }
 
+
             EditorGUIUtility.labelWidth = 80.0f;
             // float oriwidth = rect.width;
             // float oriHeigh = rect.height;
@@ -216,200 +217,202 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //Still shows OutOfRangeException when remove item (but everything working fine)
             //Doesn't know how to fix that
             //Currently use a try-catch to avoid console message.
-            try
+            // try
+            // {
+
+            rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
+
+            var veRect = rect;
+
+            veRect.width = rect.width - 20;
+            using (var check = new EditorGUI.ChangeCheckScope())
             {
-                rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
-
-                var veRect = rect;
-
-                veRect.width = rect.width - 20;
-                using (var check = new EditorGUI.ChangeCheckScope())
+                string oriViewElement = list[index].viewElement?.name ?? "";
+                list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), true);
+                if (check.changed)
                 {
-                    var oriViewElement = list[index].viewElement.name;
-                    list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), true);
-                    if (check.changed)
+                    if (string.IsNullOrEmpty(list[index].viewElement.gameObject.scene.name))
                     {
-                        if (string.IsNullOrEmpty(list[index].viewElement.gameObject.scene.name))
+                        //is prefabs
+                        if (list[index].viewElement.gameObject.name != oriViewElement)
                         {
-                            //is prefabs
-                            if (list[index].viewElement.gameObject.name != oriViewElement)
-                            {
-                                list[index].overrideDatas.Clear();
-                                list[index].eventDatas.Clear();
-                            }
-
-                            return;
+                            list[index].overrideDatas.Clear();
+                            list[index].eventDatas.Clear();
                         }
 
-                        var cache = list[index].viewElement;
-                        var original = PrefabUtility.GetCorrespondingObjectFromOriginalSource(cache);
-
-                        if (overrideChecker) overrideChecker.Close();
-                        overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
-                        overrideChecker.SetData(cache.transform, list[index], currentSelectNode);
-                        overrideChecker.ShowUtility();
-
-                        list[index].viewElement = original;
-                    }
-                }
-
-                veRect.x += veRect.width;
-                veRect.width = 20;
-
-
-                if (GUI.Button(veRect, EditoModifyButton))
-                {
-                    if (list[index].viewElement == null)
-                    {
-                        editor.console.LogErrorMessage("ViewElement has not been select yet!");
                         return;
                     }
-                    if (OverridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
-                    {
-                        veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
-                        editor.overridePopupWindow.SetViewPageItem(list[index]);
-                        editor.overridePopupWindow.Show(veRect);
-                    }
-                    else
-                    {
-                        OverridePopupWindow.show = false;
-                    }
 
-                    // popWindow = EditorWindow.GetWindow<OverridePopupWindow>();
-                    // popWindow.titleContent = new GUIContent(list[index].viewElement.gameObject.name);
-                    // popWindow.Init(list[index]);
-                    // popWindow.Show();
+                    var cache = list[index].viewElement;
+                    var original = PrefabUtility.GetCorrespondingObjectFromOriginalSource(cache);
+
+                    if (overrideChecker) overrideChecker.Close();
+                    overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
+                    overrideChecker.SetData(cache.transform, list[index], currentSelectNode);
+                    overrideChecker.ShowUtility();
+
+                    list[index].viewElement = original;
                 }
+            }
 
-                rect.y += EditorGUIUtility.singleLineHeight;
+            veRect.x += veRect.width;
+            veRect.width = 20;
 
-                veRect = rect;
-                veRect.width = rect.width - 20;
-                using (var disable = new EditorGUI.DisabledGroupScope(editableLock[index]))
+
+            if (GUI.Button(veRect, EditoModifyButton))
+            {
+                if (list[index].viewElement == null)
                 {
-                    EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), list[index].parentPath);
+                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
+                    return;
                 }
-                veRect.x += veRect.width;
-                veRect.width = 20;
-                editableLock[index] = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index], new GUIStyle("IN LockButton"));
-
-                rect.y += EditorGUIUtility.singleLineHeight;
-                var parentFunctionRect = rect;
-                parentFunctionRect.width = rect.width * 0.4f;
-                parentFunctionRect.x += rect.width * 0.05f;
-                if (GUI.Button(parentFunctionRect, "Pick Current"))
+                if (OverridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
                 {
-                    var item = Selection.transforms;
-                    if (item.Length > 1)
-                    {
-                        editor.console.LogErrorMessage("Only object can be selected.");
-                        goto PICK_BREAK;
-                    }
-                    if (item.Length == 0)
-                    {
-                        editor.console.LogErrorMessage("No object is been select, please check object is in scene or not.");
-                        goto PICK_BREAK;
-                    }
-
-                    var path = AnimationUtility.CalculateTransformPath(item.First(), null);
-                    var sp = path.Split('/');
-                    if (sp.First() == editor.ViewControllerRoot.name)
-                    {
-                        list[index].parentPath = path.Substring(sp.First().Length + 1);
-                    }
-                    else
-                    {
-                        editor.console.LogErrorMessage("Selected Parent is not child of ViewController GameObject");
-                        Debug.LogError("Selected Parent is not child of ViewController GameObject");
-                    }
-                }
-            // Due to while using auto layout we cannot return
-            // Therefore use goto to escap the if scope
-            PICK_BREAK:
-                parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.1f;
-                if (GUI.Button(parentFunctionRect, "Highlight Current"))
-                {
-                    var go = GameObject.Find(list[index].parentPath);
-                    if (go) EditorGUIUtility.PingObject(go);
-                    else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                }
-
-                rect.y += EditorGUIUtility.singleLineHeight;
-
-                list[index].easeType = (DG.Tweening.Ease)EditorGUI.EnumPopup(rect, new GUIContent("Ease", "The EaseType when needs to tween."), list[index].easeType);
-                rect.y += EditorGUIUtility.singleLineHeight;
-
-                list[index].TweenTime = EditorGUI.Slider(rect, new GUIContent("Tween Time", "Tween Time use to control when ViewElement needs change parent."), list[index].TweenTime, 0, 1);
-                rect.y += EditorGUIUtility.singleLineHeight;
-
-                list[index].delayIn = EditorGUI.Slider(rect, "Delay In", list[index].delayIn, 0, 1);
-                rect.y += EditorGUIUtility.singleLineHeight;
-
-                list[index].delayOut = EditorGUI.Slider(rect, "Delay Out", list[index].delayOut, 0, 1);
-                rect.y += EditorGUIUtility.singleLineHeight;
-
-                bool isExcloudAndroid = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.Android);
-                bool isExcloudiOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.iOS);
-                bool isExcloudtvOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.tvOS);
-                bool isExcloudUWP = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.UWP);
-
-
-                EditorGUIUtility.labelWidth = 20.0f;
-                rect.width = oriRect.width * 0.25f;
-
-                string proIconFix = "";
-                if (EditorGUIUtility.isProSkin)
-                {
-                    proIconFix = "d_";
+                    veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
+                    editor.overridePopupWindow.SetViewPageItem(list[index]);
+                    editor.overridePopupWindow.Show(veRect);
                 }
                 else
                 {
-                    proIconFix = "";
+                    OverridePopupWindow.show = false;
                 }
 
-                EditorGUI.BeginChangeCheck();
-                using (var check = new EditorGUI.ChangeCheckScope())
+                // popWindow = EditorWindow.GetWindow<OverridePopupWindow>();
+                // popWindow.titleContent = new GUIContent(list[index].viewElement.gameObject.name);
+                // popWindow.Init(list[index]);
+                // popWindow.Show();
+            }
+
+            rect.y += EditorGUIUtility.singleLineHeight;
+
+            veRect = rect;
+            veRect.width = rect.width - 20;
+            using (var disable = new EditorGUI.DisabledGroupScope(editableLock[index]))
+            {
+                EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), list[index].parentPath);
+            }
+            veRect.x += veRect.width;
+            veRect.width = 20;
+            editableLock[index] = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index], new GUIStyle("IN LockButton"));
+
+            rect.y += EditorGUIUtility.singleLineHeight;
+            var parentFunctionRect = rect;
+            parentFunctionRect.width = rect.width * 0.4f;
+            parentFunctionRect.x += rect.width * 0.05f;
+            if (GUI.Button(parentFunctionRect, "Pick Current"))
+            {
+                var item = Selection.transforms;
+                if (item.Length > 1)
                 {
-                    isExcloudAndroid = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Android.Small")), isExcloudAndroid);
-                    rect.x += rect.width;
+                    editor.console.LogErrorMessage("Only object can be selected.");
+                    goto PICK_BREAK;
+                }
+                if (item.Length == 0)
+                {
+                    editor.console.LogErrorMessage("No object is been select, please check object is in scene or not.");
+                    goto PICK_BREAK;
+                }
 
-                    isExcloudiOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.iPhone.Small")), isExcloudiOS);
-                    rect.x += rect.width;
+                var path = AnimationUtility.CalculateTransformPath(item.First(), null);
+                var sp = path.Split('/');
+                if (sp.First() == editor.ViewControllerRoot.name)
+                {
+                    list[index].parentPath = path.Substring(sp.First().Length + 1);
+                }
+                else
+                {
+                    editor.console.LogErrorMessage("Selected Parent is not child of ViewController GameObject");
+                    Debug.LogError("Selected Parent is not child of ViewController GameObject");
+                }
+            }
+        // Due to while using auto layout we cannot return
+        // Therefore use goto to escap the if scope
+        PICK_BREAK:
+            parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.1f;
+            if (GUI.Button(parentFunctionRect, "Highlight Current"))
+            {
+                var go = GameObject.Find(list[index].parentPath);
+                if (go) EditorGUIUtility.PingObject(go);
+                else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+            }
 
-                    isExcloudtvOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.tvOS.Small")), isExcloudtvOS);
-                    rect.x += rect.width;
+            rect.y += EditorGUIUtility.singleLineHeight;
 
-                    isExcloudUWP = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Standalone.Small")), isExcloudUWP);
+            list[index].easeType = (DG.Tweening.Ease)EditorGUI.EnumPopup(rect, new GUIContent("Ease", "The EaseType when needs to tween."), list[index].easeType);
+            rect.y += EditorGUIUtility.singleLineHeight;
 
-                    if (check.changed)
+            list[index].TweenTime = EditorGUI.Slider(rect, new GUIContent("Tween Time", "Tween Time use to control when ViewElement needs change parent."), list[index].TweenTime, 0, 1);
+            rect.y += EditorGUIUtility.singleLineHeight;
+
+            list[index].delayIn = EditorGUI.Slider(rect, "Delay In", list[index].delayIn, 0, 1);
+            rect.y += EditorGUIUtility.singleLineHeight;
+
+            list[index].delayOut = EditorGUI.Slider(rect, "Delay Out", list[index].delayOut, 0, 1);
+            rect.y += EditorGUIUtility.singleLineHeight;
+
+            bool isExcloudAndroid = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.Android);
+            bool isExcloudiOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.iOS);
+            bool isExcloudtvOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.tvOS);
+            bool isExcloudUWP = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.UWP);
+
+
+            EditorGUIUtility.labelWidth = 20.0f;
+            rect.width = oriRect.width * 0.25f;
+
+            string proIconFix = "";
+            if (EditorGUIUtility.isProSkin)
+            {
+                proIconFix = "d_";
+            }
+            else
+            {
+                proIconFix = "";
+            }
+
+            EditorGUI.BeginChangeCheck();
+            using (var check = new EditorGUI.ChangeCheckScope())
+            {
+                isExcloudAndroid = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Android.Small")), isExcloudAndroid);
+                rect.x += rect.width;
+
+                isExcloudiOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.iPhone.Small")), isExcloudiOS);
+                rect.x += rect.width;
+
+                isExcloudtvOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.tvOS.Small")), isExcloudtvOS);
+                rect.x += rect.width;
+
+                isExcloudUWP = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Standalone.Small")), isExcloudUWP);
+
+                if (check.changed)
+                {
+                    list[index].excludePlatform.Clear();
+
+                    if (!isExcloudAndroid)
                     {
-                        list[index].excludePlatform.Clear();
-
-                        if (!isExcloudAndroid)
-                        {
-                            list[index].excludePlatform.Add(ViewPageItem.PlatformOption.Android);
-                        }
-                        if (!isExcloudiOS)
-                        {
-                            list[index].excludePlatform.Add(ViewPageItem.PlatformOption.iOS);
-                        }
-                        if (!isExcloudtvOS)
-                        {
-                            list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
-                        }
-                        if (!isExcloudUWP)
-                        {
-                            list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
-                        }
+                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.Android);
+                    }
+                    if (!isExcloudiOS)
+                    {
+                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.iOS);
+                    }
+                    if (!isExcloudtvOS)
+                    {
+                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
+                    }
+                    if (!isExcloudUWP)
+                    {
+                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
                     }
                 }
-
-                rect.y += EditorGUIUtility.singleLineHeight;
             }
-            catch
-            {
 
-            }
+            rect.y += EditorGUIUtility.singleLineHeight;
+            // }
+            // catch (Exception ex)
+            // {
+            //     Debug.Log("index " + index + " ___1" + ex.Message);
+
+            // }
 
             rect.x = oriRect.width;
             rect.y = oriRect.y;
