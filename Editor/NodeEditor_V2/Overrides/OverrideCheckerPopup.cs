@@ -10,14 +10,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
     public class ViewElementOverridesImporterWindow : EditorWindow
     {
         Transform root;
+        Transform root_prefab;
         ViewSystemNode node;
         ViewPageItem viewPageItem;
         PropertyModification[] propertyModification;
         List<OverridesPropertiesCheckerData> overridesPropertiesCheckerDatas = new List<OverridesPropertiesCheckerData>();
 
-        public void SetData(Transform root, ViewPageItem viewPageItem, ViewSystemNode node)
+        public void SetData(Transform root, Transform root_prefab, ViewPageItem viewPageItem, ViewSystemNode node)
         {
             this.root = root;
+            this.root_prefab = root_prefab;
             this.viewPageItem = viewPageItem;
             this.node = node;
             title = "ViewElement Overrides Importer";
@@ -32,6 +34,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     continue;
                 }
+                if (PrefabUtility.IsDefaultOverride(item))
+                {
+                    continue;
+                }
                 var temp = new OverridesPropertiesCheckerData();
                 var so = new SerializedObject(item.target);
                 var sp = so.FindProperty(item.propertyPath);
@@ -40,16 +46,28 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 temp.overrideData.targetPropertyName = item.propertyPath;
                 temp.overrideData.targetPropertyType = sp.propertyType.ToString();
                 temp.overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(item.propertyPath);
-                Component c = (Component)sp.serializedObject.targetObject;
-                var path = AnimationUtility.CalculateTransformPath(c.transform, root);
-                var selfName = root.name.Length + 1;
-                path = path.Substring(selfName, path.Length - selfName);
+                //Debug.Log(item.target.GetType());
+                Transform t;
+                if (item.target as Component == null)
+                {
+                    t = ((GameObject)item.target).transform;
+                }
+                else
+                {
+                    t = ((Component)item.target).transform;
+                }
+
+                var path = AnimationUtility.CalculateTransformPath(t, root);
+                //Debug.Log(path);
+                var selfName = root_prefab.name.Length + 1;
+                if (path.Length > root.name.Length) path = path.Substring(selfName, path.Length - selfName);
+                else if (path.Length == root.name.Length) path = "";
                 temp.overrideData.targetTransformPath = path;
                 temp.overrideData.targetComponentType = item.target.GetType().ToString();
                 temp.overrideData.Value = VS_EditorUtility.GetValue(sp.propertyType, item);
                 temp.displayName = sp.displayName;
                 overridesPropertiesCheckerDatas.Add(temp);
-                Debug.Log(item.value);
+                //Debug.Log(item.value);
             }
 
             //The modification of color needs advance works
@@ -128,6 +146,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     foreach (var item in overridesPropertiesCheckerDatas)
                     {
+                        //Currently ignore transform and gameobject property override
+                        if (item.overrideData.targetComponentType.ToLower().Contains("transform") ||
+                            item.overrideData.targetComponentType.ToLower().Contains("gameobject")
+                        )
+                        {
+                            continue;
+                        }
                         using (var horizon = new GUILayout.HorizontalScope("box"))
                         {
                             item.import = EditorGUILayout.ToggleLeft("", item.import, GUILayout.Width(25));
@@ -141,7 +166,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                     GUIContent l = new GUIContent(root.name + (string.IsNullOrEmpty(item.overrideData.targetTransformPath) ? "" : ("/" + item.overrideData.targetTransformPath)), EditorGUIUtility.FindTexture("Prefab Icon"));
                                     GUILayout.Label(l, GUILayout.Height(16), GUILayout.Width(EditorGUIUtility.labelWidth));
                                     GUILayout.Label(EditorGUIUtility.FindTexture("Animation.Play"), GUILayout.Height(16), GUILayout.Width(16));
-                                    var targetObject = root.Find(item.overrideData.targetTransformPath);
+                                    Transform targetObject;
+                                    if (string.IsNullOrEmpty(item.overrideData.targetTransformPath))
+                                        targetObject = root;
+                                    else
+                                        targetObject = root.Find(item.overrideData.targetTransformPath);
+
                                     UnityEngine.Object targetComponent = targetObject.GetComponent(item.overrideData.targetComponentType);
                                     var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
                                     GUILayout.Label(_cachedContent, GUILayout.Height(16), GUILayout.Width(EditorGUIUtility.labelWidth));

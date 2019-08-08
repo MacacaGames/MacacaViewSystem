@@ -281,9 +281,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     var cache = list[index].viewElement;
                     var original = PrefabUtility.GetCorrespondingObjectFromOriginalSource(cache);
 
-                    if (overrideChecker) overrideChecker.Close();
+                    //if (overrideChecker) overrideChecker.Close();
                     overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
-                    overrideChecker.SetData(cache.transform, list[index], currentSelectNode);
+                    overrideChecker.SetData(cache.transform, original.transform, list[index], currentSelectNode);
                     overrideChecker.ShowUtility();
 
                     list[index].viewElement = original;
