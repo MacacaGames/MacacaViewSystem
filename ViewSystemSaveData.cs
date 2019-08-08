@@ -42,7 +42,7 @@ namespace CloudMacaca.ViewSystem
             public GameObject UIRoot;
             public GameObject UIRootScene;
 #if UNITY_EDITOR
-            public List<UnityEditor.MonoScript> EventHandleBehaviour;
+            public List<UnityEditor.MonoScript> EventHandleBehaviour = new List<UnityEditor.MonoScript>();
 #endif
             public float MaxWaitingTime
             {

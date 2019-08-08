@@ -133,8 +133,32 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             copyPasteBuffer.delayOut = list[index].delayOut;
                             copyPasteBuffer.delayIn = list[index].delayIn;
                             copyPasteBuffer.parentPath = list[index].parentPath;
-                            copyPasteBuffer.overrideDatas = list[index].overrideDatas;
-                            copyPasteBuffer.eventDatas = list[index].eventDatas;
+
+                            var originalOverrideDatas = list[index].overrideDatas.Select(x => x).ToList();
+                            var copiedOverrideDatas = originalOverrideDatas.Select(x => new ViewElementPropertyOverrideData
+                            {
+                                targetComponentType = x.targetComponentType,
+                                targetPropertyName = x.targetPropertyName,
+                                targetPropertyPath = x.targetPropertyPath,
+                                targetPropertyType = x.targetPropertyType,
+                                targetTransformPath = x.targetTransformPath,
+                                Value = x.Value
+                            }).ToList();
+                            copyPasteBuffer.overrideDatas = copiedOverrideDatas;
+
+                            var originalEventDatas = list[index].eventDatas.Select(x => x).ToList();
+                            var copyEventDatas = originalEventDatas.Select(x => new ViewElementEventData
+                            {
+                                targetComponentType = x.targetComponentType,
+                                targetPropertyName = x.targetPropertyName,
+                                targetPropertyPath = x.targetPropertyPath,
+                                targetPropertyType = x.targetPropertyType,
+                                targetTransformPath = x.targetTransformPath,
+                                methodName = x.methodName,
+                                scriptName = x.scriptName
+                            }).ToList();
+
+                            copyPasteBuffer.eventDatas = copyEventDatas;
 
                             var excludePlatformCopyed = new List<ViewPageItem.PlatformOption>();
                             foreach (var item in list[index].excludePlatform)
