@@ -293,7 +293,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             veRect.x += veRect.width;
             veRect.width = 20;
 
-            if (GUI.Button(veRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow")), new GUIStyle("AC ComponentButton")))
+            if (GUI.Button(veRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow"),"Open in new Instpector tab"), new GUIStyle("AC ComponentButton")))
             {
                 if (list[index].viewElement == null)
                 {
