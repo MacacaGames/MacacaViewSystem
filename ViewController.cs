@@ -10,7 +10,7 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewController : ViewControllerBase
     {
-
+        public List<ViewPage> viewPage = new List<ViewPage>();
         public static ViewController Instance;
         public ViewElementPool viewElementPool;
 

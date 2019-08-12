@@ -18,7 +18,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static Texture2D bakeScritpIcon;
         static ViewSystemNodeEditor window;
         static IViewSystemDateReader dataReader;
-        static ViewSystemNodeSideBar sideBar;
+        static ViewSystemNodeInspector sideBar;
         static ViewSystemNodeGlobalSettingWindow globalSettingWindow;
         public OverridePopupWindow overridePopupWindow;
         public static ViewSystemSaveData saveData;
@@ -72,7 +72,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         void OnFocus()
         {
             if (console == null) console = new ViewSystemNodeConsole();
-            if (sideBar == null) sideBar = new ViewSystemNodeSideBar(this);
+            if (sideBar == null) sideBar = new ViewSystemNodeInspector(this);
             if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
             if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture("CustomSorting");
             if (bakeScritpIcon == null) bakeScritpIcon = EditorGUIUtility.FindTexture("cs Script Icon") as Texture2D;

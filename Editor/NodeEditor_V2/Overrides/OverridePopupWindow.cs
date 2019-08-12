@@ -24,8 +24,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public static bool show = false;
         Rect windowRect = new Rect(0, 0, 350, 400);
         GUIStyle windowStyle;
-        ViewSystemNodeSideBar sideBar;
-        public OverridePopupWindow(ViewSystemNodeEditor editor, ViewSystemNodeSideBar sideBar)
+        ViewSystemNodeInspector sideBar;
+        public OverridePopupWindow(ViewSystemNodeEditor editor, ViewSystemNodeInspector sideBar)
         {
             this.editor = editor;
             this.sideBar = sideBar;
@@ -98,30 +98,35 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         void Draw(int window)
         {
+
             GUILayout.Space(windowStyle.padding.top);
             DrawTab();
             if (!isInit)
             {
                 return;
             }
-            switch (_selectedTab)
+            using (var vertical = new GUILayout.VerticalScope())
             {
-                case 0:
-                    DrawHeader();
-                    DrawScrollViewHierarchy();
-                    break;
-                case 1:
-                    DrawScrollViewModify();
-                    break;
-                case 2:
-                    DrawEvent();
-                    break;
+                switch (_selectedTab)
+                {
+                    case 0:
+                        DrawHeader();
+                        DrawScrollViewHierarchy();
+                        break;
+                    case 1:
+                        DrawScrollViewModify();
+                        break;
+                    case 2:
+                        DrawEvent();
+                        break;
+                }
+                if (GUILayout.Button(new GUIContent("Close")))
+                {
+                    show = false;
+                    SetViewPageItem(null);
+                }
             }
-            if (GUILayout.Button(new GUIContent("Close")))
-            {
-                show = false;
-                SetViewPageItem(null);
-            }
+
             GUI.DragWindow();
         }
         GUIContent header = new GUIContent();
@@ -178,12 +183,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 if (currentSelectGameObject)
                 {
-                    if (componentTreeView != null) componentTreeView.OnGUI(new Rect(0, 0, windowRect.width, windowRect.height));
+                    if (componentTreeView != null) componentTreeView.OnGUI(new Rect(0, 0, windowRect.width, windowRect.height - 80));
                 }
                 else
                 {
                     //if (hierarchyDrawer != null) hierarchyDrawer.Draw();
-                    if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, windowRect.width, windowRect.height));
+                    if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, windowRect.width, windowRect.height - 80));
                 }
             }
         }

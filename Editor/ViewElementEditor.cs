@@ -15,6 +15,7 @@ namespace CloudMacaca.ViewSystem
     {
         private ViewElement viewElement = null;
         private SerializedProperty m_AnimTriggerProperty;
+        private SerializedProperty m_Injection;
         private SerializedProperty onShowHandle;
         private SerializedProperty onLeaveHandle;
         AnimBool showV2Setting = new AnimBool(true);
@@ -79,12 +80,36 @@ namespace CloudMacaca.ViewSystem
 
 
             showV2Setting.target = EditorGUILayout.Foldout(showV2Setting.target, new GUIContent("V2 Setting", "Below scope is only used in V2 Version"));
-
+            string hintText = "";
             using (var fade = new EditorGUILayout.FadeGroupScope(showV2Setting.faded))
             {
                 if (fade.visible)
                 {
-                    viewElement.IsUnique = EditorGUILayout.Toggle("Is Unique", viewElement.IsUnique);
+                    using (var check = new EditorGUI.ChangeCheckScope())
+                    {
+                        viewElement.IsUnique = EditorGUILayout.Toggle("Is Unique", viewElement.IsUnique);
+                        if (check.changed)
+                        {
+                            if (viewElement.IsUnique == false)
+                            {
+                                viewElement.Injection = false;
+                            }
+                        }
+                    }
+
+                    using (var disable = new EditorGUI.DisabledGroupScope(!viewElement.IsUnique))
+                    {
+                        viewElement.Injection = EditorGUILayout.Toggle(new GUIContent("Injection", "Injection will auto inject all Component which inherit form IViewElementInjectalbe"), viewElement.Injection);
+                    }
+                    if (viewElement.IsUnique)
+                    {
+                        hintText = "Note : Injection will make target component into Singleton, if there is mutil several same component been inject, you will only be able to get the last injection";
+                    }
+                    else
+                    {
+                        hintText = "Only Unique ViewElement can be inject";
+                    }
+                    EditorGUILayout.HelpBox(hintText, MessageType.Info);
                 }
             }
 

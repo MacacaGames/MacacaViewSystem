@@ -10,7 +10,7 @@ using UnityEditor.IMGUI.Controls;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
-    public class ViewSystemNodeSideBar
+    public class ViewSystemNodeInspector
     {
         private ViewSystemNode currentSelectNode = null;
         ViewSystemNodeEditor editor;
@@ -20,9 +20,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         GUIStyle removeButtonStyle;
         OverridePopupWindow popWindow;
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
-
         static GUIContent EditoModifyButton = new GUIContent(CloudMacaca.CMEditorUtility.TryGetEditorTexture("EditPencil"), "Show/Edit Modify");
-        public ViewSystemNodeSideBar(ViewSystemNodeEditor editor)
+        public ViewSystemNodeInspector(ViewSystemNodeEditor editor)
         {
             this.editor = editor;
             showBasicInfo = new AnimBool(true);
@@ -47,6 +46,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 excludePlatformOptions.Add(item.ToString());
             }
+      
         }
         public bool isMouseInSideBar()
         {
@@ -259,7 +259,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             var veRect = rect;
 
-            veRect.width = rect.width - 20;
+            veRect.width = rect.width - 40;
             using (var check = new EditorGUI.ChangeCheckScope())
             {
                 string oriViewElement = list[index].viewElement?.name ?? "";
@@ -293,7 +293,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             veRect.x += veRect.width;
             veRect.width = 20;
 
-
+            if (GUI.Button(veRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow")), new GUIStyle("AC ComponentButton")))
+            {
+                if (list[index].viewElement == null)
+                {
+                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
+                    return;
+                }
+                CloudMacaca.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
+            }
+            veRect.x += veRect.width;
             if (GUI.Button(veRect, EditoModifyButton))
             {
                 if (list[index].viewElement == null)
@@ -311,11 +320,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     OverridePopupWindow.show = false;
                 }
-
-                // popWindow = EditorWindow.GetWindow<OverridePopupWindow>();
-                // popWindow.titleContent = new GUIContent(list[index].viewElement.gameObject.name);
-                // popWindow.Init(list[index]);
-                // popWindow.Show();
             }
 
             rect.y += EditorGUIUtility.singleLineHeight;
@@ -398,10 +402,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     Debug.LogError("Selected Parent is not child of ViewController GameObject");
                 }
             }
-
-
-
-
 
             rect.y += EditorGUIUtility.singleLineHeight;
 

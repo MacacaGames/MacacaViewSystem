@@ -47,7 +47,27 @@ namespace CloudMacaca.ViewSystem
                 RecoveryViewElement(recycleQueue.Dequeue());
             }
         }
+        public ViewElement PrewarmUniqueViewElement(ViewElement source)
+        {
+            if (!source.IsUnique)
+            {
+                Debug.LogWarning("The ViewElement trying to Prewarm is not an unique ViewElement");
+                return null;
+            }
 
+            if (!uniqueVeDicts.ContainsKey(source.name))
+            {
+                var temp = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
+                temp.name = source.name + "(Unique)";
+                uniqueVeDicts.Add(source.name, temp);
+                return temp;
+            }
+            else
+            {
+                Debug.LogWarning("ViewElement " + source.name + " has been prewarmed");
+                return null;
+            }
+        }
         public ViewElement RequestViewElement(ViewElement source, bool isOverlay)
         {
             ViewElement result;
@@ -71,7 +91,8 @@ namespace CloudMacaca.ViewSystem
                 if (veQueue.Count == 0)
                 {
                     var a = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
-                    a.name = source.name + (isOverlay ? "(Overlay)" : "(Pooled)");
+                    //a.name = source.name + (isOverlay ? "(Overlay)" : "(Pooled)");
+                    a.name = source.name + ("(Pooled)");
                     veQueue.Enqueue(a);
                 }
                 result = veQueue.Dequeue();
@@ -118,7 +139,9 @@ namespace CloudMacaca.ViewSystem
             ViewElement.viewElementPool = viewElementPool;
 
             maxClampTime = viewSystemSaveData.globalSetting.MaxWaitingTime;
+
         }
+
         protected override void Start()
         {
             //Load ViewPages and ViewStates from ViewSystemSaveData
@@ -128,9 +151,73 @@ namespace CloudMacaca.ViewSystem
 
             viewStatesNames = viewStates.Select(m => m.name);
 
+            PrewarmInjection();
+
             base.Start();
         }
+        #region Injection
+        private Dictionary<System.Type, Component> InjectionDictionary = new Dictionary<System.Type, Component>();
+        public T GetInjectionInstance<T>() where T : Component, IViewElementInjectalbe
+        {
+            if (InjectionDictionary.TryGetValue(typeof(T), out Component result))
+            {
+                return (T)result;
+            }
+            throw new MissingReferenceException("Target type cannot been found, are you sure you have inject the component?");
+        }
+        void PrewarmInjection()
+        {
+            var viewElementsInStates = viewStates.Select(m => m.viewPageItems).SelectMany(ma => ma).Select(m => m.viewElement);
+            var viewElementsInPages = viewPages.Select(m => m.viewPageItems).SelectMany(ma => ma).Select(m => m.viewElement);
+            foreach (var item in viewElementsInStates)
+            {
+                if (!item.IsUnique)
+                {
+                    continue;
+                }
+                var r = runtimePool.PrewarmUniqueViewElement(item);
+                if (r != null)
+                {
+                    foreach (var i in r.GetComponents<IViewElementInjectalbe>())
+                    {
+                        var c = (Component)i;
+                        var t = c.GetType();
+                        if (!InjectionDictionary.ContainsKey(t))
+                            InjectionDictionary.Add(t, c);
+                        else
+                        {
+                            Debug.LogWarning("Type " + t + " has been injected");
+                            continue;
+                        }
+                    }
+                }
+            }
 
+            foreach (var item in viewElementsInPages)
+            {
+                if (!item.IsUnique)
+                {
+                    continue;
+                }
+                var r = runtimePool.PrewarmUniqueViewElement(item);
+                if (r != null)
+                {
+                    foreach (var i in r.GetComponents<IViewElementInjectalbe>())
+                    {
+                        var c = (Component)i;
+                        var t = c.GetType();
+                        if (!InjectionDictionary.ContainsKey(t))
+                            InjectionDictionary.Add(t, c);
+                        else
+                        {
+                            Debug.LogWarning("Type " + t + " has been injected");
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
         IEnumerable<ViewPageItem> PrepareRuntimeReference(IEnumerable<ViewPageItem> viewPageItems, bool isOverlay = false)
         {
             foreach (var item in viewPageItems)
@@ -300,7 +387,7 @@ namespace CloudMacaca.ViewSystem
                     //套用複寫值
                     item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                     item.runtimeViewElement.ApplyEvent(item.eventDatas);
-                    
+
                     //Delay 時間
                     //Need review
                     if (!lastOverlayPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))

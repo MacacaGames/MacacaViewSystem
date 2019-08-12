@@ -240,7 +240,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
                 if (GUILayout.Button("Import"))
                 {
-                    viewPageItem.overrideDatas.Clear();
+                    viewPageItem.overrideDatas?.Clear();
                     var import = overridesPropertiesCheckerDatas.Where(m => m.import == true).Select(x => x.overrideData);
                     viewPageItem.overrideDatas = import.ToList();
                     Close();
