@@ -146,13 +146,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                 targetTransformPath = x.targetTransformPath,
                                 Value = new PropertyOverride
                                 {
-                                    ColorValue = x.Value.ColorValue,
-                                    BooleanValue = x.Value.BooleanValue,
+                                    //ColorValue = x.Value.ColorValue,
+                                    //BooleanValue = x.Value.BooleanValue,
                                     ObjectReferenceValue = x.Value.ObjectReferenceValue,
                                     s_Type = x.Value.s_Type,
                                     StringValue = x.Value.StringValue,
-                                    FloatValue = x.Value.FloatValue,
-                                    IntValue = x.Value.IntValue
+                                    //FloatValue = x.Value.FloatValue,
+                                    //IntValue = x.Value.IntValue
                                 }
                             }).ToList();
                             copyPasteBuffer.overrideDatas = copiedOverrideDatas;

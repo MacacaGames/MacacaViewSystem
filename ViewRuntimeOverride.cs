@@ -209,12 +209,12 @@ namespace CloudMacaca.ViewSystem
                 if (isUnityEngineType(t))
                 {
                     modifiedFields.Add(new ModifiedField(t, GetProperty(t, c, item.targetPropertyPath), id, item.targetPropertyPath));
-                    SetProperty(t, c, item.targetPropertyPath, item.Value.GetDirtyValue());
+                    SetProperty(t, c, item.targetPropertyPath, item.Value.GetValue());
                 }
                 else
                 {
                     modifiedFields.Add(new ModifiedField(t, GetField(t, c, item.targetPropertyName), id, item.targetPropertyName));
-                    SetField(t, c, item.targetPropertyName, item.Value.GetDirtyValue());
+                    SetField(t, c, item.targetPropertyName, item.Value.GetValue());
                 }
             }
         }

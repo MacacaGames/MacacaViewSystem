@@ -100,27 +100,28 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     temp.overrideData.targetComponentType = target.GetType().ToString();
 
                     PropertyOverride overProperty = new PropertyOverride();
-                    overProperty.SetType(PropertyOverride.S_Type._color);
-                    overProperty.ColorValue = sp.colorValue;
+                    Color color = new Color();
+
 
                     foreach (var i in groupedByProperty[property])
                     {
                         switch (i.propertyPath.Split('.').Last().ToLower())
                         {
                             case "r":
-                                overProperty.ColorValue.r = float.Parse(i.value);
+                                color.r = float.Parse(i.value);
                                 continue;
                             case "g":
-                                overProperty.ColorValue.g = float.Parse(i.value);
+                                color.g = float.Parse(i.value);
                                 continue;
                             case "b":
-                                overProperty.ColorValue.b = float.Parse(i.value);
+                                color.b = float.Parse(i.value);
                                 continue;
                             case "a":
-                                overProperty.ColorValue.a = float.Parse(i.value);
+                                color.a = float.Parse(i.value);
                                 continue;
                         }
                     }
+                    overProperty.SetValue(color);
                     //Debug.Log(overProperty.ColorValue);
                     temp.overrideData.Value = overProperty;
                     temp.displayName = sp.displayName;
@@ -257,25 +258,25 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 switch (type)
                 {
                     case SerializedPropertyType.Float:
-                        GUILayout.Box(overrideData.Value.FloatValue.ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
+                        GUILayout.Box(overrideData.Value.GetValue().ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                         break;
                     case SerializedPropertyType.Integer:
-                        GUILayout.Box(overrideData.Value.IntValue.ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
+                        GUILayout.Box(overrideData.Value.GetValue().ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                         break;
                     case SerializedPropertyType.String:
                         GUILayout.Box(new GUIContent("\"" + overrideData.Value.StringValue + "\"", overrideData.Value.StringValue), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                         break;
                     case SerializedPropertyType.Boolean:
-                        GUILayout.Box(overrideData.Value.BooleanValue.ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
+                        GUILayout.Box(overrideData.Value.GetValue().ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                         break;
                     case SerializedPropertyType.Color:
                         using (var disable = new EditorGUI.DisabledGroupScope(true))
                         {
-                            EditorGUILayout.ColorField(overrideData.Value.ColorValue, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
+                            EditorGUILayout.ColorField((Color)overrideData.Value.GetValue(), GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                         }
                         break;
                     case SerializedPropertyType.LayerMask:
-                        GUILayout.Box(overrideData.Value.IntValue.ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
+                        GUILayout.Box(overrideData.Value.GetValue().ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                         break;
                     case SerializedPropertyType.ObjectReference:
                         using (var disable = new EditorGUI.DisabledGroupScope(true))

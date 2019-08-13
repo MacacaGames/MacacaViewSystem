@@ -46,19 +46,22 @@ namespace CloudMacaca.ViewSystem
             switch (Target.propertyType)
             {
                 case SerializedPropertyType.Float:
-                    overProperty.FloatValue = EditorGUI.FloatField(rect, content, overProperty.FloatValue);
+                    overProperty.SetValue(EditorGUI.FloatField(rect, content, (float)overProperty.GetValue()));
                     break;
                 case SerializedPropertyType.Integer:
-                    overProperty.IntValue = EditorGUI.IntField(rect, content, overProperty.IntValue);
+                    overProperty.SetValue(EditorGUI.IntField(rect, content, (int)overProperty.GetValue()));
+                    //overProperty.IntValue = EditorGUI.IntField(rect, content, overProperty.IntValue);
                     break;
                 case SerializedPropertyType.String:
                     overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
                     break;
                 case SerializedPropertyType.Boolean:
-                    overProperty.BooleanValue = EditorGUI.Toggle(rect, content, overProperty.BooleanValue);
+                    overProperty.SetValue(EditorGUI.Toggle(rect, content, (bool)overProperty.GetValue()));
+                    //overProperty.BooleanValue = EditorGUI.Toggle(rect, content, overProperty.BooleanValue);
                     break;
                 case SerializedPropertyType.Color:
-                    overProperty.ColorValue = EditorGUI.ColorField(rect, content, overProperty.ColorValue);
+                    overProperty.SetValue(EditorGUI.ColorField(rect, content, (Color)overProperty.GetValue()));
+                    //overProperty.ColorValue = EditorGUI.ColorField(rect, content, overProperty.ColorValue);
                     break;
                 case SerializedPropertyType.ObjectReference:
                     overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, GetPropertyType(Target), false);
@@ -66,35 +69,35 @@ namespace CloudMacaca.ViewSystem
             }
             return EditorGUI.EndChangeCheck();
         }
-       
+
         public static PropertyOverride GetValue(SerializedPropertyType type, PropertyModification modification)
         {
             PropertyOverride overProperty = new PropertyOverride();
             switch (type)
             {
                 case SerializedPropertyType.Float:
-                    overProperty.FloatValue = float.Parse(modification.value);
-                    overProperty.SetType(PropertyOverride.S_Type._float);
+                    overProperty.SetValue(float.Parse(modification.value));
+                    //overProperty.SetType(PropertyOverride.S_Type._float);
                     break;
                 case SerializedPropertyType.Integer:
-                    overProperty.IntValue = int.Parse(modification.value);
-                    overProperty.SetType(PropertyOverride.S_Type._float);
+                    overProperty.SetValue(int.Parse(modification.value));
+                    //overProperty.SetType(PropertyOverride.S_Type._float);
                     break;
                 case SerializedPropertyType.String:
                     overProperty.StringValue = modification.value;
-                    overProperty.SetType(PropertyOverride.S_Type._string);
+                    //overProperty.SetType(PropertyOverride.S_Type._string);
                     break;
                 case SerializedPropertyType.Boolean:
-                    overProperty.BooleanValue = modification.value == "0" ? false : true;
-                    overProperty.SetType(PropertyOverride.S_Type._bool);
+                    overProperty.SetValue(modification.value == "0" ? false : true);
+                    //overProperty.SetType(PropertyOverride.S_Type._bool);
                     break;
                 case SerializedPropertyType.Color:
-                    overProperty.ColorValue = new Color();
-                    overProperty.SetType(PropertyOverride.S_Type._color);
+                    overProperty.SetValue(new Color());
+                    //overProperty.SetType(PropertyOverride.S_Type._color);
                     break;
                 case SerializedPropertyType.ObjectReference:
-                    overProperty.ObjectReferenceValue = modification.objectReference;
-                    overProperty.SetType(PropertyOverride.S_Type._objcetReferenct);
+                    overProperty.SetValue(modification.objectReference);
+                    //overProperty.SetType(PropertyOverride.S_Type._objcetReferenct);
                     break;
             }
 
@@ -108,28 +111,28 @@ namespace CloudMacaca.ViewSystem
             switch (property.propertyType)
             {
                 case SerializedPropertyType.Float:
-                    overProperty.FloatValue = property.floatValue;
-                    overProperty.SetType(PropertyOverride.S_Type._float);
+                    overProperty.SetValue(property.floatValue);
+                    //overProperty.SetType(PropertyOverride.S_Type._float);
                     break;
                 case SerializedPropertyType.Integer:
-                    overProperty.IntValue = property.intValue;
-                    overProperty.SetType(PropertyOverride.S_Type._float);
+                    overProperty.SetValue(property.intValue);
+                    //overProperty.SetType(PropertyOverride.S_Type._float);
                     break;
                 case SerializedPropertyType.String:
                     overProperty.StringValue = property.stringValue;
-                    overProperty.SetType(PropertyOverride.S_Type._string);
+                    //overProperty.SetType(PropertyOverride.S_Type._string);
                     break;
                 case SerializedPropertyType.Boolean:
-                    overProperty.BooleanValue = property.boolValue;
-                    overProperty.SetType(PropertyOverride.S_Type._bool);
+                    overProperty.SetValue(property.boolValue);
+                    //overProperty.SetType(PropertyOverride.S_Type._bool);
                     break;
                 case SerializedPropertyType.Color:
-                    overProperty.ColorValue = property.colorValue;
-                    overProperty.SetType(PropertyOverride.S_Type._color);
+                    overProperty.SetValue(property.colorValue);
+                    //overProperty.SetType(PropertyOverride.S_Type._color);
                     break;
                 case SerializedPropertyType.ObjectReference:
                     overProperty.ObjectReferenceValue = property.objectReferenceValue;
-                    overProperty.SetType(PropertyOverride.S_Type._objcetReferenct);
+                    //overProperty.SetType(PropertyOverride.S_Type._objcetReferenct);
                     break;
             }
 

@@ -81,18 +81,18 @@ namespace CloudMacaca.ViewSystem
     [System.Serializable]
     public class PropertyOverride
     {
-        public object GetDirtyValue()
+        public object GetValue()
         {
             switch (s_Type)
             {
                 case S_Type._bool:
-                    return BooleanValue;
+                    return System.Convert.ToBoolean(StringValue);
                 case S_Type._float:
-                    return FloatValue;
+                    return (float)System.Convert.ToDouble(StringValue);
                 case S_Type._int:
-                    return IntValue;
+                    return System.Convert.ToInt32(StringValue);
                 case S_Type._color:
-                    return ColorValue;
+                    return ColorUtility.TryParseHtmlString("#" + StringValue, out Color c) ? c : Color.black;
                 case S_Type._objcetReferenct:
                     return ObjectReferenceValue;
                 case S_Type._string:
@@ -101,6 +101,57 @@ namespace CloudMacaca.ViewSystem
                     return null;
             }
         }
+        public void SetValue(object value)
+        {
+            bool toStringDirectly = true;
+            if (value is int || value is long)
+            {
+                s_Type = S_Type._int;
+            }
+            else if (value is float || value is double)
+            {
+                s_Type = S_Type._float;
+            }
+            else if (value is bool)
+            {
+                s_Type = S_Type._bool;
+            }
+            else if (value is Color)
+            {
+                s_Type = S_Type._color;
+                StringValue = ColorUtility.ToHtmlStringRGBA((Color)value);
+                toStringDirectly = false;
+            }
+            else if (value.GetType().IsSubclassOf(typeof(UnityEngine.Object)) ||
+                    value.GetType().IsAssignableFrom(typeof(UnityEngine.Object)))
+            {
+                s_Type = S_Type._objcetReferenct;
+                ObjectReferenceValue = (UnityEngine.Object)value;
+                toStringDirectly = false;
+            }
+            if (toStringDirectly) StringValue = value.ToString();
+        }
+
+        // public object GetDirtyValue()
+        // {
+        //     switch (s_Type)
+        //     {
+        //         case S_Type._bool:
+        //             return BooleanValue;
+        //         case S_Type._float:
+        //             return FloatValue;
+        //         case S_Type._int:
+        //             return IntValue;
+        //         case S_Type._color:
+        //             return ColorValue;
+        //         case S_Type._objcetReferenct:
+        //             return ObjectReferenceValue;
+        //         case S_Type._string:
+        //             return StringValue;
+        //         default:
+        //             return null;
+        //     }
+        // }
 
         public void SetType(S_Type t)
         {
@@ -113,17 +164,17 @@ namespace CloudMacaca.ViewSystem
         public S_Type s_Type;
         // public AnimationCurve AnimationCurveValue;
 
-        public bool BooleanValue;
+        //public bool BooleanValue;
 
         //public Bounds BoundsValue;
 
-        public Color ColorValue;
+        //public Color ColorValue;
 
         //public double DoubleValue;
 
-        public float FloatValue;
+        //public float FloatValue;
 
-        public int IntValue;
+        //public int IntValue;
 
         //public long LongValue;
 
