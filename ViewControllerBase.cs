@@ -54,7 +54,7 @@ namespace CloudMacaca.ViewSystem
             }
             else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
             {
-                Debug.LogError("Page is in Transition but AutoWaitPreviousPageFinish");
+                Debug.LogError("Page is in Transition but AutoWaitPreviousPageFinish Leaving page is " + currentViewPage.name + " Entering page is " + nextViewPage.name + " next page is " + targetViewPageName);
                 ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnComplete));
                 return ChangePageToCoroutine;
             }
