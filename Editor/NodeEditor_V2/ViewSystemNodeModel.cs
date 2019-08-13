@@ -445,11 +445,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         public void Draw()
         {
+            Vector2 startPoint = viewPageNode.nodeConnectionLinker.rect.center;
+            startPoint.y -= viewPageNode.nodeConnectionLinker.rect.height * 0.45f;
+            Vector2 endPoint = viewStateNode.nodeConnectionLinker.rect.center;
+            endPoint.y += viewStateNode.nodeConnectionLinker.rect.height * 0.4f;
+
             Handles.DrawBezier(
-                viewPageNode.nodeConnectionLinker.rect.center,
-                viewStateNode.nodeConnectionLinker.rect.center,
-                viewPageNode.nodeConnectionLinker.rect.center,
-                viewStateNode.nodeConnectionLinker.rect.center,
+                startPoint,
+                endPoint,
+                startPoint,
+                endPoint,
                 Color.gray,
                 null,
                 4f
@@ -460,7 +465,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             // Handles.color = Color.white;
             // Handles.EndGUI();
 
-            var pos = (viewPageNode.nodeConnectionLinker.rect.center + viewStateNode.nodeConnectionLinker.rect.center) * 0.5f;
+            var pos = Vector2.Lerp(startPoint, endPoint, 0.5f);
             if (GUI.Button(new Rect(pos.x - 8, pos.y - 8, 16, 16), EditorGUIUtility.FindTexture("d_winbtn_mac_close_h"), GUIStyle.none))
             {
                 viewPageNode.viewPage.viewState = "";

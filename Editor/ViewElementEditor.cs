@@ -85,22 +85,8 @@ namespace CloudMacaca.ViewSystem
             {
                 if (fade.visible)
                 {
-                    using (var check = new EditorGUI.ChangeCheckScope())
-                    {
-                        viewElement.IsUnique = EditorGUILayout.Toggle("Is Unique", viewElement.IsUnique);
-                        if (check.changed)
-                        {
-                            if (viewElement.IsUnique == false)
-                            {
-                                viewElement.Injection = false;
-                            }
-                        }
-                    }
+                    viewElement.IsUnique = EditorGUILayout.Toggle("Is Unique", viewElement.IsUnique);
 
-                    using (var disable = new EditorGUI.DisabledGroupScope(!viewElement.IsUnique))
-                    {
-                        viewElement.Injection = EditorGUILayout.Toggle(new GUIContent("Injection", "Injection will auto inject all Component which inherit form IViewElementInjectalbe"), viewElement.Injection);
-                    }
                     if (viewElement.IsUnique)
                     {
                         hintText = "Note : Injection will make target component into Singleton, if there is mutil several same component been inject, you will only be able to get the last injection";

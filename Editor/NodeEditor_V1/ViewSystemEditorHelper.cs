@@ -45,25 +45,28 @@ public static class RectExtensions
 
 public class EditorZoomArea
 {
-  private const float kEditorWindowTabHeight = 21.0f;
+    private const float kEditorWindowTabHeight = 21.0f;
     private static Matrix4x4 _prevGuiMatrix;
- 
+
     public static Rect Begin(float zoomScale, Rect screenCoordsArea)
     {
         GUI.EndGroup();        // End the group Unity begins automatically for an EditorWindow to clip out the window tab. This allows us to draw outside of the size of the EditorWindow.
- 
+        var mouse = Event.current.mousePosition;
         Rect clippedArea = screenCoordsArea.ScaleSizeBy(1.0f / zoomScale, screenCoordsArea.TopLeft());
-        clippedArea.y += kEditorWindowTabHeight;
+        // clippedArea.y += mouse.y;
+        // clippedArea.x += mouse.x;
         GUI.BeginGroup(clippedArea);
- 
+
         _prevGuiMatrix = GUI.matrix;
-        Matrix4x4 translation = Matrix4x4.TRS(clippedArea.TopLeft(), Quaternion.identity, Vector3.one);
-        Matrix4x4 scale = Matrix4x4.Scale(new Vector3(zoomScale, zoomScale, 1.0f));
-        GUI.matrix = translation * scale * translation.inverse * GUI.matrix;
- 
-        return clippedArea;
+        var pos = clippedArea.TopLeft();
+        // pos.x -= mouse.x;
+        // pos.y -= mouse.y;
+        Matrix4x4 translation = Matrix4x4.TRS(pos, Quaternion.identity, new Vector3(zoomScale, zoomScale, 1.0f));
+        GUI.matrix = translation * GUI.matrix;
+
+        return screenCoordsArea;
     }
- 
+
     public static void End()
     {
         GUI.matrix = _prevGuiMatrix;

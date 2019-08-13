@@ -462,17 +462,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     ViewSystemNodeGlobalSettingWindow.showGlobalSetting = GUILayout.Toggle(ViewSystemNodeGlobalSettingWindow.showGlobalSetting, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("SceneViewTools")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
                     GUILayout.FlexibleSpace();
-                    GUILayout.Label(new GUIContent(zoomIcon, "Zoom"));
+                    GUILayout.Label(new GUIContent(zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, 0.1f, 1, GUILayout.Width(120));
 
-                    GUILayout.Label("ViewState:");
-                    int newIndex = EditorGUILayout.Popup(currentIndex, viewStatesPopup.ToArray(),
-                        EditorStyles.toolbarPopup, GUILayout.Width(80));
-                    if (newIndex != currentIndex)
-                    {
-                        currentIndex = newIndex;
-                        targetViewState = viewStatesPopup[currentIndex];
-                    }
+                    // GUILayout.Label("ViewState:");
+                    // int newIndex = EditorGUILayout.Popup(currentIndex, viewStatesPopup.ToArray(),
+                    //     EditorStyles.toolbarPopup, GUILayout.Width(80));
+                    // if (newIndex != currentIndex)
+                    // {
+                    //     currentIndex = newIndex;
+                    //     targetViewState = viewStatesPopup[currentIndex];
+                    // }
 
                     if (GUILayout.Button(new GUIContent("Baked to Scritpable", bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton))
                     {

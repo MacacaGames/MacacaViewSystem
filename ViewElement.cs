@@ -17,7 +17,6 @@ namespace CloudMacaca.ViewSystem
         public static ViewElementPool viewElementPool;
         public string PoolKey;
         public bool IsUnique = false;
-        public bool Injection = false;
 
         private ViewRuntimeOverride runtimeOverride;
         public void ApplyEvent(IEnumerable<ViewElementEventData> eventDatas)

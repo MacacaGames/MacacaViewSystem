@@ -175,6 +175,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     continue;
                 }
+             
                 var r = runtimePool.PrewarmUniqueViewElement(item);
                 if (r != null)
                 {
@@ -199,6 +200,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     continue;
                 }
+              
                 var r = runtimePool.PrewarmUniqueViewElement(item);
                 if (r != null)
                 {
@@ -504,6 +506,7 @@ namespace CloudMacaca.ViewSystem
                 OnComplete();
             }
         }
+        int lastFrameRate;
         void UpdateCurrentViewStateAndNotifyEvent(ViewPage vp)
         {
             nextViewPage = null;
@@ -518,7 +521,17 @@ namespace CloudMacaca.ViewSystem
             {
                 lastViewState = currentViewState;
                 currentViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-                Application.targetFrameRate = currentViewState.targetFrameRate;
+
+                if (currentViewState.targetFrameRate != -1 &&
+                    Application.targetFrameRate > currentViewState.targetFrameRate)
+                {
+                    lastFrameRate = Application.targetFrameRate;
+                    Application.targetFrameRate = Mathf.Clamp(currentViewState.targetFrameRate, 15, 60);
+                }
+                else if (currentViewState.targetFrameRate == -1)
+                {
+                    Application.targetFrameRate = lastFrameRate;
+                }
 
                 InvokeOnViewStateChange(this, new ViewStateEventArgs(currentViewState, lastViewState));
             }
