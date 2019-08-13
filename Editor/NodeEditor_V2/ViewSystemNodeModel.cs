@@ -17,11 +17,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public NodeType nodeType;
         public System.Action<IEnumerable<ViewSystemNodeLine>> OnNodeDelete;
         public System.Action<ViewSystemNode> OnNodeSelect;
-        public System.Action<Vector2> OnDrag;
         public string name;
         protected static int currentMaxId = 0;
         public Rect rect;
-        public Rect clickContainRect = Rect.zero;
+        protected Rect drawRect;
         const int lableHeight = 15;
         GUIStyle titleStyle;
         static GUIStyle _TextBarStyle;
@@ -107,14 +106,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public virtual void Draw() { }
         public virtual void SetupNode() { }
         protected string nodeStyleString = "";
+        private Vector2 editorViewPortScroll => ViewSystemNodeEditor.viewPortScroll;
         protected void DrawNode(string _name)
         {
             this.name = _name;
+            drawRect = rect;
+            drawRect.x += editorViewPortScroll.x;
+            drawRect.y += editorViewPortScroll.y;
+
             //Draw Linker
-            if (nodeConnectionLinker != null) nodeConnectionLinker.Draw(rect);
-            if (nodeType == ViewStateNode.NodeType.FullPage || nodeType == ViewStateNode.NodeType.Overlay)
-            {
-            }
+            if (nodeConnectionLinker != null) nodeConnectionLinker.Draw(drawRect);
+            // if (nodeType == ViewStateNode.NodeType.FullPage || nodeType == ViewStateNode.NodeType.Overlay)
+            // {
+            // }
             if (nodeType == ViewStateNode.NodeType.ViewState)
             {
                 GUI.depth = -1;
@@ -122,11 +126,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             if (isSelect)
             {
-                GUI.Box(rect, "", new GUIStyle(nodeStyleString + " on"));
+                GUI.Box(drawRect, "", new GUIStyle(nodeStyleString + " on"));
             }
             else
             {
-                GUI.Box(rect, "", new GUIStyle(nodeStyleString));
+                GUI.Box(drawRect, "", new GUIStyle(nodeStyleString));
             }
 
             //Ttiel
@@ -135,36 +139,23 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 if (name.Length > 26) titleStyle = new GUIStyle("MiniLabel");
                 else if (name.Length > 15) titleStyle = new GUIStyle("ControlLabel");
                 else titleStyle = new GUIStyle("DefaultCenteredLargeText");
-                GUI.Label(new Rect(rect.x, rect.y + 5, rect.width, 16), name, titleStyle);
+                GUI.Label(new Rect(drawRect.x, drawRect.y + 5, drawRect.width, 16), name, titleStyle);
             }
 
             //Type Bar
-            GUI.Label(new Rect(rect.x, rect.y + rect.height - 20, rect.width, 16), "  " + nodeType.ToString(), TextBarStyle);
-
-
+            GUI.Label(new Rect(drawRect.x, drawRect.y + drawRect.height - 20, drawRect.width, 16), "  " + nodeType.ToString(), TextBarStyle);
 
             if (ProcessEvents(Event.current))
             {
                 GUI.changed = true;
             }
-
         }
         public void Drag(Vector2 delta)
         {
-            if (ViewSystemNodeGlobalSettingWindow.showGlobalSetting)
-            {
-                return;
-            }
             rect = new Rect(rect.x + delta.x, rect.y + delta.y, rect.width, rect.height);
-            OnDrag?.Invoke(new Vector2(rect.x, rect.y));
         }
 
-        public bool isMouseInside(Vector2 mousePosition)
-        {
-            Debug.Log(rect);
-            Debug.Log(mousePosition);
-            return rect.Contains(mousePosition);
-        }
+
         public bool isSelect = false; public bool isDragged;
         public bool IsInactivable
         {
@@ -182,7 +173,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 return false;
             }
-            bool isMouseInNode = rect.Contains(e.mousePosition) || clickContainRect.Contains(e.mousePosition);
+            bool isMouseInNode = drawRect.Contains(e.mousePosition); 
 
             switch (e.type)
             {
@@ -232,10 +223,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 case EventType.MouseDrag:
                     if (e.button == 0 && isSelect)
                     {
-                        if (clickContainRect != Rect.zero && clickContainRect.Contains(e.mousePosition))
-                        {
-                            return false;
-                        }
+
                         Drag(e.delta);
                         if (this is ViewStateNode)
                         {
@@ -310,7 +298,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public override void Draw()
         {
             DrawNode(viewPage.name);
-            var btnRect = new Rect(rect.x, rect.y + rect.height - 40, rect.width, 18);
+            var btnRect = new Rect(drawRect.x, drawRect.y + drawRect.height - 40, drawRect.width, 18);
             if (GUI.Button(btnRect, "Preview", new GUIStyle("ObjectPickerResultsEven")))
             {
                 if (IsInactivable == false) return;

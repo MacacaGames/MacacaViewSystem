@@ -88,9 +88,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         List<ViewStateNode> viewStateList = new List<ViewStateNode>();
         List<ViewSystemNodeLine> nodeConnectionLineList = new List<ViewSystemNodeLine>();
         public ViewSystemNodeConsole console;
-        public float zoomScale = 1.0f;
-        Vector2 vanishingPoint = new Vector2(0, 21);
+        public static float zoomScale = 1.0f;
         Rect zoomArea;
+        public static Vector2 viewPortScroll;
+        Vector2 zoomScaleMinMax = new Vector2(0.25f, 1);
+        protected virtual void DoZoom(float delta, Vector2 center)
+        {
+            var prevZoom = zoomScale;
+            zoomScale += delta;
+            zoomScale = Mathf.Clamp(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y);
+            var deltaSize = position.size / prevZoom - position.size / zoomScale;
+            var offset = -Vector2.Scale(deltaSize, center);
+            viewPortScroll += offset;
+            //forceRepaintCount = 1;
+        }
         void OnGUI()
         {
 
@@ -99,9 +110,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             zoomArea.y = menuBarHeight;
             zoomArea.x = 0;
 
-            EditorZoomArea.Begin(zoomScale, zoomArea);
-            DrawGrid(20, 0.2f, Color.gray, zoomScale);
-            DrawGrid(100, 0.4f, Color.gray, zoomScale);
+            Rect scriptViewRect = new Rect(0, 0, this.position.width / zoomScale, this.position.height / zoomScale);
+
+            EditorZoomArea.Begin(zoomScale, scriptViewRect);
+            // DrawGrid(20, 0.2f, Color.gray, zoomScale);
+            // DrawGrid(100, 0.4f, Color.gray, zoomScale);
+            DrawGrid();
             foreach (var item in nodeConnectionLineList.ToArray())
             {
                 item.Draw();
@@ -153,9 +167,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     break;
                 case EventType.ScrollWheel:
                     //OnDrag(e.delta * -1);
-                    float target = zoomScale - e.delta.y * 0.1f;
-                    zoomScale = Mathf.Clamp(target, 0.1f, 1f);
-                    GUI.changed = true;
+                    // float target = zoomScale - e.delta.y * 0.1f;
+                    // zoomScale = Mathf.Clamp(target, 0.1f, 1f);
+                    // GUI.changed = true;
+                    Vector2 zoomCenter;
+                    zoomCenter.x = e.mousePosition.x / zoomScale / position.width;
+                    zoomCenter.y = e.mousePosition.y / zoomScale / position.height;
+                    zoomCenter *= zoomScale;
+                    DoZoom(-e.delta.y * 0.01f, zoomCenter);
+                    e.Use();
                     break;
                 case EventType.MouseDown:
                     if (selectedViewPageNode != null || selectedViewStateNode != null)
@@ -381,46 +401,77 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         private void OnDrag(Vector2 delta)
         {
-            drag = delta * 1 / zoomScale;
-            foreach (var item in viewPageList)
-            {
-                item.Drag(delta * zoomScale);
-            }
-            foreach (var item in viewStateList)
-            {
-                item.Drag(delta * zoomScale);
-            }
+            viewPortScroll += delta / zoomScale;
             GUI.changed = true;
+            // drag = delta * 1 / zoomScale;
+            // foreach (var item in viewPageList)
+            // {
+            //     item.Drag(delta * zoomScale);
+            // }
+            // foreach (var item in viewStateList)
+            // {
+            //     item.Drag(delta * zoomScale);
+            // }
+            // GUI.changed = true;
         }
-
 
         int nodeId = 0;
 
         private Vector2 drag;
         private Vector2 offset;
-        private void DrawGrid(float gridSpacing, float gridOpacity, Color gridColor, float zoomScale)
+        protected void DrawGrid()
         {
-            int widthDivs = Mathf.CeilToInt(position.width * 1 / zoomScale / gridSpacing);
-            int heightDivs = Mathf.CeilToInt(position.height * 1 / zoomScale / gridSpacing);
-            Handles.BeginGUI();
-            Handles.color = new Color(gridColor.r, gridColor.g, gridColor.b, gridOpacity);
+            float width = this.position.width / zoomScale;
+            float height = this.position.height / zoomScale;
+            Color c = Color.gray;
+            c.a = 0.5f;
+            Handles.color = c;
 
-            offset += drag * 0.5f * zoomScale;
-            Vector3 newOffset = new Vector3(offset.x % gridSpacing, offset.y % gridSpacing, 0);
 
-            for (int i = 0; i < widthDivs; i++)
+            float gridSize = 32f;
+
+            float x = viewPortScroll.x % gridSize;
+            while (x < width)
             {
-                Handles.DrawLine(new Vector3(gridSpacing * i, -gridSpacing, 0) + newOffset, new Vector3(gridSpacing * i, position.height * 1 / zoomScale, 0f) + newOffset);
+                Handles.DrawLine(new Vector2(x, 0), new Vector2(x, height));
+                x += gridSize;
             }
 
-            for (int j = 0; j < heightDivs; j++)
+            float y = (viewPortScroll.y % gridSize);
+            while (y < height)
             {
-                Handles.DrawLine(new Vector3(-gridSpacing, gridSpacing * j, 0) + newOffset, new Vector3(position.width * 1 / zoomScale, gridSpacing * j, 0f) + newOffset);
+                if (y >= 0)
+                {
+                    Handles.DrawLine(new Vector2(0, y), new Vector2(width, y));
+                }
+                y += gridSize;
             }
 
             Handles.color = Color.white;
-            Handles.EndGUI();
         }
+        // private void DrawGrid(float gridSpacing, float gridOpacity, Color gridColor, float zoomScale)
+        // {
+        //     int widthDivs = Mathf.CeilToInt(position.width * 1 / zoomScale / gridSpacing);
+        //     int heightDivs = Mathf.CeilToInt(position.height * 1 / zoomScale / gridSpacing);
+        //     Handles.BeginGUI();
+        //     Handles.color = new Color(gridColor.r, gridColor.g, gridColor.b, gridOpacity);
+
+        //     offset += drag * 0.5f * zoomScale;
+        //     Vector3 newOffset = new Vector3(offset.x % gridSpacing, offset.y % gridSpacing, 0);
+
+        //     for (int i = 0; i < widthDivs; i++)
+        //     {
+        //         Handles.DrawLine(new Vector3(gridSpacing * i, -gridSpacing, 0) + newOffset, new Vector3(gridSpacing * i, position.height * 1 / zoomScale, 0f) + newOffset);
+        //     }
+
+        //     for (int j = 0; j < heightDivs; j++)
+        //     {
+        //         Handles.DrawLine(new Vector3(-gridSpacing, gridSpacing * j, 0) + newOffset, new Vector3(position.width * 1 / zoomScale, gridSpacing * j, 0f) + newOffset);
+        //     }
+
+        //     Handles.color = Color.white;
+        //     Handles.EndGUI();
+        // }
 
         private float menuBarHeight = 20f;
         private Rect menuBar;
@@ -463,7 +514,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(zoomIcon, "Zoom"), GUIStyle.none);
-                    zoomScale = EditorGUILayout.Slider(zoomScale, 0.1f, 1, GUILayout.Width(120));
+                    zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));
 
                     // GUILayout.Label("ViewState:");
                     // int newIndex = EditorGUILayout.Popup(currentIndex, viewStatesPopup.ToArray(),
