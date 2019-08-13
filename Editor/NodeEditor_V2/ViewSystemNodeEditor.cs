@@ -156,13 +156,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         private void ProcessEvents(Event e)
         {
             drag = Vector2.zero;
-
             switch (e.type)
             {
                 case EventType.MouseDrag:
-                    if (e.button == 2 && zoomArea.Contains(e.mousePosition))
+                    if (e.button == 2)
                     {
-                        OnDrag(e.delta * 1 / zoomScale);
+                        if (zoomArea.Contains(e.mousePosition))
+                        {
+                            OnDrag(e.delta * 1 / zoomScale);
+                        }
                     }
                     break;
                 case EventType.ScrollWheel:
@@ -194,19 +196,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         genericMenu.AddItem(new GUIContent("Add FullPage"), false,
                             () =>
                             {
-                                AddViewPageNode(e.mousePosition, false);
+                                AddViewPageNode(e.mousePosition * 1 / zoomScale - viewPortScroll, false);
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Add OverlayPage"), false,
                             () =>
                             {
-                                AddViewPageNode(e.mousePosition, true);
+                                AddViewPageNode(e.mousePosition * 1 / zoomScale - viewPortScroll, true);
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Add ViewState"), false,
                             () =>
                             {
-                                AddViewStateNode(e.mousePosition);
+                                AddViewStateNode(e.mousePosition * 1 / zoomScale - viewPortScroll);
                             }
                         );
                         genericMenu.ShowAsContext();

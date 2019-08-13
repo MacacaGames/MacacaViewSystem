@@ -192,12 +192,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             foreach (var item in viewPageNodes)
             {
+                if (string.IsNullOrEmpty(item.viewPage.name))
+                {
+                    continue;
+                }
                 var vp = data.viewPages.SingleOrDefault(m => m.viewPage.name == item.viewPage.name);
                 vp.nodePosition = new Vector2(item.rect.x, item.rect.y);
             }
 
             foreach (var item in viewStateNodes)
             {
+                if (string.IsNullOrEmpty(item.viewState.name))
+                {
+                    continue;
+                }
                 var vs = data.viewStates.SingleOrDefault(m => m.viewState.name == item.viewState.name);
                 vs.nodePosition = new Vector2(item.rect.x, item.rect.y);
             }
