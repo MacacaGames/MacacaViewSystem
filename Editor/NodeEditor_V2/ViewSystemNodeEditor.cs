@@ -18,7 +18,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static Texture2D bakeScritpIcon;
         static ViewSystemNodeEditor window;
         static IViewSystemDateReader dataReader;
-        static ViewSystemNodeInspector sideBar;
+        static ViewSystemNodeInspector inspector;
         static ViewSystemNodeGlobalSettingWindow globalSettingWindow;
         public OverridePopupWindow overridePopupWindow;
         public static ViewSystemSaveData saveData;
@@ -53,7 +53,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             saveData = ((ViewSystemDataReaderV2)dataReader).GetGlobalSetting();
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemNodeGlobalSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
-            overridePopupWindow = new OverridePopupWindow(this, sideBar);
+            overridePopupWindow = new OverridePopupWindow(this, inspector);
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
             viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));
@@ -72,7 +72,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         void OnFocus()
         {
             if (console == null) console = new ViewSystemNodeConsole();
-            if (sideBar == null) sideBar = new ViewSystemNodeInspector(this);
+            if (inspector == null) inspector = new ViewSystemNodeInspector(this);
             if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
             if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture("CustomSorting");
             if (bakeScritpIcon == null) bakeScritpIcon = EditorGUIUtility.FindTexture("cs Script Icon") as Texture2D;
@@ -119,8 +119,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             GUI.depth = -100;
             DrawMenuBar();
 
-            if (console.showConsole) console.Draw(new Vector2(position.width, position.height));
-            if (showSideBar) sideBar.Draw();
+            if (console.show) console.Draw(new Vector2(position.width, position.height));
+            if (inspector.show) inspector.Draw();
 
             BeginWindows();
             if (globalSettingWindow != null)
@@ -164,7 +164,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
                     if (e.button == 1)
                     {
-                        if (sideBar.isMouseInSideBar() && showSideBar)
+                        if (ViewSystemNodeInspector.isMouseInSideBar() && inspector.show)
                         {
                             return;
                         }
@@ -199,7 +199,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var node = new ViewStateNode(position, CheckCanMakeConnect, viewState);
             node.OnNodeSelect += (m) =>
             {
-                sideBar.SetCurrentSelectItem(m);
+                inspector.SetCurrentSelectItem(m);
             };
             node.OnNodeDelete += (line) =>
             {
@@ -236,7 +236,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             };
             node.OnNodeSelect += (m) =>
             {
-                sideBar.SetCurrentSelectItem(m);
+                inspector.SetCurrentSelectItem(m);
             };
             node.OnNodeDelete += (line) =>
             {
@@ -423,7 +423,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         private float menuBarHeight = 20f;
         private Rect menuBar;
-        bool showSideBar = true;
         int currentIndex = 0;
         List<string> viewStatesPopup = new List<string>();
         string targetViewState;
@@ -454,10 +453,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         RefreshData();
                     }
                     GUILayout.Space(5);
-                    showSideBar = GUILayout.Toggle(showSideBar, new GUIContent(sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+                    inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
 
                     GUILayout.Space(5);
-                    console.showConsole = GUILayout.Toggle(console.showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+                    console.show = GUILayout.Toggle(console.show, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
                     GUILayout.Space(5);
                     ViewSystemNodeGlobalSettingWindow.showGlobalSetting = GUILayout.Toggle(ViewSystemNodeGlobalSettingWindow.showGlobalSetting, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("SceneViewTools")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 

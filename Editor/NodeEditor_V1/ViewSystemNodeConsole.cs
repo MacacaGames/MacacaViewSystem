@@ -7,7 +7,7 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewSystemNodeConsole
     {
-        public bool showConsole = true;
+        public bool show = true;
 
         public struct ConsoleMsg
         {
@@ -48,7 +48,7 @@ namespace CloudMacaca.ViewSystem
         GUIStyle iconStyle;
         public void Draw(Vector2 EditorindowWidthAndHeight)
         {
-            if (!showConsole)
+            if (!show)
             {
                 return;
             }
@@ -110,7 +110,7 @@ namespace CloudMacaca.ViewSystem
             }
             if (GUI.Button(new Rect(rect.x + rect.width - 15, rect.y + 2, 15, menuBarHeight), new GUIContent(EditorGUIUtility.FindTexture("winbtn_win_close")), GUIStyle.none))
             {
-                showConsole = false;
+                show = false;
             }
         }
 

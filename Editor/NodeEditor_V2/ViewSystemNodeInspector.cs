@@ -14,16 +14,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
     {
         private ViewSystemNode currentSelectNode = null;
         ViewSystemNodeEditor editor;
+        public bool show = true;
         AnimBool showBasicInfo;
         AnimBool showViewPageItem;
         ReorderableList viewPageItemList;
         GUIStyle removeButtonStyle;
         OverridePopupWindow popWindow;
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
-        static GUIContent EditoModifyButton = new GUIContent(CloudMacaca.CMEditorUtility.TryGetEditorTexture("EditPencil"), "Show/Edit Modify");
+        static GUIContent EditoModifyButton = new GUIContent(EditorGUIUtility.FindTexture("_Popup"), "Show/Hide Modified Properties and Events");
         public ViewSystemNodeInspector(ViewSystemNodeEditor editor)
         {
             this.editor = editor;
+            show = true;
             showBasicInfo = new AnimBool(true);
             showBasicInfo.valueChanged.AddListener(this.editor.Repaint);
 
@@ -46,14 +48,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 excludePlatformOptions.Add(item.ToString());
             }
-      
+
         }
-        public bool isMouseInSideBar()
+        public static bool isMouseInSideBar()
         {
             return rect.Contains(Event.current.mousePosition);
         }
 
-        private Rect rect;
+        private static Rect rect;
         List<ViewPageItem> list;
         List<bool> editableLock = new List<bool>();
 
@@ -293,7 +295,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             veRect.x += veRect.width;
             veRect.width = 20;
 
-            if (GUI.Button(veRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow"),"Open in new Instpector tab"), new GUIStyle("AC ComponentButton")))
+            if (GUI.Button(veRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow"), "Open in new Instpector tab"), GUIStyle.none))
             {
                 if (list[index].viewElement == null)
                 {
@@ -303,7 +305,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 CloudMacaca.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
             }
             veRect.x += veRect.width;
-            if (GUI.Button(veRect, EditoModifyButton))
+            if (GUI.Button(veRect, EditoModifyButton, GUIStyle.none))
             {
                 if (list[index].viewElement == null)
                 {
@@ -502,7 +504,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         public void Draw()
         {
-            rect = new Rect(0, 20f, SideBarWidth, editor.position.height - 20f);
+            if (show)
+                rect = new Rect(0, 20f, SideBarWidth, editor.position.height - 20f);
+            else
+                rect = Rect.zero;
 
             GUILayout.BeginArea(rect, "", new GUIStyle("flow node 0"));
 

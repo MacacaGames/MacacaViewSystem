@@ -110,7 +110,7 @@ namespace CloudMacaca.ViewSystem
 
             GUI.depth = -100;
             DrawMenuBar();
-            if (console.showConsole) console.Draw(new Vector2(position.width, position.height));
+            if (console.show) console.Draw(new Vector2(position.width, position.height));
             if (showSideBar) sideBar.Draw();
 
             ProcessEvents(Event.current);
@@ -435,7 +435,7 @@ namespace CloudMacaca.ViewSystem
             showSideBar = GUILayout.Toggle(showSideBar, new GUIContent(sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
 
             GUILayout.Space(5);
-            console.showConsole = GUILayout.Toggle(console.showConsole, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+            console.show = GUILayout.Toggle(console.show, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
 
             GUILayout.FlexibleSpace();
             GUILayout.Label(new GUIContent(zoomIcon, "Zoom"));

@@ -110,7 +110,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         protected void DrawNode(string _name)
         {
             this.name = _name;
-
+            //Draw Linker
+            if (nodeConnectionLinker != null) nodeConnectionLinker.Draw(rect);
             if (nodeType == ViewStateNode.NodeType.FullPage || nodeType == ViewStateNode.NodeType.Overlay)
             {
             }
@@ -140,8 +141,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //Type Bar
             GUI.Label(new Rect(rect.x, rect.y + rect.height - 20, rect.width, 16), "  " + nodeType.ToString(), TextBarStyle);
 
-            //Draw Linker
-            if (nodeConnectionLinker != null) nodeConnectionLinker.Draw(rect);
+
 
             if (ProcessEvents(Event.current))
             {
@@ -170,7 +170,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             get
             {
-                return !(ViewSystemNodeGlobalSettingWindow.showGlobalSetting || OverridePopupWindow.show);
+                return !(
+                    ViewSystemNodeGlobalSettingWindow.showGlobalSetting ||
+                    OverridePopupWindow.show ||
+                    ViewSystemNodeInspector.isMouseInSideBar());
             }
         }
         public bool ProcessEvents(Event e)
@@ -297,10 +300,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             switch (nodeType)
             {
                 case NodeType.FullPage:
-                    nodeStyleString = "flow node 2";
+                    nodeStyleString = "flow node 3";
                     break;
                 case NodeType.Overlay:
-                    nodeStyleString = "flow node 0";
+                    nodeStyleString = "flow node 5";
                     break;
             }
         }
@@ -369,12 +372,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
     {
         //連結點所屬的節點
         public ViewSystemNode viewSystemNode;
-        const int ConnectNodeWidth = 20;
-        const int ConnectNodeHeight = 20;
+        const int ConnectNodeWidth = 28;
+        const int ConnectNodeHeight = 28;
         public Rect rect;
         public ConnectionPointType type;
         public GUIStyle style;
-        public GUIStyle dotStyle;
+        public GUIContent content;
         public Action<ViewSystemNode> OnConnectionPointClick;
 
         Texture2D ButtonBackground;
@@ -390,20 +393,22 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             switch (type)
             {
                 case ConnectionPointType.Up:
-                    rect = new Rect(target.x + target.width * 0.5f - ConnectNodeWidth * 0.5f, target.y + target.height, ConnectNodeWidth, ConnectNodeHeight);
-                    style = new GUIStyle("MeTransPlayhead");
-
+                    rect = new Rect(target.x + target.width * 0.5f - ConnectNodeWidth * 0.5f, target.y + target.height - ConnectNodeHeight * 0.5f, ConnectNodeWidth, ConnectNodeHeight);
+                    style = GUIStyle.none;
+                    content = new GUIContent(EditorGUIUtility.FindTexture("sv_icon_dot9_pix16_gizmo"));
+                    //winbtn_mac_min
                     break;
                 case ConnectionPointType.Down:
-                    rect = new Rect(target.x + target.width * 0.5f - ConnectNodeWidth * 0.5f, target.y - ConnectNodeHeight, ConnectNodeWidth, ConnectNodeHeight);
-                    style = new GUIStyle("ProfilerTimelineRollUpArrow");
+                    rect = new Rect(target.x + target.width * 0.5f - ConnectNodeWidth * 0.5f, target.y - ConnectNodeHeight * 0.5f, ConnectNodeWidth, ConnectNodeHeight);
+                    style = GUIStyle.none;
+                    content = new GUIContent(EditorGUIUtility.FindTexture("sv_icon_dot11_pix16_gizmo"));
                     break;
                 case ConnectionPointType.None:
                     return;
             }
 
             GUI.depth = -2;
-            if (GUI.Button(rect, "", style))
+            if (GUI.Button(rect, content, style))
             {
                 if (viewSystemNode.IsInactivable == false) return;
                 if (OnConnectionPointClick != null) OnConnectionPointClick(viewSystemNode);
