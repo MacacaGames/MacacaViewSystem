@@ -354,6 +354,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         public void CreateConnection(ViewStateNode viewStateNode)
         {
+            if (string.IsNullOrEmpty(viewStateNode.viewState.name))
+            {
+                return;
+            }
             var vps = viewPageList.Where(m => m.viewPage.viewState == viewStateNode.viewState.name);
             if (vps.Count() == 0)
             {
