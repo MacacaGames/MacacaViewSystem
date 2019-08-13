@@ -515,7 +515,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     overrideData.targetComponentType = sp.serializedObject.targetObject.GetType().ToString();
                     overrideData.targetPropertyType = sp.propertyType.ToString();
                     overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(sp.propertyPath);
-                    overrideData.Value = VS_EditorUtility.GetValue(sp);
+                    overrideData.Value.SetValue(sp);
                     if (viewPageItem.overrideDatas == null)
                     {
                         viewPageItem.overrideDatas = new List<ViewElementPropertyOverrideData>();

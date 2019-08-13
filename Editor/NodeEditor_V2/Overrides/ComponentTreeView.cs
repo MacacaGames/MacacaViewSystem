@@ -44,7 +44,8 @@ public class ComponentTreeView : TreeView
         var components = go.GetComponents(typeof(Component));
         foreach (var item in components)
         {
-            if(item == null){
+            if (item == null)
+            {
                 Debug.LogError("It seems there is some Component's script is missing, Please check your prefab");
                 continue;
             }
@@ -224,11 +225,18 @@ public class ComponentTreeView : TreeView
                     break;
                 case SerializedPropertyType.Color:
                     {
-                        Rect rect3 = rect.Contract(1f, 1f, 1f, 1f);
-                        EditorGUI.DrawRect(rect3, new Color(Target.colorValue.r, Target.colorValue.g, Target.colorValue.b, 1f));
-                        Rect rect4 = rect3.Contract(0f, 16f, 0f, 0f);
-                        EditorGUI.DrawRect(rect4, Color.black);
-                        EditorGUI.DrawRect(new Rect(rect4.x, rect4.y, rect4.width * Target.colorValue.a, rect4.height), Color.white);
+                        using (var disable = new EditorGUI.DisabledGroupScope(true))
+                        {
+                            var n = rect.height - EditorGUIUtility.singleLineHeight;
+                            rect.height = EditorGUIUtility.singleLineHeight;
+                            rect.y += n * 0.5f;
+                            EditorGUI.ColorField(rect, Target.colorValue);
+                        }
+                        // Rect rect3 = rect.Contract(1f, 1f, 1f, 1f);
+                        // EditorGUI.DrawRect(rect3, new Color(Target.colorValue.r, Target.colorValue.g, Target.colorValue.b, 1f));
+                        // Rect rect4 = rect3.Contract(0f, 16f, 0f, 0f);
+                        // EditorGUI.DrawRect(rect4, Color.black);
+                        // EditorGUI.DrawRect(new Rect(rect4.x, rect4.y, rect4.width * Target.colorValue.a, rect4.height), Color.white);
                         break;
                     }
                 case SerializedPropertyType.LayerMask:

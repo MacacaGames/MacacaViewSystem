@@ -76,6 +76,10 @@ namespace CloudMacaca.ViewSystem
     [System.Serializable]
     public class ViewElementPropertyOverrideData : ViewSystemComponentData
     {
+        public ViewElementPropertyOverrideData()
+        {
+            Value = new PropertyOverride();
+        }
         public PropertyOverride Value;
     }
     [System.Serializable]
@@ -101,12 +105,68 @@ namespace CloudMacaca.ViewSystem
                     return null;
             }
         }
+#if UNITY_EDITOR
+        public void SetValue(UnityEditor.SerializedPropertyType type, UnityEditor.PropertyModification modification)
+        {
+            switch (type)
+            {
+                case UnityEditor.SerializedPropertyType.Float:
+                    SetValue(float.Parse(modification.value));
+                    break;
+                case UnityEditor.SerializedPropertyType.Integer:
+                    SetValue(int.Parse(modification.value));
+                    break;
+                case UnityEditor.SerializedPropertyType.String:
+                    SetValue(modification.value);
+                    break;
+                case UnityEditor.SerializedPropertyType.Boolean:
+                    SetValue(modification.value == "0" ? false : true);
+                    break;
+                case UnityEditor.SerializedPropertyType.Color:
+                    SetValue(new Color());
+                    break;
+                case UnityEditor.SerializedPropertyType.ObjectReference:
+                    SetValue(modification.objectReference);
+                    break;
+            }
+        }
+
+        public void SetValue(UnityEditor.SerializedProperty property)
+        {
+            switch (property.propertyType)
+            {
+                case UnityEditor.SerializedPropertyType.Float:
+                    SetValue(property.floatValue);
+                    break;
+                case UnityEditor.SerializedPropertyType.Integer:
+                    SetValue(property.intValue);
+                    break;
+                case UnityEditor.SerializedPropertyType.String:
+                    SetValue(property.stringValue);
+                    break;
+                case UnityEditor.SerializedPropertyType.Boolean:
+                    SetValue(property.boolValue);
+                    break;
+                case UnityEditor.SerializedPropertyType.Color:
+                    SetValue(property.colorValue);
+                    break;
+                case UnityEditor.SerializedPropertyType.ObjectReference:
+                    SetValue(property.objectReferenceValue);
+                    break;
+            }
+        }
+#endif
+
         public void SetValue(object value)
         {
             bool toStringDirectly = true;
             if (value is int || value is long)
             {
                 s_Type = S_Type._int;
+            }
+            else if (value is string)
+            {
+                s_Type = S_Type._string;
             }
             else if (value is float || value is double)
             {
@@ -120,6 +180,13 @@ namespace CloudMacaca.ViewSystem
             {
                 s_Type = S_Type._color;
                 StringValue = ColorUtility.ToHtmlStringRGBA((Color)value);
+                toStringDirectly = false;
+            }
+            else if (value == null)
+            {
+                // Only UnityEngine.Object may be null
+                s_Type = S_Type._objcetReferenct;
+                ObjectReferenceValue = null;
                 toStringDirectly = false;
             }
             else if (value.GetType().IsSubclassOf(typeof(UnityEngine.Object)) ||
@@ -161,7 +228,7 @@ namespace CloudMacaca.ViewSystem
         {
             _bool, _float, _int, _color, _objcetReferenct, _string
         }
-        public S_Type s_Type;
+        public S_Type s_Type = S_Type._string;
         // public AnimationCurve AnimationCurveValue;
 
         //public bool BooleanValue;

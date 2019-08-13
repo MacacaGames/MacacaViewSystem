@@ -64,7 +64,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 else if (path.Length == selfName - 1) path = "";
                 temp.overrideData.targetTransformPath = path;
                 temp.overrideData.targetComponentType = item.target.GetType().ToString();
-                temp.overrideData.Value = VS_EditorUtility.GetValue(sp.propertyType, item);
+                temp.overrideData.Value.SetValue(sp.propertyType, item);
                 temp.displayName = sp.displayName;
                 overridesPropertiesCheckerDatas.Add(temp);
                 //Debug.Log(item.value);
