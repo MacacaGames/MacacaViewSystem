@@ -46,6 +46,7 @@ namespace CloudMacaca.ViewSystem
 
         public bool isMinimal = true;
         GUIStyle iconStyle;
+        int lastMsgCount = -1;
         public void Draw(Vector2 EditorindowWidthAndHeight)
         {
             if (!show)
@@ -100,7 +101,11 @@ namespace CloudMacaca.ViewSystem
                     }
                 }
             }
-
+            if (allMsg.Count != lastMsgCount)
+            {
+                lastMsgCount = allMsg.Count;
+                scrollPos.y = Mathf.Infinity;
+            }
             GUI.depth = -200;
             DrawMenuBar(rect);
 
