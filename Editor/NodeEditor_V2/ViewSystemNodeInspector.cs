@@ -357,9 +357,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (editableLock[index])
             {
                 var parentFunctionRect = rect;
-                parentFunctionRect.width = rect.width * 0.4f;
-                parentFunctionRect.x += rect.width * 0.05f;
-                if (GUI.Button(parentFunctionRect, "Pick Current"))
+                parentFunctionRect.width = rect.width * 0.32f;
+                parentFunctionRect.x += rect.width * 0.01f;
+                if (GUI.Button(parentFunctionRect, new GUIContent("Pick", "Pick Current Select Transform")))
                 {
                     var item = Selection.transforms;
                     if (item.Length > 1)
@@ -377,11 +377,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             // Due to while using auto layout we cannot return
             // Therefore use goto to escap the if scope
             PICK_BREAK:
-                parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.1f;
-                if (GUI.Button(parentFunctionRect, "Highlight Current"))
+                parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
+                if (GUI.Button(parentFunctionRect, new GUIContent("Select Parent", "Highlight parent Transform object")))
                 {
                     var go = GameObject.Find(list[index].parentPath);
                     if (go) EditorGUIUtility.PingObject(go);
+                    else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                }
+                parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
+                if (GUI.Button(parentFunctionRect, new GUIContent("Select Preview", "Highlight the preview ViewElement object (Only work while is preview the selected page)")))
+                {
+                    var go = GameObject.Find(list[index].parentPath);
+                    if (go.transform.childCount > 0) EditorGUIUtility.PingObject(go.transform.GetChild(0));
                     else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
                 }
             }

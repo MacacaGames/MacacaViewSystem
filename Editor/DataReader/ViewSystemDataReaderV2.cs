@@ -127,7 +127,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //打開相對應物件
             foreach (ViewPageItem item in viewItemForNextPage)
             {
-                ViewElement tempViewElement = UnityEngine.Object.Instantiate(item.viewElement);
+                var temp = PrefabUtility.InstantiatePrefab(item.viewElement.gameObject);
+                ViewElement tempViewElement = ((GameObject)temp).GetComponent<ViewElement>();
                 tempViewElement.gameObject.SetActive(true);
                 var rectTransform = tempViewElement.GetComponent<RectTransform>();
                 Transform tempParent = root.Find(item.parentPath);
@@ -155,23 +156,25 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
             }
         }
+
         public void Normalized()
         {
             //Clear UI Root Object
-            // try
-            // {
-            //     UnityEngine.Object.DestroyImmediate(data.globalSetting.UIRootScene);
-            // }
-            // catch
-            // {
-            //     var c = ViewControllerTransform.Find(data.globalSetting.UIRoot.name);
-            //     UnityEngine.Object.DestroyImmediate(c);
-            // }
-            ClearAllViewElementInScene();
+            try
+            {
+                UnityEngine.Object.DestroyImmediate(data.globalSetting.UIRootScene);
+            }
+            catch
+            {
+                var c = ViewControllerTransform.Find(data.globalSetting.UIRoot.name);
+                UnityEngine.Object.DestroyImmediate(c);
+            }
+
+            editor.ClearEditor();
             //throw new System.NotImplementedException();
         }
 
-        void ClearAllViewElementInScene()
+        public void ClearAllViewElementInScene()
         {
             var allViewElement = UnityEngine.Object.FindObjectsOfType<ViewElement>();
             foreach (var item in allViewElement)

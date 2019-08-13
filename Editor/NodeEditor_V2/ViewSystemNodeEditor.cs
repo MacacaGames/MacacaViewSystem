@@ -58,11 +58,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewStatesPopup.Add("Overlay Only");
             viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));
         }
-        void ClearEditor()
+        public void ClearEditor()
         {
             nodeConnectionLineList.Clear();
             viewStateList.Clear();
             viewPageList.Clear();
+            viewStatesPopup.Clear();
         }
         void OnDestroy()
         {
@@ -478,7 +479,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         ViewSystemScriptBaker.BakeAllViewPageName(viewPageList.Select(m => m.viewPage).ToList(), viewStateList.Select(m => m.viewState).ToList());
                     }
 
-                    if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item"), EditorStyles.toolbarButton))
+                    if (GUILayout.Button(new GUIContent("Clear Preview", "Clear all preview item"), EditorStyles.toolbarButton))
+                    {
+                        ((ViewSystemDataReaderV2)dataReader).ClearAllViewElementInScene();
+                    }
+                    if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item (Will Delete the Canvas Root Object in Scene)"), EditorStyles.toolbarButton))
                     {
                         dataReader.Normalized();
                     }
