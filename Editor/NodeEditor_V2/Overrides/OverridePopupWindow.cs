@@ -473,7 +473,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (m_ComponentTreeViewState == null)
                 m_ComponentTreeViewState = new TreeViewState();
 
-            componentTreeView = new ComponentTreeView(currentSelectGameObject, m_ComponentTreeViewState);
+            componentTreeView = new ComponentTreeView(currentSelectGameObject, viewPageItem, m_ComponentTreeViewState);
 
             componentTreeView.OnItemClick += (sp) =>
             {
