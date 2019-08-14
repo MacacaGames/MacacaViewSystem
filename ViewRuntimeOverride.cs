@@ -192,6 +192,12 @@ namespace CloudMacaca.ViewSystem
                 var id = item.targetTransformPath + "_" + item.targetComponentType;
                 UnityEngine.Object c;
                 Transform targetTansform = transformCache.Find(item.targetTransformPath);
+                if (targetTansform == null)
+                {
+                    Debug.LogError($"Target GameObject cannot be found [{transform.name } / { item.targetTransformPath}]");
+                    continue;
+                }
+
                 if (!cachedComponent.TryGetValue(id, out c))
                 {
                     if (item.targetComponentType.Contains("GameObject"))
@@ -202,8 +208,15 @@ namespace CloudMacaca.ViewSystem
                     {
                         c = targetTansform.GetComponent(item.targetComponentType);
                     }
+
+                    if (c == null)
+                    {
+                        Debug.LogError($"Target Component cannot be found [{item.targetComponentType}] on GameObject [{transform.name } / { item.targetTransformPath}]");
+                        continue;
+                    }
                     cachedComponent.Add(id, c);
                 }
+
                 System.Type t = c.GetType();
 
                 if (isUnityEngineType(t))

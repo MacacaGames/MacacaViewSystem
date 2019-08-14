@@ -9,13 +9,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNodeEditor : EditorWindow
     {
-        static Texture2D miniInfoIcon;
-        static Texture2D miniErrorIcon;
-        static Texture2D refreshIcon;
-        static Texture2D sideBarIcon;
-        static Texture2D zoomIcon;
-        static Texture2D normalizedIcon;
-        static Texture2D bakeScritpIcon;
+
         static ViewSystemNodeEditor window;
         static IViewSystemDateReader dataReader;
         static ViewSystemNodeInspector inspector;
@@ -74,14 +68,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             if (console == null) console = new ViewSystemNodeConsole();
             if (inspector == null) inspector = new ViewSystemNodeInspector(this);
-            if (normalizedIcon == null) normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop") as Texture2D;
-            if (sideBarIcon == null) sideBarIcon = EditorGUIUtility.FindTexture("CustomSorting");
-            if (bakeScritpIcon == null) bakeScritpIcon = EditorGUIUtility.FindTexture("cs Script Icon") as Texture2D;
-
-            if (miniInfoIcon == null) miniInfoIcon = EditorGUIUtility.FindTexture("console.infoicon.sml") as Texture2D;
-            if (miniErrorIcon == null) miniErrorIcon = EditorGUIUtility.Load("icons/console.erroricon.sml.png") as Texture2D;
-            if (refreshIcon == null) refreshIcon = EditorGUIUtility.Load((EditorGUIUtility.isProSkin) ? "icons/d_Refresh.png" : "icons/Refresh.png") as Texture2D;
-            if (zoomIcon == null) zoomIcon = EditorGUIUtility.FindTexture("ViewToolZoom On") as Texture2D;
         }
 
         List<ViewPageNode> viewPageList = new List<ViewPageNode>();
@@ -100,7 +86,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var deltaSize = position.size / prevZoom - position.size / zoomScale;
             var offset = -Vector2.Scale(deltaSize, center);
             viewPortScroll += offset;
-            //forceRepaintCount = 1;
         }
         void OnGUI()
         {
@@ -113,8 +98,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             Rect scriptViewRect = new Rect(0, 0, this.position.width / zoomScale, this.position.height / zoomScale);
 
             EditorZoomArea.Begin(zoomScale, scriptViewRect);
-            // DrawGrid(20, 0.2f, Color.gray, zoomScale);
-            // DrawGrid(100, 0.4f, Color.gray, zoomScale);
             DrawGrid();
             foreach (var item in nodeConnectionLineList.ToArray())
             {
@@ -409,22 +392,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             viewPortScroll += delta / zoomScale;
             GUI.changed = true;
-            // drag = delta * 1 / zoomScale;
-            // foreach (var item in viewPageList)
-            // {
-            //     item.Drag(delta * zoomScale);
-            // }
-            // foreach (var item in viewStateList)
-            // {
-            //     item.Drag(delta * zoomScale);
-            // }
-            // GUI.changed = true;
         }
 
-        int nodeId = 0;
-
         private Vector2 drag;
-        private Vector2 offset;
         protected void DrawGrid()
         {
             float width = this.position.width / zoomScale;
@@ -455,29 +425,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             Handles.color = Color.white;
         }
-        // private void DrawGrid(float gridSpacing, float gridOpacity, Color gridColor, float zoomScale)
-        // {
-        //     int widthDivs = Mathf.CeilToInt(position.width * 1 / zoomScale / gridSpacing);
-        //     int heightDivs = Mathf.CeilToInt(position.height * 1 / zoomScale / gridSpacing);
-        //     Handles.BeginGUI();
-        //     Handles.color = new Color(gridColor.r, gridColor.g, gridColor.b, gridOpacity);
-
-        //     offset += drag * 0.5f * zoomScale;
-        //     Vector3 newOffset = new Vector3(offset.x % gridSpacing, offset.y % gridSpacing, 0);
-
-        //     for (int i = 0; i < widthDivs; i++)
-        //     {
-        //         Handles.DrawLine(new Vector3(gridSpacing * i, -gridSpacing, 0) + newOffset, new Vector3(gridSpacing * i, position.height * 1 / zoomScale, 0f) + newOffset);
-        //     }
-
-        //     for (int j = 0; j < heightDivs; j++)
-        //     {
-        //         Handles.DrawLine(new Vector3(-gridSpacing, gridSpacing * j, 0) + newOffset, new Vector3(position.width * 1 / zoomScale, gridSpacing * j, 0f) + newOffset);
-        //     }
-
-        //     Handles.color = Color.white;
-        //     Handles.EndGUI();
-        // }
 
         private float menuBarHeight = 20f;
         private Rect menuBar;
@@ -506,20 +453,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         }
                     }
                     GUILayout.Space(5);
-                    if (GUILayout.Button(new GUIContent("Reload", refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))
+                    if (GUILayout.Button(new GUIContent("Reload", Drawer.refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))
                     {
                         RefreshData();
                     }
                     GUILayout.Space(5);
-                    inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+                    inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(Drawer.sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
 
                     GUILayout.Space(5);
-                    console.show = GUILayout.Toggle(console.show, new GUIContent(miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+                    console.show = GUILayout.Toggle(console.show, new GUIContent(Drawer.miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
                     GUILayout.Space(5);
                     ViewSystemNodeGlobalSettingWindow.showGlobalSetting = GUILayout.Toggle(ViewSystemNodeGlobalSettingWindow.showGlobalSetting, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("SceneViewTools")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
                     GUILayout.FlexibleSpace();
-                    GUILayout.Label(new GUIContent(zoomIcon, "Zoom"), GUIStyle.none);
+                    GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));
 
                     // GUILayout.Label("ViewState:");
@@ -531,7 +478,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     //     targetViewState = viewStatesPopup[currentIndex];
                     // }
 
-                    if (GUILayout.Button(new GUIContent("Baked to Scritpable", bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton))
+                    if (GUILayout.Button(new GUIContent("Baked to Scritpable", Drawer.bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton))
                     {
                         ViewSystemScriptBaker.BakeAllViewPageName(viewPageList.Select(m => m.viewPage).ToList(), viewStateList.Select(m => m.viewState).ToList());
                     }

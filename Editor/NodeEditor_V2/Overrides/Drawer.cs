@@ -6,33 +6,96 @@ using UnityEngine;
 public class Drawer
 {
 
-    public virtual void Draw()
+    static Texture2D _miniInfoIcon;
+    public static Texture2D miniInfoIcon
     {
-
-    }
-    public bool BackgroundIsVisible;
-    public bool IsHovering;
-
-
-    protected virtual void DrawBackground(Rect rect)
-    {
-        if (BackgroundIsVisible)
+        get
         {
-            EditorGUI.DrawRect(new Rect(0f, rect.y - 1f, Screen.width, rect.height + 2f), Color.black);
-        }
-        if (IsHovering)
-        {
-            EditorGUI.DrawRect(rect, new Color32(62, 125, 231, byte.MaxValue));
+            if (_miniErrorIcon == null)
+            {
+                _miniErrorIcon = EditorGUIUtility.FindTexture("console.infoicon");
+            }
+            return _miniErrorIcon;
         }
     }
 
-    protected virtual void HandleHover(Rect rect)
+    static Texture2D _miniErrorIcon;
+    public static Texture2D miniErrorIcon
     {
-        IsHovering = rect.Contains(Event.current.mousePosition);
+        get
+        {
+            if (_miniErrorIcon == null)
+            {
+                _miniErrorIcon = EditorGUIUtility.FindTexture("console.erroricon");
+            }
+            return _miniErrorIcon;
+        }
     }
 
+    static Texture2D _refreshIcon;
+    public static Texture2D refreshIcon
+    {
+        get
+        {
+            if (_refreshIcon == null)
+            {
+                _refreshIcon = EditorGUIUtility.Load((EditorGUIUtility.isProSkin) ? "icons/d_Refresh.png" : "icons/Refresh.png") as Texture2D;
+            }
+            return _refreshIcon;
+        }
+    }
 
+    static Texture2D _sideBarIcon;
+    public static Texture2D sideBarIcon
+    {
+        get
+        {
+            if (_sideBarIcon == null)
+            {
+                _sideBarIcon = EditorGUIUtility.FindTexture("CustomSorting");
+            }
+            return _sideBarIcon;
+        }
+    }
 
+    static Texture2D _zoomIcon;
+    public static Texture2D zoomIcon
+    {
+        get
+        {
+            if (_zoomIcon == null)
+            {
+                _zoomIcon = EditorGUIUtility.FindTexture("ViewToolZoom On");
+            }
+            return _zoomIcon;
+        }
+    }
+
+    static Texture2D _normalizedIcon;
+    public static Texture2D normalizedIcon
+    {
+        get
+        {
+            if (_normalizedIcon == null)
+            {
+                _normalizedIcon = EditorGUIUtility.FindTexture("TimelineLoop");
+            }
+            return _normalizedIcon;
+        }
+    }
+
+    static Texture2D _bakeScritpIcon;
+    public static Texture2D bakeScritpIcon
+    {
+        get
+        {
+            if (_bakeScritpIcon == null)
+            {
+                _bakeScritpIcon = EditorGUIUtility.FindTexture("cs Script Icon");
+            }
+            return _bakeScritpIcon;
+        }
+    }
 
     static Texture2D _prefabIcon;
     static public Texture2D prefabIcon

@@ -134,7 +134,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             if (currentSelectGameObject)
             {
-                header.image = EditorGUIUtility.FindTexture("Prefab Icon");
+                header.image = Drawer.prefabIcon;
                 header.text = currentSelectGameObject.gameObject.name;
             }
             else if (currentSelectSerializedObject != null)
@@ -144,7 +144,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             else if (target != null)
             {
                 header.text = target.gameObject.name;
-                header.image = EditorGUIUtility.FindTexture("Prefab Icon");
+                header.image = Drawer.prefabIcon;
             }
             else
             {
@@ -157,14 +157,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     if (currentSelectGameObject)
                     {
                         currentSelectGameObject = null;
-                        componentDrawer = null;
                     }
                     if (currentSelectSerializedObject != null)
                     {
                         currentSelectGameObject = lastSelectGameObject;
                         currentSelectSerializedObject = null;
-                        propertiesDrawer = null;
-                        componentDrawer = null;
                     }
                 }
             }
@@ -204,9 +201,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 reorderableListViewModify.DoLayoutList();
             }
         }
-
+        Dictionary<int, bool> lockerDict = new Dictionary<int, bool>();
         void RebuildModifyReorderableList()
         {
+            lockerDict.Clear();
             reorderableListViewModify = new ReorderableList(viewPageItem.overrideDatas, typeof(List<ViewElementPropertyOverrideData>), true, false, false, true);
             reorderableListViewModify.elementHeight = EditorGUIUtility.singleLineHeight * 2.5f;
             reorderableListViewModify.drawElementCallback += (rect, index, isActive, isFocused) =>
@@ -214,10 +212,29 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 var ori_Rect = rect;
                 rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
                 rect.height = EditorGUIUtility.singleLineHeight;
-                // using (var areaScope = new GUILayout.AreaScope(rect))
-                // {
+
                 var item = viewPageItem.overrideDatas[index];
                 var targetObject = viewPageItem.viewElement.transform.Find(item.targetTransformPath);
+
+                if (targetObject == null)
+                {
+                    if (!lockerDict.ContainsKey(index)) lockerDict.Add(index, true);
+
+                    float lineWidth = rect.width;
+                    GUI.Label(rect, new GUIContent($"Target GameObject is Missing : [{viewPageItem.viewElement.name }/{item.targetTransformPath }", Drawer.miniErrorIcon));
+                    rect.y += EditorGUIUtility.singleLineHeight;
+                    rect.width = 16;
+                    lockerDict[index] = EditorGUI.Toggle(rect, lockerDict[index], new GUIStyle("IN LockButton"));
+                    rect.x += 16;
+                    rect.width = lineWidth - 16;
+                    using (var disable = new EditorGUI.DisabledGroupScope(lockerDict[index]))
+                    {
+                        item.targetTransformPath = EditorGUI.TextField(rect, item.targetTransformPath);
+                    }
+
+                    return;
+                }
+
                 UnityEngine.Object targetComponent = targetObject.GetComponent(item.targetComponentType);
                 if (item.targetComponentType.Contains("GameObject"))
                 {
@@ -226,9 +243,26 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 if (targetComponent == null)
                 {
-                    GUI.Label(rect, new GUIContent("Unsupport ComponentType", EditorGUIUtility.FindTexture("console.erroricon.sml")));
-                    rect.y += EditorGUIUtility.singleLineHeight;
-                    GUI.Label(rect, new GUIContent("ComponentType : " + item.targetComponentType));
+                    if (!lockerDict.ContainsKey(index)) lockerDict.Add(index, true);
+                    Rect lockRect = rect;
+                    lockRect.width = 10;
+                    lockRect.y += EditorGUIUtility.singleLineHeight * 0.25f;
+                    lockerDict[index] = EditorGUI.Toggle(lockRect, lockerDict[index], new GUIStyle("IN LockButton"));
+
+                    rect.x += 10;
+                    rect.width -= 10;
+                    if (lockerDict[index] == true)
+                    {
+                        GUI.Label(rect, new GUIContent("Target Component cannot be found on GameObject", Drawer.miniErrorIcon));
+                        rect.y += EditorGUIUtility.singleLineHeight;
+                        GUI.Label(rect, new GUIContent("ComponentType : " + item.targetComponentType));
+                    }
+                    else
+                    {
+                        item.targetTransformPath = EditorGUI.TextField(rect, "Transform Path", item.targetTransformPath);
+                        rect.y += EditorGUIUtility.singleLineHeight;
+                        item.targetComponentType = EditorGUI.TextField(rect, "Component Type", item.targetComponentType);
+                    }
                     return;
                 }
                 var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
@@ -236,7 +270,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 var sp = so.FindProperty(item.targetPropertyName);
 
                 rect.width = 20;
-                GUI.Label(rect, EditorGUIUtility.FindTexture("Prefab Icon"));
+                GUI.Label(rect, Drawer.prefabIcon);
                 rect.x += rect.width;
 
                 GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)));
@@ -245,7 +279,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 rect.x += rect.width;
 
                 rect.width = 20;
-                GUI.Label(rect, EditorGUIUtility.FindTexture("Animation.Play"));
+                GUI.Label(rect, Drawer.arrowIcon);
                 rect.x += rect.width;
 
                 rect.width = GUI.skin.label.CalcSize(_cachedContent).x; ;
@@ -262,7 +296,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 }
                 //var result = EditorGUICM.GetPropertyType(sp);
-                //}
+
             };
         }
         //對應 方法名稱與 pop index 的字典
@@ -408,7 +442,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
-        HierarchyDrawer hierarchyDrawer;
         GameObject currentSelectGameObject;
         GameObject lastSelectGameObject;
         private void CacheHierarchy()
@@ -432,7 +465,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             // };
         }
 
-        ComponentDrawer componentDrawer;
         SerializedObject currentSelectSerializedObject;
 
         private void CacheComponent()
@@ -541,56 +573,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
             };
         }
-        PropertiesDrawer propertiesDrawer;
-
-        // private void CacheProperties()
-        // {
-        //     propertiesDrawer = new PropertiesDrawer(currentSelectSerializedObject);
-        //     propertiesDrawer.OnItemClick += (so, sp) =>
-        //     {
-
-        //         var overrideData = new ViewElementPropertyOverrideData();
-
-        //         // Debug.Log("Target Object : " + so.targetObject.name);
-        //         // Debug.Log("Type : " + so.targetObject.GetType().ToString());
-
-        //         // Debug.Log("SerializedPropertyType : " + sp.propertyType);
-        //         // Debug.Log("Property Type : " + sp.type);
-        //         // Debug.Log("Property Name : " + sp.name);
-        //         // Debug.Log("Property DisplayName : " + sp.displayName);
-        //         // Debug.Log("GameObject Name : " + lastSelectGameObject.name);
-        //         // Debug.Log("Transform Path : " + AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, target.transform));
-        //         // Debug.Log("Name Of : " + nameof(sp));
-
-        //         overrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(lastSelectGameObject.transform, target.transform);
-        //         overrideData.targetPropertyName = sp.name;
-        //         overrideData.targetComponentType = so.targetObject.GetType().ToString();
-        //         overrideData.targetPropertyType = sp.propertyType.ToString();
-        //         overrideData.targetPropertyPath = EditorGUICM.ParseUnityEngineProperty(sp.propertyPath);
-        //         overrideData.Value = EditorGUICM.GetValue(sp);
-        //         if (viewPageItem.overrideDatas == null)
-        //         {
-        //             viewPageItem.overrideDatas = new List<ViewElementPropertyOverrideData>();
-        //         }
-
-        //         var current = viewPageItem.overrideDatas
-        //             .SingleOrDefault(x =>
-        //                 x.targetTransformPath == overrideData.targetTransformPath &&
-        //                 x.targetComponentType == overrideData.targetComponentType &&
-        //                 x.targetPropertyName == overrideData.targetPropertyName
-        //             );
-
-        //         if (current != null)
-        //         {
-        //             current = overrideData;
-        //         }
-        //         else
-        //         {
-        //             viewPageItem.overrideDatas.Add(overrideData);
-        //         }
-        //     };
-        // }
-
 
     }
 }
