@@ -196,7 +196,26 @@ namespace CloudMacaca.ViewSystem
                      m.targetComponentType == sp.serializedObject.targetObject.GetType().ToString()
                 ).Count() > 0;
 
-                if (isModified) GUI.Box(args.rowRect, GUIContent.none, new GUIStyle("U2D.createRect"));
+                if (isModified)
+                {
+                    GUI.Box(args.rowRect, GUIContent.none, new GUIStyle("U2D.createRect"));
+                    Rect r = rect;
+                    r.x -= 4;
+                    r.width = 24;
+                    r.height = 24;
+                    if (GUI.Button(r, new GUIContent(EditorGUIUtility.FindTexture("winbtn_mac_close_h")), new GUIStyle("AC PreviewHeader")))
+                    {
+                        if (EditorUtility.DisplayDialog("Warring", "Do you want to remove this modified override?", "Yes", "No"))
+                        {
+                            var s = viewPageItem.overrideDatas.Where(m =>
+                                m.targetPropertyName == sp.name &&
+                                m.targetTransformPath == path &&
+                                m.targetComponentType == sp.serializedObject.targetObject.GetType().ToString()
+                            ).FirstOrDefault();
+                            viewPageItem.overrideDatas.Remove(s);
+                        }
+                    }
+                }
 
                 rect.y = args.rowRect.y;
                 rect.x += 20;

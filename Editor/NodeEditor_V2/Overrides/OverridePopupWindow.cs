@@ -164,6 +164,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         currentSelectSerializedObject = null;
                     }
                 }
+                var r = GUILayoutUtility.GetLastRect();
+                r.width = 20;
+                GUI.Label(r, new GUIContent(EditorGUIUtility.FindTexture("tab_prev")));
             }
         }
         [SerializeField] TreeViewState m_HierachyTreeViewState;
