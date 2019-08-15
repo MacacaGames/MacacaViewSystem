@@ -62,6 +62,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void SetCurrentSelectItem(ViewSystemNode currentSelectNode)
         {
             this.currentSelectNode = currentSelectNode;
+            if (currentSelectNode == null)
+            {
+                return;
+            }
+
             if (currentSelectNode is ViewPageNode)
             {
                 list = ((ViewPageNode)currentSelectNode).viewPage.viewPageItems;

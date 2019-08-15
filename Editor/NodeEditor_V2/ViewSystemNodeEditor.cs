@@ -41,8 +41,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         void RefreshData()
         {
             ClearEditor();
-
-            dataReader = new ViewSystemDataReaderV2(this);
             isInit = dataReader.Init();
             saveData = ((ViewSystemDataReaderV2)dataReader).GetGlobalSetting();
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
@@ -58,6 +56,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewStateList.Clear();
             viewPageList.Clear();
             viewStatesPopup.Clear();
+            inspector.SetCurrentSelectItem(null);
         }
         void OnDestroy()
         {
@@ -66,6 +65,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         void OnFocus()
         {
+            if (dataReader == null) dataReader = new ViewSystemDataReaderV2(this);
             if (console == null) console = new ViewSystemNodeConsole();
             if (inspector == null) inspector = new ViewSystemNodeInspector(this);
         }
