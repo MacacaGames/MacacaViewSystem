@@ -8,6 +8,10 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewControllerBase : TransformCacheBase, IViewController
     {
+        public virtual ViewControllerBase GetInstance()
+        {
+            return this;
+        }
 
         #region Interface Impletetment
         public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)

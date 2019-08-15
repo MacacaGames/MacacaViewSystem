@@ -101,7 +101,16 @@ namespace CloudMacaca.ViewSystem
                         }
                         cachedDelegate.Add(id_delegate, openDelegate);
                     }
-                    eventRuntimeDatas.unityEvent.AddListener(delegate { openDelegate.Invoke((UnityEngine.EventSystems.UIBehaviour)eventRuntimeDatas.selectable); });
+                    eventRuntimeDatas.unityEvent.AddListener(
+                        delegate
+                        {
+                            if (ViewControllerV2.Instance.IsPageTransition)
+                            {
+                                Debug.Log("The page is in transition, event will not fire!");
+                                return;
+                            }
+                            openDelegate.Invoke((UnityEngine.EventSystems.UIBehaviour)eventRuntimeDatas.selectable);
+                        });
                 }
             }
             // foreach (var item in eventDatas)
