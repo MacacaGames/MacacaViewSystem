@@ -523,17 +523,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
 
                     var current = viewPageItem.eventDatas
-                        .SingleOrDefault(x =>
+                        .Where(x =>
                             x.targetTransformPath == eventData.targetTransformPath &&
                             x.targetComponentType == eventData.targetComponentType &&
                             x.targetPropertyName == eventData.targetPropertyName
                         );
 
-                    if (current != null)
+                    if (current.Count() > 0)
                     {
-                        Debug.LogError("You Have 1 event doesn't setup yet");
-                        editor.ShowNotification(new GUIContent("You Have 1 event doesn't setup yet"), toastMessageFadeOutTimt);
-                        return;
+                        if (current.Where(m => string.IsNullOrEmpty(m.scriptName) && string.IsNullOrEmpty(m.methodName)).Count() > 0)
+                        {
+                            Debug.LogError("You Have 1 event doesn't setup yet");
+                            editor.ShowNotification(new GUIContent("You Have 1 event doesn't setup yet"), toastMessageFadeOutTimt);
+                            return;
+                        }
                     }
                     // else
                     // {
@@ -541,6 +544,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     // }
 
                     viewPageItem.eventDatas.Add(eventData);
+                    editor.ShowNotification(new GUIContent("Event Add Success"), toastMessageFadeOutTimt);
                 }
                 else
                 {
