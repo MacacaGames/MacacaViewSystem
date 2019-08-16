@@ -80,5 +80,21 @@ namespace CloudMacaca.ViewSystem
         public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.接續前動畫;
         public List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
     }
+    [System.AttributeUsage(
+        System.AttributeTargets.Method,
+        // Multiuse attribute.  
+        AllowMultiple = true)]
+    public class ViewEventGroup : System.Attribute
+    {
+        string groupName;
+        public ViewEventGroup(string groupName)
+        {
+            this.groupName = groupName;
+        }
 
+        public string GetGroupName()
+        {
+            return groupName;
+        }
+    }
 }
