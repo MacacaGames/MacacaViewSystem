@@ -40,7 +40,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 alignment = TextAnchor.MiddleCenter
             };
             show = false;
-            windowStyle = GUI.skin.window;
+            windowStyle = new GUIStyle("window");
             RectOffset padding = windowStyle.padding;
             padding.left = 0;
             padding.right = 1;

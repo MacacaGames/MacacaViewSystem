@@ -269,7 +269,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             veRect.width = rect.width - 40;
             using (var check = new EditorGUI.ChangeCheckScope())
             {
-                string oriViewElement = list[index].viewElement?.name ?? "";
+                string oriViewElement = "";
+                if (list[index].viewElement != null)
+                {
+                    oriViewElement = list[index].viewElement.name;
+                }
                 list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), true);
                 if (check.changed)
                 {
