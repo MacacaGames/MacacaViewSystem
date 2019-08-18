@@ -306,13 +306,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         //第 n 個腳本的參照
         // List<string[]> methodListOfScriptObject = new List<string[]>();
         // List<string> scriptObjectName = new List<string>();
-        Dictionary<string, string[]> classMethodInfo = new Dictionary<string, string[]>();
+        Dictionary<string, CMEditorLayout.GroupedPopupData[]> classMethodInfo = new Dictionary<string, CMEditorLayout.GroupedPopupData[]>();
         BindingFlags BindFlagsForScript = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         void RefreshMethodDatabase()
         {
             classMethodInfo.Clear();
             classMethodInfo.Add("Nothing Select", null);
-            List<string> VerifiedMethod = new List<string>();
+            List<CMEditorLayout.GroupedPopupData> VerifiedMethod = new List<CMEditorLayout.GroupedPopupData>();
             for (int i = 0; i < saveData.globalSetting.EventHandleBehaviour.Count; i++)
             {
 
@@ -320,7 +320,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 if (saveData.globalSetting.EventHandleBehaviour[i] == null) return;
                 MethodInfo[] methodInfos = type.GetMethods(BindFlagsForScript);
                 VerifiedMethod.Clear();
-                VerifiedMethod.Add("Nothing Select");
+               //After Use custom pop  "Nothing Select" is no more needed
+               // VerifiedMethod.Add(new CMEditorLayout.GroupedPopupData { name = "Nothing Select", group = "" });
                 foreach (var item in methodInfos)
                 {
                     var para = item.GetParameters();
@@ -328,7 +329,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         continue;
                     }
-                    VerifiedMethod.Add(item.Name);
+
+                    var eventMethodInfo = new CMEditorLayout.GroupedPopupData { name = item.Name, group = "" };
+                    var arrts = System.Attribute.GetCustomAttributes(item);
+                    foreach (System.Attribute attr in arrts)
+                    {
+                        if (attr is ViewEventGroup)
+                        {
+                            ViewEventGroup a = (ViewEventGroup)attr;
+                            eventMethodInfo.group = a.GetGroupName();
+                            break;
+                        }
+                    }
+                    VerifiedMethod.Add(eventMethodInfo);
                 }
                 classMethodInfo.Add(type.ToString(), VerifiedMethod.ToArray());
             }
@@ -400,22 +413,33 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             {
                                 using (var check = new EditorGUI.ChangeCheckScope())
                                 {
-                                    var c = classMethodInfo.ElementAt(currentSelectClass).Value;
-
-                                    int currentSelectMethod = string.IsNullOrEmpty(item.methodName) ? 0 : c.ToList().IndexOf(item.methodName);
-                                    currentSelectMethod = EditorGUILayout.Popup("Event Method", currentSelectMethod, c);
-
-                                    if (check.changed)
+                                    using (var horizon2 = new EditorGUILayout.HorizontalScope())
                                     {
-                                        if (currentSelectMethod != 0)
-                                        {
-                                            item.methodName = c[currentSelectMethod];
-                                        }
-                                        else
-                                        {
-                                            item.methodName = "";
-                                        }
+                                        var c = classMethodInfo.ElementAt(currentSelectClass).Value;
+                                        var current = c.SingleOrDefault(m => m.name == item.methodName);
+
+                                        CMEditorLayout.GroupedPopupField(new GUIContent("Event Method"), c, current,
+                                            (select) =>
+                                            {
+                                                item.methodName = select.name;
+                                            }
+                                        );
                                     }
+
+                                    // int currentSelectMethod = string.IsNullOrEmpty(item.methodName) ? 0 : c.ToList().IndexOf(item.methodName);
+                                    // currentSelectMethod = EditorGUILayout.Popup("Event Method", currentSelectMethod, c);
+
+                                    // if (check.changed)
+                                    // {
+                                    //     if (currentSelectMethod != 0)
+                                    //     {
+                                    //         item.methodName = c[currentSelectMethod];
+                                    //     }
+                                    //     else
+                                    //     {
+                                    //         item.methodName = "";
+                                    //     }
+                                    // }
                                 }
                             }
                         }
@@ -582,4 +606,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
 
     }
+
+
 }

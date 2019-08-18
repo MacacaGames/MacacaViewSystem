@@ -29,7 +29,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             //建立 UI Hierarchy 環境
             if (!string.IsNullOrEmpty(data.globalSetting.ViewControllerObjectPath))
-                ViewControllerTransform = GameObject.Find(data.globalSetting.ViewControllerObjectPath).transform;
+            {
+                var go = GameObject.Find(data.globalSetting.ViewControllerObjectPath);
+
+                if (go == null)
+                {
+                    Debug.LogError("Init ViewSystem Editor faild, please make sure ViewControllerTransform GameObject is in the scene of is not inactive.");
+                    return false;
+                }
+                ViewControllerTransform = go.transform;
+            }
 
             if (data.globalSetting.UIRoot != null && data.globalSetting.UIRootScene == null)
             {
