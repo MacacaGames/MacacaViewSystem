@@ -306,13 +306,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         //第 n 個腳本的參照
         // List<string[]> methodListOfScriptObject = new List<string[]>();
         // List<string> scriptObjectName = new List<string>();
-        Dictionary<string, EventMethodInfo[]> classMethodInfo = new Dictionary<string, EventMethodInfo[]>();
+        Dictionary<string, CMEditorLayout.GroupedPopupData[]> classMethodInfo = new Dictionary<string, CMEditorLayout.GroupedPopupData[]>();
         BindingFlags BindFlagsForScript = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         void RefreshMethodDatabase()
         {
             classMethodInfo.Clear();
             classMethodInfo.Add("Nothing Select", null);
-            List<EventMethodInfo> VerifiedMethod = new List<EventMethodInfo>();
+            List<CMEditorLayout.GroupedPopupData> VerifiedMethod = new List<CMEditorLayout.GroupedPopupData>();
             for (int i = 0; i < saveData.globalSetting.EventHandleBehaviour.Count; i++)
             {
 
@@ -320,7 +320,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 if (saveData.globalSetting.EventHandleBehaviour[i] == null) return;
                 MethodInfo[] methodInfos = type.GetMethods(BindFlagsForScript);
                 VerifiedMethod.Clear();
-                VerifiedMethod.Add(new EventMethodInfo { name = "Nothing Select", group = "" });
+               //After Use custom pop  "Nothing Select" is no more needed
+               // VerifiedMethod.Add(new CMEditorLayout.GroupedPopupData { name = "Nothing Select", group = "" });
                 foreach (var item in methodInfos)
                 {
                     var para = item.GetParameters();
@@ -329,7 +330,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         continue;
                     }
 
-                    var eventMethodInfo = new EventMethodInfo { name = item.Name, group = "" };
+                    var eventMethodInfo = new CMEditorLayout.GroupedPopupData { name = item.Name, group = "" };
                     var arrts = System.Attribute.GetCustomAttributes(item);
                     foreach (System.Attribute attr in arrts)
                     {
@@ -415,11 +416,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                     using (var horizon2 = new EditorGUILayout.HorizontalScope())
                                     {
                                         var c = classMethodInfo.ElementAt(currentSelectClass).Value;
-                                        GUILayout.Label("Event Method", GUILayout.Width(EditorGUIUtility.labelWidth));
-                                        if (GUILayout.Button("Event Method", EditorStyles.popup))
-                                        {
+                                        var current = c.SingleOrDefault(m => m.name == item.methodName);
 
-                                        }
+                                        CMEditorLayout.GroupedPopupField(new GUIContent("Event Method"), c, current,
+                                            (select) =>
+                                            {
+                                                item.methodName = select.name;
+                                            }
+                                        );
                                     }
 
                                     // int currentSelectMethod = string.IsNullOrEmpty(item.methodName) ? 0 : c.ToList().IndexOf(item.methodName);
@@ -603,37 +607,5 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
     }
 
-    public class EventMethodInfo
-    {
-        public string name;
-        public string group;
-    }
 
-    public class EventMethodPopup : PopupWindowContent
-    {
-        EventMethodInfo[] eventMethodInfo;
-        public EventMethodPopup(IEnumerable<EventMethodInfo> eventMethodInfo)
-        {
-            this.eventMethodInfo = eventMethodInfo.ToArray();
-        }
-        public override Vector2 GetWindowSize()
-        {
-            return new Vector2(200, 150);
-        }
-
-        public override void OnGUI(Rect rect)
-        {
-            GUILayout.Label("Popup Options Example", EditorStyles.boldLabel);
-        }
-
-        public override void OnOpen()
-        {
-            Debug.Log("Popup opened: " + this);
-        }
-
-        public override void OnClose()
-        {
-            Debug.Log("Popup closed: " + this);
-        }
-    }
 }
