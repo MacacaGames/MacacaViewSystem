@@ -337,7 +337,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             veRect = rect;
             veRect.width = rect.width - 20;
-            using (var disable = new EditorGUI.DisabledGroupScope(editableLock[index]))
+            if (!editableLock[index])
             {
                 using (var check = new EditorGUI.ChangeCheckScope())
                 {
@@ -355,6 +355,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         else
                             list[index].parent = null;
                     }
+                }
+            }
+            else
+            {
+                string shortPath = "";
+                if (!string.IsNullOrEmpty(list[index]?.parentPath))
+                {
+                    shortPath = list[index].parentPath.Split('/').Last();
+                }
+                using (var disable = new EditorGUI.DisabledGroupScope(true))
+                {
+                    EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), shortPath);
                 }
             }
             veRect.x += veRect.width;
