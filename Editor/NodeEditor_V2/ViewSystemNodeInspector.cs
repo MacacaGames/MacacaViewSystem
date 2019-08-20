@@ -20,6 +20,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ReorderableList viewPageItemList;
         GUIStyle removeButtonStyle;
         GUIStyle oddStyle;
+        GUIStyle nameStyle;
+        GUIStyle nameErrorStyle;
+        GUIStyle nameEditStyle;
         OverridePopupWindow popWindow;
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
         static GUIContent EditoModifyButton = new GUIContent(Drawer.prefabIcon, "Show/Hide Modified Properties and Events");
@@ -32,6 +35,34 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             showViewPageItem = new AnimBool(true);
             showViewPageItem.valueChanged.AddListener(this.editor.Repaint);
+
+            nameStyle = new GUIStyle
+            {
+                fontSize = 12,
+                fontStyle = FontStyle.Bold,
+                normal = { textColor = Color.black }
+            };
+            nameErrorStyle = new GUIStyle
+            {
+                fontSize = 12,
+                fontStyle = FontStyle.Bold,
+                normal = { textColor = Color.red }
+            };
+
+            nameEditStyle = new GUIStyle
+            {
+                fontSize = 12,
+                fontStyle = FontStyle.Bold,
+                imagePosition = ImagePosition.ImageOnly,
+                stretchWidth = false,
+                stretchHeight = false,
+                fixedHeight = 14,
+                fixedWidth = 14,
+                onNormal = { background = EditorGUIUtility.FindTexture("d_editicon.sml") },
+                normal = { background = EditorGUIUtility.FindTexture("d_FilterSelectedOnly") }
+            };
+
+
             removeButtonStyle = new GUIStyle
             {
                 fixedWidth = 25f,
@@ -118,8 +149,31 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewPageItemList = new ReorderableList(list, typeof(List<ViewPageItem>), true, true, true, false);
             viewPageItemList.drawElementCallback += DrawViewItemElement;
             viewPageItemList.drawHeaderCallback += DrawViewItemHeader;
-            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 6f;
+            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 5f;
             viewPageItemList.onAddCallback += AddItem;
+            viewPageItemList.drawElementBackgroundCallback += DrawItemBackground;
+            //viewPageItemList.elementHeightCallback += ElementHight;
+
+        }
+
+        private float ElementHight(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DrawItemBackground(Rect rect, int index, bool isActive, bool isFocused)
+        {
+            Rect oddRect = rect;
+            oddRect.x -= 20;
+            oddRect.width += 100;
+
+            if (isFocused)
+            {
+                ReorderableList.defaultBehaviours.DrawElementBackground(rect, index, isActive, isFocused, true);
+                return;
+            }
+
+            if (index % 2 == 0) GUI.Box(oddRect, GUIContent.none, oddStyle);
         }
 
         private void AddItem(ReorderableList rlist)
@@ -130,6 +184,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         private void DrawViewItemHeader(Rect rect)
         {
+
             float oriWidth = rect.width;
             rect.height = EditorGUIUtility.singleLineHeight;
             rect.x += 15;
@@ -279,47 +334,89 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             // float oriX = rect.x;
             // float oriY = rect.y;
             Rect oriRect = rect;
-            Rect oddRect = rect;
-            oddRect.x -= 20;
-            oddRect.width += 100;
-            if (index % 2 == 0) GUI.Box(oddRect, GUIContent.none, oddStyle);
+
             rect.x = oriRect.x;
             rect.width = oriRect.width - rightBtnWidth;
             rect.height = EditorGUIUtility.singleLineHeight;
 
 
 
-            //Still shows OutOfRangeException when remove item (but everything working fine)
-            //Doesn't know how to fix that
-            //Currently use a try-catch to avoid console message.
-            // try
-            // {
-
-            rect.y += EditorGUIUtility.singleLineHeight * 0.5f;
+            rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
+            /*Name Part Start */
 
             var nameRect = rect;
-            nameRect.width -= 20;
-            using (var disable = new EditorGUI.DisabledGroupScope(editableLock[index].name))
+            //nameRect.height += EditorGUIUtility.singleLineHeight * 0.25f;
+            nameRect.width = rect.width - 60;
+            GUIStyle nameRuntimeStyle;
+
+            if (list.Where(m => m.name == list[index].name).Count() > 1 && !string.IsNullOrEmpty(list[index].name))
             {
-                if (list.Where(m => m.name == list[index].name).Count() > 1 && !string.IsNullOrEmpty(list[index].name))
-                {
-                    GUI.color = Color.red;
-                }
-                else
-                {
-                    GUI.color = Color.white;
-                }
-                list[index].name = EditorGUI.TextField(nameRect, new GUIContent("Name", list[index].name), list[index].name);
+                GUI.color = Color.red;
+                nameRuntimeStyle = nameErrorStyle;
+            }
+            else
+            {
                 GUI.color = Color.white;
+                nameRuntimeStyle = nameStyle;
+            }
+
+            if (editableLock[index].name)
+            {
+                string showName = "Unnamed";
+                if (!string.IsNullOrEmpty(list[index].name))
+                {
+                    showName = list[index].name;
+                }
+                GUI.Label(nameRect, showName, nameRuntimeStyle);
+            }
+            else
+            {
+                list[index].name = EditorGUI.TextField(nameRect, GUIContent.none, list[index].name);
+            }
+            if (e.isMouse && e.type == EventType.MouseDown && e.clickCount == 2 && nameRect.Contains(e.mousePosition))
+            {
+                editableLock[index].name = !editableLock[index].name;
             }
             nameRect.x += nameRect.width;
-            nameRect.width = 20;
-            editableLock[index].name = EditorGUI.Toggle(nameRect, new GUIContent("", "Manual Name"), editableLock[index].name, new GUIStyle("IN LockButton"));
+            nameRect.width = 16;
+            editableLock[index].name = EditorGUI.Toggle(nameRect, new GUIContent("", "Manual Name"), editableLock[index].name, nameEditStyle);
 
-            rect.y += EditorGUIUtility.singleLineHeight;
+            GUI.color = Color.white;
+
+            /*Name Part End */
+
+            /*Toggle Button Part Start */
+            Rect rightRect = rect;
+
+            rightRect.x = rect.width;
+            rightRect.width = 20;
+            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("_Popup"), "More Setting"), removeButtonStyle))
+            {
+                PopupWindow.Show(rect, new VS_EditorUtility.ViewPageItemDetailPopup(rect, list[index]));
+            }
+
+            rightRect.x -= 20;
+            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow"), "Open in new Instpector tab"), removeButtonStyle))
+            {
+                if (list[index].viewElement == null)
+                {
+                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
+                    return;
+                }
+                CloudMacaca.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
+            }
+
+            rightRect.x -= 20;
+
+
+
+            /*Toggle Button Part End */
+
+
+            rect.y += EditorGUIUtility.singleLineHeight * 1.25f;
 
             var veRect = rect;
-            veRect.width = rect.width - 40;
+            veRect.width = rect.width - 20;
             using (var check = new EditorGUI.ChangeCheckScope())
             {
                 string oriViewElement = "";
@@ -359,35 +456,24 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             veRect.x += veRect.width;
             veRect.width = 20;
 
-            // if (GUI.Button(veRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow"), "Open in new Instpector tab"), GUIStyle.none))
-            // {
-            //     if (list[index].viewElement == null)
-            //     {
-            //         editor.console.LogErrorMessage("ViewElement has not been select yet!");
-            //         return;
-            //     }
-            //     CloudMacaca.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
-            // }
-            // veRect.x += veRect.width;
-            // if (GUI.Button(veRect, EditoModifyButton, GUIStyle.none))
-            // {
-            //     if (list[index].viewElement == null)
-            //     {
-            //         editor.console.LogErrorMessage("ViewElement has not been select yet!");
-            //         return;
-            //     }
-            //     if (OverridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
-            //     {
-            //         veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
-            //         editor.overridePopupWindow.SetViewPageItem(list[index]);
-            //         editor.overridePopupWindow.Show(veRect);
-            //     }
-            //     else
-            //     {
-            //         OverridePopupWindow.show = false;
-            //     }
-            // }
-
+            if (GUI.Button(veRect, EditoModifyButton, removeButtonStyle))
+            {
+                if (list[index].viewElement == null)
+                {
+                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
+                    return;
+                }
+                if (OverridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
+                {
+                    veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
+                    editor.overridePopupWindow.SetViewPageItem(list[index]);
+                    editor.overridePopupWindow.Show(veRect);
+                }
+                else
+                {
+                    OverridePopupWindow.show = false;
+                }
+            }
             rect.y += EditorGUIUtility.singleLineHeight;
 
             veRect = rect;
@@ -487,9 +573,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     Debug.LogError("Selected Parent is not child of ViewController GameObject");
                 }
             }
-            rect.y += EditorGUIUtility.singleLineHeight * 1.25f;
 
-
+            rect.width = 18;
+            rect.x -= 21;
+            if (GUI.Button(rect, new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), removeButtonStyle))
+            {
+                if (EditorUtility.DisplayDialog("Remove", "Do you really want to remove this item", "Sure", "Not now"))
+                {
+                    list.RemoveAt(index);
+                    editableLock.RemoveAt(index);
+                    RefreshSideBar();
+                    return;
+                }
+            }
             // rect.y += EditorGUIUtility.singleLineHeight;
 
             // list[index].easeType = (DG.Tweening.Ease)EditorGUI.EnumPopup(rect, new GUIContent("Ease", "The EaseType when needs to tween."), list[index].easeType);
@@ -568,68 +664,21 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //     Debug.Log("index " + index + " ___1" + ex.Message);
 
             // }
-            Rect rightRect = rect;
-            rightRect.x = rect.x;
-            rightRect.y = rect.y;
-            rightRect.height = rect.height;
-            rightRect.width = 20;
-            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("_Popup")), removeButtonStyle))
-            {
-                PopupWindow.Show(rightRect, new VS_EditorUtility.ViewPageItemDetailPopup(rect, list[index]));
-            }
+            // Rect rightRect = oriRect;
+            // rightRect.x = rect.x;
+            // rightRect.y = rect.y;
+            // rightRect.height = rect.height;
+            // rightRect.width = 20;
 
-            rightRect.x += 20;
-            if (GUI.Button(rightRect, EditoModifyButton, removeButtonStyle))
-            {
-                if (list[index].viewElement == null)
-                {
-                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
-                    return;
-                }
-                if (OverridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
-                {
-                    veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
-                    editor.overridePopupWindow.SetViewPageItem(list[index]);
-                    editor.overridePopupWindow.Show(veRect);
-                }
-                else
-                {
-                    OverridePopupWindow.show = false;
-                }
-            }
-
-            rightRect.x += 20;
-            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow"), "Open in new Instpector tab"), removeButtonStyle))
-            {
-                if (list[index].viewElement == null)
-                {
-                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
-                    return;
-                }
-                CloudMacaca.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
-            }
-
-
-            rightRect.x = oriRect.width;
-            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), removeButtonStyle))
-            {
-                if (EditorUtility.DisplayDialog("Remove", "Do you really want to remove this item", "Sure", "Not now"))
-                {
-                    list.RemoveAt(index);
-                    editableLock.RemoveAt(index);
-                    RefreshSideBar();
-                    return;
-                }
-            }
         }
-        static float SideBarWidth = 350;
+        static float InspectorWidth = 350;
         Rect infoAreaRect;
         public Vector2 scrollerPos;
 
         public void Draw()
         {
             if (show)
-                rect = new Rect(0, 20f, SideBarWidth, editor.position.height - 20f);
+                rect = new Rect(0, 20f, InspectorWidth, editor.position.height - 20f);
             else
                 rect = Rect.zero;
 
@@ -664,7 +713,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         bool resizeBarPressed = false;
         void DrawResizeBar()
         {
-            ResizeBarRect = new Rect(rect.x + SideBarWidth, rect.y, 4, rect.height);
+            ResizeBarRect = new Rect(rect.x + InspectorWidth, rect.y, 4, rect.height);
             EditorGUIUtility.AddCursorRect(ResizeBarRect, MouseCursor.ResizeHorizontal);
 
             GUI.Box(ResizeBarRect, "");
@@ -681,8 +730,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             if (resizeBarPressed && Event.current.type == EventType.MouseDrag)
             {
-                SideBarWidth += Event.current.delta.x;
-                SideBarWidth = Mathf.Clamp(SideBarWidth, 270, 450);
+                InspectorWidth += Event.current.delta.x;
+                InspectorWidth = Mathf.Clamp(InspectorWidth, 270, 450);
                 Event.current.Use();
                 GUI.changed = true;
             }
