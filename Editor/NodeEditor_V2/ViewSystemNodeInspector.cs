@@ -301,14 +301,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             nameRect.width -= 20;
             using (var disable = new EditorGUI.DisabledGroupScope(editableLock[index].name))
             {
-                // if (list.Where(m => m.name == list[index].name).Count() == 0)
-                // {
-                //     GUI.color = Color.white;
-                // }
-                // else
-                // {
-                //     GUI.color = Color.red;
-                // }
+                if (list.Where(m => m.name == list[index].name).Count() > 1 && !string.IsNullOrEmpty(list[index].name))
+                {
+                    GUI.color = Color.red;
+                }
+                else
+                {
+                    GUI.color = Color.white;
+                }
                 list[index].name = EditorGUI.TextField(nameRect, new GUIContent("Name", list[index].name), list[index].name);
                 GUI.color = Color.white;
             }
