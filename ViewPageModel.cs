@@ -7,6 +7,8 @@ namespace CloudMacaca.ViewSystem
     [System.Serializable]
     public class ViewPageItem
     {
+
+        public string name;
         static Transform ViewControllerObject;
 
         public ViewElement viewElement;

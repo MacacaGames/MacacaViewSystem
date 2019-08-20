@@ -19,9 +19,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         AnimBool showViewPageItem;
         ReorderableList viewPageItemList;
         GUIStyle removeButtonStyle;
+        GUIStyle oddStyle;
         OverridePopupWindow popWindow;
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
-        static GUIContent EditoModifyButton = new GUIContent(EditorGUIUtility.FindTexture("_Popup"), "Show/Hide Modified Properties and Events");
+        static GUIContent EditoModifyButton = new GUIContent(Drawer.prefabIcon, "Show/Hide Modified Properties and Events");
         public ViewSystemNodeInspector(ViewSystemNodeEditor editor)
         {
             this.editor = editor;
@@ -42,6 +43,24 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 alignment = TextAnchor.MiddleCenter
             };
 
+            oddStyle = new GUIStyle
+            {
+                normal ={
+                background = CMEditorUtility.CreatePixelTexture("red Pixel (List GUI)", new Color32(0, 0, 0, 20))
+
+                },
+                active =
+            {
+                background = CMEditorUtility.CreatePixelTexture("red Pixel (List GUI)", new Color32(0, 0, 0, 20))
+            },
+                imagePosition = ImagePosition.ImageOnly,
+                alignment = TextAnchor.MiddleCenter,
+                stretchWidth = true,
+                stretchHeight = false,
+                padding = new RectOffset(0, 0, 0, 0),
+                margin = new RectOffset(0, 0, 0, 0)
+            };
+
             excludePlatformOptions.Clear();
 
             foreach (var item in Enum.GetValues(typeof(ViewPageItem.PlatformOption)))
@@ -57,8 +76,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         private static Rect rect;
         List<ViewPageItem> list;
-        List<bool> editableLock = new List<bool>();
-
+        List<EditableLockItem> editableLock = new List<EditableLockItem>();
+        class EditableLockItem
+        {
+            public EditableLockItem(bool defaultValue)
+            {
+                parent = defaultValue;
+                name = defaultValue;
+            }
+            public bool parent;
+            public bool name;
+        }
         public void SetCurrentSelectItem(ViewSystemNode currentSelectNode)
         {
             this.currentSelectNode = currentSelectNode;
@@ -79,7 +107,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             editableLock.Clear();
             list.All(x =>
             {
-                editableLock.Add(true);
+                editableLock.Add(new EditableLockItem(true));
                 return true;
             });
             RefreshSideBar();
@@ -90,14 +118,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewPageItemList = new ReorderableList(list, typeof(List<ViewPageItem>), true, true, true, false);
             viewPageItemList.drawElementCallback += DrawViewItemElement;
             viewPageItemList.drawHeaderCallback += DrawViewItemHeader;
-            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 8.5f;
+            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 6f;
             viewPageItemList.onAddCallback += AddItem;
         }
 
         private void AddItem(ReorderableList rlist)
         {
             list.Add(new ViewPageItem(null));
-            editableLock.Add(true);
+            editableLock.Add(new EditableLockItem(true));
         }
 
         private void DrawViewItemHeader(Rect rect)
@@ -116,7 +144,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
-        const int removeBtnWidth = 25;
+        const int rightBtnWidth = 0;
         ViewPageItem copyPasteBuffer;
         ViewElementOverridesImporterWindow overrideChecker;
         private void DrawViewItemElement(Rect rect, int index, bool isActive, bool isFocused)
@@ -251,10 +279,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             // float oriX = rect.x;
             // float oriY = rect.y;
             Rect oriRect = rect;
-
+            Rect oddRect = rect;
+            oddRect.x -= 20;
+            oddRect.width += 100;
+            if (index % 2 == 0) GUI.Box(oddRect, GUIContent.none, oddStyle);
             rect.x = oriRect.x;
-            rect.width = oriRect.width - removeBtnWidth;
+            rect.width = oriRect.width - rightBtnWidth;
             rect.height = EditorGUIUtility.singleLineHeight;
+
+
 
             //Still shows OutOfRangeException when remove item (but everything working fine)
             //Doesn't know how to fix that
@@ -262,10 +295,30 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             // try
             // {
 
-            rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
+            rect.y += EditorGUIUtility.singleLineHeight * 0.5f;
+
+            var nameRect = rect;
+            nameRect.width -= 20;
+            using (var disable = new EditorGUI.DisabledGroupScope(editableLock[index].name))
+            {
+                // if (list.Where(m => m.name == list[index].name).Count() == 0)
+                // {
+                //     GUI.color = Color.white;
+                // }
+                // else
+                // {
+                //     GUI.color = Color.red;
+                // }
+                list[index].name = EditorGUI.TextField(nameRect, new GUIContent("Name", list[index].name), list[index].name);
+                GUI.color = Color.white;
+            }
+            nameRect.x += nameRect.width;
+            nameRect.width = 20;
+            editableLock[index].name = EditorGUI.Toggle(nameRect, new GUIContent("", "Manual Name"), editableLock[index].name, new GUIStyle("IN LockButton"));
+
+            rect.y += EditorGUIUtility.singleLineHeight;
 
             var veRect = rect;
-
             veRect.width = rect.width - 40;
             using (var check = new EditorGUI.ChangeCheckScope())
             {
@@ -274,6 +327,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     oriViewElement = list[index].viewElement.name;
                 }
+
+
                 list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), true);
                 if (check.changed)
                 {
@@ -304,40 +359,40 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             veRect.x += veRect.width;
             veRect.width = 20;
 
-            if (GUI.Button(veRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow"), "Open in new Instpector tab"), GUIStyle.none))
-            {
-                if (list[index].viewElement == null)
-                {
-                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
-                    return;
-                }
-                CloudMacaca.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
-            }
-            veRect.x += veRect.width;
-            if (GUI.Button(veRect, EditoModifyButton, GUIStyle.none))
-            {
-                if (list[index].viewElement == null)
-                {
-                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
-                    return;
-                }
-                if (OverridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
-                {
-                    veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
-                    editor.overridePopupWindow.SetViewPageItem(list[index]);
-                    editor.overridePopupWindow.Show(veRect);
-                }
-                else
-                {
-                    OverridePopupWindow.show = false;
-                }
-            }
+            // if (GUI.Button(veRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow"), "Open in new Instpector tab"), GUIStyle.none))
+            // {
+            //     if (list[index].viewElement == null)
+            //     {
+            //         editor.console.LogErrorMessage("ViewElement has not been select yet!");
+            //         return;
+            //     }
+            //     CloudMacaca.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
+            // }
+            // veRect.x += veRect.width;
+            // if (GUI.Button(veRect, EditoModifyButton, GUIStyle.none))
+            // {
+            //     if (list[index].viewElement == null)
+            //     {
+            //         editor.console.LogErrorMessage("ViewElement has not been select yet!");
+            //         return;
+            //     }
+            //     if (OverridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
+            //     {
+            //         veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
+            //         editor.overridePopupWindow.SetViewPageItem(list[index]);
+            //         editor.overridePopupWindow.Show(veRect);
+            //     }
+            //     else
+            //     {
+            //         OverridePopupWindow.show = false;
+            //     }
+            // }
 
             rect.y += EditorGUIUtility.singleLineHeight;
 
             veRect = rect;
             veRect.width = rect.width - 20;
-            if (!editableLock[index])
+            if (!editableLock[index].parent)
             {
                 using (var check = new EditorGUI.ChangeCheckScope())
                 {
@@ -371,11 +426,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             veRect.x += veRect.width;
             veRect.width = 20;
-            editableLock[index] = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index], new GUIStyle("IN LockButton"));
+            editableLock[index].parent = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index].parent, new GUIStyle("IN LockButton"));
 
             rect.y += EditorGUIUtility.singleLineHeight;
 
-            if (editableLock[index])
+            if (editableLock[index].parent)
             {
                 var parentFunctionRect = rect;
                 parentFunctionRect.width = rect.width * 0.32f;
@@ -432,90 +487,131 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     Debug.LogError("Selected Parent is not child of ViewController GameObject");
                 }
             }
-
-            rect.y += EditorGUIUtility.singleLineHeight;
-
-            list[index].easeType = (DG.Tweening.Ease)EditorGUI.EnumPopup(rect, new GUIContent("Ease", "The EaseType when needs to tween."), list[index].easeType);
-            rect.y += EditorGUIUtility.singleLineHeight;
-
-            list[index].TweenTime = EditorGUI.Slider(rect, new GUIContent("Tween Time", "Tween Time use to control when ViewElement needs change parent."), list[index].TweenTime, 0, 1);
-            rect.y += EditorGUIUtility.singleLineHeight;
-
-            list[index].delayIn = EditorGUI.Slider(rect, "Delay In", list[index].delayIn, 0, 1);
-            rect.y += EditorGUIUtility.singleLineHeight;
-
-            list[index].delayOut = EditorGUI.Slider(rect, "Delay Out", list[index].delayOut, 0, 1);
-            rect.y += EditorGUIUtility.singleLineHeight;
-
-            bool isExcloudAndroid = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.Android);
-            bool isExcloudiOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.iOS);
-            bool isExcloudtvOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.tvOS);
-            bool isExcloudUWP = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.UWP);
+            rect.y += EditorGUIUtility.singleLineHeight * 1.25f;
 
 
-            EditorGUIUtility.labelWidth = 20.0f;
-            rect.width = oriRect.width * 0.25f;
+            // rect.y += EditorGUIUtility.singleLineHeight;
 
-            string proIconFix = "";
-            if (EditorGUIUtility.isProSkin)
-            {
-                proIconFix = "d_";
-            }
-            else
-            {
-                proIconFix = "";
-            }
+            // list[index].easeType = (DG.Tweening.Ease)EditorGUI.EnumPopup(rect, new GUIContent("Ease", "The EaseType when needs to tween."), list[index].easeType);
+            // rect.y += EditorGUIUtility.singleLineHeight;
 
-            EditorGUI.BeginChangeCheck();
-            using (var check = new EditorGUI.ChangeCheckScope())
-            {
-                isExcloudAndroid = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Android.Small")), isExcloudAndroid);
-                rect.x += rect.width;
+            // list[index].TweenTime = EditorGUI.Slider(rect, new GUIContent("Tween Time", "Tween Time use to control when ViewElement needs change parent."), list[index].TweenTime, 0, 1);
+            // rect.y += EditorGUIUtility.singleLineHeight;
 
-                isExcloudiOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.iPhone.Small")), isExcloudiOS);
-                rect.x += rect.width;
+            // list[index].delayIn = EditorGUI.Slider(rect, "Delay In", list[index].delayIn, 0, 1);
+            // rect.y += EditorGUIUtility.singleLineHeight;
 
-                isExcloudtvOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.tvOS.Small")), isExcloudtvOS);
-                rect.x += rect.width;
+            // list[index].delayOut = EditorGUI.Slider(rect, "Delay Out", list[index].delayOut, 0, 1);
+            // rect.y += EditorGUIUtility.singleLineHeight;
 
-                isExcloudUWP = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Standalone.Small")), isExcloudUWP);
+            //rect.y += EditorGUIUtility.singleLineHeight;
+            // bool isExcloudAndroid = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.Android);
+            // bool isExcloudiOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.iOS);
+            // bool isExcloudtvOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.tvOS);
+            // bool isExcloudUWP = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.UWP);
 
-                if (check.changed)
-                {
-                    list[index].excludePlatform.Clear();
 
-                    if (!isExcloudAndroid)
-                    {
-                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.Android);
-                    }
-                    if (!isExcloudiOS)
-                    {
-                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.iOS);
-                    }
-                    if (!isExcloudtvOS)
-                    {
-                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
-                    }
-                    if (!isExcloudUWP)
-                    {
-                        list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
-                    }
-                }
-            }
+            // EditorGUIUtility.labelWidth = 20.0f;
+            // rect.width = oriRect.width * 0.25f;
 
-            rect.y += EditorGUIUtility.singleLineHeight;
+            // string proIconFix = "";
+            // if (EditorGUIUtility.isProSkin)
+            // {
+            //     proIconFix = "d_";
+            // }
+            // else
+            // {
+            //     proIconFix = "";
+            // }
+
+            // EditorGUI.BeginChangeCheck();
+            // using (var check = new EditorGUI.ChangeCheckScope())
+            // {
+            //     isExcloudAndroid = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Android.Small")), isExcloudAndroid);
+            //     rect.x += rect.width;
+
+            //     isExcloudiOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.iPhone.Small")), isExcloudiOS);
+            //     rect.x += rect.width;
+
+            //     isExcloudtvOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.tvOS.Small")), isExcloudtvOS);
+            //     rect.x += rect.width;
+
+            //     isExcloudUWP = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Standalone.Small")), isExcloudUWP);
+
+            //     if (check.changed)
+            //     {
+            //         list[index].excludePlatform.Clear();
+
+            //         if (!isExcloudAndroid)
+            //         {
+            //             list[index].excludePlatform.Add(ViewPageItem.PlatformOption.Android);
+            //         }
+            //         if (!isExcloudiOS)
+            //         {
+            //             list[index].excludePlatform.Add(ViewPageItem.PlatformOption.iOS);
+            //         }
+            //         if (!isExcloudtvOS)
+            //         {
+            //             list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
+            //         }
+            //         if (!isExcloudUWP)
+            //         {
+            //             list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
+            //         }
+            //     }
+            // }
+
+            //rect.y += EditorGUIUtility.singleLineHeight;
             // }
             // catch (Exception ex)
             // {
             //     Debug.Log("index " + index + " ___1" + ex.Message);
 
             // }
+            Rect rightRect = rect;
+            rightRect.x = rect.x;
+            rightRect.y = rect.y;
+            rightRect.height = rect.height;
+            rightRect.width = 20;
+            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("_Popup")), removeButtonStyle))
+            {
+                PopupWindow.Show(rightRect, new VS_EditorUtility.ViewPageItemDetailPopup(rect, list[index]));
+            }
 
-            rect.x = oriRect.width;
-            rect.y = oriRect.y;
-            rect.height = oriRect.height;
-            rect.width = removeBtnWidth;
-            if (GUI.Button(rect, ReorderableList.defaultBehaviours.iconToolbarMinus, removeButtonStyle))
+            rightRect.x += 20;
+            if (GUI.Button(rightRect, EditoModifyButton, removeButtonStyle))
+            {
+                if (list[index].viewElement == null)
+                {
+                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
+                    return;
+                }
+                if (OverridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
+                {
+                    veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
+                    editor.overridePopupWindow.SetViewPageItem(list[index]);
+                    editor.overridePopupWindow.Show(veRect);
+                }
+                else
+                {
+                    OverridePopupWindow.show = false;
+                }
+            }
+
+            rightRect.x += 20;
+            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow"), "Open in new Instpector tab"), removeButtonStyle))
+            {
+                if (list[index].viewElement == null)
+                {
+                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
+                    return;
+                }
+                CloudMacaca.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
+            }
+
+
+            rightRect.x = oriRect.width;
+            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), removeButtonStyle))
             {
                 if (EditorUtility.DisplayDialog("Remove", "Do you really want to remove this item", "Sure", "Not now"))
                 {
