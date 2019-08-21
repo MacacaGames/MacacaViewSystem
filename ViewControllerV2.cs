@@ -60,6 +60,7 @@ namespace CloudMacaca.ViewSystem
                 var temp = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
                 temp.name = source.name + "(Unique)";
                 uniqueVeDicts.Add(source.name, temp);
+                temp.gameObject.SetActive(false);
                 return temp;
             }
             else
