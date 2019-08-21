@@ -74,6 +74,7 @@ namespace CloudMacaca.ViewSystem
 
         public string AnimationStateName_Out = "Out";
         public string AnimationStateName_Loop = "Loop";
+        const string ButtonAnimationBoolKey = "IsLoop";
         //Animator
 
         //Canvas
@@ -269,6 +270,10 @@ namespace CloudMacaca.ViewSystem
                     if (transition == TransitionType.Animator)
                     {
                         animator.Play(AnimationStateName_In);
+                        if (transition == TransitionType.Animator)
+                        {
+                            animator.SetBool(ButtonAnimationBoolKey, true);
+                        }
                     }
                     else if (transition == TransitionType.CanvasGroupAlpha)
                     {
@@ -289,7 +294,10 @@ namespace CloudMacaca.ViewSystem
         public void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
         {
             //Debug.LogError("OnLeave " + name);
-
+            if (transition == TransitionType.Animator)
+            {
+                animator.SetBool(ButtonAnimationBoolKey, false);
+            }
             needPool = NeedPool;
             OnLeaveWorking = true;
             OnLeaveDisposable = Observable
