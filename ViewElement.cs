@@ -75,6 +75,31 @@ namespace CloudMacaca.ViewSystem
         public string AnimationStateName_Out = "Out";
         public string AnimationStateName_Loop = "Loop";
         const string ButtonAnimationBoolKey = "IsLoop";
+
+        bool? _hasLoopBool = null;
+        bool hasLoopBool
+        {
+            get
+            {
+                if (transition != TransitionType.Animator)
+                {
+                    _hasLoopBool = false;
+                }
+                else if (_hasLoopBool == null)
+                {
+                    foreach (AnimatorControllerParameter param in animator.parameters)
+                    {
+                        if (param.name == ButtonAnimationBoolKey)
+                        {
+                            _hasLoopBool = true;
+                            break;
+                        }
+                    }
+                    _hasLoopBool = false;
+                }
+                return _hasLoopBool.Value;
+            }
+        }
         //Animator
 
         //Canvas
@@ -270,7 +295,7 @@ namespace CloudMacaca.ViewSystem
                     if (transition == TransitionType.Animator)
                     {
                         animator.Play(AnimationStateName_In);
-                        if (transition == TransitionType.Animator)
+                        if (transition == TransitionType.Animator && hasLoopBool)
                         {
                             animator.SetBool(ButtonAnimationBoolKey, true);
                         }
@@ -294,7 +319,7 @@ namespace CloudMacaca.ViewSystem
         public void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
         {
             //Debug.LogError("OnLeave " + name);
-            if (transition == TransitionType.Animator)
+            if (transition == TransitionType.Animator && hasLoopBool)
             {
                 animator.SetBool(ButtonAnimationBoolKey, false);
             }
