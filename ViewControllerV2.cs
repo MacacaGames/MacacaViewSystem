@@ -164,7 +164,7 @@ namespace CloudMacaca.ViewSystem
             {
                 return (T)result;
             }
-            throw new MissingReferenceException("Target type cannot been found, are you sure you have inject the component?");
+            throw new MissingReferenceException("Target type cannot been found, are you sure your ViewElement which attach target Component is unique?");
         }
         void PrewarmInjection()
         {

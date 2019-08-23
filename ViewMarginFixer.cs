@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using CloudMacaca;
 [ExecuteInEditMode]
-public class ViewMarginFixer : MonoBehaviour
+public class ViewMarginFixer : ViewElementLifeCycle
 {
-   
+
     [SerializeField]
     Margin margin;
 
@@ -13,7 +13,6 @@ public class ViewMarginFixer : MonoBehaviour
     {
         get
         {
-
             if (_rectTransform == null)
             {
                 _rectTransform = GetComponent<RectTransform>();
@@ -23,20 +22,16 @@ public class ViewMarginFixer : MonoBehaviour
 
     }
     RectTransform _rectTransform;
-    
+
     // Use this for initialization
-    void OnEnable()
-    {   
-        
+    public override void OnBeforeShow()
+    {
         ApplyModifyValue();
-        
     }
     public void SetModifyValueFromRectTransform()
     {
         var anchor = _rectTransform.GetAnchorPresets();
         AutoGuessFixTarget(anchor);
-        //Min new Vector2(left, bottom); 
-        //Max new Vector2(-right, -top);
 
         switch (anchor)
         {
@@ -286,6 +281,8 @@ public class ViewMarginFixer : MonoBehaviour
                 }
         }
     }
+
+
     [System.Serializable]
     public class Margin
     {
