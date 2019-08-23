@@ -104,7 +104,6 @@ namespace CloudMacaca.ViewSystem
                 //排除不希望被修改的欄位
                 if (prop.name == "m_Script" ||
                     prop.propertyType == SerializedPropertyType.LayerMask ||
-                    prop.propertyType == SerializedPropertyType.Enum ||
                     prop.propertyType == SerializedPropertyType.Rect ||
                     prop.propertyType == SerializedPropertyType.RectInt ||
                     prop.propertyType == SerializedPropertyType.Bounds ||
@@ -270,6 +269,9 @@ namespace CloudMacaca.ViewSystem
                             // EditorGUI.DrawRect(new Rect(rect4.x, rect4.y, rect4.width * Target.colorValue.a, rect4.height), Color.white);
                             break;
                         }
+                    case SerializedPropertyType.Enum:
+                        GUI.Box(rect, Target.enumDisplayNames[Target.enumValueIndex].ToString(), Drawer.valueBoxStyle);
+                        break;
                     case SerializedPropertyType.LayerMask:
                         GUI.Box(rect, Target.intValue.ToString(), Drawer.valueBoxStyle);
                         break;

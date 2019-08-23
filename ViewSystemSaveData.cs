@@ -101,6 +101,10 @@ namespace CloudMacaca.ViewSystem
                     return ObjectReferenceValue;
                 case S_Type._string:
                     return StringValue;
+                case S_Type._enum:
+                    var s = StringValue.Split(',');
+                    var enumType = CloudMacaca.Utility.GetType(s[0]);
+                    return System.Enum.Parse(enumType, s[1], false);
                 default:
                     return null;
             }
@@ -128,6 +132,11 @@ namespace CloudMacaca.ViewSystem
                 case UnityEditor.SerializedPropertyType.ObjectReference:
                     SetValue(modification.objectReference);
                     break;
+                case UnityEditor.SerializedPropertyType.Enum:
+                    var t = TryFindEnumType(modification.target, modification.propertyPath);
+                    var e = System.Enum.Parse(t, modification.value);
+                    SetValue(e);
+                    break;
             }
         }
 
@@ -153,7 +162,32 @@ namespace CloudMacaca.ViewSystem
                 case UnityEditor.SerializedPropertyType.ObjectReference:
                     SetValue(property.objectReferenceValue);
                     break;
+                case UnityEditor.SerializedPropertyType.Enum:
+                    var type = TryFindEnumType(property);
+                    var e = System.Enum.Parse(type, property.enumNames[property.enumValueIndex]);
+                    SetValue(e);
+                    break;
             }
+        }
+        public System.Type TryFindEnumType(UnityEngine.Object unityObject, string propertyPath)
+        {
+            var to = unityObject.GetType();
+            var fildInfo = to.GetField(propertyPath);
+
+            if (fildInfo != null)
+            {
+                return fildInfo.FieldType;
+            }
+            var propertyInfo = to.GetProperty(propertyPath);
+            if (propertyInfo != null)
+            {
+                return propertyInfo.PropertyType;
+            }
+            return null;
+        }
+        public System.Type TryFindEnumType(UnityEditor.SerializedProperty property)
+        {
+            return TryFindEnumType(property.serializedObject.targetObject, property.propertyPath);
         }
 #endif
 
@@ -175,6 +209,12 @@ namespace CloudMacaca.ViewSystem
             else if (value is bool)
             {
                 s_Type = S_Type._bool;
+            }
+            else if (value.GetType().IsEnum)
+            {
+                s_Type = S_Type._enum;
+                StringValue = value.GetType().ToString() + "," + value.ToString();
+                toStringDirectly = false;
             }
             else if (value is Color)
             {
@@ -226,7 +266,7 @@ namespace CloudMacaca.ViewSystem
         }
         public enum S_Type
         {
-            _bool, _float, _int, _color, _objcetReferenct, _string
+            _bool, _float, _int, _color, _objcetReferenct, _string, _enum
         }
         public S_Type s_Type = S_Type._string;
         // public AnimationCurve AnimationCurveValue;

@@ -94,6 +94,9 @@ namespace CloudMacaca.ViewSystem
                 case SerializedPropertyType.ObjectReference:
                     overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, GetPropertyType(Target), false);
                     break;
+                case SerializedPropertyType.Enum:
+                    overProperty.SetValue(EditorGUI.EnumPopup(rect, content, (Enum)overProperty.GetValue()));
+                    break;
             }
             return EditorGUI.EndChangeCheck();
         }
