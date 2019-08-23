@@ -81,21 +81,24 @@ namespace CloudMacaca.ViewSystem
         {
             get
             {
-                if (transition != TransitionType.Animator)
+                if (_hasLoopBool == null)
                 {
-                    _hasLoopBool = false;
-                }
-                else if (_hasLoopBool == null)
-                {
-                    foreach (AnimatorControllerParameter param in animator.parameters)
+                    if (transition != TransitionType.Animator)
                     {
-                        if (param.name == ButtonAnimationBoolKey)
-                        {
-                            _hasLoopBool = true;
-                            break;
-                        }
+                        _hasLoopBool = false;
                     }
-                    _hasLoopBool = false;
+                    else
+                    {
+                        foreach (AnimatorControllerParameter param in animator.parameters)
+                        {
+                            if (param.name == ButtonAnimationBoolKey)
+                            {
+                                _hasLoopBool = true;
+                                return _hasLoopBool.Value;
+                            }
+                        }
+                        _hasLoopBool = false;
+                    }
                 }
                 return _hasLoopBool.Value;
             }
