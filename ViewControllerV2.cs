@@ -538,5 +538,22 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
+        public ViewElement GetViewPageElementByName(ViewPage viewPage, string viewPageItemName)
+        {
+            return viewPage.viewPageItems.Where((_) => _.name == viewPageItemName).SingleOrDefault().runtimeViewElement;
+        }
+        public ViewElement GetViewPageElementByName(string viewPageName, string viewPageItemName)
+        {
+            return GetViewPageElementByName(viewPages.SingleOrDefault(m => m.name == viewPageName),viewPageItemName);
+        }
+        public ViewElement GetCurrentViewPageElementByName(string viewPageItemName)
+        {
+            return GetViewPageElementByName(currentViewPage, viewPageItemName);
+        }
+        public T GetCurrentViewPageElementComponentByName<T>(string viewPageItemName) where T: Component
+        {
+            return GetViewPageElementByName(currentViewPage, viewPageItemName).GetComponent<T>();
+        }
+
     }
 }
