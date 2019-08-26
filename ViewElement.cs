@@ -439,7 +439,7 @@ namespace CloudMacaca.ViewSystem
             if (runtimePool != null)
             {
                 runtimePool.QueueViewElementToRecovery(this);
-                if (runtimeOverride != null) runtimeOverride.ResetLastOverride();
+                if (runtimeOverride != null) runtimeOverride.ResetToDefaultValues();
             }
         }
         public bool DisableGameObjectOnComplete = true;

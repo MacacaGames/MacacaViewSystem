@@ -21,6 +21,7 @@ namespace CloudMacaca.ViewSystem
         public void QueueViewElementToRecovery(ViewElement toRecovery)
         {
             recycleQueue.Enqueue(toRecovery);
+            //Debug.Log($"QueueViewElementToRecovery {toRecovery.name}");
         }
 
         public void RecoveryViewElement(ViewElement toRecovery)
@@ -44,7 +45,9 @@ namespace CloudMacaca.ViewSystem
         {
             while (recycleQueue.Count > 0)
             {
-                RecoveryViewElement(recycleQueue.Dequeue());
+                var a = recycleQueue.Dequeue();
+                //Debug.Log($"RecoveryQueuedViewElement {a.name}");
+                RecoveryViewElement(a);
             }
         }
         public ViewElement PrewarmUniqueViewElement(ViewElement source)
@@ -69,7 +72,7 @@ namespace CloudMacaca.ViewSystem
                 return null;
             }
         }
-        public ViewElement RequestViewElement(ViewElement source, bool isOverlay)
+        public ViewElement RequestViewElement(ViewElement source)
         {
             ViewElement result;
 
@@ -84,7 +87,8 @@ namespace CloudMacaca.ViewSystem
             }
             else
             {
-                if (!veDicts.TryGetValue(source.name, out Queue<ViewElement> veQueue))
+                Queue<ViewElement> veQueue;
+                if (!veDicts.TryGetValue(source.name, out veQueue))
                 {
                     veQueue = new Queue<ViewElement>();
                     veDicts.Add(source.name, veQueue);
@@ -92,7 +96,6 @@ namespace CloudMacaca.ViewSystem
                 if (veQueue.Count == 0)
                 {
                     var a = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
-                    //a.name = source.name + (isOverlay ? "(Overlay)" : "(Pooled)");
                     a.name = source.name + ("(Pooled)");
                     veQueue.Enqueue(a);
                 }
@@ -176,7 +179,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     continue;
                 }
-             
+
                 var r = runtimePool.PrewarmUniqueViewElement(item);
                 if (r != null)
                 {
@@ -201,7 +204,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     continue;
                 }
-              
+
                 var r = runtimePool.PrewarmUniqueViewElement(item);
                 if (r != null)
                 {
@@ -229,10 +232,10 @@ namespace CloudMacaca.ViewSystem
                 {
                     item.runtimeParent = transformCache.Find(item.parentPath);
                 }
-                if (item.runtimeViewElement == null)
-                {
-                    item.runtimeViewElement = runtimePool.RequestViewElement(item.viewElement, isOverlay);
-                }
+                // if (item.runtimeViewElement == null)
+                // {
+                item.runtimeViewElement = runtimePool.RequestViewElement(item.viewElement);
+                // }
             }
             return viewPageItems;
         }
@@ -272,12 +275,9 @@ namespace CloudMacaca.ViewSystem
             //viewItemNextPage 代表下個 ViewPage 應該出現的所有 ViewPageItem
             var viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
             //viewItemCurrentPage 代表目前 ViewPage 已出現的所有 ViewPageItem
-            var viewItemCurrentPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(currentViewPage));
+            //var viewItemCurrentPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(currentViewPage));
 
             //尋找這個頁面還在，但下個頁面沒有的元件，這些元件應該先移除
-            // 10/13 新邏輯 使用兩個 ViewPageItem 先連集在差集
-            // var viewElementExitsInBothPage = viewItemNextPage.Where(m => m.runtimeViewElement.IsUnique).Intersect(viewItemCurrentPage.Where(m => m.runtimeViewElement.IsUnique)).Select(m => m.viewElement).ToList();
-
             List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
             //尋找這個頁面還在，但下個頁面沒有的元件
             //就是存在 currentLiveElement 中但不存在 viewItemForNextPage 的傢伙要 ChangePage 
@@ -544,13 +544,13 @@ namespace CloudMacaca.ViewSystem
         }
         public ViewElement GetViewPageElementByName(string viewPageName, string viewPageItemName)
         {
-            return GetViewPageElementByName(viewPages.SingleOrDefault(m => m.name == viewPageName),viewPageItemName);
+            return GetViewPageElementByName(viewPages.SingleOrDefault(m => m.name == viewPageName), viewPageItemName);
         }
         public ViewElement GetCurrentViewPageElementByName(string viewPageItemName)
         {
             return GetViewPageElementByName(currentViewPage, viewPageItemName);
         }
-        public T GetCurrentViewPageElementComponentByName<T>(string viewPageItemName) where T: Component
+        public T GetCurrentViewPageElementComponentByName<T>(string viewPageItemName) where T : Component
         {
             return GetViewPageElementByName(currentViewPage, viewPageItemName).GetComponent<T>();
         }

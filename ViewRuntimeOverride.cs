@@ -6,11 +6,13 @@ using System.Linq;
 using UnityEngine.Events;
 using System;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 namespace CloudMacaca.ViewSystem
 {
-    public class ViewRuntimeOverride : TransformCacheBase
+    public class ViewRuntimeOverride : SerializedMonoBehaviour
     {
+        #region EventOverride
         public ViewElementEventData[] currentEventDatas;
         class EventRuntimeDatas
         {
@@ -43,11 +45,11 @@ namespace CloudMacaca.ViewSystem
                 Transform targetTansform;
                 if (string.IsNullOrEmpty(p[0]))
                 {
-                    targetTansform = transformCache;
+                    targetTansform = transform;
                 }
                 else
                 {
-                    targetTansform = transformCache.Find(p[0]);
+                    targetTansform = transform.Find(p[0]);
                 }
 
                 EventRuntimeDatas eventRuntimeDatas;
@@ -56,10 +58,8 @@ namespace CloudMacaca.ViewSystem
                 {
                     //p[1] is targetComponentType
                     Component selectable = targetTansform.GetComponent(p[1]);
-                    System.Type t = selectable.GetType();
-
                     //p[2] is targetPropertyPath
-                    UnityEvent unityEvent = (UnityEvent)GetProperty(t, selectable, p[2]);
+                    UnityEvent unityEvent = (UnityEvent)GetProperty(selectable, p[2]);
                     eventRuntimeDatas = new EventRuntimeDatas(unityEvent, selectable);
                     cachedUnityEvent.Add(item.Key, eventRuntimeDatas);
                 }
@@ -111,7 +111,6 @@ namespace CloudMacaca.ViewSystem
                 }
             }
         }
-
         const string GeneratedScriptInstanceGameObjectName = "Generated_ViewSystem";
         Component GenerateScriptInstance(Type type)
         {
@@ -123,24 +122,28 @@ namespace CloudMacaca.ViewSystem
             }
             return go.AddComponent(type);
         }
+        #endregion
 
-        public void ResetLastOverride()
+        #region  Property Override
+        public void ResetToDefaultValues()
         {
-
-            foreach (var item in modifiedFields)
+            foreach (var item in currentModifiedField)
             {
-                if (isUnityEngineType(item.type))
+                // if (isUnityEngineType(item.type))
+                // {
+                PrefabDefaultField defaultField;
+                if (prefabDefaultFields.TryGetValue(item, out defaultField))
                 {
-                    SetProperty(item.type, cachedComponent[item.id], item.field, item.orignalValue);
+                    SetProperty(cachedComponent[defaultField.id], defaultField.field, defaultField.defaultValue);
                 }
-                else
-                {
-                    SetField(item.type, cachedComponent[item.id], item.field, item.orignalValue);
-                }
-                //Debug.Log("set " + item.type + " to " + item.orignalValue + " on " + cachedComponent[item.id], this);
-
+                //Debug.Log($"Reset [{gameObject.name}] [{item.type}] on [{ cachedComponent[item.id]}] field [{item.field}] to [{item.orignalValue}]");
+                // }
+                // else
+                // {
+                //     SetField(item.type, cachedComponent[item.id], item.field, item.orignalValue);
+                // }
             }
-            modifiedFields.Clear();
+            currentModifiedField.Clear();
         }
         static BindingFlags bindingFlags =
             BindingFlags.NonPublic |
@@ -150,17 +153,17 @@ namespace CloudMacaca.ViewSystem
         Dictionary<string, UnityEngine.Object> cachedComponent = new Dictionary<string, UnityEngine.Object>();
         public void ApplyOverride(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
+            ResetToDefaultValues();
             foreach (var item in overrideDatas)
             {
                 var id = item.targetTransformPath + "_" + item.targetComponentType;
                 UnityEngine.Object c;
-                Transform targetTansform = transformCache.Find(item.targetTransformPath);
+                Transform targetTansform = transform.Find(item.targetTransformPath);
                 if (targetTansform == null)
                 {
-                    Debug.LogError($"Target GameObject cannot be found [{transform.name } / { item.targetTransformPath}]");
+                    Debug.LogError($"Target GameObject cannot be found [{transform.name} / {item.targetTransformPath}]");
                     continue;
                 }
-
                 if (!cachedComponent.TryGetValue(id, out c))
                 {
                     if (item.targetComponentType.Contains("GameObject"))
@@ -171,78 +174,95 @@ namespace CloudMacaca.ViewSystem
                     {
                         c = targetTansform.GetComponent(item.targetComponentType);
                     }
-
                     if (c == null)
                     {
-                        Debug.LogError($"Target Component cannot be found [{item.targetComponentType}] on GameObject [{transform.name } / { item.targetTransformPath}]");
+                        Debug.LogError($"Target Component cannot be found [{item.targetComponentType}] on GameObject [{transform.name } / {item.targetTransformPath}]");
                         continue;
                     }
                     cachedComponent.Add(id, c);
                 }
 
-                System.Type t = c.GetType();
-
-                if (isUnityEngineType(t))
+                var idForProperty = id + "_" + item.targetPropertyPath;
+                if (!prefabDefaultFields.ContainsKey(idForProperty))
                 {
-                    modifiedFields.Add(new ModifiedField(t, GetProperty(t, c, item.targetPropertyPath), id, item.targetPropertyPath));
-                    SetProperty(t, c, item.targetPropertyPath, item.Value.GetValue());
+                    prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetProperty(c, item.targetPropertyPath), id, item.targetPropertyPath));
                 }
-                else
-                {
-                    modifiedFields.Add(new ModifiedField(t, GetField(t, c, item.targetPropertyName), id, item.targetPropertyName));
-                    SetField(t, c, item.targetPropertyName, item.Value.GetValue());
-                }
+                currentModifiedField.Add(idForProperty);
+                SetProperty(c, item.targetPropertyPath, item.Value.GetValue());
             }
         }
         bool isUnityEngineType(System.Type t)
         {
             return t.ToString().Contains("UnityEngine");
         }
-        public static void SetProperty(System.Type t, object inObj, string fieldName, object newValue)
+        public void SetProperty(object inObj, string fieldName, object newValue)
         {
-            System.Reflection.PropertyInfo info = t.GetProperty(fieldName, bindingFlags);
-            if (info != null)
-                info.SetValue(inObj, newValue);
-        }
-        private static object GetProperty(System.Type t, object inObj, string fieldName)
-        {
-            object ret = null;
-            System.Reflection.PropertyInfo info = t.GetProperty(fieldName, bindingFlags);
-            if (info != null)
-                ret = info.GetValue(inObj);
-            return ret;
-        }
-        public static void SetField(System.Type t, object inObj, string fieldName, object newValue)
-        {
-            System.Reflection.FieldInfo info = t.GetField(fieldName, bindingFlags);
-            if (info != null)
-                info.SetValue(inObj, newValue);
-        }
-        private static object GetField(System.Type t, object inObj, string fieldName)
-        {
-            object ret = null;
-            System.Reflection.FieldInfo info = t.GetField(fieldName, bindingFlags);
-            if (info != null)
-                ret = info.GetValue(inObj);
-            return ret;
-        }
-        [SerializeField]
-        List<ModifiedField> modifiedFields = new List<ModifiedField>();
-
-        [System.Serializable]
-        class ModifiedField
-        {
-            public ModifiedField(System.Type type, object orignalValue, string id, string field)
+            System.Type t = inObj.GetType();
+            //GameObject hack
+            // Due to GameObject.active is obsolete and ativeSelf is read only
+            // Use a hack function to override GameObject's active status.
+            if (t == typeof(GameObject) && fieldName == "active")
             {
-                this.orignalValue = orignalValue;
+                ((GameObject)inObj).SetActive((bool)newValue);
+                return;
+            }
+            //Debug.Log($"SetProperty on [{gameObject.name}] [{t.ToString()}] on [{fieldName}] target Value {newValue}");
+            System.Reflection.PropertyInfo info = t.GetProperty(fieldName, bindingFlags);
+            if (info != null)
+                info.SetValue(inObj, newValue);
+        }
+
+        private object GetProperty(object inObj, string fieldName)
+        {
+            System.Type t = inObj.GetType();
+            //GameObject hack
+            // Due to GameObject.active is obsolete and ativeSelf is read only
+            // Use a hack function to override GameObject's active status.
+            if (t == typeof(GameObject) && fieldName == "active")
+            {
+                return ((GameObject)inObj).activeSelf;
+            }
+            object ret = null;
+            System.Reflection.PropertyInfo info = t.GetProperty(fieldName, bindingFlags);
+            if (info != null)
+                ret = info.GetValue(inObj);
+
+            //Debug.Log($"GetProperty on [{gameObject.name}] Target Object {((UnityEngine.Object)inObj).name} [{t.ToString()}] on [{fieldName}]  Value [{ret}]");
+            return ret;
+        }
+
+        public void SetField(System.Type t, object inObj, string fieldName, object newValue)
+        {
+            System.Reflection.FieldInfo info = t.GetField(fieldName, bindingFlags);
+            if (info != null)
+                info.SetValue(inObj, newValue);
+        }
+
+        private object GetField(System.Type t, object inObj, string fieldName)
+        {
+            object ret = null;
+            System.Reflection.FieldInfo info = t.GetField(fieldName, bindingFlags);
+            if (info != null)
+                ret = info.GetValue(inObj);
+            return ret;
+        }
+
+        List<string> currentModifiedField = new List<string>();
+        [SerializeField]
+        Dictionary<string, PrefabDefaultField> prefabDefaultFields = new Dictionary<string, PrefabDefaultField>();
+        class PrefabDefaultField
+        {
+            public PrefabDefaultField(object orignalValue, string id, string field)
+            {
+                this.defaultValue = orignalValue;
                 this.id = id;
                 this.field = field;
-                this.type = type;
             }
-            public object orignalValue;
+            [SerializeField]
+            public object defaultValue;
             public string id;
             public string field;
-            public System.Type type;
         }
     }
+    #endregion
 }
