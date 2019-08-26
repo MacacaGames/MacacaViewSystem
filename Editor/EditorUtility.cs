@@ -8,6 +8,25 @@ namespace CloudMacaca.ViewSystem
 {
     public class VS_EditorUtility
     {
+        public static bool IsPropertyNeedIgnore(SerializedProperty prop)
+        {
+            return prop.name == "m_Script" ||
+                prop.name == "m_Name" ||
+                prop.propertyType == SerializedPropertyType.LayerMask ||
+                prop.propertyType == SerializedPropertyType.Rect ||
+                prop.propertyType == SerializedPropertyType.RectInt ||
+                prop.propertyType == SerializedPropertyType.Bounds ||
+                prop.propertyType == SerializedPropertyType.BoundsInt ||
+                prop.propertyType == SerializedPropertyType.Quaternion ||
+                prop.propertyType == SerializedPropertyType.Vector2Int ||
+                prop.propertyType == SerializedPropertyType.Vector3Int ||
+                prop.propertyType == SerializedPropertyType.Vector4 ||
+                prop.propertyType == SerializedPropertyType.Gradient ||
+                prop.propertyType == SerializedPropertyType.ArraySize ||
+                prop.propertyType == SerializedPropertyType.AnimationCurve ||
+                prop.propertyType == SerializedPropertyType.Character ||
+                prop.propertyType == SerializedPropertyType.FixedBufferSize;
+        }
         public static string ParseUnityEngineProperty(string ori)
         {
             if (ori.ToLower().Contains("material"))
@@ -63,33 +82,34 @@ namespace CloudMacaca.ViewSystem
             // return CloudMacaca.Utility.GetType(type);
         }
 
-        // public static Type GetPropertyObjectType(SerializedProperty property)
-        // {
-        //     return typeof(UnityEngine.Object).Assembly.GetType("UnityEngine." + GetPropertyType(property));
-        // }
-
-        public static bool EditorableField(Rect rect, GUIContent content, SerializedProperty Target, PropertyOverride overProperty)
+        public static bool EditorableField(Rect rect, GUIContent content, SerializedProperty Target, PropertyOverride overProperty, out float lineHeight)
         {
+            lineHeight = EditorGUIUtility.singleLineHeight * 2.5f;
             EditorGUI.BeginChangeCheck();
             switch (Target.propertyType)
             {
+                case SerializedPropertyType.Vector3:
+                    lineHeight = EditorGUIUtility.singleLineHeight * 3.5f;
+                    overProperty.SetValue(EditorGUI.Vector3Field(rect, content, (Vector3)overProperty.GetValue()));
+                    break;
+                case SerializedPropertyType.Vector2:
+                    lineHeight = EditorGUIUtility.singleLineHeight * 3.5f;
+                    overProperty.SetValue(EditorGUI.Vector2Field(rect, content, (Vector2)overProperty.GetValue()));
+                    break;
                 case SerializedPropertyType.Float:
                     overProperty.SetValue(EditorGUI.FloatField(rect, content, (float)overProperty.GetValue()));
                     break;
                 case SerializedPropertyType.Integer:
                     overProperty.SetValue(EditorGUI.IntField(rect, content, (int)overProperty.GetValue()));
-                    //overProperty.IntValue = EditorGUI.IntField(rect, content, overProperty.IntValue);
                     break;
                 case SerializedPropertyType.String:
                     overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
                     break;
                 case SerializedPropertyType.Boolean:
                     overProperty.SetValue(EditorGUI.Toggle(rect, content, (bool)overProperty.GetValue()));
-                    //overProperty.BooleanValue = EditorGUI.Toggle(rect, content, overProperty.BooleanValue);
                     break;
                 case SerializedPropertyType.Color:
                     overProperty.SetValue(EditorGUI.ColorField(rect, content, (Color)overProperty.GetValue()));
-                    //overProperty.ColorValue = EditorGUI.ColorField(rect, content, overProperty.ColorValue);
                     break;
                 case SerializedPropertyType.ObjectReference:
                     overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, GetPropertyType(Target), false);

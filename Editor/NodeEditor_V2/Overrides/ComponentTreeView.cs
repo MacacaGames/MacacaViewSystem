@@ -10,7 +10,7 @@ namespace CloudMacaca.ViewSystem
     {
         ViewPageItem viewPageItem;
         GameObject go;
-        public ComponentTreeView(GameObject go, ViewPageItem viewPageItem, TreeViewState treeViewState)
+        public ComponentTreeView(GameObject go, ViewPageItem viewPageItem, TreeViewState treeViewState, bool isPrefabRoot)
             : base(treeViewState)
         {
             this.go = go;
@@ -18,7 +18,7 @@ namespace CloudMacaca.ViewSystem
             rowHeight = 24;
             showBorder = true;
             showAlternatingRowBackgrounds = true;
-            CacheComponent(go, 0);
+            CacheComponent(go, 0, isPrefabRoot);
             Reload();
         }
 
@@ -34,7 +34,7 @@ namespace CloudMacaca.ViewSystem
         }
 
         List<TreeViewWrapper> serializedObjects = new List<TreeViewWrapper>();
-        void CacheComponent(GameObject go, int layer)
+        void CacheComponent(GameObject go, int layer, bool isPrefabRoot)
         {
             var so = new SerializedObject(go);
 
@@ -52,13 +52,19 @@ namespace CloudMacaca.ViewSystem
                     Debug.LogError("It seems there is some Component's script is missing, Please check your prefab");
                     continue;
                 }
+
+                if (isPrefabRoot == true &&
+                    (item is UnityEngine.Transform || item is UnityEngine.RectTransform)
+                )
+                {
+                    continue;
+                }
                 var t1 = new TreeViewWrapper(Id);
                 var so1 = new SerializedObject(item);
                 t1.values = so1;
                 serializedObjects.Add(t1);
                 Id++;
                 CacheProperty(so1);
-
             }
         }
 
@@ -78,7 +84,6 @@ namespace CloudMacaca.ViewSystem
             {
                 key = obj.targetObject.GetType().Name;
             }
-
             List<TreeViewWrapper> slist;
             if (!serializedPropertys.TryGetValue(key, out slist))
             {
@@ -87,39 +92,25 @@ namespace CloudMacaca.ViewSystem
             }
 
             TreeViewWrapper temp;
-            //GameObject Hack
-            var active = obj.FindProperty("m_IsActive");
-            if (active != null)
+            //GameObject Hack m_IsActive is not a Visable Property but we still want to modify it.
+            if (key == "GameObject")
             {
-                temp = new TreeViewWrapper(Id);
-                temp.values = active.Copy();
-                slist.Add(temp);
-                allTreeViewWrappers.Add(temp);
-                Id++;
+                var active = obj.FindProperty("m_IsActive");
+                if (active != null)
+                {
+                    temp = new TreeViewWrapper(Id);
+                    temp.values = active.Copy();
+                    slist.Add(temp);
+                    allTreeViewWrappers.Add(temp);
+                    Id++;
+                }
             }
 
             prop.NextVisible(true);
             do
             {
                 //排除不希望被修改的欄位
-                if (prop.name == "m_Script" ||
-                    prop.propertyType == SerializedPropertyType.LayerMask ||
-                    prop.propertyType == SerializedPropertyType.Rect ||
-                    prop.propertyType == SerializedPropertyType.RectInt ||
-                    prop.propertyType == SerializedPropertyType.Bounds ||
-                    prop.propertyType == SerializedPropertyType.BoundsInt ||
-                    prop.propertyType == SerializedPropertyType.Quaternion ||
-                    prop.propertyType == SerializedPropertyType.Vector2 ||
-                    prop.propertyType == SerializedPropertyType.Vector2Int ||
-                    prop.propertyType == SerializedPropertyType.Vector3 ||
-                    prop.propertyType == SerializedPropertyType.Vector3Int ||
-                    prop.propertyType == SerializedPropertyType.Vector4 ||
-                    prop.propertyType == SerializedPropertyType.Gradient ||
-                    prop.propertyType == SerializedPropertyType.ArraySize ||
-                    prop.propertyType == SerializedPropertyType.AnimationCurve ||
-                    prop.propertyType == SerializedPropertyType.Character ||
-                    prop.propertyType == SerializedPropertyType.FixedBufferSize
-                )
+                if (VS_EditorUtility.IsPropertyNeedIgnore(prop))
                 {
                     continue;
                 }
@@ -131,6 +122,7 @@ namespace CloudMacaca.ViewSystem
             }
             while (prop.NextVisible(false));
         }
+
         TreeViewItem treeRoot;
         protected override TreeViewItem BuildRoot()
         {
@@ -157,8 +149,6 @@ namespace CloudMacaca.ViewSystem
                     allTreeItem.Add(new TreeViewItem { id = item2.id, depth = 1, displayName = sp.displayName });
                 }
             }
-
-
 
             SetupParentsAndChildrenFromDepths(treeRoot, allTreeItem);
             // Return root of the tree

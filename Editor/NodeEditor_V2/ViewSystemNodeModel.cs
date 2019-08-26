@@ -307,16 +307,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     OnPreviewBtnClick(viewPage);
                 }
             }
-            // btnRect.x += rect.width * 0.5f;
-            // btnRect.x += 1;
-            // if (GUI.Button(btnRect, "Highlight", new GUIStyle("ObjectPickerResultsEven")))
-            // {
-            //     if (IsInactivable == false) return;
-            //     foreach (var item in viewPage.viewPageItems)
-            //     {
-            //         EditorGUIUtility.PingObject(item.viewElement);
-            //     }
-            // }
         }
 
         public ViewPage viewPage;

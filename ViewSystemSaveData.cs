@@ -82,6 +82,47 @@ namespace CloudMacaca.ViewSystem
         }
         public PropertyOverride Value;
     }
+    public class VectorConvert
+    {
+        public static Vector3 StringToVector3(string sVector)
+        {
+            // Remove the parentheses
+            if (sVector.StartsWith("(") && sVector.EndsWith(")"))
+            {
+                sVector = sVector.Substring(1, sVector.Length - 2);
+            }
+
+            // split the items
+            string[] sArray = sVector.Split(',');
+
+            // store as a Vector3
+            Vector3 result = new Vector3(
+                float.Parse(sArray[0]),
+                float.Parse(sArray[1]),
+                float.Parse(sArray[2]));
+
+            return result;
+        }
+        public static Vector2 StringToVector2(string sVector)
+        {
+            // Remove the parentheses
+            if (sVector.StartsWith("(") && sVector.EndsWith(")"))
+            {
+                sVector = sVector.Substring(1, sVector.Length - 2);
+            }
+
+            // split the items
+            string[] sArray = sVector.Split(',');
+
+            // store as a Vector2
+            Vector2 result = new Vector2(
+                float.Parse(sArray[0]),
+                float.Parse(sArray[1]));
+
+            return result;
+        }
+    }
+
     [System.Serializable]
     public class PropertyOverride
     {
@@ -89,6 +130,10 @@ namespace CloudMacaca.ViewSystem
         {
             switch (s_Type)
             {
+                case S_Type._vector3:
+                    return VectorConvert.StringToVector3(StringValue);
+                case S_Type._vector2:
+                    return VectorConvert.StringToVector2(StringValue);
                 case S_Type._bool:
                     return System.Convert.ToBoolean(StringValue);
                 case S_Type._float:
@@ -110,40 +155,58 @@ namespace CloudMacaca.ViewSystem
             }
         }
 #if UNITY_EDITOR
-        public void SetValue(UnityEditor.SerializedPropertyType type, UnityEditor.PropertyModification modification)
-        {
-            switch (type)
-            {
-                case UnityEditor.SerializedPropertyType.Float:
-                    SetValue(float.Parse(modification.value));
-                    break;
-                case UnityEditor.SerializedPropertyType.Integer:
-                    SetValue(int.Parse(modification.value));
-                    break;
-                case UnityEditor.SerializedPropertyType.String:
-                    SetValue(modification.value);
-                    break;
-                case UnityEditor.SerializedPropertyType.Boolean:
-                    SetValue(modification.value == "0" ? false : true);
-                    break;
-                case UnityEditor.SerializedPropertyType.Color:
-                    SetValue(new Color());
-                    break;
-                case UnityEditor.SerializedPropertyType.ObjectReference:
-                    SetValue(modification.objectReference);
-                    break;
-                case UnityEditor.SerializedPropertyType.Enum:
-                    var t = TryFindEnumType(modification.target, modification.propertyPath);
-                    var e = System.Enum.Parse(t, modification.value);
-                    SetValue(e);
-                    break;
-            }
-        }
+        // public void SetValue(UnityEditor.SerializedPropertyType type, UnityEditor.PropertyModification modification)
+        // {
+        //     switch (type)
+        //     {
+        //         case UnityEditor.SerializedPropertyType.Vector3:
+        //             SetValue(modification.value);
+        //             break;
+        //         case UnityEditor.SerializedPropertyType.Vector2:
+        //             SetValue(modification.value);
+        //             break;
+        //         case UnityEditor.SerializedPropertyType.Vector3Int:
+        //             SetValue(modification.value);
+        //             break;
+        //         case UnityEditor.SerializedPropertyType.Float:
+        //             SetValue(float.Parse(modification.value));
+        //             break;
+        //         case UnityEditor.SerializedPropertyType.Integer:
+        //             SetValue(int.Parse(modification.value));
+        //             break;
+        //         case UnityEditor.SerializedPropertyType.String:
+        //             SetValue(modification.value);
+        //             break;
+        //         case UnityEditor.SerializedPropertyType.Boolean:
+        //             SetValue(modification.value == "0" ? false : true);
+        //             break;
+        //         case UnityEditor.SerializedPropertyType.Color:
+        //             SetValue(new Color());
+        //             break;
+        //         case UnityEditor.SerializedPropertyType.ObjectReference:
+        //             SetValue(modification.objectReference);
+        //             break;
+        //         case UnityEditor.SerializedPropertyType.Enum:
+        //             var t = TryFindEnumType(modification.target, modification.propertyPath);
+        //             var e = System.Enum.Parse(t, modification.value);
+        //             SetValue(e);
+        //             break;
+        //     }
+        // }
 
         public void SetValue(UnityEditor.SerializedProperty property)
         {
             switch (property.propertyType)
             {
+                case UnityEditor.SerializedPropertyType.Vector3:
+                    SetValue(property.vector3Value);
+                    break;
+                case UnityEditor.SerializedPropertyType.Vector2:
+                    SetValue(property.vector2Value);
+                    break;
+                case UnityEditor.SerializedPropertyType.Vector3Int:
+                    SetValue(property.vector3IntValue);
+                    break;
                 case UnityEditor.SerializedPropertyType.Float:
                     SetValue(property.floatValue);
                     break;
@@ -198,6 +261,18 @@ namespace CloudMacaca.ViewSystem
             {
                 s_Type = S_Type._int;
             }
+            else if (value is Vector3)
+            {
+                s_Type = S_Type._vector3;
+                StringValue = ((Vector3)value).ToString("F3");
+                toStringDirectly = false;
+            }
+            else if (value is Vector2)
+            {
+                s_Type = S_Type._vector2;
+                StringValue = ((Vector2)value).ToString("F3");
+                toStringDirectly = false;
+            }
             else if (value is string)
             {
                 s_Type = S_Type._string;
@@ -239,64 +314,17 @@ namespace CloudMacaca.ViewSystem
             if (toStringDirectly) StringValue = value.ToString();
         }
 
-        // public object GetDirtyValue()
-        // {
-        //     switch (s_Type)
-        //     {
-        //         case S_Type._bool:
-        //             return BooleanValue;
-        //         case S_Type._float:
-        //             return FloatValue;
-        //         case S_Type._int:
-        //             return IntValue;
-        //         case S_Type._color:
-        //             return ColorValue;
-        //         case S_Type._objcetReferenct:
-        //             return ObjectReferenceValue;
-        //         case S_Type._string:
-        //             return StringValue;
-        //         default:
-        //             return null;
-        //     }
-        // }
-
         public void SetType(S_Type t)
         {
             s_Type = t;
         }
         public enum S_Type
         {
-            _bool, _float, _int, _color, _objcetReferenct, _string, _enum
+            _bool, _float, _int, _color, _objcetReferenct, _string, _enum, _vector3, _vector2
         }
         public S_Type s_Type = S_Type._string;
-        // public AnimationCurve AnimationCurveValue;
-
-        //public bool BooleanValue;
-
-        //public Bounds BoundsValue;
-
-        //public Color ColorValue;
-
-        //public double DoubleValue;
-
-        //public float FloatValue;
-
-        //public int IntValue;
-
-        //public long LongValue;
-
         public UnityEngine.Object ObjectReferenceValue;
-
-        //public Quaternion QuaternionValue;
-
-        //public Rect RectValue;
-
         public string StringValue;
-
-        //public Vector2 Vector2Value;
-
-        //public Vector3 Vector3Value;
-
-        //public Vector4 Vector4Value;
     }
+
 }

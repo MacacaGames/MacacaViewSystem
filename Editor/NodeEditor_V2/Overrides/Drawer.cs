@@ -158,4 +158,34 @@ public class Drawer
             return _valueBoxStyle;
         }
     }
+    private static GUIStyle _oddStyle;
+    public static GUIStyle oddStyle
+    {
+        get
+        {
+            if (_oddStyle == null)
+            {
+                _oddStyle = new GUIStyle
+                {
+                    normal ={
+                background = CloudMacaca.CMEditorUtility.CreatePixelTexture("red Pixel (List GUI)", new Color32(0, 0, 0, 20))
+
+                },
+                    active =
+                {
+                    background = CloudMacaca.CMEditorUtility.CreatePixelTexture("red Pixel (List GUI)", new Color32(0, 0, 0, 20))
+                },
+                    imagePosition = ImagePosition.ImageOnly,
+                    alignment = TextAnchor.MiddleCenter,
+                    stretchWidth = true,
+                    stretchHeight = false,
+                    padding = new RectOffset(0, 0, 0, 0),
+                    margin = new RectOffset(0, 0, 0, 0)
+                };
+            }
+            return _oddStyle;
+        }
+    }
+
+
 }

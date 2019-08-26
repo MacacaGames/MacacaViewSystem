@@ -22,122 +22,223 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             this.root_prefab = root_prefab;
             this.viewPageItem = viewPageItem;
             this.node = node;
-            title = "ViewElement Overrides Importer";
+            titleContent = new GUIContent("ViewElement Overrides Importer");
 
             propertyModification = PrefabUtility.GetPropertyModifications(root.gameObject)
-                .Where(x => !PrefabUtility.IsDefaultOverride(x))
                 .ToArray();
 
-            foreach (var item in propertyModification)
-            {
-                if (item.propertyPath.ToLower().Contains("color"))
-                {
-                    continue;
-                }
-                if (PrefabUtility.IsDefaultOverride(item))
-                {
-                    continue;
-                }
-                var temp = new OverridesPropertiesCheckerData();
-                var so = new SerializedObject(item.target);
-                var sp = so.FindProperty(item.propertyPath);
-
-                temp.serializedPropertyType = sp.propertyType;
-                temp.overrideData.targetPropertyName = item.propertyPath;
-                temp.overrideData.targetPropertyType = sp.propertyType.ToString();
-                temp.overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(item.propertyPath);
-                //Debug.Log(item.target.GetType());
-                Transform t;
-                if (item.target as Component == null)
-                {
-                    t = ((GameObject)item.target).transform;
-                }
-                else
-                {
-                    t = ((Component)item.target).transform;
-                }
-
-                var path = AnimationUtility.CalculateTransformPath(t, root);
-                //Debug.Log(path);
-                var selfName = root_prefab.name.Length + 1;
-                if (path.Length > selfName - 1) path = path.Substring(selfName, path.Length - selfName);
-                else if (path.Length == selfName - 1) path = "";
-                temp.overrideData.targetTransformPath = path;
-                temp.overrideData.targetComponentType = item.target.GetType().ToString();
-                temp.overrideData.Value.SetValue(sp.propertyType, item);
-                temp.displayName = sp.displayName;
-                overridesPropertiesCheckerDatas.Add(temp);
-                //Debug.Log(item.value);
-            }
-
-            //The modification of color needs advance works
             var groupedByTarget = propertyModification.GroupBy(x => x.target).ToDictionary(o => o.Key, o => o.ToList());
             foreach (var target in groupedByTarget.Keys)
             {
-                // to dictionary<string,PropertyModification> <propertyPath,PropertyModification>
                 var groupedByProperty = groupedByTarget[target].GroupBy(x => x.propertyPath.Split('.')[0]).ToDictionary(o => o.Key, o => o.ToList());
                 foreach (var property in groupedByProperty.Keys)
                 {
-                    var temp = new OverridesPropertiesCheckerData();
+                    // This find the orignal SerializedObject
                     var so = new SerializedObject(target);
+                    // This find the orignal SerializedProperty
                     var sp = so.FindProperty(property);
-
-                    if (sp.propertyType != SerializedPropertyType.Color)
+                    if (VS_EditorUtility.IsPropertyNeedIgnore(sp))
                     {
                         continue;
                     }
-
+                    var temp = new OverridesPropertiesCheckerData();
                     temp.serializedPropertyType = sp.propertyType;
                     temp.overrideData.targetPropertyName = property;
                     temp.overrideData.targetPropertyType = sp.propertyType.ToString();
                     temp.overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(property);
-                    Component c = (Component)sp.serializedObject.targetObject;
-                    var path = AnimationUtility.CalculateTransformPath(c.transform, root);
+
+                    Transform t;
+                    if (sp.serializedObject.targetObject as Component == null)
+                    {
+                        t = ((GameObject)sp.serializedObject.targetObject).transform;
+                    }
+                    else
+                    {
+                        t = ((Component)sp.serializedObject.targetObject).transform;
+                    }
+
+                    var path = AnimationUtility.CalculateTransformPath(t, root);
                     var selfName = root_prefab.name.Length + 1;
                     if (path.Length > selfName - 1) path = path.Substring(selfName, path.Length - selfName);
                     else if (path.Length == selfName - 1) path = "";
                     temp.overrideData.targetTransformPath = path;
                     temp.overrideData.targetComponentType = target.GetType().ToString();
+                    temp.displayName = $"{sp.displayName}  ({property})";
 
-                    PropertyOverride overProperty = new PropertyOverride();
-                    Color color = new Color();
-
-
-                    foreach (var i in groupedByProperty[property])
+                    //Find the prefab instance SerializedObject
+                    var overrideGameObject = root.Find(path);
+                    UnityEngine.Object obj;
+                    if (target is GameObject)
                     {
-                        switch (i.propertyPath.Split('.').Last().ToLower())
-                        {
-                            case "r":
-                                color.r = float.Parse(i.value);
-                                continue;
-                            case "g":
-                                color.g = float.Parse(i.value);
-                                continue;
-                            case "b":
-                                color.b = float.Parse(i.value);
-                                continue;
-                            case "a":
-                                color.a = float.Parse(i.value);
-                                continue;
-                        }
+                        obj = overrideGameObject.gameObject;
                     }
-                    overProperty.SetValue(color);
-                    //Debug.Log(overProperty.ColorValue);
+                    else
+                    {
+                        obj = overrideGameObject.GetComponent(target.GetType());
+                    }
+                    var so_instance = new SerializedObject(obj);
+                    //Find the prefab instance SerializedProperty
+                    var sp_instance = so_instance.FindProperty(property);
+
+                    // Add PropertyOverride to OverridesPropertiesCheckerData
+                    PropertyOverride overProperty = new PropertyOverride();
+                    overProperty.SetValue(sp_instance);
                     temp.overrideData.Value = overProperty;
-                    temp.displayName = sp.displayName;
+
+                    // Add OverridesPropertiesCheckerData to list wait for user check
                     overridesPropertiesCheckerDatas.Add(temp);
                 }
             }
 
+            // foreach (var item in propertyModification)
+            // {
+            //     if (item.propertyPath.ToLower().Contains("color"))
+            //     {
+            //         continue;
+            //     }
+            //     if (PrefabUtility.IsDefaultOverride(item))
+            //     {
+            //         continue;
+            //     }
+            //     var temp = new OverridesPropertiesCheckerData();
+            //     var so = new SerializedObject(item.target);
+            //     var sp = so.FindProperty(item.propertyPath);
+
+            //     temp.serializedPropertyType = sp.propertyType;
+            //     temp.overrideData.targetPropertyName = item.propertyPath;
+            //     temp.overrideData.targetPropertyType = sp.propertyType.ToString();
+            //     temp.overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(item.propertyPath);
+            //     //Debug.Log(item.target.GetType());
+            //     Transform t;
+            //     if (item.target as Component == null)
+            //     {
+            //         t = ((GameObject)item.target).transform;
+            //     }
+            //     else
+            //     {
+            //         t = ((Component)item.target).transform;
+            //     }
+
+            //     var path = AnimationUtility.CalculateTransformPath(t, root);
+            //     //Debug.Log(path);
+            //     var selfName = root_prefab.name.Length + 1;
+            //     if (path.Length > selfName - 1) path = path.Substring(selfName, path.Length - selfName);
+            //     else if (path.Length == selfName - 1) path = "";
+            //     temp.overrideData.targetTransformPath = path;
+            //     temp.overrideData.targetComponentType = item.target.GetType().ToString();
+            //     temp.overrideData.Value.SetValue(sp.propertyType, item);
+            //     temp.displayName = sp.displayName;
+            //     overridesPropertiesCheckerDatas.Add(temp);
+            //     //Debug.Log(item.value);
+            // }
+
+            // //The modification of color needs advance works
+            // //The modification of vector3 needs advance works
+            // var groupedByTarget = propertyModification.GroupBy(x => x.target).ToDictionary(o => o.Key, o => o.ToList());
+            // foreach (var target in groupedByTarget.Keys)
+            // {
+            //     // to dictionary<string,PropertyModification> <propertyPath,PropertyModification>
+            //     var groupedByProperty = groupedByTarget[target].GroupBy(x => x.propertyPath.Split('.')[0]).ToDictionary(o => o.Key, o => o.ToList());
+            //     foreach (var property in groupedByProperty.Keys)
+            //     {
+            //         var so = new SerializedObject(target);
+            //         var sp = so.FindProperty(property);
+            //         if (sp.serializedObject.targetObject is GameObject)
+            //         {
+            //             continue;
+            //         }
+
+            //         var temp = new OverridesPropertiesCheckerData();
+            //         if (sp.propertyType == SerializedPropertyType.Color)
+            //         {
+            //             ProccessColor(temp, groupedByProperty[property]);
+            //         }
+            //         else if (sp.propertyType == SerializedPropertyType.Vector3)
+            //         {
+            //             ProccessVector3(temp, groupedByProperty[property]);
+            //         }
+            //         else
+            //         {
+            //             continue;
+            //         }
+
+            //         temp.serializedPropertyType = sp.propertyType;
+            //         temp.overrideData.targetPropertyName = property;
+            //         temp.overrideData.targetPropertyType = sp.propertyType.ToString();
+            //         temp.overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(property);
+
+            //         Component c = (Component)sp.serializedObject.targetObject;
+            //         var path = AnimationUtility.CalculateTransformPath(c.transform, root);
+            //         var selfName = root_prefab.name.Length + 1;
+            //         if (path.Length > selfName - 1) path = path.Substring(selfName, path.Length - selfName);
+            //         else if (path.Length == selfName - 1) path = "";
+            //         temp.overrideData.targetTransformPath = path;
+            //         temp.overrideData.targetComponentType = target.GetType().ToString();
+            //         temp.displayName = sp.displayName + property;
+
+            //         overridesPropertiesCheckerDatas.Add(temp);
+            //     }
+            // }
+
             maxSize = new Vector2(800, 800);
         }
+        // void ProccessColor(OverridesPropertiesCheckerData temp, List<PropertyModification> modifications)
+        // {
+        //     PropertyOverride overProperty = new PropertyOverride();
+        //     Color color = new Color();
+
+        //     foreach (var i in modifications)
+        //     {
+        //         switch (i.propertyPath.Split('.').Last().ToLower())
+        //         {
+        //             case "r":
+        //                 color.r = float.Parse(i.value);
+        //                 continue;
+        //             case "g":
+        //                 color.g = float.Parse(i.value);
+        //                 continue;
+        //             case "b":
+        //                 color.b = float.Parse(i.value);
+        //                 continue;
+        //             case "a":
+        //                 color.a = float.Parse(i.value);
+        //                 continue;
+        //         }
+        //     }
+        //     overProperty.SetValue(color);
+        //     temp.overrideData.Value = overProperty;
+        // }
+
+        // void ProccessVector3(OverridesPropertiesCheckerData temp, List<PropertyModification> modifications)
+        // {
+        //     PropertyOverride overProperty = new PropertyOverride();
+        //     Vector3 vector3 = new Vector3();
+
+        //     foreach (var i in modifications)
+        //     {
+        //         switch (i.propertyPath.Split('.').Last().ToLower())
+        //         {
+        //             case "x":
+        //                 vector3.x = float.Parse(i.value);
+        //                 continue;
+        //             case "y":
+        //                 vector3.y = float.Parse(i.value);
+        //                 continue;
+        //             case "z":
+        //                 vector3.z = float.Parse(i.value);
+        //                 continue;
+        //         }
+        //     }
+        //     overProperty.SetValue(vector3);
+        //     temp.overrideData.Value = overProperty;
+        // }
 
         Vector2 scrollPos;
         void OnGUI()
         {
             using (var horizon = new GUILayout.HorizontalScope(new GUIStyle("AnimationKeyframeBackground"), GUILayout.Height(36)))
             {
-                string lable = (root == null ? "" : root.name) + (node == null ? "" : " in " + node.name + " " + (node is ViewStateNode ? "State" : "Page"));
+                string lable = (root == null ? "" : root.name) + (node == null ? "" : " Modified Property in " + node.name + " " + (node is ViewStateNode ? "State" : "Page"));
                 GUILayout.Label(new GUIContent(lable, Drawer.prefabIcon), new GUIStyle("AM MixerHeader2"));
             }
 
@@ -149,10 +250,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     foreach (var item in overridesPropertiesCheckerDatas)
                     {
                         //Currently ignore transform and gameobject property override
-                        if (item.overrideData.targetComponentType.ToLower().Contains("transform")
-                        )
+                        if (item.overrideData.targetComponentType.ToLower().Contains("transform"))
                         {
-                            continue;
+                            //continue;
                         }
                         using (var horizon = new GUILayout.HorizontalScope("box"))
                         {
@@ -257,6 +357,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 GUI.backgroundColor *= new Color(1f, 1f, 1f, 0.5f);
                 switch (type)
                 {
+                    case SerializedPropertyType.Vector2:
+                        GUILayout.Box($"Vector2 {overrideData.Value.GetValue().ToString()}", Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
+                        break;
+                    case SerializedPropertyType.Vector3:
+                        GUILayout.Box($"Vector3 {overrideData.Value.GetValue().ToString()}", Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
+                        break;
                     case SerializedPropertyType.Float:
                         GUILayout.Box(overrideData.Value.GetValue().ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                         break;

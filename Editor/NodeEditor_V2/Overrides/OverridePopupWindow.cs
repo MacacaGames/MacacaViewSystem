@@ -194,7 +194,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         Vector2 scrollPositionModified;
         ReorderableList reorderableListViewModify;
-
         void DrawScrollViewModify()
         {
 
@@ -204,12 +203,36 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 reorderableListViewModify.DoLayoutList();
             }
         }
+        
         Dictionary<int, bool> lockerDict = new Dictionary<int, bool>();
+        float[] lineHeight = new float[0];
         void RebuildModifyReorderableList()
         {
             lockerDict.Clear();
             reorderableListViewModify = new ReorderableList(viewPageItem.overrideDatas, typeof(List<ViewElementPropertyOverrideData>), true, false, false, true);
             reorderableListViewModify.elementHeight = EditorGUIUtility.singleLineHeight * 2.5f;
+            reorderableListViewModify.drawElementBackgroundCallback += (Rect rect, int index, bool isActive, bool isFocused) =>
+            {
+                Rect oddRect = rect;
+                oddRect.x -= 20;
+                oddRect.width += 100;
+
+                if (isFocused)
+                {
+                    ReorderableList.defaultBehaviours.DrawElementBackground(rect, index, isActive, isFocused, true);
+                    return;
+                }
+
+                if (index % 2 == 0) GUI.Box(oddRect, GUIContent.none, Drawer.oddStyle);
+            };
+            reorderableListViewModify.elementHeightCallback += (index) =>
+            {
+                if (lineHeight.Length <= index)
+                {
+                    lineHeight = new float[viewPageItem.overrideDatas.Count];
+                }
+                return lineHeight[index];
+            };
             reorderableListViewModify.drawElementCallback += (rect, index, isActive, isFocused) =>
             {
                 var ori_Rect = rect;
@@ -243,7 +266,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     targetComponent = targetObject.gameObject;
                 }
-
+                if (item.targetComponentType.Contains("RectTransform"))
+                {
+                    targetComponent = targetObject.GetComponent<RectTransform>();
+                }
+                else if (item.targetComponentType.Contains("Transform"))
+                {
+                    targetComponent = targetObject.transform;
+                }
                 if (targetComponent == null)
                 {
                     if (!lockerDict.ContainsKey(index)) lockerDict.Add(index, true);
@@ -294,14 +324,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 rect.x = ori_Rect.x;
 
                 //EditorGUI.PropertyField(rect, sp);
-                if (VS_EditorUtility.EditorableField(rect, new GUIContent(sp.displayName), sp, item.Value))
+                if (VS_EditorUtility.EditorableField(rect, new GUIContent(sp.displayName), sp, item.Value, out float lh))
                 {
 
                 }
+                lineHeight[index] = lh;
                 //var result = EditorGUICM.GetPropertyType(sp);
 
             };
         }
+
+
+
         //對應 方法名稱與 pop index 的字典
         //第 n 個腳本的參照
         // List<string[]> methodListOfScriptObject = new List<string[]>();
@@ -320,8 +354,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 if (saveData.globalSetting.EventHandleBehaviour[i] == null) return;
                 MethodInfo[] methodInfos = type.GetMethods(BindFlagsForScript);
                 VerifiedMethod.Clear();
-               //After Use custom pop  "Nothing Select" is no more needed
-               // VerifiedMethod.Add(new CMEditorLayout.GroupedPopupData { name = "Nothing Select", group = "" });
+                //After Use custom pop  "Nothing Select" is no more needed
+                // VerifiedMethod.Add(new CMEditorLayout.GroupedPopupData { name = "Nothing Select", group = "" });
                 foreach (var item in methodInfos)
                 {
                     var para = item.GetParameters();
@@ -425,21 +459,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                             }
                                         );
                                     }
-
-                                    // int currentSelectMethod = string.IsNullOrEmpty(item.methodName) ? 0 : c.ToList().IndexOf(item.methodName);
-                                    // currentSelectMethod = EditorGUILayout.Popup("Event Method", currentSelectMethod, c);
-
-                                    // if (check.changed)
-                                    // {
-                                    //     if (currentSelectMethod != 0)
-                                    //     {
-                                    //         item.methodName = c[currentSelectMethod];
-                                    //     }
-                                    //     else
-                                    //     {
-                                    //         item.methodName = "";
-                                    //     }
-                                    // }
                                 }
                             }
                         }
@@ -485,11 +504,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 currentSelectGameObject = (GameObject)go;
                 CacheComponent();
             };
-            // hierarchyDrawer = new HierarchyDrawer(target.transform);
-            // hierarchyDrawer.OnItemClick += (go) =>
-            // {
-            //     currentSelectGameObject = (GameObject)go;
-            // };
         }
 
         SerializedObject currentSelectSerializedObject;
@@ -500,7 +514,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (m_ComponentTreeViewState == null)
                 m_ComponentTreeViewState = new TreeViewState();
 
-            componentTreeView = new ComponentTreeView(currentSelectGameObject, viewPageItem, m_ComponentTreeViewState);
+            componentTreeView = new ComponentTreeView(
+                currentSelectGameObject,
+                viewPageItem,
+                m_ComponentTreeViewState,
+                currentSelectGameObject == target);
 
             componentTreeView.OnItemClick += (sp) =>
             {

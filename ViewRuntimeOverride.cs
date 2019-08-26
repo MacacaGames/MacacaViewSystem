@@ -11,8 +11,6 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewRuntimeOverride : TransformCacheBase
     {
-
-
         public ViewElementEventData[] currentEventDatas;
         class EventRuntimeDatas
         {
@@ -20,7 +18,6 @@ namespace CloudMacaca.ViewSystem
             {
                 this.unityEvent = unityEvent;
                 this.selectable = selectable;
-
             }
             public UnityEvent unityEvent;
             public Component selectable;
@@ -113,49 +110,6 @@ namespace CloudMacaca.ViewSystem
                         });
                 }
             }
-            // foreach (var item in eventDatas)
-            // {
-            //     var id_unityEvent = item.targetTransformPath + "_" + item.targetComponentType;
-
-            //     Transform targetTansform;
-            //     if (string.IsNullOrEmpty(item.targetTransformPath))
-            //     {
-            //         targetTansform = transformCache;
-            //     }
-            //     else
-            //     {
-            //         targetTansform = transformCache.Find(item.targetTransformPath);
-            //     }
-
-            //     EventRuntimeDatas eventRuntimeDatas;
-
-            //     if (!cachedUnityEvent.TryGetValue(id_unityEvent, out eventRuntimeDatas))
-            //     {
-            //         Component selectable = targetTansform.GetComponent(item.targetComponentType);
-            //         System.Type t = selectable.GetType();
-            //         UnityEvent unityEvent = (UnityEvent)GetProperty(t, selectable, item.targetPropertyPath);
-            //         eventRuntimeDatas = new EventRuntimeDatas(unityEvent, selectable);
-            //         cachedUnityEvent.Add(id_unityEvent, eventRuntimeDatas);
-            //     }
-
-            //     var id_delegate = item.scriptName + "_" + item.methodName;
-            //     EventDelegate<Selectable> openDelegate;
-            //     if (!cachedDelegate.TryGetValue(id_delegate, out openDelegate))
-            //     {
-            //         // Get Method
-            //         Type type = Utility.GetType(item.scriptName);
-            //         MethodInfo method = type.GetMethod(item.methodName);
-
-            //         //The method impletment Object
-            //         var scriptInstance = (MonoBehaviour)FindObjectOfType(type);
-
-            //         //Create Open Delegate
-            //         openDelegate = CreateOpenDelegate(method, scriptInstance);
-            //         cachedDelegate.Add(id_delegate, openDelegate);
-            //     }
-            //     eventRuntimeDatas.unityEvent.RemoveAllListeners();
-            //     eventRuntimeDatas.unityEvent.AddListener(delegate { openDelegate.Invoke((Selectable)eventRuntimeDatas.selectable); });
-            // }
         }
 
         const string GeneratedScriptInstanceGameObjectName = "Generated_ViewSystem";

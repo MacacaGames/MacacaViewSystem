@@ -19,7 +19,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         AnimBool showViewPageItem;
         ReorderableList viewPageItemList;
         GUIStyle removeButtonStyle;
-        GUIStyle oddStyle;
         GUIStyle nameStyle;
         GUIStyle nameErrorStyle;
         GUIStyle nameEditStyle;
@@ -74,23 +73,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 alignment = TextAnchor.MiddleCenter
             };
 
-            oddStyle = new GUIStyle
-            {
-                normal ={
-                background = CMEditorUtility.CreatePixelTexture("red Pixel (List GUI)", new Color32(0, 0, 0, 20))
-
-                },
-                active =
-            {
-                background = CMEditorUtility.CreatePixelTexture("red Pixel (List GUI)", new Color32(0, 0, 0, 20))
-            },
-                imagePosition = ImagePosition.ImageOnly,
-                alignment = TextAnchor.MiddleCenter,
-                stretchWidth = true,
-                stretchHeight = false,
-                padding = new RectOffset(0, 0, 0, 0),
-                margin = new RectOffset(0, 0, 0, 0)
-            };
 
             excludePlatformOptions.Clear();
 
@@ -173,7 +155,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 return;
             }
 
-            if (index % 2 == 0) GUI.Box(oddRect, GUIContent.none, oddStyle);
+            if (index % 2 == 0) GUI.Box(oddRect, GUIContent.none, Drawer.oddStyle);
         }
 
         private void AddItem(ReorderableList rlist)
