@@ -298,10 +298,11 @@ namespace CloudMacaca.ViewSystem
                 .Timer(TimeSpan.FromSeconds(delayIn))
                 .Subscribe(_ =>
                 {
-                    foreach (var item in lifeCyclesObjects)
-                    {
-                        item.OnBeforeShow();
-                    }
+                    if (lifeCyclesObjects != null)
+                        foreach (var item in lifeCyclesObjects)
+                        {
+                            item.OnBeforeShow();
+                        }
                     if (transition == TransitionType.Animator)
                     {
                         animator.Play(AnimationStateName_In);
@@ -339,10 +340,11 @@ namespace CloudMacaca.ViewSystem
                 .Timer(TimeSpan.FromSeconds(delayOut))
                 .Subscribe(_ =>
                 {
-                    foreach (var item in lifeCyclesObjects)
-                    {
-                        item.OnBeforeLeave();
-                    }
+                    if (lifeCyclesObjects != null)
+                        foreach (var item in lifeCyclesObjects)
+                        {
+                            item.OnBeforeLeave();
+                        }
                     //在試圖 leave 時 如果已經是 disable 的 那就直接把他送回池子
                     //如果 ignoreTransition 也直接把他送回池子
                     if (gameObject.activeSelf == false || ignoreTransition)
