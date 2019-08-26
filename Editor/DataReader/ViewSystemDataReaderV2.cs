@@ -135,13 +135,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             //從 ViewPage 尋找
             viewItemForNextPage.AddRange(viewPage.viewPageItems);
-            
+
             var rootGameObject = GameObject.Find(data.globalSetting.ViewControllerObjectPath);
             Transform root = rootGameObject.transform;
 
             //打開相對應物件
             foreach (ViewPageItem item in viewItemForNextPage)
             {
+                if (item.viewElement == null)
+                {
+                    Debug.LogWarning($"There are some ViewElement didn't setup correctly in this page or state");
+                    continue;
+                }
                 var temp = PrefabUtility.InstantiatePrefab(item.viewElement.gameObject);
                 ViewElement tempViewElement = ((GameObject)temp).GetComponent<ViewElement>();
                 tempViewElement.gameObject.SetActive(true);

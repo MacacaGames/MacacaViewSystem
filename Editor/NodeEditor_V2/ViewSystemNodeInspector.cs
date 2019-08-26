@@ -525,14 +525,22 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 if (GUI.Button(parentFunctionRect, new GUIContent("Select Parent", "Highlight parent Transform object")))
                 {
                     var go = GameObject.Find(list[index].parentPath);
-                    if (go) EditorGUIUtility.PingObject(go);
+                    if (go)
+                    {
+                        EditorGUIUtility.PingObject(go);
+                        Selection.objects = new[] { go };
+                    }
                     else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
                 }
                 parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
                 if (GUI.Button(parentFunctionRect, new GUIContent("Select Preview", "Highlight the preview ViewElement object (Only work while is preview the selected page)")))
                 {
                     var go = GameObject.Find(list[index].parentPath);
-                    if (go.transform.childCount > 0) EditorGUIUtility.PingObject(go.transform.GetChild(0));
+                    if (go.transform.childCount > 0)
+                    {
+                        EditorGUIUtility.PingObject(go.transform.GetChild(0));
+                        Selection.objects = new[] { go };
+                    }
                     else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
                 }
             }
@@ -553,6 +561,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     editor.console.LogErrorMessage("Selected Parent is not child of ViewController GameObject");
                     Debug.LogError("Selected Parent is not child of ViewController GameObject");
+                    list[index].parent = null;
                 }
             }
 
@@ -568,90 +577,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     return;
                 }
             }
-            // rect.y += EditorGUIUtility.singleLineHeight;
-
-            // list[index].easeType = (DG.Tweening.Ease)EditorGUI.EnumPopup(rect, new GUIContent("Ease", "The EaseType when needs to tween."), list[index].easeType);
-            // rect.y += EditorGUIUtility.singleLineHeight;
-
-            // list[index].TweenTime = EditorGUI.Slider(rect, new GUIContent("Tween Time", "Tween Time use to control when ViewElement needs change parent."), list[index].TweenTime, 0, 1);
-            // rect.y += EditorGUIUtility.singleLineHeight;
-
-            // list[index].delayIn = EditorGUI.Slider(rect, "Delay In", list[index].delayIn, 0, 1);
-            // rect.y += EditorGUIUtility.singleLineHeight;
-
-            // list[index].delayOut = EditorGUI.Slider(rect, "Delay Out", list[index].delayOut, 0, 1);
-            // rect.y += EditorGUIUtility.singleLineHeight;
-
-            //rect.y += EditorGUIUtility.singleLineHeight;
-            // bool isExcloudAndroid = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.Android);
-            // bool isExcloudiOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.iOS);
-            // bool isExcloudtvOS = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.tvOS);
-            // bool isExcloudUWP = !list[index].excludePlatform.Contains(ViewPageItem.PlatformOption.UWP);
-
-
-            // EditorGUIUtility.labelWidth = 20.0f;
-            // rect.width = oriRect.width * 0.25f;
-
-            // string proIconFix = "";
-            // if (EditorGUIUtility.isProSkin)
-            // {
-            //     proIconFix = "d_";
-            // }
-            // else
-            // {
-            //     proIconFix = "";
-            // }
-
-            // EditorGUI.BeginChangeCheck();
-            // using (var check = new EditorGUI.ChangeCheckScope())
-            // {
-            //     isExcloudAndroid = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Android.Small")), isExcloudAndroid);
-            //     rect.x += rect.width;
-
-            //     isExcloudiOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.iPhone.Small")), isExcloudiOS);
-            //     rect.x += rect.width;
-
-            //     isExcloudtvOS = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.tvOS.Small")), isExcloudtvOS);
-            //     rect.x += rect.width;
-
-            //     isExcloudUWP = EditorGUI.Toggle(rect, new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Standalone.Small")), isExcloudUWP);
-
-            //     if (check.changed)
-            //     {
-            //         list[index].excludePlatform.Clear();
-
-            //         if (!isExcloudAndroid)
-            //         {
-            //             list[index].excludePlatform.Add(ViewPageItem.PlatformOption.Android);
-            //         }
-            //         if (!isExcloudiOS)
-            //         {
-            //             list[index].excludePlatform.Add(ViewPageItem.PlatformOption.iOS);
-            //         }
-            //         if (!isExcloudtvOS)
-            //         {
-            //             list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
-            //         }
-            //         if (!isExcloudUWP)
-            //         {
-            //             list[index].excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
-            //         }
-            //     }
-            // }
-
-            //rect.y += EditorGUIUtility.singleLineHeight;
-            // }
-            // catch (Exception ex)
-            // {
-            //     Debug.Log("index " + index + " ___1" + ex.Message);
-
-            // }
-            // Rect rightRect = oriRect;
-            // rightRect.x = rect.x;
-            // rightRect.y = rect.y;
-            // rightRect.height = rect.height;
-            // rightRect.width = 20;
-
         }
         static float InspectorWidth = 350;
         Rect infoAreaRect;
