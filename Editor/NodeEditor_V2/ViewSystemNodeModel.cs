@@ -7,7 +7,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNode
     {
-
+        protected int id;
         List<ViewSystemNodeLine> CurrentConnectLine = new List<ViewSystemNodeLine>();
         public ViewSystemNodeLinker nodeConnectionLinker;
         public enum NodeType
@@ -37,6 +37,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             }
         }
+        public ViewSystemNode()
+        {
+            id = UnityEngine.Random.Range(-99999, 99999);
+        }
         void _OnNodeDelete()
         {
             if (OnNodeDelete != null)
@@ -65,7 +69,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 () =>
                 {
                     _OnNodeDelete();
-
                 }
             );
 
@@ -173,7 +176,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 return false;
             }
-            bool isMouseInNode = drawRect.Contains(e.mousePosition); 
+            bool isMouseInNode = drawRect.Contains(e.mousePosition);
 
             switch (e.type)
             {
@@ -255,6 +258,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public Action<ViewPage> OnPreviewBtnClick;
 
         public ViewPageNode(Vector2 mousePosition, bool isOverlay, Action<ViewSystemNode> OnConnectionPointClick, Action<ViewStateNode, ViewPageNode> OnNodeTypeConvert, ViewPage viewPage)
+        : base()
         {
             if (viewPage == null)
             {
@@ -274,6 +278,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             this.OnNodeTypeConvert = OnNodeTypeConvert;
             SetupNode();
         }
+
         public override void SetupNode()
         {
             OnNodeTypeConvert(currentLinkedViewStateNode, this);
@@ -299,24 +304,35 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             DrawNode(viewPage.name);
             var btnRect = new Rect(drawRect.x, drawRect.y + drawRect.height - 40, drawRect.width, 18);
-            if (GUI.Button(btnRect, "Preview", new GUIStyle("ObjectPickerResultsEven")))
+
+            if (CustomEventElement.CustomButton(id, btnRect, new GUIContent("Preview"), new GUIStyle("ObjectPickerResultsEven"), IsInactivable))
             {
-                if (IsInactivable == false) return;
                 if (OnPreviewBtnClick != null)
                 {
                     OnPreviewBtnClick(viewPage);
                 }
             }
+            // if (GUI.Button(btnRect, "Preview", new GUIStyle("ObjectPickerResultsEven")))
+            // {
+            //     if (IsInactivable == false) return;
+            //     if (OnPreviewBtnClick != null)
+            //     {
+            //         OnPreviewBtnClick(viewPage);
+            //     }
+            // }
         }
 
         public ViewPage viewPage;
     }
+
+    
 
     public class ViewStateNode : ViewSystemNode
     {
         // ViewStateNode 可以連到多個 ViewPageNode
         public List<ViewPageNode> currentLinkedViewPageNode = new List<ViewPageNode>();
         public ViewStateNode(Vector2 mousePosition, Action<ViewSystemNode> OnConnectionPointClick, ViewState viewState)
+        : base()
         {
             if (viewState == null)
             {
@@ -420,7 +436,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             this.viewPageNode = viewPageNode;
             this.OnRemoveConnectionClick = OnRemoveConnectionClick;
         }
-
+        public bool IsInactivable
+        {
+            get
+            {
+                return !(
+                    ViewSystemNodeGlobalSettingWindow.showGlobalSetting ||
+                    OverridePopupWindow.show ||
+                    ViewSystemNodeInspector.isMouseInSideBar());
+            }
+        }
         public void Draw()
         {
             Vector2 startPoint = viewPageNode.nodeConnectionLinker.rect.center;
@@ -446,6 +471,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var pos = Vector2.Lerp(startPoint, endPoint, 0.5f);
             if (GUI.Button(new Rect(pos.x - 8, pos.y - 8, 16, 16), EditorGUIUtility.FindTexture("d_winbtn_mac_close_h"), GUIStyle.none))
             {
+                if (!IsInactivable)
+                {
+                    return;
+                }
                 viewPageNode.viewPage.viewState = "";
                 if (OnRemoveConnectionClick != null)
                 {
@@ -453,6 +482,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
             }
         }
+
     }
+
+
 
 }
