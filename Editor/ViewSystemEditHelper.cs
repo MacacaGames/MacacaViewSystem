@@ -31,7 +31,7 @@ public class ViewSystemEditHelper : EditorWindow
         newAnimationFileName = EditorGUILayout.TextField("Animation Name", newAnimationFileName);
         if (GUILayout.Button("Create Animation File"))
         {
-            
+
             // -------------------- 第一步驟 創造動畫檔 -------------------- //
 
             // 尋找預設動畫檔的資料夾
@@ -154,6 +154,10 @@ public class ViewSystemEditHelper : EditorWindow
                 AssetDatabase.StopAssetEditing();
                 AssetDatabase.Refresh();
                 Debug.Log("Replace 「" + newAnimationFileName + "」 Animation Controller Motion Clip Completed");
+
+                // Highlight Animator
+                string animatorPath = "Assets/0_Game/UI/Animation/" + newAnimationFileName + "/" + newAnimationFileName + ".controller";
+                UnityEditor.EditorGUIUtility.PingObject((Object)AssetDatabase.LoadAssetAtPath(animatorPath, typeof(AnimatorController)));
             }
         }
 
