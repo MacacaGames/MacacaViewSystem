@@ -112,6 +112,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         public void OnViewPagePreview(ViewPage viewPage)
         {
+            if (data.globalSetting.UIRootScene == null)
+            {
+                Debug.LogError($"There is no canvas in your scene, do you init ViewSystem correctlly?");
+                return;
+            }
             //throw new System.NotImplementedException();
             ClearAllViewElementInScene();
             // 打開所有相關 ViewElements
@@ -130,8 +135,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             //從 ViewPage 尋找
             viewItemForNextPage.AddRange(viewPage.viewPageItems);
-
-            Transform root = GameObject.Find(data.globalSetting.ViewControllerObjectPath).transform;
+            
+            var rootGameObject = GameObject.Find(data.globalSetting.ViewControllerObjectPath);
+            Transform root = rootGameObject.transform;
 
             //打開相對應物件
             foreach (ViewPageItem item in viewItemForNextPage)
