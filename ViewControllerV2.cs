@@ -144,7 +144,6 @@ namespace CloudMacaca.ViewSystem
             ViewElement.viewElementPool = viewElementPool;
 
             maxClampTime = viewSystemSaveData.globalSetting.MaxWaitingTime;
-
         }
 
         protected override void Start()

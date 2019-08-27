@@ -40,7 +40,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 alignment = TextAnchor.MiddleCenter
             };
             show = false;
-            windowStyle = new GUIStyle("window");
+            windowStyle = new GUIStyle(Drawer.windowStyle);
             RectOffset padding = windowStyle.padding;
             padding.left = 0;
             padding.right = 1;
@@ -203,7 +203,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 reorderableListViewModify.DoLayoutList();
             }
         }
-        
+
         Dictionary<int, bool> lockerDict = new Dictionary<int, bool>();
         float[] lineHeight = new float[0];
         void RebuildModifyReorderableList()

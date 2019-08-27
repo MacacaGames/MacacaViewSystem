@@ -15,6 +15,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static ViewSystemNodeInspector inspector;
         static ViewSystemNodeGlobalSettingWindow globalSettingWindow;
         public OverridePopupWindow overridePopupWindow;
+        private OverrideVerifier overrideVerifyWindow;
         public static ViewSystemSaveData saveData;
         bool isInit = false;
 
@@ -46,6 +47,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemNodeGlobalSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
             overridePopupWindow = new OverridePopupWindow(this, inspector);
+            overrideVerifyWindow = new OverrideVerifier(this, saveData);
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
             viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));
@@ -465,6 +467,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     GUILayout.Space(5);
                     ViewSystemNodeGlobalSettingWindow.showGlobalSetting = GUILayout.Toggle(ViewSystemNodeGlobalSettingWindow.showGlobalSetting, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("SceneViewTools")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
+                    GUILayout.Space(5);
+                    if (GUILayout.Button(new GUIContent("Verify Overrides"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight)))
+                    {
+                        overrideVerifyWindow.VerifyComponent();
+                    }
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));

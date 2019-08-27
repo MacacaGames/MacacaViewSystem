@@ -187,5 +187,16 @@ public class Drawer
         }
     }
 
-
+    private static GUIStyle _windowStyle;
+    public static GUIStyle windowStyle
+    {
+        get
+        {
+            if (_windowStyle == null)
+            {
+                _windowStyle = new GUIStyle("window");
+            }
+            return _windowStyle;
+        }
+    }
 }
