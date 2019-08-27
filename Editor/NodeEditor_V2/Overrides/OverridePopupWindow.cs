@@ -205,11 +205,23 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
 
         Dictionary<int, bool> lockerDict = new Dictionary<int, bool>();
+        class ViewElementPropertyOverrideDataWrapper
+        {
+            public ViewElementPropertyOverrideDataWrapper(ViewElementPropertyOverrideData viewElementPropertyOverrideData)
+            {
+                lineHeight = EditorGUIUtility.singleLineHeight * 2.5f;
+                this.viewElementPropertyOverrideData = viewElementPropertyOverrideData;
+            }
+            public ViewElementPropertyOverrideData viewElementPropertyOverrideData;
+            public float lineHeight;
+        }
         float[] lineHeight = new float[0];
         void RebuildModifyReorderableList()
         {
             lockerDict.Clear();
-            reorderableListViewModify = new ReorderableList(viewPageItem.overrideDatas, typeof(List<ViewElementPropertyOverrideData>), true, false, false, true);
+            var wrapper = viewPageItem.overrideDatas.Select(m => new ViewElementPropertyOverrideDataWrapper(m)).ToList();
+
+            reorderableListViewModify = new ReorderableList(wrapper, typeof(List<ViewElementPropertyOverrideDataWrapper>), true, false, false, true);
             reorderableListViewModify.elementHeight = EditorGUIUtility.singleLineHeight * 2.5f;
             reorderableListViewModify.drawElementBackgroundCallback += (Rect rect, int index, bool isActive, bool isFocused) =>
             {
@@ -227,11 +239,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             };
             reorderableListViewModify.elementHeightCallback += (index) =>
             {
-                if (lineHeight.Length <= index)
-                {
-                    lineHeight = new float[viewPageItem.overrideDatas.Count];
-                }
-                return lineHeight[index];
+                return wrapper[index].lineHeight;
             };
             reorderableListViewModify.drawElementCallback += (rect, index, isActive, isFocused) =>
             {
@@ -239,15 +247,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
                 rect.height = EditorGUIUtility.singleLineHeight;
 
-                var item = viewPageItem.overrideDatas[index];
-                var targetObject = viewPageItem.viewElement.transform.Find(item.targetTransformPath);
+                var item = wrapper[index];
+                var targetObject = viewPageItem.viewElement.transform.Find(item.viewElementPropertyOverrideData.targetTransformPath);
 
                 if (targetObject == null)
                 {
                     if (!lockerDict.ContainsKey(index)) lockerDict.Add(index, true);
 
                     float lineWidth = rect.width;
-                    GUI.Label(rect, new GUIContent($"Target GameObject is Missing : [{viewPageItem.viewElement.name }/{item.targetTransformPath }", Drawer.miniErrorIcon));
+                    GUI.Label(rect, new GUIContent($"Target GameObject is Missing : [{viewPageItem.viewElement.name }/{item.viewElementPropertyOverrideData.targetTransformPath }", Drawer.miniErrorIcon));
                     rect.y += EditorGUIUtility.singleLineHeight;
                     rect.width = 16;
                     lockerDict[index] = EditorGUI.Toggle(rect, lockerDict[index], new GUIStyle("IN LockButton"));
@@ -255,58 +263,62 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     rect.width = lineWidth - 16;
                     using (var disable = new EditorGUI.DisabledGroupScope(lockerDict[index]))
                     {
-                        item.targetTransformPath = EditorGUI.TextField(rect, item.targetTransformPath);
+                        item.viewElementPropertyOverrideData.targetTransformPath = EditorGUI.TextField(rect, item.viewElementPropertyOverrideData.targetTransformPath);
                     }
 
                     return;
                 }
 
-                UnityEngine.Object targetComponent = targetObject.GetComponent(item.targetComponentType);
-                if (item.targetComponentType.Contains("GameObject"))
+                UnityEngine.Object targetComponent = targetObject.GetComponent(item.viewElementPropertyOverrideData.targetComponentType);
+                if (item.viewElementPropertyOverrideData.targetComponentType.Contains("GameObject"))
                 {
                     targetComponent = targetObject.gameObject;
                 }
-                if (item.targetComponentType.Contains("RectTransform"))
+                if (item.viewElementPropertyOverrideData.targetComponentType.Contains("RectTransform"))
                 {
                     targetComponent = targetObject.GetComponent<RectTransform>();
                 }
-                else if (item.targetComponentType.Contains("Transform"))
+                else if (item.viewElementPropertyOverrideData.targetComponentType.Contains("Transform"))
                 {
                     targetComponent = targetObject.transform;
                 }
                 if (targetComponent == null)
                 {
-                    if (!lockerDict.ContainsKey(index)) lockerDict.Add(index, true);
-                    Rect lockRect = rect;
-                    lockRect.width = 10;
-                    lockRect.y += EditorGUIUtility.singleLineHeight * 0.25f;
-                    lockerDict[index] = EditorGUI.Toggle(lockRect, lockerDict[index], new GUIStyle("IN LockButton"));
+                    // if (!lockerDict.ContainsKey(index)) lockerDict.Add(index, true);
+                    // Rect lockRect = rect;
+                    // lockRect.width = 10;
+                    // lockRect.y += EditorGUIUtility.singleLineHeight * 0.25f;
+                    // lockerDict[index] = EditorGUI.Toggle(lockRect, lockerDict[index], new GUIStyle("IN LockButton"));
+
+                    // rect.x += 10;
+                    // rect.width -= 10;
+                    // if (lockerDict[index] == true)
+                    // {
+                    //     GUI.Label(rect, new GUIContent("Target Component cannot be found on GameObject", Drawer.miniErrorIcon));
+                    //     rect.y += EditorGUIUtility.singleLineHeight;
+                    //     GUI.Label(rect, new GUIContent("ComponentType : " + item.viewElementPropertyOverrideData.targetComponentType));
+                    // }
+                    // else
+                    // {
+                    //     item.viewElementPropertyOverrideData.targetTransformPath = EditorGUI.TextField(rect, "Transform Path", item.viewElementPropertyOverrideData.targetTransformPath);
+                    //     rect.y += EditorGUIUtility.singleLineHeight;
+                    //     item.viewElementPropertyOverrideData.targetComponentType = EditorGUI.TextField(rect, "Component Type", item.viewElementPropertyOverrideData.targetComponentType);
+                    // }
 
                     rect.x += 10;
                     rect.width -= 10;
-                    if (lockerDict[index] == true)
-                    {
-                        GUI.Label(rect, new GUIContent("Target Component cannot be found on GameObject", Drawer.miniErrorIcon));
-                        rect.y += EditorGUIUtility.singleLineHeight;
-                        GUI.Label(rect, new GUIContent("ComponentType : " + item.targetComponentType));
-                    }
-                    else
-                    {
-                        item.targetTransformPath = EditorGUI.TextField(rect, "Transform Path", item.targetTransformPath);
-                        rect.y += EditorGUIUtility.singleLineHeight;
-                        item.targetComponentType = EditorGUI.TextField(rect, "Component Type", item.targetComponentType);
-                    }
+                    GUI.Label(rect, new GUIContent("ComponentType : " + item.viewElementPropertyOverrideData.targetComponentType));
                     return;
                 }
                 var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
                 var so = new SerializedObject(targetComponent);
-                var sp = so.FindProperty(item.targetPropertyName);
+                var sp = so.FindProperty(item.viewElementPropertyOverrideData.targetPropertyName);
 
                 rect.width = 20;
                 GUI.Label(rect, Drawer.prefabIcon);
                 rect.x += rect.width;
 
-                GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)));
+                GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.viewElementPropertyOverrideData.targetTransformPath) ? "" : ("/" + item.viewElementPropertyOverrideData.targetTransformPath)));
                 rect.width = GUI.skin.label.CalcSize(l).x;
                 GUI.Label(rect, l);
                 rect.x += rect.width;
@@ -324,11 +336,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 rect.x = ori_Rect.x;
 
                 //EditorGUI.PropertyField(rect, sp);
-                if (VS_EditorUtility.EditorableField(rect, sp, item.Value, out float lh))
+                if (VS_EditorUtility.EditorableField(rect, sp, item.viewElementPropertyOverrideData.Value, out float lh))
                 {
 
                 }
-                lineHeight[index] = lh;
+                item.lineHeight = lh;
                 //var result = EditorGUICM.GetPropertyType(sp);
 
             };
@@ -482,7 +494,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     _selectedTab = GUILayout.Toolbar(_selectedTab, tabs, EditorStyles.toolbarButton);
                     if (check.changed)
                     {
-
+                        if (_selectedTab == 1)
+                        {
+                            RebuildModifyReorderableList();
+                        }
                     }
                 }
             }
