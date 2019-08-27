@@ -211,8 +211,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             {
                                 targetComponentType = x.targetComponentType,
                                 targetPropertyName = x.targetPropertyName,
-                                targetPropertyPath = x.targetPropertyPath,
-                                targetPropertyType = x.targetPropertyType,
+                                //targetPropertyPath = x.targetPropertyPath,
+                                //targetPropertyType = x.targetPropertyType,
                                 targetTransformPath = x.targetTransformPath,
                                 Value = new PropertyOverride
                                 {
@@ -232,8 +232,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             {
                                 targetComponentType = x.targetComponentType,
                                 targetPropertyName = x.targetPropertyName,
-                                targetPropertyPath = x.targetPropertyPath,
-                                targetPropertyType = x.targetPropertyType,
+                                //targetPropertyPath = x.targetPropertyPath,
+                                //targetPropertyType = x.targetPropertyType,
                                 targetTransformPath = x.targetTransformPath,
                                 methodName = x.methodName,
                                 scriptName = x.scriptName

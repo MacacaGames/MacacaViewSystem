@@ -94,10 +94,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     continue;
                 }
 
-                if (t.GetField(item.targetPropertyPath) == null && t.GetProperty(item.targetPropertyPath) == null)
+                if (t.GetField(item.targetPropertyName) == null && t.GetProperty(item.targetPropertyName) == null)
                 {
-                    Debug.LogError(item.targetPropertyPath + " in " + item.targetComponentType + " cannot be found");
-                    propertyCannotBeFound.Add(item.targetComponentType + "," + item.targetPropertyPath);
+                    Debug.LogError(item.targetPropertyName + " in " + item.targetComponentType + " cannot be found");
+                    propertyCannotBeFound.Add(item.targetComponentType + "," + item.targetPropertyName);
                 }
             }
             //UnityEngine.Object.DestroyImmediate(go);

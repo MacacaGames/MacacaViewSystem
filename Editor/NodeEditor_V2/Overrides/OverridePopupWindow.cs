@@ -535,29 +535,42 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 if (sp.propertyType == SerializedPropertyType.Generic)
                 {
                     System.Type parentType = sp.serializedObject.targetObject.GetType();
-                    string propertyName = VS_EditorUtility.ParseUnityEngineProperty(sp.propertyPath);
-                    System.Reflection.PropertyInfo fi = parentType.GetProperty(propertyName);
-                    if (fi == null)
-                    {
-                        Debug.LogError("property not found");
-                        editor.ShowNotification(new GUIContent("property not found"), toastMessageFadeOutTimt);
 
-                        return;
+                    System.Reflection.FieldInfo fi = parentType.GetField(sp.propertyPath);
+
+                    System.Type propertyType = null;
+                    if (fi != null)
+                    {
+                        propertyType = fi.FieldType;
                     }
 
-                    if (!fi.PropertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEvent)))
+                    string propertyName = sp.propertyPath;
+                    if (parentType.ToString().Contains("UnityEngine."))
+                    {
+                        propertyName = ViewSystemUtilitys.ParseUnityEngineProperty(sp.propertyPath);
+                    }
+
+                    System.Reflection.PropertyInfo pi = parentType.GetProperty(propertyName);
+                    if (pi != null && fi == null)
+                    {
+                        // Debug.LogError("property not found");
+                        // editor.ShowNotification(new GUIContent("property not found"), toastMessageFadeOutTimt);
+                        // return;
+                        propertyType = pi.PropertyType;
+                    }
+
+                    if (!propertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEvent)))
                     {
                         Debug.LogError("Currently Gereric type only support UnityEvent");
                         editor.ShowNotification(new GUIContent("Currently Gereric type only support UnityEvent"), toastMessageFadeOutTimt);
-
                         return;
                     }
                     var eventData = new ViewElementEventData();
                     eventData.targetTransformPath = AnimationUtility.CalculateTransformPath(c.transform, target.transform);
                     eventData.targetPropertyName = sp.name;
                     eventData.targetComponentType = sp.serializedObject.targetObject.GetType().ToString();
-                    eventData.targetPropertyType = sp.propertyType.ToString();
-                    eventData.targetPropertyPath = propertyName;
+                    //eventData.targetPropertyType = sp.propertyType.ToString();
+                    //eventData.targetPropertyPath = propertyName;
 
                     if (viewPageItem.eventDatas == null)
                     {
@@ -594,8 +607,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     overrideData.targetTransformPath = AnimationUtility.CalculateTransformPath(c.transform, target.transform);
                     overrideData.targetPropertyName = sp.name;
                     overrideData.targetComponentType = sp.serializedObject.targetObject.GetType().ToString();
-                    overrideData.targetPropertyType = sp.propertyType.ToString();
-                    overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(sp.propertyPath);
+                    //overrideData.targetPropertyType = sp.propertyType.ToString();
+                    //overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(sp.propertyPath);
                     overrideData.Value.SetValue(sp);
                     if (viewPageItem.overrideDatas == null)
                     {

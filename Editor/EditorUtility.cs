@@ -27,24 +27,7 @@ namespace CloudMacaca.ViewSystem
                 prop.propertyType == SerializedPropertyType.Character ||
                 prop.propertyType == SerializedPropertyType.FixedBufferSize;
         }
-        public static string ParseUnityEngineProperty(string ori)
-        {
-            if (ori.ToLower().Contains("material"))
-            {
-                return "material";
-            }
-            if (ori.ToLower().Contains("sprite"))
-            {
-                return "sprite";
-            }
-            if (ori.ToLower().Contains("active"))
-            {
-                return "active";
-            }
-            string result = ori.Replace("m_", "");
-            result = result.Substring(0, 1).ToLower() + result.Substring(1);
-            return result;
-        }
+
         static BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
         public static Type GetPropertyType(SerializedProperty property)
         {
@@ -55,31 +38,18 @@ namespace CloudMacaca.ViewSystem
             {
                 return fi.FieldType;
             }
-
-            System.Reflection.PropertyInfo pi = parentType.GetProperty(ParseUnityEngineProperty(property.propertyPath), flags);
+            string p = property.propertyPath;
+            if (parentType.ToString().Contains("UnityEngine."))
+            {
+                p = ViewSystemUtilitys.ParseUnityEngineProperty(property.propertyPath);
+            }
+            System.Reflection.PropertyInfo pi = parentType.GetProperty(p, flags);
             if (pi != null)
             {
                 return pi.PropertyType;
             }
 
             return CloudMacaca.Utility.GetType(property.type) ?? typeof(UnityEngine.Object);
-            // var type = property.type;
-            // var match = System.Text.RegularExpressions.Regex.Match(type, @"PPtr<\$(.*?)>");
-            // string t = "";
-            // foreach (var s in match.Groups)
-            // {
-            //     t += " ";
-            //     t += s;
-
-            // }
-            // Debug.Log(t);
-
-            // if (match.Success)
-            // {
-            //     if (string.IsNullOrEmpty(match.Groups[0].Value)) type = "UnityEngine." + match.Groups[1].Value;
-            //     else type = match.Groups[1].Value;
-            // }
-            // return CloudMacaca.Utility.GetType(type);
         }
 
         public static bool EditorableField(Rect rect, SerializedProperty Target, PropertyOverride overProperty, out float lineHeight)

@@ -125,5 +125,23 @@ namespace CloudMacaca.ViewSystem
             }
             return Mathf.Clamp(maxOutAnitionTime, 0, maxClampTime);
         }
+        public static string ParseUnityEngineProperty(string ori)
+        {
+            if (ori.ToLower().Contains("material"))
+            {
+                return "material";
+            }
+            if (ori.ToLower().Contains("sprite"))
+            {
+                return "sprite";
+            }
+            if (ori.ToLower().Contains("active"))
+            {
+                return "active";
+            }
+            string result = ori.Replace("m_", "");
+            result = result.Substring(0, 1).ToLower() + result.Substring(1);
+            return result;
+        }
     }
 }

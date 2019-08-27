@@ -44,8 +44,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     var temp = new OverridesPropertiesCheckerData();
                     temp.serializedPropertyType = sp.propertyType;
                     temp.overrideData.targetPropertyName = property;
-                    temp.overrideData.targetPropertyType = sp.propertyType.ToString();
-                    temp.overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(property);
+                    //temp.overrideData.targetPropertyType = sp.propertyType.ToString();
+                    //temp.overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(property);
 
                     Transform t;
                     if (sp.serializedObject.targetObject as Component == null)

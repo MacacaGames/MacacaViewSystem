@@ -36,7 +36,7 @@ namespace CloudMacaca.ViewSystem
             currentEventDatas = eventDatas.ToArray();
 
             //Group by Component transform_component_property
-            var groupedEventData = eventDatas.GroupBy(item => item.targetTransformPath + "_" + item.targetComponentType + "_" + item.targetPropertyPath);
+            var groupedEventData = eventDatas.GroupBy(item => item.targetTransformPath + "_" + item.targetComponentType + "_" + item.targetPropertyName);
 
             foreach (var item in groupedEventData)
             {
@@ -182,13 +182,13 @@ namespace CloudMacaca.ViewSystem
                     cachedComponent.Add(id, c);
                 }
 
-                var idForProperty = id + "_" + item.targetPropertyPath;
+                var idForProperty = id + "_" + item.targetPropertyName;
                 if (!prefabDefaultFields.ContainsKey(idForProperty))
                 {
-                    prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetPropertyValue(c, item.targetPropertyPath), id, item.targetPropertyPath));
+                    prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetPropertyValue(c, item.targetPropertyName), id, item.targetPropertyName));
                 }
                 currentModifiedField.Add(idForProperty);
-                SetPropertyValue(c, item.targetPropertyPath, item.Value.GetValue());
+                SetPropertyValue(c, item.targetPropertyName, item.Value.GetValue());
             }
         }
         bool isUnityEngineType(System.Type t)
@@ -214,7 +214,10 @@ namespace CloudMacaca.ViewSystem
                 fieldInfo.SetValue(inObj, newValue);
                 return;
             }
-
+            if (t.ToString().Contains("UnityEngine."))
+            {
+                fieldName = ViewSystemUtilitys.ParseUnityEngineProperty(fieldName);
+            }
             System.Reflection.PropertyInfo info = t.GetProperty(fieldName, bindingFlags);
             if (info != null)
                 info.SetValue(inObj, newValue);
@@ -238,7 +241,10 @@ namespace CloudMacaca.ViewSystem
                 ret = fieldInfo.GetValue(inObj);
                 return ret;
             }
-
+            if (t.ToString().Contains("UnityEngine."))
+            {
+                fieldName = ViewSystemUtilitys.ParseUnityEngineProperty(fieldName);
+            }
             System.Reflection.PropertyInfo info = t.GetProperty(fieldName, bindingFlags);
             if (info != null)
                 ret = info.GetValue(inObj);
