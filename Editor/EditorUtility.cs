@@ -82,9 +82,15 @@ namespace CloudMacaca.ViewSystem
             // return CloudMacaca.Utility.GetType(type);
         }
 
-        public static bool EditorableField(Rect rect, GUIContent content, SerializedProperty Target, PropertyOverride overProperty, out float lineHeight)
+        public static bool EditorableField(Rect rect, SerializedProperty Target, PropertyOverride overProperty, out float lineHeight)
         {
             lineHeight = EditorGUIUtility.singleLineHeight * 2.5f;
+            if (Target == null || overProperty == null)
+            {
+                GUI.Label(rect, "There is some property wrong on the override");
+                return false;
+            }
+            GUIContent content = new GUIContent(Target?.displayName);
             EditorGUI.BeginChangeCheck();
             switch (Target.propertyType)
             {

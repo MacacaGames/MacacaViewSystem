@@ -324,7 +324,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 rect.x = ori_Rect.x;
 
                 //EditorGUI.PropertyField(rect, sp);
-                if (VS_EditorUtility.EditorableField(rect, new GUIContent(sp.displayName), sp, item.Value, out float lh))
+                if (VS_EditorUtility.EditorableField(rect, sp, item.Value, out float lh))
                 {
 
                 }

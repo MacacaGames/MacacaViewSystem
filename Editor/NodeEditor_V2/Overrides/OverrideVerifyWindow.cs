@@ -84,10 +84,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //Data may changed by Component fixer so refresh again.
             RefreshOverrideDatas();
             propertyCannotBeFound.Clear();
-            var go = new GameObject("Verify");
+            //var go = new GameObject("Verify");
             foreach (var item in allOverrideDatas)
             {
-
                 var t = CloudMacaca.Utility.GetType(item.targetComponentType);
                 if (t == null)
                 {
@@ -95,19 +94,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     continue;
                 }
 
-                if (t.GetField(item.targetPropertyName) == null && t.GetProperty(item.targetPropertyName) == null)
+                if (t.GetField(item.targetPropertyPath) == null && t.GetProperty(item.targetPropertyPath) == null)
                 {
-                    propertyCannotBeFound.Add(item.targetComponentType + "," + item.targetPropertyName);
+                    Debug.LogError(item.targetPropertyPath + " in " + item.targetComponentType + " cannot be found");
+                    propertyCannotBeFound.Add(item.targetComponentType + "," + item.targetPropertyPath);
                 }
             }
-            UnityEngine.Object.DestroyImmediate(go);
+            //UnityEngine.Object.DestroyImmediate(go);
             if (propertyCannotBeFound.Count > 0)
             {
                 if (EditorUtility.DisplayDialog(
-                                   "Something goes wrong!",
-                                   "There are some override property is missing, do you want to open fixer window",
-                                   "Yes, Please",
-                                   "Not now"))
+                    "Something goes wrong!",
+                    "There are some override property is missing, do you want to open fixer window",
+                    "Yes, Please",
+                    "Not now"))
                 {
                     var window = ScriptableObject.CreateInstance<PropertyFixerWindow>();
                     window.SetData(propertyCannotBeFound, allOverrideDatas, () =>
@@ -135,24 +135,60 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
     }
     public class PropertyFixerWindow : FixerWindow
     {
-        public void SetData(List<string> typeNameCannotBeFound, IEnumerable<ViewElementPropertyOverrideData> allOverrideDatas, Action OnComplete)
-        { }
+        class FixerData
+        {
+            public FixerData(string originalPropertyName)
+            {
+                this.originalPropertyName = originalPropertyName;
+            }
+            public bool fix = false;
+            public string originalPropertyName;
+            public string modifiedPropertyName;
+            public string modifiedPropertyPath;
+        }
+        List<string> propertyCannotBeFound;
+        Dictionary<string, List<FixerData>> fixerDatas = new Dictionary<string, List<FixerData>>();
+        IEnumerable<ViewElementPropertyOverrideData> allOverrideDatas;
+        public void SetData(List<string> propertyCannotBeFound, IEnumerable<ViewElementPropertyOverrideData> allOverrideDatas, Action OnComplete)
+        {
+            titleContent = new GUIContent("Missing property fixer");
+            this.allOverrideDatas = allOverrideDatas;
+            this.icon = EditorGUIUtility.FindTexture("MetaFile Icon");
+            this.lable = "Select the property your wish to fix";
+            fixerDatas = propertyCannotBeFound.Select(
+                m =>
+                {
+                    var x = m.Split(',');
+                    return new { componentName = x[0], propertyName = x[1] };
+                }
+            ).GroupBy(m => m.componentName).ToDictionary(o => o.Key, o => o.Select(r => new FixerData(r.propertyName)).ToList());
+        }
         public override void OnDrawScrollArea()
         {
-            // float width = (position.width - 80) * 0.66f;
-            // using (var vertical = new GUILayout.VerticalScope())
-            // {
-            //     foreach (var item in fixerDatas)
-            //     {
-            //         using (var horizon = new GUILayout.HorizontalScope("box"))
-            //         {
-            //             item.fix = EditorGUILayout.ToggleLeft(GUIContent.none, item.fix, GUILayout.Width(20));
-            //             GUILayout.Label(new GUIContent(item.originalComponentName, item.originalComponentName), GUILayout.Width(width));
-            //             GUILayout.Label(Drawer.arrowIcon);
-            //             item.targetComponentScript = (MonoScript)EditorGUILayout.ObjectField(item.targetComponentScript, typeof(MonoScript), false);
-            //         }
-            //     }
-            // }
+            float width = (position.width - 80) * 0.66f;
+            using (var vertical = new GUILayout.VerticalScope())
+            {
+                foreach (var item in fixerDatas)
+                {
+                    var texture = EditorGUIUtility.ObjectContent(null, CloudMacaca.Utility.GetType(item.Key)).image;
+                    if (texture == null)
+                    {
+                        texture = EditorGUIUtility.FindTexture("cs Script Icon");
+                    }
+                    var _cachedContent = new GUIContent(item.Key, texture);
+                    GUILayout.Label(_cachedContent, GUILayout.Height(20));
+                    foreach (var item2 in item.Value)
+                    {
+                        using (var horizon = new GUILayout.HorizontalScope("box"))
+                        {
+                            item2.fix = EditorGUILayout.ToggleLeft(GUIContent.none, item2.fix, GUILayout.Width(20));
+                            GUILayout.Label(new GUIContent(item2.originalPropertyName, item2.originalPropertyName), GUILayout.Width(width));
+                            GUILayout.Label(Drawer.arrowIcon);
+                            //item.targetComponentScript = (MonoScript)EditorGUILayout.ObjectField(item.targetComponentScript, typeof(MonoScript), false);
+                        }
+                    }
+                }
+            }
         }
     }
     public class ComponentFixerWindow : FixerWindow
@@ -174,7 +210,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             titleContent = new GUIContent("Missing component fixer");
             this.allOverrideDatas = allOverrideDatas;
             this.OnComplete = OnComplete;
-            this.icon = EditorGUIUtility.FindTexture("d_WelcomeScreen.AssetStoreLogo");
+            this.icon = EditorGUIUtility.FindTexture("MetaFile Icon");
             this.lable = "Select the component your wish to fix";
             foreach (var item in typeNameCannotBeFound)
             {
