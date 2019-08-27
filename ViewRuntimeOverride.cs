@@ -59,7 +59,7 @@ namespace CloudMacaca.ViewSystem
                     //p[1] is targetComponentType
                     Component selectable = targetTansform.GetComponent(p[1]);
                     //p[2] is targetPropertyPath
-                    UnityEvent unityEvent = (UnityEvent)GetProperty(selectable, p[2]);
+                    UnityEvent unityEvent = (UnityEvent)GetPropertyValue(selectable, p[2]);
                     eventRuntimeDatas = new EventRuntimeDatas(unityEvent, selectable);
                     cachedUnityEvent.Add(item.Key, eventRuntimeDatas);
                 }
@@ -134,7 +134,7 @@ namespace CloudMacaca.ViewSystem
                 PrefabDefaultField defaultField;
                 if (prefabDefaultFields.TryGetValue(item, out defaultField))
                 {
-                    SetProperty(cachedComponent[defaultField.id], defaultField.field, defaultField.defaultValue);
+                    SetPropertyValue(cachedComponent[defaultField.id], defaultField.field, defaultField.defaultValue);
                 }
                 //Debug.Log($"Reset [{gameObject.name}] [{item.type}] on [{ cachedComponent[item.id]}] field [{item.field}] to [{item.orignalValue}]");
                 // }
@@ -185,17 +185,17 @@ namespace CloudMacaca.ViewSystem
                 var idForProperty = id + "_" + item.targetPropertyPath;
                 if (!prefabDefaultFields.ContainsKey(idForProperty))
                 {
-                    prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetProperty(c, item.targetPropertyPath), id, item.targetPropertyPath));
+                    prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetPropertyValue(c, item.targetPropertyPath), id, item.targetPropertyPath));
                 }
                 currentModifiedField.Add(idForProperty);
-                SetProperty(c, item.targetPropertyPath, item.Value.GetValue());
+                SetPropertyValue(c, item.targetPropertyPath, item.Value.GetValue());
             }
         }
         bool isUnityEngineType(System.Type t)
         {
             return t.ToString().Contains("UnityEngine");
         }
-        public void SetProperty(object inObj, string fieldName, object newValue)
+        public void SetPropertyValue(object inObj, string fieldName, object newValue)
         {
             System.Type t = inObj.GetType();
             //GameObject hack
@@ -206,13 +206,21 @@ namespace CloudMacaca.ViewSystem
                 ((GameObject)inObj).SetActive((bool)newValue);
                 return;
             }
-            //Debug.Log($"SetProperty on [{gameObject.name}] [{t.ToString()}] on [{fieldName}] target Value {newValue}");
+
+            // Try search Field first than try property
+            System.Reflection.FieldInfo fieldInfo = t.GetField(fieldName, bindingFlags);
+            if (fieldInfo != null)
+            {
+                fieldInfo.SetValue(inObj, newValue);
+                return;
+            }
+
             System.Reflection.PropertyInfo info = t.GetProperty(fieldName, bindingFlags);
             if (info != null)
                 info.SetValue(inObj, newValue);
         }
 
-        private object GetProperty(object inObj, string fieldName)
+        private object GetPropertyValue(object inObj, string fieldName)
         {
             System.Type t = inObj.GetType();
             //GameObject hack
@@ -223,6 +231,14 @@ namespace CloudMacaca.ViewSystem
                 return ((GameObject)inObj).activeSelf;
             }
             object ret = null;
+            // Try search Field first than try property
+            System.Reflection.FieldInfo fieldInfo = t.GetField(fieldName, bindingFlags);
+            if (fieldInfo != null)
+            {
+                ret = fieldInfo.GetValue(inObj);
+                return ret;
+            }
+
             System.Reflection.PropertyInfo info = t.GetProperty(fieldName, bindingFlags);
             if (info != null)
                 ret = info.GetValue(inObj);

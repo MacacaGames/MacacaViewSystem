@@ -96,6 +96,7 @@ namespace CloudMacaca.ViewSystem
                 if (veQueue.Count == 0)
                 {
                     var a = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
+                    a.gameObject.SetActive(false);
                     a.name = source.name + ("(Pooled)");
                     veQueue.Enqueue(a);
                 }
