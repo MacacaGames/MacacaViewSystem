@@ -346,8 +346,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             };
         }
 
-
-
         //對應 方法名稱與 pop index 的字典
         //第 n 個腳本的參照
         // List<string[]> methodListOfScriptObject = new List<string[]>();
@@ -361,13 +359,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             List<CMEditorLayout.GroupedPopupData> VerifiedMethod = new List<CMEditorLayout.GroupedPopupData>();
             for (int i = 0; i < saveData.globalSetting.EventHandleBehaviour.Count; i++)
             {
-
                 var type = Utility.GetType(saveData.globalSetting.EventHandleBehaviour[i].name);
                 if (saveData.globalSetting.EventHandleBehaviour[i] == null) return;
                 MethodInfo[] methodInfos = type.GetMethods(BindFlagsForScript);
                 VerifiedMethod.Clear();
-                //After Use custom pop  "Nothing Select" is no more needed
-                // VerifiedMethod.Add(new CMEditorLayout.GroupedPopupData { name = "Nothing Select", group = "" });
                 foreach (var item in methodInfos)
                 {
                     var para = item.GetParameters();

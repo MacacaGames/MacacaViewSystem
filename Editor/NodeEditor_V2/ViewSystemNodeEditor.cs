@@ -472,6 +472,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         overrideVerifyWindow.VerifyComponent();
                     }
+                    if (GUILayout.Button(new GUIContent("Verify Events"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight)))
+                    {
+                        overrideVerifyWindow.VerifyEvents();
+                    }
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));

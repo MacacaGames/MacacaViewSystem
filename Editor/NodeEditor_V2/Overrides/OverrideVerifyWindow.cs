@@ -24,7 +24,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             padding.bottom = 0;
         }
 
-        List<ViewElementPropertyOverrideData> allOverrideDatas = new List<ViewElementPropertyOverrideData>();
         List<string> typeNameCannotBeFound = new List<string>();
         public void VerifyComponent()
         {
@@ -91,7 +90,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //Data may changed by Component fixer so refresh again.
             RefreshOverrideDatas();
             propertyCannotBeFound.Clear();
-            //var go = new GameObject("Verify");
             foreach (var item in allOverrideDatas)
             {
                 var t = CloudMacaca.Utility.GetType(item.targetComponentType);
@@ -112,7 +110,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     propertyCannotBeFound.Add(item.targetComponentType + "," + item.targetPropertyName);
                 }
             }
-            //UnityEngine.Object.DestroyImmediate(go);
             if (propertyCannotBeFound.Count > 0)
             {
                 if (EditorUtility.DisplayDialog(
@@ -136,13 +133,93 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
+        List<ViewElementEventData> eventDataNeedToFix = new List<ViewElementEventData>();
+
         public void VerifyEvents()
         {
+            RefreshMethodDatabase();
+            RefreshEventDatas();
+            eventDataNeedToFix.Clear();
+            foreach (var item in allEventDatas)
+            {
+                var t = CloudMacaca.Utility.GetType(item.scriptName);
+                if (t == null)
+                {
+                    Debug.LogError(item.targetComponentType + " still not fixed cannot be found, will ignore while verify property");
+                    eventDataNeedToFix.Add(item);
+                    continue;
+                }
 
-
-            
+                if (t.GetMethod(item.methodName, bindingFlags) == null)
+                {
+                    Debug.LogError($"{item.methodName} in {item.scriptName} cannot be found");
+                    eventDataNeedToFix.Add(item);
+                    continue;
+                }
+            }
+            if (eventDataNeedToFix.Count > 0)
+            {
+                if (EditorUtility.DisplayDialog(
+                    "Something goes wrong!",
+                    "There are some event data is missing, do you want to open fixer window",
+                    "Yes, Please",
+                    "Not now"))
+                {
+                    var window = ScriptableObject.CreateInstance<EventFixerWindow>();
+                    window.SetData(eventDataNeedToFix, classMethodInfo, () =>
+                    {
+                        //Make sure SetDirty
+                        EditorUtility.SetDirty(saveData);
+                    });
+                    window.ShowUtility();
+                }
+            }
+            else
+            {
+                Debug.Log("Great, all events looks good!");
+            }
         }
 
+        //對應 方法名稱與 pop index 的字典
+        //第 n 個腳本的參照
+        Dictionary<string, CMEditorLayout.GroupedPopupData[]> classMethodInfo = new Dictionary<string, CMEditorLayout.GroupedPopupData[]>();
+        BindingFlags BindFlagsForScript = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+        void RefreshMethodDatabase()
+        {
+            classMethodInfo.Clear();
+            classMethodInfo.Add("Nothing Select", null);
+            List<CMEditorLayout.GroupedPopupData> VerifiedMethod = new List<CMEditorLayout.GroupedPopupData>();
+            for (int i = 0; i < saveData.globalSetting.EventHandleBehaviour.Count; i++)
+            {
+                var type = Utility.GetType(saveData.globalSetting.EventHandleBehaviour[i].name);
+                if (saveData.globalSetting.EventHandleBehaviour[i] == null) return;
+                MethodInfo[] methodInfos = type.GetMethods(BindFlagsForScript);
+                VerifiedMethod.Clear();
+                foreach (var item in methodInfos)
+                {
+                    var para = item.GetParameters();
+                    if (para.Where(m => m.ParameterType.IsAssignableFrom(typeof(UnityEngine.EventSystems.UIBehaviour))).Count() == 0)
+                    {
+                        continue;
+                    }
+                    var eventMethodInfo = new CMEditorLayout.GroupedPopupData { name = item.Name, group = "" };
+                    var arrts = System.Attribute.GetCustomAttributes(item);
+                    foreach (System.Attribute attr in arrts)
+                    {
+                        if (attr is ViewEventGroup)
+                        {
+                            ViewEventGroup a = (ViewEventGroup)attr;
+                            eventMethodInfo.group = a.GetGroupName();
+                            break;
+                        }
+                    }
+                    VerifiedMethod.Add(eventMethodInfo);
+                }
+                classMethodInfo.Add(type.ToString(), VerifiedMethod.ToArray());
+            }
+        }
+
+        List<ViewElementPropertyOverrideData> allOverrideDatas = new List<ViewElementPropertyOverrideData>();
         void RefreshOverrideDatas()
         {
             var overrideDatasInPages = saveData.viewPages.Select(m => m.viewPage).SelectMany(x => x.viewPageItems).SelectMany(i => i.overrideDatas);
@@ -150,6 +227,143 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             allOverrideDatas.Clear();
             allOverrideDatas.AddRange(overrideDatasInPages);
             allOverrideDatas.AddRange(overrideDatasInStates);
+        }
+        List<ViewElementEventData> allEventDatas = new List<ViewElementEventData>();
+        void RefreshEventDatas()
+        {
+            var eventsDatasInPages = saveData.viewPages.Select(m => m.viewPage).SelectMany(x => x.viewPageItems).SelectMany(i => i.eventDatas);
+            var eventsDatasInStates = saveData.viewStates.Select(m => m.viewState).SelectMany(x => x.viewPageItems).SelectMany(i => i.eventDatas);
+            allEventDatas.Clear();
+            allEventDatas.AddRange(eventsDatasInPages);
+            allEventDatas.AddRange(eventsDatasInStates);
+        }
+    }
+
+    public class EventFixerWindow : FixerWindow
+    {
+        class FixerData
+        {
+            public FixerData(ViewElementEventData viewElementEventData)
+            {
+                this.viewElementEventData = viewElementEventData;
+                originalMethodName = viewElementEventData.methodName;
+                originalScriptName = viewElementEventData.scriptName;
+            }
+            public bool fix = false;
+            public ViewElementEventData viewElementEventData;
+            public string originalMethodName;
+            public string originalScriptName;
+            public string modifyMethodName;
+            public string modifyScriptName;
+        }
+        List<FixerData> needFixEventData;
+        Dictionary<string, CMEditorLayout.GroupedPopupData[]> classMethodInfo;
+        public void SetData(IEnumerable<ViewElementEventData> needFixEventDataSource, Dictionary<string, CMEditorLayout.GroupedPopupData[]> classMethodInfo, Action OnComplete)
+        {
+            titleContent = new GUIContent("Missing Events fixer");
+            this.classMethodInfo = classMethodInfo;
+            this.icon = EditorGUIUtility.FindTexture("MetaFile Icon");
+            this.lable = "Select the event your wish to fix";
+            needFixEventData = needFixEventDataSource.Select(m => new FixerData(m)).ToList();
+
+            OnAllClick += () =>
+           {
+               needFixEventData.All(x =>
+               {
+                   x.fix = true;
+                   return true;
+               });
+           };
+            OnNoneClick += () =>
+           {
+               needFixEventData.All(x =>
+                {
+                    x.fix = false;
+                    return true;
+                });
+           };
+            OnCancelClick += () =>
+           {
+
+           };
+            OnApplyClick += () =>
+           {
+               var f = needFixEventData.Where(m => m.fix);
+               foreach (var item in f)
+               {
+                   if (string.IsNullOrEmpty(item.modifyMethodName) || string.IsNullOrEmpty(item.modifyScriptName))
+                   {
+                       continue;
+                   }
+                   item.viewElementEventData.scriptName = item.modifyScriptName;
+                   item.viewElementEventData.methodName = item.modifyMethodName;
+               }
+           };
+        }
+        public override bool CheckBeforeApply()
+        {
+            return needFixEventData.Where(m => m.fix).Count() == 0;
+        }
+        public override void OnDrawScrollArea()
+        {
+            GUILayout.Label(new GUIContent($"Event fixer will replace all saved EventData please be careful", EditorGUIUtility.FindTexture("console.erroricon")));
+            foreach (var item in needFixEventData)
+            {
+                using (var horizon = new EditorGUILayout.HorizontalScope("box"))
+                {
+                    item.fix = EditorGUILayout.ToggleLeft(GUIContent.none, item.fix, GUILayout.Width(20));
+                    using (var vertical = new EditorGUILayout.VerticalScope())
+                    {
+                        using (var horizon2 = new EditorGUILayout.HorizontalScope())
+                        {
+                            GUILayout.Label($"Method : [{item.originalMethodName}] in Script : [{item.originalScriptName}]");
+                            if (GUILayout.Button("Apply Origin Data"))
+                            {
+                                item.modifyScriptName = item.originalScriptName;
+                                item.modifyMethodName = item.originalMethodName;
+                            }
+                        }
+                        int currentSelectClass = string.IsNullOrEmpty(item.modifyScriptName) ? 0 : classMethodInfo.Values.ToList().IndexOf(classMethodInfo[item.modifyScriptName]);
+                        using (var check = new EditorGUI.ChangeCheckScope())
+                        {
+                            currentSelectClass = EditorGUILayout.Popup("Event Script", currentSelectClass, classMethodInfo.Select(m => m.Key).ToArray());
+                            if (check.changed)
+                            {
+                                Debug.Log(currentSelectClass);
+                                if (currentSelectClass != 0)
+                                {
+                                    var c = classMethodInfo.ElementAt(currentSelectClass);
+                                    item.modifyScriptName = c.Key;
+                                    item.modifyMethodName = "";
+                                }
+                                else
+                                {
+                                    item.modifyScriptName = "";
+                                    item.modifyMethodName = "";
+                                }
+                            }
+                        }
+                        if (currentSelectClass != 0)
+                        {
+                            using (var check = new EditorGUI.ChangeCheckScope())
+                            {
+                                using (var horizon2 = new EditorGUILayout.HorizontalScope())
+                                {
+                                    var c = classMethodInfo.ElementAt(currentSelectClass).Value;
+                                    var current = c.SingleOrDefault(m => m.name == item.modifyMethodName);
+                                    CMEditorLayout.GroupedPopupField(new GUIContent("Event Method"), c, current,
+                                        (select) =>
+                                        {
+                                            item.modifyMethodName = select.name;
+                                        }
+                                    );
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
         }
     }
     public class PropertyFixerWindow : FixerWindow
@@ -235,6 +449,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                     foreach (var item2 in item.Value)
                     {
+                        if (string.IsNullOrEmpty(item2.modifiedPropertyName))
+                        {
+                            continue;
+                        }
                         ac.Where(m => m.targetPropertyName == item2.originalPropertyName).All(
                             x =>
                             {
@@ -246,7 +464,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
             };
         }
-
+        public override bool CheckBeforeApply()
+        {
+            return fixerDatas.SelectMany(x => x.Value).Where(m => m.fix).Count() == 0;
+        }
         public override void OnDrawScrollArea()
         {
             float width = (position.width - 80) * 0.5f;
@@ -348,6 +569,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                }
            };
         }
+        public override bool CheckBeforeApply()
+        {
+            return fixerDatas.Where(m => m.fix).Count() == 0;
+        }
         public override void OnDrawScrollArea()
         {
             float width = (position.width - 80) * 0.66f;
@@ -373,13 +598,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         protected Texture icon;
         protected string lable;
         public virtual void OnDrawScrollArea() { }
-
-
         protected Action OnAllClick;
         protected Action OnNoneClick;
         protected Action OnCancelClick;
         protected Action OnApplyClick;
 
+        public virtual bool CheckBeforeApply()
+        {
+            return false;
+        }
         public void OnGUI()
         {
             maxSize = new Vector2(600, 400);
@@ -411,8 +638,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
                 if (GUILayout.Button("Apply"))
                 {
+                    if (CheckBeforeApply())
+                    {
+                        if (!EditorUtility.DisplayDialog(
+                            "Something goes wrong!",
+                            "There are nothing selected to apply are you sure you have setting correct?",
+                            "Yes",
+                            "Not"))
+                        {
+                            return;
+                        }
+                    }
                     OnApplyClick?.Invoke();
-
                     OnComplete?.Invoke();
                     Close();
                 }
