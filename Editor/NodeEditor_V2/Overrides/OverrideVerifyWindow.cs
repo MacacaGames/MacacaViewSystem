@@ -4,6 +4,7 @@ using UnityEditor;
 using System.Linq;
 using UnityEngine;
 using System;
+using System.Reflection;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
@@ -79,6 +80,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
         List<string> propertyCannotBeFound = new List<string>();
+        List<UnityEngine.Object> tempDummy = new List<UnityEngine.Object>();
+        public static BindingFlags bindingFlags =
+            BindingFlags.NonPublic |
+            BindingFlags.Public |
+            BindingFlags.Instance |
+            BindingFlags.Static;
         public void VerifyProperty()
         {
             //Data may changed by Component fixer so refresh again.
@@ -93,10 +100,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     Debug.LogError(item.targetComponentType + " still not fixed cannot be found, will ignore while verify property");
                     continue;
                 }
-
-                if (t.GetField(item.targetPropertyName) == null && t.GetProperty(item.targetPropertyName) == null)
+                var propertyName = item.targetPropertyName;
+                if (t.ToString().Contains("UnityEngine."))
                 {
-                    Debug.LogError(item.targetPropertyName + " in " + item.targetComponentType + " cannot be found");
+                    propertyName = ViewSystemUtilitys.ParseUnityEngineProperty(item.targetPropertyName);
+                }
+
+                if (t.GetField(item.targetPropertyName, bindingFlags) == null && t.GetProperty(propertyName, bindingFlags) == null)
+                {
+                    Debug.LogError($"{item.targetPropertyName} in {item.targetComponentType} cannot be found");
                     propertyCannotBeFound.Add(item.targetComponentType + "," + item.targetPropertyName);
                 }
             }
@@ -120,7 +132,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             else
             {
-                Debug.Log("Great everying looks good!");
+                Debug.Log("Great, everying looks good!");
             }
         }
 
@@ -144,11 +156,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             public bool fix = false;
             public string originalPropertyName;
             public string modifiedPropertyName;
-            public string modifiedPropertyPath;
         }
         List<string> propertyCannotBeFound;
         Dictionary<string, List<FixerData>> fixerDatas = new Dictionary<string, List<FixerData>>();
         IEnumerable<ViewElementPropertyOverrideData> allOverrideDatas;
+
+        Dictionary<string, List<CMEditorLayout.GroupedPopupData>> fieldsInComponents = new Dictionary<string, List<CMEditorLayout.GroupedPopupData>>();
+
         public void SetData(List<string> propertyCannotBeFound, IEnumerable<ViewElementPropertyOverrideData> allOverrideDatas, Action OnComplete)
         {
             titleContent = new GUIContent("Missing property fixer");
@@ -162,10 +176,73 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     return new { componentName = x[0], propertyName = x[1] };
                 }
             ).GroupBy(m => m.componentName).ToDictionary(o => o.Key, o => o.Select(r => new FixerData(r.propertyName)).ToList());
+
+            foreach (var item in fixerDatas)
+            {
+                var type = CloudMacaca.Utility.GetType(item.Key);
+                var fis = type.GetFields(OverrideVerifier.bindingFlags).Select(m => new CMEditorLayout.GroupedPopupData { name = m.Name, group = "Filed" });
+                var pis = type.GetProperties(OverrideVerifier.bindingFlags).Select(m => new CMEditorLayout.GroupedPopupData { name = m.Name, group = "Property" });
+
+                List<CMEditorLayout.GroupedPopupData> gList = new List<CMEditorLayout.GroupedPopupData>();
+                gList.AddRange(pis);
+                gList.AddRange(fis);
+                fieldsInComponents.Add(item.Key, gList);
+            }
+            OnAllClick += () =>
+            {
+                fixerDatas.All(x =>
+                {
+                    x.Value.All(
+                        r =>
+                        {
+                            r.fix = true;
+                            return true;
+                        }
+                    );
+                    return true;
+                });
+            };
+            OnNoneClick += () =>
+               {
+                   fixerDatas.All(x =>
+                   {
+                       x.Value.All(
+                           r =>
+                           {
+                               r.fix = false;
+                               return true;
+                           }
+                       );
+                       return true;
+                   });
+               };
+            OnCancelClick += () =>
+                       {
+
+                       };
+            OnApplyClick += () =>
+            {
+                foreach (var item in fixerDatas)
+                {
+                    var ac = allOverrideDatas.Where(m => m.targetComponentType == item.Key);
+
+                    foreach (var item2 in item.Value)
+                    {
+                        ac.Where(m => m.targetPropertyName == item2.originalPropertyName).All(
+                            x =>
+                            {
+                                x.targetPropertyName = item2.modifiedPropertyName;
+                                return true;
+                            }
+                        );
+                    }
+                }
+            };
         }
+
         public override void OnDrawScrollArea()
         {
-            float width = (position.width - 80) * 0.66f;
+            float width = (position.width - 80) * 0.5f;
             using (var vertical = new GUILayout.VerticalScope())
             {
                 foreach (var item in fixerDatas)
@@ -185,6 +262,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             GUILayout.Label(new GUIContent(item2.originalPropertyName, item2.originalPropertyName), GUILayout.Width(width));
                             GUILayout.Label(Drawer.arrowIcon);
                             //item.targetComponentScript = (MonoScript)EditorGUILayout.ObjectField(item.targetComponentScript, typeof(MonoScript), false);
+                            var current = fieldsInComponents[item.Key].SingleOrDefault(m => m.name == item2.modifiedPropertyName);
+                            CMEditorLayout.GroupedPopupField(GUIContent.none, fieldsInComponents[item.Key], current,
+                                (select) =>
+                                {
+                                    item2.modifiedPropertyName = select.name;
+                                }
+                            );
                         }
                     }
                 }
