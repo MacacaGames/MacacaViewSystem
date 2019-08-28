@@ -136,6 +136,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
+        public void VerifyEvents()
+        {
+
+
+            
+        }
+
         void RefreshOverrideDatas()
         {
             var overrideDatasInPages = saveData.viewPages.Select(m => m.viewPage).SelectMany(x => x.viewPageItems).SelectMany(i => i.overrideDatas);

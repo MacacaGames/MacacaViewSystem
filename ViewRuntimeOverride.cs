@@ -10,7 +10,7 @@ using Sirenix.OdinInspector;
 
 namespace CloudMacaca.ViewSystem
 {
-    public class ViewRuntimeOverride : MonoBehaviour
+    public class ViewRuntimeOverride : SerializedMonoBehaviour
     {
         #region EventOverride
         public ViewElementEventData[] currentEventDatas;
@@ -36,11 +36,11 @@ namespace CloudMacaca.ViewSystem
             currentEventDatas = eventDatas.ToArray();
 
             //Group by Component transform_component_property
-            var groupedEventData = eventDatas.GroupBy(item => item.targetTransformPath + "_" + item.targetComponentType + "_" + item.targetPropertyName);
+            var groupedEventData = eventDatas.GroupBy(item => item.targetTransformPath + "," + item.targetComponentType + "," + item.targetPropertyName);
 
             foreach (var item in groupedEventData)
             {
-                string[] p = item.Key.Split('_');
+                string[] p = item.Key.Split(',');
                 //p[0] is targetTransformPath
                 Transform targetTansform;
                 if (string.IsNullOrEmpty(p[0]))
@@ -59,7 +59,12 @@ namespace CloudMacaca.ViewSystem
                     //p[1] is targetComponentType
                     Component selectable = targetTansform.GetComponent(p[1]);
                     //p[2] is targetPropertyPath
-                    UnityEvent unityEvent = (UnityEvent)GetPropertyValue(selectable, p[2]);
+                    string property = p[2];
+                    if (p[1].Contains("UnityEngine."))
+                    {
+                        property = ViewSystemUtilitys.ParseUnityEngineProperty(p[2]);
+                    }
+                    UnityEvent unityEvent = (UnityEvent)GetPropertyValue(selectable, property);
                     eventRuntimeDatas = new EventRuntimeDatas(unityEvent, selectable);
                     cachedUnityEvent.Add(item.Key, eventRuntimeDatas);
                 }
@@ -201,7 +206,7 @@ namespace CloudMacaca.ViewSystem
             //GameObject hack
             // Due to GameObject.active is obsolete and ativeSelf is read only
             // Use a hack function to override GameObject's active status.
-            if (t == typeof(GameObject) && fieldName == "active")
+            if (t == typeof(GameObject) && fieldName == "m_IsActive")
             {
                 ((GameObject)inObj).SetActive((bool)newValue);
                 return;
@@ -229,7 +234,7 @@ namespace CloudMacaca.ViewSystem
             //GameObject hack
             // Due to GameObject.active is obsolete and ativeSelf is read only
             // Use a hack function to override GameObject's active status.
-            if (t == typeof(GameObject) && fieldName == "active")
+            if (t == typeof(GameObject) && fieldName == "m_IsActive")
             {
                 return ((GameObject)inObj).activeSelf;
             }
