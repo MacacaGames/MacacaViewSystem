@@ -10,7 +10,7 @@ using Sirenix.OdinInspector;
 
 namespace CloudMacaca.ViewSystem
 {
-    public class ViewRuntimeOverride : SerializedMonoBehaviour
+    public class ViewRuntimeOverride : MonoBehaviour
     {
         #region EventOverride
         public ViewElementEventData[] currentEventDatas;
