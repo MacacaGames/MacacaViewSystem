@@ -459,7 +459,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                         var c = classMethodInfo.ElementAt(currentSelectClass).Value;
                                         var current = c.SingleOrDefault(m => m.name == item.methodName);
 
-                                        CMEditorLayout.GroupedPopupField(new GUIContent("Event Method"), c, current,
+                                        CMEditorLayout.GroupedPopupField(item.GetHashCode(), new GUIContent("Event Method"), c, current,
                                             (select) =>
                                             {
                                                 item.methodName = select.name;

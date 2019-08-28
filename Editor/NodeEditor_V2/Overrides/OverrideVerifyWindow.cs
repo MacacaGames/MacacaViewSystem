@@ -351,7 +351,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                 {
                                     var c = classMethodInfo.ElementAt(currentSelectClass).Value;
                                     var current = c.SingleOrDefault(m => m.name == item.modifyMethodName);
-                                    CMEditorLayout.GroupedPopupField(new GUIContent("Event Method"), c, current,
+                                    CMEditorLayout.GroupedPopupField(item.GetHashCode(), new GUIContent("Event Method"), c, current,
                                         (select) =>
                                         {
                                             item.modifyMethodName = select.name;
@@ -491,7 +491,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             GUILayout.Label(Drawer.arrowIcon);
                             //item.targetComponentScript = (MonoScript)EditorGUILayout.ObjectField(item.targetComponentScript, typeof(MonoScript), false);
                             var current = fieldsInComponents[item.Key].SingleOrDefault(m => m.name == item2.modifiedPropertyName);
-                            CMEditorLayout.GroupedPopupField(GUIContent.none, fieldsInComponents[item.Key], current,
+                            CMEditorLayout.GroupedPopupField(item.GetHashCode(), GUIContent.none, fieldsInComponents[item.Key], current,
                                 (select) =>
                                 {
                                     item2.modifiedPropertyName = select.name;
