@@ -636,23 +636,27 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     OnCancelClick?.Invoke();
                     Close();
                 }
-                if (GUILayout.Button("Apply"))
+                using (var disable = new EditorGUI.DisabledGroupScope(CheckBeforeApply()))
                 {
-                    if (CheckBeforeApply())
+                    if (GUILayout.Button("Apply"))
                     {
-                        if (!EditorUtility.DisplayDialog(
-                            "Something goes wrong!",
-                            "There are nothing selected to apply are you sure you have setting correct?",
-                            "Yes",
-                            "Not"))
+                        if (CheckBeforeApply())
                         {
-                            return;
+                            if (!EditorUtility.DisplayDialog(
+                                "Something goes wrong!",
+                                "There are nothing selected to apply are you sure you have setting correct?",
+                                "Yes",
+                                "Not"))
+                            {
+                                return;
+                            }
                         }
+                        OnApplyClick?.Invoke();
+                        OnComplete?.Invoke();
+                        Close();
                     }
-                    OnApplyClick?.Invoke();
-                    OnComplete?.Invoke();
-                    Close();
                 }
+
             }
         }
     }
