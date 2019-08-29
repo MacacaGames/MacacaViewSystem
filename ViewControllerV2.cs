@@ -538,22 +538,66 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
+        #region Get viewElement
+
+        //Get viewElement in viewPage
+
         public ViewElement GetViewPageElementByName(ViewPage viewPage, string viewPageItemName)
         {
             return viewPage.viewPageItems.Where((_) => _.name == viewPageItemName).SingleOrDefault().runtimeViewElement;
         }
+        public T GetViewPageElementComponentByName<T>(ViewPage viewPage, string viewPageItemName) where T : Component
+        {
+            return GetViewPageElementByName(viewPage, viewPageItemName).GetComponent<T>();
+        }
+
         public ViewElement GetViewPageElementByName(string viewPageName, string viewPageItemName)
         {
             return GetViewPageElementByName(viewPages.SingleOrDefault(m => m.name == viewPageName), viewPageItemName);
         }
+        public T GetViewPageElementComponentByName<T>(string viewPageName, string viewPageItemName) where T : Component
+        {
+            return GetViewPageElementByName(viewPageName, viewPageItemName).GetComponent<T>();
+        }
+
         public ViewElement GetCurrentViewPageElementByName(string viewPageItemName)
         {
             return GetViewPageElementByName(currentViewPage, viewPageItemName);
         }
         public T GetCurrentViewPageElementComponentByName<T>(string viewPageItemName) where T : Component
         {
-            return GetViewPageElementByName(currentViewPage, viewPageItemName).GetComponent<T>();
+            return GetCurrentViewPageElementByName(viewPageItemName).GetComponent<T>();
         }
 
+        //Get viewElement in statePage
+
+        public ViewElement GetViewStateElementByName(ViewState viewState, string viewStateItemName)
+        {
+            return viewState.viewPageItems.Where((_) => _.name == viewStateItemName).SingleOrDefault().runtimeViewElement;
+        }
+        public T GetViewStateElementComponentByName<T>(ViewState viewState, string viewStateItemName) where T : Component
+        {
+            return GetViewStateElementByName(viewState, viewStateItemName).GetComponent<T>();
+        }
+
+        public ViewElement GetViewStateElementByName(string viewStateName, string viewStateItemName)
+        {
+            return GetViewStateElementByName(viewStates.SingleOrDefault(m => m.name == viewStateName), viewStateItemName);
+        }
+        public T GetViewStateElementComponentByName<T>(string viewStateName, string viewStateItemName) where T : Component
+        {
+            return GetViewStateElementByName(viewStateName, viewStateItemName).GetComponent<T>();
+        }
+
+        public ViewElement GetCurrentViewStateElementByName(string viewStateItemName)
+        {
+            return GetViewStateElementByName(currentViewState, viewStateItemName);
+        }
+        public T GetCurrentViewStateElementComponentByName<T>(string viewStateItemName) where T : Component
+        {
+            return GetCurrentViewStateElementByName(viewStateItemName).GetComponent<T>();
+        }
+
+        #endregion
     }
 }
