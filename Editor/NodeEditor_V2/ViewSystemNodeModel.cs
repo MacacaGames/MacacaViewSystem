@@ -139,9 +139,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //Ttiel
             if (!string.IsNullOrEmpty(name))
             {
-                if (name.Length > 26) titleStyle = new GUIStyle("MiniLabel");
-                else if (name.Length > 15) titleStyle = new GUIStyle("ControlLabel");
-                else titleStyle = new GUIStyle("DefaultCenteredLargeText");
+                if (name.Length > 15) titleStyle = Drawer.smallLableStyle;
+                else titleStyle = Drawer.bigLableStyle;
                 GUI.Label(new Rect(drawRect.x, drawRect.y + 5, drawRect.width, 16), name, titleStyle);
             }
 

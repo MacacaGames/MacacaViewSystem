@@ -135,7 +135,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewPageItemList.onAddCallback += AddItem;
             viewPageItemList.drawElementBackgroundCallback += DrawItemBackground;
             //viewPageItemList.elementHeightCallback += ElementHight;
-
+            layouted = false;
         }
 
         private float ElementHight(int index)
@@ -581,7 +581,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static float InspectorWidth = 350;
         Rect infoAreaRect;
         public Vector2 scrollerPos;
-
+        bool layouted = false;
         public void Draw()
         {
             if (show)
@@ -591,7 +591,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             GUILayout.BeginArea(rect, "", new GUIStyle("flow node 0"));
 
-            if (currentSelectNode != null)
+            if (Event.current.type == EventType.Layout && layouted == false)
+            {
+                layouted = true;
+            }
+
+            if (currentSelectNode != null && layouted)
             {
                 if (currentSelectNode.nodeType == ViewStateNode.NodeType.FullPage || currentSelectNode.nodeType == ViewStateNode.NodeType.Overlay)
                 {

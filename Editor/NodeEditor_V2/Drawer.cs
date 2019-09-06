@@ -199,4 +199,41 @@ public class Drawer
             return _windowStyle;
         }
     }
+
+    private static GUIStyle _bigLableStyle;
+    public static GUIStyle bigLableStyle
+    {
+        get
+        {
+            if (_bigLableStyle == null)
+            {
+                _bigLableStyle = new GUIStyle
+                {
+                    alignment = TextAnchor.MiddleCenter,
+                    fontSize = 20,
+                    padding = new RectOffset(0, 0, 0, 0),
+                    margin = new RectOffset(0, 0, 0, 0)
+                };
+            }
+            return _bigLableStyle;
+        }
+    }
+    private static GUIStyle _smallLableStyle;
+    public static GUIStyle smallLableStyle
+    {
+        get
+        {
+            if (_smallLableStyle == null)
+            {
+                _smallLableStyle = new GUIStyle
+                {
+                    alignment = TextAnchor.MiddleCenter,
+                    fontSize = 10,
+                    padding = new RectOffset(0, 0, 0, 0),
+                    margin = new RectOffset(0, 0, 0, 0)
+                };
+            }
+            return _smallLableStyle;
+        }
+    }
 }
