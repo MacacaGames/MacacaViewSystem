@@ -30,12 +30,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         public void OnGUI()
         {
-            rect = GUILayout.Window(11110, rect, Draw, "Base Setting");
+            rect = GUILayout.Window(11110, rect, Draw, "Global Setting");
             if (lastOpen != showGlobalSetting)
             {
                 rect.x = editor.position.width * 0.5f;
                 rect.y = editor.position.height * 0.5f;
-     
+
             }
             lastOpen = showGlobalSetting;
         }
@@ -46,7 +46,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             using (var scroll = new GUILayout.ScrollViewScope(scrollPosition))
             {
                 scrollPosition = scroll.scrollPosition;
-                //GUILayout.Label("Base Setting", new GUIStyle("DefaultCenteredLargeText"));
                 saveData.globalSetting.ViewControllerObjectPath = EditorGUILayout.TextField("View Controller GameObject", saveData.globalSetting.ViewControllerObjectPath);
                 EditorGUILayout.HelpBox("View Controller GameObject is the GameObject name in scene which has ViewController attach on.", MessageType.Info);
 
@@ -72,7 +71,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
                 EditorGUILayout.HelpBox("UI Root Object will generate and set as a child of 'View Controller GameObject' after View System init.", MessageType.Info);
 
-                saveData.globalSetting._maxWaitingTime = EditorGUILayout.Slider(new GUIContent("Change Page Max Waitning", "The max waiting for change page, if previous page need time more than this value ,ViewController wiil force transition to next page."), saveData.globalSetting._maxWaitingTime, 0, 1);
+                saveData.globalSetting._maxWaitingTime = EditorGUILayout.Slider(new GUIContent("Change Page Max Waiting", "The max waiting for change page, if previous page need time more than this value ,ViewController wiil force transition to next page."), saveData.globalSetting._maxWaitingTime, 0.5f, 2.5f);
                 EditorGUILayout.HelpBox("The max waiting for change page, if previous page need time more than this value ,ViewController wiil force transition to next page.", MessageType.Info);
 
                 using (var horizon = new GUILayout.HorizontalScope())

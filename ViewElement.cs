@@ -176,11 +176,14 @@ namespace CloudMacaca.ViewSystem
                 transition = TransitionType.ActiveSwitch;
             Setup();
         }
-        void Start()
+        // void Start()
+        // {
+        //     Setup();
+        // }
+        void Awake()
         {
             Setup();
         }
-
         public void Setup()
         {
             lifeCyclesObjects = GetComponentsInChildren<IViewElementLifeCycle>();
@@ -323,6 +326,12 @@ namespace CloudMacaca.ViewSystem
                     {
                         gameObject.SetActive(true);
                     }
+
+                    if (lifeCyclesObjects != null)
+                        foreach (var item in lifeCyclesObjects)
+                        {
+                            item.OnStartShow();
+                        }
                 });
         }
         bool OnLeaveWorking = false;
@@ -402,6 +411,14 @@ namespace CloudMacaca.ViewSystem
                         gameObject.SetActive(false);
                         OnLeaveAnimationFinish();
                     }
+                    if (lifeCyclesObjects != null)
+                    {
+                        foreach (var item in lifeCyclesObjects)
+                        {
+                            item.OnStartLeave();
+                        }
+                    }
+
                 });
         }
 

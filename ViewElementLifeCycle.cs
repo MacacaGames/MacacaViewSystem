@@ -28,4 +28,14 @@ public class ViewElementLifeCycle : MonoBehaviour, IViewElementLifeCycle
     {
 
     }
+
+    public void OnStartLeave()
+    {
+        //throw new System.NotImplementedException();
+    }
+
+    public void OnStartShow()
+    {
+        //throw new System.NotImplementedException();
+    }
 }

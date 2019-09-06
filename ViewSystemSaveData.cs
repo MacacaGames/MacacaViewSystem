@@ -51,7 +51,7 @@ namespace CloudMacaca.ViewSystem
                     return Mathf.Clamp01(_maxWaitingTime);
                 }
             }
-            public float _maxWaitingTime = 1;
+            public float _maxWaitingTime = 1.5f;
         }
 
     }

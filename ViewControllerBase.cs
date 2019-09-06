@@ -288,7 +288,7 @@ namespace CloudMacaca.ViewSystem
         }
 
         /// <summary>
-        /// OnViewPageChangeEnd Calls on page is changed finish, all animation include in OnShow or OnLeave is finished.
+        /// OnViewPageChangeEnd Calls on page is changed finish, all animation include in OnShow or OnLeave is finished. (Note. the sometimes the Event fire early due to the animation time is longer than "Change Page Max Waiting" time)
         /// </summary>
         public event EventHandler<ViewPageEventArgs> OnViewPageChangeEnd;
         protected virtual void InvokeOnViewPageChangeEnd(object obj, ViewPageEventArgs args)

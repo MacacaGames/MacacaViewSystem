@@ -6,6 +6,6 @@ public interface IViewElementLifeCycle
 {
     void OnBeforeShow();
     void OnBeforeLeave();
-    // void OnAfterShow();
-    // void OnAfterLeave();
+    void OnStartShow();
+    void OnStartLeave();
 }
