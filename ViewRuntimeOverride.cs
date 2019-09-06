@@ -57,7 +57,7 @@ namespace CloudMacaca.ViewSystem
                 if (!cachedUnityEvent.TryGetValue(item.Key, out eventRuntimeDatas))
                 {
                     //p[1] is targetComponentType
-                    Component selectable = targetTansform.GetComponent(p[1]);
+                    Component selectable = ViewSystemUtilitys.GetComponent(targetTansform, p[1]);
                     //p[2] is targetPropertyPath
                     string property = p[2];
                     if (p[1].Contains("UnityEngine."))
@@ -177,7 +177,8 @@ namespace CloudMacaca.ViewSystem
                     }
                     else
                     {
-                        c = targetTansform.GetComponent(item.targetComponentType);
+                        //c = targetTansform.GetComponent(item.targetComponentType);
+                        c = ViewSystemUtilitys.GetComponent(targetTansform, item.targetComponentType);
                     }
                     if (c == null)
                     {

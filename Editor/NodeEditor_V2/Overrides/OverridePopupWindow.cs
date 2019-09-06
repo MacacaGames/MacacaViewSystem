@@ -269,42 +269,26 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     return;
                 }
 
-                UnityEngine.Object targetComponent = targetObject.GetComponent(item.viewElementPropertyOverrideData.targetComponentType);
+                UnityEngine.Object targetComponent = null;
                 if (item.viewElementPropertyOverrideData.targetComponentType.Contains("GameObject"))
                 {
                     targetComponent = targetObject.gameObject;
                 }
-                if (item.viewElementPropertyOverrideData.targetComponentType.Contains("RectTransform"))
+                else
                 {
-                    targetComponent = targetObject.GetComponent<RectTransform>();
+                    targetComponent = ViewSystemUtilitys.GetComponent(targetObject, item.viewElementPropertyOverrideData.targetComponentType);
                 }
-                else if (item.viewElementPropertyOverrideData.targetComponentType.Contains("Transform"))
-                {
-                    targetComponent = targetObject.transform;
-                }
+                // if (item.viewElementPropertyOverrideData.targetComponentType.Contains("RectTransform"))
+                // {
+                //     targetComponent = targetObject.GetComponent<RectTransform>();
+                // }
+                // else if (item.viewElementPropertyOverrideData.targetComponentType.Contains("Transform"))
+                // {
+                //     targetComponent = targetObject.transform;
+                // }
+
                 if (targetComponent == null)
                 {
-                    // if (!lockerDict.ContainsKey(index)) lockerDict.Add(index, true);
-                    // Rect lockRect = rect;
-                    // lockRect.width = 10;
-                    // lockRect.y += EditorGUIUtility.singleLineHeight * 0.25f;
-                    // lockerDict[index] = EditorGUI.Toggle(lockRect, lockerDict[index], new GUIStyle("IN LockButton"));
-
-                    // rect.x += 10;
-                    // rect.width -= 10;
-                    // if (lockerDict[index] == true)
-                    // {
-                    //     GUI.Label(rect, new GUIContent("Target Component cannot be found on GameObject", Drawer.miniErrorIcon));
-                    //     rect.y += EditorGUIUtility.singleLineHeight;
-                    //     GUI.Label(rect, new GUIContent("ComponentType : " + item.viewElementPropertyOverrideData.targetComponentType));
-                    // }
-                    // else
-                    // {
-                    //     item.viewElementPropertyOverrideData.targetTransformPath = EditorGUI.TextField(rect, "Transform Path", item.viewElementPropertyOverrideData.targetTransformPath);
-                    //     rect.y += EditorGUIUtility.singleLineHeight;
-                    //     item.viewElementPropertyOverrideData.targetComponentType = EditorGUI.TextField(rect, "Component Type", item.viewElementPropertyOverrideData.targetComponentType);
-                    // }
-
                     rect.x += 10;
                     rect.width -= 10;
                     GUI.Label(rect, new GUIContent("ComponentType : " + item.viewElementPropertyOverrideData.targetComponentType));

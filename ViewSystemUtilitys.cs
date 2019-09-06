@@ -143,5 +143,17 @@ namespace CloudMacaca.ViewSystem
             result = result.Substring(0, 1).ToLower() + result.Substring(1);
             return result;
         }
+
+        public static Component GetComponent(Component target, string type)
+        {
+            if (type.Contains("GameObject"))
+            {
+                throw new System.ArgumentException("ViewSystemUtility.GetComponent doesn't support GameObject due to GameObject is not a Component");
+            }
+            Component result = null;
+            System.Type t = CloudMacaca.Utility.GetType(type);
+            result = target.GetComponent(t);
+            return result;
+        }
     }
 }
