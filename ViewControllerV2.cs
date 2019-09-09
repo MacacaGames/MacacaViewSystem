@@ -451,8 +451,8 @@ namespace CloudMacaca.ViewSystem
 
         public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false)
         {
-            // var currentVe = currentViewPage.viewPageItems.Select(m => m.viewElement);
-            // var currentVs = currentViewState.viewPageItems.Select(m => m.viewElement);
+             var currentVe = currentViewPage.viewPageItems.Select(m => m.runtimeViewElement);
+             var currentVs = currentViewState.viewPageItems.Select(m => m.runtimeViewElement);
 
             var finishTime = ViewSystemUtilitys.CalculateTimesNeedsForOnLeave(overlayPageState.viewPage.viewPageItems.Select(m => m.runtimeViewElement));
 
@@ -460,38 +460,38 @@ namespace CloudMacaca.ViewSystem
 
             foreach (var item in overlayPageState.viewPage.viewPageItems)
             {
-                // if (IsPageTransition == false)
-                // {
-                //     if (currentVe.Contains(item.viewElement))
-                //     {
-                //         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
-                //         try
-                //         {
-                //             var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => m.viewElement == item.viewElement);
-                //             Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
-                //             item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
-                //         }
-                //         catch { }
-                //         continue;
-                //     }
-                //     if (currentVs.Contains(item.viewElement))
-                //     {
-                //         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
-                //         try
-                //         {
-                //             var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.viewElement == item.viewElement);
-                //             Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
-                //             item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
-                //         }
-                //         catch { }
-                //         continue;
-                //     }
-                // }
-                // else
-                // {
-                //     //Do nothing here
-                // }
-                lastOverlayPageItemDelayOutTimes.TryGetValue(item.viewElement.name, out float delayOut);
+                if (IsPageTransition == false)
+                {
+                    if (currentVe.Contains(item.runtimeViewElement))
+                    {
+                        //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
+                        try
+                        {
+                            var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => m.runtimeViewElement == item.runtimeViewElement);
+                            Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, tweenTimeIfNeed, 0, 0);
+                        }
+                        catch { }
+                        continue;
+                    }
+                    if (currentVs.Contains(item.runtimeViewElement))
+                    {
+                        //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
+                        try
+                        {
+                            var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.runtimeViewElement == item.runtimeViewElement);
+                            Debug.LogWarning("ViewElement : " + item.runtimeViewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, tweenTimeIfNeed, 0, 0);
+                        }
+                        catch { }
+                        continue;
+                    }
+                }
+                else
+                {
+                    //Do nothing here
+                }
+                lastOverlayPageItemDelayOutTimes.TryGetValue(item.runtimeViewElement.name, out float delayOut);
                 item.runtimeViewElement.ChangePage(false, null, 0, 0, delayOut, ignoreTransition);
             }
 
