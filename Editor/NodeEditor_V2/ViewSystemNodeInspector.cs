@@ -240,28 +240,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             }).ToList();
 
                             copyPasteBuffer.eventDatas = copyEventDatas;
-
-                            var excludePlatformCopyed = new List<ViewPageItem.PlatformOption>();
-                            foreach (var item in list[index].excludePlatform)
-                            {
-                                switch (item)
-                                {
-                                    case ViewPageItem.PlatformOption.Android:
-                                        excludePlatformCopyed.Add(ViewPageItem.PlatformOption.Android);
-                                        break;
-                                    case ViewPageItem.PlatformOption.iOS:
-                                        excludePlatformCopyed.Add(ViewPageItem.PlatformOption.iOS);
-                                        break;
-                                    case ViewPageItem.PlatformOption.UWP:
-                                        excludePlatformCopyed.Add(ViewPageItem.PlatformOption.UWP);
-
-                                        break;
-                                    case ViewPageItem.PlatformOption.tvOS:
-                                        excludePlatformCopyed.Add(ViewPageItem.PlatformOption.tvOS);
-                                        break;
-                                }
-                            }
-                            copyPasteBuffer.excludePlatform = excludePlatformCopyed;
+                            copyPasteBuffer.excludePlatform = list[index].excludePlatform;
                             copyPasteBuffer.parent = list[index].parent;
                         }
                     );

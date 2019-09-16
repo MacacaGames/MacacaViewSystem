@@ -192,22 +192,7 @@ namespace CloudMacaca.ViewSystem
             //從 ViewPage 尋找
             viewItemForNextPage.AddRange(vp.viewPageItems);
 
-            //並排除 Platform 該隔離的 ViewElement 放入 realViewPageItem
-            realViewPageItem.Clear();
-            foreach (var item in viewItemForNextPage)
-            {
-                if (item.excludePlatform.Contains(platform))
-                {
-                    //item.parentGameObject.SetActive(false);
-                }
-                else
-                {
-                    //item.parentGameObject.SetActive(true);
-                    realViewPageItem.Add(item);
-                }
-            }
-
-            return viewItemForNextPage;
+            return viewItemForNextPage.Where(m => !FlagsHelper.IsSet(m.excludePlatform, platform));
         }
 
         protected List<AutoLeaveData> autoLeaveQueue = new List<AutoLeaveData>();

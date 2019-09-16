@@ -41,13 +41,18 @@ namespace CloudMacaca.ViewSystem
 
 
         [Tooltip("這個可以讓該項目在特定平台時不會出現")]
-        public List<PlatformOption> excludePlatform = new List<PlatformOption>();
+        //public List<PlatformOption> excludePlatform = new List<PlatformOption>();
+        public PlatformOption excludePlatform = PlatformOption.Nothing;
+
+        [System.Flags]
         public enum PlatformOption
         {
-            Android, // 1 << 0
-            iOS, // 1 << 1
-            UWP, // 1 << 2
-            tvOS // 1 << 3
+            Nothing = 0,
+            Android = 1 << 0,
+            iOS = 1 << 1,
+            UWP = 1 << 2,
+            tvOS = 1 << 3,
+            All = ~0 // Custom name for "Everything" option
         }
         public ViewPageItem(ViewElement ve)
         {

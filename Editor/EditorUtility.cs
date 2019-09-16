@@ -120,58 +120,58 @@ namespace CloudMacaca.ViewSystem
                 viewPageItem.delayIn = EditorGUILayout.Slider("Delay In", viewPageItem.delayIn, 0, 1);
 
                 viewPageItem.delayOut = EditorGUILayout.Slider("Delay Out", viewPageItem.delayOut, 0, 1);
+                viewPageItem.excludePlatform = (ViewPageItem.PlatformOption)EditorGUILayout.EnumFlagsField(new GUIContent("Excude Platform","Excude Platform define the platform which wish to show the ViewPageItem or not"), viewPageItem.excludePlatform);
+ 
+                // bool isExcloudAndroid = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.Android);
+                // bool isExcloudiOS = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.iOS);
+                // bool isExcloudtvOS = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.tvOS);
+                // bool isExcloudUWP = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.UWP);
 
+                // EditorGUIUtility.labelWidth = 20.0f;
 
-                bool isExcloudAndroid = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.Android);
-                bool isExcloudiOS = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.iOS);
-                bool isExcloudtvOS = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.tvOS);
-                bool isExcloudUWP = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.UWP);
+                // string proIconFix = "";
+                // if (EditorGUIUtility.isProSkin)
+                // {
+                //     proIconFix = "d_";
+                // }
+                // else
+                // {
+                //     proIconFix = "";
+                // }
 
-                EditorGUIUtility.labelWidth = 20.0f;
+                // EditorGUI.BeginChangeCheck();
+                // using (var check = new EditorGUI.ChangeCheckScope())
+                // {
+                //     using (var horizon = new EditorGUILayout.HorizontalScope())
+                //     {
+                //         isExcloudAndroid = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Android.Small")), isExcloudAndroid);
+                //         isExcloudiOS = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.iPhone.Small")), isExcloudiOS);
+                //         isExcloudtvOS = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.tvOS.Small")), isExcloudtvOS);
+                //         isExcloudUWP = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Standalone.Small")), isExcloudUWP);
+                //     }
 
-                string proIconFix = "";
-                if (EditorGUIUtility.isProSkin)
-                {
-                    proIconFix = "d_";
-                }
-                else
-                {
-                    proIconFix = "";
-                }
+                //     if (check.changed)
+                //     {
+                //         viewPageItem.excludePlatform.Clear();
 
-                EditorGUI.BeginChangeCheck();
-                using (var check = new EditorGUI.ChangeCheckScope())
-                {
-                    using (var horizon = new EditorGUILayout.HorizontalScope())
-                    {
-                        isExcloudAndroid = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Android.Small")), isExcloudAndroid);
-                        isExcloudiOS = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.iPhone.Small")), isExcloudiOS);
-                        isExcloudtvOS = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.tvOS.Small")), isExcloudtvOS);
-                        isExcloudUWP = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Standalone.Small")), isExcloudUWP);
-                    }
-
-                    if (check.changed)
-                    {
-                        viewPageItem.excludePlatform.Clear();
-
-                        if (!isExcloudAndroid)
-                        {
-                            viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.Android);
-                        }
-                        if (!isExcloudiOS)
-                        {
-                            viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.iOS);
-                        }
-                        if (!isExcloudtvOS)
-                        {
-                            viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
-                        }
-                        if (!isExcloudUWP)
-                        {
-                            viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
-                        }
-                    }
-                }
+                //         if (!isExcloudAndroid)
+                //         {
+                //             viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.Android);
+                //         }
+                //         if (!isExcloudiOS)
+                //         {
+                //             viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.iOS);
+                //         }
+                //         if (!isExcloudtvOS)
+                //         {
+                //             viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
+                //         }
+                //         if (!isExcloudUWP)
+                //         {
+                //             viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
+                //         }
+                //     }
+                // }
 
             }
 
