@@ -52,7 +52,7 @@ namespace CloudMacaca.ViewSystem
             iOS = 1 << 1,
             UWP = 1 << 2,
             tvOS = 1 << 3,
-            All = ~0 // Custom name for "Everything" option
+            All = Android | iOS | UWP | tvOS// Custom name for "Everything" option
         }
         public ViewPageItem(ViewElement ve)
         {

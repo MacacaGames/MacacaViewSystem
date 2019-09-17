@@ -191,8 +191,7 @@ namespace CloudMacaca.ViewSystem
 
             //從 ViewPage 尋找
             viewItemForNextPage.AddRange(vp.viewPageItems);
-
-            return viewItemForNextPage.Where(m => !FlagsHelper.IsSet(m.excludePlatform, platform));
+            return viewItemForNextPage.Where(m => !m.excludePlatform.IsSet(platform));
         }
 
         protected List<AutoLeaveData> autoLeaveQueue = new List<AutoLeaveData>();

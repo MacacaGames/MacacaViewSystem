@@ -111,6 +111,38 @@ namespace CloudMacaca.ViewSystem
                 return new Vector2(rect.width, EditorGUIUtility.singleLineHeight * 6);
             }
 
+            GUIStyle _toggleStyle;
+            GUIStyle toggleStyle
+            {
+                get
+                {
+                    if (_toggleStyle == null)
+                    {
+                        _toggleStyle = new GUIStyle
+                        {
+                            normal = {
+                                background = CMEditorUtility.CreatePixelTexture("_toggleStyle_on",new Color32(64,64,64,255)),
+                                textColor = Color.gray
+                            },
+                            onNormal = {
+                                    background = CMEditorUtility.CreatePixelTexture("_toggleStyle",new Color32(128,128,128,255)),
+
+                                 textColor = Color.white
+                            },
+
+                            alignment = TextAnchor.MiddleCenter,
+                            clipping = TextClipping.Clip,
+                            imagePosition = ImagePosition.TextOnly,
+                            stretchHeight = true,
+                            stretchWidth = true,
+                            padding = new RectOffset(0, 0, 0, 0),
+                            margin = new RectOffset(0, 0, 0, 0)
+                        };
+                    }
+                    return _toggleStyle;
+                }
+            }
+
             public override void OnGUI(Rect rect)
             {
                 viewPageItem.easeType = (DG.Tweening.Ease)EditorGUILayout.EnumPopup(new GUIContent("Ease", "The EaseType when needs to tween."), viewPageItem.easeType);
@@ -120,63 +152,60 @@ namespace CloudMacaca.ViewSystem
                 viewPageItem.delayIn = EditorGUILayout.Slider("Delay In", viewPageItem.delayIn, 0, 1);
 
                 viewPageItem.delayOut = EditorGUILayout.Slider("Delay Out", viewPageItem.delayOut, 0, 1);
-                viewPageItem.excludePlatform = (ViewPageItem.PlatformOption)EditorGUILayout.EnumFlagsField(new GUIContent("Excude Platform","Excude Platform define the platform which wish to show the ViewPageItem or not"), viewPageItem.excludePlatform);
- 
-                // bool isExcloudAndroid = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.Android);
-                // bool isExcloudiOS = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.iOS);
-                // bool isExcloudtvOS = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.tvOS);
-                // bool isExcloudUWP = !viewPageItem.excludePlatform.Contains(ViewPageItem.PlatformOption.UWP);
+                //viewPageItem.excludePlatform = (ViewPageItem.PlatformOption)EditorGUILayout.EnumFlagsField(new GUIContent("Excude Platform", "Excude Platform define the platform which wish to show the ViewPageItem or not"), viewPageItem.excludePlatform);
 
-                // EditorGUIUtility.labelWidth = 20.0f;
+                Dictionary<ViewPageItem.PlatformOption, bool> toggleBools = new Dictionary<ViewPageItem.PlatformOption, bool>();
 
-                // string proIconFix = "";
-                // if (EditorGUIUtility.isProSkin)
-                // {
-                //     proIconFix = "d_";
-                // }
-                // else
-                // {
-                //     proIconFix = "";
-                // }
+                foreach (ViewPageItem.PlatformOption item in (ViewPageItem.PlatformOption[])Enum.GetValues(typeof(ViewPageItem.PlatformOption)))
+                {
+                    if (item == ViewPageItem.PlatformOption.Nothing || item == ViewPageItem.PlatformOption.All)
+                    {
+                        toggleBools.Add(item, viewPageItem.excludePlatform == item);
+                        continue;
+                    }
+                    toggleBools.Add(item, viewPageItem.excludePlatform.IsSet(item));
+                }
 
-                // EditorGUI.BeginChangeCheck();
-                // using (var check = new EditorGUI.ChangeCheckScope())
-                // {
-                //     using (var horizon = new EditorGUILayout.HorizontalScope())
-                //     {
-                //         isExcloudAndroid = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Android.Small")), isExcloudAndroid);
-                //         isExcloudiOS = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.iPhone.Small")), isExcloudiOS);
-                //         isExcloudtvOS = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.tvOS.Small")), isExcloudtvOS);
-                //         isExcloudUWP = EditorGUILayout.Toggle(new GUIContent(EditorGUIUtility.FindTexture(proIconFix + "BuildSettings.Standalone.Small")), isExcloudUWP);
-                //     }
 
-                //     if (check.changed)
-                //     {
-                //         viewPageItem.excludePlatform.Clear();
+                // bool isExcloudAndroid =
+                // bool isExcloudiOS = viewPageItem.excludePlatform.IsSet(ViewPageItem.PlatformOption.iOS);
+                // bool isExcloudtvOS = viewPageItem.excludePlatform.IsSet(ViewPageItem.PlatformOption.tvOS);
+                // bool isExcloudUWP = viewPageItem.excludePlatform.IsSet(ViewPageItem.PlatformOption.UWP);
 
-                //         if (!isExcloudAndroid)
-                //         {
-                //             viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.Android);
-                //         }
-                //         if (!isExcloudiOS)
-                //         {
-                //             viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.iOS);
-                //         }
-                //         if (!isExcloudtvOS)
-                //         {
-                //             viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
-                //         }
-                //         if (!isExcloudUWP)
-                //         {
-                //             viewPageItem.excludePlatform.Add(ViewPageItem.PlatformOption.tvOS);
-                //         }
-                //     }
-                // }
+                EditorGUIUtility.labelWidth = rect.width / Enum.GetNames(typeof(ViewPageItem.PlatformOption)).Length; ;
 
+                using (var horizon = new EditorGUILayout.HorizontalScope())
+                {
+                    foreach (ViewPageItem.PlatformOption item in (ViewPageItem.PlatformOption[])Enum.GetValues(typeof(ViewPageItem.PlatformOption)))
+                    {
+                        using (var check = new EditorGUI.ChangeCheckScope())
+                        {
+                            toggleBools[item] = GUILayout.Toggle(toggleBools[item], item.ToString(), toggleStyle);
+                            if (check.changed)
+                            {
+                                if (item == ViewPageItem.PlatformOption.Nothing || item == ViewPageItem.PlatformOption.All)
+                                {
+                                    if (toggleBools[item])
+                                    {
+                                        viewPageItem.excludePlatform = item;
+                                    }
+                                    continue;
+                                }
+
+                                if (toggleBools[item])
+                                {
+                                    FlagsHelper.Set(ref viewPageItem.excludePlatform, item);
+                                }
+                                else
+                                {
+                                    FlagsHelper.Unset(ref viewPageItem.excludePlatform, item);
+                                }
+                            }
+                        }
+                    }
+                }
             }
-
         }
-
     }
 }
 
