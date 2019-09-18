@@ -169,29 +169,14 @@ namespace CloudMacaca.ViewSystem
 
         [SerializeField]
         protected Dictionary<string, ViewSystemUtilitys.OverlayPageState> overlayPageStates = new Dictionary<string, ViewSystemUtilitys.OverlayPageState>();
-
+        protected IEnumerable<ViewPageItem> GetAllViewPageItemInViewState(ViewState vs)
+        {
+            return vs.viewPageItems.Where(m => !m.excludePlatform.IsSet(platform));
+        }
 
         protected IEnumerable<ViewPageItem> GetAllViewPageItemInViewPage(ViewPage vp)
         {
-            List<ViewPageItem> realViewPageItem = new List<ViewPageItem>();
-
-            //先整理出下個頁面應該出現的 ViewPageItem
-            ViewState viewPagePresetTemp;
-            List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
-
-            //從 ViewState 尋找
-            if (!string.IsNullOrEmpty(vp.viewState))
-            {
-                viewPagePresetTemp = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-                if (viewPagePresetTemp != null)
-                {
-                    viewItemForNextPage.AddRange(viewPagePresetTemp.viewPageItems);
-                }
-            }
-
-            //從 ViewPage 尋找
-            viewItemForNextPage.AddRange(vp.viewPageItems);
-            return viewItemForNextPage.Where(m => !m.excludePlatform.IsSet(platform));
+            return vp.viewPageItems.Where(m => !m.excludePlatform.IsSet(platform));
         }
 
         protected List<AutoLeaveData> autoLeaveQueue = new List<AutoLeaveData>();

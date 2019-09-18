@@ -244,6 +244,23 @@ namespace CloudMacaca.ViewSystem
         private Dictionary<string, float> lastPageItemDelayOutTimes = new Dictionary<string, float>();
         private Dictionary<string, float> lastOverlayPageItemDelayOutTimes = new Dictionary<string, float>();
 
+        [SerializeField]
+        protected new List<ViewElement> currentLiveElements
+        {
+            get
+            {
+                List<ViewElement> result = new List<ViewElement>();
+                result.AddRange(currentLiveElementsInViewPage);
+                result.AddRange(currentLiveElementsInViewState);
+                return result;
+            }
+        }
+
+        [ReadOnly, SerializeField]
+        protected List<ViewElement> currentLiveElementsInViewPage = new List<ViewElement>();
+        [ReadOnly, SerializeField]
+        protected List<ViewElement> currentLiveElementsInViewState = new List<ViewElement>();
+
         public override IEnumerator ChangePageBase(string viewPageName, Action OnComplete)
         {
             //取得 ViewPage 物件
@@ -272,28 +289,46 @@ namespace CloudMacaca.ViewSystem
             nextViewPage = vp;
             nextViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 
-            //viewItemNextPage 代表下個 ViewPage 應該出現的所有 ViewPageItem
-            var viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
-            //viewItemCurrentPage 代表目前 ViewPage 已出現的所有 ViewPageItem
-            //var viewItemCurrentPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(currentViewPage));
+            IEnumerable<ViewPageItem> viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
+            IEnumerable<ViewPageItem> viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
 
-            //尋找這個頁面還在，但下個頁面沒有的元件，這些元件應該先移除
+            // 如果兩個頁面之間的 ViewState 不同的話 才需要更新 ViewState 部分的 RuntimeViewElement
+            if (nextViewState != currentViewState)
+            {
+                viewItemNextState = PrepareRuntimeReference(viewItemNextState);
+            }
+
             List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
-            //尋找這個頁面還在，但下個頁面沒有的元件
-            //就是存在 currentLiveElement 中但不存在 viewItemForNextPage 的傢伙要 ChangePage 
-            var allViewElementForNextPage = viewItemNextPage.Select(m => m.runtimeViewElement).ToList();
-            foreach (var item in currentLiveElements.ToArray())
+
+            var allViewElementForNextPageInViewPage = viewItemNextPage.Select(m => m.runtimeViewElement).ToList();
+            var allViewElementForNextPageInViewState = viewItemNextState.Select(m => m.runtimeViewElement).ToList();
+
+            foreach (var item in currentLiveElementsInViewPage)
             {
                 //不存在的話就讓他加入應該移除的列表
-                if (allViewElementForNextPage.Contains(item) == false)
+                if (allViewElementForNextPageInViewPage.Contains(item) == false)
                 {
                     //加入該移除的列表
                     viewElementDoesExitsInNextPage.Add(item);
                 }
             }
+            currentLiveElementsInViewPage.Clear();
+            currentLiveElementsInViewPage = allViewElementForNextPageInViewPage;
 
-            currentLiveElements.Clear();
-            currentLiveElements = allViewElementForNextPage;
+            if (nextViewState != currentViewState)
+            {
+                foreach (var item in currentLiveElementsInViewState)
+                {
+                    //不存在的話就讓他加入應該移除的列表
+                    if (allViewElementForNextPageInViewState.Contains(item) == false)
+                    {
+                        //加入該移除的列表
+                        viewElementDoesExitsInNextPage.Add(item);
+                    }
+                }
+                currentLiveElementsInViewState.Clear();
+                currentLiveElementsInViewState = allViewElementForNextPageInViewState;
+            }
 
             //對離場的呼叫改變狀態
             foreach (var item in viewElementDoesExitsInNextPage)
@@ -328,8 +363,24 @@ namespace CloudMacaca.ViewSystem
             //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
             runtimePool.RecoveryQueuedViewElement();
 
-            //對進場的呼叫改變狀態
+            //對進場的呼叫改變狀態(ViewPage)
             foreach (var item in viewItemNextPage)
+            {
+                //套用複寫值
+                item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
+                item.runtimeViewElement.ApplyEvent(item.eventDatas);
+
+                //Delay 時間
+                if (!lastPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))
+                    lastPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
+                else
+                    lastPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
+
+                item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut);
+            }
+
+            //對進場的呼叫改變狀態(ViewPage)
+            foreach (var item in viewItemNextState)
             {
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
@@ -451,8 +502,8 @@ namespace CloudMacaca.ViewSystem
 
         public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false)
         {
-             var currentVe = currentViewPage.viewPageItems.Select(m => m.runtimeViewElement);
-             var currentVs = currentViewState.viewPageItems.Select(m => m.runtimeViewElement);
+            var currentVe = currentViewPage.viewPageItems.Select(m => m.runtimeViewElement);
+            var currentVs = currentViewState.viewPageItems.Select(m => m.runtimeViewElement);
 
             var finishTime = ViewSystemUtilitys.CalculateTimesNeedsForOnLeave(overlayPageState.viewPage.viewPageItems.Select(m => m.runtimeViewElement));
 

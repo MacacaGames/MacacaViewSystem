@@ -19,7 +19,10 @@ namespace CloudMacaca.ViewSystem
         private SerializedProperty s_SaveData;
         private SerializedProperty s_vs;
         private SerializedProperty s_vp;
+        
         private SerializedProperty s_current_element;
+        private SerializedProperty s_current_element_vs;
+        private SerializedProperty s_current_element_vp;
 
         AnimBool showDebugView = new AnimBool(false);
         void OnEnable()
@@ -29,7 +32,9 @@ namespace CloudMacaca.ViewSystem
             s_SaveData = so.FindProperty("viewSystemSaveData");
             s_vs = so.FindProperty("viewStates");
             s_vp = so.FindProperty("viewPages");
-            s_current_element = so.FindProperty("currentLiveElements");
+            s_current_element_vs = so.FindProperty("currentLiveElementsInViewState");
+            s_current_element_vp = so.FindProperty("currentLiveElementsInViewPage");
+            //s_current_element = so.FindProperty("currentLiveElements");
             showDebugView.valueChanged.AddListener(Repaint);
         }
         void OnDisable()
@@ -61,7 +66,8 @@ namespace CloudMacaca.ViewSystem
 
                         EditorGUILayout.PropertyField(s_vs, true);
                         EditorGUILayout.PropertyField(s_vp, true);
-                        EditorGUILayout.PropertyField(s_current_element, true);
+                        EditorGUILayout.PropertyField(s_current_element_vs, true);
+                        EditorGUILayout.PropertyField(s_current_element_vp, true);
                     }
                 }
             }
