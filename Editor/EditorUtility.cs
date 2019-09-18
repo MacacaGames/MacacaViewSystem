@@ -153,57 +153,7 @@ namespace CloudMacaca.ViewSystem
 
                 viewPageItem.delayOut = EditorGUILayout.Slider("Delay Out", viewPageItem.delayOut, 0, 1);
                 //viewPageItem.excludePlatform = (ViewPageItem.PlatformOption)EditorGUILayout.EnumFlagsField(new GUIContent("Excude Platform", "Excude Platform define the platform which wish to show the ViewPageItem or not"), viewPageItem.excludePlatform);
-
-                Dictionary<ViewPageItem.PlatformOption, bool> toggleBools = new Dictionary<ViewPageItem.PlatformOption, bool>();
-
-                foreach (ViewPageItem.PlatformOption item in (ViewPageItem.PlatformOption[])Enum.GetValues(typeof(ViewPageItem.PlatformOption)))
-                {
-                    if (item == ViewPageItem.PlatformOption.Nothing || item == ViewPageItem.PlatformOption.All)
-                    {
-                        toggleBools.Add(item, viewPageItem.excludePlatform == item);
-                        continue;
-                    }
-                    toggleBools.Add(item, viewPageItem.excludePlatform.IsSet(item));
-                }
-
-
-                // bool isExcloudAndroid =
-                // bool isExcloudiOS = viewPageItem.excludePlatform.IsSet(ViewPageItem.PlatformOption.iOS);
-                // bool isExcloudtvOS = viewPageItem.excludePlatform.IsSet(ViewPageItem.PlatformOption.tvOS);
-                // bool isExcloudUWP = viewPageItem.excludePlatform.IsSet(ViewPageItem.PlatformOption.UWP);
-
-                EditorGUIUtility.labelWidth = rect.width / Enum.GetNames(typeof(ViewPageItem.PlatformOption)).Length; ;
-
-                using (var horizon = new EditorGUILayout.HorizontalScope())
-                {
-                    foreach (ViewPageItem.PlatformOption item in (ViewPageItem.PlatformOption[])Enum.GetValues(typeof(ViewPageItem.PlatformOption)))
-                    {
-                        using (var check = new EditorGUI.ChangeCheckScope())
-                        {
-                            toggleBools[item] = GUILayout.Toggle(toggleBools[item], item.ToString(), toggleStyle);
-                            if (check.changed)
-                            {
-                                if (item == ViewPageItem.PlatformOption.Nothing || item == ViewPageItem.PlatformOption.All)
-                                {
-                                    if (toggleBools[item])
-                                    {
-                                        viewPageItem.excludePlatform = item;
-                                    }
-                                    continue;
-                                }
-
-                                if (toggleBools[item])
-                                {
-                                    FlagsHelper.Set(ref viewPageItem.excludePlatform, item);
-                                }
-                                else
-                                {
-                                    FlagsHelper.Unset(ref viewPageItem.excludePlatform, item);
-                                }
-                            }
-                        }
-                    }
-                }
+                CMEditorLayout.BitMaskField( ref viewPageItem.excludePlatform);
             }
         }
     }
