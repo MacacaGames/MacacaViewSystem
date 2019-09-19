@@ -71,7 +71,6 @@ namespace CloudMacaca.ViewSystem
         public AnimatorTransitionType animatorTransitionType = AnimatorTransitionType.Direct;
 
         public string AnimationStateName_In = "In";
-
         public string AnimationStateName_Out = "Out";
         public string AnimationStateName_Loop = "Loop";
         const string ButtonAnimationBoolKey = "IsLoop";
@@ -126,24 +125,23 @@ namespace CloudMacaca.ViewSystem
             }
         }
         //Canvas
-
         public UnityEvent OnShowHandle;
         public UnityEvent OnLeaveHandle;
 
-        private Vector3 poolPosition;
-        private Vector3 poolScale;
-        class LastTransform
-        {
-            public LastTransform(Transform Parent, Vector3 Position, Vector3 Scale)
-            {
-                this.Parent = Parent;
-                this.Position = Position;
-                this.Scale = Scale;
-            }
-            public Transform Parent;
-            public Vector3 Position;
-            public Vector3 Scale;
-        }
+        // private Vector3 poolPosition;
+        // private Vector3 poolScale;
+        // class LastTransform
+        // {
+        //     public LastTransform(Transform Parent, Vector3 Position, Vector3 Scale)
+        //     {
+        //         this.Parent = Parent;
+        //         this.Position = Position;
+        //         this.Scale = Scale;
+        //     }
+        //     public Transform Parent;
+        //     public Vector3 Position;
+        //     public Vector3 Scale;
+        // }
         private RectTransform _rectTransform;
         private RectTransform rectTransform
         {
@@ -184,7 +182,7 @@ namespace CloudMacaca.ViewSystem
         {
             Setup();
         }
-        public void Setup()
+        public virtual void Setup()
         {
             lifeCyclesObjects = GetComponentsInChildren<IViewElementLifeCycle>();
             // poolParent = viewElementPool.transform;
@@ -200,17 +198,15 @@ namespace CloudMacaca.ViewSystem
             OnShow(0);
         }
         IDisposable OnShowObservable;
-        public void ChangePage(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition = false)
+        public virtual void ChangePage(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition = false)
         {
             //Debug.LogError("ChangePage " + name);
             if (show)
             {
-
                 if (parent == null)
                 {
                     throw new NullReferenceException(gameObject.name + " does not set the parent for next viewpage.");
                 }
-
                 //還在池子裡，應該先 OnShow
                 //或是正在離開，都要重播 OnShow
                 if (IsShowed == false || OnLeaveWorking)
@@ -260,7 +256,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        public void OnShow(float delayIn = 0)
+        public virtual void OnShow(float delayIn = 0)
         {
             //Debug.LogError("OnShow " + name);
             //停掉正在播放的 Leave 動畫
@@ -336,7 +332,7 @@ namespace CloudMacaca.ViewSystem
         }
         bool OnLeaveWorking = false;
         IDisposable OnLeaveDisposable;
-        public void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
+        public virtual void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
         {
             //Debug.LogError("OnLeave " + name);
             if (transition == TransitionType.Animator && hasLoopBool)
@@ -430,14 +426,6 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        public void SampleToLoopState()
-        {
-
-            if (transition != ViewElement.TransitionType.Animator)
-                return;
-
-            animator.Play(AnimationStateName_Loop);
-        }
         bool needPool = true;
         public void OnLeaveAnimationFinish()
         {
@@ -452,7 +440,6 @@ namespace CloudMacaca.ViewSystem
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
 
-
             if (runtimePool != null)
             {
                 runtimePool.QueueViewElementToRecovery(this);
@@ -461,7 +448,7 @@ namespace CloudMacaca.ViewSystem
         }
         public bool DisableGameObjectOnComplete = true;
 
-        public float GetOutAnimationLength()
+        public virtual float GetOutAnimationLength()
         {
             if (transition != TransitionType.Animator)
                 return 0;
@@ -479,7 +466,7 @@ namespace CloudMacaca.ViewSystem
             }
 
         }
-        public float GetInAnimationLength()
+        public virtual float GetInAnimationLength()
         {
             if (transition != TransitionType.Animator)
                 return 0;
@@ -495,7 +482,6 @@ namespace CloudMacaca.ViewSystem
             {
                 return clip.length;
             }
-
         }
     }
 }

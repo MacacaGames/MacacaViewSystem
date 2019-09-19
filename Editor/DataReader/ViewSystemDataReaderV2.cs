@@ -197,12 +197,26 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void ClearAllViewElementInScene()
         {
             var allViewElement = UnityEngine.Object.FindObjectsOfType<ViewElement>();
+            var allNestedViewElement = UnityEngine.Object.FindObjectsOfType<NestedViewElement>();
             foreach (var item in allViewElement)
             {
                 if (string.IsNullOrEmpty(item.gameObject.scene.name))
                 {
                     continue;
                 }
+                if (item.GetComponentInParent<NestedViewElement>() != null)
+                {
+                    continue;
+                }
+                UnityEngine.Object.DestroyImmediate(item.gameObject);
+            }
+            foreach (var item in allNestedViewElement)
+            {
+                if (string.IsNullOrEmpty(item.gameObject.scene.name))
+                {
+                    continue;
+                }
+
                 UnityEngine.Object.DestroyImmediate(item.gameObject);
             }
         }
