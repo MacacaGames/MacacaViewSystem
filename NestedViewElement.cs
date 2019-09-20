@@ -7,38 +7,53 @@ namespace CloudMacaca.ViewSystem
 {
     public class NestedViewElement : ViewElement
     {
-        // public new TransitionType transition
-        // {
-        //     get
-        //     {
-        //         return TransitionType.ActiveSwitch;
-        //     }
-        // }
+        [System.Serializable]
+        public class ChildViewElement
+        {
+            public ViewElement viewElement;
+            public float delayIn = 0;
+            public float delayOut = 0;
+        }
 
-        public ViewElement[] childViewElements;
+        public List<ChildViewElement> childViewElements;
+
+        public bool IsSetup
+        {
+            get
+            {
+                if (childViewElements == null)
+                {
+                    return false;
+                }
+                return childViewElements.Count > 0;
+            }
+        }
         public override void Setup()
         {
             base.Setup();
-            childViewElements = GetComponentsInChildren<ViewElement>().Where(m => m != this).ToArray();
         }
-        // public override void ChangePage(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition = false)
-        // {
-        // }
+
+        public void SetupChild()
+        {
+            childViewElements = GetComponentsInChildren<ViewElement>()
+              .Where(m => m != this)
+              .Select(m => new ChildViewElement { viewElement = m }).ToList();
+        }
 
         public override void OnShow(float delayIn = 0)
         {
             gameObject.SetActive(true);
-            foreach (var ve in childViewElements)
+            foreach (var item in childViewElements)
             {
-                ve.OnShow(delayIn);
+                item.viewElement.OnShow(item.delayIn);
             }
         }
 
         public override void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
         {
-            foreach (var ve in childViewElements)
+            foreach (var item in childViewElements)
             {
-                ve.OnLeave(delayOut, false, ignoreTransition);
+                item.viewElement.OnLeave(item.delayOut, false, ignoreTransition);
             }
             StartCoroutine(DisableItem());
         }
@@ -47,17 +62,18 @@ namespace CloudMacaca.ViewSystem
         {
             yield return Yielders.GetWaitForSeconds(GetOutAnimationLength());
             gameObject.SetActive(false);
+            OnLeaveAnimationFinish();
         }
 
         //GetOutAnimationLength in NestedViewElement is the longest animation length in child
         public override float GetOutAnimationLength()
         {
-            return childViewElements.Max(m => m.GetOutAnimationLength());
+            return childViewElements.Max(m => m.viewElement.GetOutAnimationLength());
         }
         //GetOutAnimationLength in NestedViewElement is the longest animation length in child
         public override float GetInAnimationLength()
         {
-            return childViewElements.Max(m => m.GetInAnimationLength());
+            return childViewElements.Max(m => m.viewElement.GetInAnimationLength());
         }
     }
 }

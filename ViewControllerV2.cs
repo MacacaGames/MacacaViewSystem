@@ -69,7 +69,7 @@ namespace CloudMacaca.ViewSystem
             else
             {
                 Debug.LogWarning("ViewElement " + source.name + " has been prewarmed");
-                return null;
+                return uniqueVeDicts[source.name];
             }
         }
         public ViewElement RequestViewElement(ViewElement source)
@@ -306,7 +306,8 @@ namespace CloudMacaca.ViewSystem
             foreach (var item in currentLiveElementsInViewPage)
             {
                 //不存在的話就讓他加入應該移除的列表
-                if (allViewElementForNextPageInViewPage.Contains(item) == false)
+                if (allViewElementForNextPageInViewPage.Contains(item) == false &&
+                    allViewElementForNextPageInViewState.Contains(item) == false)
                 {
                     //加入該移除的列表
                     viewElementDoesExitsInNextPage.Add(item);
@@ -320,7 +321,8 @@ namespace CloudMacaca.ViewSystem
                 foreach (var item in currentLiveElementsInViewState)
                 {
                     //不存在的話就讓他加入應該移除的列表
-                    if (allViewElementForNextPageInViewState.Contains(item) == false)
+                    if (allViewElementForNextPageInViewState.Contains(item) == false &&
+                        allViewElementForNextPageInViewPage.Contains(item) == false)
                     {
                         //加入該移除的列表
                         viewElementDoesExitsInNextPage.Add(item);
