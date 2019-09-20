@@ -395,7 +395,7 @@ namespace CloudMacaca.ViewSystem
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut);
             }
 
-            float OnShowAnimationFinish = ViewSystemUtilitys.CalculateTimesNeedsForOnShow(viewItemNextPage.Select(m => m.viewElement), maxClampTime);
+            float OnShowAnimationFinish = ViewSystemUtilitys.CalculateTimesNeedsForOnShow(viewItemNextPage.Select(m => m.runtimeViewElement), maxClampTime);
 
             //更新狀態
             UpdateCurrentViewStateAndNotifyEvent(vp);
