@@ -285,14 +285,7 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
-            //簡單暴力的解決 canvasGroup 一開始如果不是 0 的石後的情況
-            if (transition == TransitionType.CanvasGroupAlpha)
-            {
-                if (canvasGroup.alpha != 0)
-                {
-                    canvasGroup.alpha = 0;
-                }
-            }
+
             Observable
                 .Timer(TimeSpan.FromSeconds(delayIn))
                 .Subscribe(_ =>
@@ -312,7 +305,20 @@ namespace CloudMacaca.ViewSystem
                     }
                     else if (transition == TransitionType.CanvasGroupAlpha)
                     {
-                        canvasGroup.DOFade(1, canvasInTime).SetEase(canvasInEase);
+                        Debug.Log("canvasGroup alpha");
+                        canvasGroup.DOFade(1, canvasInTime).OnStart(
+                            () =>
+                            {
+                                //簡單暴力的解決 canvasGroup 一開始如果不是 0 的石後的情況
+                                if (transition == TransitionType.CanvasGroupAlpha)
+                                {
+                                    if (canvasGroup.alpha != 0)
+                                    {
+                                        canvasGroup.alpha = 0;
+                                    }
+                                }
+                            }
+                        ).SetEase(canvasInEase);
                     }
                     else if (transition == TransitionType.Custom)
                     {
