@@ -13,8 +13,8 @@ namespace CloudMacaca.ViewSystem
 
         public ViewElement viewElement;
         public ViewElement runtimeViewElement = null;
-        public List<ViewElementPropertyOverrideData> overrideDatas;
-        public List<ViewElementEventData> eventDatas;
+        public List<ViewElementPropertyOverrideData> overrideDatas = new List<ViewElementPropertyOverrideData>();
+        public List<ViewElementEventData> eventDatas = new List<ViewElementEventData>();
 
         [Tooltip("ViewElement 在該頁面時應該對其的父物件")]
         public Transform parent;
