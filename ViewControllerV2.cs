@@ -61,7 +61,7 @@ namespace CloudMacaca.ViewSystem
             if (!uniqueVeDicts.ContainsKey(source.name))
             {
                 var temp = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
-                temp.name = source.name + "(Unique)";
+                temp.name = source.name;
                 uniqueVeDicts.Add(source.name, temp);
                 temp.gameObject.SetActive(false);
                 return temp;
@@ -81,7 +81,7 @@ namespace CloudMacaca.ViewSystem
                 if (!uniqueVeDicts.TryGetValue(source.name, out result))
                 {
                     result = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
-                    result.name = source.name + "(Unique)";
+                    result.name = source.name;
                     uniqueVeDicts.Add(source.name, result);
                 }
             }
@@ -97,7 +97,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     var a = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
                     a.gameObject.SetActive(false);
-                    a.name = source.name + ("(Pooled)");
+                    a.name = source.name;
                     veQueue.Enqueue(a);
                 }
                 result = veQueue.Dequeue();
@@ -377,6 +377,10 @@ namespace CloudMacaca.ViewSystem
                     lastPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
                 else
                     lastPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
+
+                if(item.runtimeParent == null){
+                    item.runtimeParent =transformCache.Find(item.parentPath);
+                }
 
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut);
             }
