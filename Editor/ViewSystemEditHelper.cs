@@ -12,6 +12,7 @@ public class ViewSystemEditHelper : EditorWindow
     string newAnimationFileName = "";
     string targetDirectory = "";
     string[] fileEntries;
+    bool isButton = false;
     // string[] newFileGUID;
     // string[] oldFileGUID;
     Dictionary<string, string> newFileGUID = new Dictionary<string, string>();
@@ -28,14 +29,21 @@ public class ViewSystemEditHelper : EditorWindow
     {
         // 自動生成 View Element 動畫檔案
         GUILayout.Label("Generate View Element Animation Files", EditorStyles.boldLabel);
+        isButton = EditorGUILayout.Toggle("isButton", isButton);
         newAnimationFileName = EditorGUILayout.TextField("Animation Name", newAnimationFileName);
         if (GUILayout.Button("Create Animation File"))
         {
+            // 判斷是否為 Button 物件
+            string DefaultFoldName = "";
+            if (isButton)  DefaultFoldName = "_DefaultBtnAnimationFiles_ViewSystem";
+            else DefaultFoldName = "_DefaultAnimationFiles_ViewSystem";
+
+
 
             // -------------------- 第一步驟 創造動畫檔 -------------------- //
 
             // 尋找預設動畫檔的資料夾
-            var findfoldPath = Directory.GetDirectories(Application.dataPath, "_DefaultAnimationFiles_ViewSystem", SearchOption.AllDirectories);
+            var findfoldPath = Directory.GetDirectories(Application.dataPath, DefaultFoldName, SearchOption.AllDirectories);
             if (findfoldPath.Count() == 0)
             {
                 Debug.LogWarning("請創建「_DefaultAnimationFiles_ViewSystem」資料夾，並放置預設的 Animation Clip 及 Controller");
