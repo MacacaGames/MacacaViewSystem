@@ -29,12 +29,12 @@ public class ViewElementLifeCycle : MonoBehaviour, IViewElementLifeCycle
 
     }
 
-    public void OnStartLeave()
+    public virtual void OnStartLeave()
     {
         //throw new System.NotImplementedException();
     }
 
-    public void OnStartShow()
+    public virtual void OnStartShow()
     {
         //throw new System.NotImplementedException();
     }

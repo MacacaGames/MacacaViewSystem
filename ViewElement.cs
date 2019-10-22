@@ -305,17 +305,14 @@ namespace CloudMacaca.ViewSystem
                     }
                     else if (transition == TransitionType.CanvasGroupAlpha)
                     {
-                        Debug.Log("canvasGroup alpha");
+                        //Debug.Log("canvasGroup alpha");
                         canvasGroup.DOFade(1, canvasInTime).OnStart(
                             () =>
                             {
-                                //簡單暴力的解決 canvasGroup 一開始如果不是 0 的石後的情況
-                                if (transition == TransitionType.CanvasGroupAlpha)
+                                //簡單暴力的解決 canvasGroup 一開始如果不是 0 的時候的情況
+                                if (canvasGroup.alpha != 0)
                                 {
-                                    if (canvasGroup.alpha != 0)
-                                    {
-                                        canvasGroup.alpha = 0;
-                                    }
+                                    canvasGroup.alpha = 0;
                                 }
                             }
                         ).SetEase(canvasInEase);
