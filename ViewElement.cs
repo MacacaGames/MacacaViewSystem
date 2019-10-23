@@ -476,7 +476,15 @@ namespace CloudMacaca.ViewSystem
             if (animator == null)
                 return 0;
 
-            var clip = animator.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains(AnimationStateName_In));
+                
+AnimationClip clip = null;
+    try{
+             clip = animator.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Split('_').Last().Contains(AnimationStateName_In));
+    }
+    catch(Exception ex){
+Debug.LogError(ex.Message,this);
+    }
+
             if (clip == null)
             {
                 return 0;
