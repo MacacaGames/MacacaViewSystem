@@ -285,12 +285,7 @@ namespace CloudMacaca.ViewSystem
             {
                 s_Type = S_Type._bool;
             }
-            else if (value.GetType().IsEnum)
-            {
-                s_Type = S_Type._enum;
-                StringValue = value.GetType().ToString() + "," + value.ToString();
-                toStringDirectly = false;
-            }
+          
             else if (value is Color)
             {
                 s_Type = S_Type._color;
@@ -302,6 +297,12 @@ namespace CloudMacaca.ViewSystem
                 // Only UnityEngine.Object may be null
                 s_Type = S_Type._objcetReferenct;
                 ObjectReferenceValue = null;
+                toStringDirectly = false;
+            }
+            else if (value.GetType().IsEnum)
+            {
+                s_Type = S_Type._enum;
+                StringValue = value.GetType().ToString() + "," + value.ToString();
                 toStringDirectly = false;
             }
             else if (value.GetType().IsSubclassOf(typeof(UnityEngine.Object)) ||
