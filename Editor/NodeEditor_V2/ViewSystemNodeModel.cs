@@ -163,10 +163,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             get
             {
-                return !(
-                    ViewSystemNodeGlobalSettingWindow.showGlobalSetting ||
-                    OverridePopupWindow.show ||
-                    ViewSystemNodeInspector.isMouseInSideBar());
+                if (Application.isPlaying)
+                {
+                    return ViewSystemNodeEditor.allowPreviewWhenPlaying;
+                }
+                return
+                    !(ViewSystemNodeGlobalSettingWindow.showGlobalSetting ||
+                        OverridePopupWindow.show ||
+                        ViewSystemNodeInspector.isMouseInSideBar());
             }
         }
         public bool ProcessEvents(Event e)

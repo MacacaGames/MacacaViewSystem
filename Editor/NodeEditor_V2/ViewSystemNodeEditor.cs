@@ -18,7 +18,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         private OverrideVerifier overrideVerifyWindow;
         public static ViewSystemSaveData saveData;
         bool isInit = false;
-
+        public static bool allowPreviewWhenPlaying = false;
         public Transform ViewControllerRoot;
 
         [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
@@ -476,6 +476,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         overrideVerifyWindow.VerifyEvents();
                     }
+                    allowPreviewWhenPlaying = GUILayout.Toggle(allowPreviewWhenPlaying, new GUIContent("Allow Preview when Playing"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));
