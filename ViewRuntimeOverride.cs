@@ -78,7 +78,7 @@ namespace CloudMacaca.ViewSystem
                 }
 
                 // Clear last event
-                ClearAllEvent();
+                //ClearAllEvent();
 
                 // Usually there is only one event on one Selectable
                 // But the system allow mutil event on one Selectable
