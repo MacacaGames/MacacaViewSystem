@@ -5,7 +5,8 @@ using CloudMacaca;
 [ExecuteInEditMode]
 public class ViewMarginFixer : ViewElementLifeCycle
 {
-
+    [SerializeField]
+    bool RebuildLayoutAfterFix = false;
     [SerializeField]
     Margin margin;
 
@@ -19,7 +20,6 @@ public class ViewMarginFixer : ViewElementLifeCycle
             }
             return _rectTransform;
         }
-
     }
     RectTransform _rectTransform;
 
@@ -102,14 +102,27 @@ public class ViewMarginFixer : ViewElementLifeCycle
                                                 margin.modifyBottom ? margin.bottom : rectTransform.offsetMin.y); // new Vector2(left, bottom); 
         rectTransform.offsetMax = new Vector2(margin.modifyRight ? -margin.right : rectTransform.offsetMax.x,
                                              margin.modifyTop ? -margin.top : rectTransform.offsetMax.y); // new Vector2(-right, -top);
+
+        if (Application.isPlaying)
+            CoroutineManager.Instance.StartCoroutine(ForceRefreshLayout());
     }
+
+    IEnumerator ForceRefreshLayout()
+    {
+        if (RebuildLayoutAfterFix == false) yield break;
+        var layouts = GetComponent<UnityEngine.UI.LayoutGroup>();
+        layouts.enabled = false;
+        yield return null;
+        yield return Yielders.EndOfFrame;
+        layouts.enabled = true;
+    }
+
     public void AutoGuessFixTarget(CloudMacaca.AnchorPresets anchor = CloudMacaca.AnchorPresets.UnKnown)
     {
         if (anchor == CloudMacaca.AnchorPresets.UnKnown)
         {
             anchor = _rectTransform.GetAnchorPresets();
         }
-
         //Min new Vector2(left, bottom); 
         //Max new Vector2(-right, -top);
         switch (anchor)

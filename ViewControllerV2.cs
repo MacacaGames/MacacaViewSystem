@@ -36,6 +36,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     UnityEngine.Debug.LogWarning("Cannot find pool of ViewElement " + toRecovery.name + ", Destroy directly.");
                     UnityEngine.Object.Destroy(toRecovery);
+                    return;
                 }
                 veQueue.Enqueue(toRecovery);
             }
@@ -378,8 +379,9 @@ namespace CloudMacaca.ViewSystem
                 else
                     lastPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
 
-                if(item.runtimeParent == null){
-                    item.runtimeParent =transformCache.Find(item.parentPath);
+                if (item.runtimeParent == null)
+                {
+                    item.runtimeParent = transformCache.Find(item.parentPath);
                 }
 
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut);

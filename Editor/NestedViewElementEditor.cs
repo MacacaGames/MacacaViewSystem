@@ -24,13 +24,11 @@ namespace CloudMacaca.ViewSystem
             nestedViewElement = (NestedViewElement)target;
             showV2Setting.valueChanged.AddListener(Repaint);
 
-            if (list == null)
-            {
-                list = new ReorderableList(nestedViewElement.childViewElements, nestedViewElement.childViewElements.GetType(), true, true, false, false);
-                list.elementHeight = EditorGUIUtility.singleLineHeight;
-                list.drawElementCallback += drawElementCallback;
-                list.drawHeaderCallback += drawHeaderCallback;
-            }
+            list = new ReorderableList(nestedViewElement.childViewElements, nestedViewElement.childViewElements.GetType(), true, true, false, false);
+            list.elementHeight = EditorGUIUtility.singleLineHeight;
+            list.drawElementCallback += drawElementCallback;
+            list.drawHeaderCallback += drawHeaderCallback;
+
         }
 
         private void drawHeaderCallback(Rect rect)

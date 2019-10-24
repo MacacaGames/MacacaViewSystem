@@ -28,7 +28,7 @@ namespace CloudMacaca.ViewSystem
                 return childViewElements.Count > 0;
             }
         }
-        
+
         public override void Setup()
         {
             base.Setup();
@@ -37,23 +37,64 @@ namespace CloudMacaca.ViewSystem
         public void SetupChild()
         {
             childViewElements = GetComponentsInChildren<ViewElement>()
-              .Where(m => m != this)
-              .Select(m => new ChildViewElement { viewElement = m }).ToList();
+                .Where(m => m != this)
+                .Select(m => new ChildViewElement { viewElement = m }).ToList();
+
+            //Remove the item which is a child of Other NestedViewElement
+            var nestedViewElements = childViewElements.Where(m => m.viewElement is NestedViewElement).Select(m => m.viewElement).Cast<NestedViewElement>();
+            foreach (var item in nestedViewElements)
+            {
+                foreach (var ve in item.childViewElements)
+                {
+                    childViewElements.RemoveAll(m => m.viewElement == ve.viewElement);
+                }
+            }
         }
 
         public override void OnShow(float delayIn = 0)
         {
             gameObject.SetActive(true);
+            if (lifeCyclesObjects != null)
+            {
+                foreach (var item in lifeCyclesObjects)
+                {
+                    item.OnBeforeShow();
+                }
+            }
             foreach (var item in childViewElements)
             {
+                // if (item.viewElement is NestedViewElement)
+                // {
+                //     ((NestedViewElement)item.viewElement).OnShow(item.delayIn);
+                // }
+                // else
+                // {
+
+                // }
                 item.viewElement.OnShow(item.delayIn);
             }
         }
 
         public override void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
         {
+            needPool = NeedPool;
+            if (lifeCyclesObjects != null)
+            {
+                foreach (var item in lifeCyclesObjects)
+                {
+                    item.OnBeforeLeave();
+                }
+            }
             foreach (var item in childViewElements)
             {
+                // if (item.viewElement is NestedViewElement)
+                // {
+                //     ((NestedViewElement)item.viewElement).OnLeave(item.delayOut, false, ignoreTransition);
+                // }
+                // else
+                // {
+
+                // }
                 item.viewElement.OnLeave(item.delayOut, false, ignoreTransition);
             }
             StartCoroutine(DisableItem());

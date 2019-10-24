@@ -105,7 +105,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
         //ViewElementLifeCycle
-        IViewElementLifeCycle[] lifeCyclesObjects;
+        protected IViewElementLifeCycle[] lifeCyclesObjects;
 
         //Animator
 
@@ -431,7 +431,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        bool needPool = true;
+        protected bool needPool = true;
         public void OnLeaveAnimationFinish()
         {
             OnLeaveWorking = false;
