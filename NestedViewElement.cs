@@ -28,6 +28,7 @@ namespace CloudMacaca.ViewSystem
                 return childViewElements.Count > 0;
             }
         }
+        
         public override void Setup()
         {
             base.Setup();

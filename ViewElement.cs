@@ -37,6 +37,11 @@ namespace CloudMacaca.ViewSystem
         }
         public void ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
+            if (runtimeOverride == null)
+            {
+                runtimeOverride = gameObject.AddComponent<ViewRuntimeOverride>();
+            }
+            runtimeOverride.ClearAllEvent();
             if (overrideDatas == null)
             {
                 return;
@@ -45,10 +50,7 @@ namespace CloudMacaca.ViewSystem
             {
                 return;
             }
-            if (runtimeOverride == null)
-            {
-                runtimeOverride = gameObject.AddComponent<ViewRuntimeOverride>();
-            }
+
             runtimeOverride.ApplyOverride(overrideDatas);
         }
 
@@ -458,7 +460,7 @@ namespace CloudMacaca.ViewSystem
             if (animator == null)
                 return 0;
 
-            var clip = animator.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains(AnimationStateName_Out));
+            var clip = animator.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_Out));
             if (clip == null)
             {
                 return 0;
@@ -476,7 +478,16 @@ namespace CloudMacaca.ViewSystem
             if (animator == null)
                 return 0;
 
-            var clip = animator.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains(AnimationStateName_In));
+            AnimationClip clip = null;
+            try
+            {
+                clip = animator.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_In));
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex.Message, this);
+            }
+
             if (clip == null)
             {
                 return 0;

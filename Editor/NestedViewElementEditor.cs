@@ -11,7 +11,6 @@ namespace CloudMacaca.ViewSystem
 
 
     [CanEditMultipleObjects]
-
     [CustomEditor(typeof(NestedViewElement))]
     public class NestedViewElementEditor : Editor
     {
@@ -39,7 +38,6 @@ namespace CloudMacaca.ViewSystem
             rect.x += 20;
             rect.width = rect.width * 0.5f;
             GUI.Label(rect, "ViewElement");
-
             rect.x += rect.width;
             rect.width = rect.width * 0.5f;
             GUI.Label(rect, "Delay In");
@@ -68,6 +66,7 @@ namespace CloudMacaca.ViewSystem
         {
             showV2Setting.valueChanged.RemoveListener(Repaint);
         }
+
         public override void OnInspectorGUI()
         {
             nestedViewElement.transition = ViewElement.TransitionType.ActiveSwitch;
@@ -107,13 +106,13 @@ namespace CloudMacaca.ViewSystem
             if (GUILayout.Button("Refresh", EditorStyles.miniButton))
             {
                 nestedViewElement.SetupChild();
+                OnEnable();
+                Repaint();
             }
 
             serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(nestedViewElement);
 
         }
-
-
     }
 }

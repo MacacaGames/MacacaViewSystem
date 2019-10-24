@@ -385,10 +385,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         GUILayout.Box(overrideData.Value.GetValue().ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                         break;
                     case SerializedPropertyType.ObjectReference:
-                        using (var disable = new EditorGUI.DisabledGroupScope(true))
-                        {
-                            EditorGUILayout.ObjectField(overrideData.Value.ObjectReferenceValue, overrideData.Value.ObjectReferenceValue.GetType(), false, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
+                        if (overrideData.Value.ObjectReferenceValue == null) {
+                            GUILayout.Box("Null", Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                         }
+                        else
+                        {
+                            using (var disable = new EditorGUI.DisabledGroupScope(true))
+                            {
+                                EditorGUILayout.ObjectField(overrideData.Value.ObjectReferenceValue, overrideData.Value.ObjectReferenceValue.GetType(), false, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
+                            }
+                        }
+                       
                         //GUILayout.Box(overrideData.Value.IntValue.ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(150));
                         break;
                     default:
