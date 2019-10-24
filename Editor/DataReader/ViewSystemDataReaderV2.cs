@@ -216,8 +216,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     continue;
                 }
-
-                UnityEngine.Object.DestroyImmediate(item.gameObject);
+                try
+                {
+                    UnityEngine.Object.DestroyImmediate(item.gameObject);
+                }
+                catch
+                {
+                    Debug.LogWarning($"The NestedViewElement {item.name} is part of another NestedViewElement, will ignore while delete preview object");
+                }
             }
         }
 
