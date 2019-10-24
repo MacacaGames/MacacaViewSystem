@@ -163,10 +163,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             get
             {
-                if (Application.isPlaying)
-                {
-                    return ViewSystemNodeEditor.allowPreviewWhenPlaying;
-                }
+
                 return
                     !(ViewSystemNodeGlobalSettingWindow.showGlobalSetting ||
                         OverridePopupWindow.show ||
@@ -307,7 +304,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             DrawNode(viewPage.name);
             var btnRect = new Rect(drawRect.x, drawRect.y + drawRect.height - 40, drawRect.width, 18);
-            if (CustomElement.Button(id, btnRect, new GUIContent("Preview"), new GUIStyle("ObjectPickerResultsEven"), IsInactivable))
+
+            bool btnInteractiable = IsInactivable;
+            if (Application.isPlaying)
+            {
+                btnInteractiable = ViewSystemNodeEditor.allowPreviewWhenPlaying && IsInactivable;
+            }
+            if (CustomElement.Button(id, btnRect, new GUIContent("Preview"), new GUIStyle("ObjectPickerResultsEven"), btnInteractiable))
             {
                 if (OnPreviewBtnClick != null)
                 {
