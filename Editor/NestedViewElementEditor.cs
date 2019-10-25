@@ -5,7 +5,7 @@ using UnityEditorInternal;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 using System;
-
+using System.Linq;
 namespace CloudMacaca.ViewSystem
 {
 
@@ -29,11 +29,12 @@ namespace CloudMacaca.ViewSystem
             list.drawElementCallback += drawElementCallback;
             list.drawHeaderCallback += drawHeaderCallback;
 
+
         }
 
         private void drawHeaderCallback(Rect rect)
         {
-            rect.x += 20;
+            rect.x += 10;
             rect.width = rect.width * 0.5f;
             GUI.Label(rect, "ViewElement");
             rect.x += rect.width;
@@ -70,6 +71,24 @@ namespace CloudMacaca.ViewSystem
             nestedViewElement.transition = ViewElement.TransitionType.ActiveSwitch;
             EditorGUILayout.HelpBox("Nested ViewElement only can set transition to ActiveSwitch", MessageType.Info);
 
+            if (!nestedViewElement.IsSetup)
+            {
+                EditorGUILayout.HelpBox("There is no avaliable ViewElement in child GameObject", MessageType.Error);
+            }
+            if (nestedViewElement.childViewElements.Count != list.count ||
+                nestedViewElement.childViewElements.Count(m => m.viewElement == null) > 0
+            )
+            {
+                EditorGUILayout.HelpBox("One or more ViewElement is missing, please try to refresh.", MessageType.Error);
+            }
+
+            if (GUILayout.Button("Refresh", EditorStyles.miniButton))
+            {
+                nestedViewElement.SetupChild();
+                OnEnable();
+                Repaint();
+            }
+
             using (var disable = new EditorGUI.DisabledGroupScope(true))
             {
                 EditorGUILayout.EnumPopup("Transition", nestedViewElement.transition);
@@ -94,18 +113,6 @@ namespace CloudMacaca.ViewSystem
                     }
                     EditorGUILayout.HelpBox(hintText, MessageType.Info);
                 }
-            }
-
-            if (!nestedViewElement.IsSetup)
-            {
-                EditorGUILayout.HelpBox("在所有子物件中 沒有找到可用的 ViewElement", MessageType.Error);
-            }
-
-            if (GUILayout.Button("Refresh", EditorStyles.miniButton))
-            {
-                nestedViewElement.SetupChild();
-                OnEnable();
-                Repaint();
             }
 
             serializedObject.ApplyModifiedProperties();
