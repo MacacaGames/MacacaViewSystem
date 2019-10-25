@@ -15,7 +15,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static ViewSystemNodeInspector inspector;
         static ViewSystemNodeGlobalSettingWindow globalSettingWindow;
         public OverridePopupWindow overridePopupWindow;
-        private OverrideVerifier overrideVerifyWindow;
+        private ViewSystemVerifier viewSystemVerifier;
         public static ViewSystemSaveData saveData;
         bool isInit = false;
         public static bool allowPreviewWhenPlaying = false;
@@ -47,7 +47,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemNodeGlobalSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
             overridePopupWindow = new OverridePopupWindow(this, inspector);
-            overrideVerifyWindow = new OverrideVerifier(this, saveData);
+            viewSystemVerifier = new ViewSystemVerifier(this, saveData);
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
             viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));
@@ -457,6 +457,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     GUILayout.Space(5);
                     if (GUILayout.Button(new GUIContent("Reload", Drawer.refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))
                     {
+                        OverridePopupWindow.show = false;
                         RefreshData();
                     }
                     GUILayout.Space(5);
@@ -468,14 +469,39 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     ViewSystemNodeGlobalSettingWindow.showGlobalSetting = GUILayout.Toggle(ViewSystemNodeGlobalSettingWindow.showGlobalSetting, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("SceneViewTools")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
                     GUILayout.Space(5);
-                    if (GUILayout.Button(new GUIContent("Verify Overrides"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight)))
+                    // if (GUILayout.Button(new GUIContent("Verify Overrides"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight)))
+                    // {
+                    //     viewSystemVerifier.VerifyComponent();
+                    // }
+                    // if (GUILayout.Button(new GUIContent("Verify Events"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight)))
+                    // {
+                    //     viewSystemVerifier.VerifyEvents();
+                    // }
+                    if (GUILayout.Button(new GUIContent("Verifiers"), EditorStyles.toolbarDropDown, GUILayout.Height(menuBarHeight)))
                     {
-                        overrideVerifyWindow.VerifyComponent();
+                        //viewSystemVerifier.VerifyPagesAndStates();
+                        GenericMenu genericMenu = new GenericMenu();
+                        genericMenu.AddItem(new GUIContent("Verify Overrides"), false,
+                            () =>
+                            {
+                                viewSystemVerifier.VerifyComponent();
+                            }
+                        );
+                        genericMenu.AddItem(new GUIContent("Verify Events"), false,
+                            () =>
+                            {
+                                viewSystemVerifier.VerifyEvents();
+                            }
+                        );
+                        genericMenu.AddItem(new GUIContent("Verify Pages and States"), false,
+                            () =>
+                            {
+                                viewSystemVerifier.VerifyPagesAndStates();
+                            }
+                        );
+                        genericMenu.ShowAsContext();
                     }
-                    if (GUILayout.Button(new GUIContent("Verify Events"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight)))
-                    {
-                        overrideVerifyWindow.VerifyEvents();
-                    }
+
                     allowPreviewWhenPlaying = GUILayout.Toggle(allowPreviewWhenPlaying, new GUIContent("Allow Preview when Playing"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
@@ -501,6 +527,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
                     if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item (Will Delete the Canvas Root Object in Scene)"), EditorStyles.toolbarButton))
                     {
+                        OverridePopupWindow.show = false;
                         dataReader.Normalized();
                     }
                 }

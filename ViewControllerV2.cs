@@ -172,16 +172,20 @@ namespace CloudMacaca.ViewSystem
         }
         void PrewarmInjection()
         {
-            var viewElementsInStates = viewStates.Select(m => m.viewPageItems).SelectMany(ma => ma);
-            var viewElementsInPages = viewPages.Select(m => m.viewPageItems).SelectMany(ma => ma);
+            var viewElementsInStates = viewStates.Select(m => m.viewPageItems).SelectMany(ma => ma).Select(m => m.viewElement);
+            var viewElementsInPages = viewPages.Select(m => m.viewPageItems).SelectMany(ma => ma).Select(m => m.viewElement);
             foreach (var item in viewElementsInStates)
             {
-                if (!item.viewElement.IsUnique)
+                if (item == null)
+                {
+                    Debug.Log("I'm null!!!");
+                }
+                if (!item.IsUnique)
                 {
                     continue;
                 }
 
-                var r = runtimePool.PrewarmUniqueViewElement(item.viewElement);
+                var r = runtimePool.PrewarmUniqueViewElement(item);
                 if (r != null)
                 {
                     foreach (var i in r.GetComponents<IViewElementInjectalbe>())
@@ -201,12 +205,16 @@ namespace CloudMacaca.ViewSystem
 
             foreach (var item in viewElementsInPages)
             {
-                if (!item.viewElement.IsUnique)
+                if (item == null)
+                {
+                    Debug.Log("I'm null!!!");
+                }
+                if (!item.IsUnique)
                 {
                     continue;
                 }
 
-                var r = runtimePool.PrewarmUniqueViewElement(item.viewElement);
+                var r = runtimePool.PrewarmUniqueViewElement(item);
                 if (r != null)
                 {
                     foreach (var i in r.GetComponents<IViewElementInjectalbe>())

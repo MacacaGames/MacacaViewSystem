@@ -8,12 +8,12 @@ using System.Reflection;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
-    public class OverrideVerifier
+    public class ViewSystemVerifier
     {
         ViewSystemNodeEditor editor;
         GUIStyle windowStyle;
         ViewSystemSaveData saveData;
-        public OverrideVerifier(ViewSystemNodeEditor editor, ViewSystemSaveData saveData)
+        public ViewSystemVerifier(ViewSystemNodeEditor editor, ViewSystemSaveData saveData)
         {
             this.saveData = saveData;
             this.editor = editor;
@@ -24,6 +24,52 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             padding.bottom = 0;
         }
 
+        public void VerifyPagesAndStates()
+        {
+            if (editor == null)
+            {
+                Debug.LogError("Cannot verify save data, is editor init correctlly?");
+                return;
+            }
+
+            if (saveData == null)
+            {
+                Debug.LogError("Cannot verify save data, is editor init correctlly?");
+                return;
+            }
+            string result = "";
+            var viewStates = saveData.viewStates.Select(m => m.viewState).ToList();
+            var viewPages = saveData.viewPages.Select(m => m.viewPage).ToList();
+
+            foreach (var states in viewStates)
+            {
+                foreach (var item in states.viewPageItems)
+                {
+                    if (item.viewElement == null)
+                    {
+                        result += $"One ViewElement in State : [{states.name}] is null.";
+                    }
+                }
+            }
+            foreach (var pages in viewPages)
+            {
+                foreach (var item in pages.viewPageItems)
+                {
+                    if (item.viewElement == null)
+                    {
+                        result += $"One ViewElement in Page : [{pages.name}] is null.";
+                    }
+                }
+            }
+            if (!string.IsNullOrEmpty(result))
+            {
+                Debug.LogError(result);
+            }
+            else
+            {
+                Debug.Log("Great, all pages and states looks good!");
+            }
+        }
         List<string> typeNameCannotBeFound = new List<string>();
         public void VerifyComponent()
         {
@@ -401,8 +447,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             foreach (var item in fixerDatas)
             {
                 var type = CloudMacaca.Utility.GetType(item.Key);
-                var fis = type.GetFields(OverrideVerifier.bindingFlags).Select(m => new CMEditorLayout.GroupedPopupData { name = m.Name, group = "Filed" });
-                var pis = type.GetProperties(OverrideVerifier.bindingFlags).Select(m => new CMEditorLayout.GroupedPopupData { name = m.Name, group = "Property" });
+                var fis = type.GetFields(ViewSystemVerifier.bindingFlags).Select(m => new CMEditorLayout.GroupedPopupData { name = m.Name, group = "Filed" });
+                var pis = type.GetProperties(ViewSystemVerifier.bindingFlags).Select(m => new CMEditorLayout.GroupedPopupData { name = m.Name, group = "Property" });
 
                 List<CMEditorLayout.GroupedPopupData> gList = new List<CMEditorLayout.GroupedPopupData>();
                 gList.AddRange(pis);
