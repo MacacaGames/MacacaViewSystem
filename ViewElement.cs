@@ -18,7 +18,22 @@ namespace CloudMacaca.ViewSystem
         public string PoolKey;
         public bool IsUnique = false;
 
-        private ViewRuntimeOverride runtimeOverride;
+        private ViewRuntimeOverride _runtimeOverride;
+        private ViewRuntimeOverride runtimeOverride
+        {
+            get
+            {
+                if (_runtimeOverride == null)
+                {
+                    _runtimeOverride = GetComponent<ViewRuntimeOverride>();
+                }
+                if (_runtimeOverride == null)
+                {
+                    _runtimeOverride = gameObject.AddComponent<ViewRuntimeOverride>();
+                }
+                return _runtimeOverride;
+            }
+        }
         public void ApplyEvent(IEnumerable<ViewElementEventData> eventDatas)
         {
             if (eventDatas == null)
@@ -29,18 +44,10 @@ namespace CloudMacaca.ViewSystem
             {
                 return;
             }
-            if (runtimeOverride == null)
-            {
-                runtimeOverride = gameObject.AddComponent<ViewRuntimeOverride>();
-            }
             runtimeOverride.SetEvent(eventDatas);
         }
         public void ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
-            if (runtimeOverride == null)
-            {
-                runtimeOverride = gameObject.AddComponent<ViewRuntimeOverride>();
-            }
             runtimeOverride.ClearAllEvent();
             if (overrideDatas == null)
             {
@@ -50,10 +57,8 @@ namespace CloudMacaca.ViewSystem
             {
                 return;
             }
-
             runtimeOverride.ApplyOverride(overrideDatas);
         }
-
         #endregion
 
         public enum TransitionType
@@ -130,20 +135,6 @@ namespace CloudMacaca.ViewSystem
         public UnityEvent OnShowHandle;
         public UnityEvent OnLeaveHandle;
 
-        // private Vector3 poolPosition;
-        // private Vector3 poolScale;
-        // class LastTransform
-        // {
-        //     public LastTransform(Transform Parent, Vector3 Position, Vector3 Scale)
-        //     {
-        //         this.Parent = Parent;
-        //         this.Position = Position;
-        //         this.Scale = Scale;
-        //     }
-        //     public Transform Parent;
-        //     public Vector3 Position;
-        //     public Vector3 Scale;
-        // }
         private RectTransform _rectTransform;
         private RectTransform rectTransform
         {
