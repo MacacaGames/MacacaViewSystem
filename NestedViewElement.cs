@@ -37,22 +37,25 @@ namespace CloudMacaca.ViewSystem
         public void SetupChild()
         {
             List<ChildViewElement> lastChildViewElements = childViewElements;
-            if (lastChildViewElements == null)
-            {
-                lastChildViewElements = new List<ChildViewElement>();
-            }
+
             childViewElements = GetComponentsInChildren<ViewElement>()
                 .Where(m => m != this)
                 .Select(m =>
-                new ChildViewElement
                 {
-                    viewElement = m,
-                    delayIn = lastChildViewElements.SingleOrDefault(x => x.viewElement == m).delayIn,
-                    delayOut = lastChildViewElements.SingleOrDefault(x => x.viewElement == m).delayOut
-                }).ToList();
+                    var l = lastChildViewElements.SingleOrDefault(x => x.viewElement == m);
+                    float d_in = lastChildViewElements == null || l == null ? 0f : l.delayIn;
+                    float d_out = lastChildViewElements == null || l == null ? 0f : l.delayOut;
+                    return new ChildViewElement
+                    {
+                        viewElement = m,
+                        delayIn = d_in,
+                        delayOut = d_out
+                    };
+                }
+                ).ToList();
 
             //Remove the item which is a child of Other NestedViewElement
-            var nestedViewElements = childViewElements.Where(m => m.viewElement is NestedViewElement).Select(m => m.viewElement).Cast<NestedViewElement>();
+            var nestedViewElements = childViewElements.Where(m => m.viewElement is NestedViewElement).Select(m => m.viewElement).Cast<NestedViewElement>().ToArray();
             foreach (var item in nestedViewElements)
             {
                 foreach (var ve in item.childViewElements)
