@@ -22,7 +22,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static float toastMessageFadeOutTimt = 1.5f;
         bool isInit => target != null;
         public static bool show = false;
-        Rect windowRect = new Rect(0, 0, 350, 400);
+        Rect windowRect = new Rect(0, 0, 400, 450);
         GUIStyle windowStyle;
         ViewSystemNodeInspector sideBar;
         public OverridePopupWindow(ViewSystemNodeEditor editor, ViewSystemNodeInspector sideBar)
@@ -215,13 +215,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             public ViewElementPropertyOverrideData viewElementPropertyOverrideData;
             public float lineHeight;
         }
-        float[] lineHeight = new float[0];
         void RebuildModifyReorderableList()
         {
             lockerDict.Clear();
             var wrapper = viewPageItem.overrideDatas.Select(m => new ViewElementPropertyOverrideDataWrapper(m)).ToList();
-
             reorderableListViewModify = new ReorderableList(wrapper, typeof(List<ViewElementPropertyOverrideDataWrapper>), true, false, false, true);
+            reorderableListViewModify.displayRemove = false;
             reorderableListViewModify.elementHeight = EditorGUIUtility.singleLineHeight * 2.5f;
             reorderableListViewModify.drawElementBackgroundCallback += (Rect rect, int index, bool isActive, bool isFocused) =>
             {
@@ -237,17 +236,27 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 if (index % 2 == 0) GUI.Box(oddRect, GUIContent.none, Drawer.oddStyle);
             };
+
             reorderableListViewModify.elementHeightCallback += (index) =>
             {
                 return wrapper[index].lineHeight;
             };
             reorderableListViewModify.drawElementCallback += (rect, index, isActive, isFocused) =>
             {
+                var item = wrapper[index];
+                rect.width -= 20;
                 var ori_Rect = rect;
                 rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
                 rect.height = EditorGUIUtility.singleLineHeight;
 
-                var item = wrapper[index];
+                var removeBtnRect = ori_Rect;
+                removeBtnRect.x += removeBtnRect.width + 3;
+                removeBtnRect.width = 20;
+                if (GUI.Button(removeBtnRect, EditorGUIUtility.FindTexture("d_Toolbar Minus"), removeButtonStyle))
+                {
+                    viewPageItem.overrideDatas.RemoveAll(m => m == item.viewElementPropertyOverrideData);
+                    RebuildModifyReorderableList();
+                }
                 var targetObject = viewPageItem.viewElement.transform.Find(item.viewElementPropertyOverrideData.targetTransformPath);
 
                 if (targetObject == null)
@@ -291,7 +300,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     rect.x += 10;
                     rect.width -= 10;
-                    GUI.Label(rect, new GUIContent("ComponentType : " + item.viewElementPropertyOverrideData.targetComponentType));
+                    GUI.Label(rect, new GUIContent($"ComponentType : [{item.viewElementPropertyOverrideData.targetComponentType}] is missing!", Drawer.miniErrorIcon));
+                    rect.y += rect.height;
+                    GUI.Label(rect, new GUIContent($"Use Toolbar>Verifiers>Verify Override to fix the problem."));
+                    rect.y += rect.height;
+                    if (GUI.Button(rect, new GUIContent("Remove item!")))
+                    {
+                        viewPageItem.overrideDatas.RemoveAll(m => m == item.viewElementPropertyOverrideData);
+                        RebuildModifyReorderableList();
+                    }
+                    item.lineHeight = EditorGUIUtility.singleLineHeight * 3 + 5;
                     return;
                 }
                 var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
@@ -406,7 +424,32 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                     targetObject = viewPageItem.viewElement.transform;
                                 }
 
+                                if (targetObject == null)
+                                {
+                                    using (var vertical2 = new EditorGUILayout.VerticalScope())
+                                    {
+                                        GUILayout.Label(new GUIContent($"Target GameObject is Missing : [{viewPageItem.viewElement.name}/{item.targetTransformPath}]", Drawer.miniErrorIcon));
+                                        item.targetTransformPath = EditorGUILayout.TextField(item.targetTransformPath);
+                                    }
+                                    return;
+                                }
+
                                 UnityEngine.Object targetComponent = targetObject.GetComponent(item.targetComponentType);
+
+                                if (targetComponent == null)
+                                {
+                                    using (var vertical2 = new EditorGUILayout.VerticalScope())
+                                    {
+                                        GUILayout.Label(new GUIContent($"ComponentType : [{item.targetComponentType}] is missing!", Drawer.miniErrorIcon), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                                        GUILayout.Label(new GUIContent($"Use Toolvar>Verifiers>Verify Override to fix the problem."));
+                                        if (GUILayout.Button(new GUIContent("Remove item!")))
+                                        {
+                                            viewPageItem.eventDatas.RemoveAll(m => m == item);
+                                        }
+                                    }
+                                    return;
+                                }
+
                                 GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)), EditorGUIUtility.FindTexture("Prefab Icon"));
                                 GUILayout.Label(l, GUILayout.Height(20));
                                 GUILayout.Label(EditorGUIUtility.FindTexture("Animation.Play"), GUILayout.Height(20));

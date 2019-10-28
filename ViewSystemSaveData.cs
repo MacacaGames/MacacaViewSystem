@@ -62,9 +62,6 @@ namespace CloudMacaca.ViewSystem
         public string targetComponentType;
         /// This value is save as SerializedProperty.PropertyPath
         public string targetPropertyName;
-        //public string targetPropertyType;
-        /// if is UnityEngine PropertyPath this lable save modified property name;
-        //public string targetPropertyPath;
     }
 
     [System.Serializable]

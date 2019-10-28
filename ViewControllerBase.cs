@@ -88,7 +88,6 @@ namespace CloudMacaca.ViewSystem
         {
             //清空自動離場
             autoLeaveQueue.Clear();
-
             for (int i = 0; i < overlayPageStates.Count; i++)
             {
                 var item = overlayPageStates.ElementAt(i);

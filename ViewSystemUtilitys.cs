@@ -152,6 +152,10 @@ namespace CloudMacaca.ViewSystem
             }
             Component result = null;
             System.Type t = CloudMacaca.Utility.GetType(type);
+            if (t == null)
+            {
+                return null;
+            }
             result = target.GetComponent(t);
             return result;
         }

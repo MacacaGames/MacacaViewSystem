@@ -481,16 +481,22 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         //viewSystemVerifier.VerifyPagesAndStates();
                         GenericMenu genericMenu = new GenericMenu();
+                        genericMenu.AddItem(new GUIContent("Verify GameObjects"), false,
+                            () =>
+                            {
+                                viewSystemVerifier.VerifyGameObject(ViewSystemVerifier.VerifyTarget.All);
+                            }
+                        );
                         genericMenu.AddItem(new GUIContent("Verify Overrides"), false,
                             () =>
                             {
-                                viewSystemVerifier.VerifyComponent();
+                                viewSystemVerifier.VerifyComponent(ViewSystemVerifier.VerifyTarget.Override);
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Verify Events"), false,
                             () =>
                             {
-                                viewSystemVerifier.VerifyEvents();
+                                viewSystemVerifier.VerifyComponent(ViewSystemVerifier.VerifyTarget.Event);
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Verify Pages and States"), false,

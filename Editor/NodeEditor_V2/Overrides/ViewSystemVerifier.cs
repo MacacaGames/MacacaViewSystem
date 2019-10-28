@@ -70,8 +70,128 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 Debug.Log("Great, all pages and states looks good!");
             }
         }
+        List<ViewSystemGameObjectMissingData> gameObjectCannotBeFound = new List<ViewSystemGameObjectMissingData>();
+        public class ViewSystemGameObjectMissingData
+        {
+            public bool isViewState;
+            public string stateOrPageName;
+            public ViewElement viewElement;
+            public ViewSystemComponentData viewSystemComponent;
+        }
+        public enum VerifyTarget
+        {
+            All,
+            Override,
+            Event
+        }
+        public void VerifyGameObject(VerifyTarget verifyTarget = VerifyTarget.All)
+        {
+            if (editor == null)
+            {
+                Debug.LogError("Cannot verify save data, is editor init correctlly?");
+                return;
+            }
+
+            if (saveData == null)
+            {
+                Debug.LogError("Cannot verify save data, is editor init correctlly?");
+                return;
+            }
+
+            gameObjectCannotBeFound.Clear();
+
+            var overrideDatasInPages = saveData.viewPages.Select(m => m.viewPage);
+            var overrideDatasInStates = saveData.viewStates.Select(m => m.viewState);
+
+            foreach (var viewPage in overrideDatasInPages)
+            {
+                foreach (var viewPageItem in viewPage.viewPageItems)
+                {
+                    List<ViewSystemComponentData> verifyTargets = new List<ViewSystemComponentData>();
+
+                    if (verifyTarget == VerifyTarget.All || verifyTarget == VerifyTarget.Override)
+                    {
+                        verifyTargets.AddRange(viewPageItem.overrideDatas.Cast<ViewSystemComponentData>());
+                    }
+
+                    if (verifyTarget == VerifyTarget.All || verifyTarget == VerifyTarget.Event)
+                    {
+                        verifyTargets.AddRange(viewPageItem.eventDatas.Cast<ViewSystemComponentData>());
+                    }
+
+                    foreach (var verifyData in verifyTargets)
+                    {
+                        var transform = viewPageItem.viewElement.transform.Find(verifyData.targetTransformPath);
+                        if (transform == null)
+                        {
+                            gameObjectCannotBeFound.Add(
+                                new ViewSystemGameObjectMissingData
+                                {
+                                    isViewState = false,
+                                    viewElement = viewPageItem.viewElement,
+                                    stateOrPageName = viewPage.name,
+                                    viewSystemComponent = verifyData
+                                });
+                        }
+                    }
+                }
+            }
+
+            foreach (var viewState in overrideDatasInStates)
+            {
+                foreach (var viewPageItem in viewState.viewPageItems)
+                {
+                    List<ViewSystemComponentData> verifyTargets = new List<ViewSystemComponentData>();
+
+                    if (verifyTarget == VerifyTarget.All || verifyTarget == VerifyTarget.Override)
+                    {
+                        verifyTargets.AddRange(viewPageItem.overrideDatas.Cast<ViewSystemComponentData>());
+                    }
+
+                    if (verifyTarget == VerifyTarget.All || verifyTarget == VerifyTarget.Event)
+                    {
+                        verifyTargets.AddRange(viewPageItem.eventDatas.Cast<ViewSystemComponentData>());
+                    }
+
+                    foreach (var verifyData in verifyTargets)
+                    {
+                        var transform = viewPageItem.viewElement.transform.Find(verifyData.targetTransformPath);
+                        if (transform == null)
+                        {
+                            gameObjectCannotBeFound.Add(
+                                new ViewSystemGameObjectMissingData
+                                {
+                                    isViewState = true,
+                                    viewElement = viewPageItem.viewElement,
+                                    stateOrPageName = viewState.name,
+                                    viewSystemComponent = verifyData
+                                });
+                        }
+                    }
+                }
+            }
+
+            if (gameObjectCannotBeFound.Count > 0)
+            {
+                if (EditorUtility.DisplayDialog(
+                    "Something goes wrong!",
+                    "There are some GameObject is missing, do you want to open fixer window",
+                    "Yes, Please",
+                    "Not now"))
+                {
+                    var window = ScriptableObject.CreateInstance<GameObjectFixerWindow>();
+                    window.SetData(gameObjectCannotBeFound, () =>
+                    {
+                        //Make sure SetDirty
+                        EditorUtility.SetDirty(saveData);
+                    });
+                    window.ShowUtility();
+                }
+            }
+
+        }
         List<string> typeNameCannotBeFound = new List<string>();
-        public void VerifyComponent()
+        public void VerifyComponent(VerifyTarget verifyTarget)
         {
             if (editor == null)
             {
@@ -85,16 +205,30 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 return;
             }
             typeNameCannotBeFound.Clear();
-
-            RefreshOverrideDatas();
-
-            foreach (var item in allOverrideDatas)
+            if (verifyTarget == VerifyTarget.Event)
             {
-                var t = CloudMacaca.Utility.GetType(item.targetComponentType);
-                if (t == null)
+                RefreshEventDatas();
+                foreach (var item in allEventDatas)
                 {
-                    Debug.LogError(item.targetComponentType + "  cannot be found");
-                    typeNameCannotBeFound.Add(item.targetComponentType);
+                    var t = CloudMacaca.Utility.GetType(item.targetComponentType);
+                    if (t == null)
+                    {
+                        Debug.LogError(item.targetComponentType + "  cannot be found");
+                        typeNameCannotBeFound.Add(item.targetComponentType);
+                    }
+                }
+            }
+            if (verifyTarget == VerifyTarget.Override)
+            {
+                RefreshOverrideDatas();
+                foreach (var item in allOverrideDatas)
+                {
+                    var t = CloudMacaca.Utility.GetType(item.targetComponentType);
+                    if (t == null)
+                    {
+                        Debug.LogError(item.targetComponentType + "  cannot be found");
+                        typeNameCannotBeFound.Add(item.targetComponentType);
+                    }
                 }
             }
 
@@ -106,22 +240,29 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     "Yes, Please",
                     "Not now"))
                 {
-
-                    var window = ScriptableObject.CreateInstance<ComponentFixerWindow>();
-                    window.SetData(typeNameCannotBeFound, allOverrideDatas, () =>
+                    List<ViewSystemComponentData> componentDatas;
+                    if (verifyTarget == VerifyTarget.Override)
                     {
-                        //Make sure SetDirty
-                        EditorUtility.SetDirty(saveData);
-                        VerifyProperty();
-                    });
+                        componentDatas = allOverrideDatas.Cast<ViewSystemComponentData>().ToList();
+                    }
+                    else
+                    {
+                        componentDatas = allEventDatas.Cast<ViewSystemComponentData>().ToList();
+                    }
+                    var window = ScriptableObject.CreateInstance<ComponentFixerWindow>();
+                    window.SetData(typeNameCannotBeFound, componentDatas, () =>
+                         {
+                             //Make sure SetDirty
+                             EditorUtility.SetDirty(saveData);
+                             VerifyProperty(verifyTarget);
+                         });
                     window.ShowUtility();
                 }
             }
             else
             {
                 Debug.Log("Components looks good, let's check properties.");
-                VerifyProperty();
-
+                VerifyProperty(verifyTarget);
             }
         }
         List<string> propertyCannotBeFound = new List<string>();
@@ -131,12 +272,23 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             BindingFlags.Public |
             BindingFlags.Instance |
             BindingFlags.Static;
-        public void VerifyProperty()
+        public void VerifyProperty(VerifyTarget verifyTarget)
         {
-            //Data may changed by Component fixer so refresh again.
-            RefreshOverrideDatas();
             propertyCannotBeFound.Clear();
-            foreach (var item in allOverrideDatas)
+            IEnumerable<ViewSystemComponentData> targetVerifyDatas = null;
+            //Data may changed by Component fixer so refresh again.
+            if (verifyTarget == VerifyTarget.Override)
+            {
+                RefreshOverrideDatas();
+                targetVerifyDatas = allOverrideDatas.Cast<ViewSystemComponentData>();
+            }
+            if (verifyTarget == VerifyTarget.Event)
+            {
+                RefreshEventDatas();
+                targetVerifyDatas = allEventDatas.Cast<ViewSystemComponentData>();
+            }
+
+            foreach (var item in targetVerifyDatas)
             {
                 var t = CloudMacaca.Utility.GetType(item.targetComponentType);
                 if (t == null)
@@ -156,6 +308,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     propertyCannotBeFound.Add(item.targetComponentType + "," + item.targetPropertyName);
                 }
             }
+
             if (propertyCannotBeFound.Count > 0)
             {
                 if (EditorUtility.DisplayDialog(
@@ -165,10 +318,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     "Not now"))
                 {
                     var window = ScriptableObject.CreateInstance<PropertyFixerWindow>();
-                    window.SetData(propertyCannotBeFound, allOverrideDatas, () =>
+                    window.SetData(propertyCannotBeFound, targetVerifyDatas, () =>
                     {
                         //Make sure SetDirty
                         EditorUtility.SetDirty(saveData);
+                        if (verifyTarget == VerifyTarget.Event) VerifyEvents();
                     });
                     window.ShowUtility();
                 }
@@ -363,10 +517,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         using (var horizon2 = new EditorGUILayout.HorizontalScope())
                         {
                             GUILayout.Label($"Method : [{item.originalMethodName}] in Script : [{item.originalScriptName}]");
-                            if (GUILayout.Button("Apply Origin Data"))
+
+                            using (var disable = new EditorGUI.DisabledGroupScope(!classMethodInfo.ContainsKey(item.originalScriptName)))
                             {
-                                item.modifyScriptName = item.originalScriptName;
-                                item.modifyMethodName = item.originalMethodName;
+                                if (GUILayout.Button("Apply Origin Data"))
+                                {
+                                    item.modifyScriptName = item.originalScriptName;
+                                    item.modifyMethodName = item.originalMethodName;
+                                }
                             }
                         }
                         int currentSelectClass = string.IsNullOrEmpty(item.modifyScriptName) ? 0 : classMethodInfo.Values.ToList().IndexOf(classMethodInfo[item.modifyScriptName]);
@@ -412,6 +570,85 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
     }
+    public class GameObjectFixerWindow : FixerWindow
+    {
+        class FixerData
+        {
+
+            public bool fix = false;
+            public ViewSystemVerifier.ViewSystemGameObjectMissingData originalNotFoundItem;
+            public string tempPath;
+        }
+        List<FixerData> fixerDatas;
+        public void SetData(IEnumerable<ViewSystemVerifier.ViewSystemGameObjectMissingData> originalNotFoundItems, Action OnComplete)
+        {
+            titleContent = new GUIContent("Missing GameObject fixer");
+            this.icon = EditorGUIUtility.FindTexture("MetaFile Icon");
+            this.lable = "Select the GameObject Path your wish to fix";
+            fixerDatas = originalNotFoundItems.Select(m =>
+            new FixerData
+            {
+                originalNotFoundItem = m,
+                tempPath = m.viewSystemComponent.targetTransformPath
+            }).ToList();
+
+            OnAllClick += () =>
+            {
+                fixerDatas.All(x =>
+                {
+                    x.fix = true;
+                    return true;
+                });
+            };
+            OnNoneClick += () =>
+            {
+                fixerDatas.All(x =>
+                    {
+                        x.fix = false;
+                        return true;
+                    });
+            };
+            OnCancelClick += () =>
+            {
+
+            };
+            OnApplyClick += () =>
+            {
+                var f = fixerDatas.Where(m => m.fix);
+                foreach (var item in f)
+                {
+                    item.originalNotFoundItem.viewSystemComponent.targetTransformPath = item.tempPath;
+                }
+            };
+        }
+
+        public override bool CheckBeforeApply()
+        {
+            return fixerDatas.Where(m => m.fix).Count() == 0;
+        }
+        public override void OnDrawScrollArea()
+        {
+            float width = (position.width - 80) * 0.5f;
+            using (var vertical = new GUILayout.VerticalScope("box"))
+            {
+                foreach (var item in fixerDatas)
+                {
+                    using (var horizon = new GUILayout.HorizontalScope())
+                    {
+                        item.fix = EditorGUILayout.ToggleLeft(GUIContent.none, item.fix, GUILayout.Width(20));
+
+                        // GUILayout.Label($"Missing GameObject in {(isViewState ? "State" : "Page")} : [{(isViewState ? item.originalNotFoundItem.viewState.name : item.originalNotFoundItem.viewPage.name)}], Under ViewElement : [{item.originalNotFoundItem.viewPageItem.viewElement.name}]");
+                        GUILayout.Label($"{item.originalNotFoundItem.stateOrPageName} ({(item.originalNotFoundItem.isViewState ? "State" : "Page")})");
+                        GUILayout.Label(Drawer.arrowIcon);
+                        GUILayout.Label($"{item.originalNotFoundItem.viewElement.name} (ViewElement)");
+                    }
+                    item.tempPath = EditorGUILayout.TextField("Transform Path", item.tempPath);
+                    if (item.originalNotFoundItem.viewElement.transform.Find(item.tempPath) == null) GUILayout.Label(new GUIContent($"[{item.tempPath}] is not a vaild Path in target ViewElement", Drawer.miniErrorIcon), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                    else GUILayout.Label(new GUIContent($"Good! GameObject can be found with the input Path"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                }
+            }
+        }
+    }
     public class PropertyFixerWindow : FixerWindow
     {
         class FixerData
@@ -426,14 +663,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         List<string> propertyCannotBeFound;
         Dictionary<string, List<FixerData>> fixerDatas = new Dictionary<string, List<FixerData>>();
-        IEnumerable<ViewElementPropertyOverrideData> allOverrideDatas;
+        IEnumerable<ViewSystemComponentData> allComponentDatas;
 
         Dictionary<string, List<CMEditorLayout.GroupedPopupData>> fieldsInComponents = new Dictionary<string, List<CMEditorLayout.GroupedPopupData>>();
 
-        public void SetData(List<string> propertyCannotBeFound, IEnumerable<ViewElementPropertyOverrideData> allOverrideDatas, Action OnComplete)
+        public void SetData(List<string> propertyCannotBeFound, IEnumerable<ViewSystemComponentData> allComponentDatas, Action OnComplete)
         {
             titleContent = new GUIContent("Missing property fixer");
-            this.allOverrideDatas = allOverrideDatas;
+            this.allComponentDatas = allComponentDatas;
             this.icon = EditorGUIUtility.FindTexture("MetaFile Icon");
             this.lable = "Select the property your wish to fix";
             fixerDatas = propertyCannotBeFound.Select(
@@ -491,7 +728,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 foreach (var item in fixerDatas)
                 {
-                    var ac = allOverrideDatas.Where(m => m.targetComponentType == item.Key);
+                    var ac = allComponentDatas.Where(m => m.targetComponentType == item.Key);
 
                     foreach (var item2 in item.Value)
                     {
@@ -558,12 +795,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 this.originalComponentName = originalComponentName;
             }
             public bool fix = false;
+            public bool modifyByMonoscript = true;
             public string originalComponentName;
             public MonoScript targetComponentScript;
+            public string targetComponentName;
+            public bool CanApply()
+            {
+                return (modifyByMonoscript && targetComponentScript != null) || !string.IsNullOrEmpty(targetComponentName);
+            }
         }
         List<FixerData> fixerDatas = new List<FixerData>();
-        IEnumerable<ViewElementPropertyOverrideData> allOverrideDatas;
-        public void SetData(List<string> typeNameCannotBeFound, IEnumerable<ViewElementPropertyOverrideData> allOverrideDatas, Action OnComplete)
+        IEnumerable<ViewSystemComponentData> allOverrideDatas;
+        public void SetData(List<string> typeNameCannotBeFound, IEnumerable<ViewSystemComponentData> allOverrideDatas, Action OnComplete)
         {
             titleContent = new GUIContent("Missing component fixer");
             this.allOverrideDatas = allOverrideDatas;
@@ -600,28 +843,37 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                var f = fixerDatas.Where(m => m.fix);
                foreach (var item in f)
                {
-                   if (item.targetComponentScript == null)
+                   if (item.modifyByMonoscript == false)
                    {
-                       continue;
+                       allOverrideDatas.Where(m => m.targetComponentType == item.originalComponentName).All(
+                           (x) =>
+                           {
+                               x.targetComponentType = item.targetComponentName;
+                               return true;
+                           }
+                       );
                    }
-                   allOverrideDatas.Where(m => m.targetComponentType == item.originalComponentName).All(
-                       (x) =>
-                       {
+                   else
+                   {
+                       allOverrideDatas.Where(m => m.targetComponentType == item.originalComponentName).All(
+                            (x) =>
+                            {
 
-                           x.targetComponentType = item.targetComponentScript.GetClass().ToString();
-                           return true;
-                       }
-                   );
+                                x.targetComponentType = item.targetComponentScript.GetClass().ToString();
+                                return true;
+                            }
+                        );
+                   }
+
                }
            };
         }
         public override bool CheckBeforeApply()
         {
-            return fixerDatas.Where(m => m.fix).Count() == 0;
+            return fixerDatas.Where(m => m.fix && m.CanApply()).Count() == 0;
         }
         public override void OnDrawScrollArea()
         {
-            float width = (position.width - 80) * 0.66f;
             using (var vertical = new GUILayout.VerticalScope())
             {
                 foreach (var item in fixerDatas)
@@ -629,9 +881,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     using (var horizon = new GUILayout.HorizontalScope("box"))
                     {
                         item.fix = EditorGUILayout.ToggleLeft(GUIContent.none, item.fix, GUILayout.Width(20));
-                        GUILayout.Label(new GUIContent(item.originalComponentName, item.originalComponentName), GUILayout.Width(width));
+                        GUILayout.Label(new GUIContent(item.originalComponentName, item.originalComponentName));
                         GUILayout.Label(Drawer.arrowIcon);
-                        item.targetComponentScript = (MonoScript)EditorGUILayout.ObjectField(item.targetComponentScript, typeof(MonoScript), false);
+                        item.modifyByMonoscript = EditorGUILayout.Toggle(item.modifyByMonoscript, new GUIStyle("IN LockButton"), GUILayout.Width(16));
+                        if (item.modifyByMonoscript)
+                        {
+                            item.targetComponentScript = (MonoScript)EditorGUILayout.ObjectField(item.targetComponentScript, typeof(MonoScript), false);
+                        }
+                        else
+                        {
+                            item.targetComponentName = EditorGUILayout.TextField(item.targetComponentName);
+                        }
                     }
                 }
             }
