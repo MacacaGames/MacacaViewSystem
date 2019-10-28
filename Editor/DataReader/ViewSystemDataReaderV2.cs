@@ -212,6 +212,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             foreach (var item in allNestedViewElement)
             {
+                if (item == null)
+                {
+                    continue;
+                }
                 if (string.IsNullOrEmpty(item.gameObject.scene.name))
                 {
                     continue;
