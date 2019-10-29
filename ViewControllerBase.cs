@@ -8,10 +8,7 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewControllerBase : TransformCacheBase, IViewController
     {
-        public virtual ViewControllerBase GetInstance()
-        {
-            return this;
-        }
+        protected static ViewControllerBase _incance;
 
         #region Interface Impletetment
         public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
@@ -20,7 +17,7 @@ namespace CloudMacaca.ViewSystem
             return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete));
         }
 
-        public void LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null)
+        public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null)
         {
             ViewSystemUtilitys.OverlayPageState overlayPageState = null;
 
@@ -28,37 +25,38 @@ namespace CloudMacaca.ViewSystem
 
             if (overlayPageState == null)
             {
-
                 //如果 字典裡找不到 則 new 一個
                 overlayPageState = new ViewSystemUtilitys.OverlayPageState();
                 overlayPageState.viewPage = viewPages.SingleOrDefault(m => m.name == viewPageName);
                 if (overlayPageState == null)
                 {
                     Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found, even cannot find in setting file");
-                    return;
+                    return null;
                 }
 
                 Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
             }
 
             overlayPageState.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageState, tweenTimeIfNeed, OnComplete));
+            return overlayPageState.pageChangeCoroutine;
         }
+
 
         public Coroutine ChangePage(string targetViewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false)
         {
             if (currentViewPage.name == targetViewPageName)
             {
-                Debug.LogError("The ViewPage request to change is same as current ViewPage, nothing will happen!");
+                Debug.LogWarning("The ViewPage request to change is same as current ViewPage, nothing will happen!");
                 return null;
             }
             if (IsPageTransition && AutoWaitPreviousPageFinish == false)
             {
-                Debug.LogError("Page is in Transition. You can set AutoWaitPreviousPageFinish to 'True' then page will auto transition to next page while previous page transition finished.");
+                Debug.LogWarning("Page is in Transition. You can set AutoWaitPreviousPageFinish to 'True' then page will auto transition to next page while previous page transition finished.");
                 return null;
             }
             else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
             {
-                Debug.LogError($"Page is in Transition but AutoWaitPreviousPageFinish Leaving page is [{currentViewPage?.name}] Entering page is [{nextViewPage?.name}] next page is [{targetViewPageName}]");
+                Debug.LogWarning($"Page is in Transition but AutoWaitPreviousPageFinish Leaving page is [{currentViewPage?.name}] Entering page is [{nextViewPage?.name}] next page is [{targetViewPageName}]");
                 ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnComplete));
                 return ChangePageToCoroutine;
             }
@@ -226,6 +224,20 @@ namespace CloudMacaca.ViewSystem
             yield return new WaitUntil(() => IsPageTransition == false);
             yield return ChangePage(viewPageName, OnComplete);
         }
+
+        #region PageChanger
+        public static FullPageChanger Changer()
+        {
+            FullPageChanger pageChanger = new FullPageChanger(_incance);
+            return pageChanger;
+        }
+        public static OverlayPageChanger OverlayChanger()
+        {
+            OverlayPageChanger pageChanger = new OverlayPageChanger(_incance);
+            return pageChanger;
+        }
+
+        #endregion
 
         #region  Events
         /// <summary>

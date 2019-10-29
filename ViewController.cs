@@ -10,6 +10,7 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewController : ViewControllerBase
     {
+       
         public List<ViewPage> viewPage = new List<ViewPage>();
         public static ViewController Instance;
         public ViewElementPool viewElementPool;
@@ -18,7 +19,7 @@ namespace CloudMacaca.ViewSystem
         protected override void Awake()
         {
             base.Awake();
-            Instance = this;
+            _incance = Instance = this;
             if (viewElementPool == null)
             {
                 try

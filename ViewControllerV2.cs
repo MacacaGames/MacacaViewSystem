@@ -121,7 +121,7 @@ namespace CloudMacaca.ViewSystem
         protected override void Awake()
         {
             base.Awake();
-            Instance = this;
+            _incance = Instance = this;
 
             //Create ViewElementPool
             if (gameObject.name != viewSystemSaveData.globalSetting.ViewControllerObjectPath)
