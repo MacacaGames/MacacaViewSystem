@@ -16,6 +16,7 @@ namespace CloudMacaca.ViewSystem
         }
 
         public List<ChildViewElement> childViewElements;
+        public bool dynamicChild = false;
 
         public bool IsSetup
         {
@@ -68,6 +69,7 @@ namespace CloudMacaca.ViewSystem
         public override void OnShow(float delayIn = 0)
         {
             gameObject.SetActive(true);
+
             if (lifeCyclesObjects != null)
             {
                 foreach (var item in lifeCyclesObjects)
@@ -75,16 +77,15 @@ namespace CloudMacaca.ViewSystem
                     item.OnBeforeShow();
                 }
             }
+
+            if (IsSetup == false && dynamicChild == true)
+            {
+                SetupChild();
+                return;
+            }
+
             foreach (var item in childViewElements)
             {
-                // if (item.viewElement is NestedViewElement)
-                // {
-                //     ((NestedViewElement)item.viewElement).OnShow(item.delayIn);
-                // }
-                // else
-                // {
-
-                // }
                 item.viewElement.OnShow(item.delayIn);
             }
         }
@@ -99,17 +100,12 @@ namespace CloudMacaca.ViewSystem
                     item.OnBeforeLeave();
                 }
             }
-            foreach (var item in childViewElements)
+            if (dynamicChild == false)
             {
-                // if (item.viewElement is NestedViewElement)
-                // {
-                //     ((NestedViewElement)item.viewElement).OnLeave(item.delayOut, false, ignoreTransition);
-                // }
-                // else
-                // {
-
-                // }
-                item.viewElement.OnLeave(item.delayOut, false, ignoreTransition);
+                foreach (var item in childViewElements)
+                {
+                    item.viewElement.OnLeave(item.delayOut, false, ignoreTransition);
+                }
             }
             StartCoroutine(DisableItem());
         }
@@ -119,6 +115,7 @@ namespace CloudMacaca.ViewSystem
             yield return Yielders.GetWaitForSeconds(GetOutAnimationLength());
             gameObject.SetActive(false);
             OnLeaveAnimationFinish();
+            if (dynamicChild) childViewElements.Clear();
         }
 
         //GetOutAnimationLength in NestedViewElement is the longest animation length in child

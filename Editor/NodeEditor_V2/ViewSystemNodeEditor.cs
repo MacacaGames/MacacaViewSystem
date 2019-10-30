@@ -19,6 +19,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public static ViewSystemSaveData saveData;
         bool isInit = false;
         public static bool allowPreviewWhenPlaying = false;
+        public static bool overrideFromOrginal = false;
         public Transform ViewControllerRoot;
 
         [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
@@ -469,6 +470,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     ViewSystemNodeGlobalSettingWindow.showGlobalSetting = GUILayout.Toggle(ViewSystemNodeGlobalSettingWindow.showGlobalSetting, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("SceneViewTools")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
                     GUILayout.Space(5);
+
                     // if (GUILayout.Button(new GUIContent("Verify Overrides"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight)))
                     // {
                     //     viewSystemVerifier.VerifyComponent();
@@ -509,6 +511,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
 
                     allowPreviewWhenPlaying = GUILayout.Toggle(allowPreviewWhenPlaying, new GUIContent("Allow Preview when Playing"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
+                    overrideFromOrginal = GUILayout.Toggle(overrideFromOrginal, new GUIContent("Get Override From Orginal"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));

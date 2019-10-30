@@ -10,6 +10,7 @@ using Sirenix.OdinInspector;
 
 namespace CloudMacaca.ViewSystem
 {
+    [DisallowMultipleComponent]
     public class ViewRuntimeOverride : MonoBehaviour
     {
         #region EventOverride

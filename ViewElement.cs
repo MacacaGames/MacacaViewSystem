@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 namespace CloudMacaca.ViewSystem
 {
+    [DisallowMultipleComponent]
     public class ViewElement : MonoBehaviour
     {
         #region  V2 Data

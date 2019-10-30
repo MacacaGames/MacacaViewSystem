@@ -403,7 +403,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
 
                     var cache = list[index].viewElement;
-                    var original = PrefabUtility.GetCorrespondingObjectFromSource(cache);
+                    ViewElement original;
+                    if (ViewSystemNodeEditor.overrideFromOrginal)
+                    {
+                        original = PrefabUtility.GetCorrespondingObjectFromOriginalSource(cache);
+                    }
+                    else
+                    {
+                        original = PrefabUtility.GetCorrespondingObjectFromSource(cache);
+                    }
 
                     //if (overrideChecker) overrideChecker.Close();
                     overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
