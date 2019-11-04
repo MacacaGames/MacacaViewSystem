@@ -452,11 +452,11 @@ namespace CloudMacaca.ViewSystem
             ViewSystemUtilitys.OverlayPageState overlayPageState = null;
             if (!string.IsNullOrEmpty(vp.viewState))
             {
-                overlayPageStates.TryGetValue(vp.viewState, out overlayPageState);
+                overlayPageStatesWithOverState.TryGetValue(vp.viewState, out overlayPageState);
             }
             else
             {
-                overlayPageStatesWithoutOverState.TryGetValue(vp.name, out overlayPageState);
+                overlayPageStates.TryGetValue(vp.name, out overlayPageState);
             }
 
             //檢查是否有同 State 的 Overlay 頁面在場上
@@ -470,14 +470,14 @@ namespace CloudMacaca.ViewSystem
 
                 if (!string.IsNullOrEmpty(vp.viewState))
                 {
-                    overlayPageStates.Add(vp.viewState, overlayPageState);
+                    overlayPageStatesWithOverState.Add(vp.viewState, overlayPageState);
                     nextViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
                     viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
                     viewItemNextState = PrepareRuntimeReference(viewItemNextState);
                 }
                 else
                 {
-                    overlayPageStatesWithoutOverState.Add(vp.name, overlayPageState);
+                    overlayPageStates.Add(vp.name, overlayPageState);
                 }
 
             }
@@ -592,8 +592,8 @@ namespace CloudMacaca.ViewSystem
             //當所有表演都結束時
             yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
 
-            if (!string.IsNullOrEmpty(vp.viewState) && overlayPageStates.ContainsKey(vp.viewState)) overlayPageStates[vp.viewState].IsTransition = false;
-            else overlayPageStatesWithoutOverState[vp.name].IsTransition = false;
+            if (!string.IsNullOrEmpty(vp.viewState) && overlayPageStatesWithOverState.ContainsKey(vp.viewState)) overlayPageStatesWithOverState[vp.viewState].IsTransition = false;
+            else if (overlayPageStates.ContainsKey(vp.name)) overlayPageStates[vp.name].IsTransition = false;
             OnComplete?.Invoke();
         }
 
@@ -653,8 +653,8 @@ namespace CloudMacaca.ViewSystem
 
             overlayPageState.IsTransition = false;
 
-            if (overlayPageState.viewState != null) overlayPageStates.Remove(overlayPageState.viewState.name);
-            else overlayPageStatesWithoutOverState.Remove(overlayPageState.viewPage.name);
+            if (overlayPageState.viewState != null) overlayPageStatesWithOverState.Remove(overlayPageState.viewState.name);
+            else overlayPageStates.Remove(overlayPageState.viewPage.name);
 
             OnComplete?.Invoke();
         }
@@ -662,9 +662,9 @@ namespace CloudMacaca.ViewSystem
         {
             //清空自動離場
             base.TryLeaveAllOverlayPage();
-            for (int i = 0; i < overlayPageStatesWithoutOverState.Count; i++)
+            for (int i = 0; i < overlayPageStatesWithOverState.Count; i++)
             {
-                var item = overlayPageStatesWithoutOverState.ElementAt(i);
+                var item = overlayPageStatesWithOverState.ElementAt(i);
                 StartCoroutine(LeaveOverlayViewPageBase(item.Value, 0.4f, null, true));
             }
         }

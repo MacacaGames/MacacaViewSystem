@@ -19,15 +19,23 @@ namespace CloudMacaca.ViewSystem
 
         public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null)
         {
+            var vp = viewPages.SingleOrDefault(m => m.name == viewPageName);
             ViewSystemUtilitys.OverlayPageState overlayPageState = null;
-
-            overlayPageStates.TryGetValue(viewPageName, out overlayPageState);
+            if (!string.IsNullOrEmpty(vp.viewState))
+            {
+                overlayPageStatesWithOverState.TryGetValue(vp.viewState, out overlayPageState);
+            }
+            else
+            {
+                overlayPageStates.TryGetValue(vp.name, out overlayPageState);
+            }
 
             if (overlayPageState == null)
             {
                 //如果 字典裡找不到 則 new 一個
                 overlayPageState = new ViewSystemUtilitys.OverlayPageState();
-                overlayPageState.viewPage = viewPages.SingleOrDefault(m => m.name == viewPageName);
+                overlayPageState.viewPage = vp;
+                if (!string.IsNullOrEmpty(vp.viewState)) overlayPageState.viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
                 if (overlayPageState == null)
                 {
                     Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found, even cannot find in setting file");
@@ -165,7 +173,7 @@ namespace CloudMacaca.ViewSystem
         }
 
         protected Dictionary<string, ViewSystemUtilitys.OverlayPageState> overlayPageStates = new Dictionary<string, ViewSystemUtilitys.OverlayPageState>();
-        protected Dictionary<string, ViewSystemUtilitys.OverlayPageState> overlayPageStatesWithoutOverState = new Dictionary<string, ViewSystemUtilitys.OverlayPageState>();
+        protected Dictionary<string, ViewSystemUtilitys.OverlayPageState> overlayPageStatesWithOverState = new Dictionary<string, ViewSystemUtilitys.OverlayPageState>();
         protected IEnumerable<ViewPageItem> GetAllViewPageItemInViewState(ViewState vs)
         {
             return vs.viewPageItems.Where(m => !m.excludePlatform.IsSet(platform));
