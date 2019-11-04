@@ -273,6 +273,34 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     //如果當前的 ViewPagePoint 不是 null
                     if (selectedViewPageNode != null)
                     {
+                        if (selectedViewStateNode.currentLinkedViewPageNode.Count(m => m.nodeType != selectedViewPageNode.nodeType) > 0)
+                        {
+                            if (EditorUtility.DisplayDialog(
+                                "Warring",
+                                $"The target ViewState is already connect to one or more {selectedViewPageNode.nodeType} Page.\nSince ViewState can only connect to one type of ViewPage(FullPage or Overlay) you should remove all {selectedViewPageNode.nodeType} connection on ViewState to continue.\nOr press 'OK' the editor will help you do this stuff.",
+                                "Go Ahead",
+                                "I'll do it myself"))
+                            {
+                                //刪掉線
+                                foreach (var pagenode in selectedViewStateNode.currentLinkedViewPageNode)
+                                {
+                                    pagenode.viewPage.viewState = string.Empty;
+                                    pagenode.currentLinkedViewStateNode = null;
+                                    var oriConnect = FindViewSystemNodeConnectionLine(selectedViewStateNode, pagenode);
+                                    nodeConnectionLineList.Remove(oriConnect);
+                                }
+                                selectedViewStateNode.currentLinkedViewPageNode.Clear();
+                                CreateConnection();
+                                ClearConnectionSelection();
+                            }
+                            else
+                            {
+                                ClearConnectionSelection();
+                            }
+                            return;
+                        }
+
+
                         //檢查是不是已經有跟這個 ViewPageNode 節點連線過了
                         if (!selectedViewStateNode.currentLinkedViewPageNode.Contains(selectedViewPageNode) &&
                             selectedViewPageNode.currentLinkedViewStateNode == null
@@ -301,10 +329,39 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         }
                     }
                     break;
+                //被聯線的是 FullPage
                 case ViewSystemNode.NodeType.FullPage:
                     selectedViewPageNode = (ViewPageNode)currentClickNode;
                     if (selectedViewStateNode != null)
                     {
+                        if (selectedViewStateNode.currentLinkedViewPageNode.Count(m => m.nodeType != selectedViewPageNode.nodeType) > 0)
+                        {
+                            if (EditorUtility.DisplayDialog(
+                                "Warring",
+                                $"The target ViewPage is already connect to one or more {selectedViewPageNode.nodeType} Page.\nSince ViewState can only connect to one type of ViewPage(FullPage or Overlay) you should remove all {selectedViewPageNode.nodeType} connection on ViewState to continue.\nOr press 'OK' the editor will help you do this stuff.",
+                                "Go Ahead",
+                                "I'll do it myself"))
+                            {
+                                //刪掉線
+                                foreach (var pagenode in selectedViewStateNode.currentLinkedViewPageNode)
+                                {
+                                    pagenode.viewPage.viewState = string.Empty;
+                                    pagenode.currentLinkedViewStateNode = null;
+                                    var oriConnect = FindViewSystemNodeConnectionLine(selectedViewStateNode, pagenode);
+                                    nodeConnectionLineList.Remove(oriConnect);
+                                }
+                                selectedViewStateNode.currentLinkedViewPageNode.Clear();
+
+                                CreateConnection();
+                                ClearConnectionSelection();
+                            }
+                            else
+                            {
+                                ClearConnectionSelection();
+                            }
+
+                            return;
+                        }
                         //檢查是不是已經有跟這個 ViewStateNode 節點連線過了
                         if (selectedViewPageNode.currentLinkedViewStateNode == null)
                         {
@@ -326,7 +383,67 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         }
                         else
                         {
-                            console.LogErrorMessage("The node has linked before");
+                            console.LogErrorMessage("The FullPage has linked before");
+                            ClearConnectionSelection();
+                        }
+                    }
+                    break;
+
+                //Overlay
+                case ViewSystemNode.NodeType.Overlay:
+                    selectedViewPageNode = (ViewPageNode)currentClickNode;
+                    if (selectedViewStateNode != null)
+                    {
+                        if (selectedViewStateNode.currentLinkedViewPageNode.Count(m => m.nodeType != selectedViewPageNode.nodeType) > 0)
+                        {
+                            if (EditorUtility.DisplayDialog(
+                                "Warring",
+                                $"The target ViewPage is already connect to one or more {selectedViewPageNode.nodeType} Page.\nSince ViewState can only connect to one type of ViewPage(FullPage or Overlay) you should remove all {selectedViewPageNode.nodeType} connection on ViewState to continue.\nOr press 'OK' the editor will help you do this stuff.",
+                                "Go Ahead",
+                                "I'll do it myself"))
+                            {
+                                //刪掉線
+                                foreach (var pagenode in selectedViewStateNode.currentLinkedViewPageNode)
+                                {
+                                    pagenode.viewPage.viewState = string.Empty;
+                                    pagenode.currentLinkedViewStateNode = null;
+                                    var oriConnect = FindViewSystemNodeConnectionLine(selectedViewStateNode, pagenode);
+                                    nodeConnectionLineList.Remove(oriConnect);
+                                }
+                                selectedViewStateNode.currentLinkedViewPageNode.Clear();
+
+                                CreateConnection();
+                                ClearConnectionSelection();
+                            }
+                            else
+                            {
+                                ClearConnectionSelection();
+                            }
+
+                            return;
+                        }
+                        //檢查是不是已經有跟這個 ViewStateNode 節點連線過了
+                        if (selectedViewPageNode.currentLinkedViewStateNode == null)
+                        {
+                            CreateConnection();
+                            ClearConnectionSelection();
+                        }
+                        // 如果連線的節點跟原本的不同 刪掉舊的連線 然後建立新了
+                        else if (selectedViewPageNode.currentLinkedViewStateNode != selectedViewStateNode)
+                        {
+                            console.LogWarringMessage("Break original link, create new link");
+                            //刪掉 ViewStateNode 裡的 ViewPageNode
+                            selectedViewPageNode.currentLinkedViewStateNode.currentLinkedViewPageNode.Remove(selectedViewPageNode);
+
+                            //刪掉線
+                            var oriConnect = FindViewSystemNodeConnectionLine(selectedViewPageNode.currentLinkedViewStateNode, selectedViewPageNode);
+                            nodeConnectionLineList.Remove(oriConnect);
+                            CreateConnection();
+                            ClearConnectionSelection();
+                        }
+                        else
+                        {
+                            console.LogErrorMessage("The Overlay has linked before");
                             ClearConnectionSelection();
                         }
                     }
@@ -351,10 +468,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             foreach (var item in vps)
             {
-                if (item.nodeType == ViewSystemNode.NodeType.Overlay)
-                {
-                    continue;
-                }
+                // if (item.nodeType == ViewSystemNode.NodeType.Overlay)
+                // {
+                //     continue;
+                // }
                 CreateConnection(viewStateNode, item);
             }
         }
@@ -382,7 +499,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         void RemoveConnection(ViewSystemNodeLine connectionLine)
         {
             connectionLine.viewPageNode.currentLinkedViewStateNode = null;
-            connectionLine.viewStateNode.currentLinkedViewPageNode.Clear();
+            connectionLine.viewStateNode.currentLinkedViewPageNode.Remove(connectionLine.viewPageNode);
             nodeConnectionLineList.Remove(connectionLine);
         }
         private void ClearConnectionSelection()

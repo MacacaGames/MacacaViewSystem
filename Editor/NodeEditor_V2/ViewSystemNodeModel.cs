@@ -12,7 +12,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public ViewSystemNodeLinker nodeConnectionLinker;
         public enum NodeType
         {
-            FullPage, Overlay, ViewState, BaseSetting
+            FullPage, Overlay, ViewState,
         }
         public NodeType nodeType;
         public System.Action<IEnumerable<ViewSystemNodeLine>> OnNodeDelete;
@@ -60,10 +60,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         protected void GenerateRightBtnMenu()
         {
-            if (nodeType == NodeType.BaseSetting)
-            {
-                return;
-            }
+
             GenericMenu genericMenu = new GenericMenu();
             genericMenu.AddItem(new GUIContent("Remove node"), false,
                 () =>
@@ -119,9 +116,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             //Draw Linker
             if (nodeConnectionLinker != null) nodeConnectionLinker.Draw(drawRect);
-            // if (nodeType == ViewStateNode.NodeType.FullPage || nodeType == ViewStateNode.NodeType.Overlay)
-            // {
-            // }
+
             if (nodeType == ViewStateNode.NodeType.ViewState)
             {
                 GUI.depth = -1;
@@ -157,13 +152,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             rect = new Rect(rect.x + delta.x, rect.y + delta.y, rect.width, rect.height);
         }
 
-
-        public bool isSelect = false; public bool isDragged;
+        public bool isSelect = false;
         public bool IsInactivable
         {
             get
             {
-
                 return
                     !(ViewSystemNodeGlobalSettingWindow.showGlobalSetting ||
                         OverridePopupWindow.show ||
@@ -274,7 +267,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             this.rect = new Rect(mousePosition.x, mousePosition.y, 160, 80);
             this.nodeType = isOverlay ? NodeType.Overlay : NodeType.FullPage;
-            this.nodeConnectionLinker = new ViewSystemNodeLinker(nodeType == NodeType.Overlay ? ConnectionPointType.None : ConnectionPointType.Down, this, OnConnectionPointClick);
+            this.nodeConnectionLinker = new ViewSystemNodeLinker(nodeType == NodeType.Overlay ? ConnectionPointType.Overlay : ConnectionPointType.FullPage, this, OnConnectionPointClick);
             this.OnNodeTypeConvert = OnNodeTypeConvert;
             SetupNode();
         }
@@ -284,12 +277,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             OnNodeTypeConvert(currentLinkedViewStateNode, this);
             currentLinkedViewStateNode = null;
             var isOverlay = nodeType == NodeType.Overlay;
-            if (isOverlay)
-            {
-                this.viewPage.viewState = "";
-            }
+            // if (isOverlay)
+            // {
+            //     this.viewPage.viewState = "";
+            // }
             this.viewPage.viewPageType = isOverlay ? ViewPage.ViewPageType.Overlay : ViewPage.ViewPageType.FullPage;
-            this.nodeConnectionLinker.type = isOverlay ? ConnectionPointType.None : ConnectionPointType.Down;
+            this.nodeConnectionLinker.type = isOverlay ? ConnectionPointType.Overlay : ConnectionPointType.FullPage;
             switch (nodeType)
             {
                 case NodeType.FullPage:
@@ -341,7 +334,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             this.rect = new Rect(mousePosition.x, mousePosition.y, 160, 60);
             this.nodeType = NodeType.ViewState;
-            this.nodeConnectionLinker = new ViewSystemNodeLinker(ConnectionPointType.Up, this, OnConnectionPointClick);
+            this.nodeConnectionLinker = new ViewSystemNodeLinker(ConnectionPointType.State, this, OnConnectionPointClick);
             nodeStyleString = "flow node 1";
         }
 
@@ -354,7 +347,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
     }
 
 
-    public enum ConnectionPointType { Up, Down, None }
+    public enum ConnectionPointType { State, FullPage, Overlay }
     /// <summary>
     /// ViewSystemNodeConnectionPoint 代表一個 Node 上的一個連結點
     /// 一個連結點可以使用 ViewSystemNodeConnectionLine 來進行連線
@@ -367,11 +360,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         const int ConnectNodeHeight = 28;
         public Rect rect;
         public ConnectionPointType type;
-        public GUIStyle style;
+        public GUIStyle style = GUIStyle.none;
         public GUIContent content;
         public Action<ViewSystemNode> OnConnectionPointClick;
-
-        Texture2D ButtonBackground;
 
         public ViewSystemNodeLinker(ConnectionPointType type, ViewSystemNode viewSystemNode, Action<ViewSystemNode> OnConnectionPointClick)
         {
@@ -383,21 +374,21 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             switch (type)
             {
-                case ConnectionPointType.Up:
+                case ConnectionPointType.State:
                     rect = new Rect(target.x + target.width * 0.5f - ConnectNodeWidth * 0.5f, target.y + target.height - ConnectNodeHeight * 0.5f, ConnectNodeWidth, ConnectNodeHeight);
-                    style = GUIStyle.none;
+
                     content = new GUIContent(EditorGUIUtility.FindTexture("sv_icon_dot9_pix16_gizmo"));
                     //winbtn_mac_min
                     break;
-                case ConnectionPointType.Down:
+                case ConnectionPointType.FullPage:
                     rect = new Rect(target.x + target.width * 0.5f - ConnectNodeWidth * 0.5f, target.y - ConnectNodeHeight * 0.5f, ConnectNodeWidth, ConnectNodeHeight);
-                    style = GUIStyle.none;
                     content = new GUIContent(EditorGUIUtility.FindTexture("sv_icon_dot11_pix16_gizmo"));
                     break;
-                case ConnectionPointType.None:
-                    return;
+                case ConnectionPointType.Overlay:
+                    rect = new Rect(target.x + target.width * 0.5f - ConnectNodeWidth * 0.5f, target.y - ConnectNodeHeight * 0.5f, ConnectNodeWidth, ConnectNodeHeight);
+                    content = new GUIContent(EditorGUIUtility.FindTexture("sv_icon_dot13_pix16_gizmo"));
+                    break;
             }
-
             GUI.depth = -2;
             if (GUI.Button(rect, content, style))
             {

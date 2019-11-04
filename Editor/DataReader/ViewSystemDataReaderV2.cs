@@ -72,7 +72,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             foreach (var item in data.viewStates)
             {
                 var vp_of_vs = viewPageNodes.Where(m => m.viewPage.viewState == item.viewState.name);
-
                 var node = editor.AddViewStateNode(item.nodePosition, item.viewState);
                 editor.CreateConnection(node);
             }
