@@ -164,8 +164,8 @@ namespace CloudMacaca.ViewSystem
             get => ViewSystemUtilitys.SetupPlatformDefine();
         }
 
-        [SerializeField]
         protected Dictionary<string, ViewSystemUtilitys.OverlayPageState> overlayPageStates = new Dictionary<string, ViewSystemUtilitys.OverlayPageState>();
+        protected Dictionary<string, ViewSystemUtilitys.OverlayPageState> overlayPageStatesWithoutOverState = new Dictionary<string, ViewSystemUtilitys.OverlayPageState>();
         protected IEnumerable<ViewPageItem> GetAllViewPageItemInViewState(ViewState vs)
         {
             return vs.viewPageItems.Where(m => !m.excludePlatform.IsSet(platform));
