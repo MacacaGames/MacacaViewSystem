@@ -14,6 +14,28 @@ namespace CloudMacaca.ViewSystem
         public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
         {
             var vp = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
+            if (vp == null)
+            {
+                Debug.LogError("No overlay viewPage match the name: " + viewPageName + "  found");
+                return null;
+            }
+            ViewSystemUtilitys.OverlayPageState overlayPageState = null;
+            if (!string.IsNullOrEmpty(vp.viewState))
+            {
+                overlayPageStatesWithOverState.TryGetValue(vp.viewState, out overlayPageState);
+            }
+            else
+            {
+                overlayPageStates.TryGetValue(vp.name, out overlayPageState);
+            }
+            if (overlayPageState != null)
+            {
+                if (overlayPageState.IsTransition == true)
+                {
+                    Debug.LogError($"The Overlay page {vp.name} is in Transition, ignore the ShowOverlayViewPage call.");
+                    return null;
+                }
+            }
             return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete));
         }
 
