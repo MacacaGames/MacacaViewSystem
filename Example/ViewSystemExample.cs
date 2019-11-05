@@ -17,6 +17,7 @@ public class ViewSystemExample : MonoBehaviour
             .OnComplete(() => { Debug.Log("Complete" + Time.time); })
             .SetPage(ViewSystemScriptable.ViewPages.Setting)
             .Show();
+
     }
 
     /// <summary>
@@ -36,8 +37,8 @@ public class ViewSystemExample : MonoBehaviour
                     .SetPage(ViewSystemScriptable.ViewPages.Welcome)
                     .Show()
                     .GetYieldInstruction();
-
         Debug.Log("IEnumerator End" + Time.time);
+        
     }
 
     /// <summary>

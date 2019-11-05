@@ -51,10 +51,7 @@ namespace CloudMacaca.ViewSystem
         }
         public void Leave()
         {
-            if (!_isOverlayPage)
-            {
-                _pageChangerRunner = _viewController.LeaveOverlayViewPage(_targetPage, _tweenTime, _OnComplete);
-            }
+            _pageChangerRunner = _viewController.LeaveOverlayViewPage(_targetPage, _tweenTime, _OnComplete);
         }
     }
     public class PageChanger
@@ -63,7 +60,6 @@ namespace CloudMacaca.ViewSystem
         internal Action _OnStart = null;
         internal Action _OnComplete = null;
         internal string _targetPage;
-        internal bool _isOverlayPage = false;
         internal Coroutine _pageChangerRunner = null;
         internal bool hasStart = false;
 
@@ -79,15 +75,81 @@ namespace CloudMacaca.ViewSystem
             _OnComplete = null;
             _pageChangerRunner = null;
             _targetPage = string.Empty;
-            _isOverlayPage = false;
             return this;
         }
         public virtual void _Show()
         { }
     }
 
+    public static class OverlayPageChangerExtension
+    {
+        public static OverlayPageChanger SetReplayWhileSamePage(this OverlayPageChanger selfObj, bool replay)
+        {
+            selfObj._replayWhileSamePage = replay;
+            return selfObj;
+        }
+        public static OverlayPageChanger SetTweenTime(this OverlayPageChanger selfObj, float tweenTime)
+        {
+            selfObj._tweenTime = tweenTime;
+            return selfObj;
+        }
+
+        public static OverlayPageChanger SetPage(this OverlayPageChanger selfObj, string targetPageName)
+        {
+            return selfObj.SetPage(targetPageName);
+        }
+        public static OverlayPageChanger OnStart(this OverlayPageChanger selfObj, Action OnStart)
+        {
+            return selfObj.OnStart(OnStart);
+        }
+
+        public static OverlayPageChanger OnComplete(this OverlayPageChanger selfObj, Action OnComplete)
+        {
+            return selfObj.OnComplete(OnComplete);
+        }
+        public static OverlayPageChanger Show(this OverlayPageChanger selfObj)
+        {
+            return selfObj.Show();
+        }
+    }
+
+
+    public static class FullPageChangerExtension
+    {
+        public static FullPageChanger SetWaitPreviousPageFinish(this FullPageChanger selfObj, bool wait)
+        {
+            ((FullPageChanger)selfObj)._waitPreviousPageFinish = wait;
+            return selfObj;
+        }
+
+        public static FullPageChanger SetPage(this FullPageChanger selfObj, string targetPageName)
+        {
+            return selfObj.SetPage(targetPageName);
+        }
+        public static FullPageChanger OnStart(this FullPageChanger selfObj, Action OnStart)
+        {
+            return selfObj.OnStart(OnStart);
+        }
+
+        public static FullPageChanger OnComplete(this FullPageChanger selfObj, Action OnComplete)
+        {
+            return selfObj.OnComplete(OnComplete);
+        }
+        public static FullPageChanger Show(this FullPageChanger selfObj)
+        {
+            return selfObj.Show();
+        }
+    }
+
+
+
     public static class PageChangerExtension
     {
+        public static PageChanger SetPage(this PageChanger selfObj, string targetPageName)
+        {
+            selfObj._targetPage = targetPageName;
+            return selfObj;
+        }
         public static PageChanger OnStart(this PageChanger selfObj, Action OnStart)
         {
             selfObj._OnStart = OnStart;
@@ -110,35 +172,6 @@ namespace CloudMacaca.ViewSystem
                 return selfObj._pageChangerRunner;
             else
                 return selfObj.Show()._pageChangerRunner;
-        }
-        public static PageChanger SetPage(this PageChanger selfObj, string targetPageName, bool isOverlayPage = false)
-        {
-            selfObj._targetPage = targetPageName;
-            selfObj._isOverlayPage = isOverlayPage;
-            return selfObj;
-        }
-        #region FullPage
-        public static PageChanger SetWaitPreviousPageFinish(this PageChanger selfObj, bool wait)
-        {
-            ((FullPageChanger)selfObj)._waitPreviousPageFinish = wait;
-            return selfObj;
-        }
-        #endregion
-        #region OverlayPage
-        public static PageChanger SetReplayWhileSamePage(this PageChanger selfObj, bool replay)
-        {
-            ((OverlayPageChanger)selfObj)._replayWhileSamePage = replay;
-            return selfObj;
-        }
-        public static PageChanger SetTweenTime(this PageChanger selfObj, float tweenTime)
-        {
-            ((OverlayPageChanger)selfObj)._tweenTime = tweenTime;
-            return selfObj;
-        }
-        #endregion
-        public static PageChanger SetOverlayPage(this PageChanger selfObj, string targetPageName)
-        {
-            return selfObj.SetPage(targetPageName, true);
         }
     }
 }
