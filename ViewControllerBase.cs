@@ -324,7 +324,6 @@ namespace CloudMacaca.ViewSystem
             OnOverlayPageShow?.Invoke(obj, args);
         }
 
-
         public class ViewStateEventArgs : EventArgs
         {
             public ViewState currentViewState;

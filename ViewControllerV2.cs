@@ -486,7 +486,13 @@ namespace CloudMacaca.ViewSystem
                 //同 OverlayState 的頁面已經在場上，移除不同的部分，然後顯示新加入的部分
                 if (!string.IsNullOrEmpty(vp.viewState) && overlayPageState.viewPage != vp)
                 {
-                    viewElementDoesExitsInNextPage.AddRange(overlayPageState.viewPage.viewPageItems.Select(m => m.runtimeViewElement));
+                    //viewElementDoesExitsInNextPage.AddRange(overlayPageState.viewPage.viewPageItems.Select(m => m.runtimeViewElement));
+
+                    foreach (var item in overlayPageState.viewPage.viewPageItems)
+                    {
+                        if (!vp.viewPageItems.Select(m => m.runtimeViewElement).Contains(item.runtimeViewElement)) viewElementDoesExitsInNextPage.Add(item.runtimeViewElement);
+                    }
+
                     viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
                     overlayPageState.viewPage = vp;
                 }
@@ -527,7 +533,8 @@ namespace CloudMacaca.ViewSystem
             }
             //等上一個頁面的 OnLeave 結束，注意，如果頁面中有大量的 Animator 這裡只能算出預估的結果 並且會限制最長時間為一秒鐘
             yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
-
+            //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
+            runtimePool.RecoveryQueuedViewElement();
             //對進場的呼叫改變狀態
             foreach (var item in viewItemNextPage)
             {
@@ -540,6 +547,11 @@ namespace CloudMacaca.ViewSystem
                     lastOverlayPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
                 else
                     lastOverlayPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
+
+                if (item.runtimeParent == null)
+                {
+                    item.runtimeParent = transformCache.Find(item.parentPath);
+                }
 
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut);
             }
@@ -557,6 +569,11 @@ namespace CloudMacaca.ViewSystem
                         lastOverlayPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
                     else
                         lastOverlayPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
+
+                    if (item.runtimeParent == null)
+                    {
+                        item.runtimeParent = transformCache.Find(item.parentPath);
+                    }
 
                     item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut);
                 }
