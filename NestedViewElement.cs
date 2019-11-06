@@ -121,11 +121,19 @@ namespace CloudMacaca.ViewSystem
         //GetOutAnimationLength in NestedViewElement is the longest animation length in child
         public override float GetOutAnimationLength()
         {
+            if (childViewElements.Count == 0)
+            {
+                return 0;
+            }
             return childViewElements.Max(m => m.viewElement.GetOutAnimationLength());
         }
         //GetOutAnimationLength in NestedViewElement is the longest animation length in child
         public override float GetInAnimationLength()
         {
+            if (childViewElements.Count == 0)
+            {
+                return 0;
+            }
             return childViewElements.Max(m => m.viewElement.GetInAnimationLength());
         }
     }
