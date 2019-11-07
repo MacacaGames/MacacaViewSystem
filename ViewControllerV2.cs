@@ -533,8 +533,7 @@ namespace CloudMacaca.ViewSystem
             }
             //等上一個頁面的 OnLeave 結束，注意，如果頁面中有大量的 Animator 這裡只能算出預估的結果 並且會限制最長時間為一秒鐘
             yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
-            //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
-            runtimePool.RecoveryQueuedViewElement();
+
             //對進場的呼叫改變狀態
             foreach (var item in viewItemNextPage)
             {
@@ -674,6 +673,9 @@ namespace CloudMacaca.ViewSystem
             else overlayPageStates.Remove(overlayPageState.viewPage.name);
 
             OnComplete?.Invoke();
+
+            //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
+            runtimePool.RecoveryQueuedViewElement();
         }
         public override void TryLeaveAllOverlayPage()
         {
