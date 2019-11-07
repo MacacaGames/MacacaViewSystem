@@ -6,110 +6,11 @@ using System;
 using UniRx;
 namespace CloudMacaca.ViewSystem
 {
-    public class ViewElementRuntimePool
-    {
-        ViewElementPool _hierachyPool;
-        public ViewElementRuntimePool(ViewElementPool hierachyPool)
-        {
-            _hierachyPool = hierachyPool;
-        }
 
-        Dictionary<string, Queue<ViewElement>> veDicts = new Dictionary<string, Queue<ViewElement>>();
-        Dictionary<string, ViewElement> uniqueVeDicts = new Dictionary<string, ViewElement>();
-
-        Queue<ViewElement> recycleQueue = new Queue<ViewElement>();
-        public void QueueViewElementToRecovery(ViewElement toRecovery)
-        {
-            recycleQueue.Enqueue(toRecovery);
-            //Debug.Log($"QueueViewElementToRecovery {toRecovery.name}");
-        }
-
-        public void RecoveryViewElement(ViewElement toRecovery)
-        {
-            if (toRecovery.IsUnique)
-            {
-                //Currentlly nothing needs to do.
-            }
-            else
-            {
-                if (!veDicts.TryGetValue(toRecovery.PoolKey, out Queue<ViewElement> veQueue))
-                {
-                    UnityEngine.Debug.LogWarning("Cannot find pool of ViewElement " + toRecovery.name + ", Destroy directly.");
-                    UnityEngine.Object.Destroy(toRecovery);
-                    return;
-                }
-                veQueue.Enqueue(toRecovery);
-            }
-        }
-
-        public void RecoveryQueuedViewElement()
-        {
-            while (recycleQueue.Count > 0)
-            {
-                var a = recycleQueue.Dequeue();
-                //Debug.Log($"RecoveryQueuedViewElement {a.name}");
-                RecoveryViewElement(a);
-            }
-        }
-        public ViewElement PrewarmUniqueViewElement(ViewElement source)
-        {
-            if (!source.IsUnique)
-            {
-                Debug.LogWarning("The ViewElement trying to Prewarm is not an unique ViewElement");
-                return null;
-            }
-
-            if (!uniqueVeDicts.ContainsKey(source.name))
-            {
-                var temp = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
-                temp.name = source.name;
-                uniqueVeDicts.Add(source.name, temp);
-                temp.gameObject.SetActive(false);
-                return temp;
-            }
-            else
-            {
-                Debug.LogWarning("ViewElement " + source.name + " has been prewarmed");
-                return uniqueVeDicts[source.name];
-            }
-        }
-        public ViewElement RequestViewElement(ViewElement source)
-        {
-            ViewElement result;
-
-            if (source.IsUnique)
-            {
-                if (!uniqueVeDicts.TryGetValue(source.name, out result))
-                {
-                    result = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
-                    result.name = source.name;
-                    uniqueVeDicts.Add(source.name, result);
-                }
-            }
-            else
-            {
-                Queue<ViewElement> veQueue;
-                if (!veDicts.TryGetValue(source.name, out veQueue))
-                {
-                    veQueue = new Queue<ViewElement>();
-                    veDicts.Add(source.name, veQueue);
-                }
-                if (veQueue.Count == 0)
-                {
-                    var a = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
-                    a.gameObject.SetActive(false);
-                    a.name = source.name;
-                    veQueue.Enqueue(a);
-                }
-                result = veQueue.Dequeue();
-            }
-            result.PoolKey = source.name;
-            return result;
-        }
-    }
     public class ViewControllerV2 : ViewControllerBase
     {
         public static ViewControllerV2 Instance;
+
         public static ViewElementRuntimePool runtimePool;
         public ViewElementPool viewElementPool;
         static float maxClampTime = 1;
@@ -122,7 +23,6 @@ namespace CloudMacaca.ViewSystem
         {
             base.Awake();
             _incance = Instance = this;
-
             //Create ViewElementPool
             if (gameObject.name != viewSystemSaveData.globalSetting.ViewControllerObjectPath)
             {
@@ -140,7 +40,9 @@ namespace CloudMacaca.ViewSystem
             go.AddComponent<RectTransform>();
             viewElementPool = go.AddComponent<ViewElementPool>(); ;
 
-            runtimePool = new ViewElementRuntimePool(viewElementPool);
+            runtimePool = gameObject.AddComponent<ViewElementRuntimePool>();
+            runtimePool.Init(viewElementPool);
+
             ViewElement.runtimePool = runtimePool;
             ViewElement.viewElementPool = viewElementPool;
 
@@ -425,6 +327,9 @@ namespace CloudMacaca.ViewSystem
 
             //Callback
             InvokeOnViewPageChangeEnd(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
+
+            nextViewPage = null;
+            nextViewState = null;
         }
 
         public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
@@ -674,8 +579,7 @@ namespace CloudMacaca.ViewSystem
 
             OnComplete?.Invoke();
 
-            //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
-            runtimePool.RecoveryQueuedViewElement();
+
         }
         public override void TryLeaveAllOverlayPage()
         {
@@ -690,8 +594,7 @@ namespace CloudMacaca.ViewSystem
         int lastFrameRate;
         void UpdateCurrentViewStateAndNotifyEvent(ViewPage vp)
         {
-            nextViewPage = null;
-            nextViewState = null;
+
 
             lastViewPage = currentViewPage;
             currentViewPage = vp;

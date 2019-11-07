@@ -351,7 +351,9 @@ namespace CloudMacaca.ViewSystem
                     //如果 ignoreTransition 也直接把他送回池子
                     if (gameObject.activeSelf == false || ignoreTransition)
                     {
+                        gameObject.SetActive(false);
                         OnLeaveAnimationFinish();
+                        return;
                     }
                     if (transition == TransitionType.Animator)
                     {
