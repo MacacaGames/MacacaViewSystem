@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
 namespace CloudMacaca.ViewSystem
 {
-    public class ViewElementRuntimePool : SerializedMonoBehaviour
+    public class ViewElementRuntimePool : MonoBehaviour
     {
         bool init = false;
         ViewElementPool _hierachyPool;
