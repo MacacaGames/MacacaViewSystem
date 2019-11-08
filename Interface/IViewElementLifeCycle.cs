@@ -8,4 +8,5 @@ public interface IViewElementLifeCycle
     void OnBeforeLeave();
     void OnStartShow();
     void OnStartLeave();
+    void OnChangePage(bool show);
 }

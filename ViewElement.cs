@@ -50,6 +50,7 @@ namespace CloudMacaca.ViewSystem
         public void ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
             runtimeOverride.ClearAllEvent();
+            runtimeOverride.ResetToDefaultValues();
             if (overrideDatas == null)
             {
                 return;
@@ -183,7 +184,7 @@ namespace CloudMacaca.ViewSystem
             // poolScale = transform.localScale;
             // poolPosition = rectTransform.anchoredPosition3D;
             // if (transform.parent == poolParent)
-            //     gameObject.SetActive(false);
+            // gameObject.SetActive(false);
         }
         Coroutine AnimationIsEndCheck = null;
 
@@ -194,6 +195,11 @@ namespace CloudMacaca.ViewSystem
         IDisposable OnShowObservable;
         public virtual void ChangePage(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition = false)
         {
+            if (lifeCyclesObjects != null)
+                foreach (var item in lifeCyclesObjects)
+                {
+                    item.OnChangePage(show);
+                }
             //Debug.LogError("ChangePage " + name);
             if (show)
             {

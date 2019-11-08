@@ -14,7 +14,8 @@ namespace CloudMacaca.ViewSystem
     public class ViewRuntimeOverride : MonoBehaviour
     {
         #region EventOverride
-        public ViewElementEventData[] currentEventDatas;
+        [SerializeField]
+        ViewElementEventData[] currentEventDatas;
         class EventRuntimeDatas
         {
             public EventRuntimeDatas(UnityEvent unityEvent, Component selectable)
@@ -171,10 +172,10 @@ namespace CloudMacaca.ViewSystem
         Dictionary<string, UnityEngine.Object> cachedComponent = new Dictionary<string, UnityEngine.Object>();
         public void ApplyOverride(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
-            ResetToDefaultValues();
+
             foreach (var item in overrideDatas)
             {
-                var id = item.targetTransformPath + "_" + item.targetComponentType;
+                var id = item.targetTransformPath + "#" + item.targetComponentType;
                 UnityEngine.Object c;
                 Transform targetTansform = transform.Find(item.targetTransformPath);
                 if (targetTansform == null)
@@ -201,7 +202,7 @@ namespace CloudMacaca.ViewSystem
                     cachedComponent.Add(id, c);
                 }
 
-                var idForProperty = id + "_" + item.targetPropertyName;
+                var idForProperty = id + "#" + item.targetPropertyName;
                 if (!prefabDefaultFields.ContainsKey(idForProperty))
                 {
                     prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetPropertyValue(c, item.targetPropertyName), id, item.targetPropertyName));
@@ -210,10 +211,10 @@ namespace CloudMacaca.ViewSystem
                 SetPropertyValue(c, item.targetPropertyName, item.Value.GetValue());
             }
         }
-        bool isUnityEngineType(System.Type t)
-        {
-            return t.ToString().Contains("UnityEngine");
-        }
+        // bool isUnityEngineType(System.Type t)
+        // {
+        //     return t.ToString().Contains("UnityEngine");
+        // }
         public void SetPropertyValue(object inObj, string fieldName, object newValue)
         {
             System.Type t = inObj.GetType();
@@ -272,22 +273,22 @@ namespace CloudMacaca.ViewSystem
             return ret;
         }
 
-        public void SetField(System.Type t, object inObj, string fieldName, object newValue)
-        {
-            System.Reflection.FieldInfo info = t.GetField(fieldName, bindingFlags);
-            if (info != null)
-                info.SetValue(inObj, newValue);
-        }
+        // public void SetField(System.Type t, object inObj, string fieldName, object newValue)
+        // {
+        //     System.Reflection.FieldInfo info = t.GetField(fieldName, bindingFlags);
+        //     if (info != null)
+        //         info.SetValue(inObj, newValue);
+        // }
 
-        private object GetField(System.Type t, object inObj, string fieldName)
-        {
-            object ret = null;
-            System.Reflection.FieldInfo info = t.GetField(fieldName, bindingFlags);
-            if (info != null)
-                ret = info.GetValue(inObj);
-            return ret;
-        }
-
+        // private object GetField(System.Type t, object inObj, string fieldName)
+        // {
+        //     object ret = null;
+        //     System.Reflection.FieldInfo info = t.GetField(fieldName, bindingFlags);
+        //     if (info != null)
+        //         ret = info.GetValue(inObj);
+        //     return ret;
+        // }
+        [SerializeField]
         List<string> currentModifiedField = new List<string>();
         [SerializeField]
         Dictionary<string, PrefabDefaultField> prefabDefaultFields = new Dictionary<string, PrefabDefaultField>();
