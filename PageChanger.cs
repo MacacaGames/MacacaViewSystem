@@ -49,7 +49,7 @@ namespace CloudMacaca.ViewSystem
             _pageChangerRunner = _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnComplete);
             hasStart = true;
         }
-        public void Leave()
+        public void _Leave()
         {
             _pageChangerRunner = _viewController.LeaveOverlayViewPage(_targetPage, _tweenTime, _OnComplete);
         }
@@ -93,23 +93,27 @@ namespace CloudMacaca.ViewSystem
             selfObj._tweenTime = tweenTime;
             return selfObj;
         }
-
         public static OverlayPageChanger SetPage(this OverlayPageChanger selfObj, string targetPageName)
         {
-            return selfObj.SetPage(targetPageName);
+            return (OverlayPageChanger)PageChangerExtension.SetPage(selfObj, targetPageName);
         }
         public static OverlayPageChanger OnStart(this OverlayPageChanger selfObj, Action OnStart)
         {
-            return selfObj.OnStart(OnStart);
+            return (OverlayPageChanger)PageChangerExtension.OnStart(selfObj, OnStart);
         }
 
         public static OverlayPageChanger OnComplete(this OverlayPageChanger selfObj, Action OnComplete)
         {
-            return selfObj.OnComplete(OnComplete);
+            return (OverlayPageChanger)PageChangerExtension.OnComplete(selfObj, OnComplete);
         }
         public static OverlayPageChanger Show(this OverlayPageChanger selfObj)
         {
-            return selfObj.Show();
+            return (OverlayPageChanger)PageChangerExtension.Show(selfObj);
+        }
+        public static OverlayPageChanger Leave(this OverlayPageChanger selfObj)
+        {
+            selfObj._Leave();
+            return selfObj;
         }
     }
 
@@ -124,20 +128,20 @@ namespace CloudMacaca.ViewSystem
 
         public static FullPageChanger SetPage(this FullPageChanger selfObj, string targetPageName)
         {
-            return selfObj.SetPage(targetPageName);
+            return (FullPageChanger)PageChangerExtension.SetPage(selfObj, targetPageName);
         }
         public static FullPageChanger OnStart(this FullPageChanger selfObj, Action OnStart)
         {
-            return selfObj.OnStart(OnStart);
+            return (FullPageChanger)PageChangerExtension.OnStart(selfObj, OnStart);
         }
 
         public static FullPageChanger OnComplete(this FullPageChanger selfObj, Action OnComplete)
         {
-            return selfObj.OnComplete(OnComplete);
+            return (FullPageChanger)PageChangerExtension.OnComplete(selfObj, OnComplete);
         }
         public static FullPageChanger Show(this FullPageChanger selfObj)
         {
-            return selfObj.Show();
+            return (FullPageChanger)PageChangerExtension.Show(selfObj);
         }
     }
 

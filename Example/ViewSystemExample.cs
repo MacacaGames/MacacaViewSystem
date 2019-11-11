@@ -38,11 +38,11 @@ public class ViewSystemExample : MonoBehaviour
                     .Show()
                     .GetYieldInstruction();
         Debug.Log("IEnumerator End" + Time.time);
-        
+
     }
 
     /// <summary>
-    /// GetYieldInstruction will call Show method inside itself, so you can omission Show() method on the method chain.
+    /// GetYieldInstruction will call Show method inside itself, so you can dismiss Show() method on the method chain.
     /// </summary>
     public void abc3()
     {
