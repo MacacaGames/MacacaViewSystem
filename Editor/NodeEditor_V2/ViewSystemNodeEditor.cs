@@ -642,7 +642,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     //     targetViewState = viewStatesPopup[currentIndex];
                     // }
 
-                    if (GUILayout.Button(new GUIContent("Baked to Scritpable", Drawer.bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton))
+                    if (GUILayout.Button(new GUIContent(Drawer.bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton, GUILayout.Width(50)))
                     {
                         ViewSystemScriptBaker.BakeAllViewPageName(viewPageList.Select(m => m.viewPage).ToList(), viewStateList.Select(m => m.viewState).ToList());
                     }
