@@ -22,7 +22,7 @@ namespace CloudMacaca.ViewSystem
         public void QueueViewElementToRecovery(ViewElement toRecovery)
         {
             recycleQueue.Enqueue(toRecovery);
-            //Debug.Log($"QueueViewElementToRecovery {toRecovery.name}");
+            //ViewSystemLog.Log($"QueueViewElementToRecovery {toRecovery.name}");
         }
 
         public void RecoveryViewElement(ViewElement toRecovery)
@@ -35,7 +35,7 @@ namespace CloudMacaca.ViewSystem
             {
                 if (!veDicts.TryGetValue(toRecovery.PoolKey, out Queue<ViewElement> veQueue))
                 {
-                    UnityEngine.Debug.LogWarning("Cannot find pool of ViewElement " + toRecovery.name + ", Destroy directly.");
+                    ViewSystemLog.LogWarning("Cannot find pool of ViewElement " + toRecovery.name + ", Destroy directly.");
                     UnityEngine.Object.Destroy(toRecovery);
                     return;
                 }
@@ -48,7 +48,7 @@ namespace CloudMacaca.ViewSystem
             while (recycleQueue.Count > 0)
             {
                 var a = recycleQueue.Dequeue();
-                //Debug.Log($"RecoveryQueuedViewElement {a.name}");
+                //ViewSystemLog.Log($"RecoveryQueuedViewElement {a.name}");
                 RecoveryViewElement(a);
             }
         }
@@ -56,7 +56,7 @@ namespace CloudMacaca.ViewSystem
         {
             if (!source.IsUnique)
             {
-                Debug.LogWarning("The ViewElement trying to Prewarm is not an unique ViewElement");
+                ViewSystemLog.LogWarning("The ViewElement trying to Prewarm is not an unique ViewElement");
                 return null;
             }
 
@@ -70,7 +70,7 @@ namespace CloudMacaca.ViewSystem
             }
             else
             {
-                Debug.LogWarning("ViewElement " + source.name + " has been prewarmed");
+                ViewSystemLog.LogWarning("ViewElement " + source.name + " has been prewarmed");
                 return uniqueVeDicts[source.name];
             }
         }

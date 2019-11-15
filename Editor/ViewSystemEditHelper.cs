@@ -46,15 +46,15 @@ public class ViewSystemEditHelper : EditorWindow
             var findfoldPath = Directory.GetDirectories(Application.dataPath, DefaultFoldName, SearchOption.AllDirectories);
             if (findfoldPath.Count() == 0)
             {
-                Debug.LogWarning("請創建「_DefaultAnimationFiles_ViewSystem」資料夾，並放置預設的 Animation Clip 及 Controller");
+                ViewSystemLog.LogWarning("請創建「_DefaultAnimationFiles_ViewSystem」資料夾，並放置預設的 Animation Clip 及 Controller");
                 return;
             }
             else if (findfoldPath.Count() > 1)
             {
-                Debug.LogWarning("偵測到兩個以上的「_DefaultAnimationFiles_ViewSystem」資料夾：");
+                ViewSystemLog.LogWarning("偵測到兩個以上的「_DefaultAnimationFiles_ViewSystem」資料夾：");
                 for (int i = 0; i < findfoldPath.Length; i++)
                 {
-                    Debug.LogWarning(findfoldPath[i]);
+                    ViewSystemLog.LogWarning(findfoldPath[i]);
                 }
                 return;
             }
@@ -64,15 +64,15 @@ public class ViewSystemEditHelper : EditorWindow
                 defaultAnimationFilesFoldPath = findfoldPath[0];
                 string splitKey = Path.AltDirectorySeparatorChar + "Assets";
                 string[] splitedString = System.Text.RegularExpressions.Regex.Split(defaultAnimationFilesFoldPath, splitKey, RegexOptions.IgnoreCase);
-                Debug.Log("Find Default Animation Path：" + defaultAnimationFilesFoldPath);
+                ViewSystemLog.Log("Find Default Animation Path：" + defaultAnimationFilesFoldPath);
                 defaultAnimationFilesFoldPath = "Assets" + splitedString[1];
-                Debug.Log("Cut into relative Path：" + defaultAnimationFilesFoldPath);
+                ViewSystemLog.Log("Cut into relative Path：" + defaultAnimationFilesFoldPath);
             }
 
             // 檢查有無輸入名稱
             if (string.IsNullOrEmpty(newAnimationFileName))
             {
-                Debug.LogWarning("未輸入動畫名稱");
+                ViewSystemLog.LogWarning("未輸入動畫名稱");
                 return;
             }
 
@@ -98,14 +98,14 @@ public class ViewSystemEditHelper : EditorWindow
 
             // 匯入資源，產生新的 GUID
             AssetDatabase.Refresh();
-            Debug.Log("Create 「" + newAnimationFileName + "」 Animation File Completed");
+            ViewSystemLog.Log("Create 「" + newAnimationFileName + "」 Animation File Completed");
 
 
             // -------------------- 第二步驟 替換新 Controller 的 Motion Animation Clip -------------------- //
 
             if (string.IsNullOrEmpty(newAnimationFileName))
             {
-                Debug.LogWarning("未輸入動畫名稱");
+                ViewSystemLog.LogWarning("未輸入動畫名稱");
             }
             else
             {
@@ -122,7 +122,7 @@ public class ViewSystemEditHelper : EditorWindow
                     }
                     string key = filePath.Split('_').Last();
                     oldFileGUID.Add(key, AssetDatabase.AssetPathToGUID(filePath));
-                    Debug.Log("Get：" + filePath + "|| Key=" + key + "  ||  oldGUID=" + oldFileGUID[key]);
+                    ViewSystemLog.Log("Get：" + filePath + "|| Key=" + key + "  ||  oldGUID=" + oldFileGUID[key]);
                 }
 
                 // 抓取新生成的 GUID
@@ -135,7 +135,7 @@ public class ViewSystemEditHelper : EditorWindow
                     }
                     string key = filePath.Split('_').Last();
                     newFileGUID.Add(key, AssetDatabase.AssetPathToGUID(filePath));
-                    Debug.Log("Get：" + filePath + "|| Key=" + key + "  ||  newGUID=" + newFileGUID[key]);
+                    ViewSystemLog.Log("Get：" + filePath + "|| Key=" + key + "  ||  newGUID=" + newFileGUID[key]);
                 }
 
                 // 尋找 Controller 檔案，讀取文字
@@ -143,7 +143,7 @@ public class ViewSystemEditHelper : EditorWindow
                 var animationControllerAsset = Directory.GetFiles(Application.dataPath + "/0_Game/UI/Animation/" + newAnimationFileName)
                     .FirstOrDefault(s => s.EndsWith(".controller"));
                 var content = File.ReadAllText(animationControllerAsset);
-                Debug.Log("Find: " + Application.dataPath + "/0_Game/UI/Animation/" + newAnimationFileName + "/" + newAnimationFileName + ".controller");
+                ViewSystemLog.Log("Find: " + Application.dataPath + "/0_Game/UI/Animation/" + newAnimationFileName + "/" + newAnimationFileName + ".controller");
 
                 // 置換 GUID
                 foreach (var item in oldFileGUID)
@@ -153,15 +153,15 @@ public class ViewSystemEditHelper : EditorWindow
                         continue;
                     }
                     content = content.Replace(item.Value, newFileGUID[item.Key]);
-                    Debug.Log("Replace：" + item + " To：" + newFileGUID[item.Key]);
+                    ViewSystemLog.Log("Replace：" + item + " To：" + newFileGUID[item.Key]);
                 }
-                Debug.Log("content" + content);
+                ViewSystemLog.Log("content" + content);
 
                 // 存檔
                 File.WriteAllText(animationControllerAsset, content);
                 AssetDatabase.StopAssetEditing();
                 AssetDatabase.Refresh();
-                Debug.Log("Replace 「" + newAnimationFileName + "」 Animation Controller Motion Clip Completed");
+                ViewSystemLog.Log("Replace 「" + newAnimationFileName + "」 Animation Controller Motion Clip Completed");
 
                 // Highlight Animator
                 string animatorPath = "Assets/0_Game/UI/Animation/" + newAnimationFileName + "/" + newAnimationFileName + ".controller";

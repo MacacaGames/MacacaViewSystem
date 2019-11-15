@@ -112,7 +112,7 @@ namespace CloudMacaca.ViewSystem
                         }
                         catch
                         {
-                            Debug.LogError("Binding Event faild", this);
+                            ViewSystemLog.LogError("Binding Event faild", this);
                         }
                         cachedDelegate.Add(id_delegate, openDelegate);
                     }
@@ -121,7 +121,7 @@ namespace CloudMacaca.ViewSystem
                         {
                             if (ViewControllerV2.Instance.IsPageTransition)
                             {
-                                Debug.LogWarning("The page is in transition, event will not fire!");
+                                ViewSystemLog.LogWarning("The page is in transition, event will not fire!");
                                 return;
                             }
                             openDelegate?.Invoke((UnityEngine.EventSystems.UIBehaviour)eventRuntimeDatas.selectable);
@@ -155,7 +155,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     SetPropertyValue(cachedComponent[defaultField.id], defaultField.field, defaultField.defaultValue);
                 }
-                //Debug.Log($"Reset [{gameObject.name}] [{item.type}] on [{ cachedComponent[item.id]}] field [{item.field}] to [{item.orignalValue}]");
+                //ViewSystemLog.Log($"Reset [{gameObject.name}] [{item.type}] on [{ cachedComponent[item.id]}] field [{item.field}] to [{item.orignalValue}]");
                 // }
                 // else
                 // {
@@ -180,7 +180,7 @@ namespace CloudMacaca.ViewSystem
                 Transform targetTansform = transform.Find(item.targetTransformPath);
                 if (targetTansform == null)
                 {
-                    Debug.LogError($"Target GameObject cannot be found [{transform.name} / {item.targetTransformPath}]");
+                    ViewSystemLog.LogError($"Target GameObject cannot be found [{transform.name} / {item.targetTransformPath}]");
                     continue;
                 }
                 if (!cachedComponent.TryGetValue(id, out c))
@@ -196,7 +196,7 @@ namespace CloudMacaca.ViewSystem
                     }
                     if (c == null)
                     {
-                        Debug.LogError($"Target Component cannot be found [{item.targetComponentType}] on GameObject [{transform.name } / {item.targetTransformPath}]");
+                        ViewSystemLog.LogError($"Target Component cannot be found [{item.targetComponentType}] on GameObject [{transform.name } / {item.targetTransformPath}]");
                         continue;
                     }
                     cachedComponent.Add(id, c);
@@ -269,7 +269,7 @@ namespace CloudMacaca.ViewSystem
             if (info != null)
                 ret = info.GetValue(inObj);
 
-            //Debug.Log($"GetProperty on [{gameObject.name}] Target Object {((UnityEngine.Object)inObj).name} [{t.ToString()}] on [{fieldName}]  Value [{ret}]");
+            //ViewSystemLog.Log($"GetProperty on [{gameObject.name}] Target Object {((UnityEngine.Object)inObj).name} [{t.ToString()}] on [{fieldName}]  Value [{ret}]");
             return ret;
         }
 

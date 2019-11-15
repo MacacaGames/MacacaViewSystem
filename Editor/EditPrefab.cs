@@ -88,7 +88,7 @@ public sealed class SceneSetupWrapper
 	{
 		if (scenePaths.Length == 0)
 		{
-			Debug.LogError("Can't open scene setup, no data stored.");
+			ViewSystemLog.LogError("Can't open scene setup, no data stored.");
 			return;
 		}
 		try

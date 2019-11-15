@@ -35,7 +35,7 @@ public class ViewSwitcherEditor : EditorWindow
     {
         if (poolTransform == null)
         {
-            Debug.LogError("Please Set ViewElementPool");
+            ViewSystemLog.LogError("Please Set ViewElementPool");
             return;
         }
         ViewElement[] allElements = FindObjectsOfType<ViewElement>();
@@ -123,7 +123,7 @@ public class ViewSwitcherEditor : EditorWindow
     {
         if (poolTransform == null)
         {
-            Debug.LogError("Please Set ViewElementPool");
+            ViewSystemLog.LogError("Please Set ViewElementPool");
             return;
         }
 

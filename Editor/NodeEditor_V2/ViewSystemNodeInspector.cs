@@ -547,7 +547,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 else
                 {
                     editor.console.LogErrorMessage("Selected Parent is not child of ViewController GameObject");
-                    Debug.LogError("Selected Parent is not child of ViewController GameObject");
+                    ViewSystemLog.LogError("Selected Parent is not child of ViewController GameObject");
                     list[index].parent = null;
                 }
             }

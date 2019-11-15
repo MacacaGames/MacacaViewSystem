@@ -590,7 +590,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     System.Reflection.PropertyInfo pi = parentType.GetProperty(propertyName);
                     if (pi != null && fi == null)
                     {
-                        // Debug.LogError("property not found");
+                        // ViewSystemLog.LogError("property not found");
                         // editor.ShowNotification(new GUIContent("property not found"), toastMessageFadeOutTimt);
                         // return;
                         propertyType = pi.PropertyType;
@@ -598,7 +598,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                     if (!propertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEvent)))
                     {
-                        Debug.LogError("Currently Gereric type only support UnityEvent");
+                        ViewSystemLog.LogError("Currently Gereric type only support UnityEvent");
                         editor.ShowNotification(new GUIContent("Currently Gereric type only support UnityEvent"), toastMessageFadeOutTimt);
                         return;
                     }
@@ -625,7 +625,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         if (current.Where(m => string.IsNullOrEmpty(m.scriptName) && string.IsNullOrEmpty(m.methodName)).Count() > 0)
                         {
-                            Debug.LogError("You Have 1 event doesn't setup yet");
+                            ViewSystemLog.LogError("You Have 1 event doesn't setup yet");
                             editor.ShowNotification(new GUIContent("You Have 1 event doesn't setup yet"), toastMessageFadeOutTimt);
                             return;
                         }

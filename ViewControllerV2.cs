@@ -26,7 +26,7 @@ namespace CloudMacaca.ViewSystem
             //Create ViewElementPool
             if (gameObject.name != viewSystemSaveData.globalSetting.ViewControllerObjectPath)
             {
-                Debug.LogWarning("The GameObject which attached ViewController is not match the setting in Base Setting.");
+                ViewSystemLog.LogWarning("The GameObject which attached ViewController is not match the setting in Base Setting.");
             }
 
             //Create UIRoot
@@ -80,7 +80,7 @@ namespace CloudMacaca.ViewSystem
             {
                 if (item == null)
                 {
-                    Debug.Log("I'm null!!!");
+                    ViewSystemLog.Log("I'm null!!!");
                 }
                 if (!item.IsUnique)
                 {
@@ -98,7 +98,7 @@ namespace CloudMacaca.ViewSystem
                             InjectionDictionary.Add(t, c);
                         else
                         {
-                            Debug.LogWarning("Type " + t + " has been injected");
+                            ViewSystemLog.LogWarning("Type " + t + " has been injected");
                             continue;
                         }
                     }
@@ -109,7 +109,7 @@ namespace CloudMacaca.ViewSystem
             {
                 if (item == null)
                 {
-                    Debug.Log("I'm null!!!");
+                    ViewSystemLog.Log("I'm null!!!");
                 }
                 if (!item.IsUnique)
                 {
@@ -127,7 +127,7 @@ namespace CloudMacaca.ViewSystem
                             InjectionDictionary.Add(t, c);
                         else
                         {
-                            Debug.LogWarning("Type " + t + " has been injected");
+                            ViewSystemLog.LogWarning("Type " + t + " has been injected");
                             continue;
                         }
                     }
@@ -179,14 +179,14 @@ namespace CloudMacaca.ViewSystem
             //沒有找到 
             if (vp == null)
             {
-                Debug.LogError("No view page match " + viewPageName + " Found");
+                ViewSystemLog.LogError("No view page match " + viewPageName + " Found");
                 ChangePageToCoroutine = null;
                 yield break;
             }
 
             if (vp.viewPageType == ViewPage.ViewPageType.Overlay)
             {
-                Debug.LogWarning("To shown Page is an Overlay ViewPage use ShowOverlayViewPage() instead method \n current version will redirect to this method automatically.");
+                ViewSystemLog.LogWarning("To shown Page is an Overlay ViewPage use ShowOverlayViewPage() instead method \n current version will redirect to this method automatically.");
                 ShowOverlayViewPageBase(vp, true, OnComplete);
                 ChangePageToCoroutine = null;
                 yield break;
@@ -336,12 +336,12 @@ namespace CloudMacaca.ViewSystem
         {
             if (vp == null)
             {
-                Debug.Log("ViewPage is null");
+                ViewSystemLog.Log("ViewPage is null");
                 yield break;
             }
             if (vp.viewPageType != ViewPage.ViewPageType.Overlay)
             {
-                Debug.LogError("ViewPage " + vp.name + " is not an Overlay page");
+                ViewSystemLog.LogError("ViewPage " + vp.name + " is not an Overlay page");
                 yield break;
             }
 
@@ -544,7 +544,7 @@ namespace CloudMacaca.ViewSystem
                         try
                         {
                             var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => m.runtimeViewElement == item.runtimeViewElement);
-                            Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                            ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
                             item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, tweenTimeIfNeed, 0, 0);
                         }
                         catch { }
@@ -556,7 +556,7 @@ namespace CloudMacaca.ViewSystem
                         try
                         {
                             var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.runtimeViewElement == item.runtimeViewElement);
-                            Debug.LogWarning("ViewElement : " + item.runtimeViewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                            ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
                             item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, tweenTimeIfNeed, 0, 0);
                         }
                         catch { }

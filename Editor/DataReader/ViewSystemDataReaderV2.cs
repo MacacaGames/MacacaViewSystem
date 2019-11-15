@@ -34,7 +34,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 if (go == null)
                 {
-                    Debug.LogError("Init ViewSystem Editor faild, please make sure ViewControllerTransform GameObject is in the scene of is not inactive.");
+                    ViewSystemLog.LogError("Init ViewSystem Editor faild, please make sure ViewControllerTransform GameObject is in the scene of is not inactive.");
                     return false;
                 }
                 ViewControllerTransform = go.transform;
@@ -113,7 +113,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             if (data.globalSetting.UIRootScene == null)
             {
-                Debug.LogError($"There is no canvas in your scene, do you init ViewSystem correctlly?");
+                ViewSystemLog.LogError($"There is no canvas in your scene, do you init ViewSystem correctlly?");
                 return;
             }
             //throw new System.NotImplementedException();
@@ -143,7 +143,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 if (item.viewElement == null)
                 {
-                    Debug.LogWarning($"There are some ViewElement didn't setup correctly in this page or state");
+                    ViewSystemLog.LogWarning($"There are some ViewElement didn't setup correctly in this page or state");
                     continue;
                 }
                 var temp = PrefabUtility.InstantiatePrefab(item.viewElement.gameObject);
@@ -225,7 +225,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
                 catch
                 {
-                    Debug.LogWarning($"The NestedViewElement {item.name} is part of another NestedViewElement, will ignore while delete preview object");
+                    ViewSystemLog.LogWarning($"The NestedViewElement {item.name} is part of another NestedViewElement, will ignore while delete preview object");
                 }
             }
         }

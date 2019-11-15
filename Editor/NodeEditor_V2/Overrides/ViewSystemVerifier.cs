@@ -28,13 +28,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             if (editor == null)
             {
-                Debug.LogError("Cannot verify save data, is editor init correctlly?");
+                ViewSystemLog.LogError("Cannot verify save data, is editor init correctlly?");
                 return;
             }
 
             if (saveData == null)
             {
-                Debug.LogError("Cannot verify save data, is editor init correctlly?");
+                ViewSystemLog.LogError("Cannot verify save data, is editor init correctlly?");
                 return;
             }
             string result = "";
@@ -63,11 +63,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             if (!string.IsNullOrEmpty(result))
             {
-                Debug.LogError(result);
+                ViewSystemLog.LogError(result);
             }
             else
             {
-                Debug.Log("Great, all pages and states looks good!");
+                ViewSystemLog.Log("Great, all pages and states looks good!");
             }
         }
         List<ViewSystemGameObjectMissingData> gameObjectCannotBeFound = new List<ViewSystemGameObjectMissingData>();
@@ -88,13 +88,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             if (editor == null)
             {
-                Debug.LogError("Cannot verify save data, is editor init correctlly?");
+                ViewSystemLog.LogError("Cannot verify save data, is editor init correctlly?");
                 return;
             }
 
             if (saveData == null)
             {
-                Debug.LogError("Cannot verify save data, is editor init correctlly?");
+                ViewSystemLog.LogError("Cannot verify save data, is editor init correctlly?");
                 return;
             }
 
@@ -195,13 +195,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             if (editor == null)
             {
-                Debug.LogError("Cannot verify save data, is editor init correctlly?");
+                ViewSystemLog.LogError("Cannot verify save data, is editor init correctlly?");
                 return;
             }
 
             if (saveData == null)
             {
-                Debug.LogError("Cannot verify save data, is editor init correctlly?");
+                ViewSystemLog.LogError("Cannot verify save data, is editor init correctlly?");
                 return;
             }
             typeNameCannotBeFound.Clear();
@@ -213,7 +213,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     var t = CloudMacaca.Utility.GetType(item.targetComponentType);
                     if (t == null)
                     {
-                        Debug.LogError(item.targetComponentType + "  cannot be found");
+                        ViewSystemLog.LogError(item.targetComponentType + "  cannot be found");
                         typeNameCannotBeFound.Add(item.targetComponentType);
                     }
                 }
@@ -226,7 +226,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     var t = CloudMacaca.Utility.GetType(item.targetComponentType);
                     if (t == null)
                     {
-                        Debug.LogError(item.targetComponentType + "  cannot be found");
+                        ViewSystemLog.LogError(item.targetComponentType + "  cannot be found");
                         typeNameCannotBeFound.Add(item.targetComponentType);
                     }
                 }
@@ -261,7 +261,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             else
             {
-                Debug.Log("Components looks good, let's check properties.");
+                ViewSystemLog.Log("Components looks good, let's check properties.");
                 VerifyProperty(verifyTarget);
             }
         }
@@ -293,7 +293,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 var t = CloudMacaca.Utility.GetType(item.targetComponentType);
                 if (t == null)
                 {
-                    Debug.LogError(item.targetComponentType + " still not fixed cannot be found, will ignore while verify property");
+                    ViewSystemLog.LogError(item.targetComponentType + " still not fixed cannot be found, will ignore while verify property");
                     continue;
                 }
                 var propertyName = item.targetPropertyName;
@@ -304,7 +304,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 if (t.GetField(item.targetPropertyName, bindingFlags) == null && t.GetProperty(propertyName, bindingFlags) == null)
                 {
-                    Debug.LogError($"{item.targetPropertyName} in {item.targetComponentType} cannot be found");
+                    ViewSystemLog.LogError($"{item.targetPropertyName} in {item.targetComponentType} cannot be found");
                     propertyCannotBeFound.Add(item.targetComponentType + "," + item.targetPropertyName);
                 }
             }
@@ -329,7 +329,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             else
             {
-                Debug.Log("Great, everying looks good!");
+                ViewSystemLog.Log("Great, everying looks good!");
             }
         }
 
@@ -345,14 +345,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 var t = CloudMacaca.Utility.GetType(item.scriptName);
                 if (t == null)
                 {
-                    Debug.LogError(item.targetComponentType + " still not fixed cannot be found, will ignore while verify property");
+                    ViewSystemLog.LogError(item.targetComponentType + " still not fixed cannot be found, will ignore while verify property");
                     eventDataNeedToFix.Add(item);
                     continue;
                 }
 
                 if (t.GetMethod(item.methodName, bindingFlags) == null)
                 {
-                    Debug.LogError($"{item.methodName} in {item.scriptName} cannot be found");
+                    ViewSystemLog.LogError($"{item.methodName} in {item.scriptName} cannot be found");
                     eventDataNeedToFix.Add(item);
                     continue;
                 }
@@ -376,7 +376,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             else
             {
-                Debug.Log("Great, all events looks good!");
+                ViewSystemLog.Log("Great, all events looks good!");
             }
         }
 
@@ -533,7 +533,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             currentSelectClass = EditorGUILayout.Popup("Event Script", currentSelectClass, classMethodInfo.Select(m => m.Key).ToArray());
                             if (check.changed)
                             {
-                                Debug.Log(currentSelectClass);
+                                ViewSystemLog.Log(currentSelectClass);
                                 if (currentSelectClass != 0)
                                 {
                                     var c = classMethodInfo.ElementAt(currentSelectClass);

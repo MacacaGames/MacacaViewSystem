@@ -108,7 +108,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //     temp.overrideData.targetPropertyName = item.propertyPath;
             //     temp.overrideData.targetPropertyType = sp.propertyType.ToString();
             //     temp.overrideData.targetPropertyPath = VS_EditorUtility.ParseUnityEngineProperty(item.propertyPath);
-            //     //Debug.Log(item.target.GetType());
+            //     //ViewSystemLog.Log(item.target.GetType());
             //     Transform t;
             //     if (item.target as Component == null)
             //     {
@@ -120,7 +120,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //     }
 
             //     var path = AnimationUtility.CalculateTransformPath(t, root);
-            //     //Debug.Log(path);
+            //     //ViewSystemLog.Log(path);
             //     var selfName = root_prefab.name.Length + 1;
             //     if (path.Length > selfName - 1) path = path.Substring(selfName, path.Length - selfName);
             //     else if (path.Length == selfName - 1) path = "";
@@ -129,7 +129,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //     temp.overrideData.Value.SetValue(sp.propertyType, item);
             //     temp.displayName = sp.displayName;
             //     overridesPropertiesCheckerDatas.Add(temp);
-            //     //Debug.Log(item.value);
+            //     //ViewSystemLog.Log(item.value);
             // }
 
             // //The modification of color needs advance works
@@ -268,13 +268,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                     GUILayout.Label(l, GUILayout.Height(16), GUILayout.Width(EditorGUIUtility.labelWidth));
                                     GUILayout.Label(EditorGUIUtility.FindTexture("Animation.Play"), GUILayout.Height(16), GUILayout.Width(16));
                                     Transform targetObject;
-                                    //Debug.Log(item.overrideData.targetTransformPath);
+                                    //ViewSystemLog.Log(item.overrideData.targetTransformPath);
 
                                     if (string.IsNullOrEmpty(item.overrideData.targetTransformPath))
                                         targetObject = root;
                                     else
                                         targetObject = root.Find(item.overrideData.targetTransformPath);
-                                    //Debug.Log(item.overrideData.targetComponentType);
+                                    //ViewSystemLog.Log(item.overrideData.targetComponentType);
 
                                     UnityEngine.Object targetComponent;
 

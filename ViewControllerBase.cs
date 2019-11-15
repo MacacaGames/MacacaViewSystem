@@ -16,7 +16,7 @@ namespace CloudMacaca.ViewSystem
             var vp = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
             if (vp == null)
             {
-                Debug.LogError("No overlay viewPage match the name: " + viewPageName + "  found");
+                ViewSystemLog.LogError("No overlay viewPage match the name: " + viewPageName + "  found");
                 return null;
             }
             ViewSystemUtilitys.OverlayPageState overlayPageState = null;
@@ -32,7 +32,7 @@ namespace CloudMacaca.ViewSystem
             {
                 if (overlayPageState.IsTransition == true)
                 {
-                    Debug.LogError($"The Overlay page {vp.name} is in Transition, ignore the ShowOverlayViewPage call.");
+                    ViewSystemLog.LogError($"The Overlay page {vp.name} is in Transition, ignore the ShowOverlayViewPage call.");
                     return null;
                 }
             }
@@ -60,11 +60,11 @@ namespace CloudMacaca.ViewSystem
                 if (!string.IsNullOrEmpty(vp.viewState)) overlayPageState.viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
                 if (overlayPageState == null)
                 {
-                    Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found, even cannot find in setting file");
+                    ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found, even cannot find in setting file");
                     return null;
                 }
 
-                Debug.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
+                ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
             }
 
             overlayPageState.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageState, tweenTimeIfNeed, OnComplete));
@@ -76,17 +76,17 @@ namespace CloudMacaca.ViewSystem
         {
             if (currentViewPage.name == targetViewPageName)
             {
-                Debug.LogWarning("The ViewPage request to change is same as current ViewPage, nothing will happen!");
+                ViewSystemLog.LogWarning("The ViewPage request to change is same as current ViewPage, nothing will happen!");
                 return null;
             }
             if (IsPageTransition && AutoWaitPreviousPageFinish == false)
             {
-                Debug.LogWarning("Page is in Transition. You can set AutoWaitPreviousPageFinish to 'True' then page will auto transition to next page while previous page transition finished.");
+                ViewSystemLog.LogWarning("Page is in Transition. You can set AutoWaitPreviousPageFinish to 'True' then page will auto transition to next page while previous page transition finished.");
                 return null;
             }
             else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
             {
-                Debug.LogWarning($"Page is in Transition but AutoWaitPreviousPageFinish Leaving page is [{currentViewPage?.name}] Entering page is [{nextViewPage?.name}] next page is [{targetViewPageName}]");
+                ViewSystemLog.LogWarning($"Page is in Transition but AutoWaitPreviousPageFinish Leaving page is [{currentViewPage?.name}] Entering page is [{nextViewPage?.name}] next page is [{targetViewPageName}]");
                 ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnComplete));
                 return ChangePageToCoroutine;
             }
@@ -142,7 +142,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     if (item.Value.IsTransition == true)
                     {
-                        Debug.LogError("Due to " + item.Key + "is Transition");
+                        ViewSystemLog.LogError("Due to " + item.Key + "is Transition");
                         return true;
                     }
                 }
@@ -223,12 +223,12 @@ namespace CloudMacaca.ViewSystem
             float deltaTime = 0;
             while (true)
             {
-                //Debug.LogError("Find auto leave count " + autoLeaveQueue.Count);
+                //ViewSystemLog.LogError("Find auto leave count " + autoLeaveQueue.Count);
                 deltaTime = Time.deltaTime;
                 ///更新每個 倒數值
                 for (int i = 0; i < autoLeaveQueue.Count; i++)
                 {
-                    //Debug.LogError("Update auto leave value " + autoLeaveQueue[i].name);
+                    //ViewSystemLog.LogError("Update auto leave value " + autoLeaveQueue[i].name);
 
                     autoLeaveQueue[i].times -= deltaTime;
                     if (autoLeaveQueue[i].times <= 0)

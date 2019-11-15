@@ -200,7 +200,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     item.OnChangePage(show);
                 }
-            //Debug.LogError("ChangePage " + name);
+            //ViewSystemLog.LogError("ChangePage " + name);
             if (show)
             {
                 if (parent == null)
@@ -222,7 +222,7 @@ namespace CloudMacaca.ViewSystem
                     //如果目前的 parent 跟目標的 parent 是同一個人 那就什麼事都不錯
                     if (parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
                     {
-                        //Debug.LogWarning("Due to already set the same parent with target parent, ignore " +  name);
+                        //ViewSystemLog.LogWarning("Due to already set the same parent with target parent, ignore " +  name);
                         return;
                     }
                     //其他的情況下用 Tween 過去
@@ -239,7 +239,7 @@ namespace CloudMacaca.ViewSystem
                         OnShowObservable = Observable.EveryUpdate().Where(_ => OnLeaveWorking == false).Subscribe(
                             x =>
                             {
-                                Debug.LogWarning("Try to ReShow ", this);
+                                ViewSystemLog.LogWarning("Try to ReShow ", this);
                                 rectTransform.SetParent(parent, true);
                                 rectTransform.anchoredPosition3D = Vector3.zero;
                                 rectTransform.localScale = Vector3.one;
@@ -258,7 +258,7 @@ namespace CloudMacaca.ViewSystem
 
         public virtual void OnShow(float delayIn = 0)
         {
-            //Debug.LogError("OnShow " + name);
+            //ViewSystemLog.LogError("OnShow " + name);
             //停掉正在播放的 Leave 動畫
             if (OnLeaveDisposable != null)
             {
@@ -298,6 +298,7 @@ namespace CloudMacaca.ViewSystem
                     if (transition == TransitionType.Animator)
                     {
                         animator.Play(AnimationStateName_In);
+
                         if (transition == TransitionType.Animator && hasLoopBool)
                         {
                             animator.SetBool(ButtonAnimationBoolKey, true);
@@ -305,7 +306,7 @@ namespace CloudMacaca.ViewSystem
                     }
                     else if (transition == TransitionType.CanvasGroupAlpha)
                     {
-                        //Debug.Log("canvasGroup alpha");
+                        //ViewSystemLog.Log("canvasGroup alpha");
                         canvasGroup.DOFade(1, canvasInTime).OnStart(
                             () =>
                             {
@@ -337,7 +338,7 @@ namespace CloudMacaca.ViewSystem
         IDisposable OnLeaveDisposable;
         public virtual void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
         {
-            //Debug.LogError("OnLeave " + name);
+            //ViewSystemLog.LogError("OnLeave " + name);
             if (transition == TransitionType.Animator && hasLoopBool)
             {
                 animator.SetBool(ButtonAnimationBoolKey, false);
@@ -391,7 +392,7 @@ namespace CloudMacaca.ViewSystem
                     }
                     else if (transition == TransitionType.CanvasGroupAlpha)
                     {
-                        if (canvasGroup == null) Debug.LogError("No Canvas Group Found on this Object", this);
+                        if (canvasGroup == null) ViewSystemLog.LogError("No Canvas Group Found on this Object", this);
                         canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase)
                             .OnComplete(
                                 () =>
@@ -485,7 +486,7 @@ namespace CloudMacaca.ViewSystem
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex.Message, this);
+                ViewSystemLog.LogError(ex.Message, this);
             }
 
             if (clip == null)

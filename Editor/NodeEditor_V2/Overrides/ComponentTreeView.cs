@@ -49,7 +49,7 @@ namespace CloudMacaca.ViewSystem
             {
                 if (item == null)
                 {
-                    Debug.LogError("It seems there is some Component's script is missing, Please check your prefab");
+                    ViewSystemLog.LogError("It seems there is some Component's script is missing, Please check your prefab");
                     continue;
                 }
 

@@ -106,7 +106,7 @@ public class HierarchyTreeView : TreeView
     //     genericMenu.AddItem(new GUIContent("Add Component"), false,
     //         () =>
     //         {
-    //             Debug.Log("right click");
+    //             ViewSystemLog.Log("right click");
     //         }
     //     );
 

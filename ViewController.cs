@@ -49,7 +49,7 @@ namespace CloudMacaca.ViewSystem
             //沒有找到 
             if (vp == null)
             {
-                Debug.LogError("No view page match" + viewPageName + "Found");
+                ViewSystemLog.LogError("No view page match" + viewPageName + "Found");
                 //return;
                 ChangePageToCoroutine = null;
                 yield break;
@@ -57,7 +57,7 @@ namespace CloudMacaca.ViewSystem
 
             if (vp.viewPageType == ViewPage.ViewPageType.Overlay)
             {
-                Debug.LogError("To show Overlay ViewPage use ShowOverlayViewPage() method \n current version will redirect to this method automatically.");
+                ViewSystemLog.LogError("To show Overlay ViewPage use ShowOverlayViewPage() method \n current version will redirect to this method automatically.");
                 ShowOverlayViewPageBase(vp, true, OnComplete);
                 ChangePageToCoroutine = null;
                 //return;
@@ -122,7 +122,7 @@ namespace CloudMacaca.ViewSystem
                 //如果 ViewElement 被 Overlay 頁面使用中就不執行 ChangePage
                 if (CurrentOverlayViewElement.Contains(item))
                 {
-                    Debug.Log(item.name);
+                    ViewSystemLog.Log(item.name);
                     continue;
                 }
                 float delayOut = 0;
@@ -165,7 +165,7 @@ namespace CloudMacaca.ViewSystem
                 //如果 ViewElement 被 Overlay 頁面使用中就不執行 ChangePage
                 if (CurrentOverlayViewElement.Contains(item.viewElement))
                 {
-                    Debug.Log(item.viewElement.name);
+                    ViewSystemLog.Log(item.viewElement.name);
                     continue;
                 }
 
@@ -193,12 +193,12 @@ namespace CloudMacaca.ViewSystem
         {
             if (vp == null)
             {
-                Debug.Log("ViewPage is null");
+                ViewSystemLog.Log("ViewPage is null");
                 yield break;
             }
             if (vp.viewPageType != ViewPage.ViewPageType.Overlay)
             {
-                Debug.LogError("ViewPage " + vp.name + " is not an Overlay page");
+                ViewSystemLog.LogError("ViewPage " + vp.name + " is not an Overlay page");
                 yield break;
             }
 
@@ -293,7 +293,7 @@ namespace CloudMacaca.ViewSystem
                         try
                         {
                             var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => m.viewElement == item.viewElement);
-                            Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                            ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
                             item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
                         }
                         catch { }
@@ -305,7 +305,7 @@ namespace CloudMacaca.ViewSystem
                         try
                         {
                             var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.viewElement == item.viewElement);
-                            Debug.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                            ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
                             item.viewElement.ChangePage(true, vpi.parent, tweenTimeIfNeed, 0, 0);
                         }
                         catch { }
