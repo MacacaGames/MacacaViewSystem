@@ -88,6 +88,13 @@ namespace CloudMacaca.ViewSystem
             {
                 item.viewElement.OnShow(item.delayIn);
             }
+            if (lifeCyclesObjects != null)
+            {
+                foreach (var item in lifeCyclesObjects)
+                {
+                    item.OnStartShow();
+                }
+            }
         }
 
         public override void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
@@ -105,6 +112,13 @@ namespace CloudMacaca.ViewSystem
                 foreach (var item in childViewElements)
                 {
                     item.viewElement.OnLeave(item.delayOut, false, ignoreTransition);
+                }
+            }
+            if (lifeCyclesObjects != null)
+            {
+                foreach (var item in lifeCyclesObjects)
+                {
+                    item.OnStartLeave();
                 }
             }
             StartCoroutine(DisableItem());
