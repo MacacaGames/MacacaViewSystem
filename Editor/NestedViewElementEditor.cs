@@ -70,10 +70,15 @@ namespace CloudMacaca.ViewSystem
         {
             nestedViewElement.transition = ViewElement.TransitionType.ActiveSwitch;
             EditorGUILayout.HelpBox("Nested ViewElement only can set transition to ActiveSwitch", MessageType.Info);
-
+            if (GUILayout.Button("Refresh", EditorStyles.miniButton))
+            {
+                nestedViewElement.SetupChild();
+                OnEnable();
+                Repaint();
+            }
             if (!nestedViewElement.IsSetup && nestedViewElement.dynamicChild == false)
             {
-                EditorGUILayout.HelpBox("There is no avaliable ViewElement in child GameObject \n\n If ViewElement will generate in runtime, please chech the 'DynamicChild' check box", MessageType.Error);
+                EditorGUILayout.HelpBox("There is no avaliable ViewElement in child GameObject \n\nIf ViewElement will generate in runtime, please chech the 'DynamicChild' check box", MessageType.Error);
             }
             if (nestedViewElement.childViewElements.Count != list.count ||
                 nestedViewElement.childViewElements.Count(m => m.viewElement == null) > 0
@@ -86,12 +91,7 @@ namespace CloudMacaca.ViewSystem
                 EditorGUILayout.HelpBox("For performance reasons, it is recommended to use 'Dynamic Child' feature as less as you can. \n\n Note : you still need to call ChangePage() method on ViewElement yourself, NestedViewElement will not handle the DynamicChild's ChangePage()", MessageType.Warning);
             }
             nestedViewElement.dynamicChild = EditorGUILayout.Toggle("Dynamic Child", nestedViewElement.dynamicChild);
-            if (GUILayout.Button("Refresh", EditorStyles.miniButton))
-            {
-                nestedViewElement.SetupChild();
-                OnEnable();
-                Repaint();
-            }
+
 
             using (var disable = new EditorGUI.DisabledGroupScope(true))
             {
