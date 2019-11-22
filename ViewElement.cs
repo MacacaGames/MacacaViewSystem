@@ -84,33 +84,8 @@ namespace CloudMacaca.ViewSystem
         public string AnimationStateName_Loop = "Loop";
         const string ButtonAnimationBoolKey = "IsLoop";
 
-        bool? _hasLoopBool = null;
-        bool hasLoopBool
-        {
-            get
-            {
-                if (_hasLoopBool == null)
-                {
-                    if (transition != TransitionType.Animator)
-                    {
-                        _hasLoopBool = false;
-                    }
-                    else
-                    {
-                        foreach (AnimatorControllerParameter param in animator.parameters)
-                        {
-                            if (param.name == ButtonAnimationBoolKey)
-                            {
-                                _hasLoopBool = true;
-                                return _hasLoopBool.Value;
-                            }
-                        }
-                        _hasLoopBool = false;
-                    }
-                }
-                return _hasLoopBool.Value;
-            }
-        }
+        bool hasLoopBool = false;
+
         //ViewElementLifeCycle
         protected IViewElementLifeCycle[] lifeCyclesObjects;
 
@@ -185,6 +160,22 @@ namespace CloudMacaca.ViewSystem
             // poolPosition = rectTransform.anchoredPosition3D;
             // if (transform.parent == poolParent)
             // gameObject.SetActive(false);
+
+            CheckAnimatorHasLoopKey();
+        }
+        void CheckAnimatorHasLoopKey()
+        {
+            hasLoopBool = false;
+            if (transition == TransitionType.Animator)
+            {
+                foreach (AnimatorControllerParameter param in animator.parameters)
+                {
+                    if (param.name == ButtonAnimationBoolKey)
+                    {
+                        hasLoopBool = true;
+                    }
+                }
+            }
         }
         Coroutine AnimationIsEndCheck = null;
 

@@ -121,7 +121,7 @@ namespace CloudMacaca.ViewSystem
                     item.OnStartLeave();
                 }
             }
-            StartCoroutine(DisableItem());
+            CoroutineManager.Instance.StartCoroutine(DisableItem());
         }
 
         IEnumerator DisableItem()
