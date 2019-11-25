@@ -548,9 +548,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         private float menuBarHeight = 20f;
         private Rect menuBar;
-        int currentIndex = 0;
         List<string> viewStatesPopup = new List<string>();
-        string targetViewState;
         private void DrawMenuBar()
         {
             menuBar = new Rect(0, 0, position.width, menuBarHeight);

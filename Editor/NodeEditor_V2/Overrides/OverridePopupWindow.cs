@@ -19,7 +19,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         GameObject target;
         public ViewPageItem viewPageItem;
         GUIStyle removeButtonStyle;
+#if UNITY_2019_OR_NEWER
         static float toastMessageFadeOutTimt = 1.5f;
+#endif
         bool isInit => target != null;
         public static bool show = false;
         Rect windowRect = new Rect(0, 0, 400, 450);
@@ -66,7 +68,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             windowRect.y = 200;
             show = true;
         }
-        float closeBtnSize = 20;
         public void OnGUI()
         {
             if (!show)
@@ -538,6 +539,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             hierarchyTreeView.ExpandAll();
             hierarchyTreeView.OnItemClick += (go) =>
             {
+                lastSelectGameObject = currentSelectGameObject;
                 currentSelectGameObject = (GameObject)go;
                 CacheComponent();
             };

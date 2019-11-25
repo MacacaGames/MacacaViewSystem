@@ -18,8 +18,6 @@ public class HierarchyTreeView : TreeView
         Reload();
     }
 
-
-    int padding = 20;
     public void Draw()
     {
         // using (var vertical = new GUILayout.VerticalScope())
