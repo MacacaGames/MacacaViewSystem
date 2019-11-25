@@ -599,7 +599,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     if (!propertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEvent)))
                     {
                         ViewSystemLog.LogError("Currently Gereric type only support UnityEvent");
-                        editor.ShowNotification(new GUIContent("Currently Gereric type only support UnityEvent"), toastMessageFadeOutTimt);
+                        var content = new GUIContent("Currently Gereric type only support UnityEvent");
+#if UNITY_2019_OR_NEWER
+                        editor.ShowNotification(content, toastMessageFadeOutTimt);
+#else
+                        editor.ShowNotification(content);
+#endif
                         return;
                     }
                     var eventData = new ViewElementEventData();
@@ -626,17 +631,23 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         if (current.Where(m => string.IsNullOrEmpty(m.scriptName) && string.IsNullOrEmpty(m.methodName)).Count() > 0)
                         {
                             ViewSystemLog.LogError("You Have 1 event doesn't setup yet");
-                            editor.ShowNotification(new GUIContent("You Have 1 event doesn't setup yet"), toastMessageFadeOutTimt);
+                            var errorContent = new GUIContent("You Have 1 event doesn't setup yet");
+#if UNITY_2019_OR_NEWER
+                            editor.ShowNotification(errorContent, toastMessageFadeOutTimt);
+#else
+                            editor.ShowNotification(errorContent);
+#endif
                             return;
                         }
                     }
-                    // else
-                    // {
 
-                    // }
-
+                    var error = new GUIContent("Event Add Success");
                     viewPageItem.eventDatas.Add(eventData);
-                    editor.ShowNotification(new GUIContent("Event Add Success"), toastMessageFadeOutTimt);
+#if UNITY_2019_OR_NEWER
+                    editor.ShowNotification(error, toastMessageFadeOutTimt);
+#else
+                    editor.ShowNotification(error);
+#endif
                 }
                 else
                 {
@@ -662,12 +673,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     if (current != null)
                     {
                         current = overrideData;
+#if UNITY_2019_OR_NEWER
                         editor.ShowNotification(new GUIContent("This property is already in override list."), toastMessageFadeOutTimt);
+#else
+                        editor.ShowNotification(new GUIContent("This property is already in override list."));
+#endif
                     }
                     else
                     {
                         viewPageItem.overrideDatas.Add(overrideData);
+#if UNITY_2019_OR_NEWER
                         editor.ShowNotification(new GUIContent("Property override add success"), toastMessageFadeOutTimt);
+#else
+                        editor.ShowNotification(new GUIContent("Property override add success"));
+#endif
                     }
                 }
             };

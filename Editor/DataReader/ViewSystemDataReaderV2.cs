@@ -51,7 +51,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 //Or Instantiate a Prefab
                 else
                 {
+#if UNITY_2019_OR_NEWER
                     var ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot, ViewControllerTransform);
+#else
+                    var ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot);
+                    ((GameObject)ui_root).transform.SetParent(ViewControllerTransform);
+#endif
                     data.globalSetting.UIRootScene = (GameObject)ui_root;
                     PrefabUtility.UnpackPrefabInstance(data.globalSetting.UIRootScene, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
                 }

@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine.Events;
 using System;
 using UnityEngine.UI;
-using Sirenix.OdinInspector;
 
 namespace CloudMacaca.ViewSystem
 {

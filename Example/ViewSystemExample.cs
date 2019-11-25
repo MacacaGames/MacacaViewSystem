@@ -15,7 +15,7 @@ public class ViewSystemExample : MonoBehaviour
             .Changer()
             .OnStart(() => { Debug.Log("Start" + Time.time); })
             .OnComplete(() => { Debug.Log("Complete" + Time.time); })
-            .SetPage(ViewSystemScriptable.ViewPages.Setting)
+            .SetPage("Setting")
             .Show();
 
     }
@@ -34,7 +34,7 @@ public class ViewSystemExample : MonoBehaviour
                     .Changer()
                     .OnStart(() => { Debug.Log("tttt Start" + Time.time); })
                     .OnComplete(() => { Debug.Log("tttt Complete" + Time.time); })
-                    .SetPage(ViewSystemScriptable.ViewPages.Welcome)
+                    .SetPage("Welcome")
                     .Show()
                     .GetYieldInstruction();
         Debug.Log("IEnumerator End" + Time.time);
@@ -55,7 +55,7 @@ public class ViewSystemExample : MonoBehaviour
                     .Changer()
                     .OnStart(() => { Debug.Log("tttt Start" + Time.time); })
                     .OnComplete(() => { Debug.Log("tttt Complete" + Time.time); })
-                    .SetPage(ViewSystemScriptable.ViewPages.Welcome)
+                    .SetPage("Welcome")
                     .GetYieldInstruction();
         Debug.Log("IEnumerator End" + Time.time);
     }

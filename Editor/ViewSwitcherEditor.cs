@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using CloudMacaca.ViewSystem;
 using System.Linq;
-using Unity.Linq;
 
 public class ViewSwitcherEditor : EditorWindow
 {

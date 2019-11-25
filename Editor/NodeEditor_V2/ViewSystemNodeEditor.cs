@@ -564,7 +564,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         if (isInit == false)
                         {
+#if UNITY_2019_OR_NEWER
                             ShowNotification(new GUIContent("Editor is not Initial."), 2);
+#else
+                            ShowNotification(new GUIContent("Editor is not Initial."));
+#endif
                             return;
                         }
                         if (EditorUtility.DisplayDialog("Save", "Save action will also delete all ViewElement in scene. \nDo you really want to continue?", "Yes", "No"))
