@@ -6,14 +6,14 @@ using UnityEditor.AnimatedValues;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
-    public class ViewSystemNodeGlobalSettingWindow : ViewSystemNodeWindow
+    public class ViewSystemGlobalSettingWindow : ViewSystemNodeWindow
     {
 
         public static bool showGlobalSetting;
         ViewSystemDataReaderV2 dataReader;
 
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
-        public ViewSystemNodeGlobalSettingWindow(string name, ViewSystemNodeEditor editor, ViewSystemDataReaderV2 dataReader)
+        public ViewSystemGlobalSettingWindow(string name, ViewSystemNodeEditor editor, ViewSystemDataReaderV2 dataReader)
         : base(name, editor)
         {
             this.dataReader = dataReader;
@@ -44,8 +44,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         }
                         else
                         {
-                            var go = dataReader.SetUIRootObject(saveData.globalSetting.UIRootScene);
-                            saveData.globalSetting.UIRoot = go;
+                            dataReader.SetUIRootObject(saveData.globalSetting.UIRootScene);
                         }
                     }
                 }

@@ -12,7 +12,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public static ViewSystemNodeEditor Instance;
         static IViewSystemDateReader dataReader;
         static ViewSystemNodeInspector inspector;
-        static ViewSystemNodeGlobalSettingWindow globalSettingWindow;
+        static ViewSystemGlobalSettingWindow globalSettingWindow;
         public OverridePopupWindow overridePopupWindow;
         private ViewSystemVerifier viewSystemVerifier;
         public static ViewSystemSaveData saveData;
@@ -45,7 +45,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             isInit = dataReader.Init();
             saveData = ((ViewSystemDataReaderV2)dataReader).GetGlobalSetting();
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
-            globalSettingWindow = new ViewSystemNodeGlobalSettingWindow("Global Setting", this, (ViewSystemDataReaderV2)dataReader);
+            globalSettingWindow = new ViewSystemGlobalSettingWindow("Global Setting", this, (ViewSystemDataReaderV2)dataReader);
             overridePopupWindow = new OverridePopupWindow("Override", this, inspector);
             viewSystemVerifier = new ViewSystemVerifier(this, saveData);
             viewStatesPopup.Add("All");

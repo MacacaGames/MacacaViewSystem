@@ -686,7 +686,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var vs = viewStateNode.viewState;
             using (var disable = new EditorGUI.DisabledGroupScope(false))
             {
-                GUI.Button(new Rect(rect.width - 25, rect.y - 20, 25, 25), GUIContent.none, removeButtonStyle);
+                GUI.Button(new Rect(rect.width - 25, rect.y - 20, 25, 25), GUIContent.none, GUIStyle.none);
             }
             GUI.Label(new Rect(rect.x, rect.y - 20, rect.width, 20), " ViewState", new GUIStyle("EyeDropperHorizontalLine"));
             using (var vertial = new EditorGUILayout.VerticalScope())

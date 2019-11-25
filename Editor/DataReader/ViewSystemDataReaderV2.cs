@@ -264,7 +264,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 ClearAllViewElementInScene();
                 //Apply Prefab
                 //PrefabUtility.ApplyPrefabInstance(data.globalSetting.UIRootScene, InteractionMode.AutomatedAction);
-                PrefabUtility.SaveAsPrefabAsset(data.globalSetting.UIRootScene, ViewSystemResourceFolder + data.globalSetting.UIRootScene.name + ".prefab");
+                data.globalSetting.UIRoot = PrefabUtility.SaveAsPrefabAsset(data.globalSetting.UIRootScene, ViewSystemResourceFolder + data.globalSetting.UIRootScene.name + ".prefab");
             }
             UnityEditor.EditorUtility.SetDirty(data);
         }
@@ -274,13 +274,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             return data;
         }
 
-        public GameObject SetUIRootObject(GameObject obj)
+        public void SetUIRootObject(GameObject obj)
         {
             if (!Directory.Exists(ViewSystemResourceFolder))
             {
                 CheckAndCreateResourceFolder();
             }
-            return PrefabUtility.SaveAsPrefabAsset(obj, ViewSystemResourceFolder + obj.name + ".prefab");
+
+            var saveObject = PrefabUtility.SaveAsPrefabAsset(obj, ViewSystemResourceFolder + obj.name + ".prefab");
+            data.globalSetting.UIRoot = saveObject;
         }
 
         void CheckAndCreateResourceFolder()
