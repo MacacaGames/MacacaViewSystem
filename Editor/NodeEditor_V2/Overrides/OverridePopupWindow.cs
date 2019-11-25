@@ -12,10 +12,9 @@ using System.Reflection;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
-    public class OverridePopupWindow
+    public class OverridePopupWindow : ViewSystemNodeWindow
     {
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
-        ViewSystemNodeEditor editor;
         GameObject target;
         public ViewPageItem viewPageItem;
         GUIStyle removeButtonStyle;
@@ -23,13 +22,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static float toastMessageFadeOutTimt = 1.5f;
 #endif
         bool isInit => target != null;
-        public static bool show = false;
-        Rect windowRect = new Rect(0, 0, 400, 450);
         GUIStyle windowStyle;
-        ViewSystemNodeInspector sideBar;
-        public OverridePopupWindow(ViewSystemNodeEditor editor, ViewSystemNodeInspector sideBar)
+        public override GUIStyle GetWindowStyle()
         {
-            this.editor = editor;
+            return windowStyle;
+        }
+        ViewSystemNodeInspector sideBar;
+        public OverridePopupWindow(string name, ViewSystemNodeEditor editor, ViewSystemNodeInspector sideBar)
+        : base(name, editor)
+        {
             this.sideBar = sideBar;
             removeButtonStyle = new GUIStyle
             {
@@ -41,13 +42,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 imagePosition = ImagePosition.ImageOnly,
                 alignment = TextAnchor.MiddleCenter
             };
-            show = false;
             windowStyle = new GUIStyle(Drawer.windowStyle);
             RectOffset padding = windowStyle.padding;
             padding.left = 0;
             padding.right = 1;
             padding.bottom = 0;
-
         }
         public void SetViewPageItem(ViewPageItem viewPageItem)
         {
@@ -64,22 +63,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void Show(Rect itemRect)
         {
             this.itemRect = itemRect;
-            windowRect.x = itemRect.x + itemRect.width + 50;
-            windowRect.y = 200;
+            rect.x = itemRect.x + itemRect.width + 50;
+            rect.y = 200;
             show = true;
         }
-        public void OnGUI()
+        public override void OnGUI()
         {
-            if (!show)
-            {
-                return;
-            }
+            base.OnGUI();
+            if (show == false) return;
             EditorGUIUtility.labelWidth = 0;
-
-            windowRect = GUILayout.Window(999, windowRect, Draw, "", GUIStyle.none);
-
-            GUI.Box(windowRect, "ViewElement Override", windowStyle);
-
             // if (GUI.Button(new Rect(windowRect.x + windowRect.width, windowRect.y, closeBtnSize, closeBtnSize), new GUIContent(EditorGUIUtility.FindTexture("winbtn_win_close"))))
             // {
             //     show = false;
@@ -89,18 +81,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //Handles.DrawLine(targetPos, windowRect.position);
             Handles.DrawBezier(
                 targetPos,
-                windowRect.position,
+                rect.position,
                 targetPos,
-                windowRect.position,
+                rect.position,
                 Color.black,
                 null,
                 5f
             );
         }
-        void Draw(int window)
+        public override void Draw(int window)
         {
-
-            GUILayout.Space(windowStyle.padding.top);
             DrawTab();
             if (!isInit)
             {
@@ -184,12 +174,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 if (currentSelectGameObject)
                 {
-                    if (componentTreeView != null) componentTreeView.OnGUI(new Rect(0, 0, windowRect.width, windowRect.height - 80));
+                    if (componentTreeView != null) componentTreeView.OnGUI(new Rect(0, 0, rect.width, rect.height - 80));
                 }
                 else
                 {
                     //if (hierarchyDrawer != null) hierarchyDrawer.Draw();
-                    if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, windowRect.width, windowRect.height - 80));
+                    if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, rect.width, rect.height - 80));
                 }
             }
         }

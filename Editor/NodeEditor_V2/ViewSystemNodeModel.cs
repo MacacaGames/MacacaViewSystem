@@ -157,10 +157,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             get
             {
-                return
-                    !(ViewSystemNodeGlobalSettingWindow.showGlobalSetting ||
-                        OverridePopupWindow.show ||
-                        ViewSystemNodeInspector.isMouseInSideBar());
+                return ViewSystemNodeEditor.Instance.IsNodeInactivable;
             }
         }
         public bool ProcessEvents(Event e)
@@ -426,10 +423,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             get
             {
-                return !(
-                    ViewSystemNodeGlobalSettingWindow.showGlobalSetting ||
-                    OverridePopupWindow.show ||
-                    ViewSystemNodeInspector.isMouseInSideBar());
+                return ViewSystemNodeEditor.Instance.IsNodeInactivable;
             }
         }
         public void Draw()

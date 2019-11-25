@@ -6,21 +6,17 @@ using UnityEditor.AnimatedValues;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
-    public class ViewSystemNodeGlobalSettingWindow
+    public class ViewSystemNodeGlobalSettingWindow : ViewSystemNodeWindow
     {
-        ViewSystemNodeEditor editor;
-        ViewSystemDataReaderV2 dataReader;
-        public static bool showGlobalSetting;
-        bool lastOpen;
-        private Rect rect = new Rect(0, 0, 350, 400);
-        //public BaseSettingNode node;
-        static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
 
-        public ViewSystemNodeGlobalSettingWindow(ViewSystemNodeEditor editor, ViewSystemDataReaderV2 dataReader)
+        public static bool showGlobalSetting;
+        ViewSystemDataReaderV2 dataReader;
+
+        static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
+        public ViewSystemNodeGlobalSettingWindow(string name, ViewSystemNodeEditor editor, ViewSystemDataReaderV2 dataReader)
+        : base(name, editor)
         {
-            this.editor = editor;
             this.dataReader = dataReader;
-            showGlobalSetting = false;
             m_ShowEventScript = new AnimBool(true);
             m_ShowEventScript.valueChanged.AddListener(editor.Repaint);
         }
@@ -28,21 +24,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         Vector2 scrollPosition;
         AnimBool m_ShowEventScript;
 
-        public void OnGUI()
-        {
-            rect = GUILayout.Window(11110, rect, Draw, "Global Setting");
-            if (lastOpen != showGlobalSetting)
-            {
-                rect.x = editor.position.width * 0.5f;
-                rect.y = editor.position.height * 0.5f;
-
-            }
-            lastOpen = showGlobalSetting;
-        }
-        public void Draw(int id)
+        public override void Draw(int id)
         {
             //node.clickContainRect = rect;
-
             using (var scroll = new GUILayout.ScrollViewScope(scrollPosition))
             {
                 scrollPosition = scroll.scrollPosition;
@@ -100,12 +84,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         }
                     }
                 }
-
             }
-
-            GUI.DragWindow(new Rect(0, 0, editor.position.width, editor.position.height));
-
+            base.Draw(id);
         }
     }
-
 }

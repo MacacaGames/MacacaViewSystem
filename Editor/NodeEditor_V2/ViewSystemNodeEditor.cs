@@ -9,8 +9,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNodeEditor : EditorWindow
     {
-
-        static ViewSystemNodeEditor window;
+        public static ViewSystemNodeEditor Instance;
         static IViewSystemDateReader dataReader;
         static ViewSystemNodeInspector inspector;
         static ViewSystemNodeGlobalSettingWindow globalSettingWindow;
@@ -25,10 +24,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
         private static void OpenWindow()
         {
-            window = GetWindow<ViewSystemNodeEditor>();
-            window.titleContent = new GUIContent("View System Visual Editor");
-            window.minSize = new Vector2(600, 400);
-            window.RefreshData();
+            Instance = GetWindow<ViewSystemNodeEditor>();
+            Instance.titleContent = new GUIContent("View System Visual Editor");
+            Instance.minSize = new Vector2(600, 400);
+            Instance.RefreshData();
             EditorApplication.playModeStateChanged += playModeStateChanged;
         }
 
@@ -46,8 +45,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             isInit = dataReader.Init();
             saveData = ((ViewSystemDataReaderV2)dataReader).GetGlobalSetting();
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
-            globalSettingWindow = new ViewSystemNodeGlobalSettingWindow(this, (ViewSystemDataReaderV2)dataReader);
-            overridePopupWindow = new OverridePopupWindow(this, inspector);
+            globalSettingWindow = new ViewSystemNodeGlobalSettingWindow("Global Setting", this, (ViewSystemDataReaderV2)dataReader);
+            overridePopupWindow = new OverridePopupWindow("Override", this, inspector);
             viewSystemVerifier = new ViewSystemVerifier(this, saveData);
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
@@ -71,6 +70,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (dataReader == null) dataReader = new ViewSystemDataReaderV2(this);
             if (console == null) console = new ViewSystemNodeConsole();
             if (inspector == null) inspector = new ViewSystemNodeInspector(this);
+            Instance = this;
         }
 
         List<ViewPageNode> viewPageList = new List<ViewPageNode>();
@@ -125,7 +125,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             BeginWindows();
             if (globalSettingWindow != null)
-                if (ViewSystemNodeGlobalSettingWindow.showGlobalSetting) globalSettingWindow.OnGUI();
+                globalSettingWindow.OnGUI();
 
             if (overridePopupWindow != null) overridePopupWindow.OnGUI();
             EndWindows();
@@ -577,7 +577,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     GUILayout.Space(5);
                     if (GUILayout.Button(new GUIContent("Reload", Drawer.refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))
                     {
-                        OverridePopupWindow.show = false;
+                        if (overridePopupWindow != null) overridePopupWindow.show = false;
                         RefreshData();
                     }
                     GUILayout.Space(5);
@@ -586,7 +586,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     GUILayout.Space(5);
                     console.show = GUILayout.Toggle(console.show, new GUIContent(Drawer.miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
                     GUILayout.Space(5);
-                    ViewSystemNodeGlobalSettingWindow.showGlobalSetting = GUILayout.Toggle(ViewSystemNodeGlobalSettingWindow.showGlobalSetting, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("SceneViewTools")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
+                    if (globalSettingWindow != null)
+                        globalSettingWindow.show = GUILayout.Toggle(globalSettingWindow.show, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("SceneViewTools")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
                     GUILayout.Space(5);
 
@@ -655,7 +656,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
                     if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item (Will Delete the Canvas Root Object in Scene)"), EditorStyles.toolbarButton))
                     {
-                        OverridePopupWindow.show = false;
+                        overridePopupWindow.show = false;
                         dataReader.Normalized();
                     }
                 }
@@ -676,6 +677,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 Handles.DrawLine(e.mousePosition, selectedViewPageNode.nodeConnectionLinker.rect.center);
                 GUI.changed = true;
+            }
+        }
+
+        public bool IsNodeInactivable
+        {
+            get
+            {
+                return !(
+                    globalSettingWindow.show ||
+                    overridePopupWindow.show ||
+                    ViewSystemNodeInspector.isMouseInSideBar());
             }
         }
     }

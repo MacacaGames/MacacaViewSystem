@@ -432,7 +432,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     editor.console.LogErrorMessage("ViewElement has not been select yet!");
                     return;
                 }
-                if (OverridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
+                if (editor.overridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
                 {
                     veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
                     editor.overridePopupWindow.SetViewPageItem(list[index]);
@@ -440,7 +440,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
                 else
                 {
-                    OverridePopupWindow.show = false;
+                    editor.overridePopupWindow.show = false;
                 }
             }
             rect.y += EditorGUIUtility.singleLineHeight;
