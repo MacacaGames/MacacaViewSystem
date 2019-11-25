@@ -567,6 +567,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         static float InspectorWidth = 350;
         Rect infoAreaRect;
+        Rect hintRect;
         public Vector2 scrollerPos;
         bool layouted = false;
         public void Draw()
@@ -575,6 +576,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 rect = new Rect(0, 20f, InspectorWidth, editor.position.height - 20f);
             else
                 rect = Rect.zero;
+
+            hintRect = rect;
 
             GUILayout.BeginArea(rect, "", new GUIStyle("flow node 0"));
 
@@ -638,9 +641,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         static List<string> excludePlatformOptions = new List<string>();
         int currentSelect;
+
         void DrawViewPageDetail(ViewPageNode viewPageNode)
         {
             var vp = viewPageNode.viewPage;
+            GUI.Label(new Rect(rect.x, rect.y - 20, rect.width, 20), " ViewPage", new GUIStyle("EyeDropperHorizontalLine"));
+            using (var disable = new EditorGUI.DisabledGroupScope(false))
+            {
+                GUI.Button(new Rect(rect.width - 25, rect.y - 20, 25, 25), new GUIContent(EditorGUIUtility.IconContent("AnimatorStateMachine Icon").image, "Navigation"), removeButtonStyle);
+            }
             using (var vertial = new EditorGUILayout.VerticalScope())
             {
                 GUILayout.Label(string.IsNullOrEmpty(vp.name) ? "Unnamed" : vp.name, new GUIStyle("DefaultCenteredLargeText"));
@@ -675,7 +684,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         void DrawViewStateDetail(ViewStateNode viewStateNode)
         {
             var vs = viewStateNode.viewState;
-
+            using (var disable = new EditorGUI.DisabledGroupScope(false))
+            {
+                GUI.Button(new Rect(rect.width - 25, rect.y - 20, 25, 25), GUIContent.none, removeButtonStyle);
+            }
+            GUI.Label(new Rect(rect.x, rect.y - 20, rect.width, 20), " ViewState", new GUIStyle("EyeDropperHorizontalLine"));
             using (var vertial = new EditorGUILayout.VerticalScope())
             {
                 GUILayout.Label(string.IsNullOrEmpty(vs.name) ? "Unnamed" : vs.name, new GUIStyle("DefaultCenteredLargeText"));
@@ -689,7 +702,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         {
                             using (var check = new EditorGUI.ChangeCheckScope())
                             {
-                                vs.name = EditorGUILayout.TextField("name", vs.name);
+                                vs.name = EditorGUILayout.TextField("Name", vs.name);
                                 if (check.changed)
                                 {
                                     viewStateNode.currentLinkedViewPageNode.All(
@@ -711,17 +724,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         }
                     }
                 }
-
-                // showViewPageItem.target = EditorGUILayout.Foldout(showViewPageItem.target, "ViewPageItems");
-
-                // using (var scroll = new EditorGUILayout.ScrollViewScope(scrollerPos))
-                // {
-                //     scrollerPos = scroll.scrollPosition;
-                //     using (var fade = new EditorGUILayout.FadeGroupScope(showViewPageItem.faded))
-                //     {
-                //         if (viewPageItemList != null && fade.visible) viewPageItemList.DoLayoutList();
-                //     }
-                // }
             }
         }
 
