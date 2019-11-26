@@ -13,7 +13,7 @@ namespace CloudMacaca.ViewSystem
     [DisallowMultipleComponent]
     public class ViewElement : MonoBehaviour
     {
-        #region  V2 Data
+        #region V2
         public static ViewElementRuntimePool runtimePool;
         public static ViewElementPool viewElementPool;
         public string PoolKey;
@@ -61,6 +61,12 @@ namespace CloudMacaca.ViewSystem
             }
             runtimeOverride.ApplyOverride(overrideDatas);
         }
+
+        public virtual Selectable[] GetSelectables()
+        {
+            return GetComponentsInChildren<Selectable>();
+        }
+
         #endregion
 
         public enum TransitionType

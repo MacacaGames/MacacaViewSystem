@@ -14,6 +14,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         static ViewSystemNodeInspector inspector;
         static ViewSystemGlobalSettingWindow globalSettingWindow;
         public OverridePopupWindow overridePopupWindow;
+        public ViewPageNavigationWindow navigationWindow;
         private ViewSystemVerifier viewSystemVerifier;
         public static ViewSystemSaveData saveData;
         bool isInit = false;
@@ -47,6 +48,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemGlobalSettingWindow("Global Setting", this, (ViewSystemDataReaderV2)dataReader);
             overridePopupWindow = new OverridePopupWindow("Override", this, inspector);
+            navigationWindow = new ViewPageNavigationWindow("Navigation Setting", this);
             viewSystemVerifier = new ViewSystemVerifier(this, saveData);
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
@@ -128,6 +130,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 globalSettingWindow.OnGUI();
 
             if (overridePopupWindow != null) overridePopupWindow.OnGUI();
+            if (navigationWindow != null) navigationWindow.OnGUI();
+
             EndWindows();
 
             ProcessEvents(Event.current);

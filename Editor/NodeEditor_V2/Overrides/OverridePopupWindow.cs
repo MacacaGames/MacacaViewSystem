@@ -63,22 +63,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void Show(Rect itemRect)
         {
             this.itemRect = itemRect;
-            rect.x = itemRect.x + itemRect.width + 50;
-            rect.y = 200;
+            // rect.x =;
+            // rect.y = 200;
+            rect = new Rect(itemRect.x + itemRect.width + 50, 200, rect.width, rect.height);
             show = true;
         }
+
         public override void OnGUI()
         {
             base.OnGUI();
             if (show == false) return;
             EditorGUIUtility.labelWidth = 0;
-            // if (GUI.Button(new Rect(windowRect.x + windowRect.width, windowRect.y, closeBtnSize, closeBtnSize), new GUIContent(EditorGUIUtility.FindTexture("winbtn_win_close"))))
-            // {
-            //     show = false;
-            //     SetViewPageItem(null);
-            // }
             var targetPos = new Vector2(itemRect.center.x, itemRect.center.y - sideBar.scrollerPos.y);
-            //Handles.DrawLine(targetPos, windowRect.position);
             Handles.DrawBezier(
                 targetPos,
                 rect.position,
@@ -187,7 +183,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ReorderableList reorderableListViewModify;
         void DrawScrollViewModify()
         {
-
             using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionModified))
             {
                 scrollPositionModified = scrollViewScope.scrollPosition;
@@ -574,8 +569,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
 
                     string propertyName = sp.propertyPath;
+
                     if (parentType.ToString().Contains("UnityEngine."))
                     {
+                        if (propertyName == "m_Navigation")
+                        {
+                            var content = new GUIContent("UnityEngine.UI.Navigation is not supported with ViewSystem OverrideSystem");
+#if UNITY_2019_OR_NEWER
+                            editor.ShowNotification(content, toastMessageFadeOutTimt);
+#else
+                            editor.ShowNotification(content);
+#endif
+                            return;
+                        }
                         propertyName = ViewSystemUtilitys.ParseUnityEngineProperty(sp.propertyPath);
                     }
 

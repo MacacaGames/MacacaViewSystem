@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 namespace CloudMacaca.ViewSystem
@@ -29,7 +29,10 @@ namespace CloudMacaca.ViewSystem
                 return childViewElements.Count > 0;
             }
         }
-
+        public override Selectable[] GetSelectables()
+        {
+            return childViewElements.SelectMany(m => m.viewElement.GetSelectables()).ToArray();
+        }
         public override void Setup()
         {
             base.Setup();

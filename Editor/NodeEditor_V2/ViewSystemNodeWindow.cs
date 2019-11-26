@@ -6,7 +6,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
     public class ViewSystemNodeWindow
     {
         protected ViewSystemNodeEditor editor;
-        protected Rect rect = new Rect(0, 0, 350, 400);
+        private Rect _rect;
+        protected Rect rect
+        {
+            get
+            {
+                return _rect;
+            }
+            set
+            {
+                _rect = new Rect(value.x, value.y, GetWindowSize.x, GetWindowSize.y);
+            }
+        }
 
         public bool show;
         public string name;
@@ -27,7 +38,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             rect = GUILayout.Window(this.GetHashCode(), rect, Draw, name, GetWindowStyle());
         }
+        public void Show()
+        {
+            show = true;
+        }
 
+        public void Hide()
+        {
+            show = false;
+        }
+        
         public virtual void Draw(int id)
         {
             if (dragable)
@@ -36,12 +56,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
+        public virtual Vector2 GetWindowSize
+        {
+            get
+            {
+                return new Vector2(350, 400);
+            }
+        }
 
         public virtual GUIStyle GetWindowStyle()
         {
             return new GUIStyle("window");
         }
-
-
     }
 }

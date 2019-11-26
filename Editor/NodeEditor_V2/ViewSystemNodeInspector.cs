@@ -648,7 +648,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             GUI.Label(new Rect(rect.x, rect.y - 20, rect.width, 20), " ViewPage", new GUIStyle("EyeDropperHorizontalLine"));
             using (var disable = new EditorGUI.DisabledGroupScope(false))
             {
-                GUI.Button(new Rect(rect.width - 25, rect.y - 20, 25, 25), new GUIContent(EditorGUIUtility.IconContent("AnimatorStateMachine Icon").image, "Navigation"), removeButtonStyle);
+                if (GUI.Button(new Rect(rect.width - 25, rect.y - 20, 25, 25), new GUIContent(EditorGUIUtility.IconContent("AnimatorStateMachine Icon").image, "Navigation"), removeButtonStyle))
+                {
+                    editor.navigationWindow.Show();
+                }
             }
             using (var vertial = new EditorGUILayout.VerticalScope())
             {
