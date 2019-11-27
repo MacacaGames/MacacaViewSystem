@@ -108,7 +108,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         using (var vertical2 = new GUILayout.VerticalScope("box"))
                         {
-                            GUILayout.Label($"ViewPageItem : {vpi.name}");
+                            GUILayout.Label($"ViewPageItem : {vpi.displayName}");
                             if (vpi.viewElement == null)
                             {
                                 GUILayout.Label(new GUIContent("ViewElement is not set up!", Drawer.miniErrorIcon));
