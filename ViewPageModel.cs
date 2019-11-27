@@ -11,6 +11,9 @@ namespace CloudMacaca.ViewSystem
         public ViewElement previewViewElement;
 #endif
         public string name;
+
+        public string displayName => string.IsNullOrEmpty(name) ? viewElement.name : name;
+
         static Transform ViewControllerObject;
         public ViewElement viewElement;
         public ViewElement runtimeViewElement = null;
