@@ -35,6 +35,18 @@ namespace CloudMacaca.ViewSystem
                 return _runtimeOverride;
             }
         }
+        public void ApplyNavigation(IEnumerable<ViewElementNavigationData> navigationDatas)
+        {
+            if (navigationDatas == null)
+            {
+                return;
+            }
+            if (navigationDatas.Count() == 0)
+            {
+                return;
+            }
+            runtimeOverride.ApplyNavigation(navigationDatas);
+        }
         public void ApplyEvent(IEnumerable<ViewElementEventData> eventDatas)
         {
             if (eventDatas == null)

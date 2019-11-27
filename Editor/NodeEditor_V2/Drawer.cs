@@ -236,4 +236,26 @@ public class Drawer
             return _smallLableStyle;
         }
     }
+    private static GUIStyle _removeButtonStyle;
+    public static GUIStyle removeButtonStyle
+    {
+        get
+        {
+            if (_removeButtonStyle == null)
+            {
+                _removeButtonStyle = new GUIStyle
+                {
+                    fixedWidth = 25f,
+                    fontSize = 16,
+                    active =
+                    {
+                        background = CloudMacaca.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255))
+                    },
+                    imagePosition = ImagePosition.ImageOnly,
+                    alignment = TextAnchor.MiddleCenter
+                };
+            }
+            return _removeButtonStyle;
+        }
+    }
 }

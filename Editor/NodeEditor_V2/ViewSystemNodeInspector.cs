@@ -18,11 +18,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         AnimBool showBasicInfo;
         AnimBool showViewPageItem;
         ReorderableList viewPageItemList;
-        GUIStyle removeButtonStyle;
         GUIStyle nameStyle;
         GUIStyle nameErrorStyle;
         GUIStyle nameEditStyle;
-        OverridePopupWindow popWindow;
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
         static GUIContent EditoModifyButton = new GUIContent(Drawer.prefabIcon, "Show/Hide Modified Properties and Events");
         public ViewSystemNodeInspector(ViewSystemNodeEditor editor)
@@ -60,19 +58,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 onNormal = { background = EditorGUIUtility.FindTexture("d_editicon.sml") },
                 normal = { background = EditorGUIUtility.FindTexture("d_FilterSelectedOnly") }
             };
-
-
-            removeButtonStyle = new GUIStyle
-            {
-                fixedWidth = 25f,
-                active =
-            {
-                background = CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255))
-            },
-                imagePosition = ImagePosition.ImageOnly,
-                alignment = TextAnchor.MiddleCenter
-            };
-
 
             excludePlatformOptions.Clear();
 
@@ -351,13 +336,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             rightRect.x = rect.width;
             rightRect.width = 20;
-            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("_Popup"), "More Setting"), removeButtonStyle))
+            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("_Popup"), "More Setting"), Drawer.removeButtonStyle))
             {
                 PopupWindow.Show(rect, new VS_EditorUtility.ViewPageItemDetailPopup(rect, list[index]));
             }
 
             rightRect.x -= 20;
-            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow"), "Open in new Instpector tab"), removeButtonStyle))
+            if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("UnityEditor.InspectorWindow"), "Open in new Instpector tab"), Drawer.removeButtonStyle))
             {
                 if (list[index].viewElement == null)
                 {
@@ -425,7 +410,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             veRect.x += veRect.width;
             veRect.width = 20;
 
-            if (GUI.Button(veRect, EditoModifyButton, removeButtonStyle))
+            if (GUI.Button(veRect, EditoModifyButton, Drawer.removeButtonStyle))
             {
                 if (list[index].viewElement == null)
                 {
@@ -522,13 +507,24 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
                 if (GUI.Button(parentFunctionRect, new GUIContent("Select Preview", "Highlight the preview ViewElement object (Only work while is preview the selected page)")))
                 {
-                    var go = GameObject.Find(list[index].parentPath);
-                    if (go.transform.childCount > 0)
+                    if (list[index].previewViewElement)
                     {
-                        EditorGUIUtility.PingObject(go.transform.GetChild(0));
-                        Selection.objects = new[] { go };
+                        EditorGUIUtility.PingObject(list[index].previewViewElement);
+                        Selection.objects = new[] { list[index].previewViewElement.gameObject };
                     }
                     else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                    // var go = GameObject.Find(list[index].parentPath);
+                    // if (go.transform.childCount > 0)
+                    // {
+                    //     var pi = go.transform.Find(list[index].viewElement.name);
+                    //     if (pi)
+                    //     {
+                    //         EditorGUIUtility.PingObject(pi);
+                    //         Selection.objects = new[] { pi };
+                    //     }
+                    //     else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                    // }
+                    // else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
                 }
             }
             else
@@ -554,7 +550,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             rect.width = 18;
             rect.x -= 21;
-            if (GUI.Button(rect, new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), removeButtonStyle))
+            if (GUI.Button(rect, new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), Drawer.removeButtonStyle))
             {
                 if (EditorUtility.DisplayDialog("Remove", "Do you really want to remove this item", "Sure", "Not now"))
                 {
@@ -648,9 +644,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             GUI.Label(new Rect(rect.x, rect.y - 20, rect.width, 20), " ViewPage", new GUIStyle("EyeDropperHorizontalLine"));
             using (var disable = new EditorGUI.DisabledGroupScope(false))
             {
-                if (GUI.Button(new Rect(rect.width - 25, rect.y - 20, 25, 25), new GUIContent(EditorGUIUtility.IconContent("AnimatorStateMachine Icon").image, "Navigation"), removeButtonStyle))
+                if (GUI.Button(new Rect(rect.width - 25, rect.y - 20, 25, 25), new GUIContent(EditorGUIUtility.IconContent("AnimatorStateMachine Icon").image, "Navigation"), Drawer.removeButtonStyle))
                 {
                     editor.navigationWindow.Show();
+                    editor.navigationWindow.SetViewPage(vp);
                 }
             }
             using (var vertial = new EditorGUILayout.VerticalScope())

@@ -153,6 +153,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
                 var temp = PrefabUtility.InstantiatePrefab(item.viewElement.gameObject);
                 ViewElement tempViewElement = ((GameObject)temp).GetComponent<ViewElement>();
+
+
+
                 tempViewElement.gameObject.SetActive(true);
                 var rectTransform = tempViewElement.GetComponent<RectTransform>();
                 Transform tempParent = root.Find(item.parentPath);
@@ -164,6 +167,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 if (mFix != null) mFix.ApplyModifyValue();
 
                 tempViewElement.ApplyOverrides(item.overrideDatas);
+                tempViewElement.ApplyNavigation(item.navigationDatas);
+
+                item.previewViewElement = tempViewElement;
 
                 //item.viewElement.SampleToLoopState();
                 if (tempViewElement.transition != ViewElement.TransitionType.Animator)

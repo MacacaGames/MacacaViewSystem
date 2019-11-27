@@ -7,10 +7,11 @@ namespace CloudMacaca.ViewSystem
     [System.Serializable]
     public class ViewPageItem
     {
-
+#if UNITY_EDITOR
+        public ViewElement previewViewElement;
+#endif
         public string name;
         static Transform ViewControllerObject;
-
         public ViewElement viewElement;
         public ViewElement runtimeViewElement = null;
         public List<ViewElementPropertyOverrideData> overrideDatas = new List<ViewElementPropertyOverrideData>();
@@ -38,7 +39,7 @@ namespace CloudMacaca.ViewSystem
         public DG.Tweening.Ease easeType = DG.Tweening.Ease.OutQuad;
         public float delayIn;
         public float delayOut;
-
+        public List<ViewElementNavigationData> navigationDatas;
 
         [Tooltip("這個可以讓該項目在特定平台時不會出現")]
         //public List<PlatformOption> excludePlatform = new List<PlatformOption>();
@@ -103,5 +104,46 @@ namespace CloudMacaca.ViewSystem
         {
             return groupName;
         }
+    }
+    [System.Serializable]
+    public class ViewSystemComponentData
+    {
+        public string targetTransformPath;
+        public string targetComponentType;
+        /// This value is save as SerializedProperty.PropertyPath
+        public string targetPropertyName;
+    }
+    [System.Serializable]
+    public class ViewElementNavigationData : ViewSystemComponentData
+    {
+        public ViewElementNavigationData()
+        {
+            targetPropertyName = "m_Navigation";
+        }
+        public UnityEngine.UI.Navigation.Mode mode;
+        public UnityEngine.UI.Navigation navigation
+        {
+            get
+            {
+                var result = UnityEngine.UI.Navigation.defaultNavigation;
+                result.mode = mode;
+                return result;
+            }
+        }
+    }
+    [System.Serializable]
+    public class ViewElementEventData : ViewSystemComponentData
+    {
+        public string scriptName;
+        public string methodName;
+    }
+    [System.Serializable]
+    public class ViewElementPropertyOverrideData : ViewSystemComponentData
+    {
+        public ViewElementPropertyOverrideData()
+        {
+            Value = new PropertyOverride();
+        }
+        public PropertyOverride Value;
     }
 }

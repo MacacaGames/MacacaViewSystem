@@ -691,6 +691,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 return !(
                     globalSettingWindow.show ||
                     overridePopupWindow.show ||
+                    navigationWindow.show ||
                     ViewSystemNodeInspector.isMouseInSideBar());
             }
         }

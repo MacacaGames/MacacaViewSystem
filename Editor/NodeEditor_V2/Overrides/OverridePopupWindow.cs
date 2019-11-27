@@ -47,6 +47,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             padding.left = 0;
             padding.right = 1;
             padding.bottom = 0;
+
+            resizeable = true;
         }
         public void SetViewPageItem(ViewPageItem viewPageItem)
         {
@@ -114,7 +116,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
             }
 
-            GUI.DragWindow();
+            base.Draw(window);
         }
         GUIContent header = new GUIContent();
         private void DrawHeader()
@@ -438,7 +440,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                                 GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)), EditorGUIUtility.FindTexture("Prefab Icon"));
                                 GUILayout.Label(l, GUILayout.Height(20));
-                                GUILayout.Label(EditorGUIUtility.FindTexture("Animation.Play"), GUILayout.Height(20));
+                                GUILayout.Label(Drawer.arrowIcon, GUILayout.Height(20));
                                 var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
                                 GUILayout.Label(_cachedContent, GUILayout.Height(20));
                             }

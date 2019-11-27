@@ -55,30 +55,7 @@ namespace CloudMacaca.ViewSystem
         }
 
     }
-    [System.Serializable]
-    public class ViewSystemComponentData
-    {
-        public string targetTransformPath;
-        public string targetComponentType;
-        /// This value is save as SerializedProperty.PropertyPath
-        public string targetPropertyName;
-    }
-
-    [System.Serializable]
-    public class ViewElementEventData : ViewSystemComponentData
-    {
-        public string scriptName;
-        public string methodName;
-    }
-    [System.Serializable]
-    public class ViewElementPropertyOverrideData : ViewSystemComponentData
-    {
-        public ViewElementPropertyOverrideData()
-        {
-            Value = new PropertyOverride();
-        }
-        public PropertyOverride Value;
-    }
+    
     public class VectorConvert
     {
         public static Vector3 StringToVector3(string sVector)
@@ -282,7 +259,7 @@ namespace CloudMacaca.ViewSystem
             {
                 s_Type = S_Type._bool;
             }
-          
+
             else if (value is Color)
             {
                 s_Type = S_Type._color;

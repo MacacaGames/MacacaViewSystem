@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNodeWindow
     {
+        protected bool resizeable;
         protected ViewSystemNodeEditor editor;
         private Rect _rect;
         protected Rect rect
@@ -27,6 +29,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             this.editor = editor;
             this.name = name;
+            rect = new Rect(editor.position.width * 0.3f,
+                            editor.position.height * 0.3f,
+                            rect.width,
+                            rect.height);
             show = false;
         }
 
@@ -47,15 +53,47 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             show = false;
         }
-        
+
         public virtual void Draw(int id)
         {
             if (dragable)
             {
                 GUI.DragWindow(new Rect(0, 0, editor.position.width, editor.position.height));
             }
+            // if (resizeable)
+            // {
+            //     DrawResizeBtn();
+            // }
         }
+        bool resizeBarPressed = false;
+        void DrawResizeBtn()
+        {
+            GUI.depth = 100;
+            var ResizeBarRect = new Rect(rect.width - 8, rect.height - 8, 8, 8);
+            EditorGUIUtility.AddCursorRect(ResizeBarRect, MouseCursor.ResizeUpLeft);
 
+            GUI.Box(ResizeBarRect, "");
+            if (ResizeBarRect.Contains(Event.current.mousePosition))
+            {
+                if (Event.current.type == EventType.MouseDown)
+                {
+                    resizeBarPressed = true;
+                    dragable = false;
+                }
+            }
+            if (Event.current.type == EventType.MouseUp)
+            {
+                resizeBarPressed = false;
+                dragable = true;
+            }
+            if (resizeBarPressed && Event.current.type == EventType.MouseDrag)
+            {
+                rect = new Rect(rect.x, rect.y, rect.width + Event.current.delta.x,
+                    rect.height + Event.current.delta.y);
+                Event.current.Use();
+                GUI.changed = true;
+            }
+        }
         public virtual Vector2 GetWindowSize
         {
             get

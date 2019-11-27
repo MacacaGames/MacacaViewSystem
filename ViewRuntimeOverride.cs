@@ -12,6 +12,25 @@ namespace CloudMacaca.ViewSystem
     [DisallowMultipleComponent]
     public class ViewRuntimeOverride : MonoBehaviour
     {
+
+        #region NavigationOverride
+        public void ApplyNavigation(IEnumerable<ViewElementNavigationData> navigationDatas)
+        {
+            foreach (var item in navigationDatas)
+            {
+                Transform targetTansform = GetTransform(item.targetTransformPath);
+                if (targetTansform == null)
+                {
+                    ViewSystemLog.LogError($"Target GameObject cannot be found [{transform.name} / {item.targetTransformPath}]");
+                    continue;
+                }
+
+                var result = GetCachedComponent(targetTansform, item.targetTransformPath, item.targetComponentType);
+                SetPropertyValue(result.Component, item.targetPropertyName, item.navigation);
+            }
+        }
+
+        #endregion
         #region EventOverride
         [SerializeField]
         ViewElementEventData[] currentEventDatas;
@@ -51,14 +70,11 @@ namespace CloudMacaca.ViewSystem
             {
                 string[] p = item.Key.Split(',');
                 //p[0] is targetTransformPath
-                Transform targetTansform;
-                if (string.IsNullOrEmpty(p[0]))
+                Transform targetTansform = GetTransform(p[0]);
+                if (targetTansform == null)
                 {
-                    targetTansform = transform;
-                }
-                else
-                {
-                    targetTansform = transform.Find(p[0]);
+                    ViewSystemLog.LogError($"Target GameObject cannot be found [{transform.name} / {p[0]}]");
+                    continue;
                 }
 
                 EventRuntimeDatas eventRuntimeDatas;
@@ -66,15 +82,16 @@ namespace CloudMacaca.ViewSystem
                 if (!cachedUnityEvent.TryGetValue(item.Key, out eventRuntimeDatas))
                 {
                     //p[1] is targetComponentType
-                    Component selectable = ViewSystemUtilitys.GetComponent(targetTansform, p[1]);
+                    //Component selectable = ViewSystemUtilitys.GetComponent(targetTansform, p[1]);
+                    var result = GetCachedComponent(targetTansform, p[0], p[1]);
                     //p[2] is targetPropertyPath
                     string property = p[2];
                     if (p[1].Contains("UnityEngine."))
                     {
                         property = ViewSystemUtilitys.ParseUnityEngineProperty(p[2]);
                     }
-                    UnityEvent unityEvent = (UnityEvent)GetPropertyValue(selectable, property);
-                    eventRuntimeDatas = new EventRuntimeDatas(unityEvent, selectable);
+                    UnityEvent unityEvent = (UnityEvent)GetPropertyValue(result.Component, property);
+                    eventRuntimeDatas = new EventRuntimeDatas(unityEvent, (Component)result.Component);
                     cachedUnityEvent.Add(item.Key, eventRuntimeDatas);
                 }
 
@@ -171,44 +188,59 @@ namespace CloudMacaca.ViewSystem
         Dictionary<string, UnityEngine.Object> cachedComponent = new Dictionary<string, UnityEngine.Object>();
         public void ApplyOverride(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
-
             foreach (var item in overrideDatas)
             {
-                var id = item.targetTransformPath + "#" + item.targetComponentType;
-                UnityEngine.Object c;
-                Transform targetTansform = transform.Find(item.targetTransformPath);
+                Transform targetTansform = GetTransform(item.targetTransformPath);
                 if (targetTansform == null)
                 {
                     ViewSystemLog.LogError($"Target GameObject cannot be found [{transform.name} / {item.targetTransformPath}]");
                     continue;
                 }
-                if (!cachedComponent.TryGetValue(id, out c))
-                {
-                    if (item.targetComponentType.Contains("GameObject"))
-                    {
-                        c = targetTansform.gameObject;
-                    }
-                    else
-                    {
-                        //c = targetTansform.GetComponent(item.targetComponentType);
-                        c = ViewSystemUtilitys.GetComponent(targetTansform, item.targetComponentType);
-                    }
-                    if (c == null)
-                    {
-                        ViewSystemLog.LogError($"Target Component cannot be found [{item.targetComponentType}] on GameObject [{transform.name } / {item.targetTransformPath}]");
-                        continue;
-                    }
-                    cachedComponent.Add(id, c);
-                }
 
-                var idForProperty = id + "#" + item.targetPropertyName;
+                var result = GetCachedComponent(targetTansform, item.targetTransformPath, item.targetComponentType);
+
+                var idForProperty = result.Id + "#" + item.targetPropertyName;
                 if (!prefabDefaultFields.ContainsKey(idForProperty))
                 {
-                    prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetPropertyValue(c, item.targetPropertyName), id, item.targetPropertyName));
+                    prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetPropertyValue(result.Component, item.targetPropertyName), result.Id, item.targetPropertyName));
                 }
                 currentModifiedField.Add(idForProperty);
-                SetPropertyValue(c, item.targetPropertyName, item.Value.GetValue());
+                SetPropertyValue(result.Component, item.targetPropertyName, item.Value.GetValue());
             }
+        }
+        Transform GetTransform(string targetTransformPath)
+        {
+            if (string.IsNullOrEmpty(targetTransformPath))
+            {
+                return transform;
+            }
+            else
+            {
+                return transform.Find(targetTransformPath);
+            }
+        }
+        (string Id, UnityEngine.Object Component) GetCachedComponent(Transform targetTansform, string targetTransformPath, string targetComponentType)
+        {
+            UnityEngine.Object c = null;
+            var id = targetTransformPath + "#" + targetComponentType;
+            if (!cachedComponent.TryGetValue(id, out c))
+            {
+                if (targetComponentType.Contains("GameObject"))
+                {
+                    c = targetTansform.gameObject;
+                }
+                else
+                {
+                    //c = targetTansform.GetComponent(item.targetComponentType);
+                    c = ViewSystemUtilitys.GetComponent(targetTansform, targetComponentType);
+                }
+                if (c == null)
+                {
+                    ViewSystemLog.LogError($"Target Component cannot be found [{targetComponentType}] on GameObject [{transform.name } / {targetTransformPath}]");
+                }
+                cachedComponent.Add(id, c);
+            }
+            return (id, c);
         }
         // bool isUnityEngineType(System.Type t)
         // {
