@@ -20,6 +20,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ReorderableList viewPageItemList;
         GUIStyle removeButtonStyle;
         GUIStyle nameStyle;
+        GUIStyle nameUnnamedStyle;
         GUIStyle nameErrorStyle;
         GUIStyle nameEditStyle;
         OverridePopupWindow popWindow;
@@ -40,6 +41,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 fontSize = 12,
                 fontStyle = FontStyle.Bold,
                 normal = { textColor = Color.black }
+            };
+            nameUnnamedStyle = new GUIStyle
+            {
+                fontSize = 12,
+                fontStyle = FontStyle.BoldAndItalic,
+                normal = { textColor = Color.gray }
             };
             nameErrorStyle = new GUIStyle
             {
@@ -323,12 +330,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             if (editableLock[index].name)
             {
-                string showName = "Unnamed";
-                if (!string.IsNullOrEmpty(list[index].name))
+                string showName;
+                if (string.IsNullOrEmpty(list[index].name) == true)
+                {
+                    showName = $"{list[index].viewElement.name}";
+                    GUI.Label(nameRect, showName, nameUnnamedStyle);
+                }
+                else
                 {
                     showName = list[index].name;
+                    GUI.Label(nameRect, showName, nameRuntimeStyle);
                 }
-                GUI.Label(nameRect, showName, nameRuntimeStyle);
             }
             else
             {
