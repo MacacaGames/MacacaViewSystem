@@ -1,31 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 namespace CloudMacaca.ViewSystem
 {
 
     [System.Serializable]
     public class ViewPageItem
     {
+        public ViewPageItem()
+        {
+            //f7a0b6a8-c
+            Id = System.Guid.NewGuid().ToString().Substring(0, 8);
+        }
+        public string Id;
 #if UNITY_EDITOR
         public ViewElement previewViewElement;
 #endif
         public string name;
 
-        public string displayName => string.IsNullOrEmpty(name) ? viewElement.name : name;
-
+        public string displayName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    return viewElement == null ? "ViewElement not Set" : viewElement.name;
+                }
+                else return name;
+            }
+        }
         static Transform ViewControllerObject;
         public ViewElement viewElement;
         public ViewElement runtimeViewElement = null;
         public List<ViewElementPropertyOverrideData> overrideDatas = new List<ViewElementPropertyOverrideData>();
         public List<ViewElementEventData> eventDatas = new List<ViewElementEventData>();
-
-        [Tooltip("ViewElement 在該頁面時應該對其的父物件")]
         public Transform parent;
         public Transform runtimeParent = null;
         public string parentPath;
         GameObject _parentGameObject;
-
         [HideInInspector]
         public GameObject parentGameObject
         {
@@ -42,10 +55,7 @@ namespace CloudMacaca.ViewSystem
         public DG.Tweening.Ease easeType = DG.Tweening.Ease.OutQuad;
         public float delayIn;
         public float delayOut;
-        public List<ViewElementNavigationData> navigationDatas;
-
-        [Tooltip("這個可以讓該項目在特定平台時不會出現")]
-        //public List<PlatformOption> excludePlatform = new List<PlatformOption>();
+        public List<ViewElementNavigationData> navigationDatas = new List<ViewElementNavigationData>();
         public PlatformOption excludePlatform = PlatformOption.Nothing;
 
         [System.Flags]
@@ -90,6 +100,7 @@ namespace CloudMacaca.ViewSystem
         public ViewPageType viewPageType = ViewPageType.FullPage;
         public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.接續前動畫;
         public List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
+        public List<ViewElementNavigationDataViewState> navigationDatasForViewState = new List<ViewElementNavigationDataViewState>();
     }
     [System.AttributeUsage(
         System.AttributeTargets.Method,
@@ -115,6 +126,13 @@ namespace CloudMacaca.ViewSystem
         public string targetComponentType;
         /// This value is save as SerializedProperty.PropertyPath
         public string targetPropertyName;
+    }
+    [System.Serializable]
+
+    public class ViewElementNavigationDataViewState
+    {
+        public string viewPageItemId;
+        public List<ViewElementNavigationData> navigationDatas = new List<ViewElementNavigationData>();
     }
     [System.Serializable]
     public class ViewElementNavigationData : ViewSystemComponentData

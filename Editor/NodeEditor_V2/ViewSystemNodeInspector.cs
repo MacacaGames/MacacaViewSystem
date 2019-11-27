@@ -318,7 +318,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 string showName;
                 if (string.IsNullOrEmpty(list[index].name) == true)
                 {
-                    showName = $"{list[index].viewElement.name}";
+                    if (list[index].viewElement)
+                    {
+                        showName = $"{list[index].viewElement.name}";
+                    }
+                    else
+                        showName = $"Unnamed";
                     GUI.Label(nameRect, showName, nameUnnamedStyle);
                 }
                 else
@@ -659,7 +664,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 if (GUI.Button(new Rect(rect.width - 25, rect.y - 20, 25, 25), new GUIContent(EditorGUIUtility.IconContent("AnimatorStateMachine Icon").image, "Navigation"), Drawer.removeButtonStyle))
                 {
                     editor.navigationWindow.Show();
-                    editor.navigationWindow.SetViewPage(vp);
+                    ViewState vs = saveData.viewStates.SingleOrDefault(m => m.viewState.name == vp.viewState).viewState;
+                    editor.navigationWindow.SetViewPage(vp, vs);
                 }
             }
             using (var vertial = new EditorGUILayout.VerticalScope())
