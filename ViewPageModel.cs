@@ -9,6 +9,9 @@ namespace CloudMacaca.ViewSystem
     {
 
         public string name;
+
+        public string displayName => string.IsNullOrEmpty(name) ? viewElement.name : name;
+
         static Transform ViewControllerObject;
 
         public ViewElement viewElement;

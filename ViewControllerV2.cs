@@ -627,7 +627,7 @@ namespace CloudMacaca.ViewSystem
 
         public ViewElement GetViewPageElementByName(ViewPage viewPage, string viewPageItemName)
         {
-            return viewPage.viewPageItems.Where((_) => _.name == viewPageItemName).SingleOrDefault().runtimeViewElement;
+            return viewPage.viewPageItems.Where((_) => _.displayName == viewPageItemName).SingleOrDefault().runtimeViewElement;
         }
         public T GetViewPageElementComponentByName<T>(ViewPage viewPage, string viewPageItemName) where T : Component
         {
@@ -656,7 +656,7 @@ namespace CloudMacaca.ViewSystem
 
         public ViewElement GetViewStateElementByName(ViewState viewState, string viewStateItemName)
         {
-            return viewState.viewPageItems.Where((_) => _.name == viewStateItemName).SingleOrDefault().runtimeViewElement;
+            return viewState.viewPageItems.Where((_) => _.displayName == viewStateItemName).SingleOrDefault().runtimeViewElement;
         }
         public T GetViewStateElementComponentByName<T>(ViewState viewState, string viewStateItemName) where T : Component
         {
