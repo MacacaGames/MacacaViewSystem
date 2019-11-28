@@ -629,7 +629,7 @@ namespace CloudMacaca.ViewSystem
             if (vp.IsNavigation)
             {
                 UnityEngine.EventSystems.EventSystem
-                    .current.SetSelectedGameObject(vp.navigationInitTarget.gameObject);
+                    .current.SetSelectedGameObject(vp.firstSelected.gameObject);
             }
         }
         /// <summary>

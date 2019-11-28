@@ -4,11 +4,9 @@ using UnityEngine;
 using System.Linq;
 namespace CloudMacaca.ViewSystem
 {
-
     [System.Serializable]
     public class ViewPageItem
     {
-
         public string Id;
 #if UNITY_EDITOR
         public ViewElement previewViewElement;
@@ -109,20 +107,20 @@ namespace CloudMacaca.ViewSystem
 
         #region Navigation
         public bool IsNavigation = true;
-        public ViewElementNavigationTarget _navigationTarget;
-        public UnityEngine.UI.Selectable navigationInitTarget
+        public ViewElementNavigationTarget _firstSelectSetting;
+        public UnityEngine.UI.Selectable firstSelected
         {
             get
             {
-                if (string.IsNullOrEmpty(_navigationTarget.viewPageItemId))
+                if (string.IsNullOrEmpty(_firstSelectSetting.viewPageItemId))
                 {
                     return viewPageItems.SelectMany(m => m.runtimeViewElement.GetComponentsInChildren<UnityEngine.UI.Selectable>()).FirstOrDefault();
                 }
                 else
                 {
-                    var vpi = viewPageItems.SingleOrDefault(m => m.Id == _navigationTarget.viewPageItemId);
-                    var targetTransform = vpi.runtimeViewElement.runtimeOverride.GetTransform(_navigationTarget.targetTransformPath);
-                    var com = vpi.runtimeViewElement.runtimeOverride.GetCachedComponent(targetTransform, _navigationTarget.targetTransformPath, _navigationTarget.targetComponentType);
+                    var vpi = viewPageItems.SingleOrDefault(m => m.Id == _firstSelectSetting.viewPageItemId);
+                    var targetTransform = vpi.runtimeViewElement.runtimeOverride.GetTransform(_firstSelectSetting.targetTransformPath);
+                    var com = vpi.runtimeViewElement.runtimeOverride.GetCachedComponent(targetTransform, _firstSelectSetting.targetTransformPath, _firstSelectSetting.targetComponentType);
                     return (UnityEngine.UI.Selectable)com.Component;
                 }
             }

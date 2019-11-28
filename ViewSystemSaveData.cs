@@ -129,46 +129,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
 #if UNITY_EDITOR
-        // public void SetValue(UnityEditor.SerializedPropertyType type, UnityEditor.PropertyModification modification)
-        // {
-        //     switch (type)
-        //     {
-        //         case UnityEditor.SerializedPropertyType.Vector3:
-        //             SetValue(modification.value);
-        //             break;
-        //         case UnityEditor.SerializedPropertyType.Vector2:
-        //             SetValue(modification.value);
-        //             break;
-        //         case UnityEditor.SerializedPropertyType.Vector3Int:
-        //             SetValue(modification.value);
-        //             break;
-        //         case UnityEditor.SerializedPropertyType.Float:
-        //             SetValue(float.Parse(modification.value));
-        //             break;
-        //         case UnityEditor.SerializedPropertyType.Integer:
-        //             SetValue(int.Parse(modification.value));
-        //             break;
-        //         case UnityEditor.SerializedPropertyType.String:
-        //             SetValue(modification.value);
-        //             break;
-        //         case UnityEditor.SerializedPropertyType.Boolean:
-        //             SetValue(modification.value == "0" ? false : true);
-        //             break;
-        //         case UnityEditor.SerializedPropertyType.Color:
-        //             SetValue(new Color());
-        //             break;
-        //         case UnityEditor.SerializedPropertyType.ObjectReference:
-        //             SetValue(modification.objectReference);
-        //             break;
-        //         case UnityEditor.SerializedPropertyType.Enum:
-        //             var t = TryFindEnumType(modification.target, modification.propertyPath);
-        //             var e = System.Enum.Parse(t, modification.value);
-        //             SetValue(e);
-        //             break;
-        //     }
-        // }
-
-        public void SetValue(UnityEditor.SerializedProperty property)
+            public void SetValue(UnityEditor.SerializedProperty property)
         {
             switch (property.propertyType)
             {
