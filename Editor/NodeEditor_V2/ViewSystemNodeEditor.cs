@@ -566,7 +566,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         if (isInit == false)
                         {
-#if UNITY_2019_OR_NEWER
+#if UNITY_2019_1_OR_NEWER
                             ShowNotification(new GUIContent("Editor is not Initial."), 2);
 #else
                             ShowNotification(new GUIContent("Editor is not Initial."));

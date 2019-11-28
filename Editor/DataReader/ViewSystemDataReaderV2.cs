@@ -51,7 +51,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 //Or Instantiate a Prefab
                 else
                 {
-#if UNITY_2019_OR_NEWER
+#if UNITY_2019_1_OR_NEWER
                     var ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot, ViewControllerTransform);
 #else
                     var ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot);

@@ -8,11 +8,7 @@ namespace CloudMacaca.ViewSystem
     [System.Serializable]
     public class ViewPageItem
     {
-        public ViewPageItem()
-        {
-            //f7a0b6a8-c
-            Id = System.Guid.NewGuid().ToString().Substring(0, 8);
-        }
+
         public string Id;
 #if UNITY_EDITOR
         public ViewElement previewViewElement;
@@ -72,6 +68,16 @@ namespace CloudMacaca.ViewSystem
         {
             viewElement = ve;
             parent = null;
+            GenerateId();
+        }
+        public ViewPageItem()
+        {
+            GenerateId();
+        }
+        void GenerateId()
+        {
+            if (string.IsNullOrEmpty(Id))
+                Id = System.Guid.NewGuid().ToString().Substring(0, 8);
         }
     }
     [System.Serializable]
@@ -100,7 +106,42 @@ namespace CloudMacaca.ViewSystem
         public ViewPageType viewPageType = ViewPageType.FullPage;
         public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.接續前動畫;
         public List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
+
+        #region Navigation
+        public bool IsNavigation = true;
+        public ViewElementNavigationTarget _navigationTarget;
+        public UnityEngine.UI.Selectable navigationInitTarget
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_navigationTarget.viewPageItemId))
+                {
+                    return viewPageItems.SelectMany(m => m.runtimeViewElement.GetComponentsInChildren<UnityEngine.UI.Selectable>()).FirstOrDefault();
+                }
+                else
+                {
+                    var vpi = viewPageItems.SingleOrDefault(m => m.Id == _navigationTarget.viewPageItemId);
+                    var targetTransform = vpi.runtimeViewElement.runtimeOverride.GetTransform(_navigationTarget.targetTransformPath);
+                    var com = vpi.runtimeViewElement.runtimeOverride.GetCachedComponent(targetTransform, _navigationTarget.targetTransformPath, _navigationTarget.targetComponentType);
+                    return (UnityEngine.UI.Selectable)com.Component;
+                }
+            }
+        }
         public List<ViewElementNavigationDataViewState> navigationDatasForViewState = new List<ViewElementNavigationDataViewState>();
+        Dictionary<string, List<ViewElementNavigationData>> _navigationDatasForViewStateDict;
+        public Dictionary<string, List<ViewElementNavigationData>> stateNavDict
+        {
+            get
+            {
+                if (_navigationDatasForViewStateDict == null)
+                {
+                    _navigationDatasForViewStateDict = navigationDatasForViewState.GroupBy(m => m.viewPageItemId)
+                    .ToDictionary(x => x.Key, x => x.SelectMany(m => m.navigationDatas).ToList());
+                }
+                return _navigationDatasForViewStateDict;
+            }
+        }
+        #endregion
     }
     [System.AttributeUsage(
         System.AttributeTargets.Method,
@@ -127,12 +168,17 @@ namespace CloudMacaca.ViewSystem
         /// This value is save as SerializedProperty.PropertyPath
         public string targetPropertyName;
     }
-    [System.Serializable]
 
+    [System.Serializable]
     public class ViewElementNavigationDataViewState
     {
         public string viewPageItemId;
         public List<ViewElementNavigationData> navigationDatas = new List<ViewElementNavigationData>();
+    }
+    [System.Serializable]
+    public class ViewElementNavigationTarget : ViewSystemComponentData
+    {
+        public string viewPageItemId;
     }
     [System.Serializable]
     public class ViewElementNavigationData : ViewSystemComponentData

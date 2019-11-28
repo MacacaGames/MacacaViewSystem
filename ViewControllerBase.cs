@@ -193,8 +193,20 @@ namespace CloudMacaca.ViewSystem
         {
             get => ViewSystemUtilitys.SetupPlatformDefine();
         }
-
+        /// <summary>
+        /// The current active Overlay Dictionary which has no ViewState. 
+        /// </summary>
+        /// <typeparam name="string">ViewPage name</typeparam>
+        /// <typeparam name="ViewSystemUtilitys.OverlayPageState">The object hold the Overlay Page State</typeparam>
+        /// <returns></returns>
         protected Dictionary<string, ViewSystemUtilitys.OverlayPageState> overlayPageStates = new Dictionary<string, ViewSystemUtilitys.OverlayPageState>();
+
+        /// <summary>
+        /// The current active Overlay Dictionary which has ViewState. 
+        /// </summary>
+        /// <typeparam name="string">ViewState name</typeparam>
+        /// <typeparam name="ViewSystemUtilitys.OverlayPageState">The object hold the Overlay Page State</typeparam>
+        /// <returns></returns>
         protected Dictionary<string, ViewSystemUtilitys.OverlayPageState> overlayPageStatesWithOverState = new Dictionary<string, ViewSystemUtilitys.OverlayPageState>();
         protected IEnumerable<ViewPageItem> GetAllViewPageItemInViewState(ViewState vs)
         {

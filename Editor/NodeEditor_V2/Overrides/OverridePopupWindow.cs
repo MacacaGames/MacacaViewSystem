@@ -18,7 +18,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         GameObject target;
         public ViewPageItem viewPageItem;
         GUIStyle removeButtonStyle;
-#if UNITY_2019_OR_NEWER
+#if UNITY_2019_1_OR_NEWER
         static float toastMessageFadeOutTimt = 1.5f;
 #endif
         bool isInit => target != null;
@@ -577,7 +577,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         if (propertyName == "m_Navigation")
                         {
                             var content = new GUIContent("UnityEngine.UI.Navigation is not supported with ViewSystem OverrideSystem");
-#if UNITY_2019_OR_NEWER
+#if UNITY_2019_1_OR_NEWER
                             editor.ShowNotification(content, toastMessageFadeOutTimt);
 #else
                             editor.ShowNotification(content);
@@ -600,7 +600,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         ViewSystemLog.LogError("Currently Gereric type only support UnityEvent");
                         var content = new GUIContent("Currently Gereric type only support UnityEvent");
-#if UNITY_2019_OR_NEWER
+#if UNITY_2019_1_OR_NEWER
                         editor.ShowNotification(content, toastMessageFadeOutTimt);
 #else
                         editor.ShowNotification(content);
@@ -632,7 +632,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         {
                             ViewSystemLog.LogError("You Have 1 event doesn't setup yet");
                             var errorContent = new GUIContent("You Have 1 event doesn't setup yet");
-#if UNITY_2019_OR_NEWER
+#if UNITY_2019_1_OR_NEWER
                             editor.ShowNotification(errorContent, toastMessageFadeOutTimt);
 #else
                             editor.ShowNotification(errorContent);
@@ -643,7 +643,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                     var error = new GUIContent("Event Add Success");
                     viewPageItem.eventDatas.Add(eventData);
-#if UNITY_2019_OR_NEWER
+#if UNITY_2019_1_OR_NEWER
                     editor.ShowNotification(error, toastMessageFadeOutTimt);
 #else
                     editor.ShowNotification(error);
@@ -673,7 +673,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     if (current != null)
                     {
                         current = overrideData;
-#if UNITY_2019_OR_NEWER
+#if UNITY_2019_1_OR_NEWER
                         editor.ShowNotification(new GUIContent("This property is already in override list."), toastMessageFadeOutTimt);
 #else
                         editor.ShowNotification(new GUIContent("This property is already in override list."));
@@ -682,7 +682,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     else
                     {
                         viewPageItem.overrideDatas.Add(overrideData);
-#if UNITY_2019_OR_NEWER
+#if UNITY_2019_1_OR_NEWER
                         editor.ShowNotification(new GUIContent("Property override add success"), toastMessageFadeOutTimt);
 #else
                         editor.ShowNotification(new GUIContent("Property override add success"));

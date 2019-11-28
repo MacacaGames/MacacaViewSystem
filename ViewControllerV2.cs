@@ -507,6 +507,8 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
+            SetNavigationTarget(vp);
+
             //Fire the event
             InvokeOnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
 
@@ -568,6 +570,9 @@ namespace CloudMacaca.ViewSystem
                 item.runtimeViewElement.ChangePage(false, null, 0, 0, delayOut, ignoreTransition);
             }
 
+            //Get Back the Navigation to CurrentPage
+            SetNavigationTarget(currentViewPage);
+
             InvokeOnOverlayPageLeave(this, new ViewPageEventArgs(overlayPageState.viewPage, null));
 
             yield return Yielders.GetWaitForSeconds(finishTime);
@@ -578,8 +583,6 @@ namespace CloudMacaca.ViewSystem
             else overlayPageStates.Remove(overlayPageState.viewPage.name);
 
             OnComplete?.Invoke();
-
-
         }
         public override void TryLeaveAllOverlayPage()
         {
@@ -594,10 +597,10 @@ namespace CloudMacaca.ViewSystem
         int lastFrameRate;
         void UpdateCurrentViewStateAndNotifyEvent(ViewPage vp)
         {
-
-
             lastViewPage = currentViewPage;
             currentViewPage = vp;
+
+            SetNavigationTarget(vp);
 
             InvokeOnViewPageChange(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
 
@@ -620,14 +623,97 @@ namespace CloudMacaca.ViewSystem
                 InvokeOnViewStateChange(this, new ViewStateEventArgs(currentViewState, lastViewState));
             }
         }
+        #region Navigation
+        void SetNavigationTarget(ViewPage vp)
+        {
+            if (vp.IsNavigation)
+            {
+                UnityEngine.EventSystems.EventSystem
+                    .current.SetSelectedGameObject(vp.navigationInitTarget.gameObject);
+            }
+        }
+        /// <summary>
+        /// Forcus the Navigation on target page,
+        /// Note : only thi live view page will take effect and this function will not check the ViewPage live or not.
+        /// </summary>
+        /// <param name="vp"></param>
+        public void SetUpNavigationOnViewPage(ViewPage vp)
+        {
+            DisableCurrentPageNavigation();
+            DisableAllOverlayPageNavigation();
 
-        #region Get viewElement
+            var vpis = vp.viewPageItems;
+            foreach (var vpi in vpis)
+            {
+                vpi.runtimeViewElement.ApplyNavigation(vpi.navigationDatas);
+            }
 
-        //Get viewElement in viewPage
+            if (!string.IsNullOrEmpty(vp.viewState))
+            {
+                var vs = viewStates.SingleOrDefault(m => m.name == vp.viewState);
+                var vpis_s = vs.viewPageItems;
+                foreach (var vpi in vpis_s)
+                {
+                    if (vp.stateNavDict.TryGetValue(vpi.Id, out List<ViewElementNavigationData> result))
+                    {
+                        vpi.runtimeViewElement.ApplyNavigation(result);
+                    }
+                }
+            }
+        }
 
+        public void DisableCurrentPageNavigation()
+        {
+            if (currentViewPage != null)
+            {
+                var vpis = currentViewPage.viewPageItems;
+                foreach (var vpi in vpis)
+                {
+                    vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
+                }
+            }
+            if (currentViewState != null)
+            {
+                var vpis = currentViewState.viewPageItems;
+                foreach (var vpi in vpis)
+                {
+                    vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
+                }
+            }
+        }
+
+        public void DisableAllOverlayPageNavigation()
+        {
+            foreach (var item in overlayPageStates)
+            {
+                var vpis = item.Value.viewPage.viewPageItems;
+                foreach (var vpi in vpis)
+                {
+                    vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
+                }
+            }
+            foreach (var item in overlayPageStatesWithOverState)
+            {
+                var vpis = item.Value.viewPage.viewPageItems;
+                foreach (var vpi in vpis)
+                {
+                    vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
+                }
+                var vpis_s = item.Value.viewState.viewPageItems;
+                foreach (var vpi in vpis)
+                {
+                    vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Get ViewElement
+        //Get ViewElement in viewPage
         public ViewElement GetViewPageElementByName(ViewPage viewPage, string viewPageItemName)
         {
-            return viewPage.viewPageItems.Where((_) => _.displayName == viewPageItemName).SingleOrDefault().runtimeViewElement;
+            return viewPage.viewPageItems.SingleOrDefault((_) => _.displayName == viewPageItemName).runtimeViewElement;
         }
         public T GetViewPageElementComponentByName<T>(ViewPage viewPage, string viewPageItemName) where T : Component
         {
@@ -656,7 +742,7 @@ namespace CloudMacaca.ViewSystem
 
         public ViewElement GetViewStateElementByName(ViewState viewState, string viewStateItemName)
         {
-            return viewState.viewPageItems.Where((_) => _.displayName == viewStateItemName).SingleOrDefault().runtimeViewElement;
+            return viewState.viewPageItems.SingleOrDefault((_) => _.displayName == viewStateItemName).runtimeViewElement;
         }
         public T GetViewStateElementComponentByName<T>(ViewState viewState, string viewStateItemName) where T : Component
         {

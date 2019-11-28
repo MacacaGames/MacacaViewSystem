@@ -20,7 +20,7 @@ namespace CloudMacaca.ViewSystem
         public bool IsUnique = false;
 
         private ViewRuntimeOverride _runtimeOverride;
-        private ViewRuntimeOverride runtimeOverride
+        public ViewRuntimeOverride runtimeOverride
         {
             get
             {
@@ -63,6 +63,7 @@ namespace CloudMacaca.ViewSystem
         {
             runtimeOverride.ClearAllEvent();
             runtimeOverride.ResetToDefaultValues();
+            runtimeOverride.RevertToLastNavigation();
             if (overrideDatas == null)
             {
                 return;

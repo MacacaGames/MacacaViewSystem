@@ -12,10 +12,11 @@ namespace CloudMacaca.ViewSystem
     [DisallowMultipleComponent]
     public class ViewRuntimeOverride : MonoBehaviour
     {
-
         #region NavigationOverride
+        // ViewElementNavigationData[] navigationDatas;
         public void ApplyNavigation(IEnumerable<ViewElementNavigationData> navigationDatas)
         {
+            //this.navigationDatas = navigationDatas.ToArray();
             foreach (var item in navigationDatas)
             {
                 Transform targetTansform = GetTransform(item.targetTransformPath);
@@ -27,6 +28,33 @@ namespace CloudMacaca.ViewSystem
 
                 var result = GetCachedComponent(targetTansform, item.targetTransformPath, item.targetComponentType);
                 SetPropertyValue(result.Component, item.targetPropertyName, item.navigation);
+            }
+        }
+        Dictionary<int, UnityEngine.UI.Navigation.Mode> lastNavigationDatas = new Dictionary<int, Navigation.Mode>();
+        public void DisableNavigation()
+        {
+            lastNavigationDatas.Clear();
+            var selectables = GetComponentsInChildren<Selectable>();
+            foreach (var item in selectables)
+            {
+                var nav = item.navigation;
+                lastNavigationDatas.Add(item.GetInstanceID(), nav.mode);
+                nav.mode = UnityEngine.UI.Navigation.Mode.None;
+                item.navigation = nav;
+            }
+        }
+
+        public void RevertToLastNavigation()
+        {
+            var selectables = GetComponentsInChildren<Selectable>();
+            foreach (var item in selectables)
+            {
+                if (lastNavigationDatas.TryGetValue(item.GetInstanceID(), out Navigation.Mode mode))
+                {
+                    var nav = item.navigation;
+                    nav.mode = mode;
+                    item.navigation = nav;
+                }
             }
         }
 
@@ -47,7 +75,8 @@ namespace CloudMacaca.ViewSystem
         delegate void EventDelegate<Self>(Self selectable);
         private static EventDelegate<UnityEngine.EventSystems.UIBehaviour> CreateOpenDelegate(string method, Component target)
         {
-            return (EventDelegate<UnityEngine.EventSystems.UIBehaviour>)Delegate.CreateDelegate(type: typeof(EventDelegate<UnityEngine.EventSystems.UIBehaviour>), target, method, true, true);
+            return (EventDelegate<UnityEngine.EventSystems.UIBehaviour>)
+                Delegate.CreateDelegate(type: typeof(EventDelegate<UnityEngine.EventSystems.UIBehaviour>), target, method, true, true);
         }
         Dictionary<string, EventDelegate<UnityEngine.EventSystems.UIBehaviour>> cachedDelegate = new Dictionary<string, EventDelegate<UnityEngine.EventSystems.UIBehaviour>>();
         Dictionary<string, EventRuntimeDatas> cachedUnityEvent = new Dictionary<string, EventRuntimeDatas>();
@@ -164,19 +193,11 @@ namespace CloudMacaca.ViewSystem
         {
             foreach (var item in currentModifiedField)
             {
-                // if (isUnityEngineType(item.type))
-                // {
                 PrefabDefaultField defaultField;
                 if (prefabDefaultFields.TryGetValue(item, out defaultField))
                 {
                     SetPropertyValue(cachedComponent[defaultField.id], defaultField.field, defaultField.defaultValue);
                 }
-                //ViewSystemLog.Log($"Reset [{gameObject.name}] [{item.type}] on [{ cachedComponent[item.id]}] field [{item.field}] to [{item.orignalValue}]");
-                // }
-                // else
-                // {
-                //     SetField(item.type, cachedComponent[item.id], item.field, item.orignalValue);
-                // }
             }
             currentModifiedField.Clear();
         }
@@ -208,7 +229,7 @@ namespace CloudMacaca.ViewSystem
                 SetPropertyValue(result.Component, item.targetPropertyName, item.Value.GetValue());
             }
         }
-        Transform GetTransform(string targetTransformPath)
+        public Transform GetTransform(string targetTransformPath)
         {
             if (string.IsNullOrEmpty(targetTransformPath))
             {
@@ -219,7 +240,7 @@ namespace CloudMacaca.ViewSystem
                 return transform.Find(targetTransformPath);
             }
         }
-        (string Id, UnityEngine.Object Component) GetCachedComponent(Transform targetTansform, string targetTransformPath, string targetComponentType)
+        public (string Id, UnityEngine.Object Component) GetCachedComponent(Transform targetTansform, string targetTransformPath, string targetComponentType)
         {
             UnityEngine.Object c = null;
             var id = targetTransformPath + "#" + targetComponentType;
@@ -231,7 +252,6 @@ namespace CloudMacaca.ViewSystem
                 }
                 else
                 {
-                    //c = targetTansform.GetComponent(item.targetComponentType);
                     c = ViewSystemUtilitys.GetComponent(targetTansform, targetComponentType);
                 }
                 if (c == null)
@@ -242,10 +262,7 @@ namespace CloudMacaca.ViewSystem
             }
             return (id, c);
         }
-        // bool isUnityEngineType(System.Type t)
-        // {
-        //     return t.ToString().Contains("UnityEngine");
-        // }
+
         public void SetPropertyValue(object inObj, string fieldName, object newValue)
         {
             System.Type t = inObj.GetType();
@@ -304,26 +321,11 @@ namespace CloudMacaca.ViewSystem
             return ret;
         }
 
-        // public void SetField(System.Type t, object inObj, string fieldName, object newValue)
-        // {
-        //     System.Reflection.FieldInfo info = t.GetField(fieldName, bindingFlags);
-        //     if (info != null)
-        //         info.SetValue(inObj, newValue);
-        // }
-
-        // private object GetField(System.Type t, object inObj, string fieldName)
-        // {
-        //     object ret = null;
-        //     System.Reflection.FieldInfo info = t.GetField(fieldName, bindingFlags);
-        //     if (info != null)
-        //         ret = info.GetValue(inObj);
-        //     return ret;
-        // }
         [SerializeField]
         List<string> currentModifiedField = new List<string>();
         [SerializeField]
         Dictionary<string, PrefabDefaultField> prefabDefaultFields = new Dictionary<string, PrefabDefaultField>();
-        class PrefabDefaultField
+        struct PrefabDefaultField
         {
             public PrefabDefaultField(object orignalValue, string id, string field)
             {

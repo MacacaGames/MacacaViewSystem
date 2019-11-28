@@ -16,6 +16,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             padding.left = 0;
             padding.right = 1;
             padding.bottom = 0;
+            EditorPrefs.SetBool(s_ShowNavigationKey, false);
             s_ShowNavigation = EditorPrefs.GetBool(s_ShowNavigationKey);
         }
         ViewPage viewPage;
@@ -46,7 +47,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         field.SetValue(null, s_ShowNavigation);
                         EditorPrefs.SetBool(s_ShowNavigationKey, s_ShowNavigation);
                         Selectable[] selectables;
-#if UNITY_2019_OR_NEWER
+#if UNITY_2019_1_OR_NEWER
                         selectables = Selectable.allSelectablesArray;
 #else
                         selectables = Selectable.allSelectables.ToArray();
@@ -56,12 +57,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
                 }
 
-                autoApplyNavigation = GUILayout.Toggle(autoApplyNavigation, "Auto Apply Navigation On Setting Change", EditorStyles.toolbarButton);
+                autoApplyNavigation = GUILayout.Toggle(autoApplyNavigation, "Apply On Setting Change", EditorStyles.toolbarButton);
 
-                if (GUILayout.Button("Apply Navigation on Preview", EditorStyles.toolbarButton))
+                if (GUILayout.Button("Clear All Setting", EditorStyles.toolbarButton))
                 {
+                    viewPage.navigationDatasForViewState.Clear();
 
-
+                    foreach (var item in viewPage.viewPageItems)
+                    {
+                        item.navigationDatas.Clear();
+                    }
                 }
             }
         }
@@ -75,7 +80,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 using (var scroll = new GUILayout.ScrollViewScope(scrollPosition))
                 {
                     scrollPosition = scroll.scrollPosition;
-                    GUILayout.Label($"ViewPage : ");
+                    using (var horizon = new GUILayout.HorizontalScope())
+                    {
+                        GUILayout.Label($"   ViewPage : {viewPage.name}", Drawer.bigLableStyle);
+                        GUILayout.FlexibleSpace();
+                        if (GUILayout.Button("Remove All Setting"))
+                        {
+                            viewPage.navigationDatasForViewState.Clear();
+                        }
+                    }
                     foreach (var vpi in viewPage.viewPageItems)
                     {
                         DrawItem(vpi);
@@ -83,7 +96,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     if (viewState != null)
                     {
                         GUILayout.Space(10);
-                        GUILayout.Label($"ViewState : ");
+                        GUILayout.Box("", Drawer.darkBackgroundStyle, GUILayout.Height(5), GUILayout.Width(rect.width * 0.97f));
+                        GUILayout.Space(10);
+                        using (var horizon = new GUILayout.HorizontalScope())
+                        {
+                            GUILayout.Label($"   ViewState : {viewState.name}", Drawer.bigLableStyle);
+                            GUILayout.FlexibleSpace();
+                            if (GUILayout.Button("Remove All Setting"))
+                            {
+                                foreach (var item in viewPage.viewPageItems)
+                                {
+                                    item.navigationDatas.Clear();
+                                }
+                            }
+                        }
                         foreach (var vpi in viewState.viewPageItems)
                         {
                             DrawItem(vpi, true);
@@ -102,9 +128,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         void DrawItem(ViewPageItem vpi, bool isViewState = false)
         {
-            using (var vertical2 = new GUILayout.VerticalScope("box"))
+            using (var vertical2 = new GUILayout.VerticalScope(Drawer.darkBoxStyle))
             {
-                GUILayout.Label($"ViewPageItem : {vpi.displayName}");
+                using (var horizon = new GUILayout.HorizontalScope())
+                {
+                    GUILayout.Label(new GUIContent($"{vpi.displayName}", Drawer.prefabIcon), EditorStyles.whiteLabel, GUILayout.Height(16));
+                    GUILayout.FlexibleSpace();
+                    GUILayout.Label($"({vpi.Id})");
+                }
+
                 if (vpi.viewElement == null)
                 {
                     GUILayout.Label(new GUIContent("ViewElement is not set up!", Drawer.miniErrorIcon));
@@ -120,7 +152,23 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                         using (var horizon = new GUILayout.HorizontalScope())
                         {
-                            GUILayout.Label($"{vpi.viewElement.name}{(string.IsNullOrEmpty(path) ? "" : "/")}{path}");
+                            using (var vertical4 = new GUILayout.VerticalScope())
+                            {
+                                var p = path.Split('/');
+                                GUILayout.Label(new GUIContent($"{vpi.viewElement.name}", Drawer.prefabIcon), GUILayout.Height(16));
+                                for (int i = 0; i < p.Length; i++)
+                                {
+                                    if (string.IsNullOrEmpty(p[i]))
+                                    {
+                                        continue;
+                                    }
+                                    using (var horizon2 = new GUILayout.HorizontalScope())
+                                    {
+                                        GUILayout.Space((i + 1) * 15);
+                                        GUILayout.Label(new GUIContent($"{p[i]}", Drawer.prefabIcon), GUILayout.Height(16));
+                                    }
+                                }
+                            }
                             GUILayout.FlexibleSpace();
                             GUILayout.Label(new GUIContent(Drawer.arrowIcon));
                             var editorContent = new GUIContent(EditorGUIUtility.ObjectContent(select, select.GetType()));
@@ -154,24 +202,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                         using (var horizon = new GUILayout.HorizontalScope())
                         {
-                            if (GUILayout.Button("Select In Hierarchy"))
+                            if (GUILayout.Button("Select In Hierarchy", EditorStyles.miniButton))
                             {
                                 if (vpi.previewViewElement)
                                 {
                                     Selection.objects = new UnityEngine.Object[] { vpi.previewViewElement.transform.Find(path).gameObject };
                                 }
                             }
-                            if (GUILayout.Button("Apply Setting"))
+                            using (var disable = new EditorGUI.DisabledGroupScope(!hasSetting))
                             {
-                                if (isViewState == false)
+                                if (GUILayout.Button("Apply Setting", EditorStyles.miniButton))
                                 {
-                                    vpi.previewViewElement.ApplyNavigation(vpi.navigationDatas);
+                                    ApplySetting();
                                 }
-                                else
-                                {
-                                    vpi.previewViewElement.ApplyNavigation(viewElementNavigationDataViewState.navigationDatas);
-                                }
-                                SceneView.RepaintAll();
                             }
                         }
 
@@ -223,6 +266,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                     if (check.changed)
                                     {
                                         //Do something
+                                        if (autoApplyNavigation) ApplySetting();
                                     }
                                 }
                                 if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), Drawer.removeButtonStyle, GUILayout.Width(25)))
@@ -237,6 +281,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                     }
                                 }
                             }
+                        }
+                        void ApplySetting()
+                        {
+                            if (isViewState == false)
+                            {
+                                vpi.previewViewElement.ApplyNavigation(vpi.navigationDatas);
+                            }
+                            else
+                            {
+                                vpi.previewViewElement.ApplyNavigation(viewElementNavigationDataViewState.navigationDatas);
+                            }
+                            SceneView.RepaintAll();
                         }
                     }
                 }

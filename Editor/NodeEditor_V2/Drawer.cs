@@ -19,6 +19,19 @@ public class Drawer
         }
     }
 
+    //EditorGUIUtility.FindTexture( "SavePassive" )
+ static Texture2D _savePassiveIcon;
+    public static Texture2D savePassiveIcon
+    {
+        get
+        {
+            if (_savePassiveIcon == null)
+            {
+                _savePassiveIcon = EditorGUIUtility.FindTexture("SavePassive");
+            }
+            return _savePassiveIcon;
+        }
+    }
     static Texture2D _miniErrorIcon;
     public static Texture2D miniErrorIcon
     {
@@ -245,8 +258,34 @@ public class Drawer
             {
                 _removeButtonStyle = new GUIStyle
                 {
-                    fixedWidth = 25f,
-                    fontSize = 16,
+                    //fixedWidth = 25f,
+                    stretchHeight = true,
+                    fontSize = 12,
+                    active =
+                    {
+                        background = CloudMacaca.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255))
+                    },
+                    imagePosition = ImagePosition.ImageAbove,
+                    alignment = TextAnchor.MiddleCenter
+                };
+            }
+            return _removeButtonStyle;
+        }
+    }
+
+    private static GUIStyle _darkBackgroundStyle;
+    public static GUIStyle darkBackgroundStyle
+    {
+        get
+        {
+            if (_darkBackgroundStyle == null)
+            {
+                _darkBackgroundStyle = new GUIStyle
+                {
+                    normal =
+                    {
+                        background = CloudMacaca.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255))
+                    },
                     active =
                     {
                         background = CloudMacaca.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255))
@@ -255,7 +294,21 @@ public class Drawer
                     alignment = TextAnchor.MiddleCenter
                 };
             }
-            return _removeButtonStyle;
+            return _darkBackgroundStyle;
         }
     }
+    private static GUIStyle _darkBoxStyle;
+    public static GUIStyle darkBoxStyle
+    {
+        get
+        {
+            if (_darkBoxStyle == null)
+            {
+                _darkBoxStyle = new GUIStyle("box");
+                _darkBoxStyle.normal.background = CloudMacaca.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255));
+            }
+            return _darkBoxStyle;
+        }
+    }
+  
 }
