@@ -693,6 +693,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             {
                                 EditorGUILayout.IntField("TargetFrameRate", -1);
                             }
+                            vp.IsNavigation = EditorGUILayout.Toggle("Use Navigation", vp.IsNavigation);
                         }
                     }
                 }
@@ -739,6 +740,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                 EditorGUILayout.FloatField("CustomPageTransitionWaitTime", 0);
                             }
                             vs.targetFrameRate = EditorGUILayout.IntField("TargetFrameRate", vs.targetFrameRate);
+                            using (var disable = new EditorGUI.DisabledGroupScope(true))
+                            {
+                                EditorGUILayout.Toggle("Use Navigation", false);
+                            }
                         }
                     }
                 }

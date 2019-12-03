@@ -106,7 +106,7 @@ namespace CloudMacaca.ViewSystem
         public List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
 
         #region Navigation
-        public bool IsNavigation = true;
+        public bool IsNavigation = false;
         public ViewElementNavigationTarget _firstSelectSetting;
         public UnityEngine.UI.Selectable firstSelected
         {
