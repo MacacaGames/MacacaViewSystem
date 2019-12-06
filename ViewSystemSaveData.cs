@@ -5,6 +5,7 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewSystemSaveData : ScriptableObject
     {
+       
         public ViewSystemBaseSetting globalSetting;
         public List<ViewStateSaveData> viewStates = new List<ViewStateSaveData>();
         public List<ViewPageSaveData> viewPages = new List<ViewPageSaveData>();
@@ -55,7 +56,7 @@ namespace CloudMacaca.ViewSystem
         }
 
     }
-    
+
     public class VectorConvert
     {
         public static Vector3 StringToVector3(string sVector)
@@ -129,7 +130,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
 #if UNITY_EDITOR
-            public void SetValue(UnityEditor.SerializedProperty property)
+        public void SetValue(UnityEditor.SerializedProperty property)
         {
             switch (property.propertyType)
             {
