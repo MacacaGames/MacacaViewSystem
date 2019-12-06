@@ -11,7 +11,7 @@ namespace CloudMacaca.ViewSystem
         protected static ViewControllerBase _incance;
 
         #region Interface Impletetment
-        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null)
+        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null, bool ignoreTimeScale = false)
         {
             var vp = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
             if (vp == null)
@@ -39,7 +39,7 @@ namespace CloudMacaca.ViewSystem
             return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete));
         }
 
-        public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null)
+        public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTimeScale = false)
         {
             var vp = viewPages.SingleOrDefault(m => m.name == viewPageName);
             ViewSystemUtilitys.OverlayPageState overlayPageState = null;
@@ -72,7 +72,7 @@ namespace CloudMacaca.ViewSystem
         }
 
 
-        public Coroutine ChangePage(string targetViewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false)
+        public Coroutine ChangePage(string targetViewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false)
         {
             if (currentViewPage.name == targetViewPageName)
             {
@@ -90,23 +90,23 @@ namespace CloudMacaca.ViewSystem
                 ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnComplete));
                 return ChangePageToCoroutine;
             }
-            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnComplete));
+            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnComplete, ignoreTimeScale));
             return ChangePageToCoroutine;
         }
 
-        public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
+        public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete, bool ignoreTimeScale = false)
         {
             //Empty implement will override in child class
             yield return null;
         }
 
-        public virtual IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false)
+        public virtual IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false)
         {
             //Empty implement will override in child class
             yield return null;
         }
 
-        public virtual IEnumerator ChangePageBase(string viewPageName, Action OnComplete)
+        public virtual IEnumerator ChangePageBase(string viewPageName, Action OnComplete, bool ignoreTimeScale)
         {
             //Empty implement will override in child class
             yield return null;

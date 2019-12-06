@@ -171,7 +171,7 @@ namespace CloudMacaca.ViewSystem
         [ReadOnly, SerializeField]
         protected List<ViewElement> currentLiveElementsInViewState = new List<ViewElement>();
 
-        public override IEnumerator ChangePageBase(string viewPageName, Action OnComplete)
+        public override IEnumerator ChangePageBase(string viewPageName, Action OnComplete, bool ignoreTimeScale)
         {
             //取得 ViewPage 物件
             var vp = viewPages.SingleOrDefault(m => m.name == viewPageName);
@@ -186,8 +186,8 @@ namespace CloudMacaca.ViewSystem
 
             if (vp.viewPageType == ViewPage.ViewPageType.Overlay)
             {
-                ViewSystemLog.LogWarning("To shown Page is an Overlay ViewPage use ShowOverlayViewPage() instead method \n current version will redirect to this method automatically.");
-                ShowOverlayViewPageBase(vp, true, OnComplete);
+                ViewSystemLog.LogWarning("To shown Page is an Overlay ViewPage use ShowOverlayViewPage() instead method \n current version will redirect to this method automatically, but this behaviour may be changed in future release.");
+                ShowOverlayViewPageBase(vp, true, OnComplete, ignoreTimeScale);
                 ChangePageToCoroutine = null;
                 yield break;
             }
@@ -251,8 +251,10 @@ namespace CloudMacaca.ViewSystem
             }
 
             lastPageItemDelayOutTimes.Clear();
-
-            yield return Yielders.GetWaitForSeconds(nextViewPageWaitTime);
+            if (ignoreTimeScale)
+                yield return Yielders.GetWaitForSecondsRealtime(nextViewPageWaitTime);
+            else
+                yield return Yielders.GetWaitForSeconds(nextViewPageWaitTime);
 
             float TimeForPerviousPageOnLeave = 0;
             switch (vp.viewPageTransitionTimingType)
@@ -270,7 +272,10 @@ namespace CloudMacaca.ViewSystem
             nextViewPageWaitTime = ViewSystemUtilitys.CalculateWaitingTimeForCurrentOnLeave(viewItemNextPage);
 
             //等上一個頁面的 OnLeave 結束，注意，如果頁面中有大量的 Animator 這裡只能算出預估的結果 並且會限制最長時間為一秒鐘
-            yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
+            if (ignoreTimeScale)
+                yield return Yielders.GetWaitForSecondsRealtime(TimeForPerviousPageOnLeave);
+            else
+                yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
 
             //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
             runtimePool.RecoveryQueuedViewElement();
@@ -320,8 +325,11 @@ namespace CloudMacaca.ViewSystem
             //OnComplete Callback，08/28 雖然增加了計算至下個頁面的所需時間，但依然維持原本的時間點呼叫 Callback
             if (OnComplete != null) OnComplete();
 
-            //通知事件
-            yield return Yielders.GetWaitForSeconds(OnShowAnimationFinish);
+            if (ignoreTimeScale)
+                yield return Yielders.GetWaitForSecondsRealtime(OnShowAnimationFinish);
+            else
+                //通知事件
+                yield return Yielders.GetWaitForSeconds(OnShowAnimationFinish);
 
             ChangePageToCoroutine = null;
 
@@ -332,7 +340,7 @@ namespace CloudMacaca.ViewSystem
             nextViewState = null;
         }
 
-        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
+        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete, bool ignoreTimeScale)
         {
             if (vp == null)
             {
@@ -437,7 +445,11 @@ namespace CloudMacaca.ViewSystem
                     break;
             }
             //等上一個頁面的 OnLeave 結束，注意，如果頁面中有大量的 Animator 這裡只能算出預估的結果 並且會限制最長時間為一秒鐘
-            yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
+
+            if (ignoreTimeScale)
+                yield return Yielders.GetWaitForSecondsRealtime(TimeForPerviousPageOnLeave);
+            else
+                yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
 
             //對進場的呼叫改變狀態
             foreach (var item in viewItemNextPage)
@@ -513,14 +525,17 @@ namespace CloudMacaca.ViewSystem
             InvokeOnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
 
             //當所有表演都結束時
-            yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
+            if (ignoreTimeScale)
+                yield return Yielders.GetWaitForSecondsRealtime(onShowTime + onShowDelay);
+            else
+                yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
 
             if (!string.IsNullOrEmpty(vp.viewState) && overlayPageStatesWithOverState.ContainsKey(vp.viewState)) overlayPageStatesWithOverState[vp.viewState].IsTransition = false;
             else if (overlayPageStates.ContainsKey(vp.name)) overlayPageStates[vp.name].IsTransition = false;
             OnComplete?.Invoke();
         }
 
-        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false)
+        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false)
         {
             var currentVe = currentViewPage.viewPageItems.Select(m => m.runtimeViewElement);
             var currentVs = currentViewState.viewPageItems.Select(m => m.runtimeViewElement);
@@ -575,7 +590,10 @@ namespace CloudMacaca.ViewSystem
 
             InvokeOnOverlayPageLeave(this, new ViewPageEventArgs(overlayPageState.viewPage, null));
 
-            yield return Yielders.GetWaitForSeconds(finishTime);
+            if (ignoreTimeScale)
+                yield return Yielders.GetWaitForSecondsRealtime(finishTime);
+            else
+                yield return Yielders.GetWaitForSeconds(finishTime);
 
             overlayPageState.IsTransition = false;
 

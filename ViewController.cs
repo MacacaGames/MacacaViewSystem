@@ -9,7 +9,7 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewController : ViewControllerBase
     {
-       
+
         public List<ViewPage> viewPage = new List<ViewPage>();
         public static ViewController Instance;
         public ViewElementPool viewElementPool;
@@ -39,7 +39,7 @@ namespace CloudMacaca.ViewSystem
         private Dictionary<string, float> lastPageItemDelayOutTimes = new Dictionary<string, float>();
         private Dictionary<string, float> lastPageItemDelayOutTimesOverlay = new Dictionary<string, float>();
 
-        public override IEnumerator ChangePageBase(string viewPageName, Action OnComplete)
+        public override IEnumerator ChangePageBase(string viewPageName, Action OnComplete, bool ignoreTimeScale)
         {
 
             //取得 ViewPage 物件
@@ -188,7 +188,7 @@ namespace CloudMacaca.ViewSystem
             InvokeOnViewPageChangeEnd(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
         }
 
-        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete)
+        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete, bool ignoreTimeScale = false)
         {
             if (vp == null)
             {
@@ -273,7 +273,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false)
+        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false)
         {
             var currentVe = currentViewPage.viewPageItems.Select(m => m.viewElement);
             var currentVs = currentViewState.viewPageItems.Select(m => m.viewElement);
