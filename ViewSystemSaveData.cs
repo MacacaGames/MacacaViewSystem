@@ -38,7 +38,7 @@ namespace CloudMacaca.ViewSystem
         [System.Serializable]
         public class ViewSystemBaseSetting
         {
-            public Vector2 nodePosition = new Vector2(500, 500);
+            public bool UseNavigationSetting = false;
             public string ViewControllerObjectPath;
             public GameObject UIRoot;
             public GameObject UIRootScene;

@@ -10,16 +10,16 @@ namespace CloudMacaca.ViewSystem
         bool IsOverlayTransition { get; }
 
 
-        Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null);
-        IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete);
+        Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null, bool ignoreTimeScale = false);
+        IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete, bool ignoreTimeScale = false);
 
 
-        Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4f, Action OnComplete = null);
-        IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false);
+        Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4f, Action OnComplete = null, bool ignoreTimeScale = false);
+        IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false);
 
 
-        Coroutine ChangePage(string targetViewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false);
-        IEnumerator ChangePageBase(string viewPageName, Action OnComplete);
+        Coroutine ChangePage(string targetViewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false);
+        IEnumerator ChangePageBase(string viewPageName, Action OnComplete, bool ignoreTimeScale);
 
 
         void TryLeaveAllOverlayPage();

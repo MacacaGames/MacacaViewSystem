@@ -317,7 +317,7 @@ namespace CloudMacaca.ViewSystem
                     else if (transition == TransitionType.CanvasGroupAlpha)
                     {
                         //ViewSystemLog.Log("canvasGroup alpha");
-                        canvasGroup.DOFade(1, canvasInTime).OnStart(
+                        canvasGroup.DOFade(1, canvasInTime).SetUpdate(true).OnStart(
                             () =>
                             {
                                 //簡單暴力的解決 canvasGroup 一開始如果不是 0 的時候的情況
@@ -403,7 +403,7 @@ namespace CloudMacaca.ViewSystem
                     else if (transition == TransitionType.CanvasGroupAlpha)
                     {
                         if (canvasGroup == null) ViewSystemLog.LogError("No Canvas Group Found on this Object", this);
-                        canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase)
+                        canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase).SetUpdate(true)
                             .OnComplete(
                                 () =>
                                 {
