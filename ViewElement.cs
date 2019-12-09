@@ -81,7 +81,8 @@ namespace CloudMacaca.ViewSystem
         }
 
         #endregion
-
+        //ViewElementLifeCycle
+        protected IViewElementLifeCycle[] lifeCyclesObjects;
         public enum TransitionType
         {
             Animator,
@@ -97,20 +98,13 @@ namespace CloudMacaca.ViewSystem
         }
         //Animator
         public AnimatorTransitionType animatorTransitionType = AnimatorTransitionType.Direct;
-
         public string AnimationStateName_In = "In";
         public string AnimationStateName_Out = "Out";
         public string AnimationStateName_Loop = "Loop";
         const string ButtonAnimationBoolKey = "IsLoop";
-
         bool hasLoopBool = false;
 
-        //ViewElementLifeCycle
-        protected IViewElementLifeCycle[] lifeCyclesObjects;
-
-        //Animator
-
-        //Canvas
+        //CanvasGroup
         public float canvasInTime = 0.4f;
         public float canvasOutTime = 0.4f;
         public Ease canvasInEase = Ease.OutQuad;
@@ -127,9 +121,9 @@ namespace CloudMacaca.ViewSystem
                 return _canvasGroup;
             }
         }
-        //Canvas
-        public UnityEvent OnShowHandle;
-        public UnityEvent OnLeaveHandle;
+        //Custom
+        public ViewElementEvent OnShowHandle;
+        public ViewElementEvent OnLeaveHandle;
 
         private RectTransform _rectTransform;
         private RectTransform rectTransform
@@ -330,7 +324,7 @@ namespace CloudMacaca.ViewSystem
                     }
                     else if (transition == TransitionType.Custom)
                     {
-                        OnShowHandle.Invoke();
+                        OnShowHandle.Invoke(null);
                     }
                     else if (transition == TransitionType.ActiveSwitch)
                     {
@@ -415,7 +409,7 @@ namespace CloudMacaca.ViewSystem
                     }
                     else if (transition == TransitionType.Custom)
                     {
-                        OnLeaveHandle.Invoke();
+                        OnLeaveHandle.Invoke(OnLeaveAnimationFinish);
                         //OnLeaveAnimationFinish ();
                     }
                     else
@@ -509,4 +503,11 @@ namespace CloudMacaca.ViewSystem
             }
         }
     }
+
+}
+
+[System.Serializable]
+public class ViewElementEvent : UnityEvent<Action>
+{
+
 }

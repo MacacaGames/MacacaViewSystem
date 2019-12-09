@@ -45,16 +45,16 @@ namespace CloudMacaca.ViewSystem
                     viewElement.AnimationStateName_Out = EditorGUILayout.TextField("離場動畫 State Name", viewElement.AnimationStateName_Out);
                     if (viewElement.animator != null)
                     {
-                        EditorGUILayout.HelpBox("已完成設定", MessageType.Info);
-                        if (GUILayout.Button("我要重新設定！", EditorStyles.miniButton))
+                        EditorGUILayout.HelpBox("Sepup Complete!", MessageType.Info);
+                        if (GUILayout.Button("Reset", EditorStyles.miniButton))
                         {
                             viewElement.Setup();
                         }
                     }
                     else
                     {
-                        EditorGUILayout.HelpBox("在物件與所有子物件中 沒有找到可用的 Animator", MessageType.Error);
-                        if (GUILayout.Button("我要重新設定！", EditorStyles.miniButton))
+                        EditorGUILayout.HelpBox("There is no available Animator on GameObject or child.", MessageType.Error);
+                        if (GUILayout.Button("Reset", EditorStyles.miniButton))
                         {
                             viewElement.Setup();
                         }
@@ -68,9 +68,9 @@ namespace CloudMacaca.ViewSystem
 
                     break;
                 case ViewElement.TransitionType.ActiveSwitch:
-
                     break;
                 case ViewElement.TransitionType.Custom:
+                    EditorGUILayout.HelpBox("Remember Invoke the 'Action' send from those UnityEvent's parameters at the end of your OnShow/OnLeave handler, or the ViewElement may not recovery to pool correctlly!", MessageType.Info);
                     EditorGUILayout.BeginVertical();
                     EditorGUILayout.PropertyField(onShowHandle, true);
                     EditorGUILayout.PropertyField(onLeaveHandle, true);
