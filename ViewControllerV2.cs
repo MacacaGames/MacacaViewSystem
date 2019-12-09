@@ -644,7 +644,7 @@ namespace CloudMacaca.ViewSystem
         #region Navigation
         void SetNavigationTarget(ViewPage vp)
         {
-            if (vp.IsNavigation)
+            if (vp.IsNavigation && vp.firstSelected != null)
             {
                 UnityEngine.EventSystems.EventSystem
                     .current.SetSelectedGameObject(vp.firstSelected.gameObject);
