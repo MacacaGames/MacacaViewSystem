@@ -788,6 +788,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));
 
+                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("AvatarCompass"), "Reset viewport to (0,0)"), EditorStyles.toolbarButton, GUILayout.Width(30)))
+                    {
+                        viewPortScroll = Vector2.zero;
+                    }
+
                     // GUILayout.Label("ViewState:");
                     // int newIndex = EditorGUILayout.Popup(currentIndex, viewStatesPopup.ToArray(),
                     //     EditorStyles.toolbarPopup, GUILayout.Width(80));
