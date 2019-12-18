@@ -838,5 +838,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     ViewSystemNodeInspector.isMouseInSideBar());
             }
         }
+
+        [UnityEditor.Callbacks.OnOpenAsset(0)]
+        public static bool OnOpenAsset(int instanceID, int line)
+        {
+            var asset = EditorUtility.InstanceIDToObject(instanceID) as ViewSystemSaveData;
+            if (asset == null)
+                return false;
+
+            OpenWindow();
+
+            return true;
+        }
     }
 }
