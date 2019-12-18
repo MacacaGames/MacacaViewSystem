@@ -50,25 +50,27 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             // Import UXML
             var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/ViewSystem/Editor/NodeEditor_V2/UIElement/ViewSystemNodeEditorUIElement.uxml");
-            VisualElement labelFromUXML = visualTree.CloneTree();
+            VisualElement visulaElementFromUXML = visualTree.CloneTree();
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/ViewSystem/Editor/NodeEditor_V2/UIElement/ViewSystemNodeEditorUIElement.uss");
-            labelFromUXML.styleSheets.Add(styleSheet);
-            labelFromUXML.style.flexGrow = 1;
+            visulaElementFromUXML.styleSheets.Add(styleSheet);
+            visulaElementFromUXML.style.flexGrow = 1;
 
             toolbarContianer = new IMGUIContainer(DrawMenuBar);
             toolbarContianer.style.flexGrow = 1;
-            labelFromUXML.Q("toolbar").Add(toolbarContianer);
+            visulaElementFromUXML.Q("toolbar").Add(toolbarContianer);
 
             inspectorContianer = new IMGUIContainer(DrawInspector);
             inspectorContianer.style.flexGrow = 1;
-            labelFromUXML.Q("inspector").Add(inspectorContianer);
+            visulaElementFromUXML.Q("inspector").Add(inspectorContianer);
 
 
             nodeViewContianer = new IMGUIContainer(DrawNode);
             nodeViewContianer.style.flexGrow = 1;
-            labelFromUXML.Q("node-view").Add(nodeViewContianer);
+            visulaElementFromUXML.Q("node-view").Add(nodeViewContianer);
 
-            // var drager_line_content = labelFromUXML.Q("splitter-dragline-content");
+            var dragger = visulaElementFromUXML.Q("dragger");
+            dragger.AddManipulator(new VisualElementResizer());
+
             // drager_line_content.RegisterCallback<MouseUpEvent>(
             //     (evt) =>
             //     {
@@ -97,7 +99,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //     }
             // );
 
-            root.Add(labelFromUXML);
+            root.Add(visulaElementFromUXML);
 
             // A stylesheet can be added to a VisualElement.
             // The style will be applied to the VisualElement and all of its children.
@@ -711,7 +713,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         if (overridePopupWindow != null) overridePopupWindow.show = false;
                         RefreshData();
                     }
-                    GUILayout.Space(5);
+                    // GUILayout.Space(5);
                     // using (var check = new EditorGUI.ChangeCheckScope())
                     // {
                     //     inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(Drawer.sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
@@ -720,11 +722,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     //         //inspectorContianer.customStyle.
                     //         if (inspector.show)
                     //         {
+                    //             inspectorContianer.style.minWidth = 250;
                     //             inspectorContianer.style.width = lastInspectorWidth;
                     //             Repaint();
                     //         }
                     //         else
                     //         {
+                    //             inspectorContianer.style.minWidth = 0;
+                    //             inspectorContianer.style.width = 0;
                     //             lastInspectorWidth = (int)inspectorContianer.style.width.value.value;
                     //             Repaint();
                     //         }
@@ -836,6 +841,77 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     overridePopupWindow.show ||
                     navigationWindow.show ||
                     ViewSystemNodeInspector.isMouseInSideBar());
+            }
+        }
+
+
+        class VisualElementResizer : MouseManipulator
+        {
+            private Vector2 m_Start;
+            protected bool m_Active;
+            public VisualElementResizer()
+            {
+                activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
+                m_Active = false;
+            }
+
+            protected override void RegisterCallbacksOnTarget()
+            {
+
+                target.RegisterCallback<MouseDownEvent>(OnMouseDown);
+                target.RegisterCallback<MouseMoveEvent>(OnMouseMove);
+                target.RegisterCallback<MouseUpEvent>(OnMouseUp);
+            }
+
+            protected override void UnregisterCallbacksFromTarget()
+            {
+                target.UnregisterCallback<MouseDownEvent>(OnMouseDown);
+                target.UnregisterCallback<MouseMoveEvent>(OnMouseMove);
+                target.UnregisterCallback<MouseUpEvent>(OnMouseUp);
+            }
+
+            protected void OnMouseDown(MouseDownEvent e)
+            {
+                if (m_Active)
+                {
+                    e.StopImmediatePropagation();
+                    return;
+                }
+
+                if (CanStartManipulation(e))
+                {
+                    m_Start = e.localMousePosition;
+
+                    m_Active = true;
+                    target.CaptureMouse();
+                    e.StopPropagation();
+                }
+            }
+
+            protected void OnMouseMove(MouseMoveEvent e)
+            {
+                if (!m_Active || !target.HasMouseCapture())
+                    return;
+
+                Vector2 diff = e.localMousePosition - m_Start;
+
+                //target.parent.style.height = target.parent.layout.height + diff.x;
+                var t = target.parent.parent.ElementAt(0);
+
+                int w = (int)t.style.width.value.value;
+                t.style.width = Mathf.Clamp(w + diff.x, 250, 450);
+
+                e.StopPropagation();
+            }
+
+            protected void OnMouseUp(MouseUpEvent e)
+            {
+                if (!m_Active || !target.HasMouseCapture() || !CanStopManipulation(e))
+                    return;
+
+                m_Active = false;
+                target.ReleaseMouse();
+                e.StopPropagation();
             }
         }
 

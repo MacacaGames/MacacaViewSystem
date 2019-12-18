@@ -2,12 +2,12 @@
     <ui:VisualElement name="toolbar">
         <Style src="ViewSystemNodeEditorUIElement.uss" />
     </ui:VisualElement>
-    <ui:VisualElement name="content" >
+    <ui:VisualElement name="content">
         <Style src="ViewSystemNodeEditorUIElement.uss" />
-        <ui:VisualElement name="inspector" style="width:350;" />
-        <ui:VisualElement name="splitter-dragline" >
-            <ui:VisualElement name="splitter-dragline-content"/>
+        <ui:VisualElement name="inspector" style="flex-direction: column; width: 350px;" />
+        <ui:VisualElement name="dragger-wrapper">
+            <ui:VisualElement name="dragger" />
         </ui:VisualElement>
-        <ui:VisualElement name="node-view"/>
+        <ui:VisualElement name="node-view" />
     </ui:VisualElement>
 </ui:UXML>
