@@ -1,0 +1,35 @@
+#toolbar{
+    height: 20px;
+}
+
+#content{
+    flex-grow: 1; 
+    flex-direction: row;
+}
+
+#inspector{
+    flex-grow: 1; 
+    max-width: 400px; 
+    background-color: 
+    rgba(144, 144, 144, 255);
+}
+
+#splitter-dragline{
+    background-color: 
+    rgba(67, 67, 67, 255);
+    width: 2px;
+}
+
+#splitter-dragline-content{
+    left: -5px; 
+    width: 10px; 
+    top:0;
+    bottom:0;
+    position: absolute; 
+    background-color: rgba(0, 0, 0, 0);
+    cursor:resize-horizontal;
+}
+
+#node-view{
+    flex-grow: 1;
+}

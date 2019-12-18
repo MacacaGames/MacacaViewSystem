@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="toolbar">
+        <Style src="ViewSystemNodeEditorUIElement.uss" />
+    </ui:VisualElement>
+    <ui:VisualElement name="content" >
+        <Style src="ViewSystemNodeEditorUIElement.uss" />
+        <ui:VisualElement name="inspector" style="width:350;" />
+        <ui:VisualElement name="splitter-dragline" >
+            <ui:VisualElement name="splitter-dragline-content"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="node-view"/>
+    </ui:VisualElement>
+</ui:UXML>

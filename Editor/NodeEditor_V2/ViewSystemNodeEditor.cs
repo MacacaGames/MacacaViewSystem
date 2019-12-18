@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using CloudMacaca.ViewSystem;
+using UnityEngine.UIElements;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
@@ -30,6 +31,77 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             Instance.minSize = new Vector2(600, 400);
             Instance.RefreshData();
             EditorApplication.playModeStateChanged += playModeStateChanged;
+        }
+
+
+        public VisualElement nodeViewContianer;
+        public VisualElement toolbarContianer;
+        public VisualElement inspectorContianer;
+
+        bool inspectorResize = false;
+        public void OnEnable()
+        {
+            // Each editor window contains a root VisualElement object
+            VisualElement root = rootVisualElement;
+
+            // // VisualElements objects can contain other VisualElement following a tree hierarchy.
+            // VisualElement label = new Label("Hello World! From C#");
+            // root.Add(label);
+
+            // Import UXML
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/ViewSystem/Editor/NodeEditor_V2/UIElement/ViewSystemNodeEditorUIElement.uxml");
+            VisualElement labelFromUXML = visualTree.CloneTree();
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/ViewSystem/Editor/NodeEditor_V2/UIElement/ViewSystemNodeEditorUIElement.uss");
+            labelFromUXML.styleSheets.Add(styleSheet);
+            labelFromUXML.style.flexGrow = 1;
+
+            toolbarContianer = new IMGUIContainer(DrawMenuBar);
+            toolbarContianer.style.flexGrow = 1;
+            labelFromUXML.Q("toolbar").Add(toolbarContianer);
+
+            inspectorContianer = new IMGUIContainer(DrawInspector);
+            inspectorContianer.style.flexGrow = 1;
+            labelFromUXML.Q("inspector").Add(inspectorContianer);
+
+
+            nodeViewContianer = new IMGUIContainer(DrawNode);
+            nodeViewContianer.style.flexGrow = 1;
+            labelFromUXML.Q("node-view").Add(nodeViewContianer);
+
+            // var drager_line_content = labelFromUXML.Q("splitter-dragline-content");
+            // drager_line_content.RegisterCallback<MouseUpEvent>(
+            //     (evt) =>
+            //     {
+            //         evt.StopPropagation();
+
+            //         //inspectorResize = false;
+            //     }
+            // );
+            // drager_line_content.RegisterCallback<MouseDownEvent>(
+            //     (evt) =>
+            //     {
+            //         evt.StopPropagation();
+
+            //         inspectorResize = true;
+            //     }
+            // );
+            // drager_line_content.RegisterCallback<MouseMoveEvent>(
+            //     (evt) =>
+            //     {
+            //         if (inspectorResize)
+            //         {
+            //             var i = inspectorContianer.style.width.value;
+            //             int newvalue = (int)(i.value + evt.mousePosition.x);
+            //             inspectorContianer.style.width = newvalue;
+            //         }
+            //     }
+            // );
+
+            root.Add(labelFromUXML);
+
+            // A stylesheet can be added to a VisualElement.
+            // The style will be applied to the VisualElement and all of its children.
+            // root.Add(labelWithStyle);
         }
 
         private static void playModeStateChanged(PlayModeStateChange obj)
@@ -80,7 +152,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         List<ViewSystemNodeLine> nodeConnectionLineList = new List<ViewSystemNodeLine>();
         public ViewSystemNodeConsole console;
         public static float zoomScale = 1.0f;
-        Rect zoomArea;
+        Rect scriptViewRect;
         public static Vector2 viewPortScroll;
         Vector2 zoomScaleMinMax = new Vector2(0.25f, 1);
         protected virtual void DoZoom(float delta, Vector2 center)
@@ -88,21 +160,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var prevZoom = zoomScale;
             zoomScale += delta;
             zoomScale = Mathf.Clamp(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y);
-            var deltaSize = position.size / prevZoom - position.size / zoomScale;
+            var deltaSize = nodeViewContianer.contentRect.size / prevZoom - nodeViewContianer.contentRect.size / zoomScale;
             var offset = -Vector2.Scale(deltaSize, center);
             viewPortScroll += offset;
         }
-        void OnGUI()
+
+        void DrawNode()
         {
 
-            zoomArea = position;
-            zoomArea.height -= menuBarHeight;
-            zoomArea.y = menuBarHeight;
-            zoomArea.x = 0;
 
-            Rect scriptViewRect = new Rect(0, 0, this.position.width / zoomScale, this.position.height / zoomScale);
+            scriptViewRect = new Rect(nodeViewContianer.contentRect.x, nodeViewContianer.contentRect.y - menuBarHeight + 2, nodeViewContianer.contentRect.width / zoomScale, nodeViewContianer.contentRect.height / zoomScale);
 
-            EditorZoomArea.Begin(zoomScale, scriptViewRect);
+            EditorZoomArea.NoGroupBegin(zoomScale, scriptViewRect);
             DrawGrid();
             foreach (var item in nodeConnectionLineList.ToArray())
             {
@@ -117,13 +186,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 item.Draw();
             }
             DrawCurrentConnectionLine(Event.current);
-            EditorZoomArea.End();
+            EditorZoomArea.NoGroupEnd();
 
-            GUI.depth = -100;
-            DrawMenuBar();
-
-            if (console.show) console.Draw(new Vector2(position.width, position.height));
-            if (inspector.show) inspector.Draw();
+            if (console.show) console.Draw(new Vector2(nodeViewContianer.contentRect.width, nodeViewContianer.contentRect.height));
 
             BeginWindows();
             if (globalSettingWindow != null)
@@ -137,6 +202,56 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             ProcessEvents(Event.current);
             CheckRepaint();
         }
+
+        void DrawInspector()
+        {
+            inspector.Draw();
+        }
+        // void OnGUI()
+        // {
+
+        //     zoomArea = position;
+        //     zoomArea.height -= menuBarHeight;
+        //     zoomArea.y = menuBarHeight;
+        //     zoomArea.x = 0;
+
+        //     Rect scriptViewRect = new Rect(0, 0, this.position.width / zoomScale, this.position.height / zoomScale);
+
+        //     EditorZoomArea.Begin(zoomScale, scriptViewRect);
+        //     DrawGrid();
+        //     foreach (var item in nodeConnectionLineList.ToArray())
+        //     {
+        //         item.Draw();
+        //     }
+        //     foreach (var item in viewPageList.ToArray())
+        //     {
+        //         item.Draw();
+        //     }
+        //     foreach (var item in viewStateList.ToArray())
+        //     {
+        //         item.Draw();
+        //     }
+        //     DrawCurrentConnectionLine(Event.current);
+        //     EditorZoomArea.End();
+
+        //     GUI.depth = -100;
+        //     DrawMenuBar();
+
+        //     if (console.show) console.Draw(new Vector2(position.width, position.height));
+        //     if (inspector.show) inspector.Draw();
+
+        //     BeginWindows();
+        //     if (globalSettingWindow != null)
+        //         globalSettingWindow.OnGUI();
+
+        //     if (overridePopupWindow != null) overridePopupWindow.OnGUI();
+        //     if (navigationWindow != null) navigationWindow.OnGUI();
+
+        //     EndWindows();
+
+        //     ProcessEvents(Event.current);
+        //     CheckRepaint();
+        // }
         public void CheckRepaint()
         {
             //if (Event.current.type == EventType.Repaint || Event.current.type == EventType.Layout) return;
@@ -151,7 +266,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 case EventType.MouseDrag:
                     if (e.button == 2)
                     {
-                        if (zoomArea.Contains(e.mousePosition))
+                        if (scriptViewRect.Contains(e.mousePosition))
                         {
                             OnDrag(e.delta * 1 / zoomScale);
                         }
@@ -163,8 +278,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     // zoomScale = Mathf.Clamp(target, 0.1f, 1f);
                     // GUI.changed = true;
                     Vector2 zoomCenter;
-                    zoomCenter.x = e.mousePosition.x / zoomScale / position.width;
-                    zoomCenter.y = e.mousePosition.y / zoomScale / position.height;
+                    zoomCenter.x = e.mousePosition.x / zoomScale / nodeViewContianer.contentRect.width;
+                    zoomCenter.y = e.mousePosition.y / zoomScale / nodeViewContianer.contentRect.height;
                     zoomCenter *= zoomScale;
                     DoZoom(-e.delta.y * 0.01f, zoomCenter);
                     e.Use();
@@ -181,24 +296,34 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         {
                             return;
                         }
+                        if (!nodeViewContianer.contentRect.Contains(e.mousePosition))
+                        {
+                            return;
+                        }
                         GenericMenu genericMenu = new GenericMenu();
 
                         genericMenu.AddItem(new GUIContent("Add FullPage"), false,
                             () =>
                             {
-                                AddViewPageNode(e.mousePosition * 1 / zoomScale - viewPortScroll, false);
+                                Vector2 pos = new Vector2(e.mousePosition.x - inspectorContianer.contentRect.width, e.mousePosition.y - menuBarHeight);
+                                Vector2 unScalePos = new Vector2(-ViewSystemNode.ViewSystemNodeWidth * 0.5f, -ViewSystemNode.ViewPageNodeHeight * .5f);
+                                AddViewPageNode((pos * 1 / zoomScale + unScalePos) - viewPortScroll, false);
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Add OverlayPage"), false,
                             () =>
                             {
-                                AddViewPageNode(e.mousePosition * 1 / zoomScale - viewPortScroll, true);
+                                Vector2 pos = new Vector2(e.mousePosition.x - inspectorContianer.contentRect.width, e.mousePosition.y - menuBarHeight);
+                                Vector2 unScalePos = new Vector2(-ViewSystemNode.ViewSystemNodeWidth * 0.5f, -ViewSystemNode.ViewPageNodeHeight * .5f);
+                                AddViewPageNode((pos * 1 / zoomScale + unScalePos) - viewPortScroll, true);
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Add ViewState"), false,
                             () =>
                             {
-                                AddViewStateNode(e.mousePosition * 1 / zoomScale - viewPortScroll);
+                                Vector2 pos = new Vector2(e.mousePosition.x - inspectorContianer.contentRect.width, e.mousePosition.y - menuBarHeight);
+                                Vector2 unScalePos = new Vector2(-ViewSystemNode.ViewSystemNodeWidth * 0.5f, -ViewSystemNode.ViewStateNodeHeight * .5f);
+                                AddViewStateNode((pos * 1 / zoomScale + unScalePos) - viewPortScroll);
                             }
                         );
                         genericMenu.ShowAsContext();
@@ -514,7 +639,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         private void OnDrag(Vector2 delta)
         {
-            viewPortScroll += delta / zoomScale;
+            viewPortScroll += delta * zoomScale;
             GUI.changed = true;
         }
 
@@ -553,6 +678,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         private float menuBarHeight = 20f;
         private Rect menuBar;
         List<string> viewStatesPopup = new List<string>();
+
+        int lastInspectorWidth;
         private void DrawMenuBar()
         {
             menuBar = new Rect(0, 0, position.width, menuBarHeight);
@@ -562,7 +689,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 using (var horizon = new GUILayout.HorizontalScope())
                 {
                     GUILayout.Space(5);
-                    if (GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(35)))
+                    if (GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(40)))
                     {
                         if (isInit == false)
                         {
@@ -585,8 +712,24 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         RefreshData();
                     }
                     GUILayout.Space(5);
-                    inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(Drawer.sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
-
+                    // using (var check = new EditorGUI.ChangeCheckScope())
+                    // {
+                    //     inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(Drawer.sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+                    //     if (check.changed)
+                    //     {
+                    //         //inspectorContianer.customStyle.
+                    //         if (inspector.show)
+                    //         {
+                    //             inspectorContianer.style.width = lastInspectorWidth;
+                    //             Repaint();
+                    //         }
+                    //         else
+                    //         {
+                    //             lastInspectorWidth = (int)inspectorContianer.style.width.value.value;
+                    //             Repaint();
+                    //         }
+                    //     }
+                    // }
                     GUILayout.Space(5);
                     console.show = GUILayout.Toggle(console.show, new GUIContent(Drawer.miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
                     GUILayout.Space(5);
