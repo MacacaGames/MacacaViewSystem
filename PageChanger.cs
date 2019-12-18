@@ -145,8 +145,6 @@ namespace CloudMacaca.ViewSystem
         }
     }
 
-
-
     public static class PageChangerExtension
     {
         public static PageChanger SetPage(this PageChanger selfObj, string targetPageName)
@@ -176,6 +174,14 @@ namespace CloudMacaca.ViewSystem
                 return selfObj._pageChangerRunner;
             else
                 return selfObj.Show()._pageChangerRunner;
+        }
+
+        public static CustomYieldInstruction GetYieldInstruction(this PageChanger selfObj, bool customYieldInstruction)
+        {
+            if (selfObj._pageChangerRunner != null)
+                return new ViewCYInstruction.WaitForStandardCoroutine(selfObj._pageChangerRunner);
+            else
+                return new ViewCYInstruction.WaitForStandardCoroutine(selfObj.Show()._pageChangerRunner);
         }
     }
 }
