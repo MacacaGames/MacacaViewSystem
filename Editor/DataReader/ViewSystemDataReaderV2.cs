@@ -291,7 +291,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             data.globalSetting.UIRoot = saveObject;
         }
 
-        void CheckAndCreateResourceFolder()
+        public static void CheckAndCreateResourceFolder()
         {
             if (!Directory.Exists(ViewSystemResourceFolder))
             {

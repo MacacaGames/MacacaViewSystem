@@ -171,7 +171,7 @@ namespace CloudMacaca.ViewSystem
         [ReadOnly, SerializeField]
         protected List<ViewElement> currentLiveElementsInViewState = new List<ViewElement>();
 
-        public override IEnumerator ChangePageBase(string viewPageName, Action OnComplete, bool ignoreTimeScale)
+        public override IEnumerator ChangePageBase(string viewPageName, Action OnCheaged, Action OnComplete, bool ignoreTimeScale)
         {
             //取得 ViewPage 物件
             var vp = viewPages.SingleOrDefault(m => m.name == viewPageName);
@@ -322,8 +322,7 @@ namespace CloudMacaca.ViewSystem
             //更新狀態
             UpdateCurrentViewStateAndNotifyEvent(vp);
 
-            //OnComplete Callback，08/28 雖然增加了計算至下個頁面的所需時間，但依然維持原本的時間點呼叫 Callback
-            if (OnComplete != null) OnComplete();
+            OnCheaged?.Invoke();
 
             if (ignoreTimeScale)
                 yield return Yielders.GetWaitForSecondsRealtime(OnShowAnimationFinish);
@@ -336,6 +335,8 @@ namespace CloudMacaca.ViewSystem
             //Callback
             InvokeOnViewPageChangeEnd(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
 
+            //2019.12.18 due to there may be new Callback be add, change the  OnComplete to all is done.
+            OnComplete?.Invoke();
             nextViewPage = null;
             nextViewState = null;
         }

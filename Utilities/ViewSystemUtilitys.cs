@@ -51,25 +51,6 @@ namespace CloudMacaca.ViewSystem
             return _platform;
         }
 
-        // public static float CalculateTransitionWaitTimes(ViewPage vp)
-        // {
-        //     float TimeForPerviousPageOnLeave = 0;
-        //     switch (vp.viewPageTransitionTimingType)
-        //     {
-        //         case ViewPage.ViewPageTransitionTimingType.接續前動畫:
-        //             TimeForPerviousPageOnLeave = ViewSystemUtilitys.CalculateTimesNeedsForOnLeave(vp.Select(m => m.viewElement), maxClampTime);
-        //             break;
-        //         case ViewPage.ViewPageTransitionTimingType.與前動畫同時:
-        //             TimeForPerviousPageOnLeave = 0;
-        //             break;
-        //         case ViewPage.ViewPageTransitionTimingType.自行設定:
-        //             TimeForPerviousPageOnLeave = vp.customPageTransitionWaitTime;
-        //             break;
-        //     }
-
-        //     return TimeForPerviousPageOnLeave;
-        // }
-
         public static float CalculateWaitingTimeForCurrentOnLeave(IEnumerable<ViewPageItem> viewPageItems)
         {
             float maxDelayTime = 0;

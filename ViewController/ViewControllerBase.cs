@@ -72,7 +72,7 @@ namespace CloudMacaca.ViewSystem
         }
 
 
-        public Coroutine ChangePage(string targetViewPageName, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false)
+        public Coroutine ChangePage(string targetViewPageName, Action OnCheaged = null, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false)
         {
             if (currentViewPage.name == targetViewPageName)
             {
@@ -90,7 +90,7 @@ namespace CloudMacaca.ViewSystem
                 ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnComplete));
                 return ChangePageToCoroutine;
             }
-            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnComplete, ignoreTimeScale));
+            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnCheaged, OnComplete, ignoreTimeScale));
             return ChangePageToCoroutine;
         }
 
@@ -106,7 +106,7 @@ namespace CloudMacaca.ViewSystem
             yield return null;
         }
 
-        public virtual IEnumerator ChangePageBase(string viewPageName, Action OnComplete, bool ignoreTimeScale)
+        public virtual IEnumerator ChangePageBase(string viewPageName, Action OnCheaged, Action OnComplete, bool ignoreTimeScale)
         {
             //Empty implement will override in child class
             yield return null;
