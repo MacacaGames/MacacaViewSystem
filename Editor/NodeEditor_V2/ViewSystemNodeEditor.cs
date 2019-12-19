@@ -29,7 +29,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             Instance = GetWindow<ViewSystemNodeEditor>();
             Instance.titleContent = new GUIContent("View System Visual Editor");
             Instance.minSize = new Vector2(600, 400);
-            Instance.RefreshData();
             EditorApplication.playModeStateChanged += playModeStateChanged;
         }
 
@@ -42,6 +41,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         bool inspectorResize = false;
         public void OnEnable()
         {
+            Instance = this;
+            RefreshData();
+
             // Each editor window contains a root VisualElement object
             VisualElement root = rootVisualElement;
 
@@ -107,6 +109,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             // A stylesheet can be added to a VisualElement.
             // The style will be applied to the VisualElement and all of its children.
             // root.Add(labelWithStyle);
+
         }
 
         private static void playModeStateChanged(PlayModeStateChange obj)
@@ -120,7 +123,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         void RefreshData()
         {
             ClearEditor();
+            console = new ViewSystemNodeConsole();
+            dataReader = new ViewSystemDataReaderV2(this);
             isInit = dataReader.Init();
+            inspector = new ViewSystemNodeInspector(this);
             saveData = ((ViewSystemDataReaderV2)dataReader).GetGlobalSetting();
             ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemGlobalSettingWindow("Global Setting", this, (ViewSystemDataReaderV2)dataReader);
@@ -137,20 +143,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewStateList.Clear();
             viewPageList.Clear();
             viewStatesPopup.Clear();
-            inspector.SetCurrentSelectItem(null);
+            //inspector.SetCurrentSelectItem(null);
         }
         void OnDestroy()
         {
             dataReader.Normalized();
             EditorApplication.playModeStateChanged -= playModeStateChanged;
         }
-        void OnFocus()
-        {
-            if (dataReader == null) dataReader = new ViewSystemDataReaderV2(this);
-            if (console == null) console = new ViewSystemNodeConsole();
-            if (inspector == null) inspector = new ViewSystemNodeInspector(this);
-            Instance = this;
-        }
+        // void OnFocus()
+        // {
+        //     if (dataReader == null) dataReader = new ViewSystemDataReaderV2(this);
+        //     if (console == null) console = new ViewSystemNodeConsole();
+        //     if (inspector == null) inspector = new ViewSystemNodeInspector(this);
+        //     Instance = this;
+        // }
 
         List<ViewPageNode> viewPageList = new List<ViewPageNode>();
         List<ViewStateNode> viewStateList = new List<ViewStateNode>();
@@ -693,7 +699,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 using (var horizon = new GUILayout.HorizontalScope())
                 {
                     GUILayout.Space(5);
-                    if (GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(40)))
+                    if (GUILayout.Button(new GUIContent($"Save{(((ViewSystemDataReaderV2)dataReader).isDirty ? "*":"")}"), EditorStyles.toolbarButton, GUILayout.Width(50)))
                     {
                         if (isInit == false)
                         {
@@ -709,7 +715,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             dataReader.Save(viewPageList, viewStateList);
                         }
                     }
-                    GUILayout.Space(5);
                     if (GUILayout.Button(new GUIContent("Reload", Drawer.refreshIcon, "Reload data"), EditorStyles.toolbarButton, GUILayout.Width(80)))
                     {
                         if (overridePopupWindow != null) overridePopupWindow.show = false;
@@ -745,14 +750,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                     GUILayout.Space(5);
 
-                    // if (GUILayout.Button(new GUIContent("Verify Overrides"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight)))
-                    // {
-                    //     viewSystemVerifier.VerifyComponent();
-                    // }
-                    // if (GUILayout.Button(new GUIContent("Verify Events"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight)))
-                    // {
-                    //     viewSystemVerifier.VerifyEvents();
-                    // }
                     if (GUILayout.Button(new GUIContent("Verifiers"), EditorStyles.toolbarDropDown, GUILayout.Height(menuBarHeight)))
                     {
                         //viewSystemVerifier.VerifyPagesAndStates();

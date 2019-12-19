@@ -20,6 +20,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         ViewSystemSaveData data;
         Transform ViewControllerTransform;
+        public bool isDirty = false;
         bool isInit = false;
         public bool Init()
         {
@@ -87,16 +88,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void OnViewPageAdd(ViewPageNode node)
         {
             data.viewPages.Add(new ViewSystemSaveData.ViewPageSaveData(new Vector2(node.rect.x, node.rect.y), node.viewPage));
+            isDirty = true;
         }
         public void OnViewStateAdd(ViewStateNode node)
         {
             data.viewStates.Add(new ViewSystemSaveData.ViewStateSaveData(new Vector2(node.rect.x, node.rect.y), node.viewState));
+            isDirty = true;
         }
 
         public void OnViewPageDelete(ViewPageNode node)
         {
             var s = data.viewPages.SingleOrDefault(m => m.viewPage == node.viewPage);
             data.viewPages.Remove(s);
+            isDirty = true;
+
         }
 
 
@@ -112,6 +117,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
             );
             data.viewStates.Remove(s);
+            isDirty = true;
+
         }
 
         public void OnViewPagePreview(ViewPage viewPage)
@@ -273,6 +280,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 data.globalSetting.UIRoot = PrefabUtility.SaveAsPrefabAsset(data.globalSetting.UIRootScene, ViewSystemResourceFolder + data.globalSetting.UIRootScene.name + ".prefab");
             }
             UnityEditor.EditorUtility.SetDirty(data);
+            isDirty = false;
+            AssetDatabase.SaveAssets();
         }
 
         public ViewSystemSaveData GetGlobalSetting()
