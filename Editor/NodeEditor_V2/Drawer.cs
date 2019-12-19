@@ -20,7 +20,7 @@ public class Drawer
     }
 
     //EditorGUIUtility.FindTexture( "SavePassive" )
- static Texture2D _savePassiveIcon;
+    static Texture2D _savePassiveIcon;
     public static Texture2D savePassiveIcon
     {
         get
@@ -199,7 +199,34 @@ public class Drawer
             return _oddStyle;
         }
     }
+    private static GUIStyle _overrideShowedStyle;
+    public static GUIStyle overrideShowedStyle
+    {
+        get
+        {
+            if (_overrideShowedStyle == null)
+            {
+                _overrideShowedStyle = new GUIStyle
+                {
+                    normal ={
+                background = CloudMacaca.CMEditorUtility.CreatePixelTexture("_overrideShowedStyle Pixel (List GUI)", new Color32(120,216,99, 200))
 
+                },
+                    active =
+                {
+                    background = CloudMacaca.CMEditorUtility.CreatePixelTexture("_overrideShowedStyle Pixel (List GUI)", new Color32(120,216,99, 200))
+                },
+                    imagePosition = ImagePosition.ImageOnly,
+                    alignment = TextAnchor.MiddleCenter,
+                    stretchWidth = true,
+                    stretchHeight = false,
+                    padding = new RectOffset(0, 0, 0, 0),
+                    margin = new RectOffset(0, 0, 0, 0)
+                };
+            }
+            return _overrideShowedStyle;
+        }
+    }
     private static GUIStyle _windowStyle;
     public static GUIStyle windowStyle
     {
@@ -310,5 +337,5 @@ public class Drawer
             return _darkBoxStyle;
         }
     }
-  
+
 }

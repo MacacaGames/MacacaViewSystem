@@ -142,7 +142,23 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             throw new NotImplementedException();
         }
+        int _currentShowOverrideItem = -1;
 
+        int currentShowOverrideItem
+        {
+            get
+            {
+                if (editor.overridePopupWindow.show == false)
+                {
+                    return -1;
+                }
+                return _currentShowOverrideItem;
+            }
+            set
+            {
+                _currentShowOverrideItem = value;
+            }
+        }
         private void DrawItemBackground(Rect rect, int index, bool isActive, bool isFocused)
         {
             Rect oddRect = rect;
@@ -154,7 +170,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 ReorderableList.defaultBehaviours.DrawElementBackground(rect, index, isActive, isFocused, true);
                 return;
             }
-
+            if (index == currentShowOverrideItem)
+            {
+                GUI.Box(oddRect, GUIContent.none, Drawer.overrideShowedStyle);
+            }
             if (index % 2 == 0) GUI.Box(oddRect, GUIContent.none, Drawer.oddStyle);
         }
 
@@ -447,6 +466,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
                     editor.overridePopupWindow.SetViewPageItem(list[index]);
                     editor.overridePopupWindow.Show(veRect);
+                    currentShowOverrideItem = index;
                 }
                 else
                 {

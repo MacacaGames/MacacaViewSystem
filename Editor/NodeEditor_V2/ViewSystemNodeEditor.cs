@@ -37,6 +37,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public VisualElement nodeViewContianer;
         public VisualElement toolbarContianer;
         public VisualElement inspectorContianer;
+        public VisualElement floatWindowContianer;
 
         bool inspectorResize = false;
         public void OnEnable()
@@ -71,6 +72,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var dragger = visulaElementFromUXML.Q("dragger");
             dragger.AddManipulator(new VisualElementResizer());
 
+            // floatWindowContianer = new IMGUIContainer(DrawInspector);
+            // visulaElementFromUXML.Q("float-window").Add(floatWindowContianer);
             // drager_line_content.RegisterCallback<MouseUpEvent>(
             //     (evt) =>
             //     {
@@ -166,10 +169,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var offset = -Vector2.Scale(deltaSize, center);
             viewPortScroll += offset;
         }
+        void DrawFloatWindow()
+        {
+            if (console.show) console.Draw(new Vector2(nodeViewContianer.contentRect.width, nodeViewContianer.contentRect.height));
 
+            BeginWindows();
+            if (globalSettingWindow != null) globalSettingWindow.OnGUI();
+            if (overridePopupWindow != null) overridePopupWindow.OnGUI();
+            if (navigationWindow != null) navigationWindow.OnGUI();
+            EndWindows();
+        }
         void DrawNode()
         {
-
 
             scriptViewRect = new Rect(nodeViewContianer.contentRect.x, nodeViewContianer.contentRect.y - menuBarHeight + 2, nodeViewContianer.contentRect.width / zoomScale, nodeViewContianer.contentRect.height / zoomScale);
 
@@ -190,16 +201,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             DrawCurrentConnectionLine(Event.current);
             EditorZoomArea.NoGroupEnd();
 
-            if (console.show) console.Draw(new Vector2(nodeViewContianer.contentRect.width, nodeViewContianer.contentRect.height));
-
-            BeginWindows();
-            if (globalSettingWindow != null)
-                globalSettingWindow.OnGUI();
-
-            if (overridePopupWindow != null) overridePopupWindow.OnGUI();
-            if (navigationWindow != null) navigationWindow.OnGUI();
-
-            EndWindows();
+            DrawFloatWindow();
 
             ProcessEvents(Event.current);
             CheckRepaint();
