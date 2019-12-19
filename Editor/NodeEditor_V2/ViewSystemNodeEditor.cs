@@ -50,9 +50,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             // root.Add(label);
 
             // Import UXML
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/ViewSystem/Editor/NodeEditor_V2/UIElement/ViewSystemNodeEditorUIElement.uxml");
+            var visualTree = Resources.Load<VisualTreeAsset>("ViewSystemNodeEditorUIElementUxml");
             VisualElement visulaElementFromUXML = visualTree.CloneTree();
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/ViewSystem/Editor/NodeEditor_V2/UIElement/ViewSystemNodeEditorUIElement.uss");
+            var styleSheet = Resources.Load<StyleSheet>("ViewSystemNodeEditorUIElementUss");
             visulaElementFromUXML.styleSheets.Add(styleSheet);
             visulaElementFromUXML.style.flexGrow = 1;
 
