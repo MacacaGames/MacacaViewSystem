@@ -39,7 +39,7 @@ namespace CloudMacaca.ViewSystem
         private Dictionary<string, float> lastPageItemDelayOutTimes = new Dictionary<string, float>();
         private Dictionary<string, float> lastPageItemDelayOutTimesOverlay = new Dictionary<string, float>();
 
-        public override IEnumerator ChangePageBase(string viewPageName, Action OnComplete, bool ignoreTimeScale)
+        public override IEnumerator ChangePageBase(string viewPageName, Action OnCheaged, Action OnComplete, bool ignoreTimeScale)
         {
 
             //取得 ViewPage 物件

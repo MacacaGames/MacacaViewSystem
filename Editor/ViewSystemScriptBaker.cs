@@ -77,6 +77,8 @@ namespace CloudMacaca.ViewSystem
 
         static string GetPathToGeneratedScriptLocalization()
         {
+
+            CloudMacaca.ViewSystem.NodeEditorV2.ViewSystemDataReaderV2.CheckAndCreateResourceFolder();
             string[] assets = AssetDatabase.FindAssets("ViewSystemScriptable");
             if (assets.Length > 0)
             {
@@ -89,7 +91,7 @@ namespace CloudMacaca.ViewSystem
                 { }
             }
 
-            return "Assets/ViewSystemScriptable.cs";
+            return "Assets/ViewSystemResources/ViewSystemScriptable.cs";
         }
     }
 }

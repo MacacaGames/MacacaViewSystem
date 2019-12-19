@@ -1,0 +1,36 @@
+#toolbar {
+    height: 20px;
+}
+
+#content {
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+#inspector {
+    flex-grow: 0;
+    max-width: 450px;
+    min-width: 250px;
+    padding: 15px 5px 0 5px;
+    background-color: rgb(144, 144, 144);
+}
+
+#dragger-wrapper {
+    background-color: rgb(67, 67, 67);
+    width: 2px;
+}
+
+#dragger {
+    left: -5px;
+    width: 10px;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: resize-horizontal;
+}
+
+#node-view {
+    flex-grow: 1;
+}
+

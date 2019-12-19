@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using CloudMacaca.ViewSystem;
+using UnityEngine.UIElements;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
@@ -30,6 +31,82 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             Instance.minSize = new Vector2(600, 400);
             Instance.RefreshData();
             EditorApplication.playModeStateChanged += playModeStateChanged;
+        }
+
+
+        public VisualElement nodeViewContianer;
+        public VisualElement toolbarContianer;
+        public VisualElement inspectorContianer;
+        public VisualElement floatWindowContianer;
+
+        bool inspectorResize = false;
+        public void OnEnable()
+        {
+            // Each editor window contains a root VisualElement object
+            VisualElement root = rootVisualElement;
+
+            // // VisualElements objects can contain other VisualElement following a tree hierarchy.
+            // VisualElement label = new Label("Hello World! From C#");
+            // root.Add(label);
+
+            // Import UXML
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/ViewSystem/Editor/NodeEditor_V2/UIElement/ViewSystemNodeEditorUIElement.uxml");
+            VisualElement visulaElementFromUXML = visualTree.CloneTree();
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/ViewSystem/Editor/NodeEditor_V2/UIElement/ViewSystemNodeEditorUIElement.uss");
+            visulaElementFromUXML.styleSheets.Add(styleSheet);
+            visulaElementFromUXML.style.flexGrow = 1;
+
+            toolbarContianer = new IMGUIContainer(DrawMenuBar);
+            toolbarContianer.style.flexGrow = 1;
+            visulaElementFromUXML.Q("toolbar").Add(toolbarContianer);
+
+            inspectorContianer = new IMGUIContainer(DrawInspector);
+            inspectorContianer.style.flexGrow = 1;
+            visulaElementFromUXML.Q("inspector").Add(inspectorContianer);
+
+
+            nodeViewContianer = new IMGUIContainer(DrawNode);
+            nodeViewContianer.style.flexGrow = 1;
+            visulaElementFromUXML.Q("node-view").Add(nodeViewContianer);
+
+            var dragger = visulaElementFromUXML.Q("dragger");
+            dragger.AddManipulator(new VisualElementResizer());
+
+            // floatWindowContianer = new IMGUIContainer(DrawInspector);
+            // visulaElementFromUXML.Q("float-window").Add(floatWindowContianer);
+            // drager_line_content.RegisterCallback<MouseUpEvent>(
+            //     (evt) =>
+            //     {
+            //         evt.StopPropagation();
+
+            //         //inspectorResize = false;
+            //     }
+            // );
+            // drager_line_content.RegisterCallback<MouseDownEvent>(
+            //     (evt) =>
+            //     {
+            //         evt.StopPropagation();
+
+            //         inspectorResize = true;
+            //     }
+            // );
+            // drager_line_content.RegisterCallback<MouseMoveEvent>(
+            //     (evt) =>
+            //     {
+            //         if (inspectorResize)
+            //         {
+            //             var i = inspectorContianer.style.width.value;
+            //             int newvalue = (int)(i.value + evt.mousePosition.x);
+            //             inspectorContianer.style.width = newvalue;
+            //         }
+            //     }
+            // );
+
+            root.Add(visulaElementFromUXML);
+
+            // A stylesheet can be added to a VisualElement.
+            // The style will be applied to the VisualElement and all of its children.
+            // root.Add(labelWithStyle);
         }
 
         private static void playModeStateChanged(PlayModeStateChange obj)
@@ -80,7 +157,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         List<ViewSystemNodeLine> nodeConnectionLineList = new List<ViewSystemNodeLine>();
         public ViewSystemNodeConsole console;
         public static float zoomScale = 1.0f;
-        Rect zoomArea;
+        Rect scriptViewRect;
         public static Vector2 viewPortScroll;
         Vector2 zoomScaleMinMax = new Vector2(0.25f, 1);
         protected virtual void DoZoom(float delta, Vector2 center)
@@ -88,21 +165,26 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var prevZoom = zoomScale;
             zoomScale += delta;
             zoomScale = Mathf.Clamp(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y);
-            var deltaSize = position.size / prevZoom - position.size / zoomScale;
+            var deltaSize = nodeViewContianer.contentRect.size / prevZoom - nodeViewContianer.contentRect.size / zoomScale;
             var offset = -Vector2.Scale(deltaSize, center);
             viewPortScroll += offset;
         }
-        void OnGUI()
+        void DrawFloatWindow()
+        {
+            if (console.show) console.Draw(new Vector2(nodeViewContianer.contentRect.width, nodeViewContianer.contentRect.height));
+
+            BeginWindows();
+            if (globalSettingWindow != null) globalSettingWindow.OnGUI();
+            if (overridePopupWindow != null) overridePopupWindow.OnGUI();
+            if (navigationWindow != null) navigationWindow.OnGUI();
+            EndWindows();
+        }
+        void DrawNode()
         {
 
-            zoomArea = position;
-            zoomArea.height -= menuBarHeight;
-            zoomArea.y = menuBarHeight;
-            zoomArea.x = 0;
+            scriptViewRect = new Rect(nodeViewContianer.contentRect.x, nodeViewContianer.contentRect.y - menuBarHeight + 2, nodeViewContianer.contentRect.width / zoomScale, nodeViewContianer.contentRect.height / zoomScale);
 
-            Rect scriptViewRect = new Rect(0, 0, this.position.width / zoomScale, this.position.height / zoomScale);
-
-            EditorZoomArea.Begin(zoomScale, scriptViewRect);
+            EditorZoomArea.NoGroupBegin(zoomScale, scriptViewRect);
             DrawGrid();
             foreach (var item in nodeConnectionLineList.ToArray())
             {
@@ -117,26 +199,63 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 item.Draw();
             }
             DrawCurrentConnectionLine(Event.current);
-            EditorZoomArea.End();
+            EditorZoomArea.NoGroupEnd();
 
-            GUI.depth = -100;
-            DrawMenuBar();
-
-            if (console.show) console.Draw(new Vector2(position.width, position.height));
-            if (inspector.show) inspector.Draw();
-
-            BeginWindows();
-            if (globalSettingWindow != null)
-                globalSettingWindow.OnGUI();
-
-            if (overridePopupWindow != null) overridePopupWindow.OnGUI();
-            if (navigationWindow != null) navigationWindow.OnGUI();
-
-            EndWindows();
+            DrawFloatWindow();
 
             ProcessEvents(Event.current);
             CheckRepaint();
         }
+
+        void DrawInspector()
+        {
+            inspector.Draw();
+        }
+        // void OnGUI()
+        // {
+
+        //     zoomArea = position;
+        //     zoomArea.height -= menuBarHeight;
+        //     zoomArea.y = menuBarHeight;
+        //     zoomArea.x = 0;
+
+        //     Rect scriptViewRect = new Rect(0, 0, this.position.width / zoomScale, this.position.height / zoomScale);
+
+        //     EditorZoomArea.Begin(zoomScale, scriptViewRect);
+        //     DrawGrid();
+        //     foreach (var item in nodeConnectionLineList.ToArray())
+        //     {
+        //         item.Draw();
+        //     }
+        //     foreach (var item in viewPageList.ToArray())
+        //     {
+        //         item.Draw();
+        //     }
+        //     foreach (var item in viewStateList.ToArray())
+        //     {
+        //         item.Draw();
+        //     }
+        //     DrawCurrentConnectionLine(Event.current);
+        //     EditorZoomArea.End();
+
+        //     GUI.depth = -100;
+        //     DrawMenuBar();
+
+        //     if (console.show) console.Draw(new Vector2(position.width, position.height));
+        //     if (inspector.show) inspector.Draw();
+
+        //     BeginWindows();
+        //     if (globalSettingWindow != null)
+        //         globalSettingWindow.OnGUI();
+
+        //     if (overridePopupWindow != null) overridePopupWindow.OnGUI();
+        //     if (navigationWindow != null) navigationWindow.OnGUI();
+
+        //     EndWindows();
+
+        //     ProcessEvents(Event.current);
+        //     CheckRepaint();
+        // }
         public void CheckRepaint()
         {
             //if (Event.current.type == EventType.Repaint || Event.current.type == EventType.Layout) return;
@@ -151,7 +270,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 case EventType.MouseDrag:
                     if (e.button == 2)
                     {
-                        if (zoomArea.Contains(e.mousePosition))
+                        if (scriptViewRect.Contains(e.mousePosition))
                         {
                             OnDrag(e.delta * 1 / zoomScale);
                         }
@@ -163,8 +282,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     // zoomScale = Mathf.Clamp(target, 0.1f, 1f);
                     // GUI.changed = true;
                     Vector2 zoomCenter;
-                    zoomCenter.x = e.mousePosition.x / zoomScale / position.width;
-                    zoomCenter.y = e.mousePosition.y / zoomScale / position.height;
+                    zoomCenter.x = e.mousePosition.x / zoomScale / nodeViewContianer.contentRect.width;
+                    zoomCenter.y = e.mousePosition.y / zoomScale / nodeViewContianer.contentRect.height;
                     zoomCenter *= zoomScale;
                     DoZoom(-e.delta.y * 0.01f, zoomCenter);
                     e.Use();
@@ -181,24 +300,34 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         {
                             return;
                         }
+                        if (!nodeViewContianer.contentRect.Contains(e.mousePosition))
+                        {
+                            return;
+                        }
                         GenericMenu genericMenu = new GenericMenu();
 
                         genericMenu.AddItem(new GUIContent("Add FullPage"), false,
                             () =>
                             {
-                                AddViewPageNode(e.mousePosition * 1 / zoomScale - viewPortScroll, false);
+                                Vector2 pos = new Vector2(e.mousePosition.x - inspectorContianer.contentRect.width, e.mousePosition.y - menuBarHeight);
+                                Vector2 unScalePos = new Vector2(-ViewSystemNode.ViewSystemNodeWidth * 0.5f, -ViewSystemNode.ViewPageNodeHeight * .5f);
+                                AddViewPageNode((pos * 1 / zoomScale + unScalePos) - viewPortScroll, false);
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Add OverlayPage"), false,
                             () =>
                             {
-                                AddViewPageNode(e.mousePosition * 1 / zoomScale - viewPortScroll, true);
+                                Vector2 pos = new Vector2(e.mousePosition.x - inspectorContianer.contentRect.width, e.mousePosition.y - menuBarHeight);
+                                Vector2 unScalePos = new Vector2(-ViewSystemNode.ViewSystemNodeWidth * 0.5f, -ViewSystemNode.ViewPageNodeHeight * .5f);
+                                AddViewPageNode((pos * 1 / zoomScale + unScalePos) - viewPortScroll, true);
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Add ViewState"), false,
                             () =>
                             {
-                                AddViewStateNode(e.mousePosition * 1 / zoomScale - viewPortScroll);
+                                Vector2 pos = new Vector2(e.mousePosition.x - inspectorContianer.contentRect.width, e.mousePosition.y - menuBarHeight);
+                                Vector2 unScalePos = new Vector2(-ViewSystemNode.ViewSystemNodeWidth * 0.5f, -ViewSystemNode.ViewStateNodeHeight * .5f);
+                                AddViewStateNode((pos * 1 / zoomScale + unScalePos) - viewPortScroll);
                             }
                         );
                         genericMenu.ShowAsContext();
@@ -514,7 +643,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         private void OnDrag(Vector2 delta)
         {
-            viewPortScroll += delta / zoomScale;
+            viewPortScroll += delta * zoomScale;
             GUI.changed = true;
         }
 
@@ -553,6 +682,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         private float menuBarHeight = 20f;
         private Rect menuBar;
         List<string> viewStatesPopup = new List<string>();
+
+        int lastInspectorWidth;
         private void DrawMenuBar()
         {
             menuBar = new Rect(0, 0, position.width, menuBarHeight);
@@ -562,7 +693,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 using (var horizon = new GUILayout.HorizontalScope())
                 {
                     GUILayout.Space(5);
-                    if (GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(35)))
+                    if (GUILayout.Button(new GUIContent("Save"), EditorStyles.toolbarButton, GUILayout.Width(40)))
                     {
                         if (isInit == false)
                         {
@@ -584,9 +715,28 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         if (overridePopupWindow != null) overridePopupWindow.show = false;
                         RefreshData();
                     }
-                    GUILayout.Space(5);
-                    inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(Drawer.sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
-
+                    // GUILayout.Space(5);
+                    // using (var check = new EditorGUI.ChangeCheckScope())
+                    // {
+                    //     inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(Drawer.sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+                    //     if (check.changed)
+                    //     {
+                    //         //inspectorContianer.customStyle.
+                    //         if (inspector.show)
+                    //         {
+                    //             inspectorContianer.style.minWidth = 250;
+                    //             inspectorContianer.style.width = lastInspectorWidth;
+                    //             Repaint();
+                    //         }
+                    //         else
+                    //         {
+                    //             inspectorContianer.style.minWidth = 0;
+                    //             inspectorContianer.style.width = 0;
+                    //             lastInspectorWidth = (int)inspectorContianer.style.width.value.value;
+                    //             Repaint();
+                    //         }
+                    //     }
+                    // }
                     GUILayout.Space(5);
                     console.show = GUILayout.Toggle(console.show, new GUIContent(Drawer.miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
                     GUILayout.Space(5);
@@ -639,6 +789,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));
+
+                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("AvatarCompass"), "Reset viewport to (0,0)"), EditorStyles.toolbarButton, GUILayout.Width(30)))
+                    {
+                        viewPortScroll = Vector2.zero;
+                    }
 
                     // GUILayout.Label("ViewState:");
                     // int newIndex = EditorGUILayout.Popup(currentIndex, viewStatesPopup.ToArray(),
@@ -694,6 +849,89 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     navigationWindow.show ||
                     ViewSystemNodeInspector.isMouseInSideBar());
             }
+        }
+
+
+        class VisualElementResizer : MouseManipulator
+        {
+            private Vector2 m_Start;
+            protected bool m_Active;
+            public VisualElementResizer()
+            {
+                activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
+                m_Active = false;
+            }
+
+            protected override void RegisterCallbacksOnTarget()
+            {
+
+                target.RegisterCallback<MouseDownEvent>(OnMouseDown);
+                target.RegisterCallback<MouseMoveEvent>(OnMouseMove);
+                target.RegisterCallback<MouseUpEvent>(OnMouseUp);
+            }
+
+            protected override void UnregisterCallbacksFromTarget()
+            {
+                target.UnregisterCallback<MouseDownEvent>(OnMouseDown);
+                target.UnregisterCallback<MouseMoveEvent>(OnMouseMove);
+                target.UnregisterCallback<MouseUpEvent>(OnMouseUp);
+            }
+
+            protected void OnMouseDown(MouseDownEvent e)
+            {
+                if (m_Active)
+                {
+                    e.StopImmediatePropagation();
+                    return;
+                }
+
+                if (CanStartManipulation(e))
+                {
+                    m_Start = e.localMousePosition;
+
+                    m_Active = true;
+                    target.CaptureMouse();
+                    e.StopPropagation();
+                }
+            }
+
+            protected void OnMouseMove(MouseMoveEvent e)
+            {
+                if (!m_Active || !target.HasMouseCapture())
+                    return;
+
+                Vector2 diff = e.localMousePosition - m_Start;
+
+                //target.parent.style.height = target.parent.layout.height + diff.x;
+                var t = target.parent.parent.ElementAt(0);
+
+                int w = (int)t.style.width.value.value;
+                t.style.width = Mathf.Clamp(w + diff.x, 250, 450);
+
+                e.StopPropagation();
+            }
+
+            protected void OnMouseUp(MouseUpEvent e)
+            {
+                if (!m_Active || !target.HasMouseCapture() || !CanStopManipulation(e))
+                    return;
+
+                m_Active = false;
+                target.ReleaseMouse();
+                e.StopPropagation();
+            }
+        }
+
+        [UnityEditor.Callbacks.OnOpenAsset(0)]
+        public static bool OnOpenAsset(int instanceID, int line)
+        {
+            var asset = EditorUtility.InstanceIDToObject(instanceID) as ViewSystemSaveData;
+            if (asset == null)
+                return false;
+
+            OpenWindow();
+
+            return true;
         }
     }
 }

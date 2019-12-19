@@ -22,7 +22,7 @@ namespace CloudMacaca.ViewSystem
         public override void _Show()
         {
             _OnStart?.Invoke();
-            _pageChangerRunner = _viewController.ChangePage(_targetPage, _OnComplete, _waitPreviousPageFinish);
+            _pageChangerRunner = _viewController.ChangePage(_targetPage, _OnChanged, _OnComplete, _waitPreviousPageFinish);
             hasStart = true;
         }
     }
@@ -58,6 +58,7 @@ namespace CloudMacaca.ViewSystem
     {
         protected static ViewControllerBase _viewController;
         internal Action _OnStart = null;
+        internal Action _OnChanged = null;
         internal Action _OnComplete = null;
         internal string _targetPage;
         internal Coroutine _pageChangerRunner = null;
@@ -73,6 +74,7 @@ namespace CloudMacaca.ViewSystem
         {
             _OnStart = null;
             _OnComplete = null;
+            _OnChanged = null;
             _pageChangerRunner = null;
             _targetPage = string.Empty;
             return this;
@@ -135,6 +137,10 @@ namespace CloudMacaca.ViewSystem
             return (FullPageChanger)PageChangerExtension.OnStart(selfObj, OnStart);
         }
 
+        public static FullPageChanger OnChanged(this FullPageChanger selfObj, Action OnChanged)
+        {
+            return (FullPageChanger)PageChangerExtension.OnChanged(selfObj, OnChanged);
+        }
         public static FullPageChanger OnComplete(this FullPageChanger selfObj, Action OnComplete)
         {
             return (FullPageChanger)PageChangerExtension.OnComplete(selfObj, OnComplete);
@@ -144,8 +150,6 @@ namespace CloudMacaca.ViewSystem
             return (FullPageChanger)PageChangerExtension.Show(selfObj);
         }
     }
-
-
 
     public static class PageChangerExtension
     {
@@ -165,6 +169,12 @@ namespace CloudMacaca.ViewSystem
             selfObj._OnComplete = OnComplete;
             return selfObj;
         }
+
+        public static PageChanger OnChanged(this PageChanger selfObj, Action OnChanged)
+        {
+            selfObj._OnChanged = OnChanged;
+            return selfObj;
+        }
         public static PageChanger Show(this PageChanger selfObj)
         {
             selfObj._Show();
@@ -176,6 +186,14 @@ namespace CloudMacaca.ViewSystem
                 return selfObj._pageChangerRunner;
             else
                 return selfObj.Show()._pageChangerRunner;
+        }
+
+        public static CustomYieldInstruction GetYieldInstruction(this PageChanger selfObj, bool customYieldInstruction)
+        {
+            if (selfObj._pageChangerRunner != null)
+                return new ViewCYInstruction.WaitForStandardCoroutine(selfObj._pageChangerRunner);
+            else
+                return new ViewCYInstruction.WaitForStandardCoroutine(selfObj.Show()._pageChangerRunner);
         }
     }
 }

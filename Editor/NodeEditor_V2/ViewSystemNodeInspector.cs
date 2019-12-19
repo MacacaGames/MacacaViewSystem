@@ -76,10 +76,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         public static bool isMouseInSideBar()
         {
-            return rect.Contains(Event.current.mousePosition);
+            //return rect.Contains(Event.current.mousePosition);
+
+            return false;
         }
 
-        private static Rect rect;
+        private Rect rect
+        {
+            get
+            {
+                return editor.inspectorContianer.contentRect;
+            }
+        }
         List<ViewPageItem> list;
         List<EditableLockItem> editableLock = new List<EditableLockItem>();
         class EditableLockItem
@@ -134,7 +142,23 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             throw new NotImplementedException();
         }
+        int _currentShowOverrideItem = -1;
 
+        int currentShowOverrideItem
+        {
+            get
+            {
+                if (editor.overridePopupWindow.show == false)
+                {
+                    return -1;
+                }
+                return _currentShowOverrideItem;
+            }
+            set
+            {
+                _currentShowOverrideItem = value;
+            }
+        }
         private void DrawItemBackground(Rect rect, int index, bool isActive, bool isFocused)
         {
             Rect oddRect = rect;
@@ -146,7 +170,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 ReorderableList.defaultBehaviours.DrawElementBackground(rect, index, isActive, isFocused, true);
                 return;
             }
-
+            if (index == currentShowOverrideItem)
+            {
+                GUI.Box(oddRect, GUIContent.none, Drawer.overrideShowedStyle);
+            }
             if (index % 2 == 0) GUI.Box(oddRect, GUIContent.none, Drawer.oddStyle);
         }
 
@@ -439,6 +466,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
                     editor.overridePopupWindow.SetViewPageItem(list[index]);
                     editor.overridePopupWindow.Show(veRect);
+                    currentShowOverrideItem = index;
                 }
                 else
                 {
@@ -580,19 +608,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         static float InspectorWidth = 350;
         Rect infoAreaRect;
-        Rect hintRect;
         public Vector2 scrollerPos;
         bool layouted = false;
         public void Draw()
         {
-            if (show)
-                rect = new Rect(0, 20f, InspectorWidth, editor.position.height - 20f);
-            else
-                rect = Rect.zero;
+            // if (show)
+            //     rect = new Rect(0, 20f, InspectorWidth, editor.position.height - 20f);
+            // else
+            //     rect = Rect.zero;
 
-            hintRect = rect;
-
-            GUILayout.BeginArea(rect, "", new GUIStyle("flow node 0"));
+            GUILayout.BeginArea(rect, "");
 
             if (Event.current.type == EventType.Layout && layouted == false)
             {
@@ -620,9 +645,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
                 }
             }
+            else
+            {
+                GUILayout.Label("Nothing selected :)");
+            }
 
             GUILayout.EndArea();
-            DrawResizeBar();
+            //DrawResizeBar();
         }
         Rect ResizeBarRect;
         bool resizeBarPressed = false;
@@ -658,10 +687,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         void DrawViewPageDetail(ViewPageNode viewPageNode)
         {
             var vp = viewPageNode.viewPage;
-            GUI.Label(new Rect(rect.x, rect.y - 20, rect.width, 20), " ViewPage", new GUIStyle("EyeDropperHorizontalLine"));
+            GUI.Label(new Rect(rect.x, rect.y, rect.width, 20), " ViewPage", new GUIStyle("EyeDropperHorizontalLine"));
             using (var disable = new EditorGUI.DisabledGroupScope(false))
             {
-                if (GUI.Button(new Rect(rect.width - 25, rect.y - 20, 25, 25), new GUIContent(EditorGUIUtility.IconContent("AnimatorStateMachine Icon").image, "Navigation"), Drawer.removeButtonStyle))
+                if (GUI.Button(new Rect(rect.width - 25, rect.y, 25, 25), new GUIContent(EditorGUIUtility.IconContent("AnimatorStateMachine Icon").image, "Navigation"), Drawer.removeButtonStyle))
                 {
                     editor.navigationWindow.Show();
                     ViewState vs = saveData.viewStates.SingleOrDefault(m => m.viewState.name == vp.viewState).viewState;

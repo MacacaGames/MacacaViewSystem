@@ -72,4 +72,29 @@ public class EditorZoomArea
         GUI.EndGroup();
         GUI.BeginGroup(new Rect(offset.x, offset.y, Screen.width, Screen.height));
     }
+
+    public static Rect NoGroupBegin(float zoomScale, Rect screenCoordsArea)
+    {
+        //GUI.EndGroup();        // End the group Unity begins automatically for an EditorWindow to clip out the window tab. This allows us to draw outside of the size of the EditorWindow.
+
+        Rect clippedArea = screenCoordsArea.ScaleSizeBy(1.0f / zoomScale, screenCoordsArea.TopLeft());
+        clippedArea.position += offset;
+        GUI.BeginGroup(clippedArea);
+
+        _prevGuiMatrix = GUI.matrix;
+
+        Matrix4x4 translation = Matrix4x4.TRS(clippedArea.TopLeft(), Quaternion.identity, Vector3.one);
+        Matrix4x4 scale = Matrix4x4.Scale(new Vector3(zoomScale, zoomScale, 1.0f));
+        GUI.matrix = translation * scale * translation.inverse * GUI.matrix;
+
+
+        return clippedArea;
+    }
+
+    public static void NoGroupEnd()
+    {
+        GUI.matrix = _prevGuiMatrix;
+        GUI.EndGroup();
+        // GUI.BeginGroup(new Rect(offset.x, offset.y, Screen.width, Screen.height));
+    }
 }

@@ -7,6 +7,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNode
     {
+        public const int ViewSystemNodeWidth = 160;   
+        public const int ViewStateNodeHeight = 60;   
+        public const int ViewPageNodeHeight = 80;
         protected int id;
         List<ViewSystemNodeLine> CurrentConnectLine = new List<ViewSystemNodeLine>();
         public ViewSystemNodeLinker nodeConnectionLinker;
@@ -262,7 +265,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 this.viewPage = viewPage;
             }
-            this.rect = new Rect(mousePosition.x, mousePosition.y, 160, 80);
+            this.rect = new Rect(mousePosition.x, mousePosition.y, ViewSystemNodeWidth, ViewPageNodeHeight);
             this.nodeType = isOverlay ? NodeType.Overlay : NodeType.FullPage;
             this.nodeConnectionLinker = new ViewSystemNodeLinker(nodeType == NodeType.Overlay ? ConnectionPointType.Overlay : ConnectionPointType.FullPage, this, OnConnectionPointClick);
             this.OnNodeTypeConvert = OnNodeTypeConvert;
@@ -329,7 +332,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 this.viewState = viewState;
             }
-            this.rect = new Rect(mousePosition.x, mousePosition.y, 160, 60);
+            this.rect = new Rect(mousePosition.x, mousePosition.y, ViewSystemNodeWidth, ViewStateNodeHeight);
             this.nodeType = NodeType.ViewState;
             this.nodeConnectionLinker = new ViewSystemNodeLinker(ConnectionPointType.State, this, OnConnectionPointClick);
             nodeStyleString = "flow node 1";
