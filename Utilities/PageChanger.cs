@@ -153,6 +153,15 @@ namespace CloudMacaca.ViewSystem
 
     public static class PageChangerExtension
     {
+        // public static OverlayPageChanger ToOverlayPageChanger(this PageChanger selfObj)
+        // {
+        //     return (selfObj as OverlayPageChanger);
+        // }
+
+        // public static FullPageChanger ToFullPageChanger(this PageChanger selfObj)
+        // {
+        //     return (FullPageChanger)selfObj;
+        // }
         public static PageChanger SetPage(this PageChanger selfObj, string targetPageName)
         {
             selfObj._targetPage = targetPageName;

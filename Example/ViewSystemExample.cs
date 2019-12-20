@@ -26,7 +26,7 @@ public class ViewSystemExample : MonoBehaviour
     public void abc1()
     {
         ViewControllerV2
-            .Changer()
+            .FullPageChanger()
             .OnStart(() => { Debug.Log("Start " + Time.time); })
             .OnChanged(() => { Debug.Log("Changed " + Time.time); })
             .OnComplete(() => { Debug.Log("Complete " + Time.time); })
@@ -47,7 +47,7 @@ public class ViewSystemExample : MonoBehaviour
     {
         Debug.Log("IEnumerator Start" + Time.time);
         yield return ViewControllerV2
-                    .Changer()
+                    .FullPageChanger()
                     .OnStart(() => { Debug.Log("tttt Start " + Time.time); })
                     .OnChanged(() => { Debug.Log("tttt Changed " + Time.time); })
                     .OnComplete(() => { Debug.Log("tttt Complete " + Time.time); })
@@ -70,7 +70,7 @@ public class ViewSystemExample : MonoBehaviour
     {
         Debug.Log("IEnumerator Start" + Time.time);
         yield return ViewControllerV2
-                    .Changer()
+                    .FullPageChanger()
                     .OnStart(() => { Debug.Log("tttt Start" + Time.time); })
                     .OnComplete(() => { Debug.Log("tttt Complete" + Time.time); })
                     .SetPage("Welcome")

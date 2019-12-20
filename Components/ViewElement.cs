@@ -197,7 +197,7 @@ namespace CloudMacaca.ViewSystem
             OnShow(0);
         }
         IDisposable OnShowObservable;
-        public virtual void ChangePage(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition = false)
+        public virtual void ChangePage(bool show, Transform parent, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false)
         {
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)

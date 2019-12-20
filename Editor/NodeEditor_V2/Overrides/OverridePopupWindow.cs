@@ -44,11 +44,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             };
             windowStyle = new GUIStyle(Drawer.windowStyle);
             RectOffset padding = windowStyle.padding;
-            //windowStyle.normal.background = CloudMacaca.CMEditorUtility.CreatePixelTexture("_overrideShowedStyle Pixel (List GUI)", new Color32(120,216,99, 200));
-            //windowStyle.active.background = CloudMacaca.CMEditorUtility.CreatePixelTexture("_overrideShowedStyle Pixel (List GUI)", new Color32(120,216,99, 200));
-            //windowStyle.hover.background = CloudMacaca.CMEditorUtility.CreatePixelTexture("_overrideShowedStyle Pixel (List GUI)", new Color32(120,216,99, 200));
-            //windowStyle.onActive.background = CloudMacaca.CMEditorUtility.CreatePixelTexture("_overrideShowedStyle Pixel (List GUI)", new Color32(120,216,99, 200));
-           // windowStyle.onNormal.background = CloudMacaca.CMEditorUtility.CreatePixelTexture("_overrideShowedStyle Pixel (List GUI)", new Color32(120,216,99, 200));
+            
             padding.left = 1;
             padding.right = 1;
             padding.bottom = 0;
@@ -72,7 +68,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             this.itemRect = itemRect;
             // rect.x =;
             // rect.y = 200;
-            rect = new Rect(itemRect.x*0.5f , 200, rect.width, rect.height);
+            rect = new Rect(itemRect.x * 0.5f, 200, rect.width, rect.height);
             show = true;
         }
 
@@ -177,12 +173,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 if (currentSelectGameObject)
                 {
-                    if (componentTreeView != null) componentTreeView.OnGUI(new Rect(0, 0, rect.width+10, rect.height - 80));
+                    if (componentTreeView != null) componentTreeView.OnGUI(new Rect(0, 0, rect.width + 10, rect.height - 80));
                 }
                 else
                 {
                     //if (hierarchyDrawer != null) hierarchyDrawer.Draw();
-                    if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, rect.width+10, rect.height - 80));
+                    if (hierarchyTreeView != null) hierarchyTreeView.OnGUI(new Rect(0, 0, rect.width + 10, rect.height - 80));
                 }
             }
         }

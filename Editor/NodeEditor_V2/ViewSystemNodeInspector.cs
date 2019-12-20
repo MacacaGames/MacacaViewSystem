@@ -230,18 +230,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             {
                                 targetComponentType = x.targetComponentType,
                                 targetPropertyName = x.targetPropertyName,
-                                //targetPropertyPath = x.targetPropertyPath,
-                                //targetPropertyType = x.targetPropertyType,
+                              
                                 targetTransformPath = x.targetTransformPath,
                                 Value = new PropertyOverride
                                 {
-                                    //ColorValue = x.Value.ColorValue,
-                                    //BooleanValue = x.Value.BooleanValue,
                                     ObjectReferenceValue = x.Value.ObjectReferenceValue,
                                     s_Type = x.Value.s_Type,
                                     StringValue = x.Value.StringValue,
-                                    //FloatValue = x.Value.FloatValue,
-                                    //IntValue = x.Value.IntValue
                                 }
                             }).ToList();
                             copyPasteBuffer.overrideDatas = copiedOverrideDatas;
@@ -251,8 +246,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             {
                                 targetComponentType = x.targetComponentType,
                                 targetPropertyName = x.targetPropertyName,
-                                //targetPropertyPath = x.targetPropertyPath,
-                                //targetPropertyType = x.targetPropertyType,
                                 targetTransformPath = x.targetTransformPath,
                                 methodName = x.methodName,
                                 scriptName = x.scriptName
@@ -309,10 +302,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
 
             EditorGUIUtility.labelWidth = 80.0f;
-            // float oriwidth = rect.width;
-            // float oriHeigh = rect.height;
-            // float oriX = rect.x;
-            // float oriY = rect.y;
+         
             Rect oriRect = rect;
 
             rect.x = oriRect.x;

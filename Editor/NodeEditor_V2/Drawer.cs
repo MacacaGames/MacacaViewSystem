@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Drawer
 {
-
+    static GUISkin skin = ScriptableObject.Instantiate(EditorGUIUtility.GetBuiltinSkin(EditorSkin.Inspector)) as GUISkin;
     static Texture2D _miniInfoIcon;
     public static Texture2D miniInfoIcon
     {
@@ -142,7 +142,7 @@ public class Drawer
         {
             if (_labelStyle == null)
             {
-                _labelStyle = new GUIStyle("label");
+                _labelStyle = new GUIStyle(skin.label);
                 _labelStyle.onHover.background = EditorGUIUtility.FindTexture("AnimationEventBackground");
                 _labelStyle.fontSize = 14;
             }
@@ -156,7 +156,7 @@ public class Drawer
         {
             if (_valueBoxStyle == null)
             {
-                _valueBoxStyle = new GUIStyle(GUI.skin.FindStyle("box"));
+                _valueBoxStyle = new GUIStyle(skin.box);
                 _valueBoxStyle.border = new RectOffset(1, 1, 1, 1);
                 _valueBoxStyle.contentOffset = Vector2.zero;
                 _valueBoxStyle.margin = new RectOffset(0, 0, 0, 0);
@@ -234,7 +234,7 @@ public class Drawer
         {
             if (_windowStyle == null)
             {
-                _windowStyle = new GUIStyle("window");
+                _windowStyle = new GUIStyle(skin.window);
             }
             return _windowStyle;
         }
@@ -331,7 +331,7 @@ public class Drawer
         {
             if (_darkBoxStyle == null)
             {
-                _darkBoxStyle = new GUIStyle("box");
+                _darkBoxStyle = new GUIStyle(skin.box);
                 _darkBoxStyle.normal.background = CloudMacaca.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255));
             }
             return _darkBoxStyle;

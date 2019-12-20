@@ -699,7 +699,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 using (var horizon = new GUILayout.HorizontalScope())
                 {
                     GUILayout.Space(5);
-                    if (GUILayout.Button(new GUIContent($"Save{(((ViewSystemDataReaderV2)dataReader).isDirty ? "*":"")}"), EditorStyles.toolbarButton, GUILayout.Width(50)))
+                    if (GUILayout.Button(new GUIContent($"Save{(((ViewSystemDataReaderV2)dataReader).isDirty ? "*" : "")}"), EditorStyles.toolbarButton, GUILayout.Width(50)))
                     {
                         if (isInit == false)
                         {
@@ -720,28 +720,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         if (overridePopupWindow != null) overridePopupWindow.show = false;
                         RefreshData();
                     }
-                    // GUILayout.Space(5);
-                    // using (var check = new EditorGUI.ChangeCheckScope())
-                    // {
-                    //     inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(Drawer.sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
-                    //     if (check.changed)
-                    //     {
-                    //         //inspectorContianer.customStyle.
-                    //         if (inspector.show)
-                    //         {
-                    //             inspectorContianer.style.minWidth = 250;
-                    //             inspectorContianer.style.width = lastInspectorWidth;
-                    //             Repaint();
-                    //         }
-                    //         else
-                    //         {
-                    //             inspectorContianer.style.minWidth = 0;
-                    //             inspectorContianer.style.width = 0;
-                    //             lastInspectorWidth = (int)inspectorContianer.style.width.value.value;
-                    //             Repaint();
-                    //         }
-                    //     }
-                    // }
+                    GUILayout.Space(5);
+                    using (var check = new EditorGUI.ChangeCheckScope())
+                    {
+                        inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(Drawer.sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+                        if (check.changed)
+                        {
+                            inspectorContianer.parent.style.display = inspector.show ? DisplayStyle.Flex : DisplayStyle.None;
+                        }
+                    }
                     GUILayout.Space(5);
                     console.show = GUILayout.Toggle(console.show, new GUIContent(Drawer.miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
                     GUILayout.Space(5);

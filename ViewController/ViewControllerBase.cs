@@ -268,12 +268,17 @@ namespace CloudMacaca.ViewSystem
         }
 
         #region PageChanger
-        public static FullPageChanger Changer()
+        // public static PageChanger PageChanger()
+        // {
+        //     PageChanger pageChanger = new PageChanger(_incance);
+        //     return pageChanger;
+        // }
+        public static FullPageChanger FullPageChanger()
         {
             FullPageChanger pageChanger = new FullPageChanger(_incance);
             return pageChanger;
         }
-        public static OverlayPageChanger OverlayChanger()
+        public static OverlayPageChanger OverlayPageChanger()
         {
             OverlayPageChanger pageChanger = new OverlayPageChanger(_incance);
             return pageChanger;
