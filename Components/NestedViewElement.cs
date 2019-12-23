@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
-
+using UnityEngine;
 namespace CloudMacaca.ViewSystem
 {
     public class NestedViewElement : ViewElement
@@ -46,6 +46,10 @@ namespace CloudMacaca.ViewSystem
                 .Where(m => m != this)
                 .Select(m =>
                 {
+                    if (m.IsUnique)
+                    {
+                        Debug.LogWarning($"The child ViewElement [{m.name}] inside [{name}] is setup as Unique ViewElement, since NestedViewElement don't support Unique ViewElement Component Injection in child, the setting will be ignore and component won't be Inject.", this);
+                    }
                     var l = lastChildViewElements.SingleOrDefault(x => x.viewElement == m);
                     float d_in = lastChildViewElements == null || l == null ? 0f : l.delayIn;
                     float d_out = lastChildViewElements == null || l == null ? 0f : l.delayOut;
