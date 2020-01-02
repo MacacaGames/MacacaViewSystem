@@ -628,6 +628,7 @@ namespace CloudMacaca.ViewSystem
                 lastViewState = currentViewState;
                 currentViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 
+#if UNITY_EDITOR
                 if (currentViewState.targetFrameRate != -1 &&
                     Application.targetFrameRate > currentViewState.targetFrameRate)
                 {
@@ -638,6 +639,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     Application.targetFrameRate = lastFrameRate;
                 }
+#endif
 
                 InvokeOnViewStateChange(this, new ViewStateEventArgs(currentViewState, lastViewState));
             }
