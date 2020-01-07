@@ -6,9 +6,11 @@ using UnityEditor;
 using UnityEditor.AnimatedValues;
 using System;
 using System.Linq;
+using System.IO;
+using UnityEditor.Experimental.SceneManagement;
+
 namespace CloudMacaca.ViewSystem
 {
-
 
     [CanEditMultipleObjects]
     [CustomEditor(typeof(NestedViewElement))]
@@ -68,6 +70,22 @@ namespace CloudMacaca.ViewSystem
 
         public override void OnInspectorGUI()
         {
+            if (GUILayout.Button("Help me upgrade to the ViewElementGroup implement", EditorStyles.miniButton))
+            {
+                if (EditorUtility.DisplayDialog("Note", "The auto upgrader can help you convert NestedViewElement prefab into ViewElementGroup implement and fix the reference in ViewSystemSaveData. \nBut if you use NestedViewElement inside another NestedViewElement this upgrader cannot help you any more, you need to check carefully yourself."
+                , "Ok,I got it, help me upgrade!", "No, not now."))
+                {
+                    var pstate = PrefabStageUtility.GetCurrentPrefabStage();
+                    if (pstate != null)
+                    {
+                        ViewSystemLog.LogError("Please leave prefab mode to use upgrader.");
+                        return;
+                    }
+                    NestedViewElementUpdater.UpgradeToViewElementGroup(nestedViewElement);
+                    return;
+                }
+            }
+
             nestedViewElement.transition = ViewElement.TransitionType.ActiveSwitch;
             EditorGUILayout.HelpBox("Nested ViewElement only can set transition to ActiveSwitch", MessageType.Info);
             if (GUILayout.Button("Refresh", EditorStyles.miniButton))
@@ -122,6 +140,99 @@ namespace CloudMacaca.ViewSystem
             serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(nestedViewElement);
 
+        }
+
+
+
+    }
+
+    public class NestedViewElementUpdater
+    {
+        static List<string> vpi_id = new List<string>();
+        public static void UpgradeToViewElementGroup(NestedViewElement nestedViewElement)
+        {
+            var targetObject = nestedViewElement.gameObject;
+            if (targetObject.GetComponent<ViewElementGroup>() == null)
+            {
+                targetObject.AddComponent<ViewElementGroup>();
+            }
+
+            bool isUnique = nestedViewElement.IsUnique;
+            var saveData = CheckOrReadSaveData();
+            if (saveData == null)
+            {
+                return;
+            }
+
+            var vps = saveData.viewPages.Select(m => m.viewPage);
+            var vss = saveData.viewStates.Select(m => m.viewState);
+
+            List<ViewPageItem> vpis = new List<ViewPageItem>();
+
+            vpis.AddRange(vps.SelectMany(m => m.viewPageItems));
+            vpis.AddRange(vss.SelectMany(m => m.viewPageItems));
+
+            var vpis_n = vpis.Where(m => m.viewElement == (ViewElement)nestedViewElement).ToList();
+
+            foreach (var item in vpis_n)
+            {
+                vpi_id.Add(item.Id);
+            }
+
+            UnityEngine.Object.DestroyImmediate(nestedViewElement, true);
+            var viewElement = targetObject.AddComponent<ViewElement>();
+            viewElement.IsUnique = isUnique;
+            foreach (var item in vpis_n)
+            {
+                item.viewElement = viewElement;
+            }
+
+            EditorUtility.SetDirty(targetObject);
+        }
+
+        private static void prefabStageClosing(GameObject s)
+        {
+            var ve = s.GetComponent<ViewElement>();
+
+            var saveData = CheckOrReadSaveData();
+            if (saveData == null)
+            {
+                return;
+            }
+
+            var vps = saveData.viewPages.Select(m => m.viewPage);
+            var vss = saveData.viewStates.Select(m => m.viewState);
+            List<ViewPageItem> vpis = new List<ViewPageItem>();
+
+            vpis.AddRange(vps.SelectMany(m => m.viewPageItems));
+            vpis.AddRange(vss.SelectMany(m => m.viewPageItems));
+
+            var vpis_n = vpis.Where(m => m.viewElement == null && vpi_id.Contains(m.Id)).ToList();
+
+            foreach (var item in vpis_n)
+            {
+                item.viewElement = ve;
+            }
+
+            EditorUtility.SetDirty(saveData);
+            AssetDatabase.SaveAssets();
+        }
+
+        const string ViewSystemResourceFolder = "Assets/ViewSystemResources/";
+        const string ViewSystemSaveDataFileName = "ViewSystemData.asset";
+        static ViewSystemSaveData CheckOrReadSaveData()
+        {
+            ViewSystemSaveData result = null;
+            var filePath = ViewSystemResourceFolder + ViewSystemSaveDataFileName;
+
+            if (!File.Exists(filePath))
+            {
+                ViewSystemLog.LogError("ViewSystemData not found, upgrade proccess stop.");
+                return result;
+            }
+
+            result = AssetDatabase.LoadAssetAtPath<ViewSystemSaveData>(filePath);
+            return result;
         }
     }
 }
