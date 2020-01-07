@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 namespace CloudMacaca.ViewSystem
 {
+    [System.Obsolete("NestedViewElement is Obsolete, Use ViewElementGroup instead.")]
     public class NestedViewElement : ViewElement
     {
         [System.Serializable]

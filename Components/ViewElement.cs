@@ -19,6 +19,27 @@ namespace CloudMacaca.ViewSystem
         public string PoolKey;
         public bool IsUnique = false;
 
+        bool hasGroupSetup = false;
+        private ViewElementGroup _viewElementGroup;
+        public ViewElementGroup viewElementGroup
+        {
+            get
+            {
+
+                if (_viewElementGroup == null)
+                {
+                    _viewElementGroup = GetComponent<ViewElementGroup>();
+                    if (hasGroupSetup)
+                    {
+                        return _viewElementGroup;
+                    }
+                    hasGroupSetup = true;
+                }
+
+                return _viewElementGroup;
+            }
+        }
+
         private ViewRuntimeOverride _runtimeOverride;
         public ViewRuntimeOverride runtimeOverride
         {
@@ -289,7 +310,6 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
-
             Observable
                 .Timer(TimeSpan.FromSeconds(delayIn))
                 .Subscribe(_ =>
@@ -299,6 +319,12 @@ namespace CloudMacaca.ViewSystem
                         {
                             item.OnBeforeShow();
                         }
+
+                    if (viewElementGroup != null)
+                    {
+                        viewElementGroup.OnShowChild();
+                    }
+
                     if (transition == TransitionType.Animator)
                     {
                         animator.Play(AnimationStateName_In);
@@ -358,6 +384,12 @@ namespace CloudMacaca.ViewSystem
                         {
                             item.OnBeforeLeave();
                         }
+
+                    if (viewElementGroup != null)
+                    {
+                        viewElementGroup.OnLeaveChild(ignoreTransition);
+                    }
+
                     //在試圖 leave 時 如果已經是 disable 的 那就直接把他送回池子
                     //如果 ignoreTransition 也直接把他送回池子
                     if (gameObject.activeSelf == false || ignoreTransition)
