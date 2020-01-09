@@ -23,7 +23,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         GUIStyle nameErrorStyle;
         GUIStyle nameEditStyle;
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
-        static GUIContent EditoModifyButton = new GUIContent(Drawer.prefabIcon, "Show/Hide Modified Properties and Events");
+        static GUIContent EditoModifyButton = new GUIContent(Drawer.overridePopupIcon, "Show/Hide Modified Properties and Events");
         public ViewSystemNodeInspector(ViewSystemNodeEditor editor)
         {
             this.editor = editor;
@@ -100,6 +100,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             public bool parent;
             public bool name;
         }
+        SerializedObject serializedObject;
+        SerializedProperty serializedProperty;
         public void SetCurrentSelectItem(ViewSystemNode currentSelectNode)
         {
             this.currentSelectNode = currentSelectNode;
@@ -107,14 +109,32 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 return;
             }
+            serializedObject = new SerializedObject(saveData);
 
             if (currentSelectNode is ViewPageNode)
             {
-                list = ((ViewPageNode)currentSelectNode).viewPage.viewPageItems;
+                var vp = ((ViewPageNode)currentSelectNode).viewPage;
+                list = vp.viewPageItems;
+                var s = saveData.viewPages.Single(m => m.viewPage == vp);
+                var index = saveData.viewPages.IndexOf(s);
+                var sp = serializedObject.FindProperty("viewPages");
+                var x = sp.GetArrayElementAtIndex(index);
+                var y = x.FindPropertyRelative("viewPage");
+                var z = y.FindPropertyRelative("viewPageItems");
+
+                serializedProperty = z;
             }
             if (currentSelectNode is ViewStateNode)
             {
-                list = ((ViewStateNode)currentSelectNode).viewState.viewPageItems;
+                var vs = ((ViewStateNode)currentSelectNode).viewState;
+                list = vs.viewPageItems;
+                var s = saveData.viewStates.Single(m => m.viewState == vs);
+                var index = saveData.viewStates.IndexOf(s);
+                var sp = serializedObject.FindProperty("viewStates");
+                var x = sp.GetArrayElementAtIndex(index);
+                var y = x.FindPropertyRelative("viewState");
+                var z = y.FindPropertyRelative("viewPageItems");
+                serializedProperty = z;
             }
 
             editableLock.Clear();
@@ -128,7 +148,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         void RefreshSideBar()
         {
             viewPageItemList = null;
-            viewPageItemList = new ReorderableList(list, typeof(List<ViewPageItem>), true, true, true, false);
+            //viewPageItemList = new ReorderableList(list, typeof(List<ViewPageItem>), true, true, true, false);
+            viewPageItemList = new ReorderableList(serializedProperty.serializedObject, serializedProperty, true, true, true, false);
             viewPageItemList.drawElementCallback += DrawViewItemElement;
             viewPageItemList.drawHeaderCallback += DrawViewItemHeader;
             viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 5f;
@@ -175,6 +196,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 GUI.Box(oddRect, GUIContent.none, Drawer.overrideShowedStyle);
             }
             if (index % 2 == 0) GUI.Box(oddRect, GUIContent.none, Drawer.oddStyle);
+
+
         }
 
         private void AddItem(ReorderableList rlist)
@@ -209,6 +232,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 return;
             }
+            var vpi_sp = viewPageItemList.serializedProperty.GetArrayElementAtIndex(index);
             var e = Event.current;
             if (rect.Contains(e.mousePosition))
             {
@@ -230,7 +254,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             {
                                 targetComponentType = x.targetComponentType,
                                 targetPropertyName = x.targetPropertyName,
-                              
+
                                 targetTransformPath = x.targetTransformPath,
                                 Value = new PropertyOverride
                                 {
@@ -302,7 +326,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
 
             EditorGUIUtility.labelWidth = 80.0f;
-         
+
             Rect oriRect = rect;
 
             rect.x = oriRect.x;
@@ -387,9 +411,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
 
             rightRect.x -= 20;
-
-
-
             /*Toggle Button Part End */
 
 
@@ -397,31 +418,33 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             var veRect = rect;
             veRect.width = rect.width - 20;
+            var viewElementProperty = vpi_sp.FindPropertyRelative("viewElement");
+            ViewElement ve = (ViewElement)viewElementProperty.objectReferenceValue;
+
             using (var check = new EditorGUI.ChangeCheckScope())
             {
                 string oriViewElement = "";
-                if (list[index].viewElement != null)
+                if (ve != null)
                 {
-                    oriViewElement = list[index].viewElement.name;
+                    oriViewElement = ve.name;
                 }
 
-
-                list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), true);
+                EditorGUI.PropertyField(veRect, viewElementProperty);
+                //list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement));
                 if (check.changed)
                 {
-                    if (string.IsNullOrEmpty(list[index].viewElement.gameObject.scene.name))
+                    if (string.IsNullOrEmpty(ve.gameObject.scene.name))
                     {
                         //is prefabs
-                        if (list[index].viewElement.gameObject.name != oriViewElement)
+                        if (ve.gameObject.name != oriViewElement)
                         {
                             list[index].overrideDatas?.Clear();
                             list[index].eventDatas?.Clear();
                         }
-
                         return;
                     }
 
-                    var cache = list[index].viewElement;
+                    var cache = ve;
                     ViewElement original;
                     if (ViewSystemNodeEditor.overrideFromOrginal)
                     {
@@ -436,17 +459,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
                     overrideChecker.SetData(cache.transform, original.transform, list[index], currentSelectNode);
                     overrideChecker.ShowUtility();
-
-                    list[index].viewElement = original;
+                    viewElementProperty.objectReferenceValue = original;
+                    // list[index].viewElement = original;
                 }
             }
 
             veRect.x += veRect.width;
             veRect.width = 20;
 
+
             if (GUI.Button(veRect, EditoModifyButton, Drawer.removeButtonStyle))
             {
-                if (list[index].viewElement == null)
+                if (ve == null)
                 {
                     editor.console.LogErrorMessage("ViewElement has not been select yet!");
                     return;
@@ -462,6 +486,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     editor.overridePopupWindow.show = false;
                 }
+            }
+
+            //Has override hint
+            if (list[index].overrideDatas?.Count() > 0 ||
+                   list[index].eventDatas?.Count() > 0 ||
+                   list[index].navigationDatas?.Count() > 0)
+            {
+                GUI.Label(new Rect(veRect.x, veRect.y , 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
             }
             rect.y += EditorGUIUtility.singleLineHeight;
 
@@ -639,6 +671,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 GUILayout.Label("Nothing selected :)");
             }
+
+            if (serializedObject != null)
+                serializedObject.ApplyModifiedProperties();
 
             GUILayout.EndArea();
             //DrawResizeBar();

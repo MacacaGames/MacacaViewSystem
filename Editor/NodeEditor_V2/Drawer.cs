@@ -32,6 +32,31 @@ public class Drawer
             return _savePassiveIcon;
         }
     }
+    static Texture2D _overrideIcon;
+    public static Texture2D overrideIcon
+    {
+        get
+        {
+            if (_overrideIcon == null)
+            {
+                _overrideIcon = EditorGUIUtility.FindTexture( "PrefabOverlayAdded Icon");
+            }
+            return _overrideIcon;
+        }
+    }
+    static Texture2D _overridePopupIcon;
+    public static Texture2D overridePopupIcon
+    {
+        get
+        {
+            if (_overridePopupIcon == null)
+            {
+                _overridePopupIcon = EditorGUIUtility.FindTexture("PrefabVariant Icon");
+            }
+            return _overridePopupIcon;
+        }
+    }
+
     static Texture2D _miniErrorIcon;
     public static Texture2D miniErrorIcon
     {

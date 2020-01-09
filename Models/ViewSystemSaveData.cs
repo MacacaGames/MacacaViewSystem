@@ -5,7 +5,6 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewSystemSaveData : ScriptableObject
     {
-       
         public ViewSystemBaseSetting globalSetting;
         public List<ViewStateSaveData> viewStates = new List<ViewStateSaveData>();
         public List<ViewPageSaveData> viewPages = new List<ViewPageSaveData>();

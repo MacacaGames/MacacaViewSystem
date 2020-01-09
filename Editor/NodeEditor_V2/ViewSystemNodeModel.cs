@@ -7,8 +7,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNode
     {
-        public const int ViewSystemNodeWidth = 160;   
-        public const int ViewStateNodeHeight = 60;   
+        public const int ViewSystemNodeWidth = 160;
+        public const int ViewStateNodeHeight = 60;
         public const int ViewPageNodeHeight = 80;
         protected int id;
         List<ViewSystemNodeLine> CurrentConnectLine = new List<ViewSystemNodeLine>();
@@ -149,6 +149,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 GUI.changed = true;
             }
+
+            if (HasOverride())
+            {
+                GUI.Label(new Rect(drawRect.x + drawRect.width - 30, drawRect.y - 15f, 30, 30), new GUIContent(Drawer.overrideIcon, "This page or state has override."));
+            }
+        }
+
+        public virtual bool HasOverride()
+        {
+            return false;
         }
         public void Drag(Vector2 delta)
         {
@@ -311,7 +321,23 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
             }
         }
-
+        public override bool HasOverride()
+        {
+            if (viewPage == null)
+            {
+                return false;
+            }
+            foreach (var item in viewPage.viewPageItems)
+            {
+                if (item.overrideDatas?.Count > 0 ||
+                   item.eventDatas?.Count > 0 ||
+                   item.navigationDatas?.Count > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public ViewPage viewPage;
     }
 
@@ -342,7 +368,23 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             DrawNode(viewState.name);
         }
-
+        public override bool HasOverride()
+        {
+            if (viewState == null)
+            {
+                return false;
+            }
+            foreach (var item in viewState.viewPageItems)
+            {
+                if (item.overrideDatas?.Count > 0 ||
+                   item.eventDatas?.Count > 0 ||
+                   item.navigationDatas?.Count > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public ViewState viewState;
     }
 
