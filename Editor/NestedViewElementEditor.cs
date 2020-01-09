@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.IO;
 using UnityEditor.Experimental.SceneManagement;
+using CloudMacaca.ViewSystem.NodeEditorV2;
 
 namespace CloudMacaca.ViewSystem
 {
@@ -185,6 +186,11 @@ namespace CloudMacaca.ViewSystem
             foreach (var item in vpis_n)
             {
                 item.viewElement = viewElement;
+            }
+
+            if (ViewSystemNodeEditor.Instance != null)
+            {
+                ViewSystemNodeEditor.Instance.RefreshData(false);
             }
 
             EditorUtility.SetDirty(targetObject);

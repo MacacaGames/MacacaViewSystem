@@ -7,6 +7,7 @@ using UnityEditor.AnimatedValues;
 using UnityEditorInternal;
 using System.Reflection;
 using UnityEditor.IMGUI.Controls;
+using CloudMacaca;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
@@ -143,9 +144,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 editableLock.Add(new EditableLockItem(true));
                 return true;
             });
-            RefreshSideBar();
+            RebuildInspector();
         }
-        void RefreshSideBar()
+        public void RebuildInspector()
         {
             viewPageItemList = null;
             //viewPageItemList = new ReorderableList(list, typeof(List<ViewPageItem>), true, true, true, false);
@@ -199,11 +200,45 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
 
         }
-
-        private void AddItem(ReorderableList rlist)
+        private void RemoveItem(ReorderableList list)
         {
-            list.Add(new ViewPageItem(null));
+            if (EditorUtility.DisplayDialog("Remove", "Do you really want to remove this item", "Sure", "Not now"))
+            {
+                ReorderableList.defaultBehaviours.DoRemoveButton(list);
+                RebuildInspector();
+                return;
+            }
+        }
+        private void AddItem(ReorderableList list)
+        {
+            if (list.serializedProperty != null)
+            {
+                list.serializedProperty.arraySize += 1;
+                list.index = list.serializedProperty.arraySize - 1;
+                serializedObject.ApplyModifiedProperties();
+                var sp = list.serializedProperty.GetArrayElementAtIndex(list.index);
+                SerializedPropertyExtensions.SetTargetObjectOfProperty(sp, new ViewPageItem(null));
+                var ve_sp = sp.FindPropertyRelative("viewElement");
+                ve_sp.objectReferenceValue = null;
+            }
+            else
+            {
+                // this is ugly but there are a lot of cases like null types and default constructors
+                var elementType = list.list.GetType().GetElementType();
+                if (elementType == typeof(string))
+                    list.index = list.list.Add("");
+                else if (elementType != null && elementType.GetConstructor(Type.EmptyTypes) == null)
+                    Debug.LogError("Cannot add element. Type " + elementType + " has no default constructor. Implement a default constructor or implement your own add behaviour.");
+                else if (list.list.GetType().GetGenericArguments()[0] != null)
+                    list.index = list.list.Add(Activator.CreateInstance(list.list.GetType().GetGenericArguments()[0]));
+                else if (elementType != null)
+                    list.index = list.list.Add(Activator.CreateInstance(elementType));
+                else
+                    Debug.LogError("Cannot add element of type Null.");
+            }
+
             editableLock.Add(new EditableLockItem(true));
+            // RebuildInspector();
         }
 
         private void DrawViewItemHeader(Rect rect)
@@ -217,18 +252,67 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             rect.width = 25;
             rect.x = oriWidth - 25;
-            if (GUI.Button(rect, ReorderableList.defaultBehaviours.iconToolbarPlus, ReorderableList.defaultBehaviours.preButton))
-            {
-                AddItem(viewPageItemList);
-            }
+            // if (GUI.Button(rect, ReorderableList.defaultBehaviours.iconToolbarPlus, ReorderableList.defaultBehaviours.preButton))
+            // {
+            //     AddItem(viewPageItemList);
+            // }
         }
 
         const int rightBtnWidth = 0;
         ViewPageItem copyPasteBuffer;
         ViewElementOverridesImporterWindow overrideChecker;
+        ViewPageItem CopyItem(bool copyOverride = true, bool copyEvent = true)
+        {
+            var copyResult = new ViewPageItem(copyPasteBuffer.viewElement);
+            copyResult.TweenTime = copyPasteBuffer.TweenTime;
+            copyResult.delayOut = copyPasteBuffer.delayOut;
+            copyResult.delayIn = copyPasteBuffer.delayIn;
+            copyResult.parentPath = copyPasteBuffer.parentPath;
+            copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
+            copyResult.parent = copyPasteBuffer.parent;
+
+            if (copyOverride == true)
+            {
+                var originalOverrideDatas = copyPasteBuffer.overrideDatas.Select(x => x).ToList();
+                var copiedOverrideDatas = originalOverrideDatas.Select(x => new ViewElementPropertyOverrideData
+                {
+                    targetComponentType = x.targetComponentType,
+                    targetPropertyName = x.targetPropertyName,
+
+                    targetTransformPath = x.targetTransformPath,
+                    Value = new PropertyOverride
+                    {
+                        ObjectReferenceValue = x.Value.ObjectReferenceValue,
+                        s_Type = x.Value.s_Type,
+                        StringValue = x.Value.StringValue,
+                    }
+                }).ToList();
+                copyResult.overrideDatas = copiedOverrideDatas;
+            }
+
+            if (copyEvent == true)
+            {
+                var originalEventDatas = copyPasteBuffer.eventDatas.Select(x => x).ToList();
+                var copyEventDatas = originalEventDatas.Select(
+                    x => new ViewElementEventData
+                    {
+                        targetComponentType = x.targetComponentType,
+                        targetPropertyName = x.targetPropertyName,
+                        targetTransformPath = x.targetTransformPath,
+                        methodName = x.methodName,
+                        scriptName = x.scriptName
+                    })
+                .ToList();
+
+                copyResult.eventDatas = copyEventDatas;
+            }
+
+            return copyResult;
+        }
+
         private void DrawViewItemElement(Rect rect, int index, bool isActive, bool isFocused)
         {
-            if (index > list.Count)
+            if (index >= viewPageItemList.serializedProperty.arraySize)
             {
                 return;
             }
@@ -239,45 +323,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 if (e.button == 1 && e.type == EventType.MouseDown)
                 {
                     GenericMenu genericMenu = new GenericMenu();
-
                     genericMenu.AddItem(new GUIContent("Copy"), false,
                         () =>
                         {
-                            copyPasteBuffer = new ViewPageItem(list[index].viewElement);
-                            copyPasteBuffer.TweenTime = list[index].TweenTime;
-                            copyPasteBuffer.delayOut = list[index].delayOut;
-                            copyPasteBuffer.delayIn = list[index].delayIn;
-                            copyPasteBuffer.parentPath = list[index].parentPath;
-
-                            var originalOverrideDatas = list[index].overrideDatas.Select(x => x).ToList();
-                            var copiedOverrideDatas = originalOverrideDatas.Select(x => new ViewElementPropertyOverrideData
-                            {
-                                targetComponentType = x.targetComponentType,
-                                targetPropertyName = x.targetPropertyName,
-
-                                targetTransformPath = x.targetTransformPath,
-                                Value = new PropertyOverride
-                                {
-                                    ObjectReferenceValue = x.Value.ObjectReferenceValue,
-                                    s_Type = x.Value.s_Type,
-                                    StringValue = x.Value.StringValue,
-                                }
-                            }).ToList();
-                            copyPasteBuffer.overrideDatas = copiedOverrideDatas;
-
-                            var originalEventDatas = list[index].eventDatas.Select(x => x).ToList();
-                            var copyEventDatas = originalEventDatas.Select(x => new ViewElementEventData
-                            {
-                                targetComponentType = x.targetComponentType,
-                                targetPropertyName = x.targetPropertyName,
-                                targetTransformPath = x.targetTransformPath,
-                                methodName = x.methodName,
-                                scriptName = x.scriptName
-                            }).ToList();
-
-                            copyPasteBuffer.eventDatas = copyEventDatas;
-                            copyPasteBuffer.excludePlatform = list[index].excludePlatform;
-                            copyPasteBuffer.parent = list[index].parent;
+                            copyPasteBuffer = list[index];
                         }
                     );
                     if (copyPasteBuffer != null)
@@ -285,46 +334,35 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         genericMenu.AddItem(new GUIContent("Paste (Default)"), false,
                             () =>
                             {
-                                list[index] = copyPasteBuffer;
-                                list[index].eventDatas.Clear();
-                                list[index].overrideDatas.Clear();
-                                copyPasteBuffer = null;
+                                list[index] = CopyItem(false, false);
                                 GUI.changed = true;
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Paste (with Property Data)"), false,
                             () =>
                             {
-                                list[index] = copyPasteBuffer;
-                                list[index].eventDatas.Clear();
-                                copyPasteBuffer = null;
+                                list[index] = CopyItem(true, false);
                                 GUI.changed = true;
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Paste (with Events Data)"), false,
                            () =>
                            {
-                               list[index] = copyPasteBuffer;
-                               list[index].overrideDatas.Clear();
-                               copyPasteBuffer = null;
+                               list[index] = CopyItem(false, true);
                                GUI.changed = true;
                            }
                        );
                         genericMenu.AddItem(new GUIContent("Paste (with All Data)"), false,
                            () =>
                            {
-                               list[index] = copyPasteBuffer;
-                               copyPasteBuffer = null;
+                               list[index] = CopyItem(true, true);
                                GUI.changed = true;
                            }
                        );
                     }
-
                     genericMenu.ShowAsContext();
                 }
             }
-
-
             EditorGUIUtility.labelWidth = 80.0f;
 
             Rect oriRect = rect;
@@ -333,11 +371,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             rect.width = oriRect.width - rightBtnWidth;
             rect.height = EditorGUIUtility.singleLineHeight;
 
-
-
             rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
             /*Name Part Start */
-
             var nameRect = rect;
             //nameRect.height += EditorGUIUtility.singleLineHeight * 0.25f;
             nameRect.width = rect.width - 60;
@@ -467,7 +502,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             veRect.x += veRect.width;
             veRect.width = 20;
 
-
             if (GUI.Button(veRect, EditoModifyButton, Drawer.removeButtonStyle))
             {
                 if (ve == null)
@@ -493,7 +527,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                    list[index].eventDatas?.Count() > 0 ||
                    list[index].navigationDatas?.Count() > 0)
             {
-                GUI.Label(new Rect(veRect.x, veRect.y , 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
+                GUI.Label(new Rect(veRect.x, veRect.y, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
             }
             rect.y += EditorGUIUtility.singleLineHeight;
 
@@ -619,13 +653,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             rect.x -= 21;
             if (GUI.Button(rect, new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), Drawer.removeButtonStyle))
             {
-                if (EditorUtility.DisplayDialog("Remove", "Do you really want to remove this item", "Sure", "Not now"))
-                {
-                    list.RemoveAt(index);
-                    editableLock.RemoveAt(index);
-                    RefreshSideBar();
-                    return;
-                }
+                viewPageItemList.index = index;
+                RemoveItem(viewPageItemList);
             }
         }
         static float InspectorWidth = 350;

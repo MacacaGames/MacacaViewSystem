@@ -12,7 +12,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
     {
         public static ViewSystemNodeEditor Instance;
         static IViewSystemDateReader dataReader;
-        static ViewSystemNodeInspector inspector;
+        public static ViewSystemNodeInspector inspector;
         static ViewSystemGlobalSettingWindow globalSettingWindow;
         public OverridePopupWindow overridePopupWindow;
         public ViewPageNavigationWindow navigationWindow;
@@ -120,7 +120,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
-        void RefreshData()
+        public void RefreshData(bool hardRefresh = true)
         {
             ClearEditor();
             console = new ViewSystemNodeConsole();
@@ -136,6 +136,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
             viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));
+
+            if (hardRefresh == false && lastSelectNode != null)
+            {
+                inspector.SetCurrentSelectItem(lastSelectNode);
+            }
         }
         public void ClearEditor()
         {
@@ -342,11 +347,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
+        ViewSystemNode lastSelectNode;
+
         public ViewStateNode AddViewStateNode(Vector2 position, ViewState viewState = null)
         {
             var node = new ViewStateNode(position, CheckCanMakeConnect, viewState);
             node.OnNodeSelect += (m) =>
             {
+                lastSelectNode = m;
                 inspector.SetCurrentSelectItem(m);
             };
             node.OnNodeDelete += (line) =>
@@ -384,6 +392,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             };
             node.OnNodeSelect += (m) =>
             {
+                lastSelectNode = m;
                 inspector.SetCurrentSelectItem(m);
             };
             node.OnNodeDelete += (line) =>
