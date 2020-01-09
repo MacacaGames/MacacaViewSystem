@@ -217,35 +217,50 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var allNestedViewElement = UnityEngine.Object.FindObjectsOfType<NestedViewElement>();
             foreach (var item in allViewElement)
             {
-                if (string.IsNullOrEmpty(item.gameObject.scene.name))
-                {
-                    continue;
-                }
-                if (item.GetComponentInParent<NestedViewElement>() != null)
-                {
-                    continue;
-                }
-                UnityEngine.Object.DestroyImmediate(item.gameObject);
-            }
-            foreach (var item in allNestedViewElement)
-            {
-                if (item == null)
-                {
-                    continue;
-                }
-                if (string.IsNullOrEmpty(item.gameObject.scene.name))
-                {
-                    continue;
-                }
                 try
                 {
                     UnityEngine.Object.DestroyImmediate(item.gameObject);
                 }
                 catch
                 {
-                    ViewSystemLog.LogWarning($"The NestedViewElement {item.name} is part of another NestedViewElement, will ignore while delete preview object");
+                    //ViewSystemLog.LogWarning($"ignore");
                 }
             }
+            // foreach (var item in allViewElement)
+            // {
+            //     if (string.IsNullOrEmpty(item.gameObject.scene.name))
+            //     {
+            //         continue;
+            //     }
+            //     if (item.GetComponentInParent<NestedViewElement>() != null)
+            //     {
+            //         continue;
+            //     }
+            //     if (item.GetComponentInParent<ViewElementGroup>() != null)
+            //     {
+            //         continue;
+            //     }
+            //     UnityEngine.Object.DestroyImmediate(item.gameObject);
+            // }
+            // foreach (var item in allNestedViewElement)
+            // {
+            //     if (item == null)
+            //     {
+            //         continue;
+            //     }
+            //     if (string.IsNullOrEmpty(item.gameObject.scene.name))
+            //     {
+            //         continue;
+            //     }
+            //     try
+            //     {
+            //         UnityEngine.Object.DestroyImmediate(item.gameObject);
+            //     }
+            //     catch
+            //     {
+            //         ViewSystemLog.LogWarning($"The NestedViewElement {item.name} is part of another NestedViewElement, will ignore while delete preview object");
+            //     }
+            // }
         }
 
         public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes)
