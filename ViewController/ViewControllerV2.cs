@@ -144,8 +144,14 @@ namespace CloudMacaca.ViewSystem
                     item.runtimeParent = transformCache.Find(item.parentPath);
                 }
 
-                item.runtimeViewElement = runtimePool.RequestViewElement(item.viewElement);
-
+                if (item.viewElement != null)
+                {
+                    item.runtimeViewElement = runtimePool.RequestViewElement(item.viewElement);
+                }
+                else
+                {
+                    ViewSystemLog.LogError($"The viewElement in ViewPageItem : {item.Id} is null or missing, that is all we know, please check the page you're trying to change to.");
+                }
             }
             return viewPageItems;
         }
@@ -283,6 +289,11 @@ namespace CloudMacaca.ViewSystem
             //對進場的呼叫改變狀態(ViewPage)
             foreach (var item in viewItemNextPage)
             {
+                if (item.runtimeViewElement == null)
+                {
+                    ViewSystemLog.LogError($"The runtimeViewElement is null for some reason, ignore this item.");
+                    continue;
+                }
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvent(item.eventDatas);
@@ -304,6 +315,11 @@ namespace CloudMacaca.ViewSystem
             //對進場的呼叫改變狀態(ViewPage)
             foreach (var item in viewItemNextState)
             {
+                if (item.runtimeViewElement == null)
+                {
+                    ViewSystemLog.LogError($"The runtimeViewElement is null for some reason, ignore this item.");
+                    continue;
+                }
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvent(item.eventDatas);

@@ -787,6 +787,32 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         viewPortScroll = Vector2.zero;
                     }
+                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("AvatarCompass"), "Reset viewport to (0,0)"), EditorStyles.toolbarButton, GUILayout.Width(30)))
+                    {
+
+                        foreach (var item in saveData.viewPages)
+                        {
+                            foreach (var item2 in item.viewPage.viewPageItems)
+                            {
+                                if (item2.viewElement == null)
+                                {
+                                    continue;
+                                }
+                                item2.viewElementObject = item2.viewElement.gameObject;
+                            }
+                        }
+                        foreach (var item in saveData.viewStates)
+                        {
+                            foreach (var item2 in item.viewState.viewPageItems)
+                            {
+                                if (item2.viewElement == null)
+                                {
+                                    continue;
+                                }
+                                item2.viewElementObject = item2.viewElement.gameObject;
+                            }
+                        }
+                    }
 
                     // GUILayout.Label("ViewState:");
                     // int newIndex = EditorGUILayout.Popup(currentIndex, viewStatesPopup.ToArray(),
@@ -810,6 +836,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         overridePopupWindow.show = false;
                         dataReader.Normalized();
+                        inspector.Normalized();
                     }
                 }
             }

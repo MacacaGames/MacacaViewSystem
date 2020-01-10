@@ -25,7 +25,25 @@ namespace CloudMacaca.ViewSystem
             }
         }
         static Transform ViewControllerObject;
-        public ViewElement viewElement;
+        
+        public ViewElement viewElement
+        {
+            get
+            {
+                if (viewElementObject == null)
+                {
+                    return null;
+                }
+                return viewElementObject?.GetComponent<ViewElement>();
+            }
+            set
+            {
+                viewElementObject = value.gameObject;
+            }
+        }
+
+        //Due to Unity bug in new prefab workflow, UnityEngine.Object reference which is not a builtin type will missing after prefab enter prefab mode, so currentlly use GameObject to save the reference and get ViewElement by GetCompnent in Runtime
+        public GameObject viewElementObject;
         public ViewElement runtimeViewElement = null;
         public List<ViewElementPropertyOverrideData> overrideDatas = new List<ViewElementPropertyOverrideData>();
         public List<ViewElementEventData> eventDatas = new List<ViewElementEventData>();

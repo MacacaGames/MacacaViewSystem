@@ -118,9 +118,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         verifyTargets.AddRange(viewPageItem.eventDatas.Cast<ViewSystemComponentData>());
                     }
-
+                    if (viewPageItem.viewElement == null)
+                    {
+                        ViewSystemLog.LogError("One or more viewElement is null, verify Page and State first.");
+                        return;
+                    }
                     foreach (var verifyData in verifyTargets)
                     {
+
                         var transform = viewPageItem.viewElement.transform.Find(verifyData.targetTransformPath);
                         if (transform == null)
                         {

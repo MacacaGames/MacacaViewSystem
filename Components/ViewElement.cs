@@ -102,6 +102,9 @@ namespace CloudMacaca.ViewSystem
         }
 
         #endregion
+
+        public static ViewControllerBase viewController;
+
         //ViewElementLifeCycle
         protected IViewElementLifeCycle[] lifeCyclesObjects;
         public enum TransitionType
@@ -280,14 +283,18 @@ namespace CloudMacaca.ViewSystem
                 OnLeave(delayOut, ignoreTransition: ignoreTransition);
             }
         }
-
         public virtual void OnShow(float delayIn = 0)
+        {
+            viewController.StartCoroutine(OnShowRunner(delayIn));
+        }
+        public IEnumerator OnShowRunner(float delayIn = 0)
         {
             //ViewSystemLog.LogError("OnShow " + name);
             //停掉正在播放的 Leave 動畫
-            if (OnLeaveDisposable != null)
+            if (OnLeaveCoroutine != null)
             {
-                OnLeaveDisposable.Dispose();
+                //OnLeaveDisposable.Dispose();
+                viewController.StopCoroutine(OnLeaveCoroutine);
             }
             if (transition != TransitionType.ActiveSwitch)
             {
@@ -310,63 +317,70 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
-            Observable
-                .Timer(TimeSpan.FromSeconds(delayIn))
-                .Subscribe(_ =>
+            // Observable
+            //     .Timer(TimeSpan.FromSeconds(delayIn))
+            //     .Subscribe(_ =>
+            //     {
+            yield return Yielders.GetWaitForSecondsRealtime(delayIn);
+
+            if (lifeCyclesObjects != null)
+                foreach (var item in lifeCyclesObjects)
                 {
-                    if (lifeCyclesObjects != null)
-                        foreach (var item in lifeCyclesObjects)
+                    item.OnBeforeShow();
+                }
+
+            if (viewElementGroup != null)
+            {
+                viewElementGroup.OnShowChild();
+            }
+
+            if (transition == TransitionType.Animator)
+            {
+                animator.Play(AnimationStateName_In);
+
+                if (transition == TransitionType.Animator && hasLoopBool)
+                {
+                    animator.SetBool(ButtonAnimationBoolKey, true);
+                }
+            }
+            else if (transition == TransitionType.CanvasGroupAlpha)
+            {
+                //ViewSystemLog.Log("canvasGroup alpha");
+                canvasGroup.DOFade(1, canvasInTime).SetUpdate(true).OnStart(
+                    () =>
+                    {
+                        //簡單暴力的解決 canvasGroup 一開始如果不是 0 的時候的情況
+                        if (canvasGroup.alpha != 0)
                         {
-                            item.OnBeforeShow();
-                        }
-
-                    if (viewElementGroup != null)
-                    {
-                        viewElementGroup.OnShowChild();
-                    }
-
-                    if (transition == TransitionType.Animator)
-                    {
-                        animator.Play(AnimationStateName_In);
-
-                        if (transition == TransitionType.Animator && hasLoopBool)
-                        {
-                            animator.SetBool(ButtonAnimationBoolKey, true);
+                            canvasGroup.alpha = 0;
                         }
                     }
-                    else if (transition == TransitionType.CanvasGroupAlpha)
-                    {
-                        //ViewSystemLog.Log("canvasGroup alpha");
-                        canvasGroup.DOFade(1, canvasInTime).SetUpdate(true).OnStart(
-                            () =>
-                            {
-                                //簡單暴力的解決 canvasGroup 一開始如果不是 0 的時候的情況
-                                if (canvasGroup.alpha != 0)
-                                {
-                                    canvasGroup.alpha = 0;
-                                }
-                            }
-                        ).SetEase(canvasInEase);
-                    }
-                    else if (transition == TransitionType.Custom)
-                    {
-                        OnShowHandle.Invoke(null);
-                    }
-                    else if (transition == TransitionType.ActiveSwitch)
-                    {
-                        gameObject.SetActive(true);
-                    }
+                ).SetEase(canvasInEase);
+            }
+            else if (transition == TransitionType.Custom)
+            {
+                OnShowHandle.Invoke(null);
+            }
+            else if (transition == TransitionType.ActiveSwitch)
+            {
+                gameObject.SetActive(true);
+            }
 
-                    if (lifeCyclesObjects != null)
-                        foreach (var item in lifeCyclesObjects)
-                        {
-                            item.OnStartShow();
-                        }
-                });
+            if (lifeCyclesObjects != null)
+                foreach (var item in lifeCyclesObjects)
+                {
+                    item.OnStartShow();
+                }
+            // });
         }
         bool OnLeaveWorking = false;
-        IDisposable OnLeaveDisposable;
+        //IDisposable OnLeaveDisposable;
+        Coroutine OnLeaveCoroutine;
         public virtual void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
+        {
+            OnLeaveCoroutine = viewController.StartCoroutine(OnLeaveRunner(delayOut, NeedPool, ignoreTransition));
+        }
+        public IEnumerator OnLeaveRunner(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
         {
             //ViewSystemLog.LogError("OnLeave " + name);
             if (transition == TransitionType.Animator && hasLoopBool)
@@ -375,89 +389,92 @@ namespace CloudMacaca.ViewSystem
             }
             needPool = NeedPool;
             OnLeaveWorking = true;
-            OnLeaveDisposable = Observable
-                .Timer(TimeSpan.FromSeconds(delayOut))
-                .Subscribe(_ =>
+
+            yield return Yielders.GetWaitForSecondsRealtime(delayOut);
+            // OnLeaveDisposable = Observable
+            //     .Timer(TimeSpan.FromSeconds(delayOut))
+            //     .Subscribe(_ =>
+            //     {
+            if (lifeCyclesObjects != null)
+                foreach (var item in lifeCyclesObjects)
                 {
-                    if (lifeCyclesObjects != null)
-                        foreach (var item in lifeCyclesObjects)
-                        {
-                            item.OnBeforeLeave();
-                        }
+                    item.OnBeforeLeave();
+                }
 
-                    if (viewElementGroup != null)
-                    {
-                        viewElementGroup.OnLeaveChild(ignoreTransition);
-                    }
+            if (viewElementGroup != null)
+            {
+                viewElementGroup.OnLeaveChild(ignoreTransition);
+            }
 
-                    //在試圖 leave 時 如果已經是 disable 的 那就直接把他送回池子
-                    //如果 ignoreTransition 也直接把他送回池子
-                    if (gameObject.activeSelf == false || ignoreTransition)
+            //在試圖 leave 時 如果已經是 disable 的 那就直接把他送回池子
+            //如果 ignoreTransition 也直接把他送回池子
+            if (gameObject.activeSelf == false || ignoreTransition)
+            {
+                gameObject.SetActive(false);
+                OnLeaveAnimationFinish();
+                yield break;
+            }
+            if (transition == TransitionType.Animator)
+            {
+                try
+                {
+                    if (animatorTransitionType == AnimatorTransitionType.Direct)
                     {
-                        gameObject.SetActive(false);
-                        OnLeaveAnimationFinish();
-                        return;
-                    }
-                    if (transition == TransitionType.Animator)
-                    {
-                        try
-                        {
-
-                            if (animatorTransitionType == AnimatorTransitionType.Direct)
-                            {
-
-                                if (animator.HasState(0, Animator.StringToHash(AnimationStateName_Out)))
-                                    animator.Play(AnimationStateName_Out);
-                                else
-                                    animator.Play("Disable");
-                            }
-                            else
-                            {
-                                animator.ResetTrigger(AnimationStateName_Out);
-                                animator.SetTrigger(AnimationStateName_Out);
-                            }
-                            //DirectLeaveWhileFloat = directLeaveWhileFloat;
-                            DisableGameObjectOnComplete = true;
-                        }
-                        catch
-                        {
-                            gameObject.SetActive(false);
-                            OnLeaveAnimationFinish();
-                        }
-
-                    }
-                    else if (transition == TransitionType.CanvasGroupAlpha)
-                    {
-                        if (canvasGroup == null) ViewSystemLog.LogError("No Canvas Group Found on this Object", this);
-                        canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase).SetUpdate(true)
-                            .OnComplete(
-                                () =>
-                                {
-                                    //if (disableGameObjectOnComplete == true)
-                                    gameObject.SetActive(false);
-                                    OnLeaveAnimationFinish();
-                                }
-                            );
-                    }
-                    else if (transition == TransitionType.Custom)
-                    {
-                        OnLeaveHandle.Invoke(OnLeaveAnimationFinish);
-                        //OnLeaveAnimationFinish ();
+                        if (animator.HasState(0, Animator.StringToHash(AnimationStateName_Out)))
+                            animator.Play(AnimationStateName_Out);
+                        else
+                            animator.Play("Disable");
                     }
                     else
                     {
-                        gameObject.SetActive(false);
-                        OnLeaveAnimationFinish();
+                        animator.ResetTrigger(AnimationStateName_Out);
+                        animator.SetTrigger(AnimationStateName_Out);
                     }
-                    if (lifeCyclesObjects != null)
-                    {
-                        foreach (var item in lifeCyclesObjects)
-                        {
-                            item.OnStartLeave();
-                        }
-                    }
+                    DisableGameObjectOnComplete = true;
+                }
+                catch
+                {
+                    gameObject.SetActive(false);
+                    OnLeaveAnimationFinish();
+                }
 
-                });
+            }
+            else if (transition == TransitionType.CanvasGroupAlpha)
+            {
+                if (canvasGroup == null) ViewSystemLog.LogError("No Canvas Group Found on this Object", this);
+
+                yield return canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase).SetUpdate(true).WaitForCompletion();
+                if (viewElementGroup != null)
+                {
+                    float waitTime = Mathf.Clamp(viewElementGroup.GetOutAnimationLength() - canvasOutTime, 0, 2);
+                    yield return Yielders.GetWaitForSecondsRealtime(waitTime);
+                }
+                gameObject.SetActive(false);
+                OnLeaveAnimationFinish();
+            }
+            else if (transition == TransitionType.Custom)
+            {
+                OnLeaveHandle.Invoke(OnLeaveAnimationFinish);
+            }
+            else
+            {
+                if (viewElementGroup != null)
+                {
+                    yield return Yielders.GetWaitForSecondsRealtime(viewElementGroup.GetOutAnimationLength());
+                }
+                gameObject.SetActive(false);
+                OnLeaveAnimationFinish();
+            }
+
+            if (lifeCyclesObjects != null)
+            {
+                foreach (var item in lifeCyclesObjects)
+                {
+                    item.OnStartLeave();
+                }
+            }
+
+            // });
         }
 
         public bool IsShowed
@@ -472,7 +489,7 @@ namespace CloudMacaca.ViewSystem
         public void OnLeaveAnimationFinish()
         {
             OnLeaveWorking = false;
-            OnLeaveDisposable = null;
+            OnLeaveCoroutine = null;
 
             if (needPool == false)
             {
@@ -492,33 +509,41 @@ namespace CloudMacaca.ViewSystem
 
         public virtual float GetOutAnimationLength()
         {
+            float result = 0;
             if (transition != TransitionType.Animator)
-                return 0;
+                result = 0;
             if (animator == null)
-                return 0;
+                result = 0;
 
-            var clip = animator.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_Out));
+            var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_Out));
             if (clip == null)
             {
-                return 0;
+                result = 0;
             }
             else
             {
-                return clip.length;
+                result = clip.length;
             }
 
+            if (viewElementGroup != null)
+            {
+                result = Mathf.Max(result, viewElementGroup.GetOutAnimationLength());
+            }
+            return result;
         }
         public virtual float GetInAnimationLength()
         {
+            float result = 0;
+
             if (transition != TransitionType.Animator)
-                return 0;
+                result = 0;
             if (animator == null)
-                return 0;
+                result = 0;
 
             AnimationClip clip = null;
             try
             {
-                clip = animator.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_In));
+                clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_In));
             }
             catch (Exception ex)
             {
@@ -527,12 +552,18 @@ namespace CloudMacaca.ViewSystem
 
             if (clip == null)
             {
-                return 0;
+                result = 0;
             }
             else
             {
-                return clip.length;
+                result = clip.length;
             }
+
+            if (viewElementGroup != null)
+            {
+                result = Mathf.Max(result, viewElementGroup.GetInAnimationLength());
+            }
+            return result;
         }
     }
 

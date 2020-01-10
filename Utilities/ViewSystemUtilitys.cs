@@ -84,6 +84,11 @@ namespace CloudMacaca.ViewSystem
 
             foreach (var item in viewElements)
             {
+                if (item == null)
+                {
+                    ViewSystemLog.LogError($"One or more ViewElement is null in the page trying to Show, ignore the item.");
+                    continue;
+                }
                 float t = 0;
                 if (item.transition == ViewElement.TransitionType.Animator)
                 {
@@ -108,6 +113,11 @@ namespace CloudMacaca.ViewSystem
 
             foreach (var item in viewElements)
             {
+                if (item == null)
+                {
+                    ViewSystemLog.LogError($"One or more ViewElement is null in the page trying to Leave, ignore the item.");
+                    continue;
+                }
                 float t = 0;
                 if (item.transition == ViewElement.TransitionType.Animator)
                 {

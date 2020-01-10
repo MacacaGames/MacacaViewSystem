@@ -154,7 +154,7 @@ namespace CloudMacaca.ViewSystem
         #region  Unity LifeCycle
         protected virtual void Awake()
         {
-
+            ViewElement.viewController = this;
         }
         protected virtual void Start()
         {

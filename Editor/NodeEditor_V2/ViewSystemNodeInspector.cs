@@ -118,26 +118,25 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 var vp = ((ViewPageNode)currentSelectNode).viewPage;
                 list = vp.viewPageItems;
-                var s = saveData.viewPages.Single(m => m.viewPage == vp);
-                var index = saveData.viewPages.IndexOf(s);
-                var sp = serializedObject.FindProperty("viewPages");
-                var x = sp.GetArrayElementAtIndex(index);
-                var y = x.FindPropertyRelative("viewPage");
-                var z = y.FindPropertyRelative("viewPageItems");
-
-                serializedProperty = z;
+                // var s = saveData.viewPages.Single(m => m.viewPage == vp);
+                // var index = saveData.viewPages.IndexOf(s);
+                // var sp = serializedObject.FindProperty("viewPages");
+                // var x = sp.GetArrayElementAtIndex(index);
+                // var y = x.FindPropertyRelative("viewPage");
+                // var z = y.FindPropertyRelative("viewPageItems");
+                // serializedProperty = z;
             }
             if (currentSelectNode is ViewStateNode)
             {
                 var vs = ((ViewStateNode)currentSelectNode).viewState;
                 list = vs.viewPageItems;
-                var s = saveData.viewStates.Single(m => m.viewState == vs);
-                var index = saveData.viewStates.IndexOf(s);
-                var sp = serializedObject.FindProperty("viewStates");
-                var x = sp.GetArrayElementAtIndex(index);
-                var y = x.FindPropertyRelative("viewState");
-                var z = y.FindPropertyRelative("viewPageItems");
-                serializedProperty = z;
+                // var s = saveData.viewStates.Single(m => m.viewState == vs);
+                // var index = saveData.viewStates.IndexOf(s);
+                // var sp = serializedObject.FindProperty("viewStates");
+                // var x = sp.GetArrayElementAtIndex(index);
+                // var y = x.FindPropertyRelative("viewState");
+                // var z = y.FindPropertyRelative("viewPageItems");
+                // serializedProperty = z;
             }
 
             editableLock.Clear();
@@ -148,11 +147,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             });
             RebuildInspector();
         }
+        public void Normalized()
+        {
+            SetCurrentSelectItem(null);
+        }
         public void RebuildInspector()
         {
             viewPageItemList = null;
-            //viewPageItemList = new ReorderableList(list, typeof(List<ViewPageItem>), true, true, true, false);
-            viewPageItemList = new ReorderableList(serializedProperty.serializedObject, serializedProperty, true, true, true, false);
+            viewPageItemList = new ReorderableList(list, typeof(List<ViewPageItem>), true, true, true, false);
+            //viewPageItemList = new ReorderableList(serializedProperty.serializedObject, serializedProperty, true, true, true, false);
             viewPageItemList.drawElementCallback += DrawViewItemElement;
             viewPageItemList.drawHeaderCallback += DrawViewItemHeader;
             viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 5f;
@@ -314,11 +317,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         private void DrawViewItemElement(Rect rect, int index, bool isActive, bool isFocused)
         {
-            if (index >= viewPageItemList.serializedProperty.arraySize)
+            if (index >= list.Count)
             {
                 return;
             }
-            var vpi_sp = viewPageItemList.serializedProperty.GetArrayElementAtIndex(index);
+            //var vpi_sp = viewPageItemList.serializedProperty.GetArrayElementAtIndex(index);
             var e = Event.current;
             if (rect.Contains(e.mousePosition))
             {
@@ -455,25 +458,26 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             var veRect = rect;
             veRect.width = rect.width - 20;
-            var viewElementProperty = vpi_sp.FindPropertyRelative("viewElement");
-            ViewElement ve = (ViewElement)viewElementProperty.objectReferenceValue;
-
+            //var viewElementProperty = vpi_sp.FindPropertyRelative("viewElement");
+            //ViewElement ve = (ViewElement)viewElementProperty.objectReferenceValue;
+            //ViewElement ve = list[index].viewElement;
             using (var check = new EditorGUI.ChangeCheckScope())
             {
                 string oriViewElement = "";
-                if (ve != null)
+                if (list[index].viewElement != null)
                 {
-                    oriViewElement = ve.name;
+                    oriViewElement = list[index].viewElement.name;
                 }
 
-                EditorGUI.PropertyField(veRect, viewElementProperty);
-                //list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement));
+                //EditorGUI.ObjectField(veRect, viewElementProperty,);
+                //list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), true);
+                list[index].viewElementObject = (GameObject)EditorGUI.ObjectField(veRect, "Test", list[index].viewElementObject, typeof(GameObject), true);
                 if (check.changed)
                 {
-                    if (string.IsNullOrEmpty(ve.gameObject.scene.name))
+                    if (string.IsNullOrEmpty(list[index].viewElement.gameObject.scene.name))
                     {
                         //is prefabs
-                        if (ve.gameObject.name != oriViewElement)
+                        if (list[index].viewElement.gameObject.name != oriViewElement)
                         {
                             list[index].overrideDatas?.Clear();
                             list[index].eventDatas?.Clear();
@@ -481,7 +485,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         return;
                     }
 
-                    var cache = ve;
+                    var cache = list[index].viewElement;
                     ViewElement original;
                     if (ViewSystemNodeEditor.overrideFromOrginal)
                     {
@@ -496,8 +500,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
                     overrideChecker.SetData(cache.transform, original.transform, list[index], currentSelectNode);
                     overrideChecker.ShowUtility();
-                    viewElementProperty.objectReferenceValue = original;
-                    // list[index].viewElement = original;
+                    //viewElementProperty.objectReferenceValue = original;
+                    list[index].viewElement = original;
                 }
             }
 
@@ -506,7 +510,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             if (GUI.Button(veRect, EditoModifyButton, Drawer.removeButtonStyle))
             {
-                if (ve == null)
+                if (list[index].viewElement == null)
                 {
                     editor.console.LogErrorMessage("ViewElement has not been select yet!");
                     return;
@@ -703,8 +707,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 GUILayout.Label("Nothing selected :)");
             }
 
-            if (serializedObject != null)
-                serializedObject.ApplyModifiedProperties();
+            //if (serializedObject != null)
+            //    serializedObject.ApplyModifiedProperties();
 
             GUILayout.EndArea();
             //DrawResizeBar();

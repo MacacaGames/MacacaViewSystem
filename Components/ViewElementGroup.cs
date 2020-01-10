@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 namespace CloudMacaca.ViewSystem
 {
+    [DisallowMultipleComponent]
     public class ViewElementGroup : MonoBehaviour
     {
         List<ViewElement> childViewElements = new List<ViewElement>();
@@ -42,6 +43,24 @@ namespace CloudMacaca.ViewSystem
             {
                 item.OnLeave(0, false, ignoreTransition);
             }
+        }
+
+        public float GetOutAnimationLength()
+        {
+            if (childViewElements.Count == 0)
+            {
+                return 0;
+            }
+            return childViewElements.Max(m => m.GetOutAnimationLength());
+        }
+        //GetOutAnimationLength in NestedViewElement is the longest animation length in child
+        public float GetInAnimationLength()
+        {
+            if (childViewElements.Count == 0)
+            {
+                return 0;
+            }
+            return childViewElements.Max(m => m.GetInAnimationLength());
         }
     }
 }
