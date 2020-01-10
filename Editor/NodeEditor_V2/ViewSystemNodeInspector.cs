@@ -25,9 +25,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         GUIStyle nameEditStyle;
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
         static GUIContent EditoModifyButton = new GUIContent(Drawer.overridePopupIcon, "Show/Hide Modified Properties and Events");
+        SerializedObject serializedObject;
+        SerializedProperty serializedProperty;
         public ViewSystemNodeInspector(ViewSystemNodeEditor editor)
         {
             this.editor = editor;
+            serializedObject = new SerializedObject(saveData);
+
             show = true;
             showBasicInfo = new AnimBool(true);
             showBasicInfo.valueChanged.AddListener(this.editor.Repaint);
@@ -101,8 +105,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             public bool parent;
             public bool name;
         }
-        SerializedObject serializedObject;
-        SerializedProperty serializedProperty;
+
         public void SetCurrentSelectItem(ViewSystemNode currentSelectNode)
         {
             this.currentSelectNode = currentSelectNode;
@@ -110,7 +113,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 return;
             }
-            serializedObject = new SerializedObject(saveData);
 
             if (currentSelectNode is ViewPageNode)
             {
