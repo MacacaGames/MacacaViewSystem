@@ -7,20 +7,42 @@ namespace CloudMacaca.ViewSystem
     [DisallowMultipleComponent]
     public class ViewElementGroup : MonoBehaviour
     {
+        public ViewElement viewElement;
         List<ViewElement> childViewElements = new List<ViewElement>();
+        List<ViewElementGroup> childViewElementGroups = new List<ViewElementGroup>();
         void Awake()
         {
             SetupChild();
         }
+
+        public bool dontShowThisGroupOnce = false;
         public void SetupChild()
         {
-            childViewElements = GetComponentsInChildren<ViewElement>()
-                .Where(m => m != GetComponent<ViewElement>())
+            viewElement = GetComponent<ViewElement>();
+
+            childViewElementGroups = GetComponentsInChildren<ViewElementGroup>()
+                .Where(m => m != GetComponent<ViewElementGroup>())
                 .ToList();
+
+            childViewElements = GetComponentsInChildren<ViewElement>()
+                .Where(m => m != viewElement)
+                .ToList();
+
+            //Remove the item which is a child of Other ViewElementGroup
+            var viewElementsInChildGroup = childViewElementGroups.Select(m => m.childViewElements);
+            foreach (var item in viewElementsInChildGroup)
+            {
+                foreach (var ve in item)
+                {
+                    childViewElements.RemoveAll(m => m == ve);
+                }
+            }
+            
         }
 
         public void OnShowChild()
         {
+            
             if (childViewElements.Count == 0)
             {
                 ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
@@ -30,10 +52,19 @@ namespace CloudMacaca.ViewSystem
             {
                 item.OnShow(0);
             }
+            foreach (var item in childViewElementGroups)
+            {
+                item.OnShowChild();
+            }
         }
 
         public void OnLeaveChild(bool ignoreTransition = false)
         {
+            // if (ignoreTransitionOnce)
+            // {
+            //     ignoreTransitionOnce = false;
+            //     return;
+            // }
             if (childViewElements.Count == 0)
             {
                 ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
@@ -42,6 +73,10 @@ namespace CloudMacaca.ViewSystem
             foreach (var item in childViewElements)
             {
                 item.OnLeave(0, false, ignoreTransition);
+            }
+            foreach (var item in childViewElementGroups)
+            {
+                item.OnLeaveChild(ignoreTransition);
             }
         }
 

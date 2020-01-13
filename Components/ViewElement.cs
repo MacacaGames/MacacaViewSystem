@@ -289,6 +289,24 @@ namespace CloudMacaca.ViewSystem
         }
         public IEnumerator OnShowRunner(float delayIn = 0)
         {
+            if (lifeCyclesObjects != null)
+                foreach (var item in lifeCyclesObjects)
+                {
+                    item.OnBeforeShow();
+                }
+
+            if (viewElementGroup != null)
+            {
+                if (viewElementGroup.dontShowThisGroupOnce)
+                {
+                    viewElementGroup.dontShowThisGroupOnce = false;
+                    if (gameObject.activeSelf) gameObject.SetActive(false);
+                    ViewSystemLog.LogWarning("Due to ignoreTransitionOnce is set to true, ignore the transition");
+                    yield break;
+                }
+                viewElementGroup.OnShowChild();
+            }
+
             //ViewSystemLog.LogError("OnShow " + name);
             //停掉正在播放的 Leave 動畫
             if (OnLeaveCoroutine != null)
@@ -322,17 +340,6 @@ namespace CloudMacaca.ViewSystem
             //     .Subscribe(_ =>
             //     {
             yield return Yielders.GetWaitForSecondsRealtime(delayIn);
-
-            if (lifeCyclesObjects != null)
-                foreach (var item in lifeCyclesObjects)
-                {
-                    item.OnBeforeShow();
-                }
-
-            if (viewElementGroup != null)
-            {
-                viewElementGroup.OnShowChild();
-            }
 
             if (transition == TransitionType.Animator)
             {

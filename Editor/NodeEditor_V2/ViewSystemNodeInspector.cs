@@ -571,6 +571,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), shortPath);
                 }
             }
+
+            if (!string.IsNullOrEmpty(list[index].parentPath))
+            {
+                var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
+                if (target == null)
+                {
+                    GUI.Label(new Rect(veRect.x-24, veRect.y, 24, 24), new GUIContent(Drawer.miniErrorIcon, "Transform cannot found in this item."));
+                }
+            }
+
+
+
             veRect.x += veRect.width;
             veRect.width = 20;
             editableLock[index].parent = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index].parent, new GUIStyle("IN LockButton"));

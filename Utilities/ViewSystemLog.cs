@@ -7,15 +7,15 @@ public class ViewSystemLog
     const string viewsystemloghead = "<color=darkblue><b>[View System]</b></color>";
     public static void Log(object msg, Object context)
     {
-        Debug.Log(viewsystemloghead + msg);
+        Debug.Log(viewsystemloghead + msg, context);
     }
     public static void LogWarning(object msg, Object context)
     {
-        Debug.LogWarning(viewsystemloghead + msg);
+        Debug.LogWarning(viewsystemloghead + msg, context);
     }
     public static void LogError(object msg, Object context)
     {
-        Debug.LogError(viewsystemloghead + msg);
+        Debug.LogError(viewsystemloghead + msg, context);
     }
     public static void Log(object msg)
     {
