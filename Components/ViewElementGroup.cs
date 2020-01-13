@@ -81,22 +81,22 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        public float GetOutAnimationLength()
+        public float GetOutDuration()
         {
             if (childViewElements.Count == 0)
             {
                 return 0;
             }
-            return childViewElements.Max(m => m.GetOutAnimationLength());
+            return childViewElements.Max(m => m.GetOutDuration());
         }
         //GetOutAnimationLength in NestedViewElement is the longest animation length in child
-        public float GetInAnimationLength()
+        public float GetInDuration()
         {
             if (childViewElements.Count == 0)
             {
                 return 0;
             }
-            return childViewElements.Max(m => m.GetInAnimationLength());
+            return childViewElements.Max(m => m.GetInDuration());
         }
     }
 }

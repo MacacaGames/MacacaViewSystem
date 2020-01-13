@@ -89,16 +89,8 @@ namespace CloudMacaca.ViewSystem
                     ViewSystemLog.LogError($"One or more ViewElement is null in the page trying to Show, ignore the item.");
                     continue;
                 }
-                float t = 0;
-                if (item.transition == ViewElement.TransitionType.Animator)
-                {
-                    t = item.GetInAnimationLength();
-                }
-                else if (item.transition == ViewElement.TransitionType.CanvasGroupAlpha)
-                {
-                    t = item.canvasInTime;
-                }
-
+                float t = item.GetInDuration();
+                
                 if (t > maxInAnitionTime)
                 {
                     maxInAnitionTime = t;
@@ -118,16 +110,7 @@ namespace CloudMacaca.ViewSystem
                     ViewSystemLog.LogError($"One or more ViewElement is null in the page trying to Leave, ignore the item.");
                     continue;
                 }
-                float t = 0;
-                if (item.transition == ViewElement.TransitionType.Animator)
-                {
-                    t = item.GetOutAnimationLength();
-                }
-                else if (item.transition == ViewElement.TransitionType.CanvasGroupAlpha)
-                {
-                    t = item.canvasOutTime;
-                }
-
+                float t = item.GetOutDuration();
                 if (t > maxOutAnitionTime)
                 {
                     maxOutAnitionTime = t;

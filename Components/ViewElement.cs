@@ -453,7 +453,7 @@ namespace CloudMacaca.ViewSystem
                 yield return canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase).SetUpdate(true).WaitForCompletion();
                 if (viewElementGroup != null)
                 {
-                    float waitTime = Mathf.Clamp(viewElementGroup.GetOutAnimationLength() - canvasOutTime, 0, 2);
+                    float waitTime = Mathf.Clamp(viewElementGroup.GetOutDuration() - canvasOutTime, 0, 2);
                     yield return Yielders.GetWaitForSecondsRealtime(waitTime);
                 }
                 gameObject.SetActive(false);
@@ -467,7 +467,7 @@ namespace CloudMacaca.ViewSystem
             {
                 if (viewElementGroup != null)
                 {
-                    yield return Yielders.GetWaitForSecondsRealtime(viewElementGroup.GetOutAnimationLength());
+                    yield return Yielders.GetWaitForSecondsRealtime(viewElementGroup.GetOutDuration());
                 }
                 gameObject.SetActive(false);
                 OnLeaveAnimationFinish();
@@ -514,63 +514,83 @@ namespace CloudMacaca.ViewSystem
         }
         public bool DisableGameObjectOnComplete = true;
 
-        public virtual float GetOutAnimationLength()
+        public virtual float GetOutDuration()
         {
             float result = 0;
-            if (transition != TransitionType.Animator)
-                result = 0;
-            if (animator == null)
-                result = 0;
-
-            var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_Out));
-            if (clip == null)
-            {
-                result = 0;
-            }
-            else
-            {
-                result = clip.length;
-            }
 
             if (viewElementGroup != null)
             {
-                result = Mathf.Max(result, viewElementGroup.GetOutAnimationLength());
+                result = Mathf.Max(result, viewElementGroup.GetOutDuration());
             }
+
+            if (transition == ViewElement.TransitionType.Animator)
+            {
+                var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_Out));
+                if (clip != null)
+                {
+                    result = Mathf.Max(result, clip.length);
+                }
+            }
+            else if (transition == ViewElement.TransitionType.CanvasGroupAlpha)
+            {
+                result = Mathf.Max(result, canvasOutTime);
+            }
+
             return result;
         }
-        public virtual float GetInAnimationLength()
+        public virtual float GetInDuration()
         {
             float result = 0;
-
-            if (transition != TransitionType.Animator)
-                result = 0;
-            if (animator == null)
-                result = 0;
-
-            AnimationClip clip = null;
-            try
-            {
-                clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_In));
-            }
-            catch (Exception ex)
-            {
-                ViewSystemLog.LogError(ex.Message, this);
-            }
-
-            if (clip == null)
-            {
-                result = 0;
-            }
-            else
-            {
-                result = clip.length;
-            }
-
             if (viewElementGroup != null)
             {
-                result = Mathf.Max(result, viewElementGroup.GetInAnimationLength());
+                result = Mathf.Max(result, viewElementGroup.GetInDuration());
             }
+
+            if (transition == ViewElement.TransitionType.Animator)
+            {
+                var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_In));
+                if (clip != null)
+                {
+                    result = Mathf.Max(result, clip.length);
+                }
+            }
+            else if (transition == ViewElement.TransitionType.CanvasGroupAlpha)
+            {
+                result = Mathf.Max(result, canvasInTime);
+            }
+
             return result;
+            // float result = 0;
+
+            // if (transition != TransitionType.Animator)
+            //     result = 0;
+            // if (animator == null)
+            //     result = 0;
+
+            // AnimationClip clip = null;
+            // try
+            // {
+            //     clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_In));
+            // }
+            // catch (Exception ex)
+            // {
+            //     ViewSystemLog.LogError(ex.Message, this);
+            // }
+
+            // if (clip == null)
+            // {
+            //     result = 0;
+            // }
+            // else
+            // {
+            //     result = clip.length;
+            // }
+
+            // if (viewElementGroup != null)
+            // {
+            //     result = Mathf.Max(result, viewElementGroup.GetInDuration());
+            // }
+            // return result;
         }
     }
 

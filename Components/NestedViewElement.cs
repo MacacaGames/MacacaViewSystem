@@ -134,29 +134,29 @@ namespace CloudMacaca.ViewSystem
 
         IEnumerator DisableItem()
         {
-            yield return Yielders.GetWaitForSeconds(GetOutAnimationLength());
+            yield return Yielders.GetWaitForSeconds(GetOutDuration());
             gameObject.SetActive(false);
             OnLeaveAnimationFinish();
             if (dynamicChild) childViewElements.Clear();
         }
 
         //GetOutAnimationLength in NestedViewElement is the longest animation length in child
-        public override float GetOutAnimationLength()
+        public override float GetOutDuration()
         {
             if (childViewElements.Count == 0)
             {
                 return 0;
             }
-            return childViewElements.Max(m => m.viewElement.GetOutAnimationLength());
+            return childViewElements.Max(m => m.viewElement.GetOutDuration());
         }
         //GetOutAnimationLength in NestedViewElement is the longest animation length in child
-        public override float GetInAnimationLength()
+        public override float GetInDuration()
         {
             if (childViewElements.Count == 0)
             {
                 return 0;
             }
-            return childViewElements.Max(m => m.viewElement.GetInAnimationLength());
+            return childViewElements.Max(m => m.viewElement.GetInDuration());
         }
     }
 }
