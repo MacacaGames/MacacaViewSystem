@@ -7,6 +7,7 @@ namespace CloudMacaca.ViewSystem
     [DisallowMultipleComponent]
     public class ViewElementGroup : MonoBehaviour
     {
+        [HideInInspector]
         public ViewElement viewElement;
         List<ViewElement> childViewElements = new List<ViewElement>();
         List<ViewElementGroup> childViewElementGroups = new List<ViewElementGroup>();
@@ -14,7 +15,7 @@ namespace CloudMacaca.ViewSystem
         {
             SetupChild();
         }
-
+        [HideInInspector]
         public bool dontShowThisGroupOnce = false;
         public void SetupChild()
         {
@@ -37,12 +38,12 @@ namespace CloudMacaca.ViewSystem
                     childViewElements.RemoveAll(m => m == ve);
                 }
             }
-            
+
         }
 
         public void OnShowChild()
         {
-            
+
             if (childViewElements.Count == 0)
             {
                 ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");

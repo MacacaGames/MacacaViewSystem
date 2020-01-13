@@ -471,9 +471,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 //EditorGUI.ObjectField(veRect, viewElementProperty,);
                 //list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), true);
-                list[index].viewElementObject = (GameObject)EditorGUI.ObjectField(veRect, "Test", list[index].viewElementObject, typeof(GameObject), true);
+                list[index].viewElementObject = (GameObject)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElementObject, typeof(GameObject), true);
                 if (check.changed)
                 {
+                    if (list[index].viewElement == null)
+                    {
+                        ViewSystemLog.LogError("The setup item doesn't contain ViewElement");
+                        list[index].viewElementObject = null;
+                        return;
+                    }
+
                     if (string.IsNullOrEmpty(list[index].viewElement.gameObject.scene.name))
                     {
                         //is prefabs
@@ -502,6 +509,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     overrideChecker.ShowUtility();
                     //viewElementProperty.objectReferenceValue = original;
                     list[index].viewElement = original;
+                    list[index].parent = cache.transform.parent;
                 }
             }
 
@@ -577,7 +585,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
                 if (target == null)
                 {
-                    GUI.Label(new Rect(veRect.x-24, veRect.y, 24, 24), new GUIContent(Drawer.miniErrorIcon, "Transform cannot found in this item."));
+                    GUI.Label(new Rect(veRect.x - 24, veRect.y, 24, 24), new GUIContent(Drawer.miniErrorIcon, "Transform cannot found in this item."));
                 }
             }
 
