@@ -15,6 +15,10 @@ namespace CloudMacaca.ViewSystem
         {
             SetupChild();
         }
+
+        public IEnumerable<ViewElement> GetChildElement(){
+            return childViewElements;
+        }
         [HideInInspector]
         public bool dontShowThisGroupOnce = false;
         public void SetupChild()

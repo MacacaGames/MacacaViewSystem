@@ -157,7 +157,7 @@ namespace CloudMacaca.ViewSystem
                         }
                         catch
                         {
-                            ViewSystemLog.LogError("Binding Event faild", this);
+                            ViewSystemLog.LogError("Create event delegate faild, make sure the method or the instance is exinst.", this);
                         }
                         cachedDelegate.Add(id_delegate, openDelegate);
                     }

@@ -120,7 +120,7 @@ namespace CloudMacaca.ViewSystem
         public float customPageTransitionWaitTime = 0.5f;
         public string viewState = "";
         public ViewPageType viewPageType = ViewPageType.FullPage;
-        public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.接續前動畫;
+        public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.與前動畫同時;
         public List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
 
         #region Navigation
