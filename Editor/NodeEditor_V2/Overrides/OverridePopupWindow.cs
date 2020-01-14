@@ -419,8 +419,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                     {
                                         GUILayout.Label(new GUIContent($"Target GameObject is Missing : [{viewPageItem.viewElement.name}/{item.targetTransformPath}]", Drawer.miniErrorIcon));
                                         item.targetTransformPath = EditorGUILayout.TextField(item.targetTransformPath);
+                                        if (GUILayout.Button(new GUIContent("Remove item!")))
+                                        {
+                                            viewPageItem.eventDatas.RemoveAll(m => m == item);
+                                        }
                                     }
-                                    return;
+                                    continue;
                                 }
 
                                 UnityEngine.Object targetComponent = targetObject.GetComponent(item.targetComponentType);
@@ -436,7 +440,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                             viewPageItem.eventDatas.RemoveAll(m => m == item);
                                         }
                                     }
-                                    return;
+                                    continue;
                                 }
 
                                 GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)), EditorGUIUtility.FindTexture("Prefab Icon"));
