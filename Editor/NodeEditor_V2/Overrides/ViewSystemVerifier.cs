@@ -185,13 +185,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     "Not now"))
                 {
                     var window = ScriptableObject.CreateInstance<GameObjectFixerWindow>();
-                    window.SetData(gameObjectCannotBeFound, () =>
+                    window.SetData(gameObjectCannotBeFound, saveData, () =>
                     {
                         //Make sure SetDirty
                         EditorUtility.SetDirty(saveData);
                     });
                     window.ShowUtility();
                 }
+            }
+            else
+            {
+                ViewSystemLog.Log("GameObject looks good.");
             }
 
         }
@@ -580,13 +584,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
     {
         class FixerData
         {
-
+            public bool delete = false;
             public bool fix = false;
             public ViewSystemVerifier.ViewSystemGameObjectMissingData originalNotFoundItem;
             public string tempPath;
         }
         List<FixerData> fixerDatas;
-        public void SetData(IEnumerable<ViewSystemVerifier.ViewSystemGameObjectMissingData> originalNotFoundItems, Action OnComplete)
+        public void SetData(IEnumerable<ViewSystemVerifier.ViewSystemGameObjectMissingData> originalNotFoundItems, ViewSystemSaveData saveData, Action OnComplete)
         {
             titleContent = new GUIContent("Missing GameObject fixer");
             this.icon = EditorGUIUtility.FindTexture("MetaFile Icon");
@@ -620,24 +624,64 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             };
             OnApplyClick += () =>
             {
-                var f = fixerDatas.Where(m => m.fix);
-                foreach (var item in f)
+                foreach (var item in fixerDatas)
                 {
+                    if (item.fix == false)
+                    {
+                        continue;
+                    }
+
+                    if (item.delete == true)
+                    {
+                        foreach (var vp in saveData.viewPages)
+                        {
+                            foreach (var vpi in vp.viewPage.viewPageItems.Where(m => m.viewElement == item.originalNotFoundItem.viewElement))
+                            {
+                                vpi.overrideDatas.RemoveAll(
+                                    m => m.targetTransformPath == item.originalNotFoundItem.viewSystemComponent.targetTransformPath );
+                            }
+                        }
+                        foreach (var vs in saveData.viewStates)
+                        {
+                            // foreach (var vpi in vs.viewState.viewPageItems)
+                            // {
+                            //     vpi.overrideDatas.RemoveAll(m => m.targetComponentType == item.Key && m.targetPropertyName == item2.originalPropertyName);
+                            // }
+                            foreach (var vpi in vs.viewState.viewPageItems.Where(m => m.viewElement == item.originalNotFoundItem.viewElement))
+                            {
+                                vpi.overrideDatas.RemoveAll(
+                                    m => m.targetTransformPath == item.originalNotFoundItem.viewSystemComponent.targetTransformPath );
+                            }
+                        }
+                        continue;
+                    }
                     item.originalNotFoundItem.viewSystemComponent.targetTransformPath = item.tempPath;
                 }
+
+                // var f = fixerDatas.Where(m => m.fix);
+                // foreach (var item in f)
+                // {
+                // }
+
+                // var d = fixerDatas.Where(m => m.delete);
+                // foreach (var item in d)
+                // {
+                //     item.originalNotFoundItem.viewSystemComponent.targetTransformPath = item.tempPath;
+                // }
             };
         }
 
         public override bool CheckBeforeApply()
         {
-            return fixerDatas.Where(m => m.fix).Count() == 0;
+            return fixerDatas.Where(m => m.fix).Count() == 0 &&
+                    fixerDatas.Where(m => m.delete).Count() == 0;
         }
         public override void OnDrawScrollArea()
         {
             float width = (position.width - 80) * 0.5f;
-            using (var vertical = new GUILayout.VerticalScope("box"))
+            foreach (var item in fixerDatas)
             {
-                foreach (var item in fixerDatas)
+                using (var vertical = new GUILayout.VerticalScope("box"))
                 {
                     using (var horizon = new GUILayout.HorizontalScope())
                     {
@@ -651,6 +695,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     item.tempPath = EditorGUILayout.TextField("Transform Path", item.tempPath);
                     if (item.originalNotFoundItem.viewElement.transform.Find(item.tempPath) == null) GUILayout.Label(new GUIContent($"[{item.tempPath}] is not a vaild Path in target ViewElement", Drawer.miniErrorIcon), GUILayout.Height(EditorGUIUtility.singleLineHeight));
                     else GUILayout.Label(new GUIContent($"Good! GameObject can be found with the input Path"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+
+                    item.delete = EditorGUILayout.ToggleLeft("This item is nolonger in use, help me delete it.(You also need to check the checkbox on the lefttop)", item.delete);
                 }
             }
         }
@@ -976,6 +1022,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     OnCancelClick?.Invoke();
                     Close();
                 }
+
                 using (var disable = new EditorGUI.DisabledGroupScope(CheckBeforeApply()))
                 {
                     if (GUILayout.Button("Apply"))
