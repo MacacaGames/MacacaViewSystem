@@ -34,15 +34,15 @@ namespace CloudMacaca.ViewSystem
         public override void OnInspectorGUI()
         {
 
-            viewElement.transition = (ViewElement.TransitionType)EditorGUILayout.EnumPopup("變換方式", viewElement.transition);
+            viewElement.transition = (ViewElement.TransitionType)EditorGUILayout.EnumPopup("ViewElement Transition", viewElement.transition);
 
             switch (viewElement.transition)
             {
                 case ViewElement.TransitionType.Animator:
-                    viewElement.animatorTransitionType = (ViewElement.AnimatorTransitionType)EditorGUILayout.EnumPopup("切換動畫狀態的方法", viewElement.animatorTransitionType);
-                    viewElement.AnimationStateName_In = EditorGUILayout.TextField("進場動畫 State Name", viewElement.AnimationStateName_In);
-                    viewElement.AnimationStateName_Loop = EditorGUILayout.TextField("Loop 動畫 State Name", viewElement.AnimationStateName_Loop);
-                    viewElement.AnimationStateName_Out = EditorGUILayout.TextField("離場動畫 State Name", viewElement.AnimationStateName_Out);
+                    viewElement.animatorTransitionType = (ViewElement.AnimatorTransitionType)EditorGUILayout.EnumPopup("Animator Transition", viewElement.animatorTransitionType);
+                    viewElement.AnimationStateName_In = EditorGUILayout.TextField("Show State Name", viewElement.AnimationStateName_In);
+                    viewElement.AnimationStateName_Loop = EditorGUILayout.TextField("Loop State Name", viewElement.AnimationStateName_Loop);
+                    viewElement.AnimationStateName_Out = EditorGUILayout.TextField("Leave State Name", viewElement.AnimationStateName_Out);
                     if (viewElement.animator != null)
                     {
                         EditorGUILayout.HelpBox("Sepup Complete!", MessageType.Info);
@@ -61,11 +61,21 @@ namespace CloudMacaca.ViewSystem
                     }
                     break;
                 case ViewElement.TransitionType.CanvasGroupAlpha:
-                    viewElement.canvasInEase = (DG.Tweening.Ease)EditorGUILayout.EnumPopup("Tween 進場曲線", viewElement.canvasInEase);
-                    viewElement.canvasInTime = EditorGUILayout.FloatField("Tween 進場時間", viewElement.canvasInTime);
-                    viewElement.canvasOutEase = (DG.Tweening.Ease)EditorGUILayout.EnumPopup("Tween 離場曲線", viewElement.canvasOutEase);
-                    viewElement.canvasOutTime = EditorGUILayout.FloatField("Tween 離場時間", viewElement.canvasOutTime);
-
+                    viewElement.canvasInEase = (DG.Tweening.Ease)EditorGUILayout.EnumPopup("Show Curve", viewElement.canvasInEase);
+                    viewElement.canvasInTime = EditorGUILayout.FloatField("Show Curve", viewElement.canvasInTime);
+                    viewElement.canvasOutEase = (DG.Tweening.Ease)EditorGUILayout.EnumPopup("Leave Curve", viewElement.canvasOutEase);
+                    viewElement.canvasOutTime = EditorGUILayout.FloatField("Leave Curve", viewElement.canvasOutTime);
+                    
+                    if (viewElement.canvasGroup == null)
+                    {
+                        EditorGUILayout.HelpBox("No CanvasGroup found on this GameObject", MessageType.Error);
+                        if (GUILayout.Button("Add one", EditorStyles.miniButton))
+                        {
+                            viewElement.gameObject.AddComponent<CanvasGroup>();
+                            EditorUtility.SetDirty(viewElement.gameObject);
+                        }
+                    }
+                    
                     break;
                 case ViewElement.TransitionType.ActiveSwitch:
                     break;

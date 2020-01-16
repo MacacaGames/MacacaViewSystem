@@ -218,10 +218,14 @@ namespace CloudMacaca.ViewSystem
 
         public void Reshow()
         {
-            OnShow(0);
+            OnShow();
         }
         IDisposable OnShowObservable;
         public virtual void ChangePage(bool show, Transform parent, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false)
+        {
+            viewController.StartCoroutine(OnChangePageRunner(show, parent, TweenTime, delayIn, delayOut, ignoreTransition));
+        }
+        public IEnumerator OnChangePageRunner(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition)
         {
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)
@@ -242,7 +246,9 @@ namespace CloudMacaca.ViewSystem
                     rectTransform.SetParent(parent, true);
                     rectTransform.anchoredPosition3D = Vector3.zero;
                     rectTransform.localScale = Vector3.one;
-                    OnShow(delayIn);
+                    yield return Yielders.GetWaitForSecondsRealtime(delayIn);
+                    OnShow();
+                    yield break;
                 }
                 //已經在場上的
                 else
@@ -251,7 +257,7 @@ namespace CloudMacaca.ViewSystem
                     if (parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
                     {
                         //ViewSystemLog.LogWarning("Due to already set the same parent with target parent, ignore " +  name);
-                        return;
+                        yield break;
                     }
                     //其他的情況下用 Tween 過去
                     if (TweenTime >= 0)
@@ -259,35 +265,43 @@ namespace CloudMacaca.ViewSystem
                         rectTransform.SetParent(parent, true);
                         rectTransform.DOAnchorPos3D(Vector3.zero, TweenTime);
                         rectTransform.DOScale(Vector3.one, TweenTime);
+                        yield break;
                     }
                     //TweenTime 設定為 >0 的情況下，代表要完整 OnLeave 在 OnShow
                     else
                     {
-                        OnLeave(0, ignoreTransition: ignoreTransition);
-                        OnShowObservable = Observable.EveryUpdate().Where(_ => OnLeaveWorking == false).Subscribe(
-                            x =>
-                            {
-                                ViewSystemLog.LogWarning("Try to ReShow ", this);
-                                rectTransform.SetParent(parent, true);
-                                rectTransform.anchoredPosition3D = Vector3.zero;
-                                rectTransform.localScale = Vector3.one;
-                                OnShow(delayIn);
-                                OnShowObservable.Dispose();
-                            }
-                        );
+                        yield return Yielders.GetWaitForSecondsRealtime(delayOut);
+                        OnLeave(ignoreTransition: ignoreTransition);
+                        yield return new WaitUntil(() => OnLeaveWorking == false);
+                        ViewSystemLog.LogWarning("Try to ReShow ", this);
+                        rectTransform.SetParent(parent, true);
+                        rectTransform.anchoredPosition3D = Vector3.zero;
+                        rectTransform.localScale = Vector3.one;
+                        yield return Yielders.GetWaitForSecondsRealtime(delayIn);
+                        OnShow();
+                        yield break;
+                        // OnShowObservable.Dispose();
+                        // OnShowObservable = Observable.EveryUpdate().Where(_ => OnLeaveWorking == false).Subscribe(
+                        //     x =>
+                        //     {
+
+                        //     }
+                        // );
                     }
                 }
             }
             else
             {
-                OnLeave(delayOut, ignoreTransition: ignoreTransition);
+                yield return Yielders.GetWaitForSecondsRealtime(delayOut);
+                OnLeave(ignoreTransition: ignoreTransition);
+                yield break;
             }
         }
-        public virtual void OnShow(float delayIn = 0)
+        public virtual void OnShow(bool manual = false)
         {
-            viewController.StartCoroutine(OnShowRunner(delayIn));
+            viewController.StartCoroutine(OnShowRunner(manual));
         }
-        public IEnumerator OnShowRunner(float delayIn = 0)
+        public IEnumerator OnShowRunner(bool manual)
         {
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)
@@ -295,13 +309,14 @@ namespace CloudMacaca.ViewSystem
                     item.OnBeforeShow();
                 }
 
+            gameObject.SetActive(true);
+
             if (viewElementGroup != null)
             {
-                if (viewElementGroup.dontShowThisGroupOnce)
+                if (viewElementGroup.OnlyManualMode && manual == false)
                 {
-                    viewElementGroup.dontShowThisGroupOnce = false;
                     if (gameObject.activeSelf) gameObject.SetActive(false);
-                    ViewSystemLog.LogWarning("Due to ignoreTransitionOnce is set to true, ignore the transition");
+                    // ViewSystemLog.LogWarning("Due to ignoreTransitionOnce is set to true, ignore the transition");
                     yield break;
                 }
                 viewElementGroup.OnShowChild();
@@ -314,16 +329,8 @@ namespace CloudMacaca.ViewSystem
                 //OnLeaveDisposable.Dispose();
                 viewController.StopCoroutine(OnLeaveCoroutine);
             }
-            if (transition != TransitionType.ActiveSwitch)
-            {
-                gameObject.SetActive(true);
-            }
-            else
-            {
-                if (delayIn == 0) gameObject.SetActive(true);
-            }
 
-            if (IsShowed && delayIn > 0)
+            if (IsShowed)
             {
                 if (transition == TransitionType.Animator)
                 {
@@ -339,7 +346,7 @@ namespace CloudMacaca.ViewSystem
             //     .Timer(TimeSpan.FromSeconds(delayIn))
             //     .Subscribe(_ =>
             //     {
-            yield return Yielders.GetWaitForSecondsRealtime(delayIn);
+            //yield return Yielders.GetWaitForSecondsRealtime(delayIn);
 
             if (transition == TransitionType.Animator)
             {
@@ -368,10 +375,7 @@ namespace CloudMacaca.ViewSystem
             {
                 OnShowHandle.Invoke(null);
             }
-            else if (transition == TransitionType.ActiveSwitch)
-            {
-                gameObject.SetActive(true);
-            }
+
 
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)
@@ -383,11 +387,11 @@ namespace CloudMacaca.ViewSystem
         bool OnLeaveWorking = false;
         //IDisposable OnLeaveDisposable;
         Coroutine OnLeaveCoroutine;
-        public virtual void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
+        public virtual void OnLeave(bool NeedPool = true, bool ignoreTransition = false)
         {
-            OnLeaveCoroutine = viewController.StartCoroutine(OnLeaveRunner(delayOut, NeedPool, ignoreTransition));
+            OnLeaveCoroutine = viewController.StartCoroutine(OnLeaveRunner(NeedPool, ignoreTransition));
         }
-        public IEnumerator OnLeaveRunner(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
+        public IEnumerator OnLeaveRunner(bool NeedPool = true, bool ignoreTransition = false)
         {
             //ViewSystemLog.LogError("OnLeave " + name);
             if (transition == TransitionType.Animator && hasLoopBool)
@@ -397,7 +401,7 @@ namespace CloudMacaca.ViewSystem
             needPool = NeedPool;
             OnLeaveWorking = true;
 
-            yield return Yielders.GetWaitForSecondsRealtime(delayOut);
+            //yield return Yielders.GetWaitForSecondsRealtime();
             // OnLeaveDisposable = Observable
             //     .Timer(TimeSpan.FromSeconds(delayOut))
             //     .Subscribe(_ =>

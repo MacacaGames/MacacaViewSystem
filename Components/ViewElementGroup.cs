@@ -16,11 +16,11 @@ namespace CloudMacaca.ViewSystem
             SetupChild();
         }
 
-        public IEnumerable<ViewElement> GetChildElement(){
+        public IEnumerable<ViewElement> GetChildElement()
+        {
             return childViewElements;
         }
-        [HideInInspector]
-        public bool dontShowThisGroupOnce = false;
+        public bool OnlyManualMode = false;
         public void SetupChild()
         {
             viewElement = GetComponent<ViewElement>();
@@ -47,7 +47,6 @@ namespace CloudMacaca.ViewSystem
 
         public void OnShowChild()
         {
-
             if (childViewElements.Count == 0)
             {
                 ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
@@ -55,7 +54,7 @@ namespace CloudMacaca.ViewSystem
             }
             foreach (var item in childViewElements)
             {
-                item.OnShow(0);
+                item.OnShow();
             }
             foreach (var item in childViewElementGroups)
             {
@@ -65,11 +64,6 @@ namespace CloudMacaca.ViewSystem
 
         public void OnLeaveChild(bool ignoreTransition = false)
         {
-            // if (ignoreTransitionOnce)
-            // {
-            //     ignoreTransitionOnce = false;
-            //     return;
-            // }
             if (childViewElements.Count == 0)
             {
                 ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
@@ -77,7 +71,7 @@ namespace CloudMacaca.ViewSystem
             }
             foreach (var item in childViewElements)
             {
-                item.OnLeave(0, false, ignoreTransition);
+                item.OnLeave( false, ignoreTransition);
             }
             foreach (var item in childViewElementGroups)
             {

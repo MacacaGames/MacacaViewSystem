@@ -74,7 +74,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        public override void OnShow(float delayIn = 0)
+        public override void OnShow(bool manual = false)
         {
             gameObject.SetActive(true);
 
@@ -94,7 +94,7 @@ namespace CloudMacaca.ViewSystem
 
             foreach (var item in childViewElements)
             {
-                item.viewElement.OnShow(item.delayIn);
+                item.viewElement.OnShow();
             }
             if (lifeCyclesObjects != null)
             {
@@ -105,7 +105,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        public override void OnLeave(float delayOut = 0, bool NeedPool = true, bool ignoreTransition = false)
+        public override void OnLeave(bool NeedPool = true, bool ignoreTransition = false)
         {
             needPool = NeedPool;
             if (lifeCyclesObjects != null)
@@ -119,7 +119,7 @@ namespace CloudMacaca.ViewSystem
             {
                 foreach (var item in childViewElements)
                 {
-                    item.viewElement.OnLeave(item.delayOut, false, ignoreTransition);
+                    item.viewElement.OnLeave(false, ignoreTransition);
                 }
             }
             if (lifeCyclesObjects != null)
