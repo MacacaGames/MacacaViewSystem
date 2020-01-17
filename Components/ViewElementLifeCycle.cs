@@ -5,15 +5,15 @@ using UnityEngine;
 public class ViewElementLifeCycle : MonoBehaviour, IViewElementLifeCycle
 {
     [SerializeField]
-    UnityEngine.Events.UnityEvent OnBeforeLeaveHandler;
+    public UnityEngine.Events.UnityEvent OnBeforeLeaveHandler;
     [SerializeField]
-    UnityEngine.Events.UnityEvent OnBeforeShowHandler;
+    public UnityEngine.Events.UnityEvent OnBeforeShowHandler;
     [SerializeField]
-    UnityEngine.Events.UnityEvent OnStartLeaveHandler;
+    public UnityEngine.Events.UnityEvent OnStartLeaveHandler;
     [SerializeField]
-    UnityEngine.Events.UnityEvent OnStartShowHandler;
+    public UnityEngine.Events.UnityEvent OnStartShowHandler;
     [SerializeField]
-    BoolEvent OnChangePageHandler;
+    public BoolEvent OnChangePageHandler;
 
     /// <summary>
     /// Invoke Before the ViewElement is Leave, but after OnLeave delay
