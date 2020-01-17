@@ -177,7 +177,7 @@ namespace CloudMacaca.ViewSystem
         [ReadOnly, SerializeField]
         protected List<ViewElement> currentLiveElementsInViewState = new List<ViewElement>();
 
-        public override IEnumerator ChangePageBase(string viewPageName, Action OnCheaged, Action OnComplete, bool ignoreTimeScale)
+        public override IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnCheaged, Action OnComplete, bool ignoreTimeScale)
         {
             //取得 ViewPage 物件
             var vp = viewPages.SingleOrDefault(m => m.name == viewPageName);
@@ -200,7 +200,6 @@ namespace CloudMacaca.ViewSystem
 
             //所有檢查都通過開始換頁
             //IsPageTransition = true;
-            InvokeOnViewPageChangeEnd(this, new ViewPageTrisitionEventArgs(currentViewPage, vp));
 
             nextViewPage = vp;
             nextViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
@@ -213,6 +212,10 @@ namespace CloudMacaca.ViewSystem
             {
                 viewItemNextState = PrepareRuntimeReference(viewItemNextState);
             }
+
+            // All reference preparing is done start do the stuff for change page
+            InvokeOnViewPageChangeStart(this, new ViewPageTrisitionEventArgs(currentViewPage, vp));
+            OnStart?.Invoke();
 
             List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
 
