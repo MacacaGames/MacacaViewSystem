@@ -72,7 +72,7 @@ namespace CloudMacaca.ViewSystem
         }
 
 
-        public Coroutine ChangePage(string targetViewPageName, Action OnCheaged = null, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false)
+        public Coroutine ChangePage(string targetViewPageName, Action OnStart = null, Action OnCheaged = null, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false)
         {
             if (currentViewPage.name == targetViewPageName)
             {
@@ -90,7 +90,7 @@ namespace CloudMacaca.ViewSystem
                 ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnComplete));
                 return ChangePageToCoroutine;
             }
-            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnCheaged, OnComplete, ignoreTimeScale));
+            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnStart, OnCheaged, OnComplete, ignoreTimeScale));
             return ChangePageToCoroutine;
         }
 
@@ -106,7 +106,7 @@ namespace CloudMacaca.ViewSystem
             yield return null;
         }
 
-        public virtual IEnumerator ChangePageBase(string viewPageName, Action OnCheaged, Action OnComplete, bool ignoreTimeScale)
+        public virtual IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnCheaged, Action OnComplete, bool ignoreTimeScale)
         {
             //Empty implement will override in child class
             yield return null;
@@ -309,7 +309,7 @@ namespace CloudMacaca.ViewSystem
         /// OnViewPageChangeStart Calls on page is ready to change with no error(eg. no page fonud etc.), and in this moment last page is still in view. 
         /// </summary>
         public event EventHandler<ViewPageTrisitionEventArgs> OnViewPageChangeStart;
-        protected virtual void InvokeOnViewPageChangeEnd(object obj, ViewPageTrisitionEventArgs args)
+        protected virtual void InvokeOnViewPageChangeStart(object obj, ViewPageTrisitionEventArgs args)
         {
             OnViewPageChangeStart?.Invoke(obj, args);
         }

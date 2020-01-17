@@ -21,8 +21,8 @@ namespace CloudMacaca.ViewSystem
         }
         public override void _Show()
         {
-            _OnStart?.Invoke();
-            _pageChangerRunner = _viewController.ChangePage(_targetPage, _OnChanged, _OnComplete, _waitPreviousPageFinish);
+            //_OnStart?.Invoke();
+            _pageChangerRunner = _viewController.ChangePage(_targetPage, _OnStart, _OnChanged, _OnComplete, _waitPreviousPageFinish);
             hasStart = true;
         }
     }
@@ -104,6 +104,12 @@ namespace CloudMacaca.ViewSystem
             return (OverlayPageChanger)PageChangerExtension.OnStart(selfObj, OnStart);
         }
 
+        [Obsolete("Overpage doesn't have callback of OnChanged.", true)]
+        public static OverlayPageChanger _OnChanged(this OverlayPageChanger selfObj, Action OnStart)
+        {
+            throw new System.InvalidOperationException("Overpage doesn't have callback of OnChanged.");
+            //return (OverlayPageChanger)PageChangerExtension.OnStart(selfObj, OnStart);
+        }
         public static OverlayPageChanger OnComplete(this OverlayPageChanger selfObj, Action OnComplete)
         {
             return (OverlayPageChanger)PageChangerExtension.OnComplete(selfObj, OnComplete);

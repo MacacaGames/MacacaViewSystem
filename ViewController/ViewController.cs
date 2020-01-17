@@ -39,7 +39,7 @@ namespace CloudMacaca.ViewSystem
         private Dictionary<string, float> lastPageItemDelayOutTimes = new Dictionary<string, float>();
         private Dictionary<string, float> lastPageItemDelayOutTimesOverlay = new Dictionary<string, float>();
 
-        public override IEnumerator ChangePageBase(string viewPageName, Action OnCheaged, Action OnComplete, bool ignoreTimeScale)
+        public override IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnCheaged, Action OnComplete, bool ignoreTimeScale)
         {
 
             //取得 ViewPage 物件
@@ -67,7 +67,7 @@ namespace CloudMacaca.ViewSystem
             //所有檢查都通過開始換頁
             //IsPageTransition = true;
 
-            InvokeOnViewPageChangeEnd(this, new ViewPageTrisitionEventArgs(currentViewPage, vp));
+            InvokeOnViewPageChangeStart(this, new ViewPageTrisitionEventArgs(currentViewPage, vp));
 
             nextViewPage = vp;
             nextViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);

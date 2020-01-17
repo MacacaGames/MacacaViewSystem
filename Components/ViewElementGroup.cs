@@ -58,7 +58,7 @@ namespace CloudMacaca.ViewSystem
             }
             foreach (var item in childViewElementGroups)
             {
-                item.OnShowChild();
+                item.viewElement.OnShow();
             }
         }
 
@@ -71,11 +71,11 @@ namespace CloudMacaca.ViewSystem
             }
             foreach (var item in childViewElements)
             {
-                item.OnLeave( false, ignoreTransition);
+                item.OnLeave(false, ignoreTransition);
             }
             foreach (var item in childViewElementGroups)
             {
-                item.OnLeaveChild(ignoreTransition);
+                item.viewElement.OnLeave(false, ignoreTransition);
             }
         }
 
