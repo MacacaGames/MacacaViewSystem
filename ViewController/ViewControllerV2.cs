@@ -622,7 +622,8 @@ namespace CloudMacaca.ViewSystem
         }
         public bool IsOverPageLive(string viewPageName, bool includeLeavingPage = false)
         {
-            bool result = overlayPageStates.ContainsKey(viewPageName) && (includeLeavingPage ? overlayPageStates[viewPageName].transition != ViewSystemUtilitys.OverlayPageState.Transition.Leave : true);
+            bool result = overlayPageStates.ContainsKey(viewPageName);
+            result = result && (!includeLeavingPage ? overlayPageStates[viewPageName].transition != ViewSystemUtilitys.OverlayPageState.Transition.Leave : true);
 
             IEnumerable<ViewSystemUtilitys.OverlayPageState> overlayPage = overlayPageStatesWithOverState.Select(m => m.Value);
             if (!includeLeavingPage)
