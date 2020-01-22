@@ -375,7 +375,6 @@ namespace CloudMacaca.ViewSystem
 
             var overlayState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 
-
             //var currentPageItem = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
             //float onShowTime = 0;
             //float onShowDelay = 0;
@@ -398,7 +397,7 @@ namespace CloudMacaca.ViewSystem
                 overlayPageState = new ViewSystemUtilitys.OverlayPageState();
                 overlayPageState.viewPage = vp;
                 overlayPageState.viewState = overlayState;
-                overlayPageState.IsTransition = true;
+                overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Show;
                 viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
 
                 if (!string.IsNullOrEmpty(vp.viewState))
@@ -436,7 +435,7 @@ namespace CloudMacaca.ViewSystem
                     {
                         StopCoroutine(overlayPageState.pageChangeCoroutine);
                     }
-                    overlayPageState.IsTransition = true;
+                    overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Show;
                 }
             }
 
@@ -562,7 +561,7 @@ namespace CloudMacaca.ViewSystem
 
             var finishTime = ViewSystemUtilitys.CalculateTimesNeedsForOnLeave(overlayPageState.viewPage.viewPageItems.Select(m => m.runtimeViewElement));
 
-            overlayPageState.IsTransition = true;
+            overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Leave;
 
             List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
 
@@ -607,7 +606,7 @@ namespace CloudMacaca.ViewSystem
 
             //Get Back the Navigation to CurrentPage
             SetNavigationTarget(currentViewPage);
-
+            InvokeOnOverlayPageLeave(this, new ViewPageEventArgs(overlayPageState.viewPage, null));
 
             if (ignoreTimeScale)
                 yield return Yielders.GetWaitForSecondsRealtime(finishTime);
@@ -619,16 +618,21 @@ namespace CloudMacaca.ViewSystem
             if (overlayPageState.viewState != null) overlayPageStatesWithOverState.Remove(overlayPageState.viewState.name);
             else overlayPageStates.Remove(overlayPageState.viewPage.name);
 
-            InvokeOnOverlayPageLeave(this, new ViewPageEventArgs(overlayPageState.viewPage, null));
             OnComplete?.Invoke();
         }
-        public override bool IsOverPageLive(string viewPageName)
+        public bool IsOverPageLive(string viewPageName, bool includeLeavingPage = false)
         {
-            bool result = overlayPageStates.ContainsKey(viewPageName);
+            bool result = overlayPageStates.ContainsKey(viewPageName) && (includeLeavingPage ? overlayPageStates[viewPageName].transition != ViewSystemUtilitys.OverlayPageState.Transition.Leave : true);
 
-            foreach (var item in overlayPageStatesWithOverState)
+            IEnumerable<ViewSystemUtilitys.OverlayPageState> overlayPage = overlayPageStatesWithOverState.Select(m => m.Value);
+            if (!includeLeavingPage)
             {
-                if (item.Value.viewPage.name == viewPageName)
+                overlayPage = overlayPage.Where(m => m.transition != ViewSystemUtilitys.OverlayPageState.Transition.Leave);
+            }
+
+            foreach (var item in overlayPage)
+            {
+                if (item.viewPage.name == viewPageName)
                 {
                     result = true;
                     break;

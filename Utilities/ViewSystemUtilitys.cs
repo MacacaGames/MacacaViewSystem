@@ -9,10 +9,34 @@ namespace CloudMacaca.ViewSystem
         [SerializeField]
         public class OverlayPageState
         {
-            public bool IsTransition = false;
+            public bool IsTransition
+            {
+                get
+                {
+                    return transition == Transition.None;
+                }
+                set
+                {
+                    if (value == false)
+                    {
+                        transition = Transition.None;
+                    }
+                    else
+                    {
+                        transition = Transition.Show;
+                    }
+                }
+            }
             public ViewPage viewPage;
             public ViewState viewState;
             public Coroutine pageChangeCoroutine;
+            public Transition transition = Transition.None;
+            public enum Transition
+            {
+                None,
+                Show,
+                Leave
+            }
         }
 
         static CloudMacaca.ViewSystem.ViewPageItem.PlatformOption _platform;
@@ -90,7 +114,7 @@ namespace CloudMacaca.ViewSystem
                     continue;
                 }
                 float t = item.GetInDuration();
-                
+
                 if (t > maxInAnitionTime)
                 {
                     maxInAnitionTime = t;
