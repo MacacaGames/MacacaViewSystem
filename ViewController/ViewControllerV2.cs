@@ -608,7 +608,6 @@ namespace CloudMacaca.ViewSystem
             //Get Back the Navigation to CurrentPage
             SetNavigationTarget(currentViewPage);
 
-            InvokeOnOverlayPageLeave(this, new ViewPageEventArgs(overlayPageState.viewPage, null));
 
             if (ignoreTimeScale)
                 yield return Yielders.GetWaitForSecondsRealtime(finishTime);
@@ -620,7 +619,22 @@ namespace CloudMacaca.ViewSystem
             if (overlayPageState.viewState != null) overlayPageStatesWithOverState.Remove(overlayPageState.viewState.name);
             else overlayPageStates.Remove(overlayPageState.viewPage.name);
 
+            InvokeOnOverlayPageLeave(this, new ViewPageEventArgs(overlayPageState.viewPage, null));
             OnComplete?.Invoke();
+        }
+        public override bool IsOverPageLive(string viewPageName)
+        {
+            bool result = overlayPageStates.ContainsKey(viewPageName);
+
+            foreach (var item in overlayPageStatesWithOverState)
+            {
+                if (item.Value.viewPage.name == viewPageName)
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
         }
         public override void TryLeaveAllOverlayPage()
         {
