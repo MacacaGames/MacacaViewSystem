@@ -13,7 +13,7 @@ namespace CloudMacaca.ViewSystem
             {
                 get
                 {
-                    return transition == Transition.None;
+                    return transition != Transition.None;
                 }
                 set
                 {
