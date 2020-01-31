@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 namespace CloudMacaca.ViewSystem
 {
     public class ViewSystemSaveData : ScriptableObject
     {
+
         public ViewSystemBaseSetting globalSetting;
         public List<ViewStateSaveData> viewStates = new List<ViewStateSaveData>();
         public List<ViewPageSaveData> viewPages = new List<ViewPageSaveData>();
@@ -100,6 +102,8 @@ namespace CloudMacaca.ViewSystem
     [System.Serializable]
     public class PropertyOverride
     {
+        BindingFlags defaultBindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+
         public object GetValue()
         {
             switch (s_Type)
@@ -162,6 +166,11 @@ namespace CloudMacaca.ViewSystem
                     break;
                 case UnityEditor.SerializedPropertyType.Enum:
                     var type = TryFindEnumType(property);
+                    if (type == null)
+                    {
+                        ViewSystemLog.LogError($"The override property cannot find {property.propertyPath}");
+                        break;
+                    }
                     var e = System.Enum.Parse(type, property.enumNames[property.enumValueIndex]);
                     SetValue(e);
                     break;
@@ -170,13 +179,13 @@ namespace CloudMacaca.ViewSystem
         public System.Type TryFindEnumType(UnityEngine.Object unityObject, string propertyPath)
         {
             var to = unityObject.GetType();
-            var fildInfo = to.GetField(propertyPath);
+            var fildInfo = to.GetField(propertyPath, defaultBindingFlags);
 
             if (fildInfo != null)
             {
                 return fildInfo.FieldType;
             }
-            var propertyInfo = to.GetProperty(propertyPath);
+            var propertyInfo = to.GetProperty(propertyPath, defaultBindingFlags);
             if (propertyInfo != null)
             {
                 return propertyInfo.PropertyType;
