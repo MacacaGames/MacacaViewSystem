@@ -49,7 +49,7 @@ namespace CloudMacaca.ViewSystem
         {
             if (childViewElements.Count == 0)
             {
-                ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
+                //ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
                 return;
             }
             foreach (var item in childViewElements)
@@ -66,7 +66,7 @@ namespace CloudMacaca.ViewSystem
         {
             if (childViewElements.Count == 0)
             {
-                ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
+                //ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
                 return;
             }
             foreach (var item in childViewElements)
