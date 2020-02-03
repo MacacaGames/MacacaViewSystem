@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
-
+using com.spacepuppy.Tween;
 namespace CloudMacaca.ViewSystem
 {
 
@@ -61,11 +61,11 @@ namespace CloudMacaca.ViewSystem
                     }
                     break;
                 case ViewElement.TransitionType.CanvasGroupAlpha:
-                    viewElement.canvasInEase = (DG.Tweening.Ease)EditorGUILayout.EnumPopup("Show Curve", viewElement.canvasInEase);
+                    viewElement.canvasInEase = (EaseStyle)EditorGUILayout.EnumPopup("Show Curve", viewElement.canvasInEase);
                     viewElement.canvasInTime = EditorGUILayout.FloatField("Show Curve", viewElement.canvasInTime);
-                    viewElement.canvasOutEase = (DG.Tweening.Ease)EditorGUILayout.EnumPopup("Leave Curve", viewElement.canvasOutEase);
+                    viewElement.canvasOutEase = (EaseStyle)EditorGUILayout.EnumPopup("Leave Curve", viewElement.canvasOutEase);
                     viewElement.canvasOutTime = EditorGUILayout.FloatField("Leave Curve", viewElement.canvasOutTime);
-                    
+
                     if (viewElement.canvasGroup == null)
                     {
                         EditorGUILayout.HelpBox("No CanvasGroup found on this GameObject", MessageType.Error);
@@ -75,7 +75,7 @@ namespace CloudMacaca.ViewSystem
                             EditorUtility.SetDirty(viewElement.gameObject);
                         }
                     }
-                    
+
                     break;
                 case ViewElement.TransitionType.ActiveSwitch:
                     break;

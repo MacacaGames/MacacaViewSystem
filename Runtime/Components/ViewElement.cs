@@ -2,11 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-
+using com.spacepuppy.Tween;
 namespace CloudMacaca.ViewSystem
 {
     [DisallowMultipleComponent]
@@ -130,8 +129,9 @@ namespace CloudMacaca.ViewSystem
         //CanvasGroup
         public float canvasInTime = 0.4f;
         public float canvasOutTime = 0.4f;
-        public Ease canvasInEase = Ease.OutQuad;
-        public Ease canvasOutEase = Ease.OutQuad;
+        public EaseStyle canvasInEase = EaseStyle.QuadEaseOut;
+
+        public EaseStyle canvasOutEase = EaseStyle.QuadEaseOut;
         private CanvasGroup _canvasGroup;
         public CanvasGroup canvasGroup
         {
@@ -262,8 +262,29 @@ namespace CloudMacaca.ViewSystem
                     if (TweenTime >= 0)
                     {
                         rectTransform.SetParent(parent, true);
-                        rectTransform.DOAnchorPos3D(Vector3.zero, TweenTime);
-                        rectTransform.DOScale(Vector3.one, TweenTime);
+                        // rectTransform.DOAnchorPos3D(Vector3.zero, TweenTime);
+                        // rectTransform.DOScale(Vector3.one, TweenTime);
+                        viewController.StartCoroutine(EaseMethods.EaseVector3(
+                            rectTransform.anchoredPosition3D,
+                            Vector3.zero,
+                            TweenTime,
+                            EaseMethods.GetEase(EaseStyle.QuadEaseOut),
+                            (v) =>
+                            {
+                                rectTransform.anchoredPosition3D = v;
+                            }
+                        ));
+                        viewController.StartCoroutine(EaseMethods.EaseVector3(
+                            rectTransform.localScale,
+                            Vector3.one,
+                            TweenTime,
+                            EaseMethods.GetEase(EaseStyle.QuadEaseOut),
+                            (v) =>
+                            {
+                                rectTransform.localScale = v;
+                            }
+                        ));
+
                         yield break;
                     }
                     //TweenTime 設定為 >0 的情況下，代表要完整 OnLeave 在 OnShow
@@ -359,16 +380,27 @@ namespace CloudMacaca.ViewSystem
             else if (transition == TransitionType.CanvasGroupAlpha)
             {
                 //ViewSystemLog.Log("canvasGroup alpha");
-                canvasGroup.DOFade(1, canvasInTime).SetUpdate(true).OnStart(
-                    () =>
+                // canvasGroup.DOFade(1, canvasInTime).SetUpdate(true).OnStart(
+                //     () =>
+                //     {
+                //         //簡單暴力的解決 canvasGroup 一開始如果不是 0 的時候的情況
+                //         if (canvasGroup.alpha != 0)
+                //         {
+                //             canvasGroup.alpha = 0;
+                //         }
+                //     }
+                // ).SetEase(canvasInEase);
+
+                viewController.StartCoroutine(EaseMethods.EaseValue(
+                    canvasGroup.alpha,
+                    1,
+                    canvasInTime,
+                    EaseMethods.GetEase(canvasInEase),
+                    (v) =>
                     {
-                        //簡單暴力的解決 canvasGroup 一開始如果不是 0 的時候的情況
-                        if (canvasGroup.alpha != 0)
-                        {
-                            canvasGroup.alpha = 0;
-                        }
+                        canvasGroup.alpha = v;
                     }
-                ).SetEase(canvasInEase);
+                 ));
             }
             else if (transition == TransitionType.Custom)
             {
@@ -453,7 +485,19 @@ namespace CloudMacaca.ViewSystem
             {
                 if (canvasGroup == null) ViewSystemLog.LogError("No Canvas Group Found on this Object", this);
 
-                yield return canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase).SetUpdate(true).WaitForCompletion();
+                //yield return canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase).SetUpdate(true).WaitForCompletion();
+
+                yield return viewController.StartCoroutine(EaseMethods.EaseValue(
+                      canvasGroup.alpha,
+                      0,
+                      canvasOutTime,
+                      EaseMethods.GetEase(canvasOutEase),
+                      (v) =>
+                      {
+                          canvasGroup.alpha = v;
+                      }
+                   ));
+
                 if (viewElementGroup != null)
                 {
                     float waitTime = Mathf.Clamp(viewElementGroup.GetOutDuration() - canvasOutTime, 0, 2);
