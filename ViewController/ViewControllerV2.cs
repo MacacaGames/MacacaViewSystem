@@ -425,7 +425,6 @@ namespace CloudMacaca.ViewSystem
                         if (!vp.viewPageItems.Select(m => m.runtimeViewElement).Contains(item.runtimeViewElement)) viewElementDoesExitsInNextPage.Add(item.runtimeViewElement);
                     }
 
-                    viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
                     overlayPageState.viewPage = vp;
                 }
                 else
@@ -437,6 +436,8 @@ namespace CloudMacaca.ViewSystem
                     }
                     overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Show;
                 }
+                viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
+
             }
 
             float onShowTime = ViewSystemUtilitys.CalculateTimesNeedsForOnShow(viewItemNextPage.Select(m => m.runtimeViewElement));
@@ -515,13 +516,13 @@ namespace CloudMacaca.ViewSystem
             }
 
             //對於指定強制重播的對象 直接重播
-            // if (RePlayOnShowWhileSamePage == true)
-            // {
-            //     foreach (var item in vp.viewPageItems)
-            //     {
-            //         item.runtimeViewElement.OnShow();
-            //     }
-            // }
+            if (RePlayOnShowWhileSamePage == true)
+            {
+                foreach (var item in vp.viewPageItems)
+                {
+                    item.runtimeViewElement.OnShow();
+                }
+            }
 
             if (vp.autoLeaveTimes > 0)
             {
