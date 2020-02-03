@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
-using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -564,37 +563,6 @@ namespace CloudMacaca.ViewSystem
             }
 
             return result;
-            // float result = 0;
-
-            // if (transition != TransitionType.Animator)
-            //     result = 0;
-            // if (animator == null)
-            //     result = 0;
-
-            // AnimationClip clip = null;
-            // try
-            // {
-            //     clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_In));
-            // }
-            // catch (Exception ex)
-            // {
-            //     ViewSystemLog.LogError(ex.Message, this);
-            // }
-
-            // if (clip == null)
-            // {
-            //     result = 0;
-            // }
-            // else
-            // {
-            //     result = clip.length;
-            // }
-
-            // if (viewElementGroup != null)
-            // {
-            //     result = Mathf.Max(result, viewElementGroup.GetInDuration());
-            // }
-            // return result;
         }
     }
 

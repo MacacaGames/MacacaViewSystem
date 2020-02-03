@@ -55,6 +55,7 @@ namespace CloudMacaca.ViewSystem
             foreach (var item in childViewElements)
             {
                 item.OnShow();
+                Debug.LogError($"{item.name} : ");
             }
             foreach (var item in childViewElementGroups)
             {
