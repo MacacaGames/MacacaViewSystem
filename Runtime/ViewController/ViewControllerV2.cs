@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
-using UniRx;
 namespace CloudMacaca.ViewSystem
 {
 
@@ -489,7 +488,7 @@ namespace CloudMacaca.ViewSystem
                     item.runtimeParent = transformCache.Find(item.parentPath);
                 }
 
-                item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut);
+                item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut, reshowIfSamePage: RePlayOnShowWhileSamePage);
             }
 
             if (viewItemNextState != null)
@@ -511,18 +510,18 @@ namespace CloudMacaca.ViewSystem
                         item.runtimeParent = transformCache.Find(item.parentPath);
                     }
 
-                    item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut);
+                    item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut, reshowIfSamePage: RePlayOnShowWhileSamePage);
                 }
             }
 
             //對於指定強制重播的對象 直接重播
-            if (RePlayOnShowWhileSamePage == true)
-            {
-                foreach (var item in vp.viewPageItems)
-                {
-                    item.runtimeViewElement.OnShow();
-                }
-            }
+            // if (RePlayOnShowWhileSamePage == true)
+            // {
+            //     foreach (var item in vp.viewPageItems)
+            //     {
+            //         item.runtimeViewElement.OnShow();
+            //     }
+            // }
 
             if (vp.autoLeaveTimes > 0)
             {

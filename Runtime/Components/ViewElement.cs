@@ -220,11 +220,11 @@ namespace CloudMacaca.ViewSystem
             OnShow();
         }
         IDisposable OnShowObservable;
-        public virtual void ChangePage(bool show, Transform parent, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false)
+        public virtual void ChangePage(bool show, Transform parent, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
         {
-            viewController.StartCoroutine(OnChangePageRunner(show, parent, TweenTime, delayIn, delayOut, ignoreTransition));
+            viewController.StartCoroutine(OnChangePageRunner(show, parent, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
         }
-        public IEnumerator OnChangePageRunner(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition)
+        public IEnumerator OnChangePageRunner(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition, bool reshowIfSamePage)
         {
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)
@@ -256,6 +256,10 @@ namespace CloudMacaca.ViewSystem
                     if (parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
                     {
                         //ViewSystemLog.LogWarning("Due to already set the same parent with target parent, ignore " +  name);
+                        if (reshowIfSamePage)
+                        {
+                            OnShow();
+                        }
                         yield break;
                     }
                     //其他的情況下用 Tween 過去

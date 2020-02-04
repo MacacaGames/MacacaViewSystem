@@ -927,7 +927,7 @@ namespace com.spacepuppy.Tween
                 OnUpdate?.Invoke(Mathf.LerpUnclamped(start, end, sc));
                 yield return null;
                 t += Time.deltaTime;
-                Debug.Log(sc);
+                ///Debug.Log(sc);
             }
             OnUpdate.Invoke(end);
         }

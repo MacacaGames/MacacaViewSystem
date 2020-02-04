@@ -1,10 +1,8 @@
 {
     "name": "Macaca.ViewSystem",
     "references": [
-        "GUID:2bafac87e7f4b9b418d9448d219b01ab",
-        "GUID:474def811854047f9b89854e89359183",
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+        "UnityEngine.UI",
+        "Macaca.Utility"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

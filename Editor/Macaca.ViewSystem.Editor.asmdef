@@ -1,10 +1,10 @@
 {
     "name": "Macaca.ViewSystem.Editor",
     "references": [
-        "GUID:2bafac87e7f4b9b418d9448d219b01ab",
-        "GUID:474def811854047f9b89854e89359183",
-        "GUID:978ceb103face441c84d4bffc77ff44b",
-        "GUID:e60f9431aa00b48e9b10c7f919222758"
+        "UnityEngine.UI",
+        "Macaca.Utility",
+        "Macaca.Utility.Editor",
+        "Macaca.ViewSystem"
     ],
     "includePlatforms": [
         "Editor"
