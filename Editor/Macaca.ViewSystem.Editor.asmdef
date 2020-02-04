@@ -1,0 +1,23 @@
+{
+    "name": "Macaca.ViewSystem.Editor",
+    "references": [
+        "UnityEngine.UI",
+        "Macaca.Utility",
+        "Macaca.Utility.Editor",
+        "Macaca.ViewSystem"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [
+        "DemiLib.dll",
+        "DOTween.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

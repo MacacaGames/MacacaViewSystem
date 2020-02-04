@@ -1,0 +1,19 @@
+{
+    "name": "Macaca.ViewSystem",
+    "references": [
+        "UnityEngine.UI",
+        "Macaca.Utility"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [
+        "DemiLib.dll",
+        "DOTween.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

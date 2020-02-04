@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using CloudMacaca.ViewSystem;
 using System.Linq;
-using Unity.Linq;
 
 public class ViewSwitcherEditor : EditorWindow
 {
@@ -35,7 +34,7 @@ public class ViewSwitcherEditor : EditorWindow
     {
         if (poolTransform == null)
         {
-            Debug.LogError("Please Set ViewElementPool");
+            ViewSystemLog.LogError("Please Set ViewElementPool");
             return;
         }
         ViewElement[] allElements = FindObjectsOfType<ViewElement>();
@@ -78,7 +77,7 @@ public class ViewSwitcherEditor : EditorWindow
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
 
-        List<ViewPage> viewPages = viewController.viewPage;
+        List<ViewPage> viewPages = viewController.viewPages;
 
         scroll = EditorGUILayout.BeginScrollView(scroll);
 
@@ -123,7 +122,7 @@ public class ViewSwitcherEditor : EditorWindow
     {
         if (poolTransform == null)
         {
-            Debug.LogError("Please Set ViewElementPool");
+            ViewSystemLog.LogError("Please Set ViewElementPool");
             return;
         }
 
@@ -180,18 +179,5 @@ public class ViewSwitcherEditor : EditorWindow
         //SetupToInitPage();
     }
 
-    void SetupToInitPage()
-    {
-        //
-        var fp = viewController.GetInitViewPage();
-        if (fp != null)
-        {
-            OnChangePage(fp);
-        }
-        else
-        {
-            Debug.LogWarning("No ViewPage set as Init Page only Normized");
-            Normalized();
-        }
-    }
+   
 }

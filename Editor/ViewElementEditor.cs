@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
+using UnityEditor.AnimatedValues;
+using com.spacepuppy.Tween;
 namespace CloudMacaca.ViewSystem
 {
 
@@ -14,57 +15,72 @@ namespace CloudMacaca.ViewSystem
     {
         private ViewElement viewElement = null;
         private SerializedProperty m_AnimTriggerProperty;
+        private SerializedProperty m_Injection;
         private SerializedProperty onShowHandle;
         private SerializedProperty onLeaveHandle;
-
+        AnimBool showV2Setting = new AnimBool(true);
 
         void OnEnable()
         {
             viewElement = (ViewElement)target;
             onShowHandle = serializedObject.FindProperty("OnShowHandle");
             onLeaveHandle = serializedObject.FindProperty("OnLeaveHandle");
+            showV2Setting.valueChanged.AddListener(Repaint);
         }
-
+        void OnDisable()
+        {
+            showV2Setting.valueChanged.RemoveListener(Repaint);
+        }
         public override void OnInspectorGUI()
         {
 
-            viewElement.transition = (ViewElement.TransitionType)EditorGUILayout.EnumPopup("變換方式", viewElement.transition);
+            viewElement.transition = (ViewElement.TransitionType)EditorGUILayout.EnumPopup("ViewElement Transition", viewElement.transition);
 
             switch (viewElement.transition)
             {
                 case ViewElement.TransitionType.Animator:
-                    viewElement.animatorTransitionType = (ViewElement.AnimatorTransitionType)EditorGUILayout.EnumPopup("切換動畫狀態的方法", viewElement.animatorTransitionType);
-                    viewElement.AnimationStateName_In = EditorGUILayout.TextField("進場動畫 State Name", viewElement.AnimationStateName_In);
-                    viewElement.AnimationStateName_Loop = EditorGUILayout.TextField("Loop 動畫 State Name", viewElement.AnimationStateName_Loop);
-                    viewElement.AnimationStateName_Out = EditorGUILayout.TextField("離場動畫 State Name", viewElement.AnimationStateName_Out);
+                    viewElement.animatorTransitionType = (ViewElement.AnimatorTransitionType)EditorGUILayout.EnumPopup("Animator Transition", viewElement.animatorTransitionType);
+                    viewElement.AnimationStateName_In = EditorGUILayout.TextField("Show State Name", viewElement.AnimationStateName_In);
+                    viewElement.AnimationStateName_Loop = EditorGUILayout.TextField("Loop State Name", viewElement.AnimationStateName_Loop);
+                    viewElement.AnimationStateName_Out = EditorGUILayout.TextField("Leave State Name", viewElement.AnimationStateName_Out);
                     if (viewElement.animator != null)
                     {
-                        EditorGUILayout.HelpBox("已完成設定", MessageType.Info);
-                        if (GUILayout.Button("我要重新設定！", EditorStyles.miniButton))
+                        EditorGUILayout.HelpBox("Sepup Complete!", MessageType.Info);
+                        if (GUILayout.Button("Reset", EditorStyles.miniButton))
                         {
                             viewElement.Setup();
                         }
                     }
                     else
                     {
-                        EditorGUILayout.HelpBox("在物件與所有子物件中 沒有找到可用的 Animator", MessageType.Error);
-                        if (GUILayout.Button("我要重新設定！", EditorStyles.miniButton))
+                        EditorGUILayout.HelpBox("There is no available Animator on GameObject or child.", MessageType.Error);
+                        if (GUILayout.Button("Reset", EditorStyles.miniButton))
                         {
                             viewElement.Setup();
                         }
                     }
                     break;
                 case ViewElement.TransitionType.CanvasGroupAlpha:
-                    viewElement.canvasInEase = (DG.Tweening.Ease)EditorGUILayout.EnumPopup("Tween 進場曲線", viewElement.canvasInEase);
-                    viewElement.canvasInTime = EditorGUILayout.FloatField("Tween 進場時間", viewElement.canvasInTime);
-                    viewElement.canvasOutEase = (DG.Tweening.Ease)EditorGUILayout.EnumPopup("Tween 離場曲線", viewElement.canvasOutEase);
-                    viewElement.canvasOutTime = EditorGUILayout.FloatField("Tween 離場時間", viewElement.canvasOutTime);
+                    viewElement.canvasInEase = (EaseStyle)EditorGUILayout.EnumPopup("Show Curve", viewElement.canvasInEase);
+                    viewElement.canvasInTime = EditorGUILayout.FloatField("Show Curve", viewElement.canvasInTime);
+                    viewElement.canvasOutEase = (EaseStyle)EditorGUILayout.EnumPopup("Leave Curve", viewElement.canvasOutEase);
+                    viewElement.canvasOutTime = EditorGUILayout.FloatField("Leave Curve", viewElement.canvasOutTime);
+
+                    if (viewElement.canvasGroup == null)
+                    {
+                        EditorGUILayout.HelpBox("No CanvasGroup found on this GameObject", MessageType.Error);
+                        if (GUILayout.Button("Add one", EditorStyles.miniButton))
+                        {
+                            viewElement.gameObject.AddComponent<CanvasGroup>();
+                            EditorUtility.SetDirty(viewElement.gameObject);
+                        }
+                    }
 
                     break;
                 case ViewElement.TransitionType.ActiveSwitch:
-
                     break;
                 case ViewElement.TransitionType.Custom:
+                    EditorGUILayout.HelpBox("Remember Invoke the 'Action' send from those UnityEvent's parameters at the end of your OnShow/OnLeave handler, or the ViewElement may not recovery to pool correctlly!", MessageType.Info);
                     EditorGUILayout.BeginVertical();
                     EditorGUILayout.PropertyField(onShowHandle, true);
                     EditorGUILayout.PropertyField(onLeaveHandle, true);
@@ -72,6 +88,26 @@ namespace CloudMacaca.ViewSystem
                     break;
             }
 
+
+            showV2Setting.target = EditorGUILayout.Foldout(showV2Setting.target, new GUIContent("V2 Setting", "Below scope is only used in V2 Version"));
+            string hintText = "";
+            using (var fade = new EditorGUILayout.FadeGroupScope(showV2Setting.faded))
+            {
+                if (fade.visible)
+                {
+                    viewElement.IsUnique = EditorGUILayout.Toggle("Is Unique", viewElement.IsUnique);
+
+                    if (viewElement.IsUnique)
+                    {
+                        hintText = "Note : Injection will make target component into Singleton, if there is mutil several same component been inject, you will only be able to get the last injection";
+                    }
+                    else
+                    {
+                        hintText = "Only Unique ViewElement can be inject";
+                    }
+                    EditorGUILayout.HelpBox(hintText, MessageType.Info);
+                }
+            }
 
             serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(viewElement);
