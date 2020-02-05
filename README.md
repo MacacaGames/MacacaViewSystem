@@ -23,7 +23,7 @@ ViewElement is the basic unit in ViewSystem, any item shows on an UI page can be
 For example, the red square part in the screenshot is a ViewElement.
 <img src="./Img/viewelement.png" alt="Screenshot2" height="400"/>
 
-And the most important thing, ViewElement only focus how it will show or leave and **doesn't** care where it will be placed. Currently
+And the most important thing, ViewElement only focus how it will show or leave and **doesn't** care where it will be placed.
 
 Currently there is four method to transition while we try to showing or leaving a ViewElement: **Animator**, **CanvasGroup Fade**, **Active Switch**, **Custom**.
 
@@ -58,11 +58,16 @@ ViewController is the core component of ViewSystem, all control of the UI is bas
 ## Installation
 ### Option 1: Git SubModule
 ```bash
-git submodule add https://bitbucket.org/cloudmacaca/viewsystem.git Assets/MacacaViewSystem
+git submodule add https://github.com/MacacaGames/MacacaViewSystem.git Assets/MacacaViewSystem
+```
+Note: ViewSystem is dependency with MacacaUtility, so also add MacacaUtility in git submodule.
+```bash
+git submodule add hhttps://github.com/MacacaGames/MacacaUtility.git Assets/MacacaUtility
 ```
 ### Option 2: Unity Package file
 > Work in progress
 
 ### Option 3: Unity Package manager
 > Work in progress
+
 
