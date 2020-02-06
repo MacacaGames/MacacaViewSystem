@@ -729,6 +729,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         if (overridePopupWindow != null) overridePopupWindow.show = false;
                         RefreshData();
                     }
+
+                    if (GUILayout.Button(new GUIContent("Clear Preview", "Clear all preview item"), EditorStyles.toolbarButton))
+                    {
+                        ((ViewSystemDataReaderV2)dataReader).ClearAllViewElementInScene();
+                    }
+                    if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item (Will Delete the Canvas Root Object in Scene)"), EditorStyles.toolbarButton))
+                    {
+                        overridePopupWindow.show = false;
+                        dataReader.Normalized();
+                        inspector.Normalized();
+                    }
                     GUILayout.Space(5);
                     using (var check = new EditorGUI.ChangeCheckScope())
                     {
@@ -777,8 +788,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         genericMenu.ShowAsContext();
                     }
 
-                    allowPreviewWhenPlaying = GUILayout.Toggle(allowPreviewWhenPlaying, new GUIContent("Allow Preview when Playing"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
-                    overrideFromOrginal = GUILayout.Toggle(overrideFromOrginal, new GUIContent("Get Override From Orginal"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));
@@ -787,57 +796,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         viewPortScroll = Vector2.zero;
                     }
-                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("AvatarCompass"), "Reset viewport to (0,0)"), EditorStyles.toolbarButton, GUILayout.Width(30)))
-                    {
-
-                        foreach (var item in saveData.viewPages)
-                        {
-                            foreach (var item2 in item.viewPage.viewPageItems)
-                            {
-                                if (item2.viewElement == null)
-                                {
-                                    continue;
-                                }
-                                item2.viewElementObject = item2.viewElement.gameObject;
-                            }
-                        }
-                        foreach (var item in saveData.viewStates)
-                        {
-                            foreach (var item2 in item.viewState.viewPageItems)
-                            {
-                                if (item2.viewElement == null)
-                                {
-                                    continue;
-                                }
-                                item2.viewElementObject = item2.viewElement.gameObject;
-                            }
-                        }
-                    }
-
-                    // GUILayout.Label("ViewState:");
-                    // int newIndex = EditorGUILayout.Popup(currentIndex, viewStatesPopup.ToArray(),
-                    //     EditorStyles.toolbarPopup, GUILayout.Width(80));
-                    // if (newIndex != currentIndex)
-                    // {
-                    //     currentIndex = newIndex;
-                    //     targetViewState = viewStatesPopup[currentIndex];
-                    // }
+                    allowPreviewWhenPlaying = GUILayout.Toggle(allowPreviewWhenPlaying, new GUIContent("Allow Preview when Playing"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
+                    overrideFromOrginal = GUILayout.Toggle(overrideFromOrginal, new GUIContent("Get Override From Orginal"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
                     if (GUILayout.Button(new GUIContent(Drawer.bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton, GUILayout.Width(50)))
                     {
                         ViewSystemScriptBaker.BakeAllViewPageName(viewPageList.Select(m => m.viewPage).ToList(), viewStateList.Select(m => m.viewState).ToList());
                     }
 
-                    if (GUILayout.Button(new GUIContent("Clear Preview", "Clear all preview item"), EditorStyles.toolbarButton))
-                    {
-                        ((ViewSystemDataReaderV2)dataReader).ClearAllViewElementInScene();
-                    }
-                    if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item (Will Delete the Canvas Root Object in Scene)"), EditorStyles.toolbarButton))
-                    {
-                        overridePopupWindow.show = false;
-                        dataReader.Normalized();
-                        inspector.Normalized();
-                    }
                 }
             }
         }
