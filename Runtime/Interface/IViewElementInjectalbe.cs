@@ -2,5 +2,5 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IViewElementInjectalbe
+public interface IViewElementInjectable
 { }

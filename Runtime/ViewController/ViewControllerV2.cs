@@ -63,7 +63,7 @@ namespace CloudMacaca.ViewSystem
         }
         #region Injection
         private Dictionary<System.Type, Component> InjectionDictionary = new Dictionary<System.Type, Component>();
-        public T GetInjectionInstance<T>() where T : Component, IViewElementInjectalbe
+        public T GetInjectionInstance<T>() where T : Component, IViewElementInjectable
         {
             if (InjectionDictionary.TryGetValue(typeof(T), out Component result))
             {
@@ -89,7 +89,7 @@ namespace CloudMacaca.ViewSystem
                 var r = runtimePool.PrewarmUniqueViewElement(item);
                 if (r != null)
                 {
-                    foreach (var i in r.GetComponents<IViewElementInjectalbe>())
+                    foreach (var i in r.GetComponents<IViewElementInjectable>())
                     {
                         var c = (Component)i;
                         var t = c.GetType();
@@ -118,7 +118,7 @@ namespace CloudMacaca.ViewSystem
                 var r = runtimePool.PrewarmUniqueViewElement(item);
                 if (r != null)
                 {
-                    foreach (var i in r.GetComponents<IViewElementInjectalbe>())
+                    foreach (var i in r.GetComponents<IViewElementInjectable>())
                     {
                         var c = (Component)i;
                         var t = c.GetType();
