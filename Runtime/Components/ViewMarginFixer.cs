@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CloudMacaca;
+using UnityEngine.UI;
+
 [ExecuteInEditMode]
 public class ViewMarginFixer : ViewElementLifeCycle
 {
@@ -104,17 +106,15 @@ public class ViewMarginFixer : ViewElementLifeCycle
                                              margin.modifyTop ? -margin.top : rectTransform.offsetMax.y); // new Vector2(-right, -top);
 
         if (Application.isPlaying)
-            CoroutineManager.Instance.StartCoroutine(ForceRefreshLayout());
+            StartCoroutine(ForceRefreshLayout());
     }
 
     IEnumerator ForceRefreshLayout()
     {
         if (RebuildLayoutAfterFix == false) yield break;
-        var layouts = GetComponent<UnityEngine.UI.LayoutGroup>();
-        layouts.enabled = false;
         yield return null;
         yield return Yielders.EndOfFrame;
-        layouts.enabled = true;
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
     }
 
     public void AutoGuessFixTarget(CloudMacaca.AnchorPresets anchor = CloudMacaca.AnchorPresets.UnKnown)
