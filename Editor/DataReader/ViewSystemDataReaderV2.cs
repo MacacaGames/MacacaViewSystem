@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEditor;
 using System.IO;
 using System;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
@@ -28,40 +30,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             data = CheckOrReadSaveData();
 
-            //建立 UI Hierarchy 環境
-            if (!string.IsNullOrEmpty(data.globalSetting.ViewControllerObjectPath))
-            {
-                var go = GameObject.Find(data.globalSetting.ViewControllerObjectPath);
-
-                if (go == null)
-                {
-                    ViewSystemLog.LogError("Init ViewSystem Editor faild, please make sure ViewControllerTransform GameObject is in the scene of is not inactive.");
-                    return false;
-                }
-                ViewControllerTransform = go.transform;
-            }
-
-            if (data.globalSetting.UIRoot != null && data.globalSetting.UIRootScene == null)
-            {
-                //Try find exsit first
-                var current = ViewControllerTransform.Find(data.globalSetting.UIRoot.name);
-                if (current != null)
-                {
-                    data.globalSetting.UIRootScene = current.gameObject;
-                }
-                //Or Instantiate a Prefab
-                else
-                {
-#if UNITY_2019_1_OR_NEWER
-                    var ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot, ViewControllerTransform);
-#else
-                    var ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot);
-                    ((GameObject)ui_root).transform.SetParent(ViewControllerTransform);
-#endif
-                    data.globalSetting.UIRootScene = (GameObject)ui_root;
-                    PrefabUtility.UnpackPrefabInstance(data.globalSetting.UIRootScene, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
-                }
-            }
 
             // 整理 Editor 資料
             List<ViewPageNode> viewPageNodes = new List<ViewPageNode>();
@@ -84,12 +52,57 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             isInit = data ? true : false;
             return isInit;
         }
+        UnityEngine.SceneManagement.Scene newScene;
+        const string ViewSystemEditScene = "ViewSystemEditScene";
+        public void EditStart()
+        {
+            var exsitScene = SceneManager.GetSceneByName(ViewSystemEditScene);
+            if (exsitScene != null)
+            {
+                EditEnd();
+            }
+
+            newScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
+            newScene.name = ViewSystemEditScene;
+            //建立 UI Hierarchy 環境
+            if (!string.IsNullOrEmpty(data.globalSetting.ViewControllerObjectPath))
+            {
+                var go = new GameObject(data.globalSetting.ViewControllerObjectPath);
+                EditorSceneManager.MoveGameObjectToScene(go, newScene);
+                ViewControllerTransform = go.transform;
+            }
+            GameObject ui_root = null;
+            if (data.globalSetting.UIRoot != null && data.globalSetting.UIRootScene == null)
+            {
+                //Always generate a new one to avoid version conflict.
+#if UNITY_2019_1_OR_NEWER
+                ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot, ViewControllerTransform) as GameObject;
+#else
+                ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot);
+               ((GameObject)ui_root).transform.SetParent(ViewControllerTransform);
+#endif
+                data.globalSetting.UIRootScene = ui_root;
+                PrefabUtility.UnpackPrefabInstance(data.globalSetting.UIRootScene, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
+            }
+        }
+
+        public void EditEnd()
+        {
+            EditorSceneManager.CloseScene(SceneManager.GetSceneByName(ViewSystemEditScene), true);
+        }
+
+        public void RefeshEdit()
+        {
+            EditEnd();
+            EditStart();
+        }
 
         public void OnViewPageAdd(ViewPageNode node)
         {
             data.viewPages.Add(new ViewSystemSaveData.ViewPageSaveData(new Vector2(node.rect.x, node.rect.y), node.viewPage));
             isDirty = true;
         }
+        
         public void OnViewStateAdd(ViewStateNode node)
         {
             data.viewStates.Add(new ViewSystemSaveData.ViewStateSaveData(new Vector2(node.rect.x, node.rect.y), node.viewState));
@@ -121,6 +134,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         }
 
+
         public void OnViewPagePreview(ViewPage viewPage)
         {
             if (data.globalSetting.UIRootScene == null)
@@ -147,8 +161,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //從 ViewPage 尋找
             viewItemForNextPage.AddRange(viewPage.viewPageItems);
 
-            var rootGameObject = GameObject.Find(data.globalSetting.ViewControllerObjectPath);
-            Transform root = rootGameObject.transform;
+            Transform root = ViewControllerTransform;
 
             //打開相對應物件
             foreach (ViewPageItem item in viewItemForNextPage)
@@ -203,7 +216,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             catch
             {
-                var c = ViewControllerTransform.Find(data.globalSetting.UIRoot.name);
+                var c = GameObject.Find(data.globalSetting.UIRoot.name);
                 UnityEngine.Object.DestroyImmediate(c);
             }
 
@@ -348,10 +361,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             return result;
         }
 
-        public Transform GetViewControllerRoot()
-        {
-            return ViewControllerTransform;
-        }
+        // public Transform GetViewControllerRoot()
+        // {
+        //     return ViewControllerTransform;
+        // }
     }
 
 }

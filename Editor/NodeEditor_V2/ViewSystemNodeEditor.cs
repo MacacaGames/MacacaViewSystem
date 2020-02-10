@@ -5,13 +5,13 @@ using System.Linq;
 using System;
 using CloudMacaca.ViewSystem;
 using UnityEngine.UIElements;
-
+using UnityEditor.SceneManagement;
 namespace CloudMacaca.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNodeEditor : EditorWindow
     {
         public static ViewSystemNodeEditor Instance;
-        static IViewSystemDateReader dataReader;
+        static ViewSystemDataReaderV2 dataReader;
         public static ViewSystemNodeInspector inspector;
         static ViewSystemGlobalSettingWindow globalSettingWindow;
         public OverridePopupWindow overridePopupWindow;
@@ -74,41 +74,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var dragger = visulaElementFromUXML.Q("dragger");
             dragger.AddManipulator(new VisualElementResizer());
 
-            // floatWindowContianer = new IMGUIContainer(DrawInspector);
-            // visulaElementFromUXML.Q("float-window").Add(floatWindowContianer);
-            // drager_line_content.RegisterCallback<MouseUpEvent>(
-            //     (evt) =>
-            //     {
-            //         evt.StopPropagation();
 
-            //         //inspectorResize = false;
-            //     }
-            // );
-            // drager_line_content.RegisterCallback<MouseDownEvent>(
-            //     (evt) =>
-            //     {
-            //         evt.StopPropagation();
-
-            //         inspectorResize = true;
-            //     }
-            // );
-            // drager_line_content.RegisterCallback<MouseMoveEvent>(
-            //     (evt) =>
-            //     {
-            //         if (inspectorResize)
-            //         {
-            //             var i = inspectorContianer.style.width.value;
-            //             int newvalue = (int)(i.value + evt.mousePosition.x);
-            //             inspectorContianer.style.width = newvalue;
-            //         }
-            //     }
-            // );
 
             root.Add(visulaElementFromUXML);
-
-            // A stylesheet can be added to a VisualElement.
-            // The style will be applied to the VisualElement and all of its children.
-            // root.Add(labelWithStyle);
 
         }
 
@@ -116,7 +84,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             if (obj == PlayModeStateChange.EnteredPlayMode)
             {
-                dataReader.Normalized();
+                dataReader.EditEnd();
             }
         }
 
@@ -128,7 +96,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             isInit = dataReader.Init();
             saveData = ((ViewSystemDataReaderV2)dataReader).GetGlobalSetting();
             inspector = new ViewSystemNodeInspector(this);
-            ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
+            //ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemGlobalSettingWindow("Global Setting", this, (ViewSystemDataReaderV2)dataReader);
             overridePopupWindow = new OverridePopupWindow("Override", this, inspector);
             navigationWindow = new ViewPageNavigationWindow("Navigation Setting", this);
@@ -152,7 +120,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         void OnDestroy()
         {
-            dataReader.Normalized();
+            //dataReader.Normalized();
+
             EditorApplication.playModeStateChanged -= playModeStateChanged;
         }
         // void OnFocus()
@@ -699,6 +668,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         List<string> viewStatesPopup = new List<string>();
 
         int lastInspectorWidth;
+
+        public bool EditMode = false;
+        [UnityEditor.Callbacks.DidReloadScripts]
+        private static void OnScriptsReloaded()
+        {
+            // do something
+            Debug.Log("Compiled reload");
+            if (Instance.EditMode)
+            {
+                dataReader.EditEnd();
+                Instance.EditMode = false;
+            }
+        }
+
         private void DrawMenuBar()
         {
             menuBar = new Rect(0, 0, position.width, menuBarHeight);
@@ -707,6 +690,22 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 using (var horizon = new GUILayout.HorizontalScope())
                 {
+                    using (var changed = new EditorGUI.ChangeCheckScope())
+                    {
+                        EditMode = GUILayout.Toggle(EditMode, new GUIContent("Edit Mode"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
+                        if (changed.changed == true)
+                        {
+                            if (EditMode)
+                            {
+                                dataReader.EditStart();
+                            }
+                            else
+                            {
+                                dataReader.EditEnd();
+                            }
+                        }
+                    }
+
                     GUILayout.Space(5);
                     if (GUILayout.Button(new GUIContent($"Save{(((ViewSystemDataReaderV2)dataReader).isDirty ? "*" : "")}"), EditorStyles.toolbarButton, GUILayout.Width(50)))
                     {
