@@ -102,7 +102,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             data.viewPages.Add(new ViewSystemSaveData.ViewPageSaveData(new Vector2(node.rect.x, node.rect.y), node.viewPage));
             isDirty = true;
         }
-        
+
         public void OnViewStateAdd(ViewStateNode node)
         {
             data.viewStates.Add(new ViewSystemSaveData.ViewStateSaveData(new Vector2(node.rect.x, node.rect.y), node.viewState));
@@ -221,6 +221,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
 
             editor.ClearEditor();
+            editor.EditMode = false;
+            EditEnd();
             //throw new System.NotImplementedException();
         }
 

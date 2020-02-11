@@ -91,6 +91,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void RefreshData(bool hardRefresh = true)
         {
             ClearEditor();
+            EditMode = false;
             console = new ViewSystemNodeConsole();
             dataReader = new ViewSystemDataReaderV2(this);
             isInit = dataReader.Init();
@@ -109,6 +110,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 inspector.SetCurrentSelectItem(lastSelectNode);
             }
+            dataReader.EditEnd();
+            CanEnterEditMode = true;
         }
         public void ClearEditor()
         {
@@ -116,6 +119,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewStateList.Clear();
             viewPageList.Clear();
             viewStatesPopup.Clear();
+            CanEnterEditMode = false;
             //inspector.SetCurrentSelectItem(null);
         }
         void OnDestroy()
@@ -670,18 +674,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         int lastInspectorWidth;
 
         public bool EditMode = false;
+        bool CanEnterEditMode = false;
         [UnityEditor.Callbacks.DidReloadScripts]
         private static void OnScriptsReloaded()
         {
-            // do something
-            Debug.Log("Compiled reload");
-            if (Instance.EditMode)
-            {
-                dataReader.EditEnd();
-                Instance.EditMode = false;
-            }
+            dataReader.Normalized();
         }
-
+        Rect popupBtnRect;
         private void DrawMenuBar()
         {
             menuBar = new Rect(0, 0, position.width, menuBarHeight);
@@ -690,18 +689,21 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 using (var horizon = new GUILayout.HorizontalScope())
                 {
-                    using (var changed = new EditorGUI.ChangeCheckScope())
+                    using (var disable = new EditorGUI.DisabledGroupScope(!CanEnterEditMode))
                     {
-                        EditMode = GUILayout.Toggle(EditMode, new GUIContent("Edit Mode"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
-                        if (changed.changed == true)
+                        using (var changed = new EditorGUI.ChangeCheckScope())
                         {
-                            if (EditMode)
+                            EditMode = GUILayout.Toggle(EditMode, new GUIContent("Edit Mode"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
+                            if (changed.changed == true)
                             {
-                                dataReader.EditStart();
-                            }
-                            else
-                            {
-                                dataReader.EditEnd();
+                                if (EditMode)
+                                {
+                                    dataReader.EditStart();
+                                }
+                                else
+                                {
+                                    dataReader.EditEnd();
+                                }
                             }
                         }
                     }
@@ -795,14 +797,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         viewPortScroll = Vector2.zero;
                     }
-                    allowPreviewWhenPlaying = GUILayout.Toggle(allowPreviewWhenPlaying, new GUIContent("Allow Preview when Playing"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
-                    overrideFromOrginal = GUILayout.Toggle(overrideFromOrginal, new GUIContent("Get Override From Orginal"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
                     if (GUILayout.Button(new GUIContent(Drawer.bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton, GUILayout.Width(50)))
                     {
                         ViewSystemScriptBaker.BakeAllViewPageName(viewPageList.Select(m => m.viewPage).ToList(), viewStateList.Select(m => m.viewState).ToList());
                     }
-
+                    if (GUILayout.Button("Options", EditorStyles.toolbarDropDown))
+                    {
+                        UnityEditor.PopupWindow.Show(popupBtnRect, new EditorPopupSetting());
+                    }
+                    if (Event.current.type == EventType.Repaint) popupBtnRect = GUILayoutUtility.GetLastRect();
                 }
             }
         }
@@ -917,6 +921,32 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             OpenWindow();
 
             return true;
+        }
+    }
+
+
+    public class EditorPopupSetting : PopupWindowContent
+    {
+
+        public override Vector2 GetWindowSize()
+        {
+            return new Vector2(250, 100);
+        }
+
+        public override void OnGUI(Rect rect)
+        {
+            ViewSystemNodeEditor.allowPreviewWhenPlaying = EditorGUILayout.ToggleLeft("Allow Preview When Playing", ViewSystemNodeEditor.allowPreviewWhenPlaying);
+            ViewSystemNodeEditor.overrideFromOrginal = EditorGUILayout.ToggleLeft("Get Override From Orginal Prefab", ViewSystemNodeEditor.overrideFromOrginal);
+        }
+
+        public override void OnOpen()
+        {
+            //Debug.Log("Popup opened: " + this);
+        }
+
+        public override void OnClose()
+        {
+            //Debug.Log("Popup closed: " + this);
         }
     }
 }
