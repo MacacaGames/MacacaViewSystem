@@ -8,6 +8,18 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewControllerBase : TransformCacheBase, IViewController
     {
+        public Canvas GetCanvas()
+        {
+
+
+            Canvas result = gameObject.GetComponent<Canvas>();
+            if (result == null)
+            {
+                result = gameObject.GetComponentInChildren<Canvas>();
+            }
+
+            return result;
+        }
         protected static ViewControllerBase _incance;
 
         #region Interface Impletetment
