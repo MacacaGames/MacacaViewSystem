@@ -105,17 +105,17 @@ public class ViewMarginFixer : ViewElementLifeCycle
         rectTransform.offsetMax = new Vector2(margin.modifyRight ? -margin.right : rectTransform.offsetMax.x,
                                              margin.modifyTop ? -margin.top : rectTransform.offsetMax.y); // new Vector2(-right, -top);
 
-        if (Application.isPlaying)
-            StartCoroutine(ForceRefreshLayout());
+        if (RebuildLayoutAfterFix == false && Application.isPlaying && gameObject.activeSelf)
+            LayoutRebuilder.MarkLayoutForRebuild(transform as RectTransform);
+
     }
 
-    IEnumerator ForceRefreshLayout()
-    {
-        if (RebuildLayoutAfterFix == false) yield break;
-        yield return null;
-        yield return Yielders.EndOfFrame;
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
-    }
+    // IEnumerator ForceRefreshLayout()
+    // {
+    //     if (RebuildLayoutAfterFix == false) yield break;
+
+    //     //LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
+    // }
 
     public void AutoGuessFixTarget(CloudMacaca.AnchorPresets anchor = CloudMacaca.AnchorPresets.UnKnown)
     {
