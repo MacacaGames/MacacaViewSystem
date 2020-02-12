@@ -117,7 +117,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         }
 
-
         public void OnViewStateDelete(ViewStateNode node)
         {
             var s = data.viewStates.SingleOrDefault(m => m.viewState == node.viewState);
@@ -134,12 +133,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         }
 
-
         public void OnViewPagePreview(ViewPage viewPage)
         {
             if (data.globalSetting.UIRootScene == null)
             {
-                ViewSystemLog.LogError($"There is no canvas in your scene, do you init ViewSystem correctlly?");
+                ViewSystemLog.LogError($"There is no canvas in your scene, do you enter EditMode?");
                 return;
             }
             //throw new System.NotImplementedException();
@@ -173,8 +171,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
                 var temp = PrefabUtility.InstantiatePrefab(item.viewElement.gameObject);
                 ViewElement tempViewElement = ((GameObject)temp).GetComponent<ViewElement>();
-
-
 
                 tempViewElement.gameObject.SetActive(true);
                 var rectTransform = tempViewElement.GetComponent<RectTransform>();
@@ -229,7 +225,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public void ClearAllViewElementInScene()
         {
             var allViewElement = UnityEngine.Object.FindObjectsOfType<ViewElement>();
-            var allNestedViewElement = UnityEngine.Object.FindObjectsOfType<NestedViewElement>();
+            //NestedViewElement is obslote do nothing with NestedViewElement.
+            //var allNestedViewElement = UnityEngine.Object.FindObjectsOfType<NestedViewElement>();
             foreach (var item in allViewElement)
             {
                 try
@@ -241,46 +238,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     //ViewSystemLog.LogWarning($"ignore");
                 }
             }
-            // foreach (var item in allViewElement)
-            // {
-            //     if (string.IsNullOrEmpty(item.gameObject.scene.name))
-            //     {
-            //         continue;
-            //     }
-            //     if (item.GetComponentInParent<NestedViewElement>() != null)
-            //     {
-            //         continue;
-            //     }
-            //     if (item.GetComponentInParent<ViewElementGroup>() != null)
-            //     {
-            //         continue;
-            //     }
-            //     UnityEngine.Object.DestroyImmediate(item.gameObject);
-            // }
-            // foreach (var item in allNestedViewElement)
-            // {
-            //     if (item == null)
-            //     {
-            //         continue;
-            //     }
-            //     if (string.IsNullOrEmpty(item.gameObject.scene.name))
-            //     {
-            //         continue;
-            //     }
-            //     try
-            //     {
-            //         UnityEngine.Object.DestroyImmediate(item.gameObject);
-            //     }
-            //     catch
-            //     {
-            //         ViewSystemLog.LogWarning($"The NestedViewElement {item.name} is part of another NestedViewElement, will ignore while delete preview object");
-            //     }
-            // }
         }
 
         public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes)
         {
-
             foreach (var item in viewPageNodes)
             {
                 if (string.IsNullOrEmpty(item.viewPage.name))
@@ -306,15 +267,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 //Delete all ViewElement in scene before save!!!!
                 ClearAllViewElementInScene();
                 //Apply Prefab
-                //PrefabUtility.ApplyPrefabInstance(data.globalSetting.UIRootScene, InteractionMode.AutomatedAction);
-                data.globalSetting.UIRoot = PrefabUtility.SaveAsPrefabAsset(data.globalSetting.UIRootScene, ViewSystemResourceFolder + data.globalSetting.UIRootScene.name + ".prefab");
+                if (data.globalSetting.UIRootScene != null) 
+                    data.globalSetting.UIRoot = PrefabUtility.SaveAsPrefabAsset(data.globalSetting.UIRootScene, ViewSystemResourceFolder + data.globalSetting.UIRootScene.name + ".prefab");
             }
             UnityEditor.EditorUtility.SetDirty(data);
             isDirty = false;
             AssetDatabase.SaveAssets();
         }
 
-        public ViewSystemSaveData GetGlobalSetting()
+        public ViewSystemSaveData GetSaveData()
         {
             return data;
         }

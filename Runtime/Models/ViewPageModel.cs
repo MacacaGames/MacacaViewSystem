@@ -5,6 +5,71 @@ using System.Linq;
 namespace CloudMacaca.ViewSystem
 {
     [System.Serializable]
+    public class View
+    {
+        public string name;
+        public List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
+    }
+    [System.Serializable]
+    public class ViewState : View
+    {
+        public int targetFrameRate = -1;
+    }
+
+    [System.Serializable]
+    public class ViewPage : View
+    {
+        public enum ViewPageType
+        {
+            FullPage, Overlay
+        }
+        public enum ViewPageTransitionTimingType
+        {
+            與前動畫同時, 接續前動畫, 自行設定
+        }
+        public float autoLeaveTimes = 0;
+        public float customPageTransitionWaitTime = 0.5f;
+        public string viewState = "";
+        public ViewPageType viewPageType = ViewPageType.FullPage;
+        public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.與前動畫同時;
+
+        #region Navigation
+        public bool IsNavigation = false;
+        public ViewElementNavigationTarget _firstSelectSetting;
+        public UnityEngine.UI.Selectable firstSelected
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_firstSelectSetting.viewPageItemId))
+                {
+                    return viewPageItems.SelectMany(m => m.runtimeViewElement.GetComponentsInChildren<UnityEngine.UI.Selectable>()).FirstOrDefault();
+                }
+                else
+                {
+                    var vpi = viewPageItems.SingleOrDefault(m => m.Id == _firstSelectSetting.viewPageItemId);
+                    var targetTransform = vpi.runtimeViewElement.runtimeOverride.GetTransform(_firstSelectSetting.targetTransformPath);
+                    var com = vpi.runtimeViewElement.runtimeOverride.GetCachedComponent(targetTransform, _firstSelectSetting.targetTransformPath, _firstSelectSetting.targetComponentType);
+                    return (UnityEngine.UI.Selectable)com.Component;
+                }
+            }
+        }
+        public List<ViewElementNavigationDataViewState> navigationDatasForViewState = new List<ViewElementNavigationDataViewState>();
+        Dictionary<string, List<ViewElementNavigationData>> _navigationDatasForViewStateDict;
+        public Dictionary<string, List<ViewElementNavigationData>> stateNavDict
+        {
+            get
+            {
+                if (_navigationDatasForViewStateDict == null)
+                {
+                    _navigationDatasForViewStateDict = navigationDatasForViewState.GroupBy(m => m.viewPageItemId)
+                    .ToDictionary(x => x.Key, x => x.SelectMany(m => m.navigationDatas).ToList());
+                }
+                return _navigationDatasForViewStateDict;
+            }
+        }
+        #endregion
+    }
+    [System.Serializable]
     public class ViewPageItem
     {
         public string Id;
@@ -25,7 +90,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
         static Transform ViewControllerObject;
-        
+
         public ViewElement viewElement
         {
             get
@@ -96,86 +161,7 @@ namespace CloudMacaca.ViewSystem
                 Id = System.Guid.NewGuid().ToString().Substring(0, 8);
         }
     }
-    [System.Serializable]
-    public class ViewState
-    {
-        public string name;
-        public int targetFrameRate = -1;
-        public List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
-    }
 
-    [System.Serializable]
-    public class ViewPage
-    {
-        public enum ViewPageType
-        {
-            FullPage, Overlay
-        }
-        public enum ViewPageTransitionTimingType
-        {
-            與前動畫同時, 接續前動畫, 自行設定
-        }
-        public string name;
-        public float autoLeaveTimes = 0;
-        public float customPageTransitionWaitTime = 0.5f;
-        public string viewState = "";
-        public ViewPageType viewPageType = ViewPageType.FullPage;
-        public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.與前動畫同時;
-        public List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
-
-        #region Navigation
-        public bool IsNavigation = false;
-        public ViewElementNavigationTarget _firstSelectSetting;
-        public UnityEngine.UI.Selectable firstSelected
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_firstSelectSetting.viewPageItemId))
-                {
-                    return viewPageItems.SelectMany(m => m.runtimeViewElement.GetComponentsInChildren<UnityEngine.UI.Selectable>()).FirstOrDefault();
-                }
-                else
-                {
-                    var vpi = viewPageItems.SingleOrDefault(m => m.Id == _firstSelectSetting.viewPageItemId);
-                    var targetTransform = vpi.runtimeViewElement.runtimeOverride.GetTransform(_firstSelectSetting.targetTransformPath);
-                    var com = vpi.runtimeViewElement.runtimeOverride.GetCachedComponent(targetTransform, _firstSelectSetting.targetTransformPath, _firstSelectSetting.targetComponentType);
-                    return (UnityEngine.UI.Selectable)com.Component;
-                }
-            }
-        }
-        public List<ViewElementNavigationDataViewState> navigationDatasForViewState = new List<ViewElementNavigationDataViewState>();
-        Dictionary<string, List<ViewElementNavigationData>> _navigationDatasForViewStateDict;
-        public Dictionary<string, List<ViewElementNavigationData>> stateNavDict
-        {
-            get
-            {
-                if (_navigationDatasForViewStateDict == null)
-                {
-                    _navigationDatasForViewStateDict = navigationDatasForViewState.GroupBy(m => m.viewPageItemId)
-                    .ToDictionary(x => x.Key, x => x.SelectMany(m => m.navigationDatas).ToList());
-                }
-                return _navigationDatasForViewStateDict;
-            }
-        }
-        #endregion
-    }
-    [System.AttributeUsage(
-        System.AttributeTargets.Method,
-        // Multiuse attribute.  
-        AllowMultiple = true)]
-    public class ViewEventGroup : System.Attribute
-    {
-        string groupName;
-        public ViewEventGroup(string groupName)
-        {
-            this.groupName = groupName;
-        }
-
-        public string GetGroupName()
-        {
-            return groupName;
-        }
-    }
     [System.Serializable]
     public class ViewSystemComponentData
     {
@@ -191,11 +177,13 @@ namespace CloudMacaca.ViewSystem
         public string viewPageItemId;
         public List<ViewElementNavigationData> navigationDatas = new List<ViewElementNavigationData>();
     }
+
     [System.Serializable]
     public class ViewElementNavigationTarget : ViewSystemComponentData
     {
         public string viewPageItemId;
     }
+
     [System.Serializable]
     public class ViewElementNavigationData : ViewSystemComponentData
     {
@@ -214,12 +202,14 @@ namespace CloudMacaca.ViewSystem
             }
         }
     }
+
     [System.Serializable]
     public class ViewElementEventData : ViewSystemComponentData
     {
         public string scriptName;
         public string methodName;
     }
+
     [System.Serializable]
     public class ViewElementPropertyOverrideData : ViewSystemComponentData
     {
@@ -228,5 +218,20 @@ namespace CloudMacaca.ViewSystem
             Value = new PropertyOverride();
         }
         public PropertyOverride Value;
+    }
+
+    [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
+    public class ViewEventGroup : System.Attribute
+    {
+        string groupName;
+        public ViewEventGroup(string groupName)
+        {
+            this.groupName = groupName;
+        }
+
+        public string GetGroupName()
+        {
+            return groupName;
+        }
     }
 }

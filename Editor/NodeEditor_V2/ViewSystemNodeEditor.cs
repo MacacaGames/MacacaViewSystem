@@ -21,6 +21,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         bool isInit = false;
         public static bool allowPreviewWhenPlaying = false;
         public static bool overrideFromOrginal = false;
+        public static bool removeConnectWithoutAsk = false;
         public Transform ViewControllerRoot;
 
         [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
@@ -47,10 +48,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             // Each editor window contains a root VisualElement object
             VisualElement root = rootVisualElement;
 
-            // // VisualElements objects can contain other VisualElement following a tree hierarchy.
-            // VisualElement label = new Label("Hello World! From C#");
-            // root.Add(label);
-
             // Import UXML
             var visualTree = Resources.Load<VisualTreeAsset>("ViewSystemNodeEditorUIElementUxml");
             VisualElement visulaElementFromUXML = visualTree.CloneTree();
@@ -66,7 +63,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             inspectorContianer.style.flexGrow = 1;
             visulaElementFromUXML.Q("inspector").Add(inspectorContianer);
 
-
             nodeViewContianer = new IMGUIContainer(DrawNode);
             nodeViewContianer.style.flexGrow = 1;
             visulaElementFromUXML.Q("node-view").Add(nodeViewContianer);
@@ -74,10 +70,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var dragger = visulaElementFromUXML.Q("dragger");
             dragger.AddManipulator(new VisualElementResizer());
 
-
-
             root.Add(visulaElementFromUXML);
-
         }
 
         private static void playModeStateChanged(PlayModeStateChange obj)
@@ -95,7 +88,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             console = new ViewSystemNodeConsole();
             dataReader = new ViewSystemDataReaderV2(this);
             isInit = dataReader.Init();
-            saveData = ((ViewSystemDataReaderV2)dataReader).GetGlobalSetting();
+            saveData = ((ViewSystemDataReaderV2)dataReader).GetSaveData();
             inspector = new ViewSystemNodeInspector(this);
             //ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemGlobalSettingWindow("Global Setting", this, (ViewSystemDataReaderV2)dataReader);
@@ -112,6 +105,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             dataReader.EditEnd();
             CanEnterEditMode = true;
+            menuBar = new Rect(0, 0, position.width, menuBarHeight);
         }
         public void ClearEditor()
         {
@@ -120,21 +114,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewPageList.Clear();
             viewStatesPopup.Clear();
             CanEnterEditMode = false;
-            //inspector.SetCurrentSelectItem(null);
         }
         void OnDestroy()
         {
-            //dataReader.Normalized();
-
             EditorApplication.playModeStateChanged -= playModeStateChanged;
         }
-        // void OnFocus()
-        // {
-        //     if (dataReader == null) dataReader = new ViewSystemDataReaderV2(this);
-        //     if (console == null) console = new ViewSystemNodeConsole();
-        //     if (inspector == null) inspector = new ViewSystemNodeInspector(this);
-        //     Instance = this;
-        // }
 
         List<ViewPageNode> viewPageList = new List<ViewPageNode>();
         List<ViewStateNode> viewStateList = new List<ViewStateNode>();
@@ -195,54 +179,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             inspector.Draw();
         }
-        // void OnGUI()
-        // {
 
-        //     zoomArea = position;
-        //     zoomArea.height -= menuBarHeight;
-        //     zoomArea.y = menuBarHeight;
-        //     zoomArea.x = 0;
-
-        //     Rect scriptViewRect = new Rect(0, 0, this.position.width / zoomScale, this.position.height / zoomScale);
-
-        //     EditorZoomArea.Begin(zoomScale, scriptViewRect);
-        //     DrawGrid();
-        //     foreach (var item in nodeConnectionLineList.ToArray())
-        //     {
-        //         item.Draw();
-        //     }
-        //     foreach (var item in viewPageList.ToArray())
-        //     {
-        //         item.Draw();
-        //     }
-        //     foreach (var item in viewStateList.ToArray())
-        //     {
-        //         item.Draw();
-        //     }
-        //     DrawCurrentConnectionLine(Event.current);
-        //     EditorZoomArea.End();
-
-        //     GUI.depth = -100;
-        //     DrawMenuBar();
-
-        //     if (console.show) console.Draw(new Vector2(position.width, position.height));
-        //     if (inspector.show) inspector.Draw();
-
-        //     BeginWindows();
-        //     if (globalSettingWindow != null)
-        //         globalSettingWindow.OnGUI();
-
-        //     if (overridePopupWindow != null) overridePopupWindow.OnGUI();
-        //     if (navigationWindow != null) navigationWindow.OnGUI();
-
-        //     EndWindows();
-
-        //     ProcessEvents(Event.current);
-        //     CheckRepaint();
-        // }
         public void CheckRepaint()
         {
-            //if (Event.current.type == EventType.Repaint || Event.current.type == EventType.Layout) return;
             if (GUI.changed) Repaint();
         }
 
@@ -261,10 +200,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
                     break;
                 case EventType.ScrollWheel:
-                    //OnDrag(e.delta * -1);
-                    // float target = zoomScale - e.delta.y * 0.1f;
-                    // zoomScale = Mathf.Clamp(target, 0.1f, 1f);
-                    // GUI.changed = true;
                     Vector2 zoomCenter;
                     zoomCenter.x = e.mousePosition.x / zoomScale / nodeViewContianer.contentRect.width;
                     zoomCenter.y = e.mousePosition.y / zoomScale / nodeViewContianer.contentRect.height;
@@ -273,11 +208,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     e.Use();
                     break;
                 case EventType.MouseDown:
-                    if (selectedViewPageNode != null || selectedViewStateNode != null)
-                    {
-                        ClearConnectionSelection();
-                        return;
-                    }
+
                     if (e.button == 1)
                     {
                         if (ViewSystemNodeInspector.isMouseInSideBar() && inspector.show)
@@ -321,7 +252,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
 
         ViewSystemNode lastSelectNode;
-
         public ViewStateNode AddViewStateNode(Vector2 position, ViewState viewState = null)
         {
             var node = new ViewStateNode(position, CheckCanMakeConnect, viewState);
@@ -420,7 +350,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             }
                             return;
                         }
-
 
                         //檢查是不是已經有跟這個 ViewPageNode 節點連線過了
                         if (!selectedViewStateNode.currentLinkedViewPageNode.Contains(selectedViewPageNode) &&
@@ -589,10 +518,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             foreach (var item in vps)
             {
-                // if (item.nodeType == ViewSystemNode.NodeType.Overlay)
-                // {
-                //     continue;
-                // }
                 CreateConnection(viewStateNode, item);
             }
         }
@@ -623,10 +548,59 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             connectionLine.viewStateNode.currentLinkedViewPageNode.Remove(connectionLine.viewPageNode);
             nodeConnectionLineList.Remove(connectionLine);
         }
+
         private void ClearConnectionSelection()
         {
             selectedViewStateNode = null;
             selectedViewPageNode = null;
+        }
+
+        private ViewStateNode selectedViewStateNode;
+        private ViewPageNode selectedViewPageNode;
+        private void DrawCurrentConnectionLine(Event e)
+        {
+            if (selectedViewStateNode != null && selectedViewPageNode == null)
+            {
+                Handles.DrawLine(e.mousePosition, selectedViewStateNode.drawRect.center);
+                if (e.type == EventType.MouseDown)
+                {
+                    if (e.button == 0)
+                    {
+                        //Find only viewpage
+                        var node = viewPageList.Where(m => m.drawRect.Contains(e.mousePosition)).FirstOrDefault();
+                        if (node != null)
+                        {
+                            node.OnConnect?.Invoke(node);
+                        }
+                        else
+                        {
+                            ClearConnectionSelection();
+                        }
+                    }
+                }
+                GUI.changed = true;
+            }
+
+            if (selectedViewPageNode != null && selectedViewStateNode == null)
+            {
+                Handles.DrawLine(e.mousePosition, selectedViewPageNode.drawRect.center);
+                if (e.type == EventType.MouseDown)
+                {
+                    if (e.button == 0)
+                    {
+                        var node = viewStateList.Where(m => m.drawRect.Contains(e.mousePosition)).FirstOrDefault();
+                        if (node != null)
+                        {
+                            node.OnConnect?.Invoke(node);
+                        }
+                        else
+                        {
+                            ClearConnectionSelection();
+                        }
+                    }
+                }
+                GUI.changed = true;
+            }
         }
 
         private void OnDrag(Vector2 delta)
@@ -683,8 +657,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         Rect popupBtnRect;
         private void DrawMenuBar()
         {
-            menuBar = new Rect(0, 0, position.width, menuBarHeight);
-
             using (var area = new GUILayout.AreaScope(menuBar, "", EditorStyles.toolbar))
             {
                 using (var horizon = new GUILayout.HorizontalScope())
@@ -722,6 +694,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         }
                         if (EditorUtility.DisplayDialog("Save", "Save action will also delete all ViewElement in scene. \nDo you really want to continue?", "Yes", "No"))
                         {
+                            if (dataReader.GetSaveData().globalSetting.UIRootScene == null)
+                            {
+                                ViewSystemLog.LogWarning("There is no UIRoot in edit, will ignore the saving of UIRoot Prefab.");
+                            }
                             dataReader.Save(viewPageList, viewStateList);
                         }
                     }
@@ -760,7 +736,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                     if (GUILayout.Button(new GUIContent("Verifiers"), EditorStyles.toolbarDropDown, GUILayout.Height(menuBarHeight)))
                     {
-                        //viewSystemVerifier.VerifyPagesAndStates();
                         GenericMenu genericMenu = new GenericMenu();
                         genericMenu.AddItem(new GUIContent("Verify GameObjects"), false,
                             () =>
@@ -811,23 +786,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
-        private ViewStateNode selectedViewStateNode;
-        private ViewPageNode selectedViewPageNode;
-        private void DrawCurrentConnectionLine(Event e)
-        {
-            if (selectedViewStateNode != null && selectedViewPageNode == null)
-            {
-                Handles.DrawLine(e.mousePosition, selectedViewStateNode.nodeConnectionLinker.rect.center);
-                GUI.changed = true;
-            }
-
-            if (selectedViewPageNode != null && selectedViewStateNode == null)
-            {
-                Handles.DrawLine(e.mousePosition, selectedViewPageNode.nodeConnectionLinker.rect.center);
-                GUI.changed = true;
-            }
-        }
-
         public bool IsNodeInactivable
         {
             get
@@ -839,7 +797,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     ViewSystemNodeInspector.isMouseInSideBar());
             }
         }
-
 
         class VisualElementResizer : MouseManipulator
         {
@@ -924,10 +881,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
     }
 
-
     public class EditorPopupSetting : PopupWindowContent
     {
-
         public override Vector2 GetWindowSize()
         {
             return new Vector2(250, 100);
@@ -937,16 +892,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             ViewSystemNodeEditor.allowPreviewWhenPlaying = EditorGUILayout.ToggleLeft("Allow Preview When Playing", ViewSystemNodeEditor.allowPreviewWhenPlaying);
             ViewSystemNodeEditor.overrideFromOrginal = EditorGUILayout.ToggleLeft("Get Override From Orginal Prefab", ViewSystemNodeEditor.overrideFromOrginal);
-        }
-
-        public override void OnOpen()
-        {
-            //Debug.Log("Popup opened: " + this);
-        }
-
-        public override void OnClose()
-        {
-            //Debug.Log("Popup closed: " + this);
+            ViewSystemNodeEditor.removeConnectWithoutAsk = EditorGUILayout.ToggleLeft("Remove Connect Without Ask", ViewSystemNodeEditor.removeConnectWithoutAsk);
         }
     }
 }
