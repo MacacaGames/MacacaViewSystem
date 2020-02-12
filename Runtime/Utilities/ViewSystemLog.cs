@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ViewSystemLog
 {
-    const string viewsystemloghead = "<color=darkblue><b>[View System]</b></color>";
+    const string viewsystemloghead = "<color=darkblue><b>[View System]</b></color> ";
     public static void Log(object msg, Object context)
     {
         Debug.Log(viewsystemloghead + msg, context);
