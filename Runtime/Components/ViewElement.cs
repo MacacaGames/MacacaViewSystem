@@ -543,6 +543,10 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
+        /// <summary>
+        /// A callback to user do something before recovery
+        /// </summary>
+        public Action OnBeforeRecoveryToPool;
         protected bool needPool = true;
         public void OnLeaveAnimationFinish()
         {
@@ -560,6 +564,8 @@ namespace CloudMacaca.ViewSystem
             if (runtimePool != null)
             {
                 runtimePool.QueueViewElementToRecovery(this);
+                OnBeforeRecoveryToPool?.Invoke();
+                OnBeforeRecoveryToPool = null;
                 if (runtimeOverride != null) runtimeOverride.ResetToDefaultValues();
             }
         }

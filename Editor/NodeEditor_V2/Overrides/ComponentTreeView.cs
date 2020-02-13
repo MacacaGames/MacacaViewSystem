@@ -53,12 +53,12 @@ namespace CloudMacaca.ViewSystem
                     continue;
                 }
 
-                if (isPrefabRoot == true &&
-                    (item is UnityEngine.Transform || item is UnityEngine.RectTransform)
-                )
-                {
-                    continue;
-                }
+                // if (isPrefabRoot == true &&
+                //     (item is UnityEngine.Transform || item is UnityEngine.RectTransform)
+                // )
+                // {
+                //     continue;
+                // }
                 var t1 = new TreeViewWrapper(Id);
                 var so1 = new SerializedObject(item);
                 t1.values = so1;
@@ -139,9 +139,15 @@ namespace CloudMacaca.ViewSystem
                 }
                 else
                 {
+
                     _cachedContent.text = so.targetObject.GetType().Name;
                 }
-                allTreeItem.Add(new TreeViewItem { id = item.id, depth = 0, displayName = _cachedContent.text, icon = (Texture2D)_cachedContent.image });
+                string labelSubFix = "";
+                if (so.targetObject is Transform || so.targetObject is RectTransform)
+                {
+                    labelSubFix = " (Override on Transform may not work)";
+                }
+                allTreeItem.Add(new TreeViewItem { id = item.id, depth = 0, displayName = _cachedContent.text + labelSubFix, icon = (Texture2D)_cachedContent.image });
 
                 foreach (var item2 in serializedPropertys[_cachedContent.text])
                 {
@@ -252,11 +258,6 @@ namespace CloudMacaca.ViewSystem
                                 rect.y += n * 0.5f;
                                 EditorGUI.ColorField(rect, Target.colorValue);
                             }
-                            // Rect rect3 = rect.Contract(1f, 1f, 1f, 1f);
-                            // EditorGUI.DrawRect(rect3, new Color(Target.colorValue.r, Target.colorValue.g, Target.colorValue.b, 1f));
-                            // Rect rect4 = rect3.Contract(0f, 16f, 0f, 0f);
-                            // EditorGUI.DrawRect(rect4, Color.black);
-                            // EditorGUI.DrawRect(new Rect(rect4.x, rect4.y, rect4.width * Target.colorValue.a, rect4.height), Color.white);
                             break;
                         }
                     case SerializedPropertyType.Enum:
@@ -264,6 +265,22 @@ namespace CloudMacaca.ViewSystem
                         break;
                     case SerializedPropertyType.LayerMask:
                         GUI.Box(rect, Target.intValue.ToString(), Drawer.valueBoxStyle);
+                        break;
+                    case SerializedPropertyType.Vector3:
+                        GUI.Box(rect, Target.vector3Value.ToString(), Drawer.valueBoxStyle);
+                        break;
+                    case SerializedPropertyType.Vector2:
+                        GUI.Box(rect, Target.vector3Value.ToString(), Drawer.valueBoxStyle);
+                        break;
+                    case SerializedPropertyType.ObjectReference:
+                        using (var disable = new EditorGUI.DisabledGroupScope(true))
+                        {
+                            var n = rect.height - EditorGUIUtility.singleLineHeight;
+                            rect.height = EditorGUIUtility.singleLineHeight;
+                            rect.y += n * 0.5f;
+                            if (Target.objectReferenceValue) EditorGUI.ObjectField(rect, Target.objectReferenceValue, typeof(UnityEngine.Object), false);
+                            else GUI.Box(rect, new GUIContent("null", "null"), Drawer.valueBoxStyle);
+                        }
                         break;
                     default:
                         GUI.Box(rect, new GUIContent(Target.propertyType.ToString(), Target.propertyType.ToString()), Drawer.valueBoxStyle);
