@@ -22,7 +22,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public static bool allowPreviewWhenPlaying = false;
         public static bool overrideFromOrginal = false;
         public static bool removeConnectWithoutAsk = false;
-        public Transform ViewControllerRoot;
+        public Transform ViewControllerRoot => dataReader.ViewControllerTransform;
 
         [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
         private static void OpenWindow()

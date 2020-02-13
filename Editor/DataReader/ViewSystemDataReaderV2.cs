@@ -21,7 +21,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ViewSystemNodeEditor editor;
 
         ViewSystemSaveData data;
-        Transform ViewControllerTransform;
+        public Transform ViewControllerTransform;
         public bool isDirty = false;
         bool isInit = false;
         public bool Init()
