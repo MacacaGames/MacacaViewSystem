@@ -276,15 +276,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     targetComponent = ViewSystemUtilitys.GetComponent(targetObject, item.viewElementPropertyOverrideData.targetComponentType);
                 }
-                // if (item.viewElementPropertyOverrideData.targetComponentType.Contains("RectTransform"))
-                // {
-                //     targetComponent = targetObject.GetComponent<RectTransform>();
-                // }
-                // else if (item.viewElementPropertyOverrideData.targetComponentType.Contains("Transform"))
-                // {
-                //     targetComponent = targetObject.transform;
-                // }
-
+            
                 if (targetComponent == null)
                 {
                     rect.x += 10;

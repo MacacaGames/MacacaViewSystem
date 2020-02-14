@@ -91,7 +91,17 @@ namespace CloudMacaca.ViewSystem
                     overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, GetPropertyType(Target), false);
                     break;
                 case SerializedPropertyType.Enum:
-                    overProperty.SetValue(EditorGUI.EnumPopup(rect, content, (Enum)overProperty.GetValue()));
+                    bool isFlag = false;
+                    var _enumValue = (Enum)overProperty.GetValue();
+                    isFlag = _enumValue.GetType().GetCustomAttribute(typeof(System.FlagsAttribute)) != null;
+                    if (isFlag)
+                    {
+                        overProperty.SetValue(EditorGUI.EnumFlagsField(rect, content, (Enum)overProperty.GetValue()));
+                    }
+                    else
+                    {
+                        overProperty.SetValue(EditorGUI.EnumPopup(rect, content, (Enum)overProperty.GetValue()));
+                    }
                     break;
             }
             return EditorGUI.EndChangeCheck();
@@ -153,7 +163,7 @@ namespace CloudMacaca.ViewSystem
 
                 viewPageItem.delayOut = EditorGUILayout.Slider("Delay Out", viewPageItem.delayOut, 0, 1);
                 //viewPageItem.excludePlatform = (ViewPageItem.PlatformOption)EditorGUILayout.EnumFlagsField(new GUIContent("Excude Platform", "Excude Platform define the platform which wish to show the ViewPageItem or not"), viewPageItem.excludePlatform);
-                CMEditorLayout.BitMaskField( ref viewPageItem.excludePlatform);
+                CMEditorLayout.BitMaskField(ref viewPageItem.excludePlatform);
             }
         }
     }
