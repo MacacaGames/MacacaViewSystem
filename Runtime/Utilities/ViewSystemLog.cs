@@ -29,4 +29,16 @@ public class ViewSystemLog
     {
         LogError(msg, null);
     }
+#if UNITY_EDITOR
+    public static void ShowNotification(UnityEditor.EditorWindow editor, GUIContent content, float time = 2)
+    {
+#if UNITY_2019_1_OR_NEWER
+        editor.ShowNotification(content, time);
+#else
+        editor.ShowNotification(content);
+#endif
+    }
+#endif
+
+
 }

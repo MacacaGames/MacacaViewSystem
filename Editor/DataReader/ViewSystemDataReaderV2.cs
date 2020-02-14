@@ -137,6 +137,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             if (data.globalSetting.UIRootScene == null)
             {
+                ViewSystemLog.ShowNotification(editor, new GUIContent($"There is no canvas in your scene, do you enter EditMode?"), 2);
                 ViewSystemLog.LogError($"There is no canvas in your scene, do you enter EditMode?");
                 return;
             }
@@ -267,7 +268,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 //Delete all ViewElement in scene before save!!!!
                 ClearAllViewElementInScene();
                 //Apply Prefab
-                if (data.globalSetting.UIRootScene != null) 
+                if (data.globalSetting.UIRootScene != null)
                     data.globalSetting.UIRoot = PrefabUtility.SaveAsPrefabAsset(data.globalSetting.UIRootScene, ViewSystemResourceFolder + data.globalSetting.UIRootScene.name + ".prefab");
             }
             UnityEditor.EditorUtility.SetDirty(data);
