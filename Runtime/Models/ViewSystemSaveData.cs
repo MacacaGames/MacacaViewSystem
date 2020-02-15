@@ -125,9 +125,19 @@ namespace CloudMacaca.ViewSystem
                 case S_Type._string:
                     return StringValue;
                 case S_Type._enum:
-                    var s = StringValue.Split(',');
-                    var enumType = CloudMacaca.Utility.GetType(s[0]);
-                    return System.Enum.Parse(enumType, s[1], false);
+                    {
+                        var s = StringValue.Split(',');
+                        var enumType = CloudMacaca.Utility.GetType(s[0]);
+                        return System.Enum.Parse(enumType, s[1], false);
+                    }
+                case S_Type._enumFlag:
+                    {
+                        var s = StringValue.Split(',');
+                        var enumType = CloudMacaca.Utility.GetType(s[0]);
+                        int v = 0;
+                        int.TryParse(s[1], out v);
+                        return System.Enum.ToObject(enumType , v);
+                    }
                 default:
                     return null;
             }
@@ -245,8 +255,19 @@ namespace CloudMacaca.ViewSystem
             }
             else if (value.GetType().IsEnum)
             {
-                s_Type = S_Type._enum;
-                StringValue = value.GetType().ToString() + "," + value.ToString();
+                bool isFlag = false;
+                isFlag = value.GetType().GetCustomAttribute(typeof(System.FlagsAttribute)) != null;
+                if (isFlag)
+                {
+                    s_Type = S_Type._enumFlag;
+                    StringValue = value.GetType().ToString() + "," + (int)value;
+                }
+                else
+                {
+                    s_Type = S_Type._enum;
+                    StringValue = value.GetType().ToString() + "," + value.ToString();
+                }
+
                 toStringDirectly = false;
             }
             else if (value.GetType().IsSubclassOf(typeof(UnityEngine.Object)) ||
@@ -263,9 +284,10 @@ namespace CloudMacaca.ViewSystem
         {
             s_Type = t;
         }
+        //Do not modify the order of this enum to avoid serilize problem in unity
         public enum S_Type
         {
-            _bool, _float, _int, _color, _objcetReferenct, _string, _enum, _vector3, _vector2
+            _bool, _float, _int, _color, _objcetReferenct, _string, _enum, _vector3, _vector2, _enumFlag
         }
         public S_Type s_Type = S_Type._string;
         public UnityEngine.Object ObjectReferenceValue;
