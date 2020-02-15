@@ -229,7 +229,11 @@ namespace CloudMacaca.ViewSystem
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)
                 {
-                    item.OnChangePage(show);
+                    try
+                    {
+                        item.OnChangePage(show);
+                    }
+                    catch { }
                 }
             //ViewSystemLog.LogError("ChangePage " + name);
             if (show)
@@ -330,7 +334,11 @@ namespace CloudMacaca.ViewSystem
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)
                 {
-                    item.OnBeforeShow();
+                    try
+                    {
+                        item.OnBeforeShow();
+                    }
+                    catch { }
                 }
 
             gameObject.SetActive(true);
@@ -415,7 +423,11 @@ namespace CloudMacaca.ViewSystem
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)
                 {
-                    item.OnStartShow();
+                    try
+                    {
+                        item.OnStartShow();
+                    }
+                    catch { }
                 }
             // });
         }
@@ -444,7 +456,11 @@ namespace CloudMacaca.ViewSystem
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)
                 {
-                    item.OnBeforeLeave();
+                    try
+                    {
+                       item.OnBeforeLeave();
+                    }
+                    catch { }
                 }
 
             if (viewElementGroup != null)
@@ -528,7 +544,11 @@ namespace CloudMacaca.ViewSystem
             {
                 foreach (var item in lifeCyclesObjects)
                 {
-                    item.OnStartLeave();
+                    try
+                    {
+                       item.OnStartLeave();
+                    }
+                    catch { }
                 }
             }
 

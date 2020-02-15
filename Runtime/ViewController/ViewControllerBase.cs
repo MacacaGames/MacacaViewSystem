@@ -64,7 +64,7 @@ namespace CloudMacaca.ViewSystem
                 overlayPageStates.TryGetValue(vp.name, out overlayPageState);
             }
 
-            if (overlayPageState == null && hardFix == true)
+            if (overlayPageState == null )
             {
                 //如果 字典裡找不到 則 new 一個
                 overlayPageState = new ViewSystemUtilitys.OverlayPageState();
@@ -78,10 +78,7 @@ namespace CloudMacaca.ViewSystem
 
                 ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
             }
-            else
-            {
-                return null;
-            }
+         
             overlayPageState.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageState, tweenTimeIfNeed, OnComplete));
             return overlayPageState.pageChangeCoroutine;
         }
