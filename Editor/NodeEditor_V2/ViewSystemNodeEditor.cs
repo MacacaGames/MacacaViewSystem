@@ -105,7 +105,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             dataReader.EditEnd();
             CanEnterEditMode = true;
-            menuBar = new Rect(0, 0, position.width, menuBarHeight);
         }
         public void ClearEditor()
         {
@@ -657,6 +656,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         Rect popupBtnRect;
         private void DrawMenuBar()
         {
+            menuBar = new Rect(0, 0, position.width, menuBarHeight);
+
             using (var area = new GUILayout.AreaScope(menuBar, "", EditorStyles.toolbar))
             {
                 using (var horizon = new GUILayout.HorizontalScope())
