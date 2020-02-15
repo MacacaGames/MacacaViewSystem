@@ -80,7 +80,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 dataReader.EditEnd();
             }
         }
-
+ 
         public void RefreshData(bool hardRefresh = true)
         {
             ClearEditor();
@@ -648,11 +648,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         public bool EditMode = false;
         bool CanEnterEditMode = false;
-        [UnityEditor.Callbacks.DidReloadScripts]
-        private static void OnScriptsReloaded()
-        {
-            dataReader.Normalized();
-        }
+        // [UnityEditor.Callbacks.DidReloadScripts]
+        // private static void OnScriptsReloaded()
+        // {
+        // dataReader.Normalized();
+        // } 
         Rect popupBtnRect;
         private void DrawMenuBar()
         {
