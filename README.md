@@ -10,6 +10,12 @@
     + [Option 1: Git SubModule](#option-1-git-submodule)
     + [Option 2: Unity Package file](#option-2-unity-package-file)
     + [Option 3: Unity Package manager](#option-3-unity-package-manager)
+* [Components](#components)
+    + [ViewMarginFixer](#viewmarginfixer)
+    + [ViewElementGroup](#viewelementgroup)
+* [LifeCycle Hook and Injection](#lifecycle-hook-and-injection)
+    + [IViewElementLifeCycle](#iviewelementlifecycle)
+    + [IViewElementInjectable](#iviewelementinjectable)
 * [System LifeCycle](#system-lifecycle)
     + [ViewController Initialization](#viewcontroller-initialization)
     + [FullPage ChangePage](#fullpage-changepage)
@@ -75,6 +81,79 @@ git submodule add hhttps://github.com/MacacaGames/MacacaUtility.git Assets/Macac
 
 ## Option 3: Unity Package manager
 > Work in progress
+
+# Components
+## ViewMarginFixer
+ViewElement manage by the ViewSystem will be pooled if is not in use, that means the RectTransfrom's anchor stretch value may be wrong while it is taken out from pool. (cause by the Transfrom.SetParent(true);)
+
+ViewMarginFixer is a helper to solve this issue, which override the anchor stretch value base on the ViewElement life cycle.
+
+<img src="./Img/viewmarginfixer.png" width="400"/>
+<img src="./Img/transform_anchor.png" width="400"/>
+
+## ViewElementGroup
+Something we me may wish to use already exsited ViewElement inside another ViewElement, in this way the ViewElementGroup can helps.
+ViewElementGroup works a little like CanvasGroup, if the ViewElement has ViewElementGroup attached,the OnShow/OnLeave intent will also send into the children ViewElement, therefore the whole ViewElement will show/leave correctlly.
+
+As the attach screenshot, the ConfirmBox is a ViewElement and BtnNegitive, BtnPositive is children ViewElement.
+<img src="./Img/viewelementgroup.png" />
+
+There is a **Only Manual Mode** switch on ViewElementGroup, if the swich on, ViewElement will ignore the OnShow/OnLeave intent send by ViewController.
+It is helpful while we wish to control the ViewElement show/leave via script.
+```csharp
+[SerializeField]
+ViewElement someViewelement;
+
+// Set the parameter to true to manual show the ViewElement which ViewElementGroup's **Only Manual Mode** is on.
+someViewelement.OnShow(true);
+
+// If the ViewElement is child of other ViewElement set the first bool to false to aviod the ViewElement to be pooled while OnLeave.
+someViewelement.OnLeave(false, true);
+```
+<img src="./Img/viewelementgroup_manual.png" width="400"/>
+
+# LifeCycle Hook and Injection
+
+## IViewElementLifeCycle
+We can hooks the lifecycle on ViewElement by **IViewElementLifeCycle** interface, implemented the interface to get lifecycle callback on ViewElement.
+```csharp
+void OnBeforeShow();
+void OnBeforeLeave();
+void OnStartShow();
+void OnStartLeave();
+void OnChangePage(bool show);
+```
+System provide a component has implemented IViewElementLifeCycle which is called ViewElementLifeCycle.
+
+It is useful if we wish to setup callback via inspector with UnityEvents, or inherit the component to overrid the method.
+
+<img src="./Img/viewelementlifecycle.png" width="400"/>
+
+```csharp
+public class SomeClass : ViewElementLifeCycle
+{
+    public override void OnBeforeShow()
+    {
+       // Do something
+    }
+}
+```
+
+> Note : Component implemented **IViewElementLifeCycle** needs to attach on ViewElement or its children.
+
+## IViewElementInjectable
+System provide a way to get global ViewElement reference from ViewController, component which inherit **IViewElementInjectable** interface will be created as singleton instance, that means the ViewElement will only one instance hole lifecycle.
+
+```csharp
+public class SomeInjectableClass : MonoBehaviour, IViewElementInjectable
+{}
+
+// Use GetInjectionInstance method on ViewControllerV2 to get the singleton instance of ViewElement.
+SomeInjectableClass someInjectableClass = ViewControllerV2.Instance.GetInjectionInstance<SomeInjectableClass>();
+```
+
+> Note : The ViewElement also needs to swtich the **IsUnique** boolean on to makes IViewElementInjectable works.
+
 
 # System LifeCycle
 ## ViewController Initialization
