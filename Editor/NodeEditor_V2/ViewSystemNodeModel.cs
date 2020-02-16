@@ -183,6 +183,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 return ViewSystemNodeEditor.Instance.IsNodeInactivable;
             }
         }
+        bool rightBtn = false;
         public bool ProcessEvents(Event e)
         {
             if (IsInactivable == false)
@@ -207,6 +208,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 case EventType.MouseDown:
                     if (e.button == 0)
                     {
+                        rightBtn = false;
+
                         if (isMouseInNode)
                         {
                             if (OnNodeSelect != null) OnNodeSelect(this);
@@ -227,18 +230,28 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         if (isMouseInNode)
                         {
+                            rightBtn = true;
                             GenerateRightBtnMenu();
                             e.Use();
+                            GUI.changed = true;
+                        }
+                        else
+                        {
+                            isSelect = false;
                             GUI.changed = true;
                         }
                     }
                     break;
                 case EventType.MouseUp:
-
                     break;
                 case EventType.MouseDrag:
                     if (e.button == 0 && isSelect)
                     {
+                        if (rightBtn)
+                        {
+                            rightBtn = false;
+                            break;
+                        }
 
                         Drag(e.delta);
                         if (this is ViewStateNode)
