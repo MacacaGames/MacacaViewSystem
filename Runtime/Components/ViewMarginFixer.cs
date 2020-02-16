@@ -121,7 +121,7 @@ public class ViewMarginFixer : ViewElementLifeCycle
     {
         if (anchor == CloudMacaca.AnchorPresets.UnKnown)
         {
-            anchor = _rectTransform.GetAnchorPresets();
+            anchor = rectTransform.GetAnchorPresets();
         }
         //Min new Vector2(left, bottom); 
         //Max new Vector2(-right, -top);

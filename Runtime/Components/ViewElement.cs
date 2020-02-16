@@ -233,7 +233,8 @@ namespace CloudMacaca.ViewSystem
                     {
                         item.OnChangePage(show);
                     }
-                    catch { }
+                    catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
+
                 }
             //ViewSystemLog.LogError("ChangePage " + name);
             if (show)
@@ -338,7 +339,8 @@ namespace CloudMacaca.ViewSystem
                     {
                         item.OnBeforeShow();
                     }
-                    catch { }
+                    catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
+
                 }
 
             gameObject.SetActive(true);
@@ -427,7 +429,8 @@ namespace CloudMacaca.ViewSystem
                     {
                         item.OnStartShow();
                     }
-                    catch { }
+                    catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
+
                 }
             // });
         }
@@ -458,9 +461,9 @@ namespace CloudMacaca.ViewSystem
                 {
                     try
                     {
-                       item.OnBeforeLeave();
+                        item.OnBeforeLeave();
                     }
-                    catch { }
+                    catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
                 }
 
             if (viewElementGroup != null)
@@ -546,9 +549,10 @@ namespace CloudMacaca.ViewSystem
                 {
                     try
                     {
-                       item.OnStartLeave();
+                        item.OnStartLeave();
                     }
-                    catch { }
+                    catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
+
                 }
             }
 
