@@ -35,12 +35,12 @@ public class ViewElementRequestedPool
         return viewElementInstance;
     }
 
-    public void RecoveryAll()
+    public void RecoveryAll(bool ignoreTransition = true)
     {
         while (viewElementQueue.Count > 0)
         {
             var ve = viewElementQueue.Dequeue();
-            ve.ChangePage(false, null, ignoreTransition: true);
+            ve.ChangePage(false, null, ignoreTransition: ignoreTransition);
 
             recoveryAction?.Invoke(ve);
         }
