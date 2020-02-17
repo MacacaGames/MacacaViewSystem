@@ -339,7 +339,7 @@ namespace CloudMacaca.ViewSystem
                     {
                         item.OnBeforeShow();
                     }
-                    catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
+                    catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
 
                 }
 
@@ -429,7 +429,7 @@ namespace CloudMacaca.ViewSystem
                     {
                         item.OnStartShow();
                     }
-                    catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
+                    catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
 
                 }
             // });
