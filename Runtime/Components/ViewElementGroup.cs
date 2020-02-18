@@ -9,7 +9,9 @@ namespace CloudMacaca.ViewSystem
     {
         [HideInInspector]
         public ViewElement viewElement;
+        // [SerializeField, ReadOnly]
         List<ViewElement> childViewElements = new List<ViewElement>();
+        //[SerializeField, ReadOnly]
         List<ViewElementGroup> childViewElementGroups = new List<ViewElementGroup>();
         void Awake()
         {
@@ -26,8 +28,13 @@ namespace CloudMacaca.ViewSystem
             viewElement = GetComponent<ViewElement>();
 
             childViewElementGroups = GetComponentsInChildren<ViewElementGroup>()
-                .Where(m => m != GetComponent<ViewElementGroup>())
+                .Where(m => m != this)
                 .ToList();
+
+            foreach (var item in childViewElementGroups)
+            {
+                item.SetupChild();
+            }
 
             childViewElements = GetComponentsInChildren<ViewElement>()
                 .Where(m => m != viewElement)
@@ -43,6 +50,12 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
+        }
+
+        void OnTransformParentChanged()
+        {
+            SetupChild();
+            //Debug.Log($"OnTransformParentChanged {name}");
         }
 
         public void OnShowChild()
