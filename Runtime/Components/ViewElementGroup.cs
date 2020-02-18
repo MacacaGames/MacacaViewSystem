@@ -54,7 +54,7 @@ namespace CloudMacaca.ViewSystem
 
         void OnTransformParentChanged()
         {
-            SetupChild();
+            //SetupChild();
             //Debug.Log($"OnTransformParentChanged {name}");
         }
 
