@@ -326,9 +326,21 @@ namespace CloudMacaca.ViewSystem
                 yield break;
             }
         }
+        public bool IsShowing
+        {
+            get
+            {
+                return showCoroutine != null;
+            }
+        }
+        Coroutine showCoroutine;
         public virtual void OnShow(bool manual = false)
         {
-            viewController.StartCoroutine(OnShowRunner(manual));
+            if (showCoroutine != null)
+            {
+                viewController.StopCoroutine(showCoroutine);
+            }
+            showCoroutine = viewController.StartCoroutine(OnShowRunner(manual));
         }
         public IEnumerator OnShowRunner(bool manual)
         {
@@ -351,6 +363,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     if (gameObject.activeSelf) gameObject.SetActive(false);
                     // ViewSystemLog.LogWarning("Due to ignoreTransitionOnce is set to true, ignore the transition");
+                    showCoroutine = null;
                     yield break;
                 }
                 viewElementGroup.OnShowChild();
@@ -364,17 +377,17 @@ namespace CloudMacaca.ViewSystem
                 viewController.StopCoroutine(OnLeaveCoroutine);
             }
 
-            if (IsShowed)
-            {
-                if (transition == TransitionType.Animator)
-                {
-                    animator.Play("Empty");
-                }
-                else if (transition == TransitionType.CanvasGroupAlpha)
-                {
-                    canvasGroup.alpha = 0;
-                }
-            }
+            // if (IsShowed)
+            // {
+            //     if (transition == TransitionType.Animator)
+            //     {
+            //         animator.Play("Empty");
+            //     }
+            //     else if (transition == TransitionType.CanvasGroupAlpha)
+            //     {
+            //         canvasGroup.alpha = 0;
+            //     }
+            // }
 
             // Observable
             //     .Timer(TimeSpan.FromSeconds(delayIn))
@@ -404,7 +417,7 @@ namespace CloudMacaca.ViewSystem
                 //         }
                 //     }
                 // ).SetEase(canvasInEase);
-
+                canvasGroup.alpha = 0;
                 viewController.StartCoroutine(EaseMethods.EaseValue(
                     canvasGroup.alpha,
                     1,
@@ -432,6 +445,8 @@ namespace CloudMacaca.ViewSystem
                     catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
 
                 }
+
+            showCoroutine = null;
             // });
         }
         bool OnLeaveWorking = false;
