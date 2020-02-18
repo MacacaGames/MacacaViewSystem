@@ -7,7 +7,7 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewSystemNodeConsole
     {
-        public bool show = true;
+        public bool show = false;
 
         public struct ConsoleMsg
         {
