@@ -350,7 +350,7 @@ namespace CloudMacaca.ViewSystem
         public event EventHandler<ViewPageEventArgs> OnOverlayPageLeave;
         protected virtual void InvokeOnOverlayPageLeave(object obj, ViewPageEventArgs args)
         {
-            OnOverlayPageShow?.Invoke(obj, args);
+            OnOverlayPageLeave?.Invoke(obj, args);
         }
 
         public class ViewStateEventArgs : EventArgs
