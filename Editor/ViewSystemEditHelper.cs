@@ -12,9 +12,14 @@ public class ViewSystemEditHelper : EditorWindow
     string newAnimationFileName = "";
     string targetDirectory = "";
     string[] fileEntries;
-    bool isButton = false;
-    // string[] newFileGUID;
-    // string[] oldFileGUID;
+    enum ElementType
+    {
+        Normal,
+        Button,
+        Toggle
+    }
+    ElementType elementType;
+
     Dictionary<string, string> newFileGUID = new Dictionary<string, string>();
     Dictionary<string, string> oldFileGUID = new Dictionary<string, string>();
 
@@ -29,15 +34,26 @@ public class ViewSystemEditHelper : EditorWindow
     {
         // 自動生成 View Element 動畫檔案
         GUILayout.Label("Generate View Element Animation Files", EditorStyles.boldLabel);
-        isButton = EditorGUILayout.Toggle("isButton", isButton);
+        elementType = (ElementType)EditorGUILayout.EnumPopup("Element Type", elementType);
         newAnimationFileName = EditorGUILayout.TextField("Animation Name", newAnimationFileName);
         if (GUILayout.Button("Create Animation File"))
         {
-            // 判斷是否為 Button 物件
+            // 判斷物件類型
             string DefaultFoldName = "";
-            if (isButton)  DefaultFoldName = "_DefaultBtnAnimationFiles_ViewSystem";
-            else DefaultFoldName = "_DefaultAnimationFiles_ViewSystem";
+            switch (elementType)
+            {
+                case ElementType.Normal:
+                    DefaultFoldName = "_DefaultAnimationFiles_ViewSystem";
+                    break;
 
+                case ElementType.Button:
+                    DefaultFoldName = "_DefaultBtnAnimationFiles_ViewSystem";
+                    break;
+
+                case ElementType.Toggle:
+                    DefaultFoldName = "_DefaultToggleAnimationFiles_ViewSystem";
+                    break;
+            }
 
 
             // -------------------- 第一步驟 創造動畫檔 -------------------- //
@@ -46,12 +62,12 @@ public class ViewSystemEditHelper : EditorWindow
             var findfoldPath = Directory.GetDirectories(Application.dataPath, DefaultFoldName, SearchOption.AllDirectories);
             if (findfoldPath.Count() == 0)
             {
-                ViewSystemLog.LogWarning("請創建「_DefaultAnimationFiles_ViewSystem」資料夾，並放置預設的 Animation Clip 及 Controller");
+                ViewSystemLog.LogWarning("請創建「" + DefaultFoldName + "」資料夾，並放置預設的 Animation Clip 及 Controller");
                 return;
             }
             else if (findfoldPath.Count() > 1)
             {
-                ViewSystemLog.LogWarning("偵測到兩個以上的「_DefaultAnimationFiles_ViewSystem」資料夾：");
+                ViewSystemLog.LogWarning("偵測到兩個以上的「" + DefaultFoldName + "」資料夾：");
                 for (int i = 0; i < findfoldPath.Length; i++)
                 {
                     ViewSystemLog.LogWarning(findfoldPath[i]);
