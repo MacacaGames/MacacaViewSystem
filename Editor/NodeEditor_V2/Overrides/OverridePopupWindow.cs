@@ -44,7 +44,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             };
             windowStyle = new GUIStyle(Drawer.windowStyle);
             RectOffset padding = windowStyle.padding;
-            
+
             padding.left = 1;
             padding.right = 1;
             padding.bottom = 0;
@@ -276,7 +276,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 {
                     targetComponent = ViewSystemUtilitys.GetComponent(targetObject, item.viewElementPropertyOverrideData.targetComponentType);
                 }
-            
+
                 if (targetComponent == null)
                 {
                     rect.x += 10;
@@ -349,7 +349,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 foreach (var item in methodInfos)
                 {
                     var para = item.GetParameters();
-                    if (para.Where(m => m.ParameterType.IsAssignableFrom(typeof(UnityEngine.EventSystems.UIBehaviour))).Count() == 0)
+                    if (para.Where(m => m.ParameterType.IsAssignableFrom(typeof(Component))).Count() == 0)
                     {
                         continue;
                     }
@@ -380,7 +380,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 return;
             }
 
-            EditorGUILayout.HelpBox("Only the method which has UnityEngine.EventSystems.UIBehaviour parameters will be shown", MessageType.Info);
+            EditorGUILayout.HelpBox("Only the method which has Component parameters will be shown", MessageType.Info);
 
             using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionEvent))
             {
@@ -593,10 +593,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         propertyType = pi.PropertyType;
                     }
 
-                    if (!propertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEvent)))
+                    if (!propertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEvent)) &&
+                        !propertyType.IsAssignableFrom(typeof(UnityEngine.Events.UnityEvent)))
                     {
-                        ViewSystemLog.LogError("Currently Gereric type only support UnityEvent");
-                        var content = new GUIContent("Currently Gereric type only support UnityEvent");
+                        var content = new GUIContent("Currently only support UnityEvent without parameters");
+                        ViewSystemLog.LogError(content.text);
 #if UNITY_2019_1_OR_NEWER
                         editor.ShowNotification(content, toastMessageFadeOutTimt);
 #else
@@ -604,6 +605,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 #endif
                         return;
                     }
+
                     var eventData = new ViewElementEventData();
                     eventData.targetTransformPath = AnimationUtility.CalculateTransformPath(c.transform, target.transform);
                     eventData.targetPropertyName = sp.name;

@@ -64,21 +64,21 @@ namespace CloudMacaca.ViewSystem
         ViewElementEventData[] currentEventDatas;
         class EventRuntimeDatas
         {
-            public EventRuntimeDatas(UnityEvent unityEvent, Component selectable)
+            public EventRuntimeDatas(UnityEventBase unityEvent, Component selectable)
             {
                 this.unityEvent = unityEvent;
                 this.selectable = selectable;
             }
-            public UnityEvent unityEvent;
+            public UnityEventBase unityEvent;
             public Component selectable;
         }
         delegate void EventDelegate<Self>(Self selectable);
-        private static EventDelegate<UnityEngine.EventSystems.UIBehaviour> CreateOpenDelegate(string method, Component target)
+        private static EventDelegate<Component> CreateOpenDelegate(string method, Component target)
         {
-            return (EventDelegate<UnityEngine.EventSystems.UIBehaviour>)
-                Delegate.CreateDelegate(type: typeof(EventDelegate<UnityEngine.EventSystems.UIBehaviour>), target, method, true, true);
+            return (EventDelegate<Component>)
+                Delegate.CreateDelegate(type: typeof(EventDelegate<Component>), target, method, true, true);
         }
-        Dictionary<string, EventDelegate<UnityEngine.EventSystems.UIBehaviour>> cachedDelegate = new Dictionary<string, EventDelegate<UnityEngine.EventSystems.UIBehaviour>>();
+        Dictionary<string, EventDelegate<Component>> cachedDelegate = new Dictionary<string, EventDelegate<Component>>();
         Dictionary<string, EventRuntimeDatas> cachedUnityEvent = new Dictionary<string, EventRuntimeDatas>();
         public void ClearAllEvent()
         {
@@ -119,20 +119,18 @@ namespace CloudMacaca.ViewSystem
                     {
                         property = ViewSystemUtilitys.ParseUnityEngineProperty(p[2]);
                     }
-                    UnityEvent unityEvent = (UnityEvent)GetPropertyValue(result.Component, property);
+                    var unityEvent = (UnityEventBase)GetPropertyValue(result.Component, property);
                     eventRuntimeDatas = new EventRuntimeDatas(unityEvent, (Component)result.Component);
                     cachedUnityEvent.Add(item.Key, eventRuntimeDatas);
-                }
 
-                // Clear last event
-                //ClearAllEvent();
+                }
 
                 // Usually there is only one event on one Selectable
                 // But the system allow mutil event on one Selectable
                 foreach (var item2 in item)
                 {
                     var id_delegate = item2.scriptName + "_" + item2.methodName;
-                    EventDelegate<UnityEngine.EventSystems.UIBehaviour> openDelegate;
+                    EventDelegate<Component> openDelegate;
 
                     //Try to get the cached openDelegate object first
                     //Or create a new openDelegate
@@ -155,23 +153,27 @@ namespace CloudMacaca.ViewSystem
                         {
                             openDelegate = CreateOpenDelegate(item2.methodName, scriptInstance);
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            ViewSystemLog.LogError("Create event delegate faild, make sure the method or the instance is exinst.", this);
+                            ViewSystemLog.LogError($"Create event delegate faild, make sure the method or the instance is exinst. Exception:{ex.ToString()}", this);
                         }
                         cachedDelegate.Add(id_delegate, openDelegate);
                     }
-                    eventRuntimeDatas.unityEvent.AddListener(
-                        delegate
-                        {
-                            if (ViewControllerV2.Instance.IsPageTransition)
+
+                    if (eventRuntimeDatas.unityEvent is UnityEvent events)
+                    {
+                        events.AddListener(
+                            delegate
                             {
-                                ViewSystemLog.LogWarning("The page is in transition, event will not fire!");
-                                return;
+                                if (ViewControllerV2.Instance.IsPageTransition)
+                                {
+                                    ViewSystemLog.LogWarning("The page is in transition, event will not fire!");
+                                    return;
+                                }
+                                openDelegate?.Invoke(eventRuntimeDatas.selectable);
                             }
-                            openDelegate?.Invoke((UnityEngine.EventSystems.UIBehaviour)eventRuntimeDatas.selectable);
-                        }
-                    );
+                        );
+                    }
                 }
             }
         }

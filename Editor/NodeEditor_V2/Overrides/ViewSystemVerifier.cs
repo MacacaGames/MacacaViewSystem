@@ -217,26 +217,32 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (verifyTarget == VerifyTarget.Event)
             {
                 RefreshEventDatas();
-                foreach (var item in allEventDatas)
+                foreach (var vpi in allEventDatas)
                 {
-                    var t = CloudMacaca.Utility.GetType(item.targetComponentType);
-                    if (t == null)
+                    foreach (var item in vpi.eventDatas)
                     {
-                        ViewSystemLog.LogError(item.targetComponentType + "  cannot be found");
-                        typeNameCannotBeFound.Add(item.targetComponentType);
+                        var t = CloudMacaca.Utility.GetType(item.targetComponentType);
+                        if (t == null)
+                        {
+                            ViewSystemLog.LogError(item.targetComponentType + "  cannot be found");
+                            typeNameCannotBeFound.Add(item.targetComponentType);
+                        }
                     }
                 }
             }
             if (verifyTarget == VerifyTarget.Override)
             {
                 RefreshOverrideDatas();
-                foreach (var item in allOverrideDatas)
+                foreach (var vpi in allOverrideDatas)
                 {
-                    var t = CloudMacaca.Utility.GetType(item.targetComponentType);
-                    if (t == null)
+                    foreach (var item in vpi.overrideDatas)
                     {
-                        ViewSystemLog.LogError(item.targetComponentType + "  cannot be found");
-                        typeNameCannotBeFound.Add(item.targetComponentType);
+                        var t = CloudMacaca.Utility.GetType(item.targetComponentType);
+                        if (t == null)
+                        {
+                            ViewSystemLog.LogError(item.targetComponentType + "  cannot be found");
+                            typeNameCannotBeFound.Add(item.targetComponentType);
+                        }
                     }
                 }
             }
@@ -350,21 +356,24 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             RefreshMethodDatabase();
             RefreshEventDatas();
             eventDataNeedToFix.Clear();
-            foreach (var item in allEventDatas)
+            foreach (var vpi in allEventDatas)
             {
-                var t = CloudMacaca.Utility.GetType(item.scriptName);
-                if (t == null)
+                foreach (var item in vpi.eventDatas)
                 {
-                    ViewSystemLog.LogError(item.targetComponentType + " still not fixed cannot be found, will ignore while verify property");
-                    eventDataNeedToFix.Add(item);
-                    continue;
-                }
+                    var t = CloudMacaca.Utility.GetType(item.scriptName);
+                    if (t == null)
+                    {
+                        ViewSystemLog.LogError(item.targetComponentType + " still not fixed cannot be found, will ignore while verify property");
+                        eventDataNeedToFix.Add(item);
+                        continue;
+                    }
 
-                if (t.GetMethod(item.methodName, bindingFlags) == null)
-                {
-                    ViewSystemLog.LogError($"{item.methodName} in {item.scriptName} cannot be found");
-                    eventDataNeedToFix.Add(item);
-                    continue;
+                    if (t.GetMethod(item.methodName, bindingFlags) == null)
+                    {
+                        ViewSystemLog.LogError($"{item.methodName} in {item.scriptName} cannot be found");
+                        eventDataNeedToFix.Add(item);
+                        continue;
+                    }
                 }
             }
             if (eventDataNeedToFix.Count > 0)
@@ -429,20 +438,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
-        List<ViewElementPropertyOverrideData> allOverrideDatas = new List<ViewElementPropertyOverrideData>();
+        List<ViewPageItem> allOverrideDatas = new List<ViewPageItem>();
         void RefreshOverrideDatas()
         {
-            var overrideDatasInPages = saveData.viewPages.Select(m => m.viewPage).SelectMany(x => x.viewPageItems).SelectMany(i => i.overrideDatas);
-            var overrideDatasInStates = saveData.viewStates.Select(m => m.viewState).SelectMany(x => x.viewPageItems).SelectMany(i => i.overrideDatas);
+            var overrideDatasInPages = saveData.viewPages.Select(m => m.viewPage).SelectMany(x => x.viewPageItems);
+            var overrideDatasInStates = saveData.viewStates.Select(m => m.viewState).SelectMany(x => x.viewPageItems);
             allOverrideDatas.Clear();
             allOverrideDatas.AddRange(overrideDatasInPages);
             allOverrideDatas.AddRange(overrideDatasInStates);
         }
-        List<ViewElementEventData> allEventDatas = new List<ViewElementEventData>();
+        List<ViewPageItem> allEventDatas = new List<ViewPageItem>();
         void RefreshEventDatas()
         {
-            var eventsDatasInPages = saveData.viewPages.Select(m => m.viewPage).SelectMany(x => x.viewPageItems).SelectMany(i => i.eventDatas);
-            var eventsDatasInStates = saveData.viewStates.Select(m => m.viewState).SelectMany(x => x.viewPageItems).SelectMany(i => i.eventDatas);
+            var eventsDatasInPages = saveData.viewPages.Select(m => m.viewPage).SelectMany(x => x.viewPageItems);
+            var eventsDatasInStates = saveData.viewStates.Select(m => m.viewState).SelectMany(x => x.viewPageItems);
             allEventDatas.Clear();
             allEventDatas.AddRange(eventsDatasInPages);
             allEventDatas.AddRange(eventsDatasInStates);
@@ -638,7 +647,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             foreach (var vpi in vp.viewPage.viewPageItems.Where(m => m.viewElement == item.originalNotFoundItem.viewElement))
                             {
                                 vpi.overrideDatas.RemoveAll(
-                                    m => m.targetTransformPath == item.originalNotFoundItem.viewSystemComponent.targetTransformPath );
+                                    m => m.targetTransformPath == item.originalNotFoundItem.viewSystemComponent.targetTransformPath);
                             }
                         }
                         foreach (var vs in saveData.viewStates)
@@ -650,7 +659,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             foreach (var vpi in vs.viewState.viewPageItems.Where(m => m.viewElement == item.originalNotFoundItem.viewElement))
                             {
                                 vpi.overrideDatas.RemoveAll(
-                                    m => m.targetTransformPath == item.originalNotFoundItem.viewSystemComponent.targetTransformPath );
+                                    m => m.targetTransformPath == item.originalNotFoundItem.viewSystemComponent.targetTransformPath);
                             }
                         }
                         continue;
