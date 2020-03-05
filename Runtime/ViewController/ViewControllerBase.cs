@@ -23,7 +23,7 @@ namespace CloudMacaca.ViewSystem
         protected static ViewControllerBase _incance;
 
         #region Interface Impletetment
-        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnComplete = null, bool ignoreTimeScale = false)
+        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnStart = null, Action OnComplete = null, bool ignoreTimeScale = false)
         {
             var vp = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
             if (vp == null)
@@ -48,7 +48,7 @@ namespace CloudMacaca.ViewSystem
                     return null;
                 }
             }
-            return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnComplete));
+            return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnStart, OnComplete));
         }
 
         public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTimeScale = false, bool hardFix = false)
@@ -64,7 +64,7 @@ namespace CloudMacaca.ViewSystem
                 overlayPageStates.TryGetValue(vp.name, out overlayPageState);
             }
 
-            if (overlayPageState == null )
+            if (overlayPageState == null)
             {
                 //如果 字典裡找不到 則 new 一個
                 overlayPageState = new ViewSystemUtilitys.OverlayPageState();
@@ -78,7 +78,7 @@ namespace CloudMacaca.ViewSystem
 
                 ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
             }
-         
+
             overlayPageState.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageState, tweenTimeIfNeed, OnComplete));
             return overlayPageState.pageChangeCoroutine;
         }
@@ -106,7 +106,7 @@ namespace CloudMacaca.ViewSystem
             return ChangePageToCoroutine;
         }
 
-        public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete, bool ignoreTimeScale = false)
+        public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnComplete, bool ignoreTimeScale = false)
         {
             //Empty implement will override in child class
             yield return null;

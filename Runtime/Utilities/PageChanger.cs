@@ -45,8 +45,7 @@ namespace CloudMacaca.ViewSystem
         }
         public override void _Show()
         {
-            _OnStart?.Invoke();
-            _pageChangerRunner = _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnComplete);
+            _pageChangerRunner = _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnComplete);
             hasStart = true;
         }
         public void _Leave()

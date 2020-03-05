@@ -192,7 +192,7 @@ namespace CloudMacaca.ViewSystem
             if (vp.viewPageType == ViewPage.ViewPageType.Overlay)
             {
                 ViewSystemLog.LogWarning("To shown Page is an Overlay ViewPage use ShowOverlayViewPage() instead method \n current version will redirect to this method automatically, but this behaviour may be changed in future release.");
-                ShowOverlayViewPageBase(vp, true, OnComplete, ignoreTimeScale);
+                ShowOverlayViewPageBase(vp, true, OnStart, OnComplete, ignoreTimeScale);
                 ChangePageToCoroutine = null;
                 yield break;
             }
@@ -359,7 +359,7 @@ namespace CloudMacaca.ViewSystem
             nextViewState = null;
         }
 
-        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnComplete, bool ignoreTimeScale)
+        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnComplete, bool ignoreTimeScale)
         {
             if (vp == null)
             {
@@ -436,8 +436,9 @@ namespace CloudMacaca.ViewSystem
                     overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Show;
                 }
                 viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
-
             }
+
+            OnStart?.Invoke();
 
             float onShowTime = ViewSystemUtilitys.CalculateTimesNeedsForOnShow(viewItemNextPage.Select(m => m.runtimeViewElement));
             float onShowDelay = ViewSystemUtilitys.CalculateWaitingTimeForCurrentOnShow(viewItemNextPage);
