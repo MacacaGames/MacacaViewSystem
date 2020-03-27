@@ -102,7 +102,7 @@ namespace CloudMacaca.ViewSystem
     [System.Serializable]
     public class PropertyOverride
     {
-        BindingFlags defaultBindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+        BindingFlags defaultBindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance ;
 
         public object GetValue()
         {

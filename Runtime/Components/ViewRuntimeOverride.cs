@@ -248,7 +248,7 @@ namespace CloudMacaca.ViewSystem
             var id = targetTransformPath + "#" + targetComponentType;
             if (!cachedComponent.TryGetValue(id, out c))
             {
-                if (targetComponentType.Contains("GameObject"))
+                if (targetComponentType.Contains("UnityEngine.GameObject"))
                 {
                     c = targetTansform.gameObject;
                 }

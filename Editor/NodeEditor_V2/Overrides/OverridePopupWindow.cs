@@ -268,7 +268,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
 
                 UnityEngine.Object targetComponent = null;
-                if (item.viewElementPropertyOverrideData.targetComponentType.Contains("GameObject"))
+                if (item.viewElementPropertyOverrideData.targetComponentType.Contains("UnityEngine.GameObject"))
                 {
                     targetComponent = targetObject.gameObject;
                 }

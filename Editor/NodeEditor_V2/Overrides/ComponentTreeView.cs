@@ -78,7 +78,7 @@ namespace CloudMacaca.ViewSystem
             string key = "";
             if (obj.targetObject as Component == null)
             {
-                key = "GameObject";
+                key = "UnityEngine.GameObject";
             }
             else
             {
@@ -93,7 +93,7 @@ namespace CloudMacaca.ViewSystem
 
             TreeViewWrapper temp;
             //GameObject Hack m_IsActive is not a Visable Property but we still want to modify it.
-            if (key == "GameObject")
+            if (key == "UnityEngine.GameObject")
             {
                 var active = obj.FindProperty("m_IsActive");
                 if (active != null)
@@ -135,7 +135,7 @@ namespace CloudMacaca.ViewSystem
                 var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(so.targetObject, so.targetObject.GetType()));
                 if (so.targetObject as Component == null)
                 {
-                    _cachedContent.text = "GameObject";
+                    _cachedContent.text = "UnityEngine.GameObject";
                 }
                 else
                 {

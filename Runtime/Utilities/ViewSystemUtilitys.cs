@@ -163,7 +163,7 @@ namespace CloudMacaca.ViewSystem
 
         public static Component GetComponent(Component target, string type)
         {
-            if (type.Contains("GameObject"))
+            if (type.Contains("UnityEngine.GameObject"))
             {
                 throw new System.ArgumentException("ViewSystemUtility.GetComponent doesn't support GameObject due to GameObject is not a Component");
             }
