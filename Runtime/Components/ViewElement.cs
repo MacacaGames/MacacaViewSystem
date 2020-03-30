@@ -23,10 +23,17 @@ namespace CloudMacaca.ViewSystem
         {
             get
             {
+
                 if (_viewElementGroup == null)
                 {
                     _viewElementGroup = GetComponent<ViewElementGroup>();
+                    if (hasGroupSetup)
+                    {
+                        return _viewElementGroup;
+                    }
+                    hasGroupSetup = true;
                 }
+
                 return _viewElementGroup;
             }
         }

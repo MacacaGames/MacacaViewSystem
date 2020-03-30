@@ -27,7 +27,7 @@ namespace CloudMacaca.ViewSystem
         {
             viewElement = GetComponent<ViewElement>();
 
-            childViewElementGroups = GetComponentsInChildren<ViewElementGroup>(true)
+            childViewElementGroups = GetComponentsInChildren<ViewElementGroup>()
                 .Where(m => m != this)
                 .ToList();
 
@@ -36,7 +36,7 @@ namespace CloudMacaca.ViewSystem
                 item.SetupChild();
             }
 
-            childViewElements = GetComponentsInChildren<ViewElement>(true)
+            childViewElements = GetComponentsInChildren<ViewElement>()
                 .Where(m => m != viewElement)
                 .ToList();
 
