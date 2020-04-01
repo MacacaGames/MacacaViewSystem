@@ -236,12 +236,13 @@ namespace CloudMacaca.ViewSystem
                     catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
 
                 }
-            //ViewSystemLog.LogError("ChangePage " + name);
             if (show)
             {
                 if (parent == null)
                 {
-                    throw new NullReferenceException(gameObject.name + " does not set the parent for next viewpage.");
+                    ViewSystemLog.LogError($"{gameObject.name} does not set the parent for next viewpage.", this);
+                    yield break;
+                    //throw new NullReferenceException(gameObject.name + " does not set the parent for next viewpage.");
                 }
                 //還在池子裡，應該先 OnShow
                 //或是正在離開，都要重播 OnShow
