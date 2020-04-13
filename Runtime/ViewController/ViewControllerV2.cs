@@ -69,7 +69,11 @@ namespace CloudMacaca.ViewSystem
             {
                 return (T)result;
             }
-            throw new MissingReferenceException("Target type cannot been found, are you sure your ViewElement which attach target Component is unique?");
+            else
+            {
+                ViewSystemLog.LogError("Target type cannot been found, are you sure your ViewElement which attach target Component is unique?");
+            }
+            return null;
         }
         void PrewarmInjection()
         {
@@ -80,6 +84,7 @@ namespace CloudMacaca.ViewSystem
                 if (item == null)
                 {
                     ViewSystemLog.Log("I'm null!!!");
+                    continue;
                 }
                 if (!item.IsUnique)
                 {
@@ -109,6 +114,7 @@ namespace CloudMacaca.ViewSystem
                 if (item == null)
                 {
                     ViewSystemLog.Log("I'm null!!!");
+                    continue;
                 }
                 if (!item.IsUnique)
                 {
