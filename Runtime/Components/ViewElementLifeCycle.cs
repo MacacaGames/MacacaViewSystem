@@ -30,7 +30,7 @@ public class ViewElementLifeCycle : MonoBehaviour, IViewElementLifeCycle
         OnBeforeShowHandler?.Invoke();
     }
 
-    public void OnChangePage(bool show)
+    public virtual void OnChangePage(bool show)
     {
         OnChangePageHandler?.Invoke(show);
     }

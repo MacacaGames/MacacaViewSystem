@@ -233,7 +233,7 @@ namespace CloudMacaca.ViewSystem
                     {
                         item.OnChangePage(show);
                     }
-                    catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
+                    catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
 
                 }
             if (show)
@@ -274,16 +274,25 @@ namespace CloudMacaca.ViewSystem
                         rectTransform.SetParent(parent, true);
                         // rectTransform.DOAnchorPos3D(Vector3.zero, TweenTime);
                         // rectTransform.DOScale(Vector3.one, TweenTime);
-                        viewController.StartCoroutine(EaseMethods.EaseVector3(
-                            rectTransform.anchoredPosition3D,
-                            Vector3.zero,
-                            TweenTime,
-                            EaseMethods.GetEase(EaseStyle.QuadEaseOut),
-                            (v) =>
-                            {
-                                rectTransform.anchoredPosition3D = v;
-                            }
-                        ));
+                        var marginFixer = GetComponent<ViewMarginFixer>();
+                        if (marginFixer == null)
+                        {
+                            viewController.StartCoroutine(EaseMethods.EaseVector3(
+                                rectTransform.anchoredPosition3D,
+                                Vector3.zero,
+                                TweenTime,
+                                EaseMethods.GetEase(EaseStyle.QuadEaseOut),
+                                (v) =>
+                                {
+                                    rectTransform.anchoredPosition3D = v;
+                                }
+                            ));
+                        }
+                        else
+                        {
+                            marginFixer.ApplyModifyValue();
+                        }
+
                         viewController.StartCoroutine(EaseMethods.EaseVector3(
                             rectTransform.localScale,
                             Vector3.one,

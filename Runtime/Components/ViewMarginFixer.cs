@@ -30,6 +30,7 @@ public class ViewMarginFixer : ViewElementLifeCycle
     {
         ApplyModifyValue();
     }
+  
     public void SetModifyValueFromRectTransform()
     {
         var anchor = _rectTransform.GetAnchorPresets();
