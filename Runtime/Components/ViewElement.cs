@@ -272,26 +272,22 @@ namespace CloudMacaca.ViewSystem
                     if (TweenTime >= 0)
                     {
                         rectTransform.SetParent(parent, true);
-                        // rectTransform.DOAnchorPos3D(Vector3.zero, TweenTime);
-                        // rectTransform.DOScale(Vector3.one, TweenTime);
+                       
                         var marginFixer = GetComponent<ViewMarginFixer>();
-                        if (marginFixer == null)
-                        {
-                            viewController.StartCoroutine(EaseMethods.EaseVector3(
-                                rectTransform.anchoredPosition3D,
-                                Vector3.zero,
-                                TweenTime,
-                                EaseMethods.GetEase(EaseStyle.QuadEaseOut),
-                                (v) =>
-                                {
-                                    rectTransform.anchoredPosition3D = v;
-                                }
+                        viewController.StartCoroutine(EaseMethods.EaseVector3(
+                               rectTransform.anchoredPosition3D,
+                               Vector3.zero,
+                               TweenTime,
+                               EaseMethods.GetEase(EaseStyle.QuadEaseOut),
+                               (v) =>
+                               {
+                                   rectTransform.anchoredPosition3D = v;
+                               }, 
+                               () =>
+                               {
+                                   marginFixer.ApplyModifyValue();
+                               }
                             ));
-                        }
-                        else
-                        {
-                            marginFixer.ApplyModifyValue();
-                        }
 
                         viewController.StartCoroutine(EaseMethods.EaseVector3(
                             rectTransform.localScale,
@@ -306,7 +302,7 @@ namespace CloudMacaca.ViewSystem
 
                         yield break;
                     }
-                    //TweenTime 設定為 >0 的情況下，代表要完整 OnLeave 在 OnShow
+                    //TweenTime 設定為 <0 的情況下，代表要完整 OnLeave 在 OnShow
                     else
                     {
                         yield return Yielders.GetWaitForSecondsRealtime(delayOut);

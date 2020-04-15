@@ -380,9 +380,6 @@ namespace CloudMacaca.ViewSystem
 
             var overlayState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 
-            //var currentPageItem = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
-            //float onShowTime = 0;
-            //float onShowDelay = 0;
             List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
             IEnumerable<ViewPageItem> viewItemNextPage = null;
             IEnumerable<ViewPageItem> viewItemNextState = null;
@@ -420,16 +417,16 @@ namespace CloudMacaca.ViewSystem
             }
             else
             {
+                viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
+
                 //同 OverlayState 的頁面已經在場上，移除不同的部分，然後顯示新加入的部分
                 if (!string.IsNullOrEmpty(vp.viewState) && overlayPageState.viewPage != vp)
                 {
-                    //viewElementDoesExitsInNextPage.AddRange(overlayPageState.viewPage.viewPageItems.Select(m => m.runtimeViewElement));
-
                     foreach (var item in overlayPageState.viewPage.viewPageItems)
                     {
-                        if (!vp.viewPageItems.Select(m => m.runtimeViewElement).Contains(item.runtimeViewElement)) viewElementDoesExitsInNextPage.Add(item.runtimeViewElement);
+                        if (!vp.viewPageItems.Select(m => m.runtimeViewElement).Contains(item.runtimeViewElement))
+                            viewElementDoesExitsInNextPage.Add(item.runtimeViewElement);
                     }
-
                     overlayPageState.viewPage = vp;
                 }
                 else
@@ -441,7 +438,6 @@ namespace CloudMacaca.ViewSystem
                     }
                     overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Show;
                 }
-                viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
             }
 
             OnStart?.Invoke();

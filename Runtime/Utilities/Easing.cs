@@ -932,7 +932,7 @@ namespace com.spacepuppy.Tween
             OnUpdate.Invoke(end);
         }
 
-        public static IEnumerator EaseVector3(Vector3 start, Vector3 end, float dur, Ease ease, Action<Vector3> OnUpdate)
+        public static IEnumerator EaseVector3(Vector3 start, Vector3 end, float dur, Ease ease, Action<Vector3> OnUpdate, Action OnComplete = null)
         {
             float t = 0f;
             while (t < dur)
@@ -942,7 +942,8 @@ namespace com.spacepuppy.Tween
                 yield return null;
                 t += Time.deltaTime;
             }
-            OnUpdate.Invoke(end);
+            OnUpdate?.Invoke(end);
+            OnComplete?.Invoke();
         }
     }
 
