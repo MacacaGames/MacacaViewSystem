@@ -62,7 +62,7 @@ namespace CloudMacaca.ViewSystem
             childViewElements.RemoveAll(m => m == null);
             // childViewElementGroups.RemoveAll(m => m == null);
 
-            if (childViewElements.Count == 0 )
+            if (childViewElements.Count == 0)
             {
                 //ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
                 return;
@@ -79,6 +79,7 @@ namespace CloudMacaca.ViewSystem
 
         public void OnLeaveChild(bool ignoreTransition = false)
         {
+            childViewElements.RemoveAll(m => m == null);
             if (childViewElements.Count == 0)
             {
                 //ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
