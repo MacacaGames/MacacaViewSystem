@@ -12,7 +12,7 @@ namespace CloudMacaca.ViewSystem
         //[SerializeField, ReadOnly]
         List<ViewElement> childViewElements = new List<ViewElement>();
         //[SerializeField, ReadOnly]
-        List<ViewElementGroup> childViewElementGroups = new List<ViewElementGroup>();
+        // List<ViewElementGroup> childViewElementGroups = new List<ViewElementGroup>();
         void Awake()
         {
             SetupChild();
@@ -27,7 +27,7 @@ namespace CloudMacaca.ViewSystem
         {
             viewElement = GetComponent<ViewElement>();
 
-            childViewElementGroups = GetComponentsInChildren<ViewElementGroup>()
+            var childViewElementGroups = GetComponentsInChildren<ViewElementGroup>()
                 .Where(m => m != this)
                 .ToList();
 
@@ -49,9 +49,7 @@ namespace CloudMacaca.ViewSystem
                     childViewElements.RemoveAll(m => m == ve);
                 }
             }
-
         }
-
 
         void OnTransformParentChanged()
         {
@@ -62,9 +60,9 @@ namespace CloudMacaca.ViewSystem
         public void OnShowChild()
         {
             childViewElements.RemoveAll(m => m == null);
-            childViewElementGroups.RemoveAll(m => m == null);
+            // childViewElementGroups.RemoveAll(m => m == null);
 
-            if (childViewElements.Count == 0 && childViewElementGroups.Count == 0)
+            if (childViewElements.Count == 0 )
             {
                 //ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
                 return;
@@ -73,15 +71,15 @@ namespace CloudMacaca.ViewSystem
             {
                 item.OnShow();
             }
-            foreach (var item in childViewElementGroups)
-            {
-                item.viewElement.OnShow();
-            }
+            // foreach (var item in childViewElementGroups)
+            // {
+            //     item.viewElement.OnShow();
+            // }
         }
 
         public void OnLeaveChild(bool ignoreTransition = false)
         {
-            if (childViewElements.Count == 0 && childViewElementGroups.Count == 0)
+            if (childViewElements.Count == 0)
             {
                 //ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
                 return;
@@ -90,10 +88,10 @@ namespace CloudMacaca.ViewSystem
             {
                 item.OnLeave(false, ignoreTransition);
             }
-            foreach (var item in childViewElementGroups)
-            {
-                item.viewElement.OnLeave(false, ignoreTransition);
-            }
+            // foreach (var item in childViewElementGroups)
+            // {
+            //     item.viewElement.OnLeave(false, ignoreTransition);
+            // }
         }
 
         public float GetOutDuration()
