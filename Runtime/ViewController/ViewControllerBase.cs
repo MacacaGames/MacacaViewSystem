@@ -10,8 +10,6 @@ namespace CloudMacaca.ViewSystem
     {
         public Canvas GetCanvas()
         {
-
-
             Canvas result = gameObject.GetComponent<Canvas>();
             if (result == null)
             {
@@ -51,7 +49,7 @@ namespace CloudMacaca.ViewSystem
             return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnStart, OnComplete));
         }
 
-        public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTimeScale = false, bool hardFix = false)
+        public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
         {
             var vp = viewPages.SingleOrDefault(m => m.name == viewPageName);
             ViewSystemUtilitys.OverlayPageState overlayPageState = null;
@@ -78,8 +76,7 @@ namespace CloudMacaca.ViewSystem
 
                 ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
             }
-
-            overlayPageState.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageState, tweenTimeIfNeed, OnComplete));
+            overlayPageState.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageState, tweenTimeIfNeed, OnComplete, ignoreTransition, ignoreTimeScale, waitForShowFinish));
             return overlayPageState.pageChangeCoroutine;
         }
 
@@ -112,7 +109,7 @@ namespace CloudMacaca.ViewSystem
             yield return null;
         }
 
-        public virtual IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false)
+        public virtual IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
         {
             //Empty implement will override in child class
             yield return null;

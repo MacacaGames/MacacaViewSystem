@@ -557,8 +557,14 @@ namespace CloudMacaca.ViewSystem
             OnComplete?.Invoke();
         }
 
-        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false)
+        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
         {
+            if (waitForShowFinish && overlayPageState.IsTransition && overlayPageState.transition == ViewSystemUtilitys.OverlayPageState.Transition.Show)
+            {
+                ViewSystemLog.Log("Leave Overlay Page wait for pervious page");
+                yield return overlayPageState.pageChangeCoroutine;
+            }
+
             var currentVe = currentViewPage.viewPageItems.Select(m => m.runtimeViewElement);
             var currentVs = currentViewState.viewPageItems.Select(m => m.runtimeViewElement);
 

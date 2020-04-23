@@ -8,21 +8,17 @@ namespace CloudMacaca.ViewSystem
 {
     public class FullPageChanger : PageChanger
     {
-        #region  FullPage
-        internal bool _waitPreviousPageFinish = false;
-        #endregion
         public FullPageChanger(ViewControllerBase viewController) : base(viewController)
         {
         }
         public override PageChanger Reset()
         {
-            _waitPreviousPageFinish = false;
             return base.Reset();
         }
         public override void _Show()
         {
             //_OnStart?.Invoke();
-            _pageChangerRunner = _viewController.ChangePage(_targetPage, _OnStart, _OnChanged, _OnComplete, _waitPreviousPageFinish);
+            _pageChangerRunner = _viewController.ChangePage(_targetPage, _OnStart, _OnChanged, _OnComplete, _waitPreviousPageFinish, _ignoreTimeScale);
             hasStart = true;
         }
     }
@@ -31,6 +27,7 @@ namespace CloudMacaca.ViewSystem
     {
         #region  OverlayPage
         internal bool _replayWhileSamePage = false;
+        internal bool _ignoreTransition = false;
         internal float _tweenTime = 0.4f;
         #endregion
 
@@ -45,12 +42,12 @@ namespace CloudMacaca.ViewSystem
         }
         public override void _Show()
         {
-            _pageChangerRunner = _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnComplete);
+            _pageChangerRunner = _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnComplete, _ignoreTimeScale);
             hasStart = true;
         }
         public void _Leave()
         {
-            _pageChangerRunner = _viewController.LeaveOverlayViewPage(_targetPage, _tweenTime, _OnComplete);
+            _pageChangerRunner = _viewController.LeaveOverlayViewPage(_targetPage, _tweenTime, _OnComplete, _ignoreTransition, _ignoreTimeScale, _waitPreviousPageFinish);
         }
     }
     public class PageChanger
@@ -62,6 +59,8 @@ namespace CloudMacaca.ViewSystem
         internal string _targetPage;
         internal Coroutine _pageChangerRunner = null;
         internal bool hasStart = false;
+        internal bool _ignoreTimeScale = true;
+        internal bool _waitPreviousPageFinish = false;
 
         public PageChanger(ViewControllerBase viewController)
         {
@@ -76,6 +75,8 @@ namespace CloudMacaca.ViewSystem
             _OnChanged = null;
             _pageChangerRunner = null;
             _targetPage = string.Empty;
+            _waitPreviousPageFinish = false;
+            _ignoreTimeScale = true;
             return this;
         }
         public virtual void _Show()
@@ -84,6 +85,21 @@ namespace CloudMacaca.ViewSystem
 
     public static class OverlayPageChangerExtension
     {
+        public static OverlayPageChanger SetIgnoreTransition(this OverlayPageChanger selfObj, bool ignoreTransition)
+        {
+            selfObj._ignoreTransition = ignoreTransition;
+            return selfObj;
+        }
+        public static OverlayPageChanger SetWaitPreviousPageFinish(this OverlayPageChanger selfObj, bool wait)
+        {
+            return (OverlayPageChanger)PageChangerExtension.SetWaitPreviousPageFinish(selfObj, wait);
+        }
+
+        public static OverlayPageChanger SetIgnoreTimeScale(this OverlayPageChanger selfObj, bool ignoreTimeScale)
+        {
+            return (OverlayPageChanger)PageChangerExtension.SetIgnoreTimeScale(selfObj, ignoreTimeScale);
+        }
+
         public static OverlayPageChanger SetReplayWhileSamePage(this OverlayPageChanger selfObj, bool replay)
         {
             selfObj._replayWhileSamePage = replay;
@@ -127,12 +143,6 @@ namespace CloudMacaca.ViewSystem
 
     public static class FullPageChangerExtension
     {
-        public static FullPageChanger SetWaitPreviousPageFinish(this FullPageChanger selfObj, bool wait)
-        {
-            ((FullPageChanger)selfObj)._waitPreviousPageFinish = wait;
-            return selfObj;
-        }
-
         public static FullPageChanger SetPage(this FullPageChanger selfObj, string targetPageName)
         {
             return (FullPageChanger)PageChangerExtension.SetPage(selfObj, targetPageName);
@@ -192,6 +202,16 @@ namespace CloudMacaca.ViewSystem
         public static PageChanger Show(this PageChanger selfObj)
         {
             selfObj._Show();
+            return selfObj;
+        }
+        public static PageChanger SetWaitPreviousPageFinish(this PageChanger selfObj, bool wait)
+        {
+            selfObj._waitPreviousPageFinish = wait;
+            return selfObj;
+        }
+        public static PageChanger SetIgnoreTimeScale(this PageChanger selfObj, bool ignoreTimeScale)
+        {
+            selfObj._ignoreTimeScale = ignoreTimeScale;
             return selfObj;
         }
         public static YieldInstruction GetYieldInstruction(this PageChanger selfObj)
