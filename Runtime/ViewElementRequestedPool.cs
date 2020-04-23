@@ -44,6 +44,7 @@ public class ViewElementRequestedPool
 
             recoveryAction?.Invoke(ve);
         }
+        runtimePool.RecoveryQueuedViewElement();
     }
 
     public int GetCurrentInUseViewElementCount()

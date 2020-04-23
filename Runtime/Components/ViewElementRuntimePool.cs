@@ -12,12 +12,10 @@ namespace CloudMacaca.ViewSystem
             _hierachyPool = hierachyPool;
             init = true;
         }
-
         [SerializeField]
-        Dictionary<string, Queue<ViewElement>> veDicts = new Dictionary<string, Queue<ViewElement>>();
+        Dictionary<int, Queue<ViewElement>> veDicts = new Dictionary<int, Queue<ViewElement>>();
         [SerializeField]
-        Dictionary<string, ViewElement> uniqueVeDicts = new Dictionary<string, ViewElement>();
-
+        Dictionary<int, ViewElement> uniqueVeDicts = new Dictionary<int, ViewElement>();
         Queue<ViewElement> recycleQueue = new Queue<ViewElement>();
         public void QueueViewElementToRecovery(ViewElement toRecovery)
         {
@@ -60,18 +58,18 @@ namespace CloudMacaca.ViewSystem
                 return null;
             }
 
-            if (!uniqueVeDicts.ContainsKey(source.name))
+            if (!uniqueVeDicts.ContainsKey(source.GetInstanceID()))
             {
                 var temp = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
                 temp.name = source.name;
-                uniqueVeDicts.Add(source.name, temp);
+                uniqueVeDicts.Add(source.GetInstanceID(), temp);
                 temp.gameObject.SetActive(false);
                 return temp;
             }
             else
             {
                 ViewSystemLog.LogWarning("ViewElement " + source.name + " has been prewarmed");
-                return uniqueVeDicts[source.name];
+                return uniqueVeDicts[source.GetInstanceID()];
             }
         }
         public ViewElement RequestViewElement(ViewElement source)
@@ -80,20 +78,20 @@ namespace CloudMacaca.ViewSystem
 
             if (source.IsUnique)
             {
-                if (!uniqueVeDicts.TryGetValue(source.name, out result))
+                if (!uniqueVeDicts.TryGetValue(source.GetInstanceID(), out result))
                 {
                     result = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
                     result.name = source.name;
-                    uniqueVeDicts.Add(source.name, result);
+                    uniqueVeDicts.Add(source.GetInstanceID(), result);
                 }
             }
             else
             {
                 Queue<ViewElement> veQueue;
-                if (!veDicts.TryGetValue(source.name, out veQueue))
+                if (!veDicts.TryGetValue(source.GetInstanceID(), out veQueue))
                 {
                     veQueue = new Queue<ViewElement>();
-                    veDicts.Add(source.name, veQueue);
+                    veDicts.Add(source.GetInstanceID(), veQueue);
                 }
                 if (veQueue.Count == 0)
                 {
@@ -104,7 +102,7 @@ namespace CloudMacaca.ViewSystem
                 }
                 result = veQueue.Dequeue();
             }
-            result.PoolKey = source.name;
+            result.PoolKey = source.GetInstanceID();
             return result;
         }
     }

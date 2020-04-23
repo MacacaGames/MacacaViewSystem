@@ -14,7 +14,7 @@ namespace CloudMacaca.ViewSystem
         #region V2
         public static ViewElementRuntimePool runtimePool;
         public static ViewElementPool viewElementPool;
-        public string PoolKey;
+        public int PoolKey;
         public bool IsUnique = false;
 
         bool hasGroupSetup = false;
@@ -612,6 +612,10 @@ namespace CloudMacaca.ViewSystem
                 OnBeforeRecoveryToPool?.Invoke();
                 OnBeforeRecoveryToPool = null;
                 if (runtimeOverride != null) runtimeOverride.ResetToDefaultValues();
+            }
+            else{
+                // if there is no runtimePool instance, destroy the viewelement.
+                Destroy(gameObject);
             }
         }
         public bool DisableGameObjectOnComplete = true;
