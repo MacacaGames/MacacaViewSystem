@@ -14,6 +14,7 @@ namespace CloudMacaca.ViewSystem
         #region V2
         public static ViewElementRuntimePool runtimePool;
         public static ViewElementPool viewElementPool;
+        [NonSerialized]
         public int PoolKey;
         public bool IsUnique = false;
 
