@@ -378,6 +378,19 @@ namespace CloudMacaca.ViewSystem
                 yield break;
             }
 
+            if (IsOverPageLive(vp.name))
+            {
+                //對於指定強制重播的對象 直接ViewPage部分的內容
+                if (RePlayOnShowWhileSamePage == true)
+                {
+                    foreach (var item in vp.viewPageItems)
+                    {
+                        item.runtimeViewElement.OnShow();
+                    }
+                }
+                yield break;
+            }
+
             var overlayState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 
             List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
@@ -516,15 +529,6 @@ namespace CloudMacaca.ViewSystem
                     item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut, reshowIfSamePage: RePlayOnShowWhileSamePage);
                 }
             }
-
-            //對於指定強制重播的對象 直接重播
-            // if (RePlayOnShowWhileSamePage == true)
-            // {
-            //     foreach (var item in vp.viewPageItems)
-            //     {
-            //         item.runtimeViewElement.OnShow();
-            //     }
-            // }
 
             if (vp.autoLeaveTimes > 0)
             {
