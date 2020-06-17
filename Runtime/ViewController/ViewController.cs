@@ -661,13 +661,13 @@ namespace CloudMacaca.ViewSystem
 
             if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                if (overlayPageStatus.viewPage != viewPage)
+                if (overlayPageStatus.viewPage.name != viewPage.name)
                 {
                     return false;
                 }
-                if (!includeLeavingPage && overlayPageStatus.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Leave)
+                if (overlayPageStatus.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Leave)
                 {
-                    return false;
+                    return includeLeavingPage;
                 }
                 return true;
             }
