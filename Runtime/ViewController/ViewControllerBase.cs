@@ -65,13 +65,13 @@ namespace CloudMacaca.ViewSystem
                 /// Warrning
                 //如果 字典裡找不到 則 new 一個
                 overlayPageStatus = new ViewSystemUtilitys.OverlayPageStatus();
-                overlayPageStatus.viewPage = vp;
-                if (!string.IsNullOrEmpty(vp.viewState)) overlayPageStatus.viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-                if (overlayPageStatus == null)
-                {
-                    ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found, even cannot find in setting file");
-                    return null;
-                }
+                // overlayPageStatus.viewPage = vp;
+                // if (!string.IsNullOrEmpty(vp.viewState)) overlayPageStatus.viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
+                // if (overlayPageStatus == null)
+                // {
+                //     ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found, even cannot find in setting file");
+                //     return null;
+                // }
 
                 ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
             }

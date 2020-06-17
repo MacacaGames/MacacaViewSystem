@@ -547,8 +547,8 @@ namespace CloudMacaca.ViewSystem
             else
                 yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
 
-            if (!string.IsNullOrEmpty(vp.viewState) && overlayPageStatesWithOverState.ContainsKey(vp.viewState)) overlayPageStatesWithOverState[vp.viewState].IsTransition = false;
-            else if (overlayPageStatusDict.ContainsKey(vp.name)) overlayPageStatusDict[vp.name].IsTransition = false;
+            overlayPageStatus.IsTransition = false;
+
             OnComplete?.Invoke();
         }
 
@@ -619,17 +619,27 @@ namespace CloudMacaca.ViewSystem
 
             overlayPageState.IsTransition = false;
 
-            if (overlayPageState.viewState != null) overlayPageStatesWithOverState.Remove(overlayPageState.viewState.name);
-            else overlayPageStatusDict.Remove(overlayPageState.viewPage.name);
+            string OverlayPageStateKey = GetOverlayStateKey(overlayPageState.viewPage);
+            overlayPageStatusDict.Remove(OverlayPageStateKey);
 
             OnComplete?.Invoke();
         }
         public bool IsOverPageLive(string viewPageName, bool includeLeavingPage = false)
         {
-            bool result = overlayPageStatusDict.ContainsKey(viewPageName);
-            result = result && (!includeLeavingPage ? overlayPageStatusDict[viewPageName].transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Leave : true);
+            //取得 ViewPage 物件
+            var vp = viewPages.SingleOrDefault(m => m.name == viewPageName);
 
-            IEnumerable<ViewSystemUtilitys.OverlayPageStatus> overlayPage = overlayPageStatesWithOverState.Select(m => m.Value);
+            //沒有找到 
+            if (vp == null)
+            {
+                ViewSystemLog.LogError("No view page match " + viewPageName + " Found");
+                return false;
+            }
+
+            string OverlayPageStateKey = GetOverlayStateKey(vp);
+            bool result = false;
+
+            IEnumerable<ViewSystemUtilitys.OverlayPageStatus> overlayPage = overlayPageStatusDict.Select(m => m.Value);
             if (!includeLeavingPage)
             {
                 overlayPage = overlayPage.Where(m => m.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Leave);
@@ -649,9 +659,9 @@ namespace CloudMacaca.ViewSystem
         {
             //清空自動離場
             base.TryLeaveAllOverlayPage();
-            for (int i = 0; i < overlayPageStatesWithOverState.Count; i++)
+            for (int i = 0; i < overlayPageStatusDict.Count; i++)
             {
-                var item = overlayPageStatesWithOverState.ElementAt(i);
+                var item = overlayPageStatusDict.ElementAt(i);
                 StartCoroutine(LeaveOverlayViewPageBase(item.Value, 0.4f, null, true));
             }
         }
@@ -754,18 +764,13 @@ namespace CloudMacaca.ViewSystem
                 {
                     vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
                 }
-            }
-            foreach (var item in overlayPageStatesWithOverState)
-            {
-                var vpis = item.Value.viewPage.viewPageItems;
-                foreach (var vpi in vpis)
+                if (item.Value.viewState != null)
                 {
-                    vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
-                }
-                var vpis_s = item.Value.viewState.viewPageItems;
-                foreach (var vpi in vpis)
-                {
-                    vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
+                    var vpis_s = item.Value.viewState.viewPageItems;
+                    foreach (var vpi in vpis)
+                    {
+                        vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
+                    }
                 }
             }
         }
