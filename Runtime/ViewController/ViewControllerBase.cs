@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+
 namespace CloudMacaca.ViewSystem
 {
-    public class ViewControllerBase : TransformCacheBase, IViewController
+    public class ViewControllerBase : MonoBehaviour, IViewController
     {
         public Canvas GetCanvas()
         {
@@ -32,6 +33,7 @@ namespace CloudMacaca.ViewSystem
                 return $"vp_{vp.name}";
             }
         }
+
         public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnStart = null, Action OnComplete = null, bool ignoreTimeScale = false)
         {
             var vp = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
@@ -42,10 +44,11 @@ namespace CloudMacaca.ViewSystem
             }
 
             string OverlayPageStateKey = GetOverlayStateKey(vp);
-
             if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                if (overlayPageStatus.IsTransition == true)
+                if (overlayPageStatus.IsTransition == true &&
+                    overlayPageStatus.viewPage.name == viewPageName &&
+                    RePlayOnShowWhileSamePage == false)
                 {
                     ViewSystemLog.LogError($"The Overlay page {vp.name} is in Transition, ignore the ShowOverlayViewPage call.");
                     return null;
@@ -61,19 +64,16 @@ namespace CloudMacaca.ViewSystem
 
             if (!overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-
-                /// Warrning
-                //如果 字典裡找不到 則 new 一個
-                overlayPageStatus = new ViewSystemUtilitys.OverlayPageStatus();
-                // overlayPageStatus.viewPage = vp;
-                // if (!string.IsNullOrEmpty(vp.viewState)) overlayPageStatus.viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-                // if (overlayPageStatus == null)
-                // {
-                //     ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found, even cannot find in setting file");
-                //     return null;
-                // }
-
                 ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
+                return null;
+            }
+            else
+            {
+                if (overlayPageStatus.IsTransition == true)
+                {
+                    ViewSystemLog.LogError($"The Overlay page {vp.name} is in Transition, ignore the LeaveOverlayViewPage call.");
+                    return null;
+                }
             }
             overlayPageStatus.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageStatus, tweenTimeIfNeed, OnComplete, ignoreTransition, ignoreTimeScale, waitForShowFinish));
             return overlayPageStatus.pageChangeCoroutine;
@@ -206,6 +206,7 @@ namespace CloudMacaca.ViewSystem
         /// <typeparam name="string">ViewPage name</typeparam>
         /// <typeparam name="ViewSystemUtilitys.OverlayPageState">The object hold the Overlay Page Status</typeparam>
         /// <returns></returns>
+        [SerializeField]
         protected Dictionary<string, ViewSystemUtilitys.OverlayPageStatus> overlayPageStatusDict = new Dictionary<string, ViewSystemUtilitys.OverlayPageStatus>();
 
         // /// <summary>

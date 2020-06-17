@@ -174,6 +174,7 @@ namespace CloudMacaca.ViewSystem
                 return _animator;
             }
         }
+
         void Reset()
         {
             //如果還是沒有抓到 Animator 那就設定成一般開關模式
@@ -245,10 +246,16 @@ namespace CloudMacaca.ViewSystem
                     yield break;
                     //throw new NullReferenceException(gameObject.name + " does not set the parent for next viewpage.");
                 }
+                //停掉正在播放的 Leave 動畫
+                if (OnLeaveCoroutine != null)
+                {
+                    viewController.StopCoroutine(OnLeaveCoroutine);
+                }
                 //還在池子裡，應該先 OnShow
                 //或是正在離開，都要重播 OnShow
                 if (IsShowed == false || OnLeaveWorking)
                 {
+                    // Debug.LogError(" rectTransform.SetParent(parent, true);");
                     rectTransform.SetParent(parent, true);
                     rectTransform.anchoredPosition3D = Vector3.zero;
                     rectTransform.localScale = Vector3.one;
@@ -273,7 +280,7 @@ namespace CloudMacaca.ViewSystem
                     if (TweenTime >= 0)
                     {
                         rectTransform.SetParent(parent, true);
-                       
+
                         var marginFixer = GetComponent<ViewMarginFixer>();
                         viewController.StartCoroutine(EaseMethods.EaseVector3(
                                rectTransform.anchoredPosition3D,
@@ -283,7 +290,7 @@ namespace CloudMacaca.ViewSystem
                                (v) =>
                                {
                                    rectTransform.anchoredPosition3D = v;
-                               }, 
+                               },
                                () =>
                                {
                                    marginFixer.ApplyModifyValue();
@@ -316,13 +323,6 @@ namespace CloudMacaca.ViewSystem
                         yield return Yielders.GetWaitForSecondsRealtime(delayIn);
                         OnShow();
                         yield break;
-                        // OnShowObservable.Dispose();
-                        // OnShowObservable = Observable.EveryUpdate().Where(_ => OnLeaveWorking == false).Subscribe(
-                        //     x =>
-                        //     {
-
-                        //     }
-                        // );
                     }
                 }
             }
@@ -376,31 +376,7 @@ namespace CloudMacaca.ViewSystem
                 viewElementGroup.OnShowChild();
             }
 
-            //ViewSystemLog.LogError("OnShow " + name);
-            //停掉正在播放的 Leave 動畫
-            if (OnLeaveCoroutine != null)
-            {
-                //OnLeaveDisposable.Dispose();
-                viewController.StopCoroutine(OnLeaveCoroutine);
-            }
 
-            // if (IsShowed)
-            // {
-            //     if (transition == TransitionType.Animator)
-            //     {
-            //         animator.Play("Empty");
-            //     }
-            //     else if (transition == TransitionType.CanvasGroupAlpha)
-            //     {
-            //         canvasGroup.alpha = 0;
-            //     }
-            // }
-
-            // Observable
-            //     .Timer(TimeSpan.FromSeconds(delayIn))
-            //     .Subscribe(_ =>
-            //     {
-            //yield return Yielders.GetWaitForSecondsRealtime(delayIn);
 
             if (transition == TransitionType.Animator)
             {
@@ -413,17 +389,6 @@ namespace CloudMacaca.ViewSystem
             }
             else if (transition == TransitionType.CanvasGroupAlpha)
             {
-                //ViewSystemLog.Log("canvasGroup alpha");
-                // canvasGroup.DOFade(1, canvasInTime).SetUpdate(true).OnStart(
-                //     () =>
-                //     {
-                //         //簡單暴力的解決 canvasGroup 一開始如果不是 0 的時候的情況
-                //         if (canvasGroup.alpha != 0)
-                //         {
-                //             canvasGroup.alpha = 0;
-                //         }
-                //     }
-                // ).SetEase(canvasInEase);
                 canvasGroup.alpha = 0;
                 viewController.StartCoroutine(EaseMethods.EaseValue(
                     canvasGroup.alpha,
@@ -465,6 +430,7 @@ namespace CloudMacaca.ViewSystem
         }
         public IEnumerator OnLeaveRunner(bool NeedPool = true, bool ignoreTransition = false)
         {
+
             //ViewSystemLog.LogError("OnLeave " + name);
             if (transition == TransitionType.Animator && hasLoopBool)
             {
@@ -473,11 +439,6 @@ namespace CloudMacaca.ViewSystem
             needPool = NeedPool;
             OnLeaveWorking = true;
 
-            //yield return Yielders.GetWaitForSecondsRealtime();
-            // OnLeaveDisposable = Observable
-            //     .Timer(TimeSpan.FromSeconds(delayOut))
-            //     .Subscribe(_ =>
-            //     {
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)
                 {
@@ -497,7 +458,6 @@ namespace CloudMacaca.ViewSystem
             //如果 ignoreTransition 也直接把他送回池子
             if (gameObject.activeSelf == false || ignoreTransition)
             {
-                gameObject.SetActive(false);
                 OnLeaveAnimationFinish();
                 yield break;
             }
@@ -521,7 +481,6 @@ namespace CloudMacaca.ViewSystem
                 }
                 catch
                 {
-                    gameObject.SetActive(false);
                     OnLeaveAnimationFinish();
                 }
 
@@ -548,7 +507,6 @@ namespace CloudMacaca.ViewSystem
                     float waitTime = Mathf.Clamp(viewElementGroup.GetOutDuration() - canvasOutTime, 0, 2);
                     yield return Yielders.GetWaitForSecondsRealtime(waitTime);
                 }
-                gameObject.SetActive(false);
                 OnLeaveAnimationFinish();
             }
             else if (transition == TransitionType.Custom)
@@ -561,7 +519,6 @@ namespace CloudMacaca.ViewSystem
                 {
                     yield return Yielders.GetWaitForSecondsRealtime(viewElementGroup.GetOutDuration());
                 }
-                gameObject.SetActive(false);
                 OnLeaveAnimationFinish();
             }
 
@@ -599,10 +556,14 @@ namespace CloudMacaca.ViewSystem
             OnLeaveWorking = false;
             OnLeaveCoroutine = null;
 
+            gameObject.SetActive(false);
+
             if (needPool == false)
             {
                 return;
             }
+            // Debug.LogError(" rectTransform.SetParent(viewElementPool.transformCache, true);");
+
             rectTransform.SetParent(viewElementPool.transformCache, true);
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
@@ -614,7 +575,8 @@ namespace CloudMacaca.ViewSystem
                 OnBeforeRecoveryToPool = null;
                 if (runtimeOverride != null) runtimeOverride.ResetToDefaultValues();
             }
-            else{
+            else
+            {
                 // if there is no runtimePool instance, destroy the viewelement.
                 Destroy(gameObject);
             }
