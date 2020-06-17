@@ -122,7 +122,6 @@ namespace CloudMacaca.ViewSystem
         public virtual void TryLeaveAllOverlayPage()
         {
             //清空自動離場
-            autoLeaveQueue.Clear();
             for (int i = 0; i < overlayPageStatusDict.Count; i++)
             {
                 var item = overlayPageStatusDict.ElementAt(i);
@@ -166,7 +165,7 @@ namespace CloudMacaca.ViewSystem
         protected virtual void Start()
         {
             //開啟無限檢查自動離場的迴圈
-            StartCoroutine(AutoLeaveOverlayPage());
+            // StartCoroutine(AutoLeaveOverlayPage());
         }
         #endregion  
 
@@ -226,40 +225,40 @@ namespace CloudMacaca.ViewSystem
             return vp.viewPageItems.Where(m => !m.excludePlatform.IsSet(platform));
         }
 
-        protected List<AutoLeaveData> autoLeaveQueue = new List<AutoLeaveData>();
-        protected class AutoLeaveData
-        {
-            public string name;
-            public float times;
-            public AutoLeaveData(string _name, float _times)
-            {
-                name = _name;
-                times = _times;
-            }
-        }
+        // protected List<AutoLeaveData> autoLeaveQueue = new List<AutoLeaveData>();
+        // protected class AutoLeaveData
+        // {
+        //     public string name;
+        //     public float times;
+        //     public AutoLeaveData(string _name, float _times)
+        //     {
+        //         name = _name;
+        //         times = _times;
+        //     }
+        // }
 
-        protected IEnumerator AutoLeaveOverlayPage()
-        {
-            float deltaTime = 0;
-            while (true)
-            {
-                //ViewSystemLog.LogError("Find auto leave count " + autoLeaveQueue.Count);
-                deltaTime = Time.deltaTime;
-                ///更新每個 倒數值
-                for (int i = 0; i < autoLeaveQueue.Count; i++)
-                {
-                    //ViewSystemLog.LogError("Update auto leave value " + autoLeaveQueue[i].name);
+        // protected IEnumerator AutoLeaveOverlayPage()
+        // {
+        //     float deltaTime = 0;
+        //     while (true)
+        //     {
+        //         //ViewSystemLog.LogError("Find auto leave count " + autoLeaveQueue.Count);
+        //         deltaTime = Time.deltaTime;
+        //         ///更新每個 倒數值
+        //         for (int i = 0; i < autoLeaveQueue.Count; i++)
+        //         {
+        //             //ViewSystemLog.LogError("Update auto leave value " + autoLeaveQueue[i].name);
 
-                    autoLeaveQueue[i].times -= deltaTime;
-                    if (autoLeaveQueue[i].times <= 0)
-                    {
-                        LeaveOverlayViewPage(autoLeaveQueue[i].name);
-                        autoLeaveQueue.Remove(autoLeaveQueue[i]);
-                    }
-                }
-                yield return null;
-            }
-        }
+        //             autoLeaveQueue[i].times -= deltaTime;
+        //             if (autoLeaveQueue[i].times <= 0)
+        //             {
+        //                 LeaveOverlayViewPage(autoLeaveQueue[i].name);
+        //                 autoLeaveQueue.Remove(autoLeaveQueue[i]);
+        //             }
+        //         }
+        //         yield return null;
+        //     }
+        // }
 
         public bool IsPageTransition
         {

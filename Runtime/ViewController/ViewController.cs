@@ -538,20 +538,20 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
-            if (vp.autoLeaveTimes > 0)
-            {
-                var currentAutoLeave = autoLeaveQueue.SingleOrDefault(m => m.name == vp.name);
-                if (currentAutoLeave != null)
-                {
-                    //更新倒數計時器
-                    currentAutoLeave.times = vp.autoLeaveTimes;
-                }
-                else
-                {
-                    //沒有的話新增一個
-                    autoLeaveQueue.Add(new AutoLeaveData(vp.name, vp.autoLeaveTimes));
-                }
-            }
+            // if (vp.autoLeaveTimes > 0)
+            // {
+            //     var currentAutoLeave = autoLeaveQueue.SingleOrDefault(m => m.name == vp.name);
+            //     if (currentAutoLeave != null)
+            //     {
+            //         //更新倒數計時器
+            //         currentAutoLeave.times = vp.autoLeaveTimes;
+            //     }
+            //     else
+            //     {
+            //         //沒有的話新增一個
+            //         autoLeaveQueue.Add(new AutoLeaveData(vp.name, vp.autoLeaveTimes));
+            //     }
+            // }
 
             SetNavigationTarget(vp);
 
