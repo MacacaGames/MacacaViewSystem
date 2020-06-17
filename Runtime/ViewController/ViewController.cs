@@ -16,10 +16,11 @@ namespace CloudMacaca.ViewSystem
 
         [SerializeField]
         private ViewSystemSaveData viewSystemSaveData;
-
+        Transform transformCache;
         // Use this for initialization
         protected override void Awake()
         {
+            transformCache = transform;
             base.Awake();
             _incance = Instance = this;
             //Create ViewElementPool
@@ -378,79 +379,76 @@ namespace CloudMacaca.ViewSystem
                 yield break;
             }
 
-            if (IsOverPageLive(vp.name))
-            {
-                //對於指定強制重播的對象 直接ViewPage部分的內容
-                if (RePlayOnShowWhileSamePage == true)
-                {
-                    foreach (var item in vp.viewPageItems)
-                    {
-                        item.runtimeViewElement.OnShow();
-                    }
-                }
-                yield break;
-            }
+            // if (IsOverPageLive(vp) && RePlayOnShowWhileSamePage)
+            // {
+            //     //對於指定強制重播的對象 直接ViewPage部分的內容
+            //     foreach (var item in vp.viewPageItems)
+            //     {
+            //         item.runtimeViewElement.OnShow();
+            //     }
+            //     yield break;
+            // }
 
-            var overlayState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
+            var viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 
             List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
             IEnumerable<ViewPageItem> viewItemNextPage = null;
             IEnumerable<ViewPageItem> viewItemNextState = null;
-            ViewSystemUtilitys.OverlayPageState overlayPageState = null;
-            if (!string.IsNullOrEmpty(vp.viewState))
-            {
-                overlayPageStatesWithOverState.TryGetValue(vp.viewState, out overlayPageState);
-            }
-            else
-            {
-                overlayPageStates.TryGetValue(vp.name, out overlayPageState);
-            }
 
+            string OverlayPageStateKey = GetOverlayStateKey(vp);
+            bool samePage = false;
             //檢查是否有同 State 的 Overlay 頁面在場上
-            if (overlayPageState == null)
-            {
-                overlayPageState = new ViewSystemUtilitys.OverlayPageState();
-                overlayPageState.viewPage = vp;
-                overlayPageState.viewState = overlayState;
-                overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Show;
-                viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
-
-                if (!string.IsNullOrEmpty(vp.viewState))
-                {
-                    overlayPageStatesWithOverState.Add(vp.viewState, overlayPageState);
-                    nextViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-                    viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
-                    viewItemNextState = PrepareRuntimeReference(viewItemNextState);
-                }
-                else
-                {
-                    overlayPageStates.Add(vp.name, overlayPageState);
-                }
-
-            }
-            else
+            if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
                 viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
 
                 //同 OverlayState 的頁面已經在場上，移除不同的部分，然後顯示新加入的部分
-                if (!string.IsNullOrEmpty(vp.viewState) && overlayPageState.viewPage != vp)
+                if (!string.IsNullOrEmpty(vp.viewState))
                 {
-                    foreach (var item in overlayPageState.viewPage.viewPageItems)
+
+                    if (overlayPageStatus.viewPage.name != vp.name)
                     {
-                        if (!vp.viewPageItems.Select(m => m.runtimeViewElement).Contains(item.runtimeViewElement))
-                            viewElementDoesExitsInNextPage.Add(item.runtimeViewElement);
+                        // 同 State 不同 Page 的情況，找到差異的部分
+
+                        foreach (var item in overlayPageStatus.viewPage.viewPageItems)
+                        {
+                            if (!vp.viewPageItems.Select(m => m.runtimeViewElement).Contains(item.runtimeViewElement))
+                                viewElementDoesExitsInNextPage.Add(item.runtimeViewElement);
+                        }
+                        overlayPageStatus.viewPage = vp;
                     }
-                    overlayPageState.viewPage = vp;
                 }
                 else
                 {
-                    //如果已經存在的話要更新數值 所以停掉舊的 Coroutine
-                    if (overlayPageState.pageChangeCoroutine != null)
+                    //只有 ViewPage 卻還是進來這裡的話代表頁面還在場上
+                    // RePlayOnShowWhileSamePage == false 那就更新數值 所以停掉舊的 Coroutine
+                    if (overlayPageStatus.pageChangeCoroutine != null)
                     {
-                        StopCoroutine(overlayPageState.pageChangeCoroutine);
+                        StopCoroutine(overlayPageStatus.pageChangeCoroutine);
                     }
-                    overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Show;
+                    samePage = true;
+                    overlayPageStatus.transition = ViewSystemUtilitys.OverlayPageStatus.Transition.Show;
                 }
+            }
+            else
+            {
+                //同 OverlayState 的頁面還不在場上 新建一個 Status
+
+                overlayPageStatus = new ViewSystemUtilitys.OverlayPageStatus();
+                overlayPageStatus.viewPage = vp;
+                overlayPageStatus.viewState = viewState;
+                overlayPageStatus.transition = ViewSystemUtilitys.OverlayPageStatus.Transition.Show;
+                viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
+
+                // 沒有 viewState 的 Page 不需要處理 viewState 的 runtimeViewElement
+                if (!string.IsNullOrEmpty(vp.viewState))
+                {
+                    nextViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
+                    viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
+                    viewItemNextState = PrepareRuntimeReference(viewItemNextState);
+                }
+
+                overlayPageStatusDict.Add(OverlayPageStateKey, overlayPageStatus);
             }
 
             OnStart?.Invoke();
@@ -489,6 +487,11 @@ namespace CloudMacaca.ViewSystem
             //對進場的呼叫改變狀態
             foreach (var item in viewItemNextPage)
             {
+                if (RePlayOnShowWhileSamePage && samePage)
+                {
+                    item.runtimeViewElement.OnShow();
+                    continue;
+                }
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvent(item.eventDatas);
@@ -511,6 +514,11 @@ namespace CloudMacaca.ViewSystem
             {
                 foreach (var item in viewItemNextState)
                 {
+                    if (RePlayOnShowWhileSamePage)
+                    {
+                        item.runtimeViewElement.OnShow();
+                        continue;
+                    }
                     //套用複寫值
                     item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                     item.runtimeViewElement.ApplyEvent(item.eventDatas);
@@ -530,20 +538,20 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
-            if (vp.autoLeaveTimes > 0)
-            {
-                var currentAutoLeave = autoLeaveQueue.SingleOrDefault(m => m.name == vp.name);
-                if (currentAutoLeave != null)
-                {
-                    //更新倒數計時器
-                    currentAutoLeave.times = vp.autoLeaveTimes;
-                }
-                else
-                {
-                    //沒有的話新增一個
-                    autoLeaveQueue.Add(new AutoLeaveData(vp.name, vp.autoLeaveTimes));
-                }
-            }
+            // if (vp.autoLeaveTimes > 0)
+            // {
+            //     var currentAutoLeave = autoLeaveQueue.SingleOrDefault(m => m.name == vp.name);
+            //     if (currentAutoLeave != null)
+            //     {
+            //         //更新倒數計時器
+            //         currentAutoLeave.times = vp.autoLeaveTimes;
+            //     }
+            //     else
+            //     {
+            //         //沒有的話新增一個
+            //         autoLeaveQueue.Add(new AutoLeaveData(vp.name, vp.autoLeaveTimes));
+            //     }
+            // }
 
             SetNavigationTarget(vp);
 
@@ -556,14 +564,14 @@ namespace CloudMacaca.ViewSystem
             else
                 yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
 
-            if (!string.IsNullOrEmpty(vp.viewState) && overlayPageStatesWithOverState.ContainsKey(vp.viewState)) overlayPageStatesWithOverState[vp.viewState].IsTransition = false;
-            else if (overlayPageStates.ContainsKey(vp.name)) overlayPageStates[vp.name].IsTransition = false;
+            overlayPageStatus.IsTransition = false;
+
             OnComplete?.Invoke();
         }
 
-        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
+        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageStatus overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
         {
-            if (waitForShowFinish && overlayPageState.IsTransition && overlayPageState.transition == ViewSystemUtilitys.OverlayPageState.Transition.Show)
+            if (waitForShowFinish && overlayPageState.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Show)
             {
                 ViewSystemLog.Log("Leave Overlay Page wait for pervious page");
                 yield return overlayPageState.pageChangeCoroutine;
@@ -574,44 +582,45 @@ namespace CloudMacaca.ViewSystem
 
             var finishTime = ViewSystemUtilitys.CalculateTimesNeedsForOnLeave(overlayPageState.viewPage.viewPageItems.Select(m => m.runtimeViewElement));
 
-            overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Leave;
+            overlayPageState.transition = ViewSystemUtilitys.OverlayPageStatus.Transition.Leave;
 
             List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
 
             viewPageItems.AddRange(overlayPageState.viewPage.viewPageItems);
-            if (overlayPageState.viewState != null) viewPageItems.AddRange(overlayPageState.viewState.viewPageItems);
+            if (overlayPageState.viewState != null)
+                viewPageItems.AddRange(overlayPageState.viewState.viewPageItems);
 
             foreach (var item in viewPageItems)
             {
-                if (IsPageTransition == false)
-                {
-                    //不是 Unique 的 ViewElement 不會有借用的問題
+                // if (IsPageTransition == false)
+                // {
+                //     //不是 Unique 的 ViewElement 不會有借用的問題
 
-                    if (currentVe.Contains(item.runtimeViewElement) && item.runtimeViewElement.IsUnique == true)
-                    {
-                        //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
-                        try
-                        {
-                            var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => m.runtimeViewElement == item.runtimeViewElement);
-                            ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
-                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, tweenTimeIfNeed, 0, 0);
-                        }
-                        catch { }
-                        continue;
-                    }
-                    if (currentVs.Contains(item.runtimeViewElement) && item.runtimeViewElement.IsUnique == true)
-                    {
-                        //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
-                        try
-                        {
-                            var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.runtimeViewElement == item.runtimeViewElement);
-                            ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
-                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, tweenTimeIfNeed, 0, 0);
-                        }
-                        catch { }
-                        continue;
-                    }
-                }
+                //     if (currentVe.Contains(item.runtimeViewElement) && item.runtimeViewElement.IsUnique == true)
+                //     {
+                //         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
+                //         try
+                //         {
+                //             var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => m.runtimeViewElement == item.runtimeViewElement);
+                //             ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                //             item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, tweenTimeIfNeed, 0, 0);
+                //         }
+                //         catch { }
+                //         continue;
+                //     }
+                //     if (currentVs.Contains(item.runtimeViewElement) && item.runtimeViewElement.IsUnique == true)
+                //     {
+                //         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
+                //         try
+                //         {
+                //             var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.runtimeViewElement == item.runtimeViewElement);
+                //             ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                //             item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, tweenTimeIfNeed, 0, 0);
+                //         }
+                //         catch { }
+                //         continue;
+                //     }
+                // }
 
                 lastOverlayPageItemDelayOutTimes.TryGetValue(item.runtimeViewElement.name, out float delayOut);
                 item.runtimeViewElement.ChangePage(false, null, 0, 0, delayOut, ignoreTransition);
@@ -628,39 +637,64 @@ namespace CloudMacaca.ViewSystem
 
             overlayPageState.IsTransition = false;
 
-            if (overlayPageState.viewState != null) overlayPageStatesWithOverState.Remove(overlayPageState.viewState.name);
-            else overlayPageStates.Remove(overlayPageState.viewPage.name);
+            string OverlayPageStateKey = GetOverlayStateKey(overlayPageState.viewPage);
+            overlayPageStatusDict.Remove(OverlayPageStateKey);
 
             OnComplete?.Invoke();
         }
         public bool IsOverPageLive(string viewPageName, bool includeLeavingPage = false)
         {
-            bool result = overlayPageStates.ContainsKey(viewPageName);
-            result = result && (!includeLeavingPage ? overlayPageStates[viewPageName].transition != ViewSystemUtilitys.OverlayPageState.Transition.Leave : true);
+            //取得 ViewPage 物件
+            var vp = viewPages.SingleOrDefault(m => m.name == viewPageName);
 
-            IEnumerable<ViewSystemUtilitys.OverlayPageState> overlayPage = overlayPageStatesWithOverState.Select(m => m.Value);
-            if (!includeLeavingPage)
+            //沒有找到 
+            if (vp == null)
             {
-                overlayPage = overlayPage.Where(m => m.transition != ViewSystemUtilitys.OverlayPageState.Transition.Leave);
+                ViewSystemLog.LogError("No view page match " + viewPageName + " Found");
+                return false;
             }
+            return IsOverPageLive(vp);
+        }
+        public bool IsOverPageLive(ViewPage viewPage, bool includeLeavingPage = false)
+        {
+            string OverlayPageStateKey = GetOverlayStateKey(viewPage);
 
-            foreach (var item in overlayPage)
+            if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                if (item.viewPage.name == viewPageName)
+                if (overlayPageStatus.viewPage != viewPage)
                 {
-                    result = true;
-                    break;
+                    return false;
                 }
+                if (!includeLeavingPage && overlayPageStatus.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Leave)
+                {
+                    return false;
+                }
+                return true;
             }
-            return result;
+
+            return false;
+            // IEnumerable<ViewSystemUtilitys.OverlayPageStatus> overlayPage = overlayPageStatusDict.Select(m => m.Value);
+            // if (!includeLeavingPage)
+            // {
+            //     overlayPage = overlayPage.Where(m => m.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Leave);
+            // }
+
+            // foreach (var item in overlayPage)
+            // {
+            //     if (item.viewPage.name == viewPageName)
+            //     {
+            //         result = true;
+            //         break;
+            //     }
+            // }
         }
         public override void TryLeaveAllOverlayPage()
         {
             //清空自動離場
             base.TryLeaveAllOverlayPage();
-            for (int i = 0; i < overlayPageStatesWithOverState.Count; i++)
+            for (int i = 0; i < overlayPageStatusDict.Count; i++)
             {
-                var item = overlayPageStatesWithOverState.ElementAt(i);
+                var item = overlayPageStatusDict.ElementAt(i);
                 StartCoroutine(LeaveOverlayViewPageBase(item.Value, 0.4f, null, true));
             }
         }
@@ -756,25 +790,20 @@ namespace CloudMacaca.ViewSystem
 
         public void DisableAllOverlayPageNavigation()
         {
-            foreach (var item in overlayPageStates)
+            foreach (var item in overlayPageStatusDict)
             {
                 var vpis = item.Value.viewPage.viewPageItems;
                 foreach (var vpi in vpis)
                 {
                     vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
                 }
-            }
-            foreach (var item in overlayPageStatesWithOverState)
-            {
-                var vpis = item.Value.viewPage.viewPageItems;
-                foreach (var vpi in vpis)
+                if (item.Value.viewState != null)
                 {
-                    vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
-                }
-                var vpis_s = item.Value.viewState.viewPageItems;
-                foreach (var vpi in vpis)
-                {
-                    vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
+                    var vpis_s = item.Value.viewState.viewPageItems;
+                    foreach (var vpi in vpis)
+                    {
+                        vpi.runtimeViewElement.runtimeOverride.DisableNavigation();
+                    }
                 }
             }
         }
