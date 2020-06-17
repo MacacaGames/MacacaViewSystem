@@ -302,7 +302,7 @@ namespace CloudMacaca.ViewSystem
         public static OverlayPageChanger OverlayPageChanger()
         {
             OverlayPageChanger pageChanger;
-            if (fullPageChangerPool.Count == 0)
+            if (overlayPageChangerPool.Count == 0)
             {
                 pageChanger = new OverlayPageChanger(_incance);
             }
