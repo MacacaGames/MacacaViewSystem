@@ -6,7 +6,7 @@ using System;
 
 public class ViewElementRequestedPool
 {
-    ViewElementRuntimePool runtimePool => ViewControllerV2.runtimePool;
+    ViewElementRuntimePool runtimePool => ViewController.runtimePool;
 
     Queue<ViewElement> viewElementQueue = new Queue<ViewElement>();
 

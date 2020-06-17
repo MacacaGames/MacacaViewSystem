@@ -277,19 +277,42 @@ namespace CloudMacaca.ViewSystem
         }
 
         #region PageChanger
-        // public static PageChanger PageChanger()
-        // {
-        //     PageChanger pageChanger = new PageChanger(_incance);
-        //     return pageChanger;
-        // }
+
+        static Queue<FullPageChanger> fullPageChangerPool = new Queue<FullPageChanger>();
+        static Queue<OverlayPageChanger> overlayPageChangerPool = new Queue<OverlayPageChanger>();
+        public void RecoveryChanger(PageChanger pageChanger)
+        {
+            if (pageChanger is FullPageChanger fullPageChanger)
+                fullPageChangerPool.Enqueue(fullPageChanger);
+
+            if (pageChanger is OverlayPageChanger overlayPageChanger)
+                overlayPageChangerPool.Enqueue(overlayPageChanger);
+        }
         public static FullPageChanger FullPageChanger()
         {
-            FullPageChanger pageChanger = new FullPageChanger(_incance);
+            FullPageChanger pageChanger;
+            if (fullPageChangerPool.Count == 0)
+            {
+                pageChanger = new FullPageChanger(_incance);
+            }
+            else
+            {
+                pageChanger = fullPageChangerPool.Dequeue();
+            }
             return pageChanger;
         }
         public static OverlayPageChanger OverlayPageChanger()
         {
-            OverlayPageChanger pageChanger = new OverlayPageChanger(_incance);
+            OverlayPageChanger pageChanger;
+            if (fullPageChangerPool.Count == 0)
+            {
+                pageChanger = new OverlayPageChanger(_incance);
+            }
+            else
+            {
+                pageChanger = overlayPageChangerPool.Dequeue();
+            }
+
             return pageChanger;
         }
 

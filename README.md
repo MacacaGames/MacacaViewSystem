@@ -63,7 +63,7 @@ Each ViewPage can setup at most one ViewState.
 And also the ViewElements define in ViewState will not be update until the ViewState is changed.
 
 ## ViewController
-> Currently, since the V1 branch has been Archived the ViewController in /master branch is obsolete, use ViewControllerV2 instead.
+> Currently, since the V1 branch has been Archived the ViewController in /master branch is obsolete, use ViewController instead.
 
 ViewController is the core component of ViewSystem, all control of the UI is base on this component.
 
@@ -148,8 +148,8 @@ System provide a way to get global ViewElement reference from ViewController, co
 public class SomeInjectableClass : MonoBehaviour, IViewElementInjectable
 {}
 
-// Use GetInjectionInstance method on ViewControllerV2 to get the singleton instance of ViewElement.
-SomeInjectableClass someInjectableClass = ViewControllerV2.Instance.GetInjectionInstance<SomeInjectableClass>();
+// Use GetInjectionInstance method on ViewController to get the singleton instance of ViewElement.
+SomeInjectableClass someInjectableClass = ViewController.Instance.GetInjectionInstance<SomeInjectableClass>();
 ```
 
 > Note : The ViewElement also needs to swtich the **IsUnique** boolean on to makes IViewElementInjectable works.
@@ -157,7 +157,7 @@ SomeInjectableClass someInjectableClass = ViewControllerV2.Instance.GetInjection
 
 # System LifeCycle
 ## ViewController Initialization
-> Here shows the Initialize proccess in ViewControllerV2. (Since V1 is dropped.)
+> Here shows the Initialize proccess in ViewController. (Since V1 is dropped.)
 1. Finding the UIRoot parent GameObject setup in GlobalSetting.
 2. Instantiate UIRoot GameObject setup in GlobalSetting.
 3. Generate ViewElementPool instance in scene.
@@ -166,6 +166,6 @@ SomeInjectableClass someInjectableClass = ViewControllerV2.Instance.GetInjection
 5. Pre-generate the ViewElement which has component inherited IViewElementInjectable
 
 ## FullPage ChangePage
-> Once the ChangePage API is call in ViewControllerV2, the event, callback, lifecycle hack excude order. (Same behaviour while using FullPageChanger)
+> Once the ChangePage API is call in ViewController, the event, callback, lifecycle hack excude order. (Same behaviour while using FullPageChanger)
 
 <img src="./Img/changepage_lifecycle.jpg" alt="Screenshot2" height="800"/>
