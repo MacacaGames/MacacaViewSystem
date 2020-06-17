@@ -165,7 +165,7 @@ namespace CloudMacaca.ViewSystem
                         events.AddListener(
                             delegate
                             {
-                                if (ViewControllerV2.Instance.IsPageTransition)
+                                if (ViewController.Instance.IsPageTransition)
                                 {
                                     ViewSystemLog.LogWarning("The page is in transition, event will not fire!");
                                     return;

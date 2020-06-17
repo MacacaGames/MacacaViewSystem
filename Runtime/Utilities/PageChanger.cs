@@ -10,6 +10,7 @@ namespace CloudMacaca.ViewSystem
     {
         public FullPageChanger(ViewControllerBase viewController) : base(viewController)
         {
+
         }
         public override PageChanger Reset()
         {
@@ -33,6 +34,7 @@ namespace CloudMacaca.ViewSystem
 
         public OverlayPageChanger(ViewControllerBase viewController) : base(viewController)
         {
+
         }
         public override PageChanger Reset()
         {
@@ -72,12 +74,18 @@ namespace CloudMacaca.ViewSystem
         {
             _OnStart = null;
             _OnComplete = null;
+            _OnComplete += RecoveryToPool;
             _OnChanged = null;
             _pageChangerRunner = null;
             _targetPage = string.Empty;
             _waitPreviousPageFinish = false;
             _ignoreTimeScale = true;
             return this;
+        }
+        void RecoveryToPool()
+        {
+            Reset();
+            _viewController.RecoveryChanger(this);
         }
         public virtual void _Show()
         { }

@@ -8,10 +8,10 @@ using UnityEditor.AnimatedValues;
 
 namespace CloudMacaca.ViewSystem
 {
-    [CustomEditor(typeof(ViewControllerV2))]
-    public class ViewControllerV2Editor : Editor
+    [CustomEditor(typeof(ViewController))]
+    public class ViewControllerEditor : Editor
     {
-        private ViewControllerV2 viewController = null;
+        private ViewController viewController = null;
         private SerializedObject so;
         public ReorderableList list = null;
 
@@ -27,7 +27,7 @@ namespace CloudMacaca.ViewSystem
         AnimBool showDebugView = new AnimBool(false);
         void OnEnable()
         {
-            viewController = (ViewControllerV2)target;
+            viewController = (ViewController)target;
             so = serializedObject;
             s_SaveData = so.FindProperty("viewSystemSaveData");
             s_vs = so.FindProperty("viewStates");
