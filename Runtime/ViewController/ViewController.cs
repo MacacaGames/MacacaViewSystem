@@ -391,66 +391,57 @@ namespace CloudMacaca.ViewSystem
                 yield break;
             }
 
-            var overlayState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
+            var viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 
             List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
             IEnumerable<ViewPageItem> viewItemNextPage = null;
             IEnumerable<ViewPageItem> viewItemNextState = null;
-            ViewSystemUtilitys.OverlayPageState overlayPageState = null;
-            if (!string.IsNullOrEmpty(vp.viewState))
-            {
-                overlayPageStatesWithOverState.TryGetValue(vp.viewState, out overlayPageState);
-            }
-            else
-            {
-                overlayPageStates.TryGetValue(vp.name, out overlayPageState);
-            }
+
+            string OverlayPageStateKey = GetOverlayStateKey(vp);
 
             //檢查是否有同 State 的 Overlay 頁面在場上
-            if (overlayPageState == null)
+            if (overlayPageStatusDict.TryGetValue(vp.name, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                overlayPageState = new ViewSystemUtilitys.OverlayPageState();
-                overlayPageState.viewPage = vp;
-                overlayPageState.viewState = overlayState;
-                overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Show;
-                viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
-
-                if (!string.IsNullOrEmpty(vp.viewState))
-                {
-                    overlayPageStatesWithOverState.Add(vp.viewState, overlayPageState);
-                    nextViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-                    viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
-                    viewItemNextState = PrepareRuntimeReference(viewItemNextState);
-                }
-                else
-                {
-                    overlayPageStates.Add(vp.name, overlayPageState);
-                }
-
-            }
-            else
-            {
-                viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
-
                 //同 OverlayState 的頁面已經在場上，移除不同的部分，然後顯示新加入的部分
-                if (!string.IsNullOrEmpty(vp.viewState) && overlayPageState.viewPage != vp)
+                viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
+                if (!string.IsNullOrEmpty(vp.viewState) && overlayPageStatus.viewPage != vp)
                 {
-                    foreach (var item in overlayPageState.viewPage.viewPageItems)
+                    foreach (var item in overlayPageStatus.viewPage.viewPageItems)
                     {
                         if (!vp.viewPageItems.Select(m => m.runtimeViewElement).Contains(item.runtimeViewElement))
                             viewElementDoesExitsInNextPage.Add(item.runtimeViewElement);
                     }
-                    overlayPageState.viewPage = vp;
+                    overlayPageStatus.viewPage = vp;
                 }
                 else
                 {
                     //如果已經存在的話要更新數值 所以停掉舊的 Coroutine
-                    if (overlayPageState.pageChangeCoroutine != null)
+                    if (overlayPageStatus.pageChangeCoroutine != null)
                     {
-                        StopCoroutine(overlayPageState.pageChangeCoroutine);
+                        StopCoroutine(overlayPageStatus.pageChangeCoroutine);
                     }
-                    overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Show;
+                    overlayPageStatus.transition = ViewSystemUtilitys.OverlayPageStatus.Transition.Show;
                 }
+            }
+            else
+            {
+                //同 OverlayState 的頁面還不在場上 新建一個 Status
+
+                overlayPageStatus = new ViewSystemUtilitys.OverlayPageStatus();
+                overlayPageStatus.viewPage = vp;
+                overlayPageStatus.viewState = viewState;
+                overlayPageStatus.transition = ViewSystemUtilitys.OverlayPageStatus.Transition.Show;
+                viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
+
+                // 沒有 viewState 的 Page 不需要處理 viewState 的 runtimeViewElement
+                if (!string.IsNullOrEmpty(vp.viewState))
+                {
+                    nextViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
+                    viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
+                    viewItemNextState = PrepareRuntimeReference(viewItemNextState);
+                }
+
+                overlayPageStatusDict.Add(OverlayPageStateKey, overlayPageStatus);
             }
 
             OnStart?.Invoke();
@@ -557,13 +548,13 @@ namespace CloudMacaca.ViewSystem
                 yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
 
             if (!string.IsNullOrEmpty(vp.viewState) && overlayPageStatesWithOverState.ContainsKey(vp.viewState)) overlayPageStatesWithOverState[vp.viewState].IsTransition = false;
-            else if (overlayPageStates.ContainsKey(vp.name)) overlayPageStates[vp.name].IsTransition = false;
+            else if (overlayPageStatusDict.ContainsKey(vp.name)) overlayPageStatusDict[vp.name].IsTransition = false;
             OnComplete?.Invoke();
         }
 
-        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
+        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageStatus overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
         {
-            if (waitForShowFinish && overlayPageState.IsTransition && overlayPageState.transition == ViewSystemUtilitys.OverlayPageState.Transition.Show)
+            if (waitForShowFinish && overlayPageState.IsTransition && overlayPageState.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Show)
             {
                 ViewSystemLog.Log("Leave Overlay Page wait for pervious page");
                 yield return overlayPageState.pageChangeCoroutine;
@@ -574,7 +565,7 @@ namespace CloudMacaca.ViewSystem
 
             var finishTime = ViewSystemUtilitys.CalculateTimesNeedsForOnLeave(overlayPageState.viewPage.viewPageItems.Select(m => m.runtimeViewElement));
 
-            overlayPageState.transition = ViewSystemUtilitys.OverlayPageState.Transition.Leave;
+            overlayPageState.transition = ViewSystemUtilitys.OverlayPageStatus.Transition.Leave;
 
             List<ViewPageItem> viewPageItems = new List<ViewPageItem>();
 
@@ -629,19 +620,19 @@ namespace CloudMacaca.ViewSystem
             overlayPageState.IsTransition = false;
 
             if (overlayPageState.viewState != null) overlayPageStatesWithOverState.Remove(overlayPageState.viewState.name);
-            else overlayPageStates.Remove(overlayPageState.viewPage.name);
+            else overlayPageStatusDict.Remove(overlayPageState.viewPage.name);
 
             OnComplete?.Invoke();
         }
         public bool IsOverPageLive(string viewPageName, bool includeLeavingPage = false)
         {
-            bool result = overlayPageStates.ContainsKey(viewPageName);
-            result = result && (!includeLeavingPage ? overlayPageStates[viewPageName].transition != ViewSystemUtilitys.OverlayPageState.Transition.Leave : true);
+            bool result = overlayPageStatusDict.ContainsKey(viewPageName);
+            result = result && (!includeLeavingPage ? overlayPageStatusDict[viewPageName].transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Leave : true);
 
-            IEnumerable<ViewSystemUtilitys.OverlayPageState> overlayPage = overlayPageStatesWithOverState.Select(m => m.Value);
+            IEnumerable<ViewSystemUtilitys.OverlayPageStatus> overlayPage = overlayPageStatesWithOverState.Select(m => m.Value);
             if (!includeLeavingPage)
             {
-                overlayPage = overlayPage.Where(m => m.transition != ViewSystemUtilitys.OverlayPageState.Transition.Leave);
+                overlayPage = overlayPage.Where(m => m.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Leave);
             }
 
             foreach (var item in overlayPage)
@@ -756,7 +747,7 @@ namespace CloudMacaca.ViewSystem
 
         public void DisableAllOverlayPageNavigation()
         {
-            foreach (var item in overlayPageStates)
+            foreach (var item in overlayPageStatusDict)
             {
                 var vpis = item.Value.viewPage.viewPageItems;
                 foreach (var vpi in vpis)

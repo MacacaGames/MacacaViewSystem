@@ -21,6 +21,17 @@ namespace CloudMacaca.ViewSystem
         protected static ViewControllerBase _incance;
 
         #region Interface Impletetment
+        protected string GetOverlayStateKey(ViewPage vp)
+        {
+            if (!string.IsNullOrEmpty(vp.viewState))
+            {
+                return vp.viewState;
+            }
+            else
+            {
+                return $"vp_{vp.name}";
+            }
+        }
         public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnStart = null, Action OnComplete = null, bool ignoreTimeScale = false)
         {
             var vp = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
@@ -29,18 +40,12 @@ namespace CloudMacaca.ViewSystem
                 ViewSystemLog.LogError("No overlay viewPage match the name: " + viewPageName + "  found");
                 return null;
             }
-            ViewSystemUtilitys.OverlayPageState overlayPageState = null;
-            if (!string.IsNullOrEmpty(vp.viewState))
+
+            string OverlayPageStateKey = GetOverlayStateKey(vp);
+
+            if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                overlayPageStatesWithOverState.TryGetValue(vp.viewState, out overlayPageState);
-            }
-            else
-            {
-                overlayPageStates.TryGetValue(vp.name, out overlayPageState);
-            }
-            if (overlayPageState != null)
-            {
-                if (overlayPageState.IsTransition == true)
+                if (overlayPageStatus.IsTransition == true)
                 {
                     ViewSystemLog.LogError($"The Overlay page {vp.name} is in Transition, ignore the ShowOverlayViewPage call.");
                     return null;
@@ -52,23 +57,17 @@ namespace CloudMacaca.ViewSystem
         public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
         {
             var vp = viewPages.SingleOrDefault(m => m.name == viewPageName);
-            ViewSystemUtilitys.OverlayPageState overlayPageState = null;
-            if (!string.IsNullOrEmpty(vp.viewState))
-            {
-                overlayPageStatesWithOverState.TryGetValue(vp.viewState, out overlayPageState);
-            }
-            else
-            {
-                overlayPageStates.TryGetValue(vp.name, out overlayPageState);
-            }
+            string OverlayPageStateKey = GetOverlayStateKey(vp);
 
-            if (overlayPageState == null)
+            if (!overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
+
+                /// Warrning
                 //如果 字典裡找不到 則 new 一個
-                overlayPageState = new ViewSystemUtilitys.OverlayPageState();
-                overlayPageState.viewPage = vp;
-                if (!string.IsNullOrEmpty(vp.viewState)) overlayPageState.viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-                if (overlayPageState == null)
+                overlayPageStatus = new ViewSystemUtilitys.OverlayPageStatus();
+                overlayPageStatus.viewPage = vp;
+                if (!string.IsNullOrEmpty(vp.viewState)) overlayPageStatus.viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
+                if (overlayPageStatus == null)
                 {
                     ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found, even cannot find in setting file");
                     return null;
@@ -76,10 +75,9 @@ namespace CloudMacaca.ViewSystem
 
                 ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
             }
-            overlayPageState.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageState, tweenTimeIfNeed, OnComplete, ignoreTransition, ignoreTimeScale, waitForShowFinish));
-            return overlayPageState.pageChangeCoroutine;
+            overlayPageStatus.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageStatus, tweenTimeIfNeed, OnComplete, ignoreTransition, ignoreTimeScale, waitForShowFinish));
+            return overlayPageStatus.pageChangeCoroutine;
         }
-
 
         public Coroutine ChangePage(string targetViewPageName, Action OnStart = null, Action OnCheaged = null, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false)
         {
@@ -109,7 +107,7 @@ namespace CloudMacaca.ViewSystem
             yield return null;
         }
 
-        public virtual IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
+        public virtual IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageStatus overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
         {
             //Empty implement will override in child class
             yield return null;
@@ -125,29 +123,29 @@ namespace CloudMacaca.ViewSystem
         {
             //清空自動離場
             autoLeaveQueue.Clear();
-            for (int i = 0; i < overlayPageStates.Count; i++)
+            for (int i = 0; i < overlayPageStatusDict.Count; i++)
             {
-                var item = overlayPageStates.ElementAt(i);
+                var item = overlayPageStatusDict.ElementAt(i);
                 StartCoroutine(LeaveOverlayViewPageBase(item.Value, 0.4f, null, true));
             }
         }
         public virtual bool HasOverlayPageLive()
         {
-            return overlayPageStates.Count > 0;
+            return overlayPageStatusDict.Count > 0;
         }
         public virtual bool IsOverPageLive(string viewPageName)
         {
-            return overlayPageStates.ContainsKey(viewPageName);
+            return overlayPageStatusDict.ContainsKey(viewPageName);
         }
         public virtual IEnumerable<string> GetCurrentOverpageNames()
         {
-            return overlayPageStates.Select(m => m.Key);
+            return overlayPageStatusDict.Select(m => m.Key);
         }
         public bool IsOverlayTransition
         {
             get
             {
-                foreach (var item in overlayPageStates)
+                foreach (var item in overlayPageStatusDict)
                 {
                     if (item.Value.IsTransition == true)
                     {
@@ -206,17 +204,17 @@ namespace CloudMacaca.ViewSystem
         /// The current active Overlay Dictionary which has no ViewState. 
         /// </summary>
         /// <typeparam name="string">ViewPage name</typeparam>
-        /// <typeparam name="ViewSystemUtilitys.OverlayPageState">The object hold the Overlay Page State</typeparam>
+        /// <typeparam name="ViewSystemUtilitys.OverlayPageState">The object hold the Overlay Page Status</typeparam>
         /// <returns></returns>
-        protected Dictionary<string, ViewSystemUtilitys.OverlayPageState> overlayPageStates = new Dictionary<string, ViewSystemUtilitys.OverlayPageState>();
+        protected Dictionary<string, ViewSystemUtilitys.OverlayPageStatus> overlayPageStatusDict = new Dictionary<string, ViewSystemUtilitys.OverlayPageStatus>();
 
-        /// <summary>
-        /// The current active Overlay Dictionary which has ViewState. 
-        /// </summary>
-        /// <typeparam name="string">ViewState name</typeparam>
-        /// <typeparam name="ViewSystemUtilitys.OverlayPageState">The object hold the Overlay Page State</typeparam>
-        /// <returns></returns>
-        protected Dictionary<string, ViewSystemUtilitys.OverlayPageState> overlayPageStatesWithOverState = new Dictionary<string, ViewSystemUtilitys.OverlayPageState>();
+        // /// <summary>
+        // /// The current active Overlay Dictionary which has ViewState. 
+        // /// </summary>
+        // /// <typeparam name="string">ViewState name</typeparam>
+        // /// <typeparam name="ViewSystemUtilitys.OverlayPageState">The object hold the Overlay Page State</typeparam>
+        // /// <returns></returns>
+        // protected Dictionary<string, ViewSystemUtilitys.OverlayPageStatus> overlayPageStatesWithOverState = new Dictionary<string, ViewSystemUtilitys.OverlayPageStatus>();
         protected IEnumerable<ViewPageItem> GetAllViewPageItemInViewState(ViewState vs)
         {
             return vs.viewPageItems.Where(m => !m.excludePlatform.IsSet(platform));

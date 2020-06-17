@@ -7,7 +7,7 @@ namespace CloudMacaca.ViewSystem
     public class ViewSystemUtilitys
     {
         [SerializeField]
-        public class OverlayPageState
+        public struct OverlayPageStatus
         {
             public bool IsTransition
             {
@@ -30,7 +30,7 @@ namespace CloudMacaca.ViewSystem
             public ViewPage viewPage;
             public ViewState viewState;
             public Coroutine pageChangeCoroutine;
-            public Transition transition = Transition.None;
+            public Transition transition;
             public enum Transition
             {
                 None,

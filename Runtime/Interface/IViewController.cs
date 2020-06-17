@@ -15,7 +15,7 @@ namespace CloudMacaca.ViewSystem
 
 
         Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4f, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false);
-        IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageState overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false);
+        IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageStatus overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false);
 
 
         Coroutine ChangePage(string targetViewPageName, Action OnStart = null, Action OnCheaged = null, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false);
