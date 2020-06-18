@@ -567,30 +567,31 @@ namespace CloudMacaca.ViewSystem
 
             foreach (var item in viewPageItems)
             {
-                if (IsPageTransition == false)
+                // Unique 的 ViewElement 另外處理借用問題
+                // 暫時不處理 多個 overlay 之間借用的問題！！！
+                if (item.runtimeViewElement.IsUnique == true && IsPageTransition == false)
                 {
-                    //不是 Unique 的 ViewElement 不會有借用的問題
-
-                    if (currentVe.Contains(item.runtimeViewElement) && item.runtimeViewElement.IsUnique == true)
+                    if (currentVe.Contains(item.runtimeViewElement))
                     {
                         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
                         try
                         {
-                            var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => m.runtimeViewElement == item.runtimeViewElement);
-                            ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+
+                            var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
                             item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, tweenTimeIfNeed, 0, 0);
+                            ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.runtimeParent.name);
                         }
                         catch { }
                         continue;
                     }
-                    if (currentVs.Contains(item.runtimeViewElement) && item.runtimeViewElement.IsUnique == true)
+                    if (currentVs.Contains(item.runtimeViewElement))
                     {
                         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
                         try
                         {
-                            var vpi = currentViewState.viewPageItems.FirstOrDefault(m => m.runtimeViewElement == item.runtimeViewElement);
-                            ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name + "Try to back to origin Transfrom parent : " + vpi.parent.name);
+                            var vpi = currentViewState.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
                             item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, tweenTimeIfNeed, 0, 0);
+                            ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name + "Try to back to origin Transfrom parent : " + vpi.runtimeParent.name);
                         }
                         catch { }
                         continue;
