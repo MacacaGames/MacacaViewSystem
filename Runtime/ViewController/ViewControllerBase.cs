@@ -46,13 +46,20 @@ namespace CloudMacaca.ViewSystem
             string OverlayPageStateKey = GetOverlayStateKey(vp);
             if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                if (overlayPageStatus.IsTransition == true &&
-                    overlayPageStatus.viewPage.name == viewPageName &&
-                    RePlayOnShowWhileSamePage == false)
+                if (overlayPageStatus.viewPage.name == viewPageName)
                 {
-                    ViewSystemLog.LogError($"The Overlay page {vp.name} is in Transition, ignore the ShowOverlayViewPage call.");
-                    return null;
+                    if (overlayPageStatus.IsTransition == true)
+                    {
+                        ViewSystemLog.LogError($"The Overlay page {vp.name} is in Transition, ignore the ShowOverlayViewPage call.");
+                        return null;
+                    }
+                    if (RePlayOnShowWhileSamePage == false)
+                    {
+                        ViewSystemLog.LogError($"The Overlay page {vp.name} is in already exsit, ignore the ShowOverlayViewPage call.");
+                        return null;
+                    }
                 }
+
             }
             return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnStart, OnComplete));
         }
