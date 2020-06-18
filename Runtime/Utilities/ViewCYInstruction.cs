@@ -5,14 +5,15 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewCYInstruction : MonoBehaviour
     {
-        public class WaitForStandardCoroutine : CustomYieldInstruction
+        public class WaitForStandardYieldInstruction : CustomYieldInstruction
         {
-            private bool isRunning;
+            bool isRunning;
 
             private MonoBehaviour mono;
-            private IEnumerator ie;
             private Coroutine coroutine;
+            private YieldInstruction yieldInstruction;
 
+            // in case we need to do anything with it
             public Coroutine Coroutine
             {
                 get
@@ -21,22 +22,22 @@ namespace CloudMacaca.ViewSystem
                 }
             }
 
-            public WaitForStandardCoroutine(MonoBehaviour mono, IEnumerator ie)
+            // we need a standard Coroutine running for DOTween's YieldInstruction to work
+            // so we invoke it here, running on the monobehaviour we passed as argument
+            public WaitForStandardYieldInstruction(MonoBehaviour mono, YieldInstruction yieldInstruction)
             {
                 this.mono = mono;
-                this.ie = ie;
-                this.coroutine = mono.StartCoroutine(IEWaitForCoroutine());
-            }
-            public WaitForStandardCoroutine(Coroutine coroutine)
-            {
-                this.coroutine = coroutine;
+                this.yieldInstruction = yieldInstruction;
+                this.coroutine = mono.StartCoroutine(IEWaitForYieldInstruction());
+
             }
 
-            public IEnumerator IEWaitForCoroutine()
+            // this is where the original YieldInstruction is called, to halt the flow until complete
+            // in the example case we are waiting on `myTween.WaitForCompletion()`
+            public IEnumerator IEWaitForYieldInstruction()
             {
                 isRunning = true;
-                if (coroutine == null) coroutine = mono.StartCoroutine(ie);
-                yield return coroutine;
+                yield return yieldInstruction;
                 isRunning = false;
             }
 

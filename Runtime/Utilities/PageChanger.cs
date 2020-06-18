@@ -16,11 +16,9 @@ namespace CloudMacaca.ViewSystem
         {
             return base.Reset();
         }
-        public override void _Show()
+        public override YieldInstruction _Show()
         {
-            //_OnStart?.Invoke();
-            _pageChangerRunner = _viewController.ChangePage(_targetPage, _OnStart, _OnChanged, _OnComplete, _waitPreviousPageFinish, _ignoreTimeScale);
-            hasStart = true;
+            return _viewController.ChangePage(_targetPage, _OnStart, _OnChanged, _OnComplete, _waitPreviousPageFinish, _ignoreTimeScale);
         }
     }
 
@@ -42,25 +40,22 @@ namespace CloudMacaca.ViewSystem
             _tweenTime = 0.4f;
             return base.Reset();
         }
-        public override void _Show()
+        public override YieldInstruction _Show()
         {
-            _pageChangerRunner = _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnComplete, _ignoreTimeScale);
-            hasStart = true;
+            return _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnComplete, _ignoreTimeScale);
         }
-        public void _Leave()
+        public YieldInstruction _Leave()
         {
-            _pageChangerRunner = _viewController.LeaveOverlayViewPage(_targetPage, _tweenTime, _OnComplete, _ignoreTransition, _ignoreTimeScale, _waitPreviousPageFinish);
+            return _viewController.LeaveOverlayViewPage(_targetPage, _tweenTime, _OnComplete, _ignoreTransition, _ignoreTimeScale, _waitPreviousPageFinish);
         }
     }
     public class PageChanger
     {
-        protected static ViewControllerBase _viewController;
+        internal static ViewControllerBase _viewController;
         internal Action _OnStart = null;
         internal Action _OnChanged = null;
         internal Action _OnComplete = null;
         internal string _targetPage;
-        internal Coroutine _pageChangerRunner = null;
-        internal bool hasStart = false;
         internal bool _ignoreTimeScale = true;
         internal bool _waitPreviousPageFinish = false;
 
@@ -76,7 +71,6 @@ namespace CloudMacaca.ViewSystem
             _OnComplete = null;
             _OnComplete += RecoveryToPool;
             _OnChanged = null;
-            _pageChangerRunner = null;
             _targetPage = string.Empty;
             _waitPreviousPageFinish = false;
             _ignoreTimeScale = true;
@@ -87,8 +81,10 @@ namespace CloudMacaca.ViewSystem
             Reset();
             _viewController.RecoveryChanger(this);
         }
-        public virtual void _Show()
-        { }
+        public virtual YieldInstruction _Show()
+        {
+            return null;
+        }
     }
 
     public static class OverlayPageChangerExtension
@@ -137,17 +133,23 @@ namespace CloudMacaca.ViewSystem
         {
             return (OverlayPageChanger)PageChangerExtension.OnComplete(selfObj, OnComplete);
         }
-        public static OverlayPageChanger Show(this OverlayPageChanger selfObj)
+        // public static YieldInstruction Show(this OverlayPageChanger selfObj)
+        // {
+        //     return PageChangerExtension.Show(selfObj);
+        // }
+        // public static CustomYieldInstruction Show(this PageChanger selfObj, bool customYieldInstruction)
+        // {
+        //     return new ViewCYInstruction.WaitForStandardYieldInstruction(PageChanger._viewController, selfObj._Show());
+        // }
+        public static YieldInstruction Leave(this OverlayPageChanger selfObj)
         {
-            return (OverlayPageChanger)PageChangerExtension.Show(selfObj);
+            return selfObj._Leave();
         }
-        public static OverlayPageChanger Leave(this OverlayPageChanger selfObj)
+        public static CustomYieldInstruction Leave(this OverlayPageChanger selfObj, bool customYieldInstruction)
         {
-            selfObj._Leave();
-            return selfObj;
+            return new ViewCYInstruction.WaitForStandardYieldInstruction(PageChanger._viewController, selfObj._Leave());
         }
     }
-
 
     public static class FullPageChangerExtension
     {
@@ -155,6 +157,7 @@ namespace CloudMacaca.ViewSystem
         {
             return (FullPageChanger)PageChangerExtension.SetPage(selfObj, targetPageName);
         }
+
         public static FullPageChanger OnStart(this FullPageChanger selfObj, Action OnStart)
         {
             return (FullPageChanger)PageChangerExtension.OnStart(selfObj, OnStart);
@@ -164,32 +167,26 @@ namespace CloudMacaca.ViewSystem
         {
             return (FullPageChanger)PageChangerExtension.OnChanged(selfObj, OnChanged);
         }
+
         public static FullPageChanger OnComplete(this FullPageChanger selfObj, Action OnComplete)
         {
             return (FullPageChanger)PageChangerExtension.OnComplete(selfObj, OnComplete);
         }
-        public static FullPageChanger Show(this FullPageChanger selfObj)
+
+        public static YieldInstruction Show(this FullPageChanger selfObj)
         {
-            return (FullPageChanger)PageChangerExtension.Show(selfObj);
+            return PageChangerExtension.Show(selfObj);
         }
     }
 
     public static class PageChangerExtension
     {
-        // public static OverlayPageChanger ToOverlayPageChanger(this PageChanger selfObj)
-        // {
-        //     return (selfObj as OverlayPageChanger);
-        // }
-
-        // public static FullPageChanger ToFullPageChanger(this PageChanger selfObj)
-        // {
-        //     return (FullPageChanger)selfObj;
-        // }
         public static PageChanger SetPage(this PageChanger selfObj, string targetPageName)
         {
             selfObj._targetPage = targetPageName;
             return selfObj;
         }
+
         public static PageChanger OnStart(this PageChanger selfObj, Action OnStart)
         {
             selfObj._OnStart = OnStart;
@@ -207,35 +204,44 @@ namespace CloudMacaca.ViewSystem
             selfObj._OnChanged = OnChanged;
             return selfObj;
         }
-        public static PageChanger Show(this PageChanger selfObj)
-        {
-            selfObj._Show();
-            return selfObj;
-        }
+
         public static PageChanger SetWaitPreviousPageFinish(this PageChanger selfObj, bool wait)
         {
             selfObj._waitPreviousPageFinish = wait;
             return selfObj;
         }
+
         public static PageChanger SetIgnoreTimeScale(this PageChanger selfObj, bool ignoreTimeScale)
         {
             selfObj._ignoreTimeScale = ignoreTimeScale;
             return selfObj;
         }
-        public static YieldInstruction GetYieldInstruction(this PageChanger selfObj)
+
+        public static YieldInstruction Show(this PageChanger selfObj)
         {
-            if (selfObj._pageChangerRunner != null)
-                return selfObj._pageChangerRunner;
-            else
-                return selfObj.Show()._pageChangerRunner;
+            return selfObj._Show();
         }
 
-        public static CustomYieldInstruction GetYieldInstruction(this PageChanger selfObj, bool customYieldInstruction)
+        public static CustomYieldInstruction Show(this PageChanger selfObj, bool customYieldInstruction)
         {
-            if (selfObj._pageChangerRunner != null)
-                return new ViewCYInstruction.WaitForStandardCoroutine(selfObj._pageChangerRunner);
-            else
-                return new ViewCYInstruction.WaitForStandardCoroutine(selfObj.Show()._pageChangerRunner);
+            return new ViewCYInstruction.WaitForStandardYieldInstruction(PageChanger._viewController, selfObj._Show());
         }
+        // public static YieldInstruction GetYieldInstruction(this PageChanger selfObj)
+        // {
+        //     if (selfObj._pageChangerRunner != null)
+        //         return selfObj._pageChangerRunner;
+        //     else
+        //         return selfObj.Show()._pageChangerRunner;
+        // }
+
+        // public static CustomYieldInstruction GetYieldInstruction(this PageChanger selfObj, bool customYieldInstruction)
+        // {
+        //     if (selfObj._pageChangerRunner != null)
+        //         return new ViewCYInstruction.WaitForStandardCoroutine(selfObj._pageChangerRunner);
+        //     else
+        //         return new ViewCYInstruction.WaitForStandardCoroutine(selfObj.Show()._pageChangerRunner);
+        // }
     }
+
+
 }

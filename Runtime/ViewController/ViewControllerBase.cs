@@ -69,7 +69,7 @@ namespace CloudMacaca.ViewSystem
             }
             else
             {
-                if (overlayPageStatus.IsTransition == true)
+                if (overlayPageStatus.IsTransition == true && waitForShowFinish == false)
                 {
                     ViewSystemLog.LogError($"The Overlay page {vp.name} is in Transition, ignore the LeaveOverlayViewPage call.");
                     return null;
@@ -296,6 +296,7 @@ namespace CloudMacaca.ViewSystem
             else
             {
                 pageChanger = fullPageChangerPool.Dequeue();
+                pageChanger.Reset();
             }
             return pageChanger;
         }
@@ -309,6 +310,7 @@ namespace CloudMacaca.ViewSystem
             else
             {
                 pageChanger = overlayPageChangerPool.Dequeue();
+                pageChanger.Reset();
             }
 
             return pageChanger;
