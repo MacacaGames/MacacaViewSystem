@@ -788,8 +788,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         using (var vertial_in = new EditorGUILayout.VerticalScope())
                         {
                             vp.name = EditorGUILayout.TextField("Name", vp.name);
-                            vp.viewPageTransitionTimingType = (ViewPage.ViewPageTransitionTimingType)EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", vp.viewPageTransitionTimingType);
-                           
+                            using (var disable = new EditorGUI.DisabledGroupScope(vp.viewPageType == ViewPage.ViewPageType.Overlay))
+                            {
+                                vp.viewPageTransitionTimingType = (ViewPage.ViewPageTransitionTimingType)EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", vp.viewPageTransitionTimingType);
+                            }
                             using (var disable = new EditorGUI.DisabledGroupScope(vp.viewPageTransitionTimingType != ViewPage.ViewPageTransitionTimingType.自行設定))
                             {
                                 vp.customPageTransitionWaitTime = EditorGUILayout.FloatField("CustomPageTransitionWaitTime", vp.customPageTransitionWaitTime);

@@ -454,25 +454,25 @@ namespace CloudMacaca.ViewSystem
                 item.ChangePage(false, null, 0, 0, delayOut);
             }
 
-            float TimeForPerviousPageOnLeave = 0;
-            switch (vp.viewPageTransitionTimingType)
-            {
-                case ViewPage.ViewPageTransitionTimingType.接續前動畫:
-                    TimeForPerviousPageOnLeave = ViewSystemUtilitys.CalculateTimesNeedsForOnLeave(viewItemNextPage.Select(m => m.viewElement), maxClampTime);
-                    break;
-                case ViewPage.ViewPageTransitionTimingType.與前動畫同時:
-                    TimeForPerviousPageOnLeave = 0;
-                    break;
-                case ViewPage.ViewPageTransitionTimingType.自行設定:
-                    TimeForPerviousPageOnLeave = vp.customPageTransitionWaitTime;
-                    break;
-            }
-            //等上一個頁面的 OnLeave 結束，注意，如果頁面中有大量的 Animator 這裡只能算出預估的結果 並且會限制最長時間為一秒鐘
+            // float TimeForPerviousPageOnLeave = 0;
+            // switch (vp.viewPageTransitionTimingType)
+            // {
+            //     case ViewPage.ViewPageTransitionTimingType.接續前動畫:
+            //         TimeForPerviousPageOnLeave = ViewSystemUtilitys.CalculateTimesNeedsForOnLeave(viewItemNextPage.Select(m => m.viewElement), maxClampTime);
+            //         break;
+            //     case ViewPage.ViewPageTransitionTimingType.與前動畫同時:
+            //         TimeForPerviousPageOnLeave = 0;
+            //         break;
+            //     case ViewPage.ViewPageTransitionTimingType.自行設定:
+            //         TimeForPerviousPageOnLeave = vp.customPageTransitionWaitTime;
+            //         break;
+            // }
+            // //等上一個頁面的 OnLeave 結束，注意，如果頁面中有大量的 Animator 這裡只能算出預估的結果 並且會限制最長時間為一秒鐘
 
-            if (ignoreTimeScale)
-                yield return Yielders.GetWaitForSecondsRealtime(TimeForPerviousPageOnLeave);
-            else
-                yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
+            // if (ignoreTimeScale)
+            //     yield return Yielders.GetWaitForSecondsRealtime(TimeForPerviousPageOnLeave);
+            // else
+            //     yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
 
             //對進場的呼叫改變狀態
             foreach (var item in viewItemNextPage)
