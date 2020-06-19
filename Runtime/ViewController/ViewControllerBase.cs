@@ -168,6 +168,8 @@ namespace CloudMacaca.ViewSystem
         protected virtual void Awake()
         {
             ViewElement.viewController = this;
+            fullPageChangerPool = new Queue<FullPageChanger>();
+            overlayPageChangerPool = new Queue<OverlayPageChanger>();
         }
         protected virtual void Start()
         {
@@ -283,8 +285,8 @@ namespace CloudMacaca.ViewSystem
 
         #region PageChanger
 
-        static Queue<FullPageChanger> fullPageChangerPool = new Queue<FullPageChanger>();
-        static Queue<OverlayPageChanger> overlayPageChangerPool = new Queue<OverlayPageChanger>();
+        static Queue<FullPageChanger> fullPageChangerPool;
+        static Queue<OverlayPageChanger> overlayPageChangerPool;
         public void RecoveryChanger(PageChanger pageChanger)
         {
             if (pageChanger is FullPageChanger fullPageChanger)

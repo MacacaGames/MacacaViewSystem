@@ -45,7 +45,7 @@ namespace CloudMacaca.ViewSystem
 
             ViewElement.runtimePool = runtimePool;
             ViewElement.viewElementPool = viewElementPool;
-
+            InjectionDictionary = new Dictionary<System.Type, Component>();
             maxClampTime = viewSystemSaveData.globalSetting.MaxWaitingTime;
         }
 
@@ -63,7 +63,7 @@ namespace CloudMacaca.ViewSystem
             base.Start();
         }
         #region Injection
-        private Dictionary<System.Type, Component> InjectionDictionary = new Dictionary<System.Type, Component>();
+        private Dictionary<System.Type, Component> InjectionDictionary;
         public T GetInjectionInstance<T>() where T : Component, IViewElementInjectable
         {
             if (InjectionDictionary.TryGetValue(typeof(T), out Component result))
