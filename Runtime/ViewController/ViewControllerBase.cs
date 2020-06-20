@@ -9,6 +9,8 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewControllerBase : MonoBehaviour, IViewController
     {
+        protected static float minimumTimeInterval = 0.2f;
+
         public Canvas GetCanvas()
         {
             Canvas result = gameObject.GetComponent<Canvas>();
@@ -36,6 +38,11 @@ namespace CloudMacaca.ViewSystem
 
         public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnStart = null, Action OnComplete = null, bool ignoreTimeScale = false)
         {
+            if (!CheckTimeProtect())
+            {
+                ViewSystemLog.LogWarning($"Method call return due to TimeProtect.");
+                return null;
+            }
             var vp = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
             if (vp == null)
             {
@@ -66,19 +73,35 @@ namespace CloudMacaca.ViewSystem
 
         public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
         {
+            if (!CheckTimeProtect())
+            {
+                ViewSystemLog.LogWarning($"Method call return due to TimeProtect.");
+                return null;
+            }
             var vp = viewPages.SingleOrDefault(m => m.name == viewPageName);
             string OverlayPageStateKey = GetOverlayStateKey(vp);
 
             if (!overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + "  found but try hard fix success");
-                return null;
+                ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + " found, try to fix.");
+                overlayPageStatus = new ViewSystemUtilitys.OverlayPageStatus();
+                overlayPageStatus.viewPage = vp;
+
+                ViewState vs = viewStates.SingleOrDefault(m => m.name == vp.viewState);
+
+                if (vs != null) { overlayPageStatus.viewState = vs; }
+                //return null;
             }
             else
             {
-                if (overlayPageStatus.IsTransition == true && waitForShowFinish == false)
+                if (overlayPageStatus.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Show && waitForShowFinish == false)
                 {
                     ViewSystemLog.LogError($"The Overlay page {vp.name} is in Transition, ignore the LeaveOverlayViewPage call.");
+                    return null;
+                }
+                if (overlayPageStatus.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Leave)
+                {
+                    ViewSystemLog.LogError($"The Overlay page {vp.name} is in Leaving, ignore the LeaveOverlayViewPage call.");
                     return null;
                 }
             }
@@ -88,6 +111,11 @@ namespace CloudMacaca.ViewSystem
 
         public Coroutine ChangePage(string targetViewPageName, Action OnStart = null, Action OnCheaged = null, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false)
         {
+            if (!CheckTimeProtect())
+            {
+                ViewSystemLog.LogWarning($"Method call return due to TimeProtect.");
+                return null;
+            }
             if (currentViewPage.name == targetViewPageName)
             {
                 ViewSystemLog.LogWarning("The ViewPage request to change is same as current ViewPage, nothing will happen!");
@@ -162,6 +190,20 @@ namespace CloudMacaca.ViewSystem
                 return false;
             }
         }
+
+        float lastMethodTime = 0;
+
+        protected bool CheckTimeProtect()
+        {
+            float currentTime = Time.realtimeSinceStartup;
+            bool result = (currentTime - lastMethodTime) > minimumTimeInterval;
+            if (result)
+            {
+                lastMethodTime = currentTime;
+            }
+            return result;
+        }
+
         #endregion
 
         #region  Unity LifeCycle

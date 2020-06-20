@@ -54,6 +54,11 @@ namespace CloudMacaca.ViewSystem
                 }
             }
             public float _maxWaitingTime = 1.5f;
+            /// <summary>
+            /// The minimum effective interval Show/Leave OverlayPage or ChangePage on FullPage call.
+            /// If user the method call time interval less than this value, the call will be ignore!
+            /// </summary>
+            public float minimumTimeInterval = 0.2f;
         }
 
     }
@@ -102,7 +107,7 @@ namespace CloudMacaca.ViewSystem
     [System.Serializable]
     public class PropertyOverride
     {
-        BindingFlags defaultBindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance ;
+        BindingFlags defaultBindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
 
         public object GetValue()
         {
@@ -136,7 +141,7 @@ namespace CloudMacaca.ViewSystem
                         var enumType = CloudMacaca.Utility.GetType(s[0]);
                         int v = 0;
                         int.TryParse(s[1], out v);
-                        return System.Enum.ToObject(enumType , v);
+                        return System.Enum.ToObject(enumType, v);
                     }
                 default:
                     return null;

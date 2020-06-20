@@ -16,6 +16,7 @@ namespace CloudMacaca.ViewSystem
 
         [SerializeField]
         private ViewSystemSaveData viewSystemSaveData;
+
         Transform transformCache;
         // Use this for initialization
         protected override void Awake()
@@ -47,6 +48,7 @@ namespace CloudMacaca.ViewSystem
             ViewElement.viewElementPool = viewElementPool;
             InjectionDictionary = new Dictionary<System.Type, Component>();
             maxClampTime = viewSystemSaveData.globalSetting.MaxWaitingTime;
+            minimumTimeInterval = viewSystemSaveData.globalSetting.minimumTimeInterval;
         }
 
         protected override void Start()
@@ -546,7 +548,7 @@ namespace CloudMacaca.ViewSystem
 
         public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageStatus overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
         {
-            if (waitForShowFinish && overlayPageState.IsTransition)
+            if (waitForShowFinish && overlayPageState.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Show)
             {
                 ViewSystemLog.Log("Leave Overlay Page wait for pervious page");
                 yield return new WaitUntil(() => !overlayPageState.IsTransition);
@@ -567,6 +569,11 @@ namespace CloudMacaca.ViewSystem
 
             foreach (var item in viewPageItems)
             {
+                if (item.runtimeViewElement == null)
+                {
+                    ViewSystemLog.LogWarning($"ViewElement : {item.viewElement.name} is null in runtime.");
+                    continue;
+                }
                 // Unique 的 ViewElement 另外處理借用問題
                 // 暫時不處理 多個 overlay 之間借用的問題！！！
                 if (item.runtimeViewElement.IsUnique == true && IsPageTransition == false)
@@ -783,6 +790,8 @@ namespace CloudMacaca.ViewSystem
                 }
             }
         }
+
+
 
         #endregion
 
