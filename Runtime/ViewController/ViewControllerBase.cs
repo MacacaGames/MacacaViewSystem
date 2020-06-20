@@ -201,7 +201,7 @@ namespace CloudMacaca.ViewSystem
             {
                 lastMethodTime = currentTime;
             }
-            return result;
+            return true;
         }
 
         #endregion
