@@ -42,7 +42,7 @@ namespace CloudMacaca.ViewSystem
         }
         public override YieldInstruction _Show()
         {
-            return _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnComplete, _ignoreTimeScale);
+            return _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnChanged, _OnComplete, _ignoreTimeScale);
         }
         public YieldInstruction _Leave()
         {

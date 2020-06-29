@@ -36,7 +36,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnStart = null, Action OnComplete = null, bool ignoreTimeScale = false)
+        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnStart = null, Action OnChanged = null, Action OnComplete = null, bool ignoreTimeScale = false)
         {
             if (!CheckTimeProtect())
             {
@@ -68,7 +68,7 @@ namespace CloudMacaca.ViewSystem
                 }
 
             }
-            return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnStart, OnComplete));
+            return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnStart, OnChanged, OnComplete, ignoreTimeScale));
         }
 
         public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
@@ -136,7 +136,7 @@ namespace CloudMacaca.ViewSystem
             return ChangePageToCoroutine;
         }
 
-        public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnComplete, bool ignoreTimeScale = false)
+        public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale = false)
         {
             //Empty implement will override in child class
             yield return null;

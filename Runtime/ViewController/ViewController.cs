@@ -201,7 +201,7 @@ namespace CloudMacaca.ViewSystem
             if (vp.viewPageType == ViewPage.ViewPageType.Overlay)
             {
                 ViewSystemLog.LogWarning("To shown Page is an Overlay ViewPage use ShowOverlayViewPage() instead method \n current version will redirect to this method automatically, but this behaviour may be changed in future release.");
-                ShowOverlayViewPageBase(vp, true, OnStart, OnComplete, ignoreTimeScale);
+                ShowOverlayViewPageBase(vp, true, OnStart,OnChanged, OnComplete, ignoreTimeScale);
                 ChangePageToCoroutine = null;
                 yield break;
             }
@@ -368,7 +368,7 @@ namespace CloudMacaca.ViewSystem
             nextViewState = null;
         }
 
-        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnComplete, bool ignoreTimeScale)
+        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale)
         {
             if (vp == null)
             {
@@ -456,26 +456,6 @@ namespace CloudMacaca.ViewSystem
                 item.ChangePage(false, null, 0, 0, delayOut);
             }
 
-            // float TimeForPerviousPageOnLeave = 0;
-            // switch (vp.viewPageTransitionTimingType)
-            // {
-            //     case ViewPage.ViewPageTransitionTimingType.接續前動畫:
-            //         TimeForPerviousPageOnLeave = ViewSystemUtilitys.CalculateTimesNeedsForOnLeave(viewItemNextPage.Select(m => m.viewElement), maxClampTime);
-            //         break;
-            //     case ViewPage.ViewPageTransitionTimingType.與前動畫同時:
-            //         TimeForPerviousPageOnLeave = 0;
-            //         break;
-            //     case ViewPage.ViewPageTransitionTimingType.自行設定:
-            //         TimeForPerviousPageOnLeave = vp.customPageTransitionWaitTime;
-            //         break;
-            // }
-            // //等上一個頁面的 OnLeave 結束，注意，如果頁面中有大量的 Animator 這裡只能算出預估的結果 並且會限制最長時間為一秒鐘
-
-            // if (ignoreTimeScale)
-            //     yield return Yielders.GetWaitForSecondsRealtime(TimeForPerviousPageOnLeave);
-            // else
-            //     yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
-
             //對進場的呼叫改變狀態
             foreach (var item in viewItemNextPage)
             {
@@ -533,6 +513,7 @@ namespace CloudMacaca.ViewSystem
             SetNavigationTarget(vp);
 
             //Fire the event
+            OnChanged?.Invoke();
             InvokeOnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
 
             //當所有表演都結束時
