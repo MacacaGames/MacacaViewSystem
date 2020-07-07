@@ -293,7 +293,7 @@ namespace CloudMacaca.ViewSystem
                                },
                                () =>
                                {
-                                   marginFixer.ApplyModifyValue();
+                                   if (marginFixer) marginFixer.ApplyModifyValue();
                                }
                             ));
 
