@@ -142,6 +142,10 @@ namespace CloudMacaca.ViewSystem
                 {
                     _canvasGroup = GetComponent<CanvasGroup>();
                 }
+                if (_canvasGroup == null)
+                {
+                    _canvasGroup = gameObject.AddComponent<CanvasGroup>();
+                }
                 return _canvasGroup;
             }
         }
@@ -197,7 +201,7 @@ namespace CloudMacaca.ViewSystem
             // poolScale = transform.localScale;
             // poolPosition = rectTransform.anchoredPosition3D;
             // if (transform.parent == poolParent)
-            // gameObject.SetActive(false);
+            // SetActive(false);
 
             CheckAnimatorHasLoopKey();
         }
@@ -247,44 +251,23 @@ namespace CloudMacaca.ViewSystem
                     yield break;
                     //throw new NullReferenceException(gameObject.name + " does not set the parent for next viewpage.");
                 }
-                //停掉正在播放的 Leave 動畫
-                if (OnLeaveCoroutine != null)
+                if (parent.GetInstanceID() != rectTransform.parent.GetInstanceID())
                 {
-                    // viewController.StopCoroutine(OnLeaveCoroutine);
-                }
-                //還在池子裡，應該先 OnShow
-                //或是正在離開，都要重播 OnShow
-                if (IsShowed == false || OnLeaveWorking)
-                {
-                    // Debug.LogError(" rectTransform.SetParent(parent, true);");
-                    rectTransform.SetParent(parent, true);
-                    rectTransform.anchoredPosition3D = Vector3.zero;
-                    rectTransform.localScale = Vector3.one;
-                    float time = 0;
-                    while (time > delayIn)
+                    if (!gameObject.activeSelf)
                     {
-                        time += GlobalTimer.deltaTime;
-                        yield return null;
-                    }
-                    // yield return Yielders.GetWaitForSecondsRealtime(delayIn);
-                    OnShow();
-                    yield break;
-                }
-                //已經在場上的
-                else
-                {
-                    //如果目前的 parent 跟目標的 parent 是同一個人 那就什麼事都不錯
-                    if (parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
-                    {
-                        //ViewSystemLog.LogWarning("Due to already set the same parent with target parent, ignore " +  name);
-                        if (reshowIfSamePage)
+                        rectTransform.SetParent(parent, true);
+                        rectTransform.anchoredPosition3D = Vector3.zero;
+                        rectTransform.localScale = Vector3.one;
+                        float time = 0;
+                        while (time > delayIn)
                         {
-                            OnShow();
+                            time += GlobalTimer.deltaTime;
+                            yield return null;
                         }
+                        OnShow();
                         yield break;
                     }
-                    //其他的情況下用 Tween 過去
-                    if (TweenTime >= 0)
+                    else if (TweenTime >= 0)
                     {
                         rectTransform.SetParent(parent, true);
 
@@ -317,7 +300,6 @@ namespace CloudMacaca.ViewSystem
 
                         yield break;
                     }
-                    //TweenTime 設定為 <0 的情況下，代表要完整 OnLeave 在 OnShow
                     else
                     {
                         float time = 0;
@@ -347,6 +329,18 @@ namespace CloudMacaca.ViewSystem
                         OnShow();
                         yield break;
                     }
+                }
+                else
+                {
+                    float time = 0;
+                    time = 0;
+                    while (time > delayIn)
+                    {
+                        time += GlobalTimer.deltaTime;
+                        yield return null;
+                    }
+                    // yield return Yielders.GetWaitForSecondsRealtime(delayIn);
+                    OnShow();
                 }
             }
             else
@@ -391,13 +385,13 @@ namespace CloudMacaca.ViewSystem
                     catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
                 }
 
-            gameObject.SetActive(true);
+            SetActive(true);
 
             if (viewElementGroup != null)
             {
                 if (viewElementGroup.OnlyManualMode && manual == false)
                 {
-                    if (gameObject.activeSelf) gameObject.SetActive(false);
+                    if (gameObject.activeSelf) SetActive(false);
                     // ViewSystemLog.LogWarning("Due to ignoreTransitionOnce is set to true, ignore the transition");
                     showCoroutine = null;
                     yield break;
@@ -604,7 +598,7 @@ namespace CloudMacaca.ViewSystem
             OnLeaveWorking = false;
             OnLeaveCoroutine = null;
 
-            gameObject.SetActive(false);
+            SetActive(false);
 
             if (needPool == false)
             {
@@ -612,7 +606,7 @@ namespace CloudMacaca.ViewSystem
             }
             // Debug.LogError(" rectTransform.SetParent(viewElementPool.transformCache, true);");
 
-            rectTransform.SetParent(viewElementPool.transformCache, true);
+            //rectTransform.SetParent(viewElementPool.transformCache, true);
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
 
@@ -630,7 +624,14 @@ namespace CloudMacaca.ViewSystem
             }
         }
         public bool DisableGameObjectOnComplete = true;
-
+        void SetActive(bool active)
+        {
+            gameObject.SetActive(active);
+            // if (gameObject.activeSelf == false) gameObject.SetActive(true);
+            // canvasGroup.alpha = active ? 1 : 0;
+            // canvasGroup.interactable = active;
+            // canvasGroup.blocksRaycasts = active;
+        }
         public virtual float GetOutDuration()
         {
             float result = 0;
