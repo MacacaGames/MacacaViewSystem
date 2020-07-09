@@ -56,7 +56,7 @@ namespace CloudMacaca.ViewSystem
         internal Action _OnChanged = null;
         internal Action _OnComplete = null;
         internal string _targetPage;
-        internal bool _ignoreTimeScale = true;
+        internal bool _ignoreTimeScale = false;
         internal bool _waitPreviousPageFinish = false;
 
         public PageChanger(ViewControllerBase viewController)
