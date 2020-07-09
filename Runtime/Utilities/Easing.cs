@@ -918,7 +918,7 @@ namespace com.spacepuppy.Tween
         //     return Quaternion.Slerp(start, end, ease(t, 0, 1, dur));
         // }
 
-        public static IEnumerator EaseValue(float start, float end, float dur, Ease ease, Action<float> OnUpdate)
+        public static IEnumerator EaseValue(float start, float end, float dur, Ease ease, Action<float> OnUpdate, Action OnComplete = null)
         {
             float t = 0f;
             while (t < dur)
@@ -930,6 +930,7 @@ namespace com.spacepuppy.Tween
                 ///Debug.Log(sc);
             }
             OnUpdate.Invoke(end);
+            OnComplete?.Invoke();
         }
 
         public static IEnumerator EaseVector3(Vector3 start, Vector3 end, float dur, Ease ease, Action<Vector3> OnUpdate, Action OnComplete = null)

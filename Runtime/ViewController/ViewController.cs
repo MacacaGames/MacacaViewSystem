@@ -201,7 +201,7 @@ namespace CloudMacaca.ViewSystem
             if (vp.viewPageType == ViewPage.ViewPageType.Overlay)
             {
                 ViewSystemLog.LogWarning("To shown Page is an Overlay ViewPage use ShowOverlayViewPage() instead method \n current version will redirect to this method automatically, but this behaviour may be changed in future release.");
-                ShowOverlayViewPageBase(vp, true, OnStart,OnChanged, OnComplete, ignoreTimeScale);
+                ShowOverlayViewPageBase(vp, true, OnStart, OnChanged, OnComplete, ignoreTimeScale);
                 ChangePageToCoroutine = null;
                 yield break;
             }
@@ -362,10 +362,11 @@ namespace CloudMacaca.ViewSystem
             //Callback
             InvokeOnViewPageChangeEnd(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
 
-            //2019.12.18 due to there may be new Callback be add, change the  OnComplete to all is done.
-            OnComplete?.Invoke();
             nextViewPage = null;
             nextViewState = null;
+            
+            //2019.12.18 due to there may be new Callback be add, change the  OnComplete to all is done.
+            OnComplete?.Invoke();
         }
 
         public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale)

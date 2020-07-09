@@ -224,7 +224,8 @@ namespace CloudMacaca.ViewSystem
         IDisposable OnShowObservable;
         public virtual void ChangePage(bool show, Transform parent, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
         {
-            viewController.StartCoroutine(OnChangePageRunner(show, parent, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
+            viewController.StartUpdateMicroCoroutine(OnChangePageRunner(show, parent, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
+            //viewController.StartCoroutine(OnChangePageRunner(show, parent, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
         }
         public IEnumerator OnChangePageRunner(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition, bool reshowIfSamePage)
         {
@@ -249,7 +250,7 @@ namespace CloudMacaca.ViewSystem
                 //停掉正在播放的 Leave 動畫
                 if (OnLeaveCoroutine != null)
                 {
-                    viewController.StopCoroutine(OnLeaveCoroutine);
+                    // viewController.StopCoroutine(OnLeaveCoroutine);
                 }
                 //還在池子裡，應該先 OnShow
                 //或是正在離開，都要重播 OnShow
@@ -259,7 +260,13 @@ namespace CloudMacaca.ViewSystem
                     rectTransform.SetParent(parent, true);
                     rectTransform.anchoredPosition3D = Vector3.zero;
                     rectTransform.localScale = Vector3.one;
-                    yield return Yielders.GetWaitForSecondsRealtime(delayIn);
+                    float time = 0;
+                    while (time > delayIn)
+                    {
+                        time += GlobalTimer.deltaTime;
+                        yield return null;
+                    }
+                    // yield return Yielders.GetWaitForSecondsRealtime(delayIn);
                     OnShow();
                     yield break;
                 }
@@ -282,7 +289,7 @@ namespace CloudMacaca.ViewSystem
                         rectTransform.SetParent(parent, true);
 
                         var marginFixer = GetComponent<ViewMarginFixer>();
-                        viewController.StartCoroutine(EaseMethods.EaseVector3(
+                        viewController.StartUpdateMicroCoroutine(EaseMethods.EaseVector3(
                                rectTransform.anchoredPosition3D,
                                Vector3.zero,
                                TweenTime,
@@ -297,7 +304,7 @@ namespace CloudMacaca.ViewSystem
                                }
                             ));
 
-                        viewController.StartCoroutine(EaseMethods.EaseVector3(
+                        viewController.StartUpdateMicroCoroutine(EaseMethods.EaseVector3(
                             rectTransform.localScale,
                             Vector3.one,
                             TweenTime,
@@ -313,14 +320,30 @@ namespace CloudMacaca.ViewSystem
                     //TweenTime 設定為 <0 的情況下，代表要完整 OnLeave 在 OnShow
                     else
                     {
-                        yield return Yielders.GetWaitForSecondsRealtime(delayOut);
+                        float time = 0;
+                        while (time > delayIn)
+                        {
+                            time += GlobalTimer.deltaTime;
+                            yield return null;
+                        }
+                        // yield return Yielders.GetWaitForSecondsRealtime(delayOut);
                         OnLeave(ignoreTransition: ignoreTransition);
-                        yield return new WaitUntil(() => OnLeaveWorking == false);
+                        while (OnLeaveWorking == true)
+                        {
+                            yield return null;
+                        }
+                        // yield return new WaitUntil(() => OnLeaveWorking == false);
                         ViewSystemLog.LogWarning("Try to ReShow ", this);
                         rectTransform.SetParent(parent, true);
                         rectTransform.anchoredPosition3D = Vector3.zero;
                         rectTransform.localScale = Vector3.one;
-                        yield return Yielders.GetWaitForSecondsRealtime(delayIn);
+                        time = 0;
+                        while (time > delayIn)
+                        {
+                            time += GlobalTimer.deltaTime;
+                            yield return null;
+                        }
+                        // yield return Yielders.GetWaitForSecondsRealtime(delayIn);
                         OnShow();
                         yield break;
                     }
@@ -328,7 +351,13 @@ namespace CloudMacaca.ViewSystem
             }
             else
             {
-                yield return Yielders.GetWaitForSecondsRealtime(delayOut);
+                float time = 0;
+                while (time > delayIn)
+                {
+                    time += GlobalTimer.deltaTime;
+                    yield return null;
+                }
+                // yield return Yielders.GetWaitForSecondsRealtime(delayOut);
                 OnLeave(ignoreTransition: ignoreTransition);
                 yield break;
             }
@@ -343,11 +372,12 @@ namespace CloudMacaca.ViewSystem
         Coroutine showCoroutine;
         public virtual void OnShow(bool manual = false)
         {
-            if (showCoroutine != null)
-            {
-                viewController.StopCoroutine(showCoroutine);
-            }
-            showCoroutine = viewController.StartCoroutine(OnShowRunner(manual));
+            // if (showCoroutine != null)
+            // {
+            //     viewController.StopCoroutine(showCoroutine);
+            // }
+            viewController.StartUpdateMicroCoroutine(OnShowRunner(manual));
+            // showCoroutine = viewController.StartCoroutine(OnShowRunner(manual));
         }
         public IEnumerator OnShowRunner(bool manual)
         {
@@ -359,7 +389,6 @@ namespace CloudMacaca.ViewSystem
                         item.OnBeforeShow();
                     }
                     catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
-
                 }
 
             gameObject.SetActive(true);
@@ -375,8 +404,6 @@ namespace CloudMacaca.ViewSystem
                 }
                 viewElementGroup.OnShowChild();
             }
-
-
 
             if (transition == TransitionType.Animator)
             {
@@ -426,7 +453,8 @@ namespace CloudMacaca.ViewSystem
         Coroutine OnLeaveCoroutine;
         public virtual void OnLeave(bool NeedPool = true, bool ignoreTransition = false)
         {
-            OnLeaveCoroutine = viewController.StartCoroutine(OnLeaveRunner(NeedPool, ignoreTransition));
+            // OnLeaveCoroutine = viewController.StartCoroutine(OnLeaveRunner(NeedPool, ignoreTransition));
+            viewController.StartUpdateMicroCoroutine(OnLeaveRunner(NeedPool, ignoreTransition));
         }
         public IEnumerator OnLeaveRunner(bool NeedPool = true, bool ignoreTransition = false)
         {
@@ -490,8 +518,8 @@ namespace CloudMacaca.ViewSystem
                 if (canvasGroup == null) ViewSystemLog.LogError("No Canvas Group Found on this Object", this);
 
                 //yield return canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase).SetUpdate(true).WaitForCompletion();
-
-                yield return viewController.StartCoroutine(EaseMethods.EaseValue(
+                bool tweenFinish = false;
+                viewController.StartUpdateMicroCoroutine(EaseMethods.EaseValue(
                       canvasGroup.alpha,
                       0,
                       canvasOutTime,
@@ -499,13 +527,27 @@ namespace CloudMacaca.ViewSystem
                       (v) =>
                       {
                           canvasGroup.alpha = v;
+                      },
+                      () =>
+                      {
+                          tweenFinish = true;
                       }
                    ));
+                while (tweenFinish == false)
+                {
+                    yield return null;
+                }
 
                 if (viewElementGroup != null)
                 {
                     float waitTime = Mathf.Clamp(viewElementGroup.GetOutDuration() - canvasOutTime, 0, 2);
-                    yield return Yielders.GetWaitForSecondsRealtime(waitTime);
+                    float time = 0;
+                    while (time > waitTime)
+                    {
+                        time += GlobalTimer.deltaTime;
+                        yield return null;
+                    }
+                    //yield return Yielders.GetWaitForSecondsRealtime(waitTime);
                 }
                 OnLeaveAnimationFinish();
             }
@@ -517,7 +559,13 @@ namespace CloudMacaca.ViewSystem
             {
                 if (viewElementGroup != null)
                 {
-                    yield return Yielders.GetWaitForSecondsRealtime(viewElementGroup.GetOutDuration());
+                    float time = 0;
+                    while (time > viewElementGroup.GetOutDuration())
+                    {
+                        time += GlobalTimer.deltaTime;
+                        yield return null;
+                    }
+                    //yield return Yielders.GetWaitForSecondsRealtime(viewElementGroup.GetOutDuration());
                 }
                 OnLeaveAnimationFinish();
             }

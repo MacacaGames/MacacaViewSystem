@@ -9,6 +9,7 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewControllerBase : MonoBehaviour, IViewController
     {
+
         protected static float minimumTimeInterval = 0.2f;
 
         public Canvas GetCanvas()
@@ -207,18 +208,43 @@ namespace CloudMacaca.ViewSystem
         #endregion
 
         #region  Unity LifeCycle
+        Action<Exception> unhandledExceptionCallback = ex => Debug.LogException(ex); // default
+        MicroCoroutine updateMicroCoroutine = null;
+
         protected virtual void Awake()
         {
             ViewElement.viewController = this;
             fullPageChangerPool = new Queue<FullPageChanger>();
             overlayPageChangerPool = new Queue<OverlayPageChanger>();
+
+            updateMicroCoroutine = new MicroCoroutine(ex => unhandledExceptionCallback(ex));
         }
         protected virtual void Start()
         {
-            //開啟無限檢查自動離場的迴圈
-            // StartCoroutine(AutoLeaveOverlayPage());
+
         }
-        #endregion  
+        void Update()
+        {
+            updateMicroCoroutine.Update();
+        }
+
+        public void StartUpdateMicroCoroutine(IEnumerator routine)
+        {
+            // #if UNITY_EDITOR
+            //             if (!ScenePlaybackDetector.IsPlaying) { EditorThreadDispatcher.Instance.PseudoStartCoroutine(routine); return; }
+            // #endif
+            var dispatcher = this;
+            if (dispatcher != null)
+            {
+                // Move Next first, if false means the coroutine is complete or empty, so we don't need to add to MicroCoroutine
+                if (routine.MoveNext())
+                {
+                    dispatcher.updateMicroCoroutine.AddCoroutine(routine);
+                }
+            }
+        }
+
+        #endregion
 
 
         public List<ViewPage> viewPages = new List<ViewPage>();

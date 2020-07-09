@@ -51,12 +51,6 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        void OnTransformParentChanged()
-        {
-            //SetupChild();
-            //Debug.Log($"OnTransformParentChanged {name}");
-        }
-
         public void OnShowChild()
         {
             childViewElements.RemoveAll(m => m == null);
@@ -71,10 +65,7 @@ namespace CloudMacaca.ViewSystem
             {
                 item.OnShow();
             }
-            // foreach (var item in childViewElementGroups)
-            // {
-            //     item.viewElement.OnShow();
-            // }
+         
         }
 
         public void OnLeaveChild(bool ignoreTransition = false)
@@ -89,10 +80,7 @@ namespace CloudMacaca.ViewSystem
             {
                 item.OnLeave(false, ignoreTransition);
             }
-            // foreach (var item in childViewElementGroups)
-            // {
-            //     item.viewElement.OnLeave(false, ignoreTransition);
-            // }
+          
         }
 
         public float GetOutDuration()
