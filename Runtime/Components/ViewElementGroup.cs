@@ -49,6 +49,7 @@ namespace CloudMacaca.ViewSystem
                     childViewElements.RemoveAll(m => m == ve);
                 }
             }
+
         }
 
         public void OnShowChild()
@@ -65,7 +66,7 @@ namespace CloudMacaca.ViewSystem
             {
                 item.OnShow();
             }
-         
+
         }
 
         public void OnLeaveChild(bool ignoreTransition = false)
@@ -78,9 +79,8 @@ namespace CloudMacaca.ViewSystem
             }
             foreach (var item in childViewElements)
             {
-                item.OnLeave(false, ignoreTransition);
+                item.OnLeave(false, ignoreTransition, true);
             }
-          
         }
 
         public float GetOutDuration()

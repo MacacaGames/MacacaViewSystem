@@ -20,9 +20,7 @@ namespace CloudMacaca.ViewSystem
         public void QueueViewElementToRecovery(ViewElement toRecovery)
         {
             recycleQueue.Enqueue(toRecovery);
-            //ViewSystemLog.Log($"QueueViewElementToRecovery {toRecovery.name}");
         }
-
         public void RecoveryViewElement(ViewElement toRecovery)
         {
             if (toRecovery.IsUnique)
@@ -37,19 +35,35 @@ namespace CloudMacaca.ViewSystem
                     UnityEngine.Object.Destroy(toRecovery);
                     return;
                 }
+                toRecovery.gameObject.SetActive(false);
                 veQueue.Enqueue(toRecovery);
             }
         }
-
-        public void RecoveryQueuedViewElement()
+        const int maxRecoveryPerFrame = 5;
+        public void RecoveryQueuedViewElement(bool force = false)
         {
-            while (recycleQueue.Count > 0)
+            StartCoroutine(RecoveryQueuedViewElementRunner(force));
+        }
+
+        IEnumerator RecoveryQueuedViewElementRunner(bool force)
+        {
+        RESTART:
+            int max = force ? recycleQueue.Count : 5;
+            for (int i = 0; i < max; i++)
             {
-                var a = recycleQueue.Dequeue();
-                //ViewSystemLog.Log($"RecoveryQueuedViewElement {a.name}");
-                RecoveryViewElement(a);
+                if (recycleQueue.Count > 0)
+                {
+                    var a = recycleQueue.Dequeue();
+                    RecoveryViewElement(a);
+                }
+            }
+            yield return null;
+            if (recycleQueue.Count > 0)
+            {
+                goto RESTART;
             }
         }
+
         public ViewElement PrewarmUniqueViewElement(ViewElement source)
         {
             if (!source.IsUnique)
@@ -96,7 +110,6 @@ namespace CloudMacaca.ViewSystem
                 if (veQueue.Count == 0)
                 {
                     var a = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
-                    a.gameObject.SetActive(false);
                     a.name = source.name;
                     veQueue.Enqueue(a);
                 }
