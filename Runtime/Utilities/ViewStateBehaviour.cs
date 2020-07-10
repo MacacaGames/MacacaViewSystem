@@ -16,8 +16,6 @@ public class ViewStateBehaviour : StateMachineBehaviour
             viewElement = animator.GetComponentInParent<ViewElement>();
             veDict.Add(animator.gameObject.GetInstanceID(),viewElement);
         }
-        // if(viewElement.DisableGameObjectOnComplete)
-        //     viewElement.gameObject.SetActive(false);
 
         viewElement.OnLeaveAnimationFinish();
     }

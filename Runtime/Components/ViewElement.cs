@@ -101,9 +101,19 @@ namespace CloudMacaca.ViewSystem
         }
 
         #endregion
-
         public static ViewControllerBase viewController;
-
+        GameObject _gameObject;
+        GameObject gameObjectCache
+        {
+            get
+            {
+                if (_gameObject == null)
+                {
+                    _gameObject = gameObject;
+                }
+                return _gameObject;
+            }
+        }
         //ViewElementLifeCycle
         protected IViewElementLifeCycle[] lifeCyclesObjects;
         public enum TransitionType
@@ -141,10 +151,6 @@ namespace CloudMacaca.ViewSystem
                 if (_canvasGroup == null)
                 {
                     _canvasGroup = GetComponent<CanvasGroup>();
-                }
-                if (_canvasGroup == null)
-                {
-                    _canvasGroup = gameObject.AddComponent<CanvasGroup>();
                 }
                 return _canvasGroup;
             }
@@ -186,10 +192,7 @@ namespace CloudMacaca.ViewSystem
                 transition = TransitionType.ActiveSwitch;
             Setup();
         }
-        // void Start()
-        // {
-        //     Setup();
-        // }
+
         void Awake()
         {
             Setup();
@@ -197,12 +200,6 @@ namespace CloudMacaca.ViewSystem
         public virtual void Setup()
         {
             lifeCyclesObjects = GetComponentsInChildren<IViewElementLifeCycle>();
-            // poolParent = viewElementPool.transform;
-            // poolScale = transform.localScale;
-            // poolPosition = rectTransform.anchoredPosition3D;
-            // if (transform.parent == poolParent)
-            // SetActive(false);
-
             CheckAnimatorHasLoopKey();
         }
         void CheckAnimatorHasLoopKey()
@@ -251,25 +248,43 @@ namespace CloudMacaca.ViewSystem
                     yield break;
                     //throw new NullReferenceException(gameObject.name + " does not set the parent for next viewpage.");
                 }
-                if (parent.GetInstanceID() != rectTransform.parent.GetInstanceID())
+                //停掉正在播放的 Leave 動畫
+
+                //還在池子裡，應該先 OnShow
+                //或是正在離開，都要重播 OnShow
+                if (IsShowed == false || OnLeaveWorking)
                 {
-                    if (!gameObject.activeSelf)
+                    // Debug.LogError(" SetParent(parent, true);");
+                    SetParent(parent);
+                    rectTransform.anchoredPosition3D = Vector3.zero;
+                    rectTransform.localScale = Vector3.one;
+                    float time = 0;
+                    while (time > delayIn)
                     {
-                        rectTransform.SetParent(parent, true);
-                        rectTransform.anchoredPosition3D = Vector3.zero;
-                        rectTransform.localScale = Vector3.one;
-                        float time = 0;
-                        while (time > delayIn)
+                        time += GlobalTimer.deltaTime;
+                        yield return null;
+                    }
+                    // yield return Yielders.GetWaitForSecondsRealtime(delayIn);
+                    OnShow();
+                    yield break;
+                }
+                //已經在場上的
+                else
+                {
+                    //如果目前的 parent 跟目標的 parent 是同一個人 那就什麼事都不錯
+                    if (parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
+                    {
+                        //ViewSystemLog.LogWarning("Due to already set the same parent with target parent, ignore " +  name);
+                        if (reshowIfSamePage)
                         {
-                            time += GlobalTimer.deltaTime;
-                            yield return null;
+                            OnShow();
                         }
-                        OnShow();
                         yield break;
                     }
-                    else if (TweenTime >= 0)
+                    //其他的情況下用 Tween 過去
+                    if (TweenTime >= 0)
                     {
-                        rectTransform.SetParent(parent, true);
+                        SetParent(parent);
 
                         var marginFixer = GetComponent<ViewMarginFixer>();
                         viewController.StartUpdateMicroCoroutine(EaseMethods.EaseVector3(
@@ -300,6 +315,7 @@ namespace CloudMacaca.ViewSystem
 
                         yield break;
                     }
+                    //TweenTime 設定為 <0 的情況下，代表要完整 OnLeave 在 OnShow
                     else
                     {
                         float time = 0;
@@ -316,7 +332,7 @@ namespace CloudMacaca.ViewSystem
                         }
                         // yield return new WaitUntil(() => OnLeaveWorking == false);
                         ViewSystemLog.LogWarning("Try to ReShow ", this);
-                        rectTransform.SetParent(parent, true);
+                        SetParent(parent);
                         rectTransform.anchoredPosition3D = Vector3.zero;
                         rectTransform.localScale = Vector3.one;
                         time = 0;
@@ -329,18 +345,6 @@ namespace CloudMacaca.ViewSystem
                         OnShow();
                         yield break;
                     }
-                }
-                else
-                {
-                    float time = 0;
-                    time = 0;
-                    while (time > delayIn)
-                    {
-                        time += GlobalTimer.deltaTime;
-                        yield return null;
-                    }
-                    // yield return Yielders.GetWaitForSecondsRealtime(delayIn);
-                    OnShow();
                 }
             }
             else
@@ -385,7 +389,7 @@ namespace CloudMacaca.ViewSystem
                     catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
                 }
 
-            SetActive(true);
+            if (!gameObject.activeSelf) SetActive(true);
 
             if (viewElementGroup != null)
             {
@@ -588,6 +592,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
+
         /// <summary>
         /// A callback to user do something before recovery
         /// </summary>
@@ -598,15 +603,14 @@ namespace CloudMacaca.ViewSystem
             OnLeaveWorking = false;
             OnLeaveCoroutine = null;
 
-            SetActive(false);
 
             if (needPool == false)
             {
                 return;
             }
-            // Debug.LogError(" rectTransform.SetParent(viewElementPool.transformCache, true);");
+            // Debug.LogError(" SetParent(viewElementPool.transformCache, true);");
 
-            //rectTransform.SetParent(viewElementPool.transformCache, true);
+            SetParent(viewElementPool.transformCache);
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
 
@@ -623,15 +627,19 @@ namespace CloudMacaca.ViewSystem
                 Destroy(gameObject);
             }
         }
-        public bool DisableGameObjectOnComplete = true;
+
+        void SetParent(Transform target)
+        {
+            rectTransform.SetParent(target, true);
+        }
+
         void SetActive(bool active)
         {
-            gameObject.SetActive(active);
-            // if (gameObject.activeSelf == false) gameObject.SetActive(true);
-            // canvasGroup.alpha = active ? 1 : 0;
-            // canvasGroup.interactable = active;
-            // canvasGroup.blocksRaycasts = active;
+            gameObjectCache.SetActive(active);
         }
+
+        public bool DisableGameObjectOnComplete = true;
+
         public virtual float GetOutDuration()
         {
             float result = 0;
