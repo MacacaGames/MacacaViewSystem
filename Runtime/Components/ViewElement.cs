@@ -446,10 +446,10 @@ namespace CloudMacaca.ViewSystem
         bool OnLeaveWorking = false;
         //IDisposable OnLeaveDisposable;
         Coroutine OnLeaveCoroutine;
-        public virtual void OnLeave(bool NeedPool = true, bool ignoreTransition = false, bool disableViewElementDirectly = false)
+        public virtual void OnLeave(bool NeedPool = true, bool ignoreTransition = false)
         {
             // OnLeaveCoroutine = viewController.StartCoroutine(OnLeaveRunner(NeedPool, ignoreTransition));
-            DisableGameObjectOnComplete = disableViewElementDirectly;
+            DisableGameObjectOnComplete = !NeedPool;
             viewController.StartUpdateMicroCoroutine(OnLeaveRunner(NeedPool, ignoreTransition));
         }
         public IEnumerator OnLeaveRunner(bool NeedPool = true, bool ignoreTransition = false)
@@ -500,7 +500,6 @@ namespace CloudMacaca.ViewSystem
                         animator.ResetTrigger(AnimationStateName_Out);
                         animator.SetTrigger(AnimationStateName_Out);
                     }
-                    DisableGameObjectOnComplete = true;
                 }
                 catch
                 {
@@ -618,18 +617,18 @@ namespace CloudMacaca.ViewSystem
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
 
-            if (runtimePool != null)
+            if (runtimePool != null && DestroyIfNoPool) 
             {
                 runtimePool.QueueViewElementToRecovery(this);
                 OnBeforeRecoveryToPool?.Invoke();
                 OnBeforeRecoveryToPool = null;
                 if (runtimeOverride != null) runtimeOverride.ResetToDefaultValues();
             }
-            // else 
-            // {
-            //     // if there is no runtimePool instance, destroy the viewelement.
-            //     Destroy(gameObject);
-            // }
+            else if(DestroyIfNoPool)
+            {
+                // if there is no runtimePool instance, destroy the viewelement.
+                Destroy(gameObject);
+            }
         }
         void SetActive(bool active)
         {

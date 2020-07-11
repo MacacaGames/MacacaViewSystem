@@ -40,9 +40,9 @@ namespace CloudMacaca.ViewSystem
             }
         }
         const int maxRecoveryPerFrame = 5;
-        public void RecoveryQueuedViewElement(bool force = false)
+        public Coroutine RecoveryQueuedViewElement(bool force = false)
         {
-            StartCoroutine(RecoveryQueuedViewElementRunner(force));
+            return StartCoroutine(RecoveryQueuedViewElementRunner(force));
         }
 
         IEnumerator RecoveryQueuedViewElementRunner(bool force)
