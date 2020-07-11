@@ -79,7 +79,7 @@ namespace CloudMacaca.ViewSystem
             }
             foreach (var item in childViewElements)
             {
-                item.OnLeave(false, ignoreTransition, true);
+                item.OnLeave(false, ignoreTransition);
             }
         }
 

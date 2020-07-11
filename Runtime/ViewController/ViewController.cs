@@ -294,7 +294,8 @@ namespace CloudMacaca.ViewSystem
             else
                 yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
 
-
+            //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
+            yield return runtimePool.RecoveryQueuedViewElement();
 
             //對進場的呼叫改變狀態(ViewPage)
             foreach (var item in viewItemNextPage)
@@ -367,8 +368,7 @@ namespace CloudMacaca.ViewSystem
             //2019.12.18 due to there may be new Callback be add, change the  OnComplete to all is done.
             OnComplete?.Invoke();
 
-            //換結束 陸續回收 ViewElement 已經被回收到池子
-            runtimePool.RecoveryQueuedViewElement();
+
         }
 
         public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale)
