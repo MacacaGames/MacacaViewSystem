@@ -482,8 +482,7 @@ namespace CloudMacaca.ViewSystem
             //如果 ignoreTransition 也直接把他送回池子
             if (gameObject.activeSelf == false || ignoreTransition)
             {
-                OnLeaveAnimationFinish();
-                yield break;
+                goto END;
             }
             if (transition == TransitionType.Animator)
             {
@@ -505,7 +504,7 @@ namespace CloudMacaca.ViewSystem
                 }
                 catch
                 {
-                    OnLeaveAnimationFinish();
+                    goto END;
                 }
 
             }
@@ -545,7 +544,7 @@ namespace CloudMacaca.ViewSystem
                     }
                     //yield return Yielders.GetWaitForSecondsRealtime(waitTime);
                 }
-                OnLeaveAnimationFinish();
+                goto END;
             }
             else if (transition == TransitionType.Custom)
             {
@@ -563,9 +562,10 @@ namespace CloudMacaca.ViewSystem
                     }
                     //yield return Yielders.GetWaitForSecondsRealtime(viewElementGroup.GetOutDuration());
                 }
-                OnLeaveAnimationFinish();
+                goto END;
             }
 
+        END:
             if (lifeCyclesObjects != null)
             {
                 foreach (var item in lifeCyclesObjects)
@@ -578,7 +578,7 @@ namespace CloudMacaca.ViewSystem
 
                 }
             }
-
+            OnLeaveAnimationFinish();
             // });
         }
 
@@ -596,6 +596,7 @@ namespace CloudMacaca.ViewSystem
         public Action OnBeforeRecoveryToPool;
         protected bool needPool = true;
         public bool DisableGameObjectOnComplete = true;
+        public bool DestroyIfNoPool = true;
         public void OnLeaveAnimationFinish()
         {
             OnLeaveWorking = false;
@@ -624,11 +625,11 @@ namespace CloudMacaca.ViewSystem
                 OnBeforeRecoveryToPool = null;
                 if (runtimeOverride != null) runtimeOverride.ResetToDefaultValues();
             }
-            else
-            {
-                // if there is no runtimePool instance, destroy the viewelement.
-                Destroy(gameObject);
-            }
+            // else 
+            // {
+            //     // if there is no runtimePool instance, destroy the viewelement.
+            //     Destroy(gameObject);
+            // }
         }
         void SetActive(bool active)
         {
