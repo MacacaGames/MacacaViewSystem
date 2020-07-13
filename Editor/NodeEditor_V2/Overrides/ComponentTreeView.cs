@@ -261,7 +261,13 @@ namespace CloudMacaca.ViewSystem
                             break;
                         }
                     case SerializedPropertyType.Enum:
-                        GUI.Box(rect, Target.enumDisplayNames[Target.enumValueIndex].ToString(), Drawer.valueBoxStyle);
+                        if (Target.enumValueIndex < Target.enumDisplayNames.Length && Target.enumValueIndex >=0)
+                        {
+                            GUI.Box(rect, Target.enumDisplayNames[Target.enumValueIndex].ToString(), Drawer.valueBoxStyle);
+                        }
+                        else{
+                            GUI.Box(rect, new GUIContent(Drawer.miniErrorIcon,"The enum value set on prefab is missing, please check the component."), Drawer.valueBoxStyle);
+                        }
                         break;
                     case SerializedPropertyType.LayerMask:
                         GUI.Box(rect, Target.intValue.ToString(), Drawer.valueBoxStyle);
