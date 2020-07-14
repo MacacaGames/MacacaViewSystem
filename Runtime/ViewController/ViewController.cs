@@ -348,6 +348,10 @@ namespace CloudMacaca.ViewSystem
 
             //更新狀態
             UpdateCurrentViewStateAndNotifyEvent(vp);
+            foreach (var item in currentLiveElements)
+            {
+                item.OnChangedPage();
+            }
 
             OnChanged?.Invoke();
 

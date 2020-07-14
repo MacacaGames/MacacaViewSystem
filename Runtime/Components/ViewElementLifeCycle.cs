@@ -13,6 +13,8 @@ public class ViewElementLifeCycle : MonoBehaviour, IViewElementLifeCycle
     [SerializeField]
     public UnityEngine.Events.UnityEvent OnStartShowHandler;
     [SerializeField]
+    public UnityEngine.Events.UnityEvent OnChangedPageHandler;
+    [SerializeField]
     public BoolEvent OnChangePageHandler;
 
     /// <summary>
@@ -46,7 +48,13 @@ public class ViewElementLifeCycle : MonoBehaviour, IViewElementLifeCycle
         //throw new System.NotImplementedException();
         OnStartShowHandler?.Invoke();
     }
-
+    /// <summary>
+    /// Invoke Before the ViewElement is Leave, but after OnLeave delay
+    /// </summary>
+    public virtual void OnChangedPage()
+    {
+        OnChangedPageHandler?.Invoke();
+    }
     [System.Serializable]
     public class BoolEvent : UnityEngine.Events.UnityEvent<bool>
     {

@@ -580,6 +580,22 @@ namespace CloudMacaca.ViewSystem
             OnLeaveAnimationFinish();
             // });
         }
+        
+        public void OnChangedPage()
+        {
+            if (lifeCyclesObjects != null)
+            {
+                foreach (var item in lifeCyclesObjects)
+                {
+                    try
+                    {
+                        item.OnChangedPage();
+                    }
+                    catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
+
+                }
+            }
+        }
 
         public bool IsShowed
         {
@@ -617,14 +633,14 @@ namespace CloudMacaca.ViewSystem
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
 
-            if (runtimePool != null && DestroyIfNoPool) 
+            if (runtimePool != null && DestroyIfNoPool)
             {
                 runtimePool.QueueViewElementToRecovery(this);
                 OnBeforeRecoveryToPool?.Invoke();
                 OnBeforeRecoveryToPool = null;
                 if (runtimeOverride != null) runtimeOverride.ResetToDefaultValues();
             }
-            else if(DestroyIfNoPool)
+            else if (DestroyIfNoPool)
             {
                 // if there is no runtimePool instance, destroy the viewelement.
                 Destroy(gameObject);
