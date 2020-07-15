@@ -78,9 +78,9 @@ namespace CloudMacaca.ViewSystem
 
             // store as a Vector3
             Vector3 result = new Vector3(
-                float.Parse(sArray[0]),
-                float.Parse(sArray[1]),
-                float.Parse(sArray[2]));
+                float.Parse(sArray[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
+                float.Parse(sArray[1], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
+                float.Parse(sArray[2], System.Globalization.CultureInfo.InvariantCulture.NumberFormat));
 
             return result;
         }
@@ -97,8 +97,8 @@ namespace CloudMacaca.ViewSystem
 
             // store as a Vector2
             Vector2 result = new Vector2(
-                float.Parse(sArray[0]),
-                float.Parse(sArray[1]));
+                float.Parse(sArray[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
+                float.Parse(sArray[1], System.Globalization.CultureInfo.InvariantCulture.NumberFormat));
 
             return result;
         }
@@ -120,9 +120,9 @@ namespace CloudMacaca.ViewSystem
                 case S_Type._bool:
                     return System.Convert.ToBoolean(StringValue);
                 case S_Type._float:
-                    return (float)System.Convert.ToDouble(StringValue);
+                    return float.Parse(StringValue, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
                 case S_Type._int:
-                    return System.Convert.ToInt32(StringValue);
+                    return int.Parse(StringValue, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
                 case S_Type._color:
                     return ColorUtility.TryParseHtmlString("#" + StringValue, out Color c) ? c : Color.black;
                 case S_Type._objcetReferenct:
