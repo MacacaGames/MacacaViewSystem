@@ -110,7 +110,7 @@ namespace CloudMacaca.ViewSystem
             return overlayPageStatus.pageChangeCoroutine;
         }
 
-        public Coroutine ChangePage(string targetViewPageName, Action OnStart = null, Action OnCheaged = null, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false)
+        public Coroutine ChangePage(string targetViewPageName, Action OnStart = null, Action OnChanged = null, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false)
         {
             if (!CheckTimeProtect())
             {
@@ -130,10 +130,10 @@ namespace CloudMacaca.ViewSystem
             else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
             {
                 ViewSystemLog.LogWarning($"Page is in Transition but AutoWaitPreviousPageFinish Leaving page is [{currentViewPage?.name}] Entering page is [{nextViewPage?.name}] next page is [{targetViewPageName}]");
-                ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnComplete));
+                ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnStart, OnChanged, OnComplete, ignoreTimeScale));
                 return ChangePageToCoroutine;
             }
-            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnStart, OnCheaged, OnComplete, ignoreTimeScale));
+            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnStart, OnChanged, OnComplete, ignoreTimeScale));
             return ChangePageToCoroutine;
         }
 
@@ -345,10 +345,10 @@ namespace CloudMacaca.ViewSystem
             }
         }
         protected Coroutine ChangePageToCoroutine = null;
-        public IEnumerator WaitPrevious(string viewPageName, Action OnComplete)
+        public IEnumerator WaitPrevious(string viewPageName, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale)
         {
             yield return new WaitUntil(() => IsPageTransition == false);
-            yield return ChangePage(viewPageName, OnComplete);
+            yield return ChangePage(viewPageName, OnStart, OnChanged, OnComplete, ignoreTimeScale);
         }
 
         #region PageChanger
