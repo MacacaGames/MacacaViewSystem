@@ -9,10 +9,7 @@ namespace CloudMacaca.ViewSystem
     {
         [HideInInspector]
         public ViewElement viewElement;
-        //[SerializeField, ReadOnly]
         List<ViewElement> childViewElements = new List<ViewElement>();
-        //[SerializeField, ReadOnly]
-        // List<ViewElementGroup> childViewElementGroups = new List<ViewElementGroup>();
         void Awake()
         {
             SetupChild();
@@ -49,7 +46,7 @@ namespace CloudMacaca.ViewSystem
                     childViewElements.RemoveAll(m => m == ve);
                 }
             }
-
+            
         }
 
         public void OnShowChild()

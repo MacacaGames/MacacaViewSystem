@@ -19,9 +19,8 @@ namespace CloudMacaca.ViewSystem
         public bool IsUnique = false;
 
         bool hasGroupSetup = false;
-        public bool IsManageByViewElementGroup = false;
         private ViewElementGroup _viewElementGroup;
-        public ViewElementGroup viewElementGroup
+        public ViewElementGroup selfViewElementGroup
         {
             get
             {
@@ -357,13 +356,7 @@ namespace CloudMacaca.ViewSystem
                 yield break;
             }
         }
-        public bool IsShowing
-        {
-            get
-            {
-                return showCoroutine != null;
-            }
-        }
+
         Coroutine showCoroutine;
         public virtual void OnShow(bool manual = false)
         {
@@ -376,6 +369,7 @@ namespace CloudMacaca.ViewSystem
         }
         public IEnumerator OnShowRunner(bool manual)
         {
+            IsShowed = true;
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)
                 {
@@ -388,16 +382,16 @@ namespace CloudMacaca.ViewSystem
 
             SetActive(true);
 
-            if (viewElementGroup != null)
+            if (selfViewElementGroup != null)
             {
-                if (viewElementGroup.OnlyManualMode && manual == false)
+                if (selfViewElementGroup.OnlyManualMode && manual == false)
                 {
                     if (gameObject.activeSelf) SetActive(false);
                     // ViewSystemLog.LogWarning("Due to ignoreTransitionOnce is set to true, ignore the transition");
                     showCoroutine = null;
                     yield break;
                 }
-                viewElementGroup.OnShowChild();
+                selfViewElementGroup.OnShowChild();
             }
 
             if (transition == TransitionType.Animator)
@@ -473,9 +467,9 @@ namespace CloudMacaca.ViewSystem
                     catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
                 }
 
-            if (viewElementGroup != null)
+            if (selfViewElementGroup != null)
             {
-                viewElementGroup.OnLeaveChild(ignoreTransition);
+                selfViewElementGroup.OnLeaveChild(ignoreTransition);
             }
 
             //在試圖 leave 時 如果已經是 disable 的 那就直接把他送回池子
@@ -532,9 +526,9 @@ namespace CloudMacaca.ViewSystem
                     yield return null;
                 }
 
-                if (viewElementGroup != null)
+                if (selfViewElementGroup != null)
                 {
-                    float waitTime = Mathf.Clamp(viewElementGroup.GetOutDuration() - canvasOutTime, 0, 2);
+                    float waitTime = Mathf.Clamp(selfViewElementGroup.GetOutDuration() - canvasOutTime, 0, 2);
                     float time = 0;
                     while (time > waitTime)
                     {
@@ -551,10 +545,10 @@ namespace CloudMacaca.ViewSystem
             }
             else
             {
-                if (viewElementGroup != null)
+                if (selfViewElementGroup != null)
                 {
                     float time = 0;
-                    while (time > viewElementGroup.GetOutDuration())
+                    while (time > selfViewElementGroup.GetOutDuration())
                     {
                         time += GlobalTimer.deltaTime;
                         yield return null;
@@ -580,7 +574,7 @@ namespace CloudMacaca.ViewSystem
             OnLeaveAnimationFinish();
             // });
         }
-        
+
         public void OnChangedPage()
         {
             if (lifeCyclesObjects != null)
@@ -599,10 +593,14 @@ namespace CloudMacaca.ViewSystem
 
         public bool IsShowed
         {
-            get
-            {
-                return rectTransform.parent != viewElementPool.transformCache;
-            }
+            get;
+            private set;
+            // get
+            // {
+
+            //     return rectTransform.GetInstanceID() != viewElementPool.transformCache.GetInstanceID();
+
+            // }
         }
 
         /// <summary>
@@ -611,9 +609,11 @@ namespace CloudMacaca.ViewSystem
         public Action OnBeforeRecoveryToPool;
         protected bool needPool = true;
         public bool DisableGameObjectOnComplete = true;
+        [NonSerialized]
         public bool DestroyIfNoPool = true;
         public void OnLeaveAnimationFinish()
         {
+            IsShowed = false;
             OnLeaveWorking = false;
             OnLeaveCoroutine = null;
 
@@ -658,9 +658,9 @@ namespace CloudMacaca.ViewSystem
         {
             float result = 0;
 
-            if (viewElementGroup != null)
+            if (selfViewElementGroup != null)
             {
-                result = Mathf.Max(result, viewElementGroup.GetOutDuration());
+                result = Mathf.Max(result, selfViewElementGroup.GetOutDuration());
             }
 
             if (transition == ViewElement.TransitionType.Animator)
@@ -681,9 +681,9 @@ namespace CloudMacaca.ViewSystem
         public virtual float GetInDuration()
         {
             float result = 0;
-            if (viewElementGroup != null)
+            if (selfViewElementGroup != null)
             {
-                result = Mathf.Max(result, viewElementGroup.GetInDuration());
+                result = Mathf.Max(result, selfViewElementGroup.GetInDuration());
             }
 
             if (transition == ViewElement.TransitionType.Animator)
