@@ -19,23 +19,24 @@ namespace CloudMacaca.ViewSystem
         public bool IsUnique = false;
 
         bool hasGroupSetup = false;
-        private ViewElementGroup _viewElementGroup;
+        public ViewElementGroup parentViewElementGroup;
+        private ViewElementGroup _selfViewElementGroup;
         public ViewElementGroup selfViewElementGroup
         {
             get
             {
 
-                if (_viewElementGroup == null)
+                if (_selfViewElementGroup == null)
                 {
-                    _viewElementGroup = GetComponent<ViewElementGroup>();
+                    _selfViewElementGroup = GetComponent<ViewElementGroup>();
                     if (hasGroupSetup)
                     {
-                        return _viewElementGroup;
+                        return _selfViewElementGroup;
                     }
                     hasGroupSetup = true;
                 }
 
-                return _viewElementGroup;
+                return _selfViewElementGroup;
             }
         }
 
@@ -190,9 +191,17 @@ namespace CloudMacaca.ViewSystem
         {
             Setup();
         }
+        private Graphic[] _allGraphics;
         public virtual void Setup()
         {
+            parentViewElementGroup = GetComponentInParent<ViewElementGroup>();
             lifeCyclesObjects = GetComponentsInChildren<IViewElementLifeCycle>();
+
+            if (parentViewElementGroup == null)
+            {
+                _allGraphics = gameObject.GetComponentsInChildren<Graphic>();
+            }
+
             CheckAnimatorHasLoopKey();
         }
         void CheckAnimatorHasLoopKey()
@@ -387,9 +396,7 @@ namespace CloudMacaca.ViewSystem
                 if (selfViewElementGroup.OnlyManualMode && manual == false)
                 {
                     if (gameObject.activeSelf) SetActive(false);
-                    // ViewSystemLog.LogWarning("Due to ignoreTransitionOnce is set to true, ignore the transition");
-                    showCoroutine = null;
-                    yield break;
+                    goto END;
                 }
                 selfViewElementGroup.OnShowChild();
             }
@@ -422,7 +429,7 @@ namespace CloudMacaca.ViewSystem
                 OnShowHandle.Invoke(null);
             }
 
-
+        END:
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects)
                 {
@@ -433,8 +440,17 @@ namespace CloudMacaca.ViewSystem
                     catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
 
                 }
-
-            showCoroutine = null;
+            if (_allGraphics != null)
+            {
+                for (int i = 0; i < _allGraphics.Length; i++)
+                {
+                    if (_allGraphics[i].raycastTarget == false)
+                    {
+                        GraphicRegistry.UnregisterGraphicForCanvas(_allGraphics[i].canvas, _allGraphics[i]);
+                    }
+                }
+            }
+            yield break;
             // });
         }
         bool OnLeaveWorking = false;
@@ -616,7 +632,13 @@ namespace CloudMacaca.ViewSystem
             IsShowed = false;
             OnLeaveWorking = false;
             OnLeaveCoroutine = null;
-
+            if (_allGraphics != null)
+            {
+                for (int i = 0; i < _allGraphics.Length; i++)
+                {
+                    GraphicRegistry.UnregisterGraphicForCanvas(_allGraphics[i].canvas, _allGraphics[i]);
+                }
+            }
             //先 SetParent 就好除了被託管的
             if (DisableGameObjectOnComplete)
             {
