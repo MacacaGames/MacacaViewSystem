@@ -106,7 +106,20 @@ namespace CloudMacaca.ViewSystem
         public static ViewControllerBase viewController;
 
         //ViewElementLifeCycle
-        protected IViewElementLifeCycle[] lifeCyclesObjects;
+        protected List<IViewElementLifeCycle> lifeCyclesObjects;
+        public void RegisterLifeCycleObject(IViewElementLifeCycle obj)
+        {
+            if (!lifeCyclesObjects.Contains(obj))
+            {
+                lifeCyclesObjects.Add(obj);
+            }
+        }
+        
+        public void UnRegisterLifeCycleObject(IViewElementLifeCycle obj)
+        {
+            lifeCyclesObjects.Remove(obj);
+        }
+
         public enum TransitionType
         {
             Animator,
@@ -132,7 +145,6 @@ namespace CloudMacaca.ViewSystem
         public float canvasInTime = 0.4f;
         public float canvasOutTime = 0.4f;
         public EaseStyle canvasInEase = EaseStyle.QuadEaseOut;
-
         public EaseStyle canvasOutEase = EaseStyle.QuadEaseOut;
         private CanvasGroup _canvasGroup;
         public CanvasGroup canvasGroup
@@ -195,10 +207,10 @@ namespace CloudMacaca.ViewSystem
         public virtual void Setup()
         {
             parentViewElementGroup = GetComponentInParent<ViewElementGroup>();
+            lifeCyclesObjects = GetComponents<IViewElementLifeCycle>().ToList();
 
             if (parentViewElementGroup == null || parentViewElementGroup == selfViewElementGroup)
             {
-                lifeCyclesObjects = GetComponentsInChildren<IViewElementLifeCycle>();
                 _allGraphics = gameObject.GetComponentsInChildren<Graphic>();
             }
 

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public interface IViewElementInjectable
-{ }
+namespace CloudMacaca.ViewSystem
+{
+    public interface IViewElementInjectable
+    { }
+}
