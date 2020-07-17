@@ -371,8 +371,6 @@ namespace CloudMacaca.ViewSystem
 
             //2019.12.18 due to there may be new Callback be add, change the  OnComplete to all is done.
             OnComplete?.Invoke();
-
-
         }
 
         public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale)
@@ -404,11 +402,9 @@ namespace CloudMacaca.ViewSystem
                 //同 OverlayState 的頁面已經在場上，移除不同的部分，然後顯示新加入的部分
                 if (!string.IsNullOrEmpty(vp.viewState))
                 {
-
                     if (overlayPageStatus.viewPage.name != vp.name)
                     {
                         // 同 State 不同 Page 的情況，找到差異的部分
-
                         foreach (var item in overlayPageStatus.viewPage.viewPageItems)
                         {
                             if (!vp.viewPageItems.Select(m => m.runtimeViewElement).Contains(item.runtimeViewElement))
@@ -451,7 +447,7 @@ namespace CloudMacaca.ViewSystem
             }
 
             OnStart?.Invoke();
-
+            yield return runtimePool.RecoveryQueuedViewElement();
             float onShowTime = ViewSystemUtilitys.CalculateTimesNeedsForOnShow(viewItemNextPage.Select(m => m.runtimeViewElement));
             float onShowDelay = ViewSystemUtilitys.CalculateWaitingTimeForCurrentOnShow(viewItemNextPage);
 
@@ -613,7 +609,6 @@ namespace CloudMacaca.ViewSystem
 
             OnComplete?.Invoke();
 
-            runtimePool.RecoveryQueuedViewElement();
         }
         public bool IsOverPageLive(string viewPageName, bool includeLeavingPage = false)
         {
