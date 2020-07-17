@@ -62,7 +62,7 @@ namespace CloudMacaca.ViewSystem
         }
 
         ViewElement viewElement;
-        void Awake()
+        protected virtual void Awake()
         {
             viewElement = GetComponent<ViewElement>();
             if (viewElement == null)
@@ -71,7 +71,7 @@ namespace CloudMacaca.ViewSystem
                 viewElement.RegisterLifeCycleObject(this);
             }
         }
-        void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if (viewElement)
                 viewElement.UnRegisterLifeCycleObject(this);
