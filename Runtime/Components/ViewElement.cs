@@ -195,10 +195,10 @@ namespace CloudMacaca.ViewSystem
         public virtual void Setup()
         {
             parentViewElementGroup = GetComponentInParent<ViewElementGroup>();
-            lifeCyclesObjects = GetComponentsInChildren<IViewElementLifeCycle>();
 
-            if (parentViewElementGroup == null)
+            if (parentViewElementGroup == null || parentViewElementGroup == selfViewElementGroup)
             {
+                lifeCyclesObjects = GetComponentsInChildren<IViewElementLifeCycle>();
                 _allGraphics = gameObject.GetComponentsInChildren<Graphic>();
             }
 
