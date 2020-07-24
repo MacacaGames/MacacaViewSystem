@@ -160,22 +160,26 @@ namespace CloudMacaca.ViewSystem
                         cachedDelegate.Add(id_delegate, openDelegate);
                     }
 
+                    currentEventDelegate = openDelegate;
+                    currentSelectable = eventRuntimeDatas.selectable;
+
                     if (eventRuntimeDatas.unityEvent is UnityEvent events)
                     {
-                        events.AddListener(
-                            delegate
-                            {
-                                if (ViewController.Instance.IsPageTransition)
-                                {
-                                    ViewSystemLog.LogWarning("The page is in transition, event will not fire!");
-                                    return;
-                                }
-                                openDelegate?.Invoke(eventRuntimeDatas.selectable);
-                            }
-                        );
+                        events.AddListener(EventHandler);
                     }
                 }
             }
+        }
+        EventDelegate<Component> currentEventDelegate;
+        UnityEngine.Component currentSelectable;
+        void EventHandler()
+        {
+            if (ViewController.Instance.IsPageTransition)
+            {
+                ViewSystemLog.LogWarning("The page is in transition, event will not fire!");
+                return;
+            }
+            currentEventDelegate?.Invoke(currentSelectable);
         }
         const string GeneratedScriptInstanceGameObjectName = "Generated_ViewSystem";
         Component GenerateScriptInstance(Type type)
