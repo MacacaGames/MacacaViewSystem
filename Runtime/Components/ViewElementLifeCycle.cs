@@ -68,7 +68,10 @@ namespace CloudMacaca.ViewSystem
             if (viewElement == null)
             {
                 viewElement = GetComponentInParent<ViewElement>();
-                viewElement.RegisterLifeCycleObject(this);
+                if (viewElement)
+                {
+                    viewElement.RegisterLifeCycleObject(this);
+                }
             }
         }
         protected virtual void OnDestroy()
