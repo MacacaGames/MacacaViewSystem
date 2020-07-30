@@ -273,6 +273,9 @@ namespace CloudMacaca.ViewSystem
             else
                 yield return Yielders.GetWaitForSeconds(nextViewPageWaitTime);
 
+            //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
+            yield return runtimePool.RecoveryQueuedViewElement();
+
             float TimeForPerviousPageOnLeave = 0;
             switch (vp.viewPageTransitionTimingType)
             {
@@ -294,8 +297,7 @@ namespace CloudMacaca.ViewSystem
             else
                 yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
 
-            //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
-            yield return runtimePool.RecoveryQueuedViewElement();
+
 
             //對進場的呼叫改變狀態(ViewPage)
             foreach (var item in viewItemNextPage)
@@ -371,6 +373,7 @@ namespace CloudMacaca.ViewSystem
 
             //2019.12.18 due to there may be new Callback be add, change the  OnComplete to all is done.
             OnComplete?.Invoke();
+
         }
 
         public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale)
@@ -385,6 +388,7 @@ namespace CloudMacaca.ViewSystem
                 ViewSystemLog.LogError("ViewPage " + vp.name + " is not an Overlay page");
                 yield break;
             }
+            yield return runtimePool.RecoveryQueuedViewElement();
 
             var viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 
@@ -447,7 +451,6 @@ namespace CloudMacaca.ViewSystem
             }
 
             OnStart?.Invoke();
-            yield return runtimePool.RecoveryQueuedViewElement();
             float onShowTime = ViewSystemUtilitys.CalculateTimesNeedsForOnShow(viewItemNextPage.Select(m => m.runtimeViewElement));
             float onShowDelay = ViewSystemUtilitys.CalculateWaitingTimeForCurrentOnShow(viewItemNextPage);
 

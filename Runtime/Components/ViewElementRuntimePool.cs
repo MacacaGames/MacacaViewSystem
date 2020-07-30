@@ -47,20 +47,18 @@ namespace CloudMacaca.ViewSystem
 
         IEnumerator RecoveryQueuedViewElementRunner(bool force)
         {
-        RESTART:
-            int max = force ? recycleQueue.Count : 5;
-            for (int i = 0; i < max; i++)
+            int max = force ? recycleQueue.Count : maxRecoveryPerFrame;
+            while (recycleQueue.Count > 0)
             {
-                if (recycleQueue.Count > 0)
+                for (int i = 0; i < max; i++)
                 {
-                    var a = recycleQueue.Dequeue();
-                    RecoveryViewElement(a);
+                    if (recycleQueue.Count > 0)
+                    {
+                        var a = recycleQueue.Dequeue();
+                        RecoveryViewElement(a);
+                    }
                 }
-            }
-            yield return null;
-            if (recycleQueue.Count > 0)
-            {
-                goto RESTART;
+                yield return null;
             }
         }
 
@@ -111,9 +109,12 @@ namespace CloudMacaca.ViewSystem
                 {
                     var a = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
                     a.name = source.name;
-                    veQueue.Enqueue(a);
+                    result = a;
                 }
-                result = veQueue.Dequeue();
+                else
+                {
+                    result = veQueue.Dequeue();
+                }
             }
             result.PoolKey = source.GetInstanceID();
             return result;
