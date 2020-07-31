@@ -776,7 +776,14 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-
+        public override bool IsViewPageExsit(string viewPageName)
+        {
+            foreach (var item in viewPages)
+            {
+                if (item.name == viewPageName) return true;
+            }
+            return false;
+        }
 
         #endregion
 
