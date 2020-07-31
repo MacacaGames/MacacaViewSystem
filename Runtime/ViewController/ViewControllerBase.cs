@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace CloudMacaca.ViewSystem
 {
-    public class ViewControllerBase : MonoBehaviour, IViewController
+    public abstract class ViewControllerBase : MonoBehaviour, IViewController
     {
 
         protected static float minimumTimeInterval = 0.2f;
@@ -23,6 +23,7 @@ namespace CloudMacaca.ViewSystem
             return result;
         }
         protected static ViewControllerBase _incance;
+        public abstract bool IsViewPageExsit(string viewPageName);
 
         #region Interface Impletetment
         protected string GetOverlayStateKey(ViewPage vp)
