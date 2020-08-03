@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using com.spacepuppy.Tween;
+using Coroutine = CloudMacaca.ViewSystem.MicroCoroutine.Coroutine;
 namespace CloudMacaca.ViewSystem
 {
     [DisallowMultipleComponent]
@@ -114,7 +115,7 @@ namespace CloudMacaca.ViewSystem
                 lifeCyclesObjects.Add(obj);
             }
         }
-        
+
         public void UnRegisterLifeCycleObject(IViewElementLifeCycle obj)
         {
             lifeCyclesObjects.Remove(obj);
@@ -158,6 +159,8 @@ namespace CloudMacaca.ViewSystem
                 return _canvasGroup;
             }
         }
+        Coroutine canvasGroupCoroutine = null;
+
         //Custom
         public ViewElementEvent OnShowHandle;
         public ViewElementEvent OnLeaveHandle;
@@ -195,10 +198,7 @@ namespace CloudMacaca.ViewSystem
                 transition = TransitionType.ActiveSwitch;
             Setup();
         }
-        // void Start()
-        // {
-        //     Setup();
-        // }
+
         void Awake()
         {
             Setup();
@@ -230,17 +230,35 @@ namespace CloudMacaca.ViewSystem
                 }
             }
         }
-        Coroutine AnimationIsEndCheck = null;
 
         public void Reshow()
         {
             OnShow();
         }
-        IDisposable OnShowObservable;
+        void NormalizeViewElement()
+        {
+            if (changePageCoroutine != null)
+            {
+                viewController.StopMicroCoroutine(changePageCoroutine);
+                changePageCoroutine = null;
+            }
+            if (showCoroutine != null)
+            {
+                viewController.StopMicroCoroutine(showCoroutine);
+                changePageCoroutine = null;
+            }
+            if (leaveCoroutine != null)
+            {
+                viewController.StopMicroCoroutine(leaveCoroutine);
+                leaveCoroutine = null;
+            }
+        }
+        Coroutine changePageCoroutine = null;
+
         public virtual void ChangePage(bool show, Transform parent, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
         {
-            viewController.StartUpdateMicroCoroutine(OnChangePageRunner(show, parent, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
-            //viewController.StartCoroutine(OnChangePageRunner(show, parent, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
+            NormalizeViewElement();
+            changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
         }
         public IEnumerator OnChangePageRunner(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition, bool reshowIfSamePage)
         {
@@ -259,11 +277,11 @@ namespace CloudMacaca.ViewSystem
                 if (parent == null)
                 {
                     ViewSystemLog.LogError($"{gameObject.name} does not set the parent for next viewpage.", this);
-                    yield break;
+                    goto END;
                     //throw new NullReferenceException(gameObject.name + " does not set the parent for next viewpage.");
                 }
                 //停掉正在播放的 Leave 動畫
-                if (OnLeaveCoroutine != null)
+                if (leaveCoroutine != null)
                 {
                     // viewController.StopCoroutine(OnLeaveCoroutine);
                 }
@@ -283,7 +301,7 @@ namespace CloudMacaca.ViewSystem
                     }
                     // yield return Yielders.GetWaitForSecondsRealtime(delayIn);
                     OnShow();
-                    yield break;
+                    goto END;
                 }
                 //已經在場上的
                 else
@@ -296,7 +314,7 @@ namespace CloudMacaca.ViewSystem
                         {
                             OnShow();
                         }
-                        yield break;
+                        goto END;
                     }
                     //其他的情況下用 Tween 過去
                     if (TweenTime >= 0)
@@ -304,7 +322,7 @@ namespace CloudMacaca.ViewSystem
                         rectTransform.SetParent(parent, true);
 
                         var marginFixer = GetComponent<ViewMarginFixer>();
-                        viewController.StartUpdateMicroCoroutine(EaseMethods.EaseVector3(
+                        viewController.StartMicroCoroutine(EaseMethods.EaseVector3(
                                rectTransform.anchoredPosition3D,
                                Vector3.zero,
                                TweenTime,
@@ -319,7 +337,7 @@ namespace CloudMacaca.ViewSystem
                                }
                             ));
 
-                        viewController.StartUpdateMicroCoroutine(EaseMethods.EaseVector3(
+                        viewController.StartMicroCoroutine(EaseMethods.EaseVector3(
                             rectTransform.localScale,
                             Vector3.one,
                             TweenTime,
@@ -330,7 +348,7 @@ namespace CloudMacaca.ViewSystem
                             }
                         ));
 
-                        yield break;
+                        goto END;
                     }
                     //TweenTime 設定為 <0 的情況下，代表要完整 OnLeave 在 OnShow
                     else
@@ -341,13 +359,11 @@ namespace CloudMacaca.ViewSystem
                             time += GlobalTimer.deltaTime;
                             yield return null;
                         }
-                        // yield return Yielders.GetWaitForSecondsRealtime(delayOut);
                         OnLeave(ignoreTransition: ignoreTransition);
                         while (OnLeaveWorking == true)
                         {
                             yield return null;
                         }
-                        // yield return new WaitUntil(() => OnLeaveWorking == false);
                         ViewSystemLog.LogWarning("Try to ReShow ", this);
                         rectTransform.SetParent(parent, true);
                         rectTransform.anchoredPosition3D = Vector3.zero;
@@ -358,9 +374,8 @@ namespace CloudMacaca.ViewSystem
                             time += GlobalTimer.deltaTime;
                             yield return null;
                         }
-                        // yield return Yielders.GetWaitForSecondsRealtime(delayIn);
                         OnShow();
-                        yield break;
+                        goto END;
                     }
                 }
             }
@@ -372,21 +387,24 @@ namespace CloudMacaca.ViewSystem
                     time += GlobalTimer.deltaTime;
                     yield return null;
                 }
-                // yield return Yielders.GetWaitForSecondsRealtime(delayOut);
                 OnLeave(ignoreTransition: ignoreTransition);
-                yield break;
+                goto END;
             }
+
+        END:
+            changePageCoroutine = null;
+            yield break;
         }
 
         Coroutine showCoroutine;
         public virtual void OnShow(bool manual = false)
         {
-            // if (showCoroutine != null)
-            // {
-            //     viewController.StopCoroutine(showCoroutine);
-            // }
-            viewController.StartUpdateMicroCoroutine(OnShowRunner(manual));
-            // showCoroutine = viewController.StartCoroutine(OnShowRunner(manual));
+            if (showCoroutine != null)
+            {
+                viewController.StopMicroCoroutine(showCoroutine);
+            }
+
+            showCoroutine = viewController.StartMicroCoroutine(OnShowRunner(manual));
         }
         public IEnumerator OnShowRunner(bool manual)
         {
@@ -425,7 +443,11 @@ namespace CloudMacaca.ViewSystem
             else if (transition == TransitionType.CanvasGroupAlpha)
             {
                 canvasGroup.alpha = 0;
-                viewController.StartCoroutine(EaseMethods.EaseValue(
+                if (canvasGroupCoroutine != null)
+                {
+                    viewController.StopMicroCoroutine(canvasGroupCoroutine);
+                }
+                canvasGroupCoroutine = viewController.StartMicroCoroutine(EaseMethods.EaseValue(
                     canvasGroup.alpha,
                     1,
                     canvasInTime,
@@ -433,6 +455,10 @@ namespace CloudMacaca.ViewSystem
                     (v) =>
                     {
                         canvasGroup.alpha = v;
+                    },
+                    () =>
+                    {
+                        canvasGroupCoroutine = null;
                     }
                  ));
             }
@@ -462,17 +488,20 @@ namespace CloudMacaca.ViewSystem
                     }
                 }
             }
+            showCoroutine = null;
             yield break;
-            // });
         }
         bool OnLeaveWorking = false;
         //IDisposable OnLeaveDisposable;
-        Coroutine OnLeaveCoroutine;
+        Coroutine leaveCoroutine;
         public virtual void OnLeave(bool NeedPool = true, bool ignoreTransition = false)
         {
-            // OnLeaveCoroutine = viewController.StartCoroutine(OnLeaveRunner(NeedPool, ignoreTransition));
             DisableGameObjectOnComplete = !NeedPool;
-            viewController.StartUpdateMicroCoroutine(OnLeaveRunner(NeedPool, ignoreTransition));
+            if (leaveCoroutine != null)
+            {
+                viewController.StopMicroCoroutine(leaveCoroutine);
+            }
+            leaveCoroutine = viewController.StartMicroCoroutine(OnLeaveRunner(NeedPool, ignoreTransition));
         }
         public IEnumerator OnLeaveRunner(bool NeedPool = true, bool ignoreTransition = false)
         {
@@ -535,20 +564,25 @@ namespace CloudMacaca.ViewSystem
 
                 //yield return canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase).SetUpdate(true).WaitForCompletion();
                 bool tweenFinish = false;
-                viewController.StartUpdateMicroCoroutine(EaseMethods.EaseValue(
-                      canvasGroup.alpha,
-                      0,
-                      canvasOutTime,
-                      EaseMethods.GetEase(canvasOutEase),
-                      (v) =>
-                      {
-                          canvasGroup.alpha = v;
-                      },
-                      () =>
-                      {
-                          tweenFinish = true;
-                      }
-                   ));
+                if (canvasGroupCoroutine != null)
+                {
+                    viewController.StopMicroCoroutine(canvasGroupCoroutine);
+                }
+                canvasGroupCoroutine = viewController.StartMicroCoroutine(EaseMethods.EaseValue(
+                    canvasGroup.alpha,
+                    0,
+                    canvasOutTime,
+                    EaseMethods.GetEase(canvasOutEase),
+                    (v) =>
+                    {
+                        canvasGroup.alpha = v;
+                    },
+                    () =>
+                    {
+                        tweenFinish = true;
+                        canvasGroupCoroutine = null;
+                    }
+                    ));
                 while (tweenFinish == false)
                 {
                     yield return null;
@@ -599,6 +633,7 @@ namespace CloudMacaca.ViewSystem
 
                 }
             }
+            leaveCoroutine = null;
             OnLeaveAnimationFinish();
             // });
         }
@@ -623,12 +658,6 @@ namespace CloudMacaca.ViewSystem
         {
             get;
             private set;
-            // get
-            // {
-
-            //     return rectTransform.GetInstanceID() != viewElementPool.transformCache.GetInstanceID();
-
-            // }
         }
 
         /// <summary>
@@ -643,7 +672,7 @@ namespace CloudMacaca.ViewSystem
         {
             IsShowed = false;
             OnLeaveWorking = false;
-            OnLeaveCoroutine = null;
+            leaveCoroutine = null;
             if (_allGraphics != null)
             {
                 for (int i = 0; i < _allGraphics.Length; i++)

@@ -469,6 +469,7 @@ namespace CloudMacaca.ViewSystem
             //對離場的呼叫改變狀態
             foreach (var item in viewElementDoesExitsInNextPage)
             {
+                Debug.LogWarning($"{item.name} not exsit in next page");
                 float delayOut = 0;
                 lastOverlayPageItemDelayOutTimes.TryGetValue(item.name, out delayOut);
                 item.ChangePage(false, null, 0, 0, delayOut);
@@ -496,6 +497,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     item.runtimeParent = transformCache.Find(item.parentPath);
                 }
+                Debug.LogWarning($"{item.runtimeViewElement.name} pefer to show");
 
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut, reshowIfSamePage: RePlayOnShowWhileSamePage);
             }
@@ -523,6 +525,7 @@ namespace CloudMacaca.ViewSystem
                     {
                         item.runtimeParent = transformCache.Find(item.parentPath);
                     }
+                    Debug.LogWarning($"{item.runtimeViewElement.name} pefer to show");
 
                     item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut, reshowIfSamePage: RePlayOnShowWhileSamePage);
                 }

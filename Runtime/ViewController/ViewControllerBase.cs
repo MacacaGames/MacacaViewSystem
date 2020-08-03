@@ -210,7 +210,7 @@ namespace CloudMacaca.ViewSystem
 
         #region  Unity LifeCycle
         Action<Exception> unhandledExceptionCallback = ex => Debug.LogException(ex); // default
-        MicroCoroutine updateMicroCoroutine = null;
+        MicroCoroutine microCoroutine = null;
 
         protected virtual void Awake()
         {
@@ -218,31 +218,26 @@ namespace CloudMacaca.ViewSystem
             fullPageChangerPool = new Queue<FullPageChanger>();
             overlayPageChangerPool = new Queue<OverlayPageChanger>();
 
-            updateMicroCoroutine = new MicroCoroutine(ex => unhandledExceptionCallback(ex));
+            microCoroutine = new MicroCoroutine(ex => unhandledExceptionCallback(ex));
         }
         protected virtual void Start()
         {
 
         }
+
         void Update()
         {
-            updateMicroCoroutine.Update();
+            microCoroutine.Update();
         }
 
-        public void StartUpdateMicroCoroutine(IEnumerator routine)
+        public void StopMicroCoroutine(MicroCoroutine.Coroutine coroutine)
         {
-            // #if UNITY_EDITOR
-            //             if (!ScenePlaybackDetector.IsPlaying) { EditorThreadDispatcher.Instance.PseudoStartCoroutine(routine); return; }
-            // #endif
-            var dispatcher = this;
-            if (dispatcher != null)
-            {
-                // Move Next first, if false means the coroutine is complete or empty, so we don't need to add to MicroCoroutine
-                if (routine.MoveNext())
-                {
-                    dispatcher.updateMicroCoroutine.AddCoroutine(routine);
-                }
-            }
+            microCoroutine.RemoveCoroutine(coroutine);
+        }
+
+        public MicroCoroutine.Coroutine StartMicroCoroutine(IEnumerator routine)
+        {
+            return microCoroutine.AddCoroutine(routine);
         }
 
         #endregion
