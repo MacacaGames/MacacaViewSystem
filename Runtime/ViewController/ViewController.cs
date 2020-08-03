@@ -51,6 +51,19 @@ namespace CloudMacaca.ViewSystem
             minimumTimeInterval = viewSystemSaveData.globalSetting.minimumTimeInterval;
         }
 
+        IEnumerator FixedTimeRecovery()
+        {
+            while (true)
+            {
+                yield return Yielders.GetWaitForSeconds(2);
+                if (IsPageTransition || IsOverlayTransition)
+                {
+                    continue;
+                }
+                yield return runtimePool.RecoveryQueuedViewElement();
+            }
+        }
+
         protected override void Start()
         {
             //Load ViewPages and ViewStates from ViewSystemSaveData
@@ -388,7 +401,6 @@ namespace CloudMacaca.ViewSystem
                 ViewSystemLog.LogError("ViewPage " + vp.name + " is not an Overlay page");
                 yield break;
             }
-            yield return runtimePool.RecoveryQueuedViewElement();
 
             var viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 
