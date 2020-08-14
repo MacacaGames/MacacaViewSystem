@@ -263,7 +263,7 @@ namespace CloudMacaca.ViewSystem
         public IEnumerator OnChangePageRunner(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition, bool reshowIfSamePage)
         {
             if (lifeCyclesObjects != null)
-                foreach (var item in lifeCyclesObjects)
+                foreach (var item in lifeCyclesObjects.ToArray())
                 {
                     try
                     {
@@ -410,7 +410,7 @@ namespace CloudMacaca.ViewSystem
         {
             IsShowed = true;
             if (lifeCyclesObjects != null)
-                foreach (var item in lifeCyclesObjects)
+                foreach (var item in lifeCyclesObjects.ToArray())
                 {
                     try
                     {
@@ -469,7 +469,7 @@ namespace CloudMacaca.ViewSystem
 
         END:
             if (lifeCyclesObjects != null)
-                foreach (var item in lifeCyclesObjects)
+                foreach (var item in lifeCyclesObjects.ToArray())
                 {
                     try
                     {
@@ -515,7 +515,7 @@ namespace CloudMacaca.ViewSystem
             OnLeaveWorking = true;
 
             if (lifeCyclesObjects != null)
-                foreach (var item in lifeCyclesObjects)
+                foreach (var item in lifeCyclesObjects.ToArray())
                 {
                     try
                     {
@@ -623,7 +623,7 @@ namespace CloudMacaca.ViewSystem
         END:
             if (lifeCyclesObjects != null)
             {
-                foreach (var item in lifeCyclesObjects)
+                foreach (var item in lifeCyclesObjects.ToArray())
                 {
                     try
                     {
@@ -642,7 +642,7 @@ namespace CloudMacaca.ViewSystem
         {
             if (lifeCyclesObjects != null)
             {
-                foreach (var item in lifeCyclesObjects)
+                foreach (var item in lifeCyclesObjects.ToArray())
                 {
                     try
                     {
