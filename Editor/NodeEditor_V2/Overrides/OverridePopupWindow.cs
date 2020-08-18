@@ -294,14 +294,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     return;
                 }
                 var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
+                _cachedContent.tooltip = _cachedContent.text;
                 var so = new SerializedObject(targetComponent);
                 var sp = so.FindProperty(item.viewElementPropertyOverrideData.targetPropertyName);
 
                 rect.width = 20;
                 GUI.Label(rect, Drawer.prefabIcon);
                 rect.x += rect.width;
-
-                GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.viewElementPropertyOverrideData.targetTransformPath) ? "" : ("/" + item.viewElementPropertyOverrideData.targetTransformPath)));
+                string path = target.name + (string.IsNullOrEmpty(item.viewElementPropertyOverrideData.targetTransformPath) ? "" : ("/" + item.viewElementPropertyOverrideData.targetTransformPath));
+                GUIContent l = new GUIContent(path, path);
                 rect.width = GUI.skin.label.CalcSize(l).x;
                 GUI.Label(rect, l);
                 rect.x += rect.width;
