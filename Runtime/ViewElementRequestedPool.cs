@@ -35,6 +35,11 @@ public class ViewElementRequestedPool
         return viewElementInstance;
     }
 
+    public T Request<T>(Transform root) where T: Component
+    {
+        return Request(root).GetComponent<T>(); ;
+    }
+
     public void RecoveryAll(bool ignoreTransition = true)
     {
         while (viewElementQueue.Count > 0)
