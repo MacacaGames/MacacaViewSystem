@@ -628,6 +628,22 @@ namespace CloudMacaca.ViewSystem
             OnComplete?.Invoke();
 
         }
+
+        public bool IsOverPageStateLive(string viewStateName, out string viewPageName, bool includeLeavingPage = false)
+        {
+            viewPageName = "";
+            if (overlayPageStatusDict.TryGetValue(viewStateName, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
+            {
+                viewPageName = overlayPageStatus.viewPage.name;
+                if (overlayPageStatus.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Leave)
+                {
+                    return includeLeavingPage;
+                }
+                return true;
+            }
+            return false;
+        }
+
         public bool IsOverPageLive(string viewPageName, bool includeLeavingPage = false)
         {
             //取得 ViewPage 物件
