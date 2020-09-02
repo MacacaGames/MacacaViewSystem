@@ -556,14 +556,11 @@ namespace CloudMacaca.ViewSystem
                 {
                     goto END;
                 }
-
             }
             else if (transition == TransitionType.CanvasGroupAlpha)
             {
                 if (canvasGroup == null) ViewSystemLog.LogError("No Canvas Group Found on this Object", this);
 
-                //yield return canvasGroup.DOFade(0, canvasOutTime).SetEase(canvasInEase).SetUpdate(true).WaitForCompletion();
-                bool tweenFinish = false;
                 if (canvasGroupCoroutine != null)
                 {
                     viewController.StopMicroCoroutine(canvasGroupCoroutine);
@@ -579,26 +576,10 @@ namespace CloudMacaca.ViewSystem
                     },
                     () =>
                     {
-                        tweenFinish = true;
                         canvasGroupCoroutine = null;
                     }
                     ));
-                while (tweenFinish == false)
-                {
-                    yield return null;
-                }
 
-                if (selfViewElementGroup != null)
-                {
-                    float waitTime = Mathf.Clamp(selfViewElementGroup.GetOutDuration() - canvasOutTime, 0, 2);
-                    float time = 0;
-                    while (time > waitTime)
-                    {
-                        time += GlobalTimer.deltaTime;
-                        yield return null;
-                    }
-                    //yield return Yielders.GetWaitForSecondsRealtime(waitTime);
-                }
                 goto END;
             }
             else if (transition == TransitionType.Custom)
@@ -607,20 +588,21 @@ namespace CloudMacaca.ViewSystem
             }
             else
             {
-                if (selfViewElementGroup != null)
-                {
-                    float time = 0;
-                    while (time > selfViewElementGroup.GetOutDuration())
-                    {
-                        time += GlobalTimer.deltaTime;
-                        yield return null;
-                    }
-                    //yield return Yielders.GetWaitForSecondsRealtime(viewElementGroup.GetOutDuration());
-                }
                 goto END;
             }
 
         END:
+            if (!ignoreTransition)
+            {
+                float time = 0;
+                var outDuration = GetOutDuration();
+                while (time < outDuration)
+                {
+                    time += GlobalTimer.deltaTime;
+                    yield return null;
+                }
+            }
+
             if (lifeCyclesObjects != null)
             {
                 foreach (var item in lifeCyclesObjects.ToArray())
@@ -731,7 +713,7 @@ namespace CloudMacaca.ViewSystem
                 var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_Out));
                 if (clip != null)
                 {
-                    result = Mathf.Max(result, clip.length);
+                    result = Mathf.Max(result, clip.length );
                 }
             }
             else if (transition == ViewElement.TransitionType.CanvasGroupAlpha)
@@ -739,7 +721,7 @@ namespace CloudMacaca.ViewSystem
                 result = Mathf.Max(result, canvasOutTime);
             }
 
-            return result;
+            return Mathf.Clamp(result, 0, 2);
         }
         public virtual float GetInDuration()
         {

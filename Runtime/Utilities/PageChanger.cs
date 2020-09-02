@@ -37,6 +37,7 @@ namespace CloudMacaca.ViewSystem
         public override PageChanger Reset()
         {
             _replayWhileSamePage = false;
+            _ignoreTransition = false;
             _tweenTime = 0.4f;
             return base.Reset();
         }

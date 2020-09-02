@@ -17,7 +17,7 @@ public class ViewStateBehaviour : StateMachineBehaviour
             veDict.Add(animator.gameObject.GetInstanceID(),viewElement);
         }
 
-        viewElement.OnLeaveAnimationFinish();
+        //viewElement.OnLeaveAnimationFinish();
     }
     // override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     // {
