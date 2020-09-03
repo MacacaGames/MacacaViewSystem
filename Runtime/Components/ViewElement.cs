@@ -402,8 +402,14 @@ namespace CloudMacaca.ViewSystem
             if (showCoroutine != null)
             {
                 viewController.StopMicroCoroutine(showCoroutine);
-            }
+                showCoroutine = null;
 
+            }
+            if (leaveCoroutine != null)
+            {
+                viewController.StopMicroCoroutine(leaveCoroutine);
+                leaveCoroutine = null;
+            }
             showCoroutine = viewController.StartMicroCoroutine(OnShowRunner(manual));
         }
         public IEnumerator OnShowRunner(bool manual)
@@ -500,6 +506,7 @@ namespace CloudMacaca.ViewSystem
             if (leaveCoroutine != null)
             {
                 viewController.StopMicroCoroutine(leaveCoroutine);
+                leaveCoroutine = null;
             }
             leaveCoroutine = viewController.StartMicroCoroutine(OnLeaveRunner(NeedPool, ignoreTransition));
         }
@@ -713,7 +720,7 @@ namespace CloudMacaca.ViewSystem
                 var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_Out));
                 if (clip != null)
                 {
-                    result = Mathf.Max(result, clip.length );
+                    result = Mathf.Max(result, clip.length);
                 }
             }
             else if (transition == ViewElement.TransitionType.CanvasGroupAlpha)
