@@ -18,6 +18,11 @@ namespace CloudMacaca.ViewSystem
         private ViewSystemSaveData viewSystemSaveData;
 
         Transform transformCache;
+        Canvas rootCanvas;
+        public override Canvas GetCanvas()
+        {
+            return rootCanvas;
+        }
         // Use this for initialization
         protected override void Awake()
         {
@@ -49,6 +54,8 @@ namespace CloudMacaca.ViewSystem
             InjectionDictionary = new Dictionary<System.Type, Component>();
             maxClampTime = viewSystemSaveData.globalSetting.MaxWaitingTime;
             minimumTimeInterval = viewSystemSaveData.globalSetting.minimumTimeInterval;
+
+            rootCanvas = ui.GetComponent<Canvas>();
         }
 
         IEnumerator FixedTimeRecovery()

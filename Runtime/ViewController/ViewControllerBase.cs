@@ -12,7 +12,7 @@ namespace CloudMacaca.ViewSystem
 
         protected static float minimumTimeInterval = 0.2f;
 
-        public Canvas GetCanvas()
+        public virtual Canvas GetCanvas()
         {
             Canvas result = gameObject.GetComponent<Canvas>();
             if (result == null)
