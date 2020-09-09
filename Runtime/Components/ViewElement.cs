@@ -143,8 +143,8 @@ namespace CloudMacaca.ViewSystem
         bool hasLoopBool = false;
 
         //CanvasGroup
-        public float canvasInTime = 0.4f;
-        public float canvasOutTime = 0.4f;
+        public float canvasInTime = 0.25f;
+        public float canvasOutTime = 0.25f;
         public EaseStyle canvasInEase = EaseStyle.QuadEaseOut;
         public EaseStyle canvasOutEase = EaseStyle.QuadEaseOut;
         private CanvasGroup _canvasGroup;
