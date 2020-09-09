@@ -295,12 +295,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (verifyTarget == VerifyTarget.Override)
             {
                 RefreshOverrideDatas();
-                targetVerifyDatas = allOverrideDatas.Cast<ViewSystemComponentData>();
+                targetVerifyDatas = allOverrideDatas.SelectMany(m=>m.overrideDatas).Cast<ViewSystemComponentData>();
             }
             if (verifyTarget == VerifyTarget.Event)
             {
                 RefreshEventDatas();
-                targetVerifyDatas = allEventDatas.Cast<ViewSystemComponentData>();
+                targetVerifyDatas = allEventDatas.SelectMany(m=>m.eventDatas).Cast<ViewSystemComponentData>();
             }
 
             foreach (var item in targetVerifyDatas)
