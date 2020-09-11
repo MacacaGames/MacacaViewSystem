@@ -14,6 +14,14 @@ namespace CloudMacaca.ViewSystem
         }
         [SerializeField]
         Dictionary<int, Queue<ViewElement>> veDicts = new Dictionary<int, Queue<ViewElement>>();
+
+#if UNITY_EDITOR
+        public Dictionary<int, Queue<ViewElement>> GetDicts()
+        {
+            return veDicts;
+        }
+        public Dictionary<int, string> veNameDicts = new Dictionary<int, string>();
+#endif
         [SerializeField]
         Dictionary<int, ViewElement> uniqueVeDicts = new Dictionary<int, ViewElement>();
         Queue<ViewElement> recycleQueue = new Queue<ViewElement>();
@@ -104,6 +112,9 @@ namespace CloudMacaca.ViewSystem
                 {
                     veQueue = new Queue<ViewElement>();
                     veDicts.Add(source.GetInstanceID(), veQueue);
+#if UNITY_EDITOR
+                    veNameDicts.Add(source.GetInstanceID(), source.name);
+#endif
                 }
                 if (veQueue.Count == 0)
                 {
