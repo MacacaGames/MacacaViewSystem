@@ -57,7 +57,7 @@ namespace CloudMacaca.ViewSystem
             {
                 if (overlayPageStatus.IsTransition == true)
                 {
-                    ViewSystemLog.LogError($"The Overlay page {vp.name} is in Transition, ignore the ShowOverlayViewPage call.");
+                    ViewSystemLog.LogError($"The Overlay page with same state {vp.name} is in Transition, ignore the ShowOverlayViewPage call.");
                     return null;
                 }
                 if (overlayPageStatus.viewPage.name == viewPageName)
@@ -185,7 +185,7 @@ namespace CloudMacaca.ViewSystem
                 {
                     if (item.Value.IsTransition == true)
                     {
-                        ViewSystemLog.LogError("Due to " + item.Key + "is Transition");
+                        ViewSystemLog.LogWarning("Overlay is Transition Due to " + item.Key + "is Transition");
                         return true;
                     }
                 }
