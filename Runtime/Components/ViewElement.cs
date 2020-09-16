@@ -720,7 +720,7 @@ namespace CloudMacaca.ViewSystem
                 var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_Out));
                 if (clip != null)
                 {
-                    result = Mathf.Max(result, clip.length);
+                    result = Mathf.Max(result, clip.length - 0.05f);
                 }
             }
             else if (transition == ViewElement.TransitionType.CanvasGroupAlpha)

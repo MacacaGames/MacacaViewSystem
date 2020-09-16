@@ -225,7 +225,7 @@ namespace CloudMacaca.ViewSystem
 
         }
 
-        void Update()
+        void LateUpdate()
         {
             microCoroutine.Update();
         }
