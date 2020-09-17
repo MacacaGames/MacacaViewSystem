@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CloudMacaca.ViewSystem;
 using System;
-
+using System.Linq;
 public class ViewElementRequestedPool
 {
     ViewElementRuntimePool runtimePool => ViewController.runtimePool;
@@ -35,7 +35,7 @@ public class ViewElementRequestedPool
         return viewElementInstance;
     }
 
-    public T Request<T>(Transform root) where T: Component
+    public T Request<T>(Transform root) where T : Component
     {
         return Request(root).GetComponent<T>(); ;
     }
@@ -52,9 +52,32 @@ public class ViewElementRequestedPool
         runtimePool.RecoveryQueuedViewElement(true);
     }
 
+    public void Recovery(ViewElement ve, bool ignoreTransition = true)
+    {
+        viewElementQueue.Remove(ve);
+        ve.ChangePage(false, null, ignoreTransition: ignoreTransition);
+        recoveryAction?.Invoke(ve);
+        runtimePool.RecoveryQueuedViewElement(true);
+    }
+
     public int GetCurrentInUseViewElementCount()
     {
         return viewElementQueue.Count;
     }
 
+}
+public static class QueueExtension
+{
+    public static void Remove<T>(this Queue<T> queue, T itemToRemove) where T : class
+    {
+        var list = queue.ToList(); //Needs to be copy, so we can clear the queue
+        queue.Clear();
+        foreach (var item in list)
+        {
+            if (item == itemToRemove)
+                continue;
+
+            queue.Enqueue(item);
+        }
+    }
 }
