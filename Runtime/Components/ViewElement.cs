@@ -139,6 +139,7 @@ namespace CloudMacaca.ViewSystem
         public string AnimationStateName_In = "In";
         public string AnimationStateName_Out = "Out";
         public string AnimationStateName_Loop = "Loop";
+        public bool isSkipOutAnimation = false;
         const string ButtonAnimationBoolKey = "IsLoop";
         bool hasLoopBool = false;
 
@@ -599,7 +600,7 @@ namespace CloudMacaca.ViewSystem
             }
 
         END:
-            if (!ignoreTransition)
+            if (!ignoreTransition && !isSkipOutAnimation)
             {
                 float time = 0;
                 var outDuration = GetOutDuration();
