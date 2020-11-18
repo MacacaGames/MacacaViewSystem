@@ -294,7 +294,7 @@ namespace CloudMacaca.ViewSystem
                     rectTransform.anchoredPosition3D = Vector3.zero;
                     rectTransform.localScale = Vector3.one;
                     float time = 0;
-                    while (time > delayIn)
+                    while (time < delayIn)
                     {
                         time += GlobalTimer.deltaTime;
                         yield return null;
@@ -354,7 +354,7 @@ namespace CloudMacaca.ViewSystem
                     else
                     {
                         float time = 0;
-                        while (time > delayIn)
+                        while (time < delayIn)
                         {
                             time += GlobalTimer.deltaTime;
                             yield return null;
@@ -369,7 +369,7 @@ namespace CloudMacaca.ViewSystem
                         rectTransform.anchoredPosition3D = Vector3.zero;
                         rectTransform.localScale = Vector3.one;
                         time = 0;
-                        while (time > delayIn)
+                        while (time < delayIn)
                         {
                             time += GlobalTimer.deltaTime;
                             yield return null;
@@ -382,7 +382,7 @@ namespace CloudMacaca.ViewSystem
             else
             {
                 float time = 0;
-                while (time > delayIn)
+                while (time < delayIn)
                 {
                     time += GlobalTimer.deltaTime;
                     yield return null;
