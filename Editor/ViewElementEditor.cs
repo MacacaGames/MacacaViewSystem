@@ -91,6 +91,7 @@ namespace CloudMacaca.ViewSystem
                         break;
                 }
 
+                viewElement.isSkipOutAnimation = EditorGUILayout.Toggle("Skip Out Animation", viewElement.isSkipOutAnimation);
 
                 showV2Setting.target = EditorGUILayout.Foldout(showV2Setting.target, new GUIContent("V2 Setting", "Below scope is only used in V2 Version"));
                 string hintText = "";
