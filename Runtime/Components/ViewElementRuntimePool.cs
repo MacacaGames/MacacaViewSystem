@@ -103,7 +103,7 @@ namespace CloudMacaca.ViewSystem
                 if (!uniqueVeDicts.TryGetValue(source.GetInstanceID(), out result))
                 {
                     result = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
-                    a.gameObject.SetActive(false);
+                    result.gameObject.SetActive(false);
                     result.name = source.name;
                     uniqueVeDicts.Add(source.GetInstanceID(), result);
                 }
