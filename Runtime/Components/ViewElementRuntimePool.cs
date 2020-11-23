@@ -27,8 +27,18 @@ namespace CloudMacaca.ViewSystem
         Queue<ViewElement> recycleQueue = new Queue<ViewElement>();
         public void QueueViewElementToRecovery(ViewElement toRecovery)
         {
+
             toRecovery.rectTransform.SetParent(_hierachyPool.transformCache, true);
-            recycleQueue.Enqueue(toRecovery);
+
+            if (toRecovery.IsUnique)
+            {
+                // unique ViewElement just needs to disable gameObject
+                RecoveryViewElement(toRecovery);
+            }
+            else
+            {
+                recycleQueue.Enqueue(toRecovery);
+            }
         }
         public void RecoveryViewElement(ViewElement toRecovery)
         {
