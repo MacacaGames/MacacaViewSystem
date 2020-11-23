@@ -167,7 +167,7 @@ namespace CloudMacaca.ViewSystem
         public ViewElementEvent OnLeaveHandle;
 
         private RectTransform _rectTransform;
-        private RectTransform rectTransform
+        public RectTransform rectTransform
         {
             get
             {
@@ -682,11 +682,11 @@ namespace CloudMacaca.ViewSystem
             }
             // Debug.LogError(" rectTransform.SetParent(viewElementPool.transformCache, true);");
 
-            rectTransform.SetParent(viewElementPool.transformCache, true);
-            rectTransform.anchoredPosition = Vector2.zero;
-            rectTransform.localScale = Vector3.one;
+            //rectTransform.SetParent(viewElementPool.transformCache, true);
+            // rectTransform.anchoredPosition = Vector2.zero;
+            // rectTransform.localScale = Vector3.one;
 
-            if (runtimePool != null && DestroyIfNoPool)
+            if (runtimePool != null )
             {
                 runtimePool.QueueViewElementToRecovery(this);
                 OnBeforeRecoveryToPool?.Invoke();
