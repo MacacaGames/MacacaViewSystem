@@ -1,33 +1,47 @@
-* [Overview](#overview)
-* [Concept](#concept)
-    + [ViewElement](#viewelement)
-    + [ViewPage](#viewpage)
-        + [FullPage](#fullpage)
-        + [OverlayPage](#overlaypage)
-    + [ViewState](#viewstate)
-    + [ViewController](#viewcontroller)
-* [Installation](#installation)
-    + [Option 1: Git SubModule](#option-1-git-submodule)
-    + [Option 2: Unity Package file](#option-2-unity-package-file)
-    + [Option 3: Unity Package manager](#option-3-unity-package-manager)
-* [Components](#components)
-    + [ViewMarginFixer](#viewmarginfixer)
-    + [ViewElementGroup](#viewelementgroup)
-* [LifeCycle Hook and Injection](#lifecycle-hook-and-injection)
-    + [IViewElementLifeCycle](#iviewelementlifecycle)
-    + [IViewElementInjectable](#iviewelementinjectable)
-* [System LifeCycle](#system-lifecycle)
-    + [ViewController Initialization](#viewcontroller-initialization)
-    + [FullPage ChangePage](#fullpage-changepage)
-    + [OverlayPage Show](#overlaypage-show)
-    + [OverlayPage Leave](#overlaypage-leave)
+- [Overview](#overview)
+  - [Feature](#feature)
+- [Concept](#concept)
+  - [ViewElement](#viewelement)
+  - [ViewPage](#viewpage)
+    - [FullPage](#fullpage)
+    - [OverlayPage](#overlaypage)
+  - [ViewState](#viewstate)
+  - [ViewController](#viewcontroller)
+- [Installation](#installation)
+  - [Option 1: Git SubModule](#option-1-git-submodule)
+  - [Option 2: Unity Package file](#option-2-unity-package-file)
+  - [Option 3: Unity Package manager](#option-3-unity-package-manager)
+- [Setup](#setup)
+  - [1. Editor](#1-editor)
+  - [2. Create ViewController](#2-create-viewcontroller)
+  - [3. Create UGUI Canvas](#3-create-ugui-canvas)
+  - [4. Setup GlobalSetting](#4-setup-globalsetting)
+  - [5. Ready to go!](#5-ready-to-go)
+- [Components](#components)
+  - [ViewMarginFixer](#viewmarginfixer)
+  - [ViewElementGroup](#viewelementgroup)
+- [LifeCycle Hook and Injection](#lifecycle-hook-and-injection)
+  - [IViewElementLifeCycle](#iviewelementlifecycle)
+  - [IViewElementInjectable](#iviewelementinjectable)
+- [System LifeCycle](#system-lifecycle)
+  - [ViewController Initialization](#viewcontroller-initialization)
+  - [FullPage ChangePage](#fullpage-changepage)
+- [How to...](#how-to)
+  - [Get an runtime ViewElement reference in ViewPage/ViewState](#get-an-runtime-viewelement-reference-in-viewpageviewstate)
+
 
 
 
 # Overview
-**ViewSystem** is a SoC UI management system based on Unity GUI. It is developed and used by Macaca Games.
+**ViewSystem** is a element based UI management system based on Unity GUI. It is developed and used by Macaca Games.
 UI management in Unity3D is always a hard work, the goal of **ViewSystem** is to make UI management more easier and flexable.
 
+## Feature
+- Element based UI manager system
+- UI Element pooling system
+- Property and Event override in runtime
+- Node based editor
+  
 # Concept
 ## ViewElement
 ViewElement is the basic unit in ViewSystem, any item shows on an UI page can be a ViewElement, such as a button, a icon or anything else.
@@ -63,8 +77,6 @@ Each ViewPage can setup at most one ViewState.
 And also the ViewElements define in ViewState will not be update until the ViewState is changed.
 
 ## ViewController
-> Currently, since the V1 branch has been Archived the ViewController in /master branch is obsolete, use ViewController instead.
-
 ViewController is the core component of ViewSystem, all control of the UI is base on this component.
 
 # Installation
@@ -81,6 +93,30 @@ git submodule add hhttps://github.com/MacacaGames/MacacaUtility.git Assets/Macac
 
 ## Option 3: Unity Package manager
 > Work in progress
+
+# Setup
+## 1. Editor
+Menu Path : CloudMacaca > ViewSystem > Visual Editor
+
+ViewSystem will create required data and save in Assets/ViewSystemResources folder automatically.
+
+## 2. Create ViewController
+In the Scene which you wish to add UI, create a new GameObject and attach ViewControll Component, then drag ViewSystemData to component.
+<img src="./Img/how_to_1.png" width="600"/>
+
+## 3. Create UGUI Canvas
+Create a UGUI canvas and set as a child to ViewController gameobject. We strongly suggest also set "EventSystem" gameobject as a child to Canvas.
+
+## 4. Setup GlobalSetting
+Click "GlobalSetting" button on toolbar and follow the steps
+- Drag Canvas object in scene to "UI Root Object(In Scene)" field.
+- Set ViewController gameObject name to "View Controller GameObject" field. (As screenshot is "UI")
+- Now delete all child under View Controller GameObject
+- Remember click "Save" button on toolbar after all step is done
+<img src="./Img/how_to_2.png" width="600"/>
+
+## 5. Ready to go!
+Now, all setup step is done, use Example Project to learn how to edit your UI.
 
 # Components
 ## ViewMarginFixer
@@ -169,3 +205,44 @@ SomeInjectableClass someInjectableClass = ViewController.Instance.GetInjectionIn
 > Once the ChangePage API is call in ViewController, the event, callback, lifecycle hack excude order. (Same behaviour while using FullPageChanger)
 
 <img src="./Img/changepage_lifecycle.jpg" alt="Screenshot2" height="800"/>
+
+# How to...
+## Get an runtime ViewElement reference in ViewPage/ViewState
+If the target is an Unique ViewElement, you get it's instance via implement IViewElementInjectable on one of its component, then using ViewController.Instance.GetInjectionInstance<SomeInjectableClass>() API to get the instance. 
+```csharp
+// SomeInjectableClass is attach on target ViewElement
+public class SomeInjectableClass : MonoBehaviour, IViewElementInjectable
+{}
+
+SomeInjectableClass someInjectableClass = ViewController.Instance.GetInjectionInstance<SomeInjectableClass>();
+```
+
+Otherwise GetViewPageElementByName or GetViewStateElementByName API to get the runtime instance in target ViewPage/ViewState.
+
+Note:Since ViewElement is pooled and managed by ViewSystem, so those API only works while the target ViewPage/ViewState is live.
+ViewElement reference may changed after each ChangePage() call is complete.
+```csharp
+public ViewElement GetViewPageElementByName(ViewPage viewPage, string viewPageItemName);
+
+public ViewElement GetViewPageElementByName(string viewPageName, string viewPageItemName);
+
+public T GetViewPageElementComponentByName<T>(string viewPageName, string viewPageItemName) where T : Component;
+
+public ViewElement GetCurrentViewPageElementByName(string viewPageItemName);
+
+public T GetCurrentViewPageElementComponentByName<T>(string viewPageItemName) where T : Component;
+
+        //Get viewElement in statePage
+public ViewElement GetViewStateElementByName(ViewState viewState, string viewStateItemName);
+        
+public T GetViewStateElementComponentByName<T>(ViewState viewState, string viewStateItemName) where T : Component;
+
+public ViewElement GetViewStateElementByName(string viewStateName, string viewStateItemName);
+
+public T GetViewStateElementComponentByName<T>(string viewStateName, string viewStateItemName) where T : Component;
+
+public ViewElement GetCurrentViewStateElementByName(string viewStateItemName);
+
+public T GetCurrentViewStateElementComponentByName<T>(string viewStateItemName) where T : Component;
+```
+
