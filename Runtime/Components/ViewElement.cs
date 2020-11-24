@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using com.spacepuppy.Tween;
 using Coroutine = CloudMacaca.ViewSystem.MicroCoroutine.Coroutine;
 namespace CloudMacaca.ViewSystem
 {
@@ -323,26 +322,51 @@ namespace CloudMacaca.ViewSystem
                         rectTransform.SetParent(parent, true);
 
                         var marginFixer = GetComponent<ViewMarginFixer>();
-                        viewController.StartMicroCoroutine(EaseMethods.EaseVector3(
-                               rectTransform.anchoredPosition3D,
-                               Vector3.zero,
-                               TweenTime,
-                               EaseMethods.GetEase(EaseStyle.QuadEaseOut),
-                               (v) =>
-                               {
-                                   rectTransform.anchoredPosition3D = v;
-                               },
-                               () =>
-                               {
-                                   if (marginFixer) marginFixer.ApplyModifyValue();
-                               }
-                            ));
+                        // viewController.StartMicroCoroutine(EaseMethods.EaseVector3(
+                        //        rectTransform.anchoredPosition3D,
+                        //        Vector3.zero,
+                        //        TweenTime,
+                        //        EaseMethods.GetEase(EaseStyle.QuadEaseOut),
+                        //        (v) =>
+                        //        {
+                        //            rectTransform.anchoredPosition3D = v;
+                        //        },
+                        //        () =>
+                        //        {
+                        //            if (marginFixer) marginFixer.ApplyModifyValue();
+                        //        }
+                        //     ));
 
-                        viewController.StartMicroCoroutine(EaseMethods.EaseVector3(
+                        // viewController.StartMicroCoroutine(EaseMethods.EaseVector3(
+                        //     rectTransform.localScale,
+                        //     Vector3.one,
+                        //     TweenTime,
+                        //     EaseMethods.GetEase(EaseStyle.QuadEaseOut),
+                        //     (v) =>
+                        //     {
+                        //         rectTransform.localScale = v;
+                        //     }
+                        // ));
+                        viewController.StartMicroCoroutine(EaseUtility.To(
+                            rectTransform.anchoredPosition3D,
+                            Vector3.zero,
+                            TweenTime,
+                            EaseStyle.QuadEaseOut,
+                            (v) =>
+                            {
+                                rectTransform.anchoredPosition3D = v;
+                            },
+                            () =>
+                            {
+                                if (marginFixer) marginFixer.ApplyModifyValue();
+                            }
+                        ));
+
+                        viewController.StartMicroCoroutine(EaseUtility.To(
                             rectTransform.localScale,
                             Vector3.one,
                             TweenTime,
-                            EaseMethods.GetEase(EaseStyle.QuadEaseOut),
+                            EaseStyle.QuadEaseOut,
                             (v) =>
                             {
                                 rectTransform.localScale = v;
@@ -454,20 +478,36 @@ namespace CloudMacaca.ViewSystem
                 {
                     viewController.StopMicroCoroutine(canvasGroupCoroutine);
                 }
-                canvasGroupCoroutine = viewController.StartMicroCoroutine(EaseMethods.EaseValue(
-                    canvasGroup.alpha,
-                    1,
-                    canvasInTime,
-                    EaseMethods.GetEase(canvasInEase),
-                    (v) =>
-                    {
-                        canvasGroup.alpha = v;
-                    },
-                    () =>
-                    {
-                        canvasGroupCoroutine = null;
-                    }
-                 ));
+                // canvasGroupCoroutine = viewController.StartMicroCoroutine(EaseMethods.EaseValue(
+                //     canvasGroup.alpha,
+                //     1,
+                //     canvasInTime,
+                //     EaseMethods.GetEase(canvasInEase),
+                //     (v) =>
+                //     {
+                //         canvasGroup.alpha = v;
+                //     },
+                //     () =>
+                //     {
+                //         canvasGroupCoroutine = null;
+                //     }
+                //  ));
+                canvasGroupCoroutine = viewController.StartMicroCoroutine(
+                    EaseUtility.To(
+                        canvasGroup.alpha,
+                        1,
+                        canvasInTime,
+                        canvasInEase,
+                        (v) =>
+                        {
+                            canvasGroup.alpha = v;
+                        },
+                        () =>
+                        {
+                            canvasGroupCoroutine = null;
+                        }
+                    )
+                );
             }
             else if (transition == TransitionType.Custom)
             {
@@ -573,20 +613,37 @@ namespace CloudMacaca.ViewSystem
                 {
                     viewController.StopMicroCoroutine(canvasGroupCoroutine);
                 }
-                canvasGroupCoroutine = viewController.StartMicroCoroutine(EaseMethods.EaseValue(
-                    canvasGroup.alpha,
-                    0,
-                    canvasOutTime,
-                    EaseMethods.GetEase(canvasOutEase),
-                    (v) =>
-                    {
-                        canvasGroup.alpha = v;
-                    },
-                    () =>
-                    {
-                        canvasGroupCoroutine = null;
-                    }
-                    ));
+                // canvasGroupCoroutine = viewController.StartMicroCoroutine(EaseMethods.EaseValue(
+                //     canvasGroup.alpha,
+                //     0,
+                //     canvasOutTime,
+                //     EaseMethods.GetEase(canvasOutEase),
+                //     (v) =>
+                //     {
+                //         canvasGroup.alpha = v;
+                //     },
+                //     () =>
+                //     {
+                //         canvasGroupCoroutine = null;
+                //     }
+                //     ));
+
+                canvasGroupCoroutine = viewController.StartMicroCoroutine(
+                   EaseUtility.To(
+                       canvasGroup.alpha,
+                       0,
+                       canvasOutTime,
+                       canvasOutEase,
+                       (v) =>
+                       {
+                           canvasGroup.alpha = v;
+                       },
+                       () =>
+                       {
+                           canvasGroupCoroutine = null;
+                       }
+                   )
+                );
 
                 goto END;
             }
@@ -686,7 +743,7 @@ namespace CloudMacaca.ViewSystem
             // rectTransform.anchoredPosition = Vector2.zero;
             // rectTransform.localScale = Vector3.one;
 
-            if (runtimePool != null )
+            if (runtimePool != null)
             {
                 runtimePool.QueueViewElementToRecovery(this);
                 OnBeforeRecoveryToPool?.Invoke();

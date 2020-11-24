@@ -128,7 +128,7 @@ namespace CloudMacaca.ViewSystem
             }
         }
         public float TweenTime = 0.4f;
-        public DG.Tweening.Ease easeType = DG.Tweening.Ease.OutQuad;
+        public EaseStyle easeType = EaseStyle.QuadEaseOut;
         public float delayIn;
         public float delayOut;
         public List<ViewElementNavigationData> navigationDatas = new List<ViewElementNavigationData>();
