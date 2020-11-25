@@ -158,7 +158,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //viewPageItemList = new ReorderableList(serializedProperty.serializedObject, serializedProperty, true, true, true, false);
             viewPageItemList.drawElementCallback += DrawViewItemElement;
             viewPageItemList.drawHeaderCallback += DrawViewItemHeader;
-            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 5f;
+            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 6f;
             viewPageItemList.onAddCallback += AddItem;
             viewPageItemList.drawElementBackgroundCallback += DrawItemBackground;
             //viewPageItemList.elementHeightCallback += ElementHight;

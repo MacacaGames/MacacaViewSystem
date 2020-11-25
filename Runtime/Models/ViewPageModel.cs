@@ -114,25 +114,16 @@ namespace CloudMacaca.ViewSystem
         public Transform parent;
         public Transform runtimeParent = null;
         public string parentPath;
-        GameObject _parentGameObject;
-        [HideInInspector]
-        public GameObject parentGameObject
-        {
-            get
-            {
-                if (_parentGameObject == null)
-                {
-                    _parentGameObject = runtimeParent.gameObject;
-                }
-                return _parentGameObject;
-            }
-        }
+
         public float TweenTime = 0.4f;
         public EaseStyle easeType = EaseStyle.QuadEaseOut;
         public float delayIn;
         public float delayOut;
         public List<ViewElementNavigationData> navigationDatas = new List<ViewElementNavigationData>();
         public PlatformOption excludePlatform = PlatformOption.Nothing;
+
+        public List<ViewSystemRectTransformData> transformData = new List<ViewSystemRectTransformData>();
+
 
         [System.Flags]
         public enum PlatformOption
@@ -159,15 +150,6 @@ namespace CloudMacaca.ViewSystem
             if (string.IsNullOrEmpty(Id))
                 Id = System.Guid.NewGuid().ToString().Substring(0, 8);
         }
-    }
-
-    [System.Serializable]
-    public class ViewSystemComponentData
-    {
-        public string targetTransformPath;
-        public string targetComponentType;
-        /// This value is save as SerializedProperty.PropertyPath
-        public string targetPropertyName;
     }
 
     [System.Serializable]
@@ -218,7 +200,26 @@ namespace CloudMacaca.ViewSystem
         }
         public PropertyOverride Value;
     }
-
+    [System.Serializable]
+    public class ViewSystemComponentData
+    {
+        public string targetTransformPath;
+        public string targetComponentType;
+        /// This value is save as SerializedProperty.PropertyPath
+        public string targetPropertyName;
+    }
+    [System.Serializable]
+    public class ViewSystemRectTransformData
+    {
+        //scale modify may not require
+        public Vector3 localScale;
+        public Vector3 localEulerAngles;
+        public Vector3 anchoredPosition;
+        public Vector2 pivot;
+        public Vector2 sizeDelta;
+        public Vector2 anchorMin;
+        public Vector2 anchorMax;
+    }
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
     public class ViewEventGroup : System.Attribute
     {
