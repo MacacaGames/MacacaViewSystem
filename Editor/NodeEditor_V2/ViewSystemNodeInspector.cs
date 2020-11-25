@@ -639,6 +639,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         EditorGUIUtility.PingObject(list[index].previewViewElement);
                         Selection.objects = new[] { list[index].previewViewElement.gameObject };
                     }
+                    else if (Application.isPlaying && list[index].runtimeViewElement)
+                    {
+                        EditorGUIUtility.PingObject(list[index].runtimeViewElement);
+                        Selection.objects = new[] { list[index].runtimeViewElement.gameObject };
+                    }
                     else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
                     // var go = GameObject.Find(list[index].parentPath);
                     // if (go.transform.childCount > 0)
