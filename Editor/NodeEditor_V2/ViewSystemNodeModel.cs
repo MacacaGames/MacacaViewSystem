@@ -213,7 +213,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             if (highlight)
             {
+                GUI.Box(drawRect, "", new GUIStyle("LightmapEditorSelectedHighlight"));
+
                 GUI.Box(new Rect(drawRect.x - 1, drawRect.y - 1, drawRect.width + 2, drawRect.height + 2), "", new GUIStyle("LightmapEditorSelectedHighlight"));
+                GUI.Box(new Rect(drawRect.x - 2, drawRect.y - 2, drawRect.width + 4, drawRect.height + 4), "", new GUIStyle("LightmapEditorSelectedHighlight"));
+                GUI.Box(new Rect(drawRect.x - 3, drawRect.y - 3, drawRect.width + 6, drawRect.height + 6), "", new GUIStyle("LightmapEditorSelectedHighlight"));
             }
 
             if (isSelect)

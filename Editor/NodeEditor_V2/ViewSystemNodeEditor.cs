@@ -166,7 +166,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             foreach (var item in viewPageList.ToArray())
             {
-                item.Draw(!string.IsNullOrEmpty(search) && item.name.ToLower().Contains(search.ToLower()));
+                bool highlight = false;
+                if (Application.isPlaying && ViewController.Instance != null)
+                {
+                    if (item.viewPage.viewPageType == ViewPage.ViewPageType.FullPage) highlight = ViewController.Instance.currentViewPage.name == item.name;
+                    else highlight = ViewController.Instance.IsOverPageLive(item.name);
+                }
+                else
+                {
+                    highlight = !string.IsNullOrEmpty(search) && item.name.ToLower().Contains(search.ToLower());
+                }
+
+                item.Draw(highlight);
             }
             DrawCurrentConnectionLine(Event.current);
             EditorZoomArea.NoGroupEnd();
@@ -765,7 +776,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
                     using (var check = new EditorGUI.ChangeCheckScope())
                     {
-                        search = EditorGUILayout.TextField(search);
+                        search = EditorGUILayout.TextField(search, new GUIStyle("SearchTextField"));
                     }
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
