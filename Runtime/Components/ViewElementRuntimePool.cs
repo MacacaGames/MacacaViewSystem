@@ -51,8 +51,8 @@ namespace CloudMacaca.ViewSystem
             {
                 if (!veDicts.TryGetValue(toRecovery.PoolKey, out Queue<ViewElement> veQueue))
                 {
-                    ViewSystemLog.LogWarning("Cannot find pool of ViewElement " + toRecovery.name + ", Destroy directly.");
-                    UnityEngine.Object.Destroy(toRecovery);
+                    ViewSystemLog.LogWarning("Cannot find pool of ViewElement " + toRecovery.name + ", Destroy directly.", toRecovery);
+                   UnityEngine.Object.Destroy(toRecovery);
                     return;
                 }
                 toRecovery.gameObject.SetActive(false);

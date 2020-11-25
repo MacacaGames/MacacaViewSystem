@@ -80,7 +80,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 dataReader.EditEnd();
             }
         }
- 
+
         public void RefreshData(bool hardRefresh = true)
         {
             ClearEditor();
@@ -153,17 +153,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             EditorZoomArea.NoGroupBegin(zoomScale, scriptViewRect);
             DrawGrid();
+
+            foreach (var item in viewStateList.ToArray())
+            {
+
+                item.Draw(false);
+            }
             foreach (var item in nodeConnectionLineList.ToArray())
             {
                 item.Draw();
             }
+
             foreach (var item in viewPageList.ToArray())
             {
-                item.Draw();
-            }
-            foreach (var item in viewStateList.ToArray())
-            {
-                item.Draw();
+                item.Draw(!string.IsNullOrEmpty(search) && item.name.ToLower().Contains(search.ToLower()));
             }
             DrawCurrentConnectionLine(Event.current);
             EditorZoomArea.NoGroupEnd();
@@ -648,11 +651,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         public bool EditMode = false;
         bool CanEnterEditMode = false;
-        // [UnityEditor.Callbacks.DidReloadScripts]
-        // private static void OnScriptsReloaded()
-        // {
-        // dataReader.Normalized();
-        // } 
+        string search = "";
         Rect popupBtnRect;
         private void DrawMenuBar()
         {
@@ -764,7 +763,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         );
                         genericMenu.ShowAsContext();
                     }
-
+                    using (var check = new EditorGUI.ChangeCheckScope())
+                    {
+                        search = EditorGUILayout.TextField(search);
+                    }
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));

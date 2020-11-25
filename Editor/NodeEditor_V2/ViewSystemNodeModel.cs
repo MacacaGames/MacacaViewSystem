@@ -116,11 +116,88 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 ((ViewPageNode)node).viewPage.viewState = ((ViewStateNode)this).viewState.name;
             }
         }
-        public virtual void Draw() { }
+
+        public virtual void Draw(bool highlight) { }
+        // protected string nodeStyleString = "";
+        public static GUIStyle stateNode;
+        public static GUIStyle stateNode_on;
+        public static GUIStyle fullPageNode;
+        public static GUIStyle fullPageNode_on;
+        public static GUIStyle overlayPageNode;
+        public static GUIStyle overlayPageNode_on;
+
+        GUIStyle currentStyle
+        {
+            get
+            {
+                switch (nodeType)
+                {
+                    case NodeType.FullPage:
+                        {
+                            if (fullPageNode == null)
+                            {
+                                fullPageNode = new GUIStyle("flow node 3");
+                            }
+                            return fullPageNode;
+                        }
+                    case NodeType.Overlay:
+                        {
+                            if (overlayPageNode == null)
+                            {
+                                overlayPageNode = new GUIStyle("flow node 5");
+                            }
+                            return overlayPageNode;
+                        }
+                    case NodeType.ViewState:
+                        {
+                            if (stateNode == null)
+                            {
+                                stateNode = new GUIStyle("flow node 1");
+                            }
+                            return stateNode;
+                        }
+                }
+                return null;
+            }
+        }
+        GUIStyle currentStyle_on
+        {
+            get
+            {
+                switch (nodeType)
+                {
+                    case NodeType.FullPage:
+                        {
+                            if (fullPageNode_on == null)
+                            {
+                                fullPageNode_on = new GUIStyle("flow node 3 on");
+                            }
+                            return fullPageNode_on;
+                        }
+                    case NodeType.Overlay:
+                        {
+                            if (overlayPageNode_on == null)
+                            {
+                                overlayPageNode_on = new GUIStyle("flow node 5 on");
+                            }
+                            return overlayPageNode_on;
+                        }
+                    case NodeType.ViewState:
+                        {
+                            if (stateNode_on == null)
+                            {
+                                stateNode_on = new GUIStyle("flow node 1 on");
+                            }
+                            return stateNode_on;
+                        }
+                }
+                return null;
+            }
+        }
+
         public virtual void SetupNode() { }
-        protected string nodeStyleString = "";
         private Vector2 editorViewPortScroll => ViewSystemNodeEditor.viewPortScroll;
-        protected void DrawNode(string _name)
+        protected void DrawNode(string _name, bool highlight)
         {
             this.name = _name;
             drawRect = rect;
@@ -134,14 +211,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 GUI.depth = -1;
             }
+            if (highlight)
+            {
+                GUI.Box(new Rect(drawRect.x - 1, drawRect.y - 1, drawRect.width + 2, drawRect.height + 2), "", new GUIStyle("LightmapEditorSelectedHighlight"));
+            }
 
             if (isSelect)
             {
-                GUI.Box(drawRect, "", new GUIStyle(nodeStyleString + " on"));
+                //GUI.Box(drawRect, "", new GUIStyle(nodeStyleString + " on"));
+                GUI.Box(drawRect, "", currentStyle_on);
             }
             else
             {
-                GUI.Box(drawRect, "", new GUIStyle(nodeStyleString));
+                //GUI.Box(drawRect, "", new GUIStyle(nodeStyleString));
+                GUI.Box(drawRect, "", currentStyle);
             }
 
             //Ttiel
@@ -316,19 +399,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             // }
             this.viewPage.viewPageType = isOverlay ? ViewPage.ViewPageType.Overlay : ViewPage.ViewPageType.FullPage;
             //this.nodeConnectionLinker.type = isOverlay ? ConnectionPointType.Overlay : ConnectionPointType.FullPage;
-            switch (nodeType)
-            {
-                case NodeType.FullPage:
-                    nodeStyleString = "flow node 3";
-                    break;
-                case NodeType.Overlay:
-                    nodeStyleString = "flow node 5";
-                    break;
-            }
+            // switch (nodeType)
+            // {
+            //     case NodeType.FullPage:
+            //         nodeStyleString = "flow node 3";
+            //         break;
+            //     case NodeType.Overlay:
+            //         nodeStyleString = "flow node 5";
+            //         break;
+            // }
         }
-        public override void Draw()
+        public override void Draw(bool highlight)
         {
-            DrawNode(viewPage.name);
+            DrawNode(viewPage.name, highlight);
             var btnRect = new Rect(drawRect.x, drawRect.y + drawRect.height - 40, drawRect.width, 18);
 
             bool btnInteractiable = IsInactivable;
@@ -384,12 +467,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             this.rect = new Rect(mousePosition.x, mousePosition.y, ViewSystemNodeWidth, ViewStateNodeHeight);
             this.nodeType = NodeType.ViewState;
             //this.nodeConnectionLinker = new ViewSystemNodeLinker(this, OnConnect);
-            nodeStyleString = "flow node 1";
+            // nodeStyleString = "flow node 1";
         }
 
-        public override void Draw()
+        public override void Draw(bool highlight)
         {
-            DrawNode(viewState.name);
+            DrawNode(viewState.name, highlight);
         }
         public override bool HasOverride()
         {
