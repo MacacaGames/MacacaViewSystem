@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
+using System.Linq;
 namespace CloudMacaca.ViewSystem
 {
     [CustomEditor(typeof(ViewElementRuntimePool))]
@@ -20,19 +21,33 @@ namespace CloudMacaca.ViewSystem
         }
         public override void OnInspectorGUI()
         {
+
             GUILayout.Label($"Pool Status");
-            using (var disable = new EditorGUI.DisabledGroupScope(true))
+
+            foreach (var item in runtimePool.GetDicts())
             {
-                foreach (var item in runtimePool.GetDicts())
+                var queue = item.Value;
+                if (queue == null)
                 {
-                    var queue = item.Value;
-                    if (queue == null)
-                    {
-                        continue;
-                    }
-                    GUILayout.Label($"{TryGetPoolNameByInstanceId(item.Key)} : {queue.Count}");
+                    continue;
+                }
+                GUILayout.Label($"{TryGetPoolNameByInstanceId(item.Key)} : {queue.Count}");
+            }
+            GUILayout.Label($"Recovery Queue Status");
+
+            foreach (var item in runtimePool.GetRecycleQueue())
+            {
+                var queue = item;
+                if (queue == null)
+                {
+                    continue;
+                }
+                if (GUILayout.Button($"{queue.name}"))
+                {
+                    EditorGUIUtility.PingObject(queue.gameObject);
                 }
             }
+
         }
 
         public string TryGetPoolNameByInstanceId(int id)

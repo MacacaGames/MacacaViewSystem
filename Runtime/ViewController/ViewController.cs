@@ -408,6 +408,9 @@ namespace CloudMacaca.ViewSystem
                 ViewSystemLog.LogError("ViewPage " + vp.name + " is not an Overlay page");
                 yield break;
             }
+            
+            //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
+            yield return runtimePool.RecoveryQueuedViewElement();
 
             var viewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
 

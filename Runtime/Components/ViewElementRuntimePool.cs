@@ -21,12 +21,17 @@ namespace CloudMacaca.ViewSystem
             return veDicts;
         }
         public Dictionary<int, string> veNameDicts = new Dictionary<int, string>();
+        public Queue<ViewElement> GetRecycleQueue()
+        {
+            return recycleQueue;
+        }
 #endif
         [SerializeField]
         Dictionary<int, ViewElement> uniqueVeDicts = new Dictionary<int, ViewElement>();
         Queue<ViewElement> recycleQueue = new Queue<ViewElement>();
         public void QueueViewElementToRecovery(ViewElement toRecovery)
         {
+
 
             toRecovery.rectTransform.SetParent(_hierachyPool.transformCache, true);
 
@@ -37,11 +42,13 @@ namespace CloudMacaca.ViewSystem
             }
             else
             {
-                recycleQueue.Enqueue(toRecovery);
+                if (!recycleQueue.Contains(toRecovery))
+                    recycleQueue.Enqueue(toRecovery);
             }
         }
         public void RecoveryViewElement(ViewElement toRecovery)
         {
+            Debug.Log($"Recovery {toRecovery.name}");
             if (toRecovery.IsUnique)
             {
                 // unique ViewElement just needs to disable gameObject
@@ -52,7 +59,7 @@ namespace CloudMacaca.ViewSystem
                 if (!veDicts.TryGetValue(toRecovery.PoolKey, out Queue<ViewElement> veQueue))
                 {
                     ViewSystemLog.LogWarning("Cannot find pool of ViewElement " + toRecovery.name + ", Destroy directly.", toRecovery);
-                   UnityEngine.Object.Destroy(toRecovery);
+                    UnityEngine.Object.Destroy(toRecovery);
                     return;
                 }
                 toRecovery.gameObject.SetActive(false);
@@ -129,16 +136,18 @@ namespace CloudMacaca.ViewSystem
                     veNameDicts.Add(source.GetInstanceID(), source.name);
 #endif
                 }
-                if (veQueue.Count == 0)
+                if (veQueue.Count > 0)
+                {
+                    result = veQueue.Dequeue();
+                    Debug.Log($"Request {source.name} from dequeue :  { Time.frameCount}");
+                }
+                else
                 {
                     var a = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
                     a.gameObject.SetActive(false);
                     a.name = source.name;
                     result = a;
-                }
-                else
-                {
-                    result = veQueue.Dequeue();
+                    Debug.Log($"Request {source.name} from generate new one : { Time.frameCount}");
                 }
             }
             result.PoolKey = source.GetInstanceID();
