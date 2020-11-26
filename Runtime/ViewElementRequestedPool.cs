@@ -49,7 +49,7 @@ public class ViewElementRequestedPool
 
             recoveryAction?.Invoke(ve);
         }
-        runtimePool.RecoveryQueuedViewElement(true);
+        //runtimePool.RecoveryQueuedViewElement(true);
     }
 
     public void Recovery(ViewElement ve, bool ignoreTransition = true)
@@ -57,7 +57,7 @@ public class ViewElementRequestedPool
         viewElementQueue.Remove(ve);
         ve.ChangePage(false, null, ignoreTransition: ignoreTransition);
         recoveryAction?.Invoke(ve);
-        runtimePool.RecoveryQueuedViewElement(true);
+        //runtimePool.RecoveryQueuedViewElement(true);
     }
 
     public int GetCurrentInUseViewElementCount()
