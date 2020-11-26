@@ -337,12 +337,14 @@ namespace CloudMacaca.ViewSystem
                 else
                     lastPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
 
+                //TODO: page will use same parent in later release.
                 if (item.runtimeParent == null)
                 {
                     item.runtimeParent = transformCache.Find(item.parentPath);
                 }
 
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, item.TweenTime, item.delayIn, item.delayOut);
+                item.runtimeViewElement.ApplyRectTransform(item.transformData);
             }
 
             //對進場的呼叫改變狀態(ViewPage)
@@ -408,7 +410,7 @@ namespace CloudMacaca.ViewSystem
                 ViewSystemLog.LogError("ViewPage " + vp.name + " is not an Overlay page");
                 yield break;
             }
-            
+
             //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
             yield return runtimePool.RecoveryQueuedViewElement();
 

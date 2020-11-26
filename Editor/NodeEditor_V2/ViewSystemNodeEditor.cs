@@ -778,6 +778,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         search = EditorGUILayout.TextField(search, new GUIStyle("SearchTextField"));
                     }
+
+
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));
@@ -798,6 +800,65 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     if (Event.current.type == EventType.Repaint) popupBtnRect = GUILayoutUtility.GetLastRect();
                 }
             }
+        }
+
+        public void MigrateToV3()
+        {
+            foreach (var vps in viewPageList)
+            {
+                foreach (var vpi in vps.viewPage.viewPageItems)
+                {
+                    if (vpi == null)
+                    {
+                        continue;
+                    }
+                    vpi.transformData = new ViewSystemRectTransformData();
+                    var parent = ViewControllerRoot.Find(vpi.parentPath) as RectTransform;
+                    if (parent != null)
+                    {
+                        vpi.transformData.anchoredPosition = parent.anchoredPosition3D;
+                        vpi.transformData.anchorMax = parent.anchorMax;
+                        vpi.transformData.anchorMin = parent.anchorMin;
+                        vpi.transformData.pivot = parent.pivot;
+                        vpi.transformData.localScale = parent.localScale;
+                        vpi.transformData.localEulerAngles = parent.localEulerAngles;
+                    }
+
+                    if (vpi.viewElement != null)
+                    {
+                        vpi.transformData.sizeDelta = vpi.viewElement.rectTransform.sizeDelta;
+                    }
+                }
+            }
+            foreach (var vss in viewStateList)
+            {
+                foreach (var vpi in vss.viewState.viewPageItems)
+                {
+                    if (vpi == null)
+                    {
+                        continue;
+                    }
+                    vpi.transformData = new ViewSystemRectTransformData();
+                    var parent = ViewControllerRoot.Find(vpi.parentPath) as RectTransform;
+                    if (parent != null)
+                    {
+                        vpi.transformData.anchoredPosition = parent.anchoredPosition3D;
+                        vpi.transformData.anchorMax = parent.anchorMax;
+                        vpi.transformData.anchorMin = parent.anchorMin;
+                        vpi.transformData.pivot = parent.pivot;
+                        vpi.transformData.localScale = parent.localScale;
+                        vpi.transformData.localEulerAngles = parent.localEulerAngles;
+                    }
+
+                    if (vpi.viewElement != null)
+                    {
+                        vpi.transformData.sizeDelta = vpi.viewElement.rectTransform.sizeDelta;
+                    }
+
+                }
+            }
+
+            dataReader.Save(viewPageList, viewStateList);
         }
 
         public bool IsNodeInactivable
@@ -907,6 +968,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             ViewSystemNodeEditor.allowPreviewWhenPlaying = EditorGUILayout.ToggleLeft("Allow Preview When Playing", ViewSystemNodeEditor.allowPreviewWhenPlaying);
             ViewSystemNodeEditor.overrideFromOrginal = EditorGUILayout.ToggleLeft("Get Override From Orginal Prefab", ViewSystemNodeEditor.overrideFromOrginal);
             ViewSystemNodeEditor.removeConnectWithoutAsk = EditorGUILayout.ToggleLeft("Remove Connect Without Ask", ViewSystemNodeEditor.removeConnectWithoutAsk);
+            if (GUILayout.Button("Migrate to V3"))
+            {
+                ViewSystemNodeEditor.Instance.MigrateToV3();
+            }
         }
     }
+
+
 }

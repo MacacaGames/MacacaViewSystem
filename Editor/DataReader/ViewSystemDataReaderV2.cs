@@ -133,6 +133,78 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         }
 
+        // public void OnViewPagePreview(ViewPage viewPage)
+        // {
+        //     if (data.globalSetting.UIRootScene == null)
+        //     {
+        //         ViewSystemLog.ShowNotification(editor, new GUIContent($"There is no canvas in your scene, do you enter EditMode?"), 2);
+        //         ViewSystemLog.LogError($"There is no canvas in your scene, do you enter EditMode?");
+        //         return;
+        //     }
+        //     //throw new System.NotImplementedException();
+        //     ClearAllViewElementInScene();
+        //     // 打開所有相關 ViewElements
+        //     ViewState viewPagePresetTemp;
+        //     List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
+
+        //     //從 ViewPagePreset 尋找 (ViewState)
+        //     if (!string.IsNullOrEmpty(viewPage.viewState))
+        //     {
+        //         viewPagePresetTemp = data.viewStates.Select(m => m.viewState).SingleOrDefault(m => m.name == viewPage.viewState);
+        //         if (viewPagePresetTemp != null)
+        //         {
+        //             viewItemForNextPage.AddRange(viewPagePresetTemp.viewPageItems);
+        //         }
+        //     }
+
+        //     //從 ViewPage 尋找
+        //     viewItemForNextPage.AddRange(viewPage.viewPageItems);
+
+        //     Transform root = ViewControllerTransform;
+
+        //     //打開相對應物件
+        //     foreach (ViewPageItem item in viewItemForNextPage)
+        //     {
+        //         if (item.viewElement == null)
+        //         {
+        //             ViewSystemLog.LogWarning($"There are some ViewElement didn't setup correctly in this page or state");
+        //             continue;
+        //         }
+        //         var temp = PrefabUtility.InstantiatePrefab(item.viewElement.gameObject);
+        //         ViewElement tempViewElement = ((GameObject)temp).GetComponent<ViewElement>();
+
+        //         tempViewElement.gameObject.SetActive(true);
+        //         var rectTransform = tempViewElement.GetComponent<RectTransform>();
+        //         Transform tempParent = root.Find(item.parentPath);
+        //         rectTransform.SetParent(tempParent, true);
+        //         rectTransform.anchoredPosition3D = Vector3.zero;
+        //         rectTransform.localScale = Vector3.one;
+
+        //         var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
+        //         if (mFix != null) mFix.ApplyModifyValue();
+
+        //         tempViewElement.ApplyOverrides(item.overrideDatas);
+        //         tempViewElement.ApplyNavigation(item.navigationDatas);
+
+        //         item.previewViewElement = tempViewElement;
+
+        //         //item.viewElement.SampleToLoopState();
+        //         if (tempViewElement.transition != ViewElement.TransitionType.Animator)
+        //             continue;
+
+        //         Animator animator = tempViewElement.animator;
+        //         AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+        //         foreach (AnimationClip clip in clips)
+        //         {
+        //             if (clip.name.ToLower().Contains(tempViewElement.AnimationStateName_Loop.ToLower()))
+        //             {
+        //                 clip.SampleAnimation(animator.gameObject, 0);
+        //             }
+        //         }
+        //     }
+        // }
+
+
         public void OnViewPagePreview(ViewPage viewPage)
         {
             if (data.globalSetting.UIRootScene == null)
@@ -161,7 +233,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewItemForNextPage.AddRange(viewPage.viewPageItems);
 
             Transform root = ViewControllerTransform;
-
+            Transform fullPageRoot = root.Find("UICanvas/Page_FullPage");
             //打開相對應物件
             foreach (ViewPageItem item in viewItemForNextPage)
             {
@@ -175,10 +247,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 tempViewElement.gameObject.SetActive(true);
                 var rectTransform = tempViewElement.GetComponent<RectTransform>();
-                Transform tempParent = root.Find(item.parentPath);
+                Transform tempParent = fullPageRoot;
                 rectTransform.SetParent(tempParent, true);
-                rectTransform.anchoredPosition3D = Vector3.zero;
-                rectTransform.localScale = Vector3.one;
 
                 var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
                 if (mFix != null) mFix.ApplyModifyValue();
@@ -187,6 +257,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 tempViewElement.ApplyNavigation(item.navigationDatas);
 
                 item.previewViewElement = tempViewElement;
+                tempViewElement.ApplyRectTransform(item.transformData);
 
                 //item.viewElement.SampleToLoopState();
                 if (tempViewElement.transition != ViewElement.TransitionType.Animator)

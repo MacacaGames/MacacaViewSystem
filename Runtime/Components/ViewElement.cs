@@ -96,6 +96,17 @@ namespace CloudMacaca.ViewSystem
             runtimeOverride.ApplyOverride(overrideDatas);
         }
 
+        public void ApplyRectTransform(ViewSystemRectTransformData transformData)
+        {
+            rectTransform.sizeDelta = transformData.sizeDelta;
+            rectTransform.anchoredPosition3D = transformData.anchoredPosition;
+            rectTransform.anchorMax = transformData.anchorMax;
+            rectTransform.anchorMin = transformData.anchorMin;
+            rectTransform.localEulerAngles = transformData.localEulerAngles;
+            rectTransform.localScale = transformData.localScale;
+            rectTransform.pivot = transformData.pivot;
+        }
+
         public virtual Selectable[] GetSelectables()
         {
             return GetComponentsInChildren<Selectable>();
@@ -289,7 +300,6 @@ namespace CloudMacaca.ViewSystem
                 //或是正在離開，都要重播 OnShow
                 if (IsShowed == false || OnLeaveWorking)
                 {
-                    // Debug.LogError(" rectTransform.SetParent(parent, true);");
                     rectTransform.SetParent(parent, true);
                     rectTransform.anchoredPosition3D = Vector3.zero;
                     rectTransform.localScale = Vector3.one;
@@ -299,7 +309,6 @@ namespace CloudMacaca.ViewSystem
                         time += GlobalTimer.deltaTime;
                         yield return null;
                     }
-                    // yield return Yielders.GetWaitForSecondsRealtime(delayIn);
                     OnShow();
                     goto END;
                 }
@@ -320,7 +329,6 @@ namespace CloudMacaca.ViewSystem
                     if (TweenTime >= 0)
                     {
                         rectTransform.SetParent(parent, true);
-
                         var marginFixer = GetComponent<ViewMarginFixer>();
                         // viewController.StartMicroCoroutine(EaseMethods.EaseVector3(
                         //        rectTransform.anchoredPosition3D,
@@ -737,11 +745,6 @@ namespace CloudMacaca.ViewSystem
             {
                 return;
             }
-            // Debug.LogError(" rectTransform.SetParent(viewElementPool.transformCache, true);");
-
-            //rectTransform.SetParent(viewElementPool.transformCache, true);
-            // rectTransform.anchoredPosition = Vector2.zero;
-            // rectTransform.localScale = Vector3.one;
 
             if (runtimePool != null)
             {

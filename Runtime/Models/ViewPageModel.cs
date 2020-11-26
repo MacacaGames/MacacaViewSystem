@@ -121,9 +121,7 @@ namespace CloudMacaca.ViewSystem
         public float delayOut;
         public List<ViewElementNavigationData> navigationDatas = new List<ViewElementNavigationData>();
         public PlatformOption excludePlatform = PlatformOption.Nothing;
-
-        public List<ViewSystemRectTransformData> transformData = new List<ViewSystemRectTransformData>();
-
+        public ViewSystemRectTransformData transformData;
 
         [System.Flags]
         public enum PlatformOption
