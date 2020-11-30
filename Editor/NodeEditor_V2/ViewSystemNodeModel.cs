@@ -11,8 +11,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public const int ViewStateNodeHeight = 60;
         public const int ViewPageNodeHeight = 80;
         protected int id;
-        // List<ViewSystemNodeLine> CurrentConnectLine = new List<ViewSystemNodeLine>();
-        //public ViewSystemNodeLinker nodeConnectionLinker;
         public enum NodeType
         {
             FullPage, Overlay, ViewState,
@@ -210,9 +208,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             drawRect.x += editorViewPortScroll.x;
             drawRect.y += editorViewPortScroll.y;
 
-            //Draw Linker
-            //if (nodeConnectionLinker != null) nodeConnectionLinker.Draw(drawRect);
-
             if (nodeType == ViewStateNode.NodeType.ViewState)
             {
                 GUI.depth = -1;
@@ -228,12 +223,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             if (isSelect)
             {
-                //GUI.Box(drawRect, "", new GUIStyle(nodeStyleString + " on"));
                 GUI.Box(drawRect, "", currentStyle_on);
             }
             else
             {
-                //GUI.Box(drawRect, "", new GUIStyle(nodeStyleString));
                 GUI.Box(drawRect, "", currentStyle);
             }
 
@@ -362,10 +355,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     }
                     break;
             }
-            // if (isSelect && !string.IsNullOrEmpty(name))
-            // {
-            //     GUI.Label(new Rect(rect.x, rect.y - 15, 20, 10), "", new GUIStyle("sv_label_1"));
-            // }
+           
             return false;
         }
     }
@@ -395,7 +385,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             this.rect = new Rect(mousePosition.x, mousePosition.y, ViewSystemNodeWidth, ViewPageNodeHeight);
             this.nodeType = isOverlay ? NodeType.Overlay : NodeType.FullPage;
-            //this.nodeConnectionLinker = new ViewSystemNodeLinker(this, OnConnect);
             this.OnNodeTypeConvert = OnNodeTypeConvert;
             SetupNode();
         }
@@ -405,21 +394,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             OnNodeTypeConvert(currentLinkedViewStateNode, this);
             currentLinkedViewStateNode = null;
             var isOverlay = nodeType == NodeType.Overlay;
-            // if (isOverlay)
-            // {
-            //     this.viewPage.viewState = "";
-            // }
             this.viewPage.viewPageType = isOverlay ? ViewPage.ViewPageType.Overlay : ViewPage.ViewPageType.FullPage;
-            //this.nodeConnectionLinker.type = isOverlay ? ConnectionPointType.Overlay : ConnectionPointType.FullPage;
-            // switch (nodeType)
-            // {
-            //     case NodeType.FullPage:
-            //         nodeStyleString = "flow node 3";
-            //         break;
-            //     case NodeType.Overlay:
-            //         nodeStyleString = "flow node 5";
-            //         break;
-            // }
         }
         public override void Draw(bool highlight)
         {
@@ -459,8 +434,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public ViewPage viewPage;
     }
 
-
-
     public class ViewStateNode : ViewSystemNode
     {
         // ViewStateNode 可以連到多個 ViewPageNode
@@ -478,8 +451,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
             this.rect = new Rect(mousePosition.x, mousePosition.y, ViewSystemNodeWidth, ViewStateNodeHeight);
             this.nodeType = NodeType.ViewState;
-            //this.nodeConnectionLinker = new ViewSystemNodeLinker(this, OnConnect);
-            // nodeStyleString = "flow node 1";
         }
 
         public override void Draw(bool highlight)
@@ -505,131 +476,4 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         public ViewState viewState;
     }
-
-    // //ViewSystemNodeLinker is no longer used
-    // public enum ConnectionPointType { State, FullPage, Overlay }
-    // /// <summary>
-    // /// ViewSystemNodeConnectionPoint 代表一個 Node 上的一個連結點
-    // /// 一個連結點可以使用 ViewSystemNodeConnectionLine 來進行連線
-    // /// </summary>
-    // public class ViewSystemNodeLinker
-    // {
-    //     //連結點所屬的節點
-    //     public ViewSystemNode viewSystemNode;
-    //     // const int ConnectNodeWidth = 28;
-    //     // const int ConnectNodeHeight = 28;
-    //     //public Rect rect;
-    //     //public ConnectionPointType type;
-    //     //public GUIStyle style = GUIStyle.none;
-    //     //public GUIContent content;
-    //     public Action<ViewSystemNode> OnConnectionPointClick;
-
-    //     public ViewSystemNodeLinker(ViewSystemNode viewSystemNode, Action<ViewSystemNode> OnConnectionPointClick)
-    //     {
-    //         //this.type = type;
-    //         this.OnConnectionPointClick = OnConnectionPointClick;
-    //         this.viewSystemNode = viewSystemNode;
-    //     }
-    //     public void Draw(Rect target)
-    //     {
-    //         // switch (type)
-    //         // {
-    //         //     case ConnectionPointType.State:
-    //         //         rect = new Rect(target.x + target.width * 0.5f - ConnectNodeWidth * 0.5f, target.y + target.height - ConnectNodeHeight * 0.5f, ConnectNodeWidth, ConnectNodeHeight);
-
-    //         //         content = new GUIContent(EditorGUIUtility.FindTexture("sv_icon_dot9_pix16_gizmo"));
-    //         //         //winbtn_mac_min
-    //         //         break;
-    //         //     case ConnectionPointType.FullPage:
-    //         //         rect = new Rect(target.x + target.width * 0.5f - ConnectNodeWidth * 0.5f, target.y - ConnectNodeHeight * 0.5f, ConnectNodeWidth, ConnectNodeHeight);
-    //         //         content = new GUIContent(EditorGUIUtility.FindTexture("sv_icon_dot11_pix16_gizmo"));
-    //         //         break;
-    //         //     case ConnectionPointType.Overlay:
-    //         //         rect = new Rect(target.x + target.width * 0.5f - ConnectNodeWidth * 0.5f, target.y - ConnectNodeHeight * 0.5f, ConnectNodeWidth, ConnectNodeHeight);
-    //         //         content = new GUIContent(EditorGUIUtility.FindTexture("sv_icon_dot13_pix16_gizmo"));
-    //         //         break;
-    //         // }
-    //         // GUI.depth = -2;
-    //         // if (GUI.Button(rect, content, style))
-    //         // {
-    //         //     if (viewSystemNode.IsInactivable == false) return;
-    //         //     if (OnConnectionPointClick != null) OnConnectionPointClick(viewSystemNode);
-    //         // }
-    //     }
-    // }
-
-
-
-    // public class ViewSystemNodeLine
-    // {
-    //     Color _lineColor;
-
-    //     Color lineColor
-    //     {
-    //         get
-    //         {
-    //             if (_lineColor == null)
-    //             {
-    //                 _lineColor = new Color(0.34f, 0.56f, 0.92f, 1);
-    //             }
-    //             return _lineColor;
-    //         }
-    //     }
-    //     public ViewStateNode viewStateNode;
-    //     public ViewPageNode viewPageNode;
-    //     private Action<ViewSystemNodeLine> OnRemoveConnectionClick;
-    //     public ViewSystemNodeLine(ViewStateNode viewStateNode, ViewPageNode viewPageNode, Action<ViewSystemNodeLine> OnRemoveConnectionClick)
-    //     {
-    //         this.viewStateNode = viewStateNode;
-    //         this.viewPageNode = viewPageNode;
-    //         this.OnRemoveConnectionClick = OnRemoveConnectionClick;
-    //     }
-    //     public bool IsInactivable
-    //     {
-    //         get
-    //         {
-    //             return ViewSystemNodeEditor.Instance.IsNodeInactivable;
-    //         }
-    //     }
-    //     bool isSelect = false;
-    //     public void Draw()
-    //     {
-    //         Vector3 startPoint = viewPageNode.drawRect.center;
-    //         startPoint.y -= viewPageNode.rect.height * 0.5f;
-    //         Vector3 endPoint = viewStateNode.drawRect.center;
-    //         endPoint.y += viewStateNode.rect.height * 0.5f;
-
-    //         Handles.DrawBezier(
-    //             startPoint,
-    //             endPoint,
-    //             startPoint,
-    //             endPoint,
-    //             Color.gray,
-    //             null,
-    //             5f
-    //         );
-
-    //         if (GUI.Button(new Rect(startPoint.x - 8, startPoint.y - 12, 16, 16), EditorGUIUtility.FindTexture("d_winbtn_mac_close_h"), GUIStyle.none))
-    //         {
-    //             if (!IsInactivable)
-    //             {
-    //                 return;
-    //             }
-    //             if (!ViewSystemNodeEditor.removeConnectWithoutAsk)
-    //             {
-    //                 if (!EditorUtility.DisplayDialog("Warning",
-    //                                     "Do you really wants to break the connect between ViewState and ViewPage?", "Yes", "No"))
-    //                 {
-    //                     return;
-    //                 }
-    //             }
-
-    //             viewPageNode.viewPage.viewState = "";
-    //             if (OnRemoveConnectionClick != null)
-    //             {
-    //                 OnRemoveConnectionClick(this);
-    //             }
-    //         }
-    //     }
-    // }
 }
