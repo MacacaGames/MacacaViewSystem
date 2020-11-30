@@ -108,7 +108,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         public void ClearEditor()
         {
-            nodeConnectionLineList.Clear();
+            // nodeConnectionLineList.Clear();
             viewStateList.Clear();
             viewPageList.Clear();
             viewStatesPopup.Clear();
@@ -121,7 +121,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         List<ViewPageNode> viewPageList = new List<ViewPageNode>();
         List<ViewStateNode> viewStateList = new List<ViewStateNode>();
-        List<ViewSystemNodeLine> nodeConnectionLineList = new List<ViewSystemNodeLine>();
+        // List<ViewSystemNodeLine> nodeConnectionLineList = new List<ViewSystemNodeLine>();
         public ViewSystemNodeConsole console;
         public static float zoomScale = 1.0f;
         Rect scriptViewRect;
@@ -146,6 +146,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             if (navigationWindow != null) navigationWindow.OnGUI();
             EndWindows();
         }
+        List<Rect> calculateCache = new List<Rect>();
         void DrawNode()
         {
 
@@ -154,16 +155,28 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             EditorZoomArea.NoGroupBegin(zoomScale, scriptViewRect);
             DrawGrid();
 
+
+            // foreach (var item in nodeConnectionLineList.ToArray())
+            // {
+            //     item.Draw();
+            // }
             foreach (var item in viewStateList.ToArray())
             {
 
+                if (!string.IsNullOrEmpty(item.viewState.name))
+                {
+                    //Draw Bounds
+                    calculateCache.Clear();
+                    calculateCache.Add(item.drawRect);
+                    if (viewPageList.Count(m => m.viewPage.viewState == item.viewState.name) > 0)
+                    {
+                        calculateCache.AddRange(viewPageList.Where(m => m.viewPage.viewState == item.viewState.name).Select(m => m.drawRect));
+                        Rect rect = VS_EditorUtility.CalculateBoundsRectFromRects(calculateCache, new Vector2(20, 20));
+                        GUI.Box(rect, "", new GUIStyle("SelectionRect"));
+                    }
+                }
                 item.Draw(false);
             }
-            foreach (var item in nodeConnectionLineList.ToArray())
-            {
-                item.Draw();
-            }
-
             foreach (var item in viewPageList.ToArray())
             {
                 bool highlight = false;
@@ -179,6 +192,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 item.Draw(highlight);
             }
+
+
+
             DrawCurrentConnectionLine(Event.current);
             EditorZoomArea.NoGroupEnd();
 
@@ -273,14 +289,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 lastSelectNode = m;
                 inspector.SetCurrentSelectItem(m);
             };
-            node.OnNodeDelete += (line) =>
+            node.OnNodeDelete += () =>
             {
                 dataReader.OnViewStateDelete(node);
                 viewStateList.Remove(node);
-                foreach (var item in line)
-                {
-                    nodeConnectionLineList.Remove(item);
-                }
+                // foreach (var item in line)
+                // {
+                //     nodeConnectionLineList.Remove(item);
+                // }
             };
 
             if (viewState == null)
@@ -296,9 +312,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             var node = new ViewPageNode(position, isOverlay, CheckCanMakeConnect,
                 (vsn, vpn) =>
                 {
-                    var oriLine = FindViewSystemNodeConnectionLine(vsn, vpn);
+                    // var oriLine = FindViewSystemNodeConnectionLine(vsn, vpn);
                     if (vsn != null) vsn.currentLinkedViewPageNode.Remove(vpn);
-                    if (oriLine != null) nodeConnectionLineList.Remove(oriLine);
+                    // if (oriLine != null) nodeConnectionLineList.Remove(oriLine);
                 },
                 viewPage
             );
@@ -311,15 +327,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 lastSelectNode = m;
                 inspector.SetCurrentSelectItem(m);
             };
-            node.OnNodeDelete += (line) =>
+            node.OnNodeDelete += () =>
             {
                 dataReader.OnViewPageDelete(node);
                 viewPageList.Remove(node);
-                foreach (var item in line)
-                {
-                    nodeConnectionLineList.Remove(item);
-                }
+                // foreach (var item in line)
+                // {
+                //     nodeConnectionLineList.Remove(item);
+                // }
             };
+            node.OnDisConnect = OnDisconnect;
             if (viewPage == null)
             {
                 dataReader.OnViewPageAdd(node);
@@ -350,8 +367,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                 {
                                     pagenode.viewPage.viewState = string.Empty;
                                     pagenode.currentLinkedViewStateNode = null;
-                                    var oriConnect = FindViewSystemNodeConnectionLine(selectedViewStateNode, pagenode);
-                                    nodeConnectionLineList.Remove(oriConnect);
+                                    // var oriConnect = FindViewSystemNodeConnectionLine(selectedViewStateNode, pagenode);
+                                    // nodeConnectionLineList.Remove(oriConnect);
                                 }
                                 selectedViewStateNode.currentLinkedViewPageNode.Clear();
                                 CreateConnection();
@@ -380,8 +397,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                             //刪掉線
                             console.LogWarringMessage("Break original link, create new link");
-                            var oriConnect = FindViewSystemNodeConnectionLine(selectedViewPageNode.currentLinkedViewStateNode, selectedViewPageNode);
-                            nodeConnectionLineList.Remove(oriConnect);
+                            // var oriConnect = FindViewSystemNodeConnectionLine(selectedViewPageNode.currentLinkedViewStateNode, selectedViewPageNode);
+                            // nodeConnectionLineList.Remove(oriConnect);
                             CreateConnection();
                             ClearConnectionSelection();
                         }
@@ -410,8 +427,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                 {
                                     pagenode.viewPage.viewState = string.Empty;
                                     pagenode.currentLinkedViewStateNode = null;
-                                    var oriConnect = FindViewSystemNodeConnectionLine(selectedViewStateNode, pagenode);
-                                    nodeConnectionLineList.Remove(oriConnect);
+                                    // var oriConnect = FindViewSystemNodeConnectionLine(selectedViewStateNode, pagenode);
+                                    // nodeConnectionLineList.Remove(oriConnect);
                                 }
                                 selectedViewStateNode.currentLinkedViewPageNode.Clear();
 
@@ -439,8 +456,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             selectedViewPageNode.currentLinkedViewStateNode.currentLinkedViewPageNode.Remove(selectedViewPageNode);
 
                             //刪掉線
-                            var oriConnect = FindViewSystemNodeConnectionLine(selectedViewPageNode.currentLinkedViewStateNode, selectedViewPageNode);
-                            nodeConnectionLineList.Remove(oriConnect);
+                            // var oriConnect = FindViewSystemNodeConnectionLine(selectedViewPageNode.currentLinkedViewStateNode, selectedViewPageNode);
+                            // nodeConnectionLineList.Remove(oriConnect);
                             CreateConnection();
                             ClearConnectionSelection();
                         }
@@ -470,8 +487,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                 {
                                     pagenode.viewPage.viewState = string.Empty;
                                     pagenode.currentLinkedViewStateNode = null;
-                                    var oriConnect = FindViewSystemNodeConnectionLine(selectedViewStateNode, pagenode);
-                                    nodeConnectionLineList.Remove(oriConnect);
+                                    // var oriConnect = FindViewSystemNodeConnectionLine(selectedViewStateNode, pagenode);
+                                    // nodeConnectionLineList.Remove(oriConnect);
                                 }
                                 selectedViewStateNode.currentLinkedViewPageNode.Clear();
 
@@ -499,8 +516,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             selectedViewPageNode.currentLinkedViewStateNode.currentLinkedViewPageNode.Remove(selectedViewPageNode);
 
                             //刪掉線
-                            var oriConnect = FindViewSystemNodeConnectionLine(selectedViewPageNode.currentLinkedViewStateNode, selectedViewPageNode);
-                            nodeConnectionLineList.Remove(oriConnect);
+                            // var oriConnect = FindViewSystemNodeConnectionLine(selectedViewPageNode.currentLinkedViewStateNode, selectedViewPageNode);
+                            // nodeConnectionLineList.Remove(oriConnect);
                             CreateConnection();
                             ClearConnectionSelection();
                         }
@@ -538,28 +555,35 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             viewStateNode.currentLinkedViewPageNode.Add(viewPageNode);
             viewPageNode.currentLinkedViewStateNode = viewStateNode;
-            var line = new ViewSystemNodeLine(
-                viewStateNode,
-                viewPageNode,
-                RemoveConnection);
+            // var line = new ViewSystemNodeLine(
+            //     viewStateNode,
+            //     viewPageNode,
+            //     RemoveConnection);
 
-            viewStateNode.OnNodeConnect(viewPageNode, line);
-            viewPageNode.OnNodeConnect(viewStateNode, line);
+            viewStateNode.OnNodeConnect(viewPageNode);
+            viewPageNode.OnNodeConnect(viewStateNode);
             // View
-            nodeConnectionLineList.Add(line);
+            // nodeConnectionLineList.Add(line);
             console.LogMessage("Create Link, State:" + viewStateNode.viewState.name + ", Page :" + viewPageNode.viewPage.name);
         }
 
-        ViewSystemNodeLine FindViewSystemNodeConnectionLine(ViewStateNode viewStateNode, ViewPageNode viewPageNode)
-        {
-            return nodeConnectionLineList.SingleOrDefault(x => x.viewPageNode == viewPageNode && x.viewStateNode == viewStateNode);
-        }
+        // ViewSystemNodeLine FindViewSystemNodeConnectionLine(ViewStateNode viewStateNode, ViewPageNode viewPageNode)
+        // {
+        //     return nodeConnectionLineList.SingleOrDefault(x => x.viewPageNode == viewPageNode && x.viewStateNode == viewStateNode);
+        // }
 
-        void RemoveConnection(ViewSystemNodeLine connectionLine)
+        // void RemoveConnection(ViewSystemNodeLine connectionLine)
+        // {
+        //     connectionLine.viewPageNode.currentLinkedViewStateNode = null;
+        //     connectionLine.viewStateNode.currentLinkedViewPageNode.Remove(connectionLine.viewPageNode);
+        //     nodeConnectionLineList.Remove(connectionLine);
+        // }
+
+        void OnDisconnect(ViewPageNode viewPageNode)
         {
-            connectionLine.viewPageNode.currentLinkedViewStateNode = null;
-            connectionLine.viewStateNode.currentLinkedViewPageNode.Remove(connectionLine.viewPageNode);
-            nodeConnectionLineList.Remove(connectionLine);
+            viewPageNode.currentLinkedViewStateNode.currentLinkedViewPageNode.Remove(viewPageNode);
+            viewPageNode.currentLinkedViewStateNode = null;
+            viewPageNode.viewPage.viewState = "";
         }
 
         private void ClearConnectionSelection()
