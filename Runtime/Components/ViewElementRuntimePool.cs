@@ -48,7 +48,7 @@ namespace CloudMacaca.ViewSystem
         }
         public void RecoveryViewElement(ViewElement toRecovery)
         {
-            Debug.Log($"Recovery {toRecovery.name}");
+            // Debug.Log($"Recovery {toRecovery.name}");
             if (toRecovery.IsUnique)
             {
                 // unique ViewElement just needs to disable gameObject
@@ -139,7 +139,7 @@ namespace CloudMacaca.ViewSystem
                 if (veQueue.Count > 0)
                 {
                     result = veQueue.Dequeue();
-                    Debug.Log($"Request {source.name} from dequeue :  { Time.frameCount}");
+                    // Debug.Log($"Request {source.name} from dequeue :  { Time.frameCount}");
                 }
                 else
                 {
@@ -147,7 +147,7 @@ namespace CloudMacaca.ViewSystem
                     a.gameObject.SetActive(false);
                     a.name = source.name;
                     result = a;
-                    Debug.Log($"Request {source.name} from generate new one : { Time.frameCount}");
+                    // Debug.Log($"Request {source.name} from generate new one : { Time.frameCount}");
                 }
             }
             result.PoolKey = source.GetInstanceID();

@@ -8,6 +8,20 @@ namespace CloudMacaca.ViewSystem
 {
     public class VS_EditorUtility
     {
+        public static Rect CalculateBoundsRectFromRects(IEnumerable<Rect> rects,Vector2 padding)
+        {
+            float xMin= 9999999f,xMax=0,yMin= 9999999f,yMax = 0;
+            foreach (var item in rects)
+            {
+                xMin= Mathf.Min(item.xMin, xMin);
+                xMax = Mathf.Max(item.xMax, xMax);
+                yMin= Mathf.Min(item.yMin, yMin);
+                yMax = Mathf.Max(item.yMax, yMax);
+            }
+            
+            Rect result = new Rect(new Vector2(xMin - padding.x,yMin - padding.y),new Vector2(xMax-xMin + padding.x*2,yMax-yMin+ padding.y*2));
+            return result;
+        }
         public static bool IsPropertyNeedIgnore(SerializedProperty prop)
         {
             return prop.name == "m_Script" ||
