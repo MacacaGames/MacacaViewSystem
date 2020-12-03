@@ -95,6 +95,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         List<ViewPageItem> list;
         List<EditableLockItem> editableLock = new List<EditableLockItem>();
+        List<int> transformEditStatus = new List<int>();
         class EditableLockItem
         {
             public EditableLockItem(bool defaultValue)
@@ -140,9 +141,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
 
             editableLock.Clear();
+            transformEditStatus.Clear();
             list.All(x =>
             {
                 editableLock.Add(new EditableLockItem(true));
+                transformEditStatus.Add(string.IsNullOrEmpty(x.parentPath) ? 0 : 1);
                 return true;
             });
             RebuildInspector();
@@ -243,6 +246,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
 
             editableLock.Add(new EditableLockItem(true));
+            transformEditStatus.Add(0);
             // RebuildInspector();
         }
 
@@ -543,145 +547,171 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 GUI.Label(new Rect(veRect.x, veRect.y, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
             }
+            rect.y += EditorGUIUtility.singleLineHeight + 5;
+            transformEditStatus[index] = GUI.Toolbar(rect, transformEditStatus[index], new string[] { "RectTransfrom", "Custom Parent" }, new GUIStyle("MiniToolbarButtonLeft"));
             rect.y += EditorGUIUtility.singleLineHeight;
 
-            veRect = rect;
-            veRect.width = rect.width - 20;
-            if (!editableLock[index].parent)
+            switch (transformEditStatus[index])
             {
-                using (var check = new EditorGUI.ChangeCheckScope())
-                {
-                    list[index].parentPath = EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), list[index].parentPath);
-                    if (check.changed)
+                case 0:
                     {
-                        if (!string.IsNullOrEmpty(list[index].parentPath))
+                        Rect smartPositionAndSizeRect = rect;
+                        Rect layoutButtonRect = rect;
+                        layoutButtonRect.x -= 10;
+                        layoutButtonRect.y -= 5;
+                        layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
+                        layoutButtonRect.height = EditorGUIUtility.singleLineHeight * 2;
+                        LayoutDropdownButton(layoutButtonRect, list[index].transformData, false);
+                        smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
+                        SmartPositionAndSizeFields(smartPositionAndSizeRect, true, list[index].transformData, false, false);
+                    }
+                    break;
+                case 1:
+                    {
+                        veRect = rect;
+                        veRect.width = rect.width - 20;
+
+                        if (!editableLock[index].parent)
                         {
-                            var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
-                            if (target)
+                            using (var check = new EditorGUI.ChangeCheckScope())
                             {
-                                list[index].parent = target.transform;
+                                list[index].parentPath = EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), list[index].parentPath);
+                                if (check.changed)
+                                {
+                                    if (!string.IsNullOrEmpty(list[index].parentPath))
+                                    {
+                                        var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
+                                        if (target)
+                                        {
+                                            list[index].parent = target.transform;
+                                        }
+                                    }
+                                    else
+                                        list[index].parent = null;
+                                }
                             }
                         }
                         else
-                            list[index].parent = null;
+                        {
+                            string shortPath = "";
+                            if (!string.IsNullOrEmpty(list[index]?.parentPath))
+                            {
+                                shortPath = list[index].parentPath.Split('/').Last();
+                            }
+                            using (var disable = new EditorGUI.DisabledGroupScope(true))
+                            {
+                                EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), shortPath);
+                            }
+                        }
+
+                        if (!string.IsNullOrEmpty(list[index].parentPath))
+                        {
+                            var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
+                            if (target == null)
+                            {
+                                GUI.Label(new Rect(veRect.x - 24, veRect.y, 24, 24), new GUIContent(Drawer.miniErrorIcon, "Transform cannot found in this item."));
+                            }
+                        }
+
+
+
+                        veRect.x += veRect.width;
+                        veRect.width = 20;
+                        editableLock[index].parent = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index].parent, new GUIStyle("IN LockButton"));
+
+                        rect.y += EditorGUIUtility.singleLineHeight;
+
+                        if (editableLock[index].parent)
+                        {
+                            var parentFunctionRect = rect;
+                            parentFunctionRect.width = rect.width * 0.32f;
+                            parentFunctionRect.x += rect.width * 0.01f;
+                            if (GUI.Button(parentFunctionRect, new GUIContent("Pick", "Pick Current Select Transform")))
+                            {
+                                var item = Selection.transforms;
+                                if (item.Length > 1)
+                                {
+                                    editor.console.LogErrorMessage("Only object can be selected.");
+                                    goto PICK_BREAK;
+                                }
+                                if (item.Length == 0)
+                                {
+                                    editor.console.LogErrorMessage("No object is been select, please check object is in scene or not.");
+                                    goto PICK_BREAK;
+                                }
+                                list[index].parent = item.First();
+                            }
+                        // Due to while using auto layout we cannot return
+                        // Therefore use goto to escap the if scope
+                        PICK_BREAK:
+                            parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
+                            if (GUI.Button(parentFunctionRect, new GUIContent("Select Parent", "Highlight parent Transform object")))
+                            {
+                                var go = GameObject.Find(list[index].parentPath);
+                                if (go)
+                                {
+                                    EditorGUIUtility.PingObject(go);
+                                    Selection.objects = new[] { go };
+                                }
+                                else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                            }
+                            parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
+                            if (GUI.Button(parentFunctionRect, new GUIContent("Select Preview", "Highlight the preview ViewElement object (Only work while is preview the selected page)")))
+                            {
+                                if (list[index].previewViewElement)
+                                {
+                                    EditorGUIUtility.PingObject(list[index].previewViewElement);
+                                    Selection.objects = new[] { list[index].previewViewElement.gameObject };
+                                }
+                                else if (Application.isPlaying && list[index].runtimeViewElement)
+                                {
+                                    EditorGUIUtility.PingObject(list[index].runtimeViewElement);
+                                    Selection.objects = new[] { list[index].runtimeViewElement.gameObject };
+                                }
+                                else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                                // var go = GameObject.Find(list[index].parentPath);
+                                // if (go.transform.childCount > 0)
+                                // {
+                                //     var pi = go.transform.Find(list[index].viewElement.name);
+                                //     if (pi)
+                                //     {
+                                //         EditorGUIUtility.PingObject(pi);
+                                //         Selection.objects = new[] { pi };
+                                //     }
+                                //     else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                                // }
+                                // else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                            }
+                        }
+                        else
+                        {
+                            list[index].parent = (Transform)EditorGUI.ObjectField(rect, "Drag to here", list[index].parent, typeof(Transform), true);
+                        }
+
+                        if (list[index].parent != null)
+                        {
+                            var path = AnimationUtility.CalculateTransformPath(list[index].parent, null);
+                            var sp = path.Split('/');
+                            if (sp.First() == editor.ViewControllerRoot.name)
+                            {
+                                list[index].parentPath = path.Substring(sp.First().Length + 1);
+                            }
+                            else
+                            {
+                                editor.console.LogErrorMessage("Selected Parent is not child of ViewController GameObject");
+                                ViewSystemLog.LogError("Selected Parent is not child of ViewController GameObject");
+                                list[index].parent = null;
+                            }
+                        }
                     }
-                }
-            }
-            else
-            {
-                string shortPath = "";
-                if (!string.IsNullOrEmpty(list[index]?.parentPath))
-                {
-                    shortPath = list[index].parentPath.Split('/').Last();
-                }
-                using (var disable = new EditorGUI.DisabledGroupScope(true))
-                {
-                    EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), shortPath);
-                }
-            }
-
-            if (!string.IsNullOrEmpty(list[index].parentPath))
-            {
-                var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
-                if (target == null)
-                {
-                    GUI.Label(new Rect(veRect.x - 24, veRect.y, 24, 24), new GUIContent(Drawer.miniErrorIcon, "Transform cannot found in this item."));
-                }
+                    break;
             }
 
 
-
-            veRect.x += veRect.width;
-            veRect.width = 20;
-            editableLock[index].parent = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index].parent, new GUIStyle("IN LockButton"));
-
-            rect.y += EditorGUIUtility.singleLineHeight;
-
-            if (editableLock[index].parent)
-            {
-                var parentFunctionRect = rect;
-                parentFunctionRect.width = rect.width * 0.32f;
-                parentFunctionRect.x += rect.width * 0.01f;
-                if (GUI.Button(parentFunctionRect, new GUIContent("Pick", "Pick Current Select Transform")))
-                {
-                    var item = Selection.transforms;
-                    if (item.Length > 1)
-                    {
-                        editor.console.LogErrorMessage("Only object can be selected.");
-                        goto PICK_BREAK;
-                    }
-                    if (item.Length == 0)
-                    {
-                        editor.console.LogErrorMessage("No object is been select, please check object is in scene or not.");
-                        goto PICK_BREAK;
-                    }
-                    list[index].parent = item.First();
-                }
-            // Due to while using auto layout we cannot return
-            // Therefore use goto to escap the if scope
-            PICK_BREAK:
-                parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
-                if (GUI.Button(parentFunctionRect, new GUIContent("Select Parent", "Highlight parent Transform object")))
-                {
-                    var go = GameObject.Find(list[index].parentPath);
-                    if (go)
-                    {
-                        EditorGUIUtility.PingObject(go);
-                        Selection.objects = new[] { go };
-                    }
-                    else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                }
-                parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
-                if (GUI.Button(parentFunctionRect, new GUIContent("Select Preview", "Highlight the preview ViewElement object (Only work while is preview the selected page)")))
-                {
-                    if (list[index].previewViewElement)
-                    {
-                        EditorGUIUtility.PingObject(list[index].previewViewElement);
-                        Selection.objects = new[] { list[index].previewViewElement.gameObject };
-                    }
-                    else if (Application.isPlaying && list[index].runtimeViewElement)
-                    {
-                        EditorGUIUtility.PingObject(list[index].runtimeViewElement);
-                        Selection.objects = new[] { list[index].runtimeViewElement.gameObject };
-                    }
-                    else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                    // var go = GameObject.Find(list[index].parentPath);
-                    // if (go.transform.childCount > 0)
-                    // {
-                    //     var pi = go.transform.Find(list[index].viewElement.name);
-                    //     if (pi)
-                    //     {
-                    //         EditorGUIUtility.PingObject(pi);
-                    //         Selection.objects = new[] { pi };
-                    //     }
-                    //     else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                    // }
-                    // else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                }
-            }
-            else
-            {
-                list[index].parent = (Transform)EditorGUI.ObjectField(rect, "Drag to here", list[index].parent, typeof(Transform), true);
-            }
-
-            if (list[index].parent != null)
-            {
-                var path = AnimationUtility.CalculateTransformPath(list[index].parent, null);
-                var sp = path.Split('/');
-                if (sp.First() == editor.ViewControllerRoot.name)
-                {
-                    list[index].parentPath = path.Substring(sp.First().Length + 1);
-                }
-                else
-                {
-                    editor.console.LogErrorMessage("Selected Parent is not child of ViewController GameObject");
-                    ViewSystemLog.LogError("Selected Parent is not child of ViewController GameObject");
-                    list[index].parent = null;
-                }
-            }
 
             rect.width = 18;
             rect.x -= 21;
+            rect.y = oriRect.y += 20;
             if (GUI.Button(rect, new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), Drawer.removeButtonStyle))
             {
                 viewPageItemList.index = index;
@@ -738,6 +768,239 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             GUILayout.EndArea();
             //DrawResizeBar();
         }
+        //source from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/Inspector/RectTransformEditor.cs
+        private delegate float FloatGetter(ViewSystemRectTransformData rect);
+        private delegate void FloatSetter(ViewSystemRectTransformData rect, float f);
+        void FloatFieldLabelAbove(Rect position, FloatGetter getter, FloatSetter setter, ViewSystemRectTransformData _rectTransform, DrivenTransformProperties driven, GUIContent label)
+        {
+            float lableWidth = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = 45;
+            // using (new EditorGUI.DisabledScope(targets.Any(x => ((x as RectTransform).drivenProperties & driven) != 0)))
+            // {
+            float value = getter(_rectTransform);
+            using (var change = new EditorGUI.ChangeCheckScope())
+            {
+
+                Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+                float newValue = EditorGUI.FloatField(positionLabel, label, value, EditorStyles.textField);
+                if (change.changed)
+                {
+                    setter(_rectTransform, newValue);
+                }
+            }
+            EditorGUIUtility.labelWidth = lableWidth;
+            // }
+        }
+        void LayoutDropdownButton(Rect dropdownPosition, ViewSystemRectTransformData rectTransformData, bool anyWithoutParent)
+        {
+            dropdownPosition.x += 2;
+            dropdownPosition.y += 17;
+            // using (new EditorGUI.DisabledScope(anyWithoutParent))
+            // {
+            Color oldColor = GUI.color;
+            GUI.color = new Color(1, 1, 1, 0.6f) * oldColor;
+            if (EditorGUI.DropdownButton(dropdownPosition, GUIContent.none, FocusType.Passive, "box"))
+            {
+                GUIUtility.keyboardControl = 0;
+                LayoutDropdownWindow m_DropdownWindow = new LayoutDropdownWindow(rectTransformData);
+                PopupWindow.Show(dropdownPosition, m_DropdownWindow);
+            }
+            GUI.color = oldColor;
+            // }
+
+            // if (!anyWithoutParent)
+            // {
+            LayoutDropdownWindow.DrawLayoutMode(new RectOffset(7, 7, 7, 7).Remove(dropdownPosition), rectTransformData.anchorMin, rectTransformData.anchorMax, rectTransformData.anchoredPosition, rectTransformData.sizeDelta);
+            LayoutDropdownWindow.DrawLayoutModeHeadersOutsideRect(dropdownPosition, rectTransformData.anchorMin, rectTransformData.anchorMax, rectTransformData.anchoredPosition, rectTransformData.sizeDelta);
+            // }
+        }
+        void SmartPositionAndSizeFields(Rect rect, bool anyWithoutParent, ViewSystemRectTransformData rectTransformData, bool anyDrivenX, bool anyDrivenY)
+        {
+            Rect GetColumnRect(Rect totalRect, int column)
+            {
+                totalRect.xMin += 30;
+                Rect _rect = totalRect;
+                _rect.xMin += (totalRect.width - 4) * (column / 3f) + column * 2;
+                _rect.width = (totalRect.width - 4) / 3f;
+                return _rect;
+            }
+
+
+            rect.height = EditorGUIUtility.singleLineHeight * 2;
+            Rect rect2;
+
+            bool anyStretchX = rectTransformData.anchorMin.x != rectTransformData.anchorMax.x;
+            bool anyStretchY = rectTransformData.anchorMin.y != rectTransformData.anchorMax.y;
+            bool anyNonStretchX = rectTransformData.anchorMin.x == rectTransformData.anchorMax.x;
+            bool anyNonStretchY = rectTransformData.anchorMin.y == rectTransformData.anchorMax.y;
+
+            rect2 = GetColumnRect(rect, 0);
+            if (anyNonStretchX || anyWithoutParent || anyDrivenX)
+            {
+                //EditorGUI.BeginProperty(rect2, null, m_AnchoredPosition.FindPropertyRelative("x"));
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.anchoredPosition.x,
+                    (rectTransform, val) => rectTransform.anchoredPosition = new Vector2(val, rectTransform.anchoredPosition.y),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionX,
+                    EditorGUIUtility.TrTextContent("Pos X"));
+            }
+            else
+            {
+                // Affected by both anchored position and size delta so do property handling for both. (E.g. showing animated value, prefab override etc.)
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.offsetMin.x,
+                    (rectTransform, val) => rectTransform.offsetMin = new Vector2(val, rectTransform.offsetMin.y),
+                    rectTransformData,
+                    DrivenTransformProperties.None,
+                    EditorGUIUtility.TrTextContent("Left"));
+            }
+
+            rect2 = GetColumnRect(rect, 1);
+            if (anyNonStretchY || anyWithoutParent || anyDrivenY)
+            {
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.anchoredPosition.y,
+                    (rectTransform, val) => rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, val),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionY,
+                    EditorGUIUtility.TrTextContent("Pos Y"));
+            }
+            else
+            {
+                // Affected by both anchored position and size delta so do property handling for both. (E.g. showing animated value, prefab override etc.)
+                // EditorGUI.BeginProperty(rect2, null, m_AnchoredPosition.FindPropertyRelative("y"));
+                // EditorGUI.BeginProperty(rect2, null, m_SizeDelta.FindPropertyRelative("y"));
+                // FloatFieldLabelAbove(rect2,
+                //     rectTransform => -rectTransform.offsetMax.y,
+                //     (rectTransform, val) => rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -val),
+                //     DrivenTransformProperties.None,
+                //     EditorGUIUtility.TrTextContent("Top"));
+                // SetFadingBasedOnControlID(ref m_ChangingTop, EditorGUIUtility.s_LastControlID);
+                // EditorGUI.EndProperty();
+                // EditorGUI.EndProperty();
+
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => -rectTransform.offsetMax.y,
+                    (rectTransform, val) => rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -val),
+                    rectTransformData,
+                    DrivenTransformProperties.None,
+                    EditorGUIUtility.TrTextContent("Top"));
+            }
+
+            rect2 = GetColumnRect(rect, 2);
+            // EditorGUI.BeginProperty(rect2, null, m_LocalPositionZ);
+            // FloatFieldLabelAbove(rect2,
+            //     rectTransform => rectTransform.transform.localPosition.z,
+            //     (rectTransform, val) => rectTransform.transform.localPosition = new Vector3(rectTransform.transform.localPosition.x, rectTransform.transform.localPosition.y, val),
+            //     DrivenTransformProperties.AnchoredPositionZ,
+            //     EditorGUIUtility.TrTextContent("Pos Z"));
+
+            // EditorGUI.EndProperty();
+            FloatFieldLabelAbove(
+                rect2,
+                rectTransform => rectTransform.anchoredPosition.z,
+                (rectTransform, val) => rectTransform.anchoredPosition = new Vector3(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y, val),
+                rectTransformData,
+                DrivenTransformProperties.AnchoredPositionZ,
+                EditorGUIUtility.TrTextContent("Pos Z"));
+            rect.y += EditorGUIUtility.singleLineHeight;
+
+            rect2 = GetColumnRect(rect, 0);
+            if (anyNonStretchX || anyWithoutParent || anyDrivenX)
+            {
+                // EditorGUI.BeginProperty(rect2, null, m_SizeDelta.FindPropertyRelative("x"));
+                // FloatFieldLabelAbove(rect2,
+                //     rectTransform => rectTransform.sizeDelta.x,
+                //     (rectTransform, val) => rectTransform.sizeDelta = new Vector2(val, rectTransform.sizeDelta.y),
+                //     DrivenTransformProperties.SizeDeltaX,
+                //     anyStretchX ? EditorGUIUtility.TrTextContent("W Delta") : EditorGUIUtility.TrTextContent("Width"));
+                // SetFadingBasedOnControlID(ref m_ChangingWidth, EditorGUIUtility.s_LastControlID);
+                // EditorGUI.EndProperty();
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.sizeDelta.x,
+                    (rectTransform, val) => rectTransform.sizeDelta = new Vector2(val, rectTransform.sizeDelta.y),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionZ,
+                    EditorGUIUtility.TrTextContent("W Delta"));
+            }
+            else
+            {
+                // Affected by both anchored position and size delta so do property handling for both. (E.g. showing animated value, prefab override etc.)
+                // EditorGUI.BeginProperty(rect2, null, m_AnchoredPosition.FindPropertyRelative("x"));
+                // EditorGUI.BeginProperty(rect2, null, m_SizeDelta.FindPropertyRelative("x"));
+                // FloatFieldLabelAbove(rect2,
+                //     rectTransform => -rectTransform.offsetMax.x,
+                //     (rectTransform, val) => rectTransform.offsetMax = new Vector2(-val, rectTransform.offsetMax.y),
+                //     DrivenTransformProperties.None,
+                //     EditorGUIUtility.TrTextContent("Right"));
+                // SetFadingBasedOnControlID(ref m_ChangingRight, EditorGUIUtility.s_LastControlID);
+                // EditorGUI.EndProperty();
+                // EditorGUI.EndProperty();
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => -rectTransform.offsetMax.x,
+                    (rectTransform, val) => rectTransform.offsetMax = new Vector2(-val, rectTransform.offsetMax.y),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionZ,
+                    EditorGUIUtility.TrTextContent("Right"));
+            }
+
+            rect2 = GetColumnRect(rect, 1);
+            if (anyNonStretchY || anyWithoutParent || anyDrivenY)
+            {
+                // EditorGUI.BeginProperty(rect2, null, m_SizeDelta.FindPropertyRelative("y"));
+                // FloatFieldLabelAbove(rect2,
+                //     rectTransform => rectTransform.sizeDelta.y,
+                //     (rectTransform, val) => rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, val),
+                //     DrivenTransformProperties.SizeDeltaY,
+                //     anyStretchY ? EditorGUIUtility.TrTextContent("H Delta") : EditorGUIUtility.TrTextContent("Height"));
+                // SetFadingBasedOnControlID(ref m_ChangingHeight, EditorGUIUtility.s_LastControlID);
+                // EditorGUI.EndProperty();
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.sizeDelta.y,
+                    (rectTransform, val) => rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, val),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionZ,
+                    EditorGUIUtility.TrTextContent("H Delta"));
+            }
+            else
+            {
+                // Affected by both anchored position and size delta so do property handling for both. (E.g. showing animated value, prefab override etc.)
+                // EditorGUI.BeginProperty(rect2, null, m_AnchoredPosition.FindPropertyRelative("y"));
+                // EditorGUI.BeginProperty(rect2, null, m_SizeDelta.FindPropertyRelative("y"));
+                // FloatFieldLabelAbove(rect2,
+                //     rectTransform => rectTransform.offsetMin.y,
+                //     (rectTransform, val) => rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, val),
+                //     DrivenTransformProperties.None,
+                //     EditorGUIUtility.TrTextContent("Bottom"));
+                // SetFadingBasedOnControlID(ref m_ChangingBottom, EditorGUIUtility.s_LastControlID);
+                // EditorGUI.EndProperty();
+                // EditorGUI.EndProperty();
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.offsetMin.y,
+                    (rectTransform, val) => rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, val),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionZ,
+                    EditorGUIUtility.TrTextContent("Bottom"));
+            }
+
+            rect2 = rect;
+            rect2.height = EditorGUIUtility.singleLineHeight;
+            rect2.y += EditorGUIUtility.singleLineHeight;
+            rect2.yMin -= 2;
+            rect2.xMin = rect2.xMax - 26;
+
+        }
+
+
         Rect ResizeBarRect;
         bool resizeBarPressed = false;
         void DrawResizeBar()

@@ -233,7 +233,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewItemForNextPage.AddRange(viewPage.viewPageItems);
 
             Transform root = ViewControllerTransform;
-            Transform fullPageRoot = root.Find("UICanvas/Page_FullPage");
+            Transform fullPageRoot = root.Find("Canvas/Page_FullPage");
             //打開相對應物件
             foreach (ViewPageItem item in viewItemForNextPage)
             {

@@ -117,7 +117,7 @@ namespace CloudMacaca.ViewSystem
         public static ViewControllerBase viewController;
 
         //ViewElementLifeCycle
-        protected List<IViewElementLifeCycle> lifeCyclesObjects;
+        protected List<IViewElementLifeCycle> lifeCyclesObjects = new List<IViewElementLifeCycle>();
         public void RegisterLifeCycleObject(IViewElementLifeCycle obj)
         {
             if (!lifeCyclesObjects.Contains(obj))
