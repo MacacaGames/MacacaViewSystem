@@ -177,10 +177,23 @@ namespace CloudMacaca.ViewSystem
             result = target.GetComponent(t);
             return result;
         }
+        public static string GetPageRootName(ViewPage viewPage)
+        {
+            return "Page_" + (viewPage.viewPageType == ViewPage.ViewPageType.FullPage ? "FullPage" : viewPage.name);
+        }
+        static Dictionary<string, RectTransform> runtimeRectTransformCache = new Dictionary<string, RectTransform>();
         public static RectTransform CreatePageTransform(string name, Transform canvas)
         {
-            var previewUIRoot = new GameObject($"Page_{name}");
-            var previewUIRootRectTransform = previewUIRoot.AddComponent<RectTransform>();
+            RectTransform previewUIRootRectTransform;
+            if (Application.isPlaying)
+            {
+                if (runtimeRectTransformCache.TryGetValue(name, out previewUIRootRectTransform))
+                {
+                    return previewUIRootRectTransform;
+                }
+            }
+            var previewUIRoot = new GameObject(name);
+            previewUIRootRectTransform = previewUIRoot.AddComponent<RectTransform>();
             previewUIRootRectTransform.SetParent(canvas, false);
             previewUIRootRectTransform.localScale = Vector3.one;
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 0);
@@ -189,6 +202,13 @@ namespace CloudMacaca.ViewSystem
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 0);
             previewUIRootRectTransform.anchorMin = Vector2.zero;
             previewUIRootRectTransform.anchorMax = Vector2.one;
+            if (Application.isPlaying)
+            {
+                if (!runtimeRectTransformCache.ContainsKey(name))
+                {
+                    runtimeRectTransformCache.Add(name, previewUIRootRectTransform);
+                }
+            }
             return previewUIRootRectTransform;
         }
 

@@ -95,8 +95,19 @@ namespace CloudMacaca.ViewSystem
             }
             runtimeOverride.ApplyOverride(overrideDatas);
         }
-
-        public void ApplyRectTransform(ViewSystemRectTransformData transformData)
+        [Flags]
+        public enum RectTransformFlag
+        {
+            SizeDelta = 0 << 1,
+            AnchoredPosition = 0 << 2,
+            AnchorMax = 0 << 3,
+            AnchorMin = 0 << 4,
+            LocalEulerAngles = 0 << 5,
+            LocalScale = 0 << 6,
+            Pivot = 0 << 7,
+            All,
+        }
+        public void ApplyRectTransform(ViewSystemRectTransformData transformData, RectTransformFlag flag = RectTransformFlag.All)
         {
             rectTransform.sizeDelta = transformData.sizeDelta;
             rectTransform.anchoredPosition3D = transformData.anchoredPosition;
@@ -266,12 +277,12 @@ namespace CloudMacaca.ViewSystem
         }
         Coroutine changePageCoroutine = null;
 
-        public virtual void ChangePage(bool show, Transform parent, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
+        public virtual void ChangePage(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
         {
             NormalizeViewElement();
-            changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
+            changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, rectTransformData, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
         }
-        public IEnumerator OnChangePageRunner(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition, bool reshowIfSamePage)
+        public IEnumerator OnChangePageRunner(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, float TweenTime, float delayIn, float delayOut, bool ignoreTransition, bool reshowIfSamePage)
         {
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects.ToArray())
@@ -301,8 +312,17 @@ namespace CloudMacaca.ViewSystem
                 if (IsShowed == false || OnLeaveWorking)
                 {
                     rectTransform.SetParent(parent, true);
-                    rectTransform.anchoredPosition3D = Vector3.zero;
-                    rectTransform.localScale = Vector3.one;
+
+                    if (rectTransformData == null)
+                    {
+                        rectTransform.anchoredPosition3D = Vector3.zero;
+                        rectTransform.localScale = Vector3.one;
+                    }
+                    else
+                    {
+                        ApplyRectTransform(rectTransformData);
+                    }
+
                     float time = 0;
                     while (time < delayIn)
                     {
@@ -329,57 +349,73 @@ namespace CloudMacaca.ViewSystem
                     if (TweenTime >= 0)
                     {
                         rectTransform.SetParent(parent, true);
-                        var marginFixer = GetComponent<ViewMarginFixer>();
-                        // viewController.StartMicroCoroutine(EaseMethods.EaseVector3(
-                        //        rectTransform.anchoredPosition3D,
-                        //        Vector3.zero,
-                        //        TweenTime,
-                        //        EaseMethods.GetEase(EaseStyle.QuadEaseOut),
-                        //        (v) =>
-                        //        {
-                        //            rectTransform.anchoredPosition3D = v;
-                        //        },
-                        //        () =>
-                        //        {
-                        //            if (marginFixer) marginFixer.ApplyModifyValue();
-                        //        }
-                        //     ));
+                        if (rectTransformData == null)
+                        {
+                            var marginFixer = GetComponent<ViewMarginFixer>();
+                            viewController.StartMicroCoroutine(EaseUtility.To(
+                                                    rectTransform.anchoredPosition3D,
+                                                    Vector3.zero,
+                                                    TweenTime,
+                                                    EaseStyle.QuadEaseOut,
+                                                    (v) =>
+                                                    {
+                                                        rectTransform.anchoredPosition3D = v;
+                                                    },
+                                                    () =>
+                                                    {
+                                                        if (marginFixer) marginFixer.ApplyModifyValue();
+                                                    }
+                                                ));
 
-                        // viewController.StartMicroCoroutine(EaseMethods.EaseVector3(
-                        //     rectTransform.localScale,
-                        //     Vector3.one,
-                        //     TweenTime,
-                        //     EaseMethods.GetEase(EaseStyle.QuadEaseOut),
-                        //     (v) =>
-                        //     {
-                        //         rectTransform.localScale = v;
-                        //     }
-                        // ));
-                        viewController.StartMicroCoroutine(EaseUtility.To(
-                            rectTransform.anchoredPosition3D,
-                            Vector3.zero,
-                            TweenTime,
-                            EaseStyle.QuadEaseOut,
-                            (v) =>
-                            {
-                                rectTransform.anchoredPosition3D = v;
-                            },
-                            () =>
-                            {
-                                if (marginFixer) marginFixer.ApplyModifyValue();
-                            }
-                        ));
+                            viewController.StartMicroCoroutine(EaseUtility.To(
+                                rectTransform.localScale,
+                                Vector3.one,
+                                TweenTime,
+                                EaseStyle.QuadEaseOut,
+                                (v) =>
+                                {
+                                    rectTransform.localScale = v;
+                                }
+                            ));
+                        }
+                        else
+                        {
+                            ApplyRectTransform(rectTransformData,
+                                RectTransformFlag.AnchorMax |
+                                RectTransformFlag.AnchorMin |
+                                RectTransformFlag.Pivot |
+                                RectTransformFlag.SizeDelta |
+                                RectTransformFlag.LocalEulerAngles
+                            );
+                            viewController.StartMicroCoroutine(EaseUtility.To(
+                                rectTransform.anchoredPosition3D,
+                                rectTransformData.anchoredPosition,
+                                TweenTime,
+                                EaseStyle.QuadEaseOut,
+                                (v) =>
+                                {
+                                    rectTransform.anchoredPosition3D = v;
+                                },
+                                () =>
+                                {
 
-                        viewController.StartMicroCoroutine(EaseUtility.To(
-                            rectTransform.localScale,
-                            Vector3.one,
-                            TweenTime,
-                            EaseStyle.QuadEaseOut,
-                            (v) =>
-                            {
-                                rectTransform.localScale = v;
-                            }
-                        ));
+                                }
+                            ));
+                            viewController.StartMicroCoroutine(EaseUtility.To(
+                                rectTransform.anchoredPosition3D,
+                                rectTransformData.localScale,
+                                TweenTime,
+                                EaseStyle.QuadEaseOut,
+                                (v) =>
+                                {
+                                    rectTransform.localScale = v;
+                                },
+                                () =>
+                                {
+
+                                }
+                            ));
+                        }
 
                         goto END;
                     }
@@ -399,8 +435,15 @@ namespace CloudMacaca.ViewSystem
                         }
                         ViewSystemLog.LogWarning("Try to ReShow ", this);
                         rectTransform.SetParent(parent, true);
-                        rectTransform.anchoredPosition3D = Vector3.zero;
-                        rectTransform.localScale = Vector3.one;
+                        if (rectTransformData == null)
+                        {
+                            rectTransform.anchoredPosition3D = Vector3.zero;
+                            rectTransform.localScale = Vector3.one;
+                        }
+                        else
+                        {
+                            ApplyRectTransform(rectTransformData);
+                        }
                         time = 0;
                         while (time < delayIn)
                         {

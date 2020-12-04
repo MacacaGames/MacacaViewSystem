@@ -27,6 +27,7 @@ namespace CloudMacaca.ViewSystem
         {
             與前動畫同時, 接續前動畫, 自行設定
         }
+        public RectTransform runtimePageRoot;
         public float customPageTransitionWaitTime = 0.5f;
         public string viewState = "";
         public ViewPageType viewPageType = ViewPageType.FullPage;

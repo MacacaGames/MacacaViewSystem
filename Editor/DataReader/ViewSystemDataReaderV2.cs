@@ -237,10 +237,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewItemForNextPage.AddRange(viewPage.viewPageItems);
 
             Transform root = ViewControllerTransform;
-            string pageName = viewPage.viewPageType == ViewPage.ViewPageType.FullPage ? "FullPage" : viewPage.name;
+
             var canvas = root.Find($"{UIRootName}");
-            previewUIRoot = ViewSystemUtilitys.CreatePageTransform(pageName, canvas).gameObject;
-            Transform fullPageRoot = root.Find($"{UIRootName}/Page_{pageName}");
+            string viewPageName = ViewSystemUtilitys.GetPageRootName(viewPage);
+            previewUIRoot = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas).gameObject;
+            Transform fullPageRoot = root.Find($"{UIRootName}/{viewPageName}");
             //TO do apply viewPage component on fullPageRoot
 
             //打開相對應物件
