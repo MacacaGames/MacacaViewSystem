@@ -164,13 +164,14 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 6f;
             viewPageItemList.onAddCallback += AddItem;
             viewPageItemList.drawElementBackgroundCallback += DrawItemBackground;
+            viewPageItemList.elementHeightCallback += ElementHight;
             //viewPageItemList.elementHeightCallback += ElementHight;
             layouted = false;
         }
 
         private float ElementHight(int index)
         {
-            throw new NotImplementedException();
+            return transformEditStatus[index] == 0 ? EditorGUIUtility.singleLineHeight * 10.5f : EditorGUIUtility.singleLineHeight * 6f;
         }
         int _currentShowOverrideItem = -1;
 
@@ -545,10 +546,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                    list[index].eventDatas?.Count() > 0 ||
                    list[index].navigationDatas?.Count() > 0)
             {
-                GUI.Label(new Rect(veRect.x, veRect.y, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
+                GUI.Label(new Rect(veRect.x, veRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
             }
-            rect.y += EditorGUIUtility.singleLineHeight + 5;
-            transformEditStatus[index] = GUI.Toolbar(rect, transformEditStatus[index], new string[] { "RectTransfrom", "Custom Parent" }, new GUIStyle("MiniToolbarButtonLeft"));
+            rect.y += EditorGUIUtility.singleLineHeight;
+            transformEditStatus[index] = GUI.Toolbar(rect, transformEditStatus[index], new string[] { "RectTransfrom", "Custom Parent" });
             rect.y += EditorGUIUtility.singleLineHeight;
 
             switch (transformEditStatus[index])
@@ -557,13 +558,36 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         Rect smartPositionAndSizeRect = rect;
                         Rect layoutButtonRect = rect;
+                        Rect anchorRect = rect;
                         layoutButtonRect.x -= 10;
-                        layoutButtonRect.y -= 5;
+                        // layoutButtonRect.y ;
                         layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
                         layoutButtonRect.height = EditorGUIUtility.singleLineHeight * 2;
                         LayoutDropdownButton(layoutButtonRect, list[index].transformData, false);
                         smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
                         SmartPositionAndSizeFields(smartPositionAndSizeRect, true, list[index].transformData, false, false);
+                        anchorRect.height = EditorGUIUtility.singleLineHeight;
+                        anchorRect.y += EditorGUIUtility.singleLineHeight * 2;
+                        anchorRect.x += 30;
+                        // SmartAnchorFields(anchorRect, list[index].transformData);
+                        bool widthMode = EditorGUIUtility.wideMode;
+                        float lableWidth = EditorGUIUtility.labelWidth;
+                        float fieldWidth = EditorGUIUtility.fieldWidth;
+                        EditorGUIUtility.fieldWidth = 50;
+                        EditorGUIUtility.labelWidth = 80;
+                        EditorGUIUtility.wideMode = true;
+                        EditorGUI.Vector2Field(anchorRect, "Anchor Min", list[index].transformData.anchorMin);
+                        anchorRect.y += EditorGUIUtility.singleLineHeight;
+                        EditorGUI.Vector2Field(anchorRect, "Anchor Max", list[index].transformData.anchorMax);
+                        anchorRect.y += EditorGUIUtility.singleLineHeight * 1;
+                        EditorGUI.Vector2Field(anchorRect, "Pivot", list[index].transformData.pivot);
+                        anchorRect.y += EditorGUIUtility.singleLineHeight * 1;
+                        EditorGUI.Vector3Field(anchorRect, "Rotation", list[index].transformData.localEulerAngles);
+                        anchorRect.y += EditorGUIUtility.singleLineHeight * 1;
+                        EditorGUI.Vector3Field(anchorRect, "Scale", list[index].transformData.localScale);
+                        EditorGUIUtility.wideMode = widthMode;
+                        EditorGUIUtility.labelWidth = lableWidth;
+                        EditorGUIUtility.fieldWidth = fieldWidth;
                     }
                     break;
                 case 1:
@@ -612,8 +636,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                 GUI.Label(new Rect(veRect.x - 24, veRect.y, 24, 24), new GUIContent(Drawer.miniErrorIcon, "Transform cannot found in this item."));
                             }
                         }
-
-
 
                         veRect.x += veRect.width;
                         veRect.width = 20;
@@ -707,8 +729,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     break;
             }
 
-
-
             rect.width = 18;
             rect.x -= 21;
             rect.y = oriRect.y += 20;
@@ -771,6 +791,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         //source from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/Inspector/RectTransformEditor.cs
         private delegate float FloatGetter(ViewSystemRectTransformData rect);
         private delegate void FloatSetter(ViewSystemRectTransformData rect, float f);
+        private static GUIContent[] s_XYLabels = { new GUIContent("X"), new GUIContent("Y") };
+        private static GUIContent[] s_XYZLabels = { new GUIContent("X"), new GUIContent("Y"), new GUIContent("Z") };
+        Rect GetColumnRect(Rect totalRect, int column)
+        {
+            totalRect.xMin += 30;
+            Rect _rect = totalRect;
+            _rect.xMin += (totalRect.width - 4) * (column / 3f) + column * 2;
+            _rect.width = (totalRect.width - 4) / 3f;
+            return _rect;
+        }
         void FloatFieldLabelAbove(Rect position, FloatGetter getter, FloatSetter setter, ViewSystemRectTransformData _rectTransform, DrivenTransformProperties driven, GUIContent label)
         {
             float lableWidth = EditorGUIUtility.labelWidth;
@@ -780,9 +810,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             float value = getter(_rectTransform);
             using (var change = new EditorGUI.ChangeCheckScope())
             {
-
                 Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-                float newValue = EditorGUI.FloatField(positionLabel, label, value, EditorStyles.textField);
+                float newValue = EditorGUI.FloatField(positionLabel, label, value, EditorStyles.miniTextField);
                 if (change.changed)
                 {
                     setter(_rectTransform, newValue);
@@ -791,6 +820,51 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             EditorGUIUtility.labelWidth = lableWidth;
             // }
         }
+        // void FloatField(Rect position, FloatGetter getter, FloatSetter setter, ViewSystemRectTransformData _rectTransform, DrivenTransformProperties driven, GUIContent label)
+        // {
+        //     // using (new EditorGUI.DisabledScope(targets.Any(x => ((x as RectTransform).drivenProperties & driven) != 0)))
+        //     // {
+        //     float value = getter(_rectTransform);
+        //     // EditorGUI.showMixedValue = targets.Select(x => getter(x as RectTransform)).Distinct().Count() >= 2;
+        //     using (var change = new EditorGUI.ChangeCheckScope())
+        //     {
+        //         float newValue = EditorGUI.FloatField(position, label, value);
+        //         if (change.changed)
+        //         {
+        //             setter(_rectTransform, newValue);
+        //         }
+        //     }
+        //     // }
+        // }
+        // void Vector2Field(Rect position,
+        //     FloatGetter xGetter, FloatSetter xSetter,
+        //     FloatGetter yGetter, FloatSetter ySetter,
+        //     ViewSystemRectTransformData _rectTransform,
+        //     DrivenTransformProperties xDriven, DrivenTransformProperties yDriven,
+        //     GUIContent label)
+        // {
+        //     // EditorGUI.BeginProperty(position, label, vec2Property);
+
+        //     // SerializedProperty xProperty = vec2Property.FindPropertyRelative("x");
+        //     // SerializedProperty yProperty = vec2Property.FindPropertyRelative("y");
+
+        //     // EditorGUI.PrefixLabel(position, -1, label);
+        //     // float t = EditorGUIUtility.labelWidth;
+        //     // int l = EditorGUI.indentLevel;
+        //     Rect r0 = GetColumnRect(position, 0);
+        //     Rect r1 = GetColumnRect(position, 1);
+        //     // EditorGUIUtility.labelWidth = EditorGUI.CalcPrefixLabelWidth(s_XYLabels[0]);
+        //     // EditorGUI.BeginProperty(r0, s_XYLabels[0], xProperty);
+        //     FloatField(r0, xGetter, xSetter, _rectTransform, xDriven, s_XYLabels[0]);
+        //     // EditorGUI.EndProperty();
+        //     // EditorGUI.BeginProperty(r0, s_XYLabels[1], yProperty);
+        //     FloatField(r1, yGetter, ySetter, _rectTransform, yDriven, s_XYLabels[1]);
+        //     // EditorGUI.EndProperty();
+        //     // EditorGUIUtility.labelWidth = t;
+        //     // EditorGUI.indentLevel = l;
+        //     // EditorGUI.EndProperty();
+        // }
+
         void LayoutDropdownButton(Rect dropdownPosition, ViewSystemRectTransformData rectTransformData, bool anyWithoutParent)
         {
             dropdownPosition.x += 2;
@@ -814,18 +888,64 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             LayoutDropdownWindow.DrawLayoutModeHeadersOutsideRect(dropdownPosition, rectTransformData.anchorMin, rectTransformData.anchorMax, rectTransformData.anchoredPosition, rectTransformData.sizeDelta);
             // }
         }
+        void SmartAnchorFields(Rect anchorRect, ViewSystemRectTransformData rectTransformData)
+        {
+            // anchorRect.height = EditorGUIUtility.singleLineHeight;
+
+            // // EditorGUI.BeginChangeCheck();
+            // // EditorGUI.BeginProperty(anchorRect, null, m_AnchorMin);
+            // // EditorGUI.BeginProperty(anchorRect, null, m_AnchorMax);
+            // // m_ShowLayoutOptions = EditorGUI.Foldout(anchorRect, m_ShowLayoutOptions, styles.anchorsContent, true);
+
+
+            // // EditorGUI.EndProperty();
+            // // EditorGUI.EndProperty();
+            // // if (EditorGUI.EndChangeCheck())
+            // //     EditorPrefs.SetBool(kShowAnchorPropsPrefName, m_ShowLayoutOptions);
+
+            // // if (!m_ShowLayoutOptions)
+            // //     return;
+
+            // anchorRect.y += EditorGUIUtility.singleLineHeight;
+            // Vector2Field(anchorRect,
+            //     rectTransform => rectTransform.anchorMin.x,
+            //     (rectTransform, val) => rectTransform.anchorMin.x = val,
+            //     rectTransform => rectTransform.anchorMin.y,
+            //     (rectTransform, val) => rectTransform.anchorMin.y = val,
+            //     rectTransformData,
+            //     DrivenTransformProperties.AnchorMinX,
+            //     DrivenTransformProperties.AnchorMinY,
+            //     Drawer.anchorMinContent);
+
+            // // EditorGUILayout.Space(EditorGUI.kVerticalSpacingMultiField);
+
+            // // anchorRect.y += EditorGUIUtility.singleLineHeight + EditorGUI.kVerticalSpacingMultiField;
+            // Vector2Field(anchorRect,
+            //     rectTransform => rectTransform.anchorMax.x,
+            //     (rectTransform, val) => rectTransform.anchorMax.x = val,
+            //     rectTransform => rectTransform.anchorMax.y,
+            //     (rectTransform, val) => rectTransform.anchorMax.y = val,
+            //     rectTransformData,
+            //     DrivenTransformProperties.AnchorMaxX,
+            //     DrivenTransformProperties.AnchorMaxY,
+            //     Drawer.anchorMaxContent);
+
+        }
+
+        // void SmartPivotField()
+        // {
+        //     Vector2Field(EditorGUILayout.GetControlRect(),
+        //         rectTransform => rectTransform.pivot.x,
+        //         (rectTransform, val) => SetPivotSmart(rectTransform, val, 0, !m_RawEditMode, false),
+        //         rectTransform => rectTransform.pivot.y,
+        //         (rectTransform, val) => SetPivotSmart(rectTransform, val, 1, !m_RawEditMode, false),
+        //         DrivenTransformProperties.PivotX,
+        //         DrivenTransformProperties.PivotY,
+        //         m_Pivot,
+        //         styles.pivotContent);
+        // }
         void SmartPositionAndSizeFields(Rect rect, bool anyWithoutParent, ViewSystemRectTransformData rectTransformData, bool anyDrivenX, bool anyDrivenY)
         {
-            Rect GetColumnRect(Rect totalRect, int column)
-            {
-                totalRect.xMin += 30;
-                Rect _rect = totalRect;
-                _rect.xMin += (totalRect.width - 4) * (column / 3f) + column * 2;
-                _rect.width = (totalRect.width - 4) / 3f;
-                return _rect;
-            }
-
-
             rect.height = EditorGUIUtility.singleLineHeight * 2;
             Rect rect2;
 

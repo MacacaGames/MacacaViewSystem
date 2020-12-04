@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class Drawer
 {
+    public static GUIContent anchorsContent = EditorGUIUtility.TrTextContent("Anchors");
+    public static GUIContent anchorMinContent = EditorGUIUtility.TrTextContent("Min", "The normalized position in the parent rectangle that the lower left corner is anchored to.");
+    public static GUIContent anchorMaxContent = EditorGUIUtility.TrTextContent("Max", "The normalized position in the parent rectangle that the upper right corner is anchored to.");
+    public static GUIContent pivotContent = EditorGUIUtility.TrTextContent("Pivot", "The pivot point specified in normalized values between 0 and 1. The pivot point is the origin of this rectangle. Rotation and scaling are around this point.");
+    public static GUIContent transformScaleContent = EditorGUIUtility.TrTextContent("Scale", "The local scaling of this Game Object relative to the parent. This scales everything including image borders and text.");
+
     static GUISkin skin = ScriptableObject.Instantiate(EditorGUIUtility.GetBuiltinSkin(EditorSkin.Inspector)) as GUISkin;
     static Texture2D _miniInfoIcon;
     public static Texture2D miniInfoIcon
@@ -39,7 +45,7 @@ public class Drawer
         {
             if (_overrideIcon == null)
             {
-                _overrideIcon = EditorGUIUtility.FindTexture( "PrefabOverlayAdded Icon");
+                _overrideIcon = EditorGUIUtility.FindTexture("PrefabOverlayAdded Icon");
             }
             return _overrideIcon;
         }
