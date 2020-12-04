@@ -579,16 +579,38 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         previewBtnRect.x = previewBtnRect.width - btnWidth + 20;
                         previewBtnRect.width = btnWidth;
                         previewBtnRect.height = EditorGUIUtility.singleLineHeight;
-                        previewBtnRect.y += 15;
+                        previewBtnRect.y += 18;
                         if (GUI.Button(previewBtnRect, new GUIContent("Select", "Highlight and select ViewElement object")))
                         {
                             SelectCurrentViewElement();
                         }
+
                         layoutButtonRect.x -= 10;
                         // layoutButtonRect.y ;
                         layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
                         layoutButtonRect.height = EditorGUIUtility.singleLineHeight * 2;
                         LayoutDropdownButton(layoutButtonRect, list[index].transformData, false);
+                        layoutButtonRect.y += EditorGUIUtility.singleLineHeight * 3;
+                        layoutButtonRect.height = EditorGUIUtility.singleLineHeight;
+                        using (var disable = new EditorGUI.DisabledGroupScope(list[index].previewViewElement == null))
+                        {
+                            if (GUI.Button(layoutButtonRect, new GUIContent("Pick", "Pick RectTransform value from preview ViewElement")))
+                            {
+                                if (list[index].previewViewElement)
+                                {
+                                    var previewRectTransform = list[index].previewViewElement.GetComponent<RectTransform>();
+                                    list[index].transformData.anchoredPosition = previewRectTransform.anchoredPosition3D;
+                                    list[index].transformData.anchorMax = previewRectTransform.anchorMax;
+                                    list[index].transformData.anchorMin = previewRectTransform.anchorMin;
+                                    list[index].transformData.offsetMax = previewRectTransform.offsetMax;
+                                    list[index].transformData.offsetMin = previewRectTransform.offsetMin;
+                                    list[index].transformData.pivot = previewRectTransform.pivot;
+                                    list[index].transformData.localScale = previewRectTransform.localScale;
+                                    list[index].transformData.sizeDelta = previewRectTransform.sizeDelta;
+                                    list[index].transformData.localEulerAngles = previewRectTransform.localEulerAngles;
+                                }
+                            }
+                        }
                         smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
                         SmartPositionAndSizeFields(smartPositionAndSizeRect, true, list[index].transformData, false, false);
                         anchorAndPivotRect.height = EditorGUIUtility.singleLineHeight;
@@ -608,11 +630,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         if (anchorPivotFoldout[index])
                         {
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
-                            EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Min", list[index].transformData.anchorMin);
+                            list[index].transformData.anchorMin = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Min", list[index].transformData.anchorMin);
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                            EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Max", list[index].transformData.anchorMax);
+                            list[index].transformData.anchorMax = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Max", list[index].transformData.anchorMax);
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                            EditorGUI.Vector2Field(anchorAndPivotRect, "Pivot", list[index].transformData.pivot);
+                            list[index].transformData.pivot = EditorGUI.Vector2Field(anchorAndPivotRect, "Pivot", list[index].transformData.pivot);
                         }
                         anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
                         rotationScaleFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, rotationScaleFoldout[index], "Rotation and Scale");
@@ -620,10 +642,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         if (rotationScaleFoldout[index])
                         {
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
-
-                            EditorGUI.Vector3Field(anchorAndPivotRect, "Rotation", list[index].transformData.localEulerAngles);
+                            list[index].transformData.localEulerAngles = EditorGUI.Vector3Field(anchorAndPivotRect, "Rotation", list[index].transformData.localEulerAngles);
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                            EditorGUI.Vector3Field(anchorAndPivotRect, "Scale", list[index].transformData.localScale);
+                            list[index].transformData.localScale = EditorGUI.Vector3Field(anchorAndPivotRect, "Scale", list[index].transformData.localScale);
                         }
                         EditorGUIUtility.wideMode = widthMode;
                         EditorGUIUtility.labelWidth = lableWidth;
@@ -1080,7 +1101,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     (rectTransform, val) => rectTransform.sizeDelta = new Vector2(val, rectTransform.sizeDelta.y),
                     rectTransformData,
                     DrivenTransformProperties.AnchoredPositionZ,
-                    EditorGUIUtility.TrTextContent("W Delta"));
+                    anyStretchX ? EditorGUIUtility.TrTextContent("W Delta") : EditorGUIUtility.TrTextContent("Width"));
             }
             else
             {
@@ -1121,7 +1142,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     (rectTransform, val) => rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, val),
                     rectTransformData,
                     DrivenTransformProperties.AnchoredPositionZ,
-                    EditorGUIUtility.TrTextContent("H Delta"));
+                    anyStretchY ? EditorGUIUtility.TrTextContent("H Delta") : EditorGUIUtility.TrTextContent("Height"));
             }
             else
             {

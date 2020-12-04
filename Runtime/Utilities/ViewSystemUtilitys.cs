@@ -6,6 +6,7 @@ namespace CloudMacaca.ViewSystem
 {
     public class ViewSystemUtilitys
     {
+
         [SerializeField]
         public class OverlayPageStatus
         {
@@ -176,5 +177,20 @@ namespace CloudMacaca.ViewSystem
             result = target.GetComponent(t);
             return result;
         }
+        public static RectTransform CreatePageTransform(string name, Transform canvas)
+        {
+            var previewUIRoot = new GameObject($"Page_{name}");
+            var previewUIRootRectTransform = previewUIRoot.AddComponent<RectTransform>();
+            previewUIRootRectTransform.SetParent(canvas, false);
+            previewUIRootRectTransform.localScale = Vector3.one;
+            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 0);
+            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);
+            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 0);
+            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 0);
+            previewUIRootRectTransform.anchorMin = Vector2.zero;
+            previewUIRootRectTransform.anchorMax = Vector2.one;
+            return previewUIRootRectTransform;
+        }
+
     }
 }

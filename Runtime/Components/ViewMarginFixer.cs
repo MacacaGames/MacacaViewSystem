@@ -6,6 +6,7 @@ using UnityEngine.UI;
 namespace CloudMacaca.ViewSystem
 {
     [ExecuteInEditMode]
+    [System.Obsolete("ViewMarginFixer only required while using Custom Parent implement. Use RectTransform implement for more benfit")]
     public class ViewMarginFixer : ViewElementLifeCycle
     {
         [SerializeField]

@@ -239,17 +239,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             Transform root = ViewControllerTransform;
             string pageName = viewPage.viewPageType == ViewPage.ViewPageType.FullPage ? "FullPage" : viewPage.name;
             var canvas = root.Find($"{UIRootName}");
-            previewUIRoot = new GameObject($"Page_{pageName}");
-            var previewUIRootRectTransform = previewUIRoot.AddComponent<RectTransform>();
-            previewUIRootRectTransform.SetParent(canvas, false);
-            previewUIRootRectTransform.localScale = Vector3.one;
-            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 0);
-            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);
-            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 0);
-            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 0);
-            previewUIRootRectTransform.anchorMin = Vector2.zero;
-            previewUIRootRectTransform.anchorMax = Vector2.one;
-
+            previewUIRoot = ViewSystemUtilitys.CreatePageTransform(pageName, canvas).gameObject;
             Transform fullPageRoot = root.Find($"{UIRootName}/Page_{pageName}");
             //TO do apply viewPage component on fullPageRoot
 
@@ -266,19 +256,38 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 tempViewElement.gameObject.SetActive(true);
                 var rectTransform = tempViewElement.GetComponent<RectTransform>();
-                Transform tempParent = fullPageRoot;
+                Transform tempParent = null;
+
+
+                if (!string.IsNullOrEmpty(item.parentPath))
+                {
+                    //Custom Parent implement
+                    tempParent = root.Find(item.parentPath);
+                }
+                else
+                {
+                    //RectTransform implement
+                    tempParent = fullPageRoot;
+                }
+                tempParent = fullPageRoot;
                 rectTransform.SetParent(tempParent, true);
 
-                var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
-                if (mFix != null) mFix.ApplyModifyValue();
+                if (!string.IsNullOrEmpty(item.parentPath))
+                {
+                    var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
+                    if (mFix != null) mFix.ApplyModifyValue();
+                }
+                else
+                {
+                    tempViewElement.ApplyRectTransform(item.transformData);
+                }
 
                 tempViewElement.ApplyOverrides(item.overrideDatas);
                 tempViewElement.ApplyNavigation(item.navigationDatas);
 
                 item.previewViewElement = tempViewElement;
-                tempViewElement.ApplyRectTransform(item.transformData);
 
-                //item.viewElement.SampleToLoopState();
+                //Sample animator traisintion viewlement to target frame
                 if (tempViewElement.transition != ViewElement.TransitionType.Animator)
                     continue;
 
