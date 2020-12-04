@@ -95,6 +95,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         List<ViewPageItem> list;
         List<EditableLockItem> editableLock = new List<EditableLockItem>();
+        List<bool> rectTransformFoldout = new List<bool>();
         List<int> transformEditStatus = new List<int>();
         class EditableLockItem
         {
@@ -142,9 +143,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             editableLock.Clear();
             transformEditStatus.Clear();
+            rectTransformFoldout.Clear();
             list.All(x =>
             {
                 editableLock.Add(new EditableLockItem(true));
+                rectTransformFoldout.Add(false);
                 transformEditStatus.Add(string.IsNullOrEmpty(x.parentPath) ? 0 : 1);
                 return true;
             });
@@ -171,7 +174,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         private float ElementHight(int index)
         {
-            return transformEditStatus[index] == 0 ? EditorGUIUtility.singleLineHeight * 10.5f : EditorGUIUtility.singleLineHeight * 6f;
+            return transformEditStatus[index] == 0 ? EditorGUIUtility.singleLineHeight * 9f + (rectTransformFoldout[index] ? EditorGUIUtility.singleLineHeight * 3 : 0) : EditorGUIUtility.singleLineHeight * 6f;
         }
         int _currentShowOverrideItem = -1;
 
@@ -248,6 +251,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             editableLock.Add(new EditableLockItem(true));
             transformEditStatus.Add(0);
+            rectTransformFoldout.Add(false);
             // RebuildInspector();
         }
 
@@ -558,7 +562,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         Rect smartPositionAndSizeRect = rect;
                         Rect layoutButtonRect = rect;
-                        Rect anchorRect = rect;
+                        Rect anchorAndPivotRect = rect;
+                        Rect foldoutRect = rect;
                         layoutButtonRect.x -= 10;
                         // layoutButtonRect.y ;
                         layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
@@ -566,25 +571,33 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         LayoutDropdownButton(layoutButtonRect, list[index].transformData, false);
                         smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
                         SmartPositionAndSizeFields(smartPositionAndSizeRect, true, list[index].transformData, false, false);
-                        anchorRect.height = EditorGUIUtility.singleLineHeight;
-                        anchorRect.y += EditorGUIUtility.singleLineHeight * 2;
-                        anchorRect.x += 30;
+                        anchorAndPivotRect.height = EditorGUIUtility.singleLineHeight;
+                        anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 3;
+                        anchorAndPivotRect.x += 30;
                         // SmartAnchorFields(anchorRect, list[index].transformData);
                         bool widthMode = EditorGUIUtility.wideMode;
                         float lableWidth = EditorGUIUtility.labelWidth;
                         float fieldWidth = EditorGUIUtility.fieldWidth;
-                        EditorGUIUtility.fieldWidth = 50;
-                        EditorGUIUtility.labelWidth = 80;
+                        EditorGUIUtility.fieldWidth = 40;
+                        EditorGUIUtility.labelWidth = 70;
                         EditorGUIUtility.wideMode = true;
-                        EditorGUI.Vector2Field(anchorRect, "Anchor Min", list[index].transformData.anchorMin);
-                        anchorRect.y += EditorGUIUtility.singleLineHeight;
-                        EditorGUI.Vector2Field(anchorRect, "Anchor Max", list[index].transformData.anchorMax);
-                        anchorRect.y += EditorGUIUtility.singleLineHeight * 1;
-                        EditorGUI.Vector2Field(anchorRect, "Pivot", list[index].transformData.pivot);
-                        anchorRect.y += EditorGUIUtility.singleLineHeight * 1;
-                        EditorGUI.Vector3Field(anchorRect, "Rotation", list[index].transformData.localEulerAngles);
-                        anchorRect.y += EditorGUIUtility.singleLineHeight * 1;
-                        EditorGUI.Vector3Field(anchorRect, "Scale", list[index].transformData.localScale);
+
+                        foldoutRect.y += EditorGUIUtility.singleLineHeight * 2;
+                        foldoutRect.x += 30;
+                        rectTransformFoldout[index] = EditorGUI.Foldout(foldoutRect, rectTransformFoldout[index], "Anchor and Pivot");
+                        if (rectTransformFoldout[index])
+                        {
+                            EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Min", list[index].transformData.anchorMin);
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
+                            EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Max", list[index].transformData.anchorMax);
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 1;
+                            EditorGUI.Vector2Field(anchorAndPivotRect, "Pivot", list[index].transformData.pivot);
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 1;
+                        }
+
+                        EditorGUI.Vector3Field(anchorAndPivotRect, "Rotation", list[index].transformData.localEulerAngles);
+                        anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 1;
+                        EditorGUI.Vector3Field(anchorAndPivotRect, "Scale", list[index].transformData.localScale);
                         EditorGUIUtility.wideMode = widthMode;
                         EditorGUIUtility.labelWidth = lableWidth;
                         EditorGUIUtility.fieldWidth = fieldWidth;
