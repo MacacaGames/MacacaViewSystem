@@ -152,8 +152,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             EditorZoomArea.NoGroupBegin(zoomScale, scriptViewRect);
             DrawGrid();
-         
-   foreach (var item in viewStateList.ToArray())
+
+            foreach (var item in viewStateList.ToArray())
             {
 
                 if (!string.IsNullOrEmpty(item.viewState.name))
@@ -284,7 +284,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 dataReader.OnViewStateDelete(node);
                 viewStateList.Remove(node);
-              
+
             };
 
             if (viewState == null)
@@ -377,7 +377,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                             //刪掉線
                             console.LogWarringMessage("Break original link, create new link");
-             
+
                             CreateConnection();
                             ClearConnectionSelection();
                         }
@@ -528,7 +528,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             viewStateNode.OnNodeConnect(viewPageNode);
             viewPageNode.OnNodeConnect(viewStateNode);
-           
+
             console.LogMessage("Create Link, State:" + viewStateNode.viewState.name + ", Page :" + viewPageNode.viewPage.name);
         }
 
@@ -805,6 +805,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         vpi.transformData.sizeDelta = vpi.viewElement.rectTransform.sizeDelta;
                     }
+                    vpi.parentPath = "";
                 }
             }
             foreach (var vss in viewStateList)
@@ -831,7 +832,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         vpi.transformData.sizeDelta = vpi.viewElement.rectTransform.sizeDelta;
                     }
-
+                    vpi.parentPath = "";
                 }
             }
 

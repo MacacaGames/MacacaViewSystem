@@ -204,15 +204,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         //     }
         // }
 
+        GameObject previewUIRoot;
 
         public void OnViewPagePreview(ViewPage viewPage)
         {
+
+            string UIRootName = "";
             if (data.globalSetting.UIRootScene == null)
             {
                 ViewSystemLog.ShowNotification(editor, new GUIContent($"There is no canvas in your scene, do you enter EditMode?"), 2);
                 ViewSystemLog.LogError($"There is no canvas in your scene, do you enter EditMode?");
                 return;
             }
+            UIRootName = data.globalSetting.UIRoot.name;
             //throw new System.NotImplementedException();
             ClearAllViewElementInScene();
             // 打開所有相關 ViewElements
@@ -233,7 +237,22 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             viewItemForNextPage.AddRange(viewPage.viewPageItems);
 
             Transform root = ViewControllerTransform;
-            Transform fullPageRoot = root.Find("Canvas/Page_FullPage");
+            string pageName = viewPage.viewPageType == ViewPage.ViewPageType.FullPage ? "FullPage" : viewPage.name;
+            var canvas = root.Find($"{UIRootName}");
+            previewUIRoot = new GameObject($"Page_{pageName}");
+            var previewUIRootRectTransform = previewUIRoot.AddComponent<RectTransform>();
+            previewUIRootRectTransform.SetParent(canvas, false);
+            previewUIRootRectTransform.localScale = Vector3.one;
+            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 0);
+            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);
+            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 0);
+            previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 0);
+            previewUIRootRectTransform.anchorMin = Vector2.zero;
+            previewUIRootRectTransform.anchorMax = Vector2.one;
+
+            Transform fullPageRoot = root.Find($"{UIRootName}/Page_{pageName}");
+            //TO do apply viewPage component on fullPageRoot
+
             //打開相對應物件
             foreach (ViewPageItem item in viewItemForNextPage)
             {
@@ -296,6 +315,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         public void ClearAllViewElementInScene()
         {
+            if (previewUIRoot != null)
+            {
+                UnityEngine.Object.DestroyImmediate(previewUIRoot);
+                previewUIRoot = null;
+            }
             var allViewElement = UnityEngine.Object.FindObjectsOfType<ViewElement>();
             //NestedViewElement is obslote do nothing with NestedViewElement.
             //var allNestedViewElement = UnityEngine.Object.FindObjectsOfType<NestedViewElement>();

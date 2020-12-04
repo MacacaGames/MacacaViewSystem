@@ -95,7 +95,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         List<ViewPageItem> list;
         List<EditableLockItem> editableLock = new List<EditableLockItem>();
-        List<bool> rectTransformFoldout = new List<bool>();
+        List<bool> anchorPivotFoldout = new List<bool>();
+        List<bool> rotationScaleFoldout = new List<bool>();
         List<int> transformEditStatus = new List<int>();
         class EditableLockItem
         {
@@ -143,11 +144,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             editableLock.Clear();
             transformEditStatus.Clear();
-            rectTransformFoldout.Clear();
+            anchorPivotFoldout.Clear();
+            rotationScaleFoldout.Clear();
             list.All(x =>
             {
                 editableLock.Add(new EditableLockItem(true));
-                rectTransformFoldout.Add(false);
+                rotationScaleFoldout.Add(false);
+                anchorPivotFoldout.Add(false);
                 transformEditStatus.Add(string.IsNullOrEmpty(x.parentPath) ? 0 : 1);
                 return true;
             });
@@ -174,7 +177,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         private float ElementHight(int index)
         {
-            return transformEditStatus[index] == 0 ? EditorGUIUtility.singleLineHeight * 9f + (rectTransformFoldout[index] ? EditorGUIUtility.singleLineHeight * 3 : 0) : EditorGUIUtility.singleLineHeight * 6f;
+            return transformEditStatus[index] == 0 ? GetHeight() : EditorGUIUtility.singleLineHeight * 6f;
+            float GetHeight()
+            {
+                return EditorGUIUtility.singleLineHeight * 7.5f +
+               (anchorPivotFoldout[index] ? EditorGUIUtility.singleLineHeight * 3 + 6 : 0) +
+               (rotationScaleFoldout[index] ? EditorGUIUtility.singleLineHeight * 2 + 8 : 0);
+            }
         }
         int _currentShowOverrideItem = -1;
 
@@ -251,7 +260,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             editableLock.Add(new EditableLockItem(true));
             transformEditStatus.Add(0);
-            rectTransformFoldout.Add(false);
+            rotationScaleFoldout.Add(false);
+            anchorPivotFoldout.Add(false);
             // RebuildInspector();
         }
 
@@ -564,6 +574,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         Rect layoutButtonRect = rect;
                         Rect anchorAndPivotRect = rect;
                         Rect foldoutRect = rect;
+                        Rect previewBtnRect = rect;
+                        float btnWidth = 80;
+                        previewBtnRect.x = previewBtnRect.width - btnWidth + 20;
+                        previewBtnRect.width = btnWidth;
+                        previewBtnRect.height = EditorGUIUtility.singleLineHeight;
+                        previewBtnRect.y += 15;
+                        if (GUI.Button(previewBtnRect, new GUIContent("Select", "Highlight and select ViewElement object")))
+                        {
+                            SelectCurrentViewElement();
+                        }
                         layoutButtonRect.x -= 10;
                         // layoutButtonRect.y ;
                         layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
@@ -572,8 +592,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
                         SmartPositionAndSizeFields(smartPositionAndSizeRect, true, list[index].transformData, false, false);
                         anchorAndPivotRect.height = EditorGUIUtility.singleLineHeight;
-                        anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 3;
+                        anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 2;
                         anchorAndPivotRect.x += 30;
+                        anchorAndPivotRect.width -= 30;
                         // SmartAnchorFields(anchorRect, list[index].transformData);
                         bool widthMode = EditorGUIUtility.wideMode;
                         float lableWidth = EditorGUIUtility.labelWidth;
@@ -582,22 +603,28 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         EditorGUIUtility.labelWidth = 70;
                         EditorGUIUtility.wideMode = true;
 
-                        foldoutRect.y += EditorGUIUtility.singleLineHeight * 2;
-                        foldoutRect.x += 30;
-                        rectTransformFoldout[index] = EditorGUI.Foldout(foldoutRect, rectTransformFoldout[index], "Anchor and Pivot");
-                        if (rectTransformFoldout[index])
-                        {
-                            EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Min", list[index].transformData.anchorMin);
-                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
-                            EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Max", list[index].transformData.anchorMax);
-                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 1;
-                            EditorGUI.Vector2Field(anchorAndPivotRect, "Pivot", list[index].transformData.pivot);
-                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 1;
-                        }
+                        anchorPivotFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, anchorPivotFoldout[index], "Anchor and Pivot");
 
-                        EditorGUI.Vector3Field(anchorAndPivotRect, "Rotation", list[index].transformData.localEulerAngles);
-                        anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 1;
-                        EditorGUI.Vector3Field(anchorAndPivotRect, "Scale", list[index].transformData.localScale);
+                        if (anchorPivotFoldout[index])
+                        {
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
+                            EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Min", list[index].transformData.anchorMin);
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                            EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Max", list[index].transformData.anchorMax);
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                            EditorGUI.Vector2Field(anchorAndPivotRect, "Pivot", list[index].transformData.pivot);
+                        }
+                        anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                        rotationScaleFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, rotationScaleFoldout[index], "Rotation and Scale");
+
+                        if (rotationScaleFoldout[index])
+                        {
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
+
+                            EditorGUI.Vector3Field(anchorAndPivotRect, "Rotation", list[index].transformData.localEulerAngles);
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                            EditorGUI.Vector3Field(anchorAndPivotRect, "Scale", list[index].transformData.localScale);
+                        }
                         EditorGUIUtility.wideMode = widthMode;
                         EditorGUIUtility.labelWidth = lableWidth;
                         EditorGUIUtility.fieldWidth = fieldWidth;
@@ -680,7 +707,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         // Therefore use goto to escap the if scope
                         PICK_BREAK:
                             parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
-                            if (GUI.Button(parentFunctionRect, new GUIContent("Select Parent", "Highlight parent Transform object")))
+                            if (GUI.Button(parentFunctionRect, new GUIContent("Parent", "Highlight parent Transform object")))
                             {
                                 var go = GameObject.Find(list[index].parentPath);
                                 if (go)
@@ -691,31 +718,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                 else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
                             }
                             parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
-                            if (GUI.Button(parentFunctionRect, new GUIContent("Select Preview", "Highlight the preview ViewElement object (Only work while is preview the selected page)")))
+
+                            if (GUI.Button(parentFunctionRect, new GUIContent("Select", "Highlight and select ViewElement object")))
                             {
-                                if (list[index].previewViewElement)
-                                {
-                                    EditorGUIUtility.PingObject(list[index].previewViewElement);
-                                    Selection.objects = new[] { list[index].previewViewElement.gameObject };
-                                }
-                                else if (Application.isPlaying && list[index].runtimeViewElement)
-                                {
-                                    EditorGUIUtility.PingObject(list[index].runtimeViewElement);
-                                    Selection.objects = new[] { list[index].runtimeViewElement.gameObject };
-                                }
-                                else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                                // var go = GameObject.Find(list[index].parentPath);
-                                // if (go.transform.childCount > 0)
-                                // {
-                                //     var pi = go.transform.Find(list[index].viewElement.name);
-                                //     if (pi)
-                                //     {
-                                //         EditorGUIUtility.PingObject(pi);
-                                //         Selection.objects = new[] { pi };
-                                //     }
-                                //     else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                                // }
-                                // else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                                SelectCurrentViewElement();
                             }
                         }
                         else
@@ -749,6 +755,20 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 viewPageItemList.index = index;
                 RemoveItem(viewPageItemList);
+            }
+            void SelectCurrentViewElement()
+            {
+                if (list[index].previewViewElement)
+                {
+                    EditorGUIUtility.PingObject(list[index].previewViewElement);
+                    Selection.objects = new[] { list[index].previewViewElement.gameObject };
+                }
+                else if (Application.isPlaying && list[index].runtimeViewElement)
+                {
+                    EditorGUIUtility.PingObject(list[index].runtimeViewElement);
+                    Selection.objects = new[] { list[index].runtimeViewElement.gameObject };
+                }
+                else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
             }
         }
         static float InspectorWidth = 350;
