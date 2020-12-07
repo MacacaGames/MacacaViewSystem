@@ -205,7 +205,7 @@ namespace CloudMacaca.ViewSystem
             canvas = previewUIRoot.AddComponent<Canvas>();
             canvas.sortingOrder = sortingOrder;
             canvas.overrideSorting = true;
-            previewUIRootRectTransform = previewUIRoot.AddComponent<RectTransform>();
+            previewUIRootRectTransform = previewUIRoot.GetComponent<RectTransform>();
             previewUIRootRectTransform.SetParent(canvasRoot, false);
             previewUIRootRectTransform.localScale = Vector3.one;
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 0);
