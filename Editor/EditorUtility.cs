@@ -10,7 +10,7 @@ namespace CloudMacaca.ViewSystem
     {
         public static Rect CalculateBoundsRectFromRects(IEnumerable<Rect> rects, Vector2 padding)
         {
-            float xMin = 9999999f, xMax = 0, yMin = 9999999f, yMax = 0;
+            float xMin = 9999999f, xMax = -999999, yMin = 9999999f, yMax = -999999;
             foreach (var item in rects)
             {
                 xMin = Mathf.Min(item.xMin, xMin);
