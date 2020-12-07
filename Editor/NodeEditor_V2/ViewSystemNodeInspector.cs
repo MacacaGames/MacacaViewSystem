@@ -560,84 +560,95 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 case 0:
                     {
-                        Rect smartPositionAndSizeRect = rect;
-                        Rect layoutButtonRect = rect;
-                        Rect anchorAndPivotRect = rect;
-                        Rect foldoutRect = rect;
-                        Rect previewBtnRect = rect;
-                        float btnWidth = 80;
-                        previewBtnRect.x = previewBtnRect.width - btnWidth + 20;
-                        previewBtnRect.width = btnWidth;
-                        previewBtnRect.height = EditorGUIUtility.singleLineHeight;
-                        previewBtnRect.y += 18;
-                        if (GUI.Button(previewBtnRect, new GUIContent("Select", "Highlight and select ViewElement object")))
+                        using (var change = new EditorGUI.ChangeCheckScope())
                         {
-                            SelectCurrentViewElement();
-                        }
+                            Rect smartPositionAndSizeRect = rect;
+                            Rect layoutButtonRect = rect;
+                            Rect anchorAndPivotRect = rect;
+                            Rect foldoutRect = rect;
+                            Rect previewBtnRect = rect;
+                            float btnWidth = 80;
+                            previewBtnRect.x = previewBtnRect.width - btnWidth + 20;
+                            previewBtnRect.width = btnWidth;
+                            previewBtnRect.height = EditorGUIUtility.singleLineHeight;
+                            previewBtnRect.y += 18;
+                            if (GUI.Button(previewBtnRect, new GUIContent("Select", "Highlight and select ViewElement object")))
+                            {
+                                SelectCurrentViewElement();
+                            }
 
-                        layoutButtonRect.x -= 10;
-                        // layoutButtonRect.y ;
-                        layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
-                        layoutButtonRect.height = EditorGUIUtility.singleLineHeight * 2;
-                        LayoutDropdownButton(layoutButtonRect, list[index].transformData, false);
-                        layoutButtonRect.y += EditorGUIUtility.singleLineHeight * 3;
-                        layoutButtonRect.height = EditorGUIUtility.singleLineHeight;
-                        using (var disable = new EditorGUI.DisabledGroupScope(list[index].previewViewElement == null))
-                        {
-                            if (GUI.Button(layoutButtonRect, new GUIContent("Pick", "Pick RectTransform value from preview ViewElement")))
+                            layoutButtonRect.x -= 10;
+                            // layoutButtonRect.y ;
+                            layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
+                            layoutButtonRect.height = EditorGUIUtility.singleLineHeight * 2;
+                            LayoutDropdownButton(layoutButtonRect, list[index].transformData, false);
+                            layoutButtonRect.y += EditorGUIUtility.singleLineHeight * 3;
+                            layoutButtonRect.height = EditorGUIUtility.singleLineHeight;
+                            using (var disable = new EditorGUI.DisabledGroupScope(list[index].previewViewElement == null))
+                            {
+                                if (GUI.Button(layoutButtonRect, new GUIContent("Pick", "Pick RectTransform value from preview ViewElement")))
+                                {
+                                    if (list[index].previewViewElement)
+                                    {
+                                        var previewRectTransform = list[index].previewViewElement.GetComponent<RectTransform>();
+                                        list[index].transformData.anchoredPosition = previewRectTransform.anchoredPosition3D;
+                                        list[index].transformData.anchorMax = previewRectTransform.anchorMax;
+                                        list[index].transformData.anchorMin = previewRectTransform.anchorMin;
+                                        list[index].transformData.offsetMax = previewRectTransform.offsetMax;
+                                        list[index].transformData.offsetMin = previewRectTransform.offsetMin;
+                                        list[index].transformData.pivot = previewRectTransform.pivot;
+                                        list[index].transformData.localScale = previewRectTransform.localScale;
+                                        list[index].transformData.sizeDelta = previewRectTransform.sizeDelta;
+                                        list[index].transformData.localEulerAngles = previewRectTransform.localEulerAngles;
+                                    }
+                                }
+                            }
+                            smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
+                            SmartPositionAndSizeFields(smartPositionAndSizeRect, true, list[index].transformData, false, false);
+                            anchorAndPivotRect.height = EditorGUIUtility.singleLineHeight;
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 2;
+                            anchorAndPivotRect.x += 30;
+                            anchorAndPivotRect.width -= 30;
+                            bool widthMode = EditorGUIUtility.wideMode;
+                            float lableWidth = EditorGUIUtility.labelWidth;
+                            float fieldWidth = EditorGUIUtility.fieldWidth;
+                            EditorGUIUtility.fieldWidth = 40;
+                            EditorGUIUtility.labelWidth = 70;
+                            EditorGUIUtility.wideMode = true;
+
+                            anchorPivotFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, anchorPivotFoldout[index], "Anchor and Pivot");
+
+                            if (anchorPivotFoldout[index])
+                            {
+                                anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
+                                list[index].transformData.anchorMin = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Min", list[index].transformData.anchorMin);
+                                anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                                list[index].transformData.anchorMax = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Max", list[index].transformData.anchorMax);
+                                anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                                list[index].transformData.pivot = EditorGUI.Vector2Field(anchorAndPivotRect, "Pivot", list[index].transformData.pivot);
+                            }
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                            rotationScaleFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, rotationScaleFoldout[index], "Rotation and Scale");
+
+                            if (rotationScaleFoldout[index])
+                            {
+                                anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
+                                list[index].transformData.localEulerAngles = EditorGUI.Vector3Field(anchorAndPivotRect, "Rotation", list[index].transformData.localEulerAngles);
+                                anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                                list[index].transformData.localScale = EditorGUI.Vector3Field(anchorAndPivotRect, "Scale", list[index].transformData.localScale);
+                            }
+                            EditorGUIUtility.wideMode = widthMode;
+                            EditorGUIUtility.labelWidth = lableWidth;
+                            EditorGUIUtility.fieldWidth = fieldWidth;
+
+                            if (change.changed)
                             {
                                 if (list[index].previewViewElement)
                                 {
-                                    var previewRectTransform = list[index].previewViewElement.GetComponent<RectTransform>();
-                                    list[index].transformData.anchoredPosition = previewRectTransform.anchoredPosition3D;
-                                    list[index].transformData.anchorMax = previewRectTransform.anchorMax;
-                                    list[index].transformData.anchorMin = previewRectTransform.anchorMin;
-                                    list[index].transformData.offsetMax = previewRectTransform.offsetMax;
-                                    list[index].transformData.offsetMin = previewRectTransform.offsetMin;
-                                    list[index].transformData.pivot = previewRectTransform.pivot;
-                                    list[index].transformData.localScale = previewRectTransform.localScale;
-                                    list[index].transformData.sizeDelta = previewRectTransform.sizeDelta;
-                                    list[index].transformData.localEulerAngles = previewRectTransform.localEulerAngles;
+                                    list[index].previewViewElement.ApplyRectTransform(list[index].transformData);
                                 }
                             }
                         }
-                        smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
-                        SmartPositionAndSizeFields(smartPositionAndSizeRect, true, list[index].transformData, false, false);
-                        anchorAndPivotRect.height = EditorGUIUtility.singleLineHeight;
-                        anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 2;
-                        anchorAndPivotRect.x += 30;
-                        anchorAndPivotRect.width -= 30;
-                        bool widthMode = EditorGUIUtility.wideMode;
-                        float lableWidth = EditorGUIUtility.labelWidth;
-                        float fieldWidth = EditorGUIUtility.fieldWidth;
-                        EditorGUIUtility.fieldWidth = 40;
-                        EditorGUIUtility.labelWidth = 70;
-                        EditorGUIUtility.wideMode = true;
-
-                        anchorPivotFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, anchorPivotFoldout[index], "Anchor and Pivot");
-
-                        if (anchorPivotFoldout[index])
-                        {
-                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
-                            list[index].transformData.anchorMin = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Min", list[index].transformData.anchorMin);
-                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                            list[index].transformData.anchorMax = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Max", list[index].transformData.anchorMax);
-                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                            list[index].transformData.pivot = EditorGUI.Vector2Field(anchorAndPivotRect, "Pivot", list[index].transformData.pivot);
-                        }
-                        anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                        rotationScaleFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, rotationScaleFoldout[index], "Rotation and Scale");
-
-                        if (rotationScaleFoldout[index])
-                        {
-                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
-                            list[index].transformData.localEulerAngles = EditorGUI.Vector3Field(anchorAndPivotRect, "Rotation", list[index].transformData.localEulerAngles);
-                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                            list[index].transformData.localScale = EditorGUI.Vector3Field(anchorAndPivotRect, "Scale", list[index].transformData.localScale);
-                        }
-                        EditorGUIUtility.wideMode = widthMode;
-                        EditorGUIUtility.labelWidth = lableWidth;
-                        EditorGUIUtility.fieldWidth = fieldWidth;
                     }
                     break;
                 case 1:
@@ -1305,7 +1316,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
 
 
-
+    
 
     }
 }
