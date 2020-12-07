@@ -376,7 +376,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             /*Name Part Start */
             var nameRect = rect;
             //nameRect.height += EditorGUIUtility.singleLineHeight * 0.25f;
-            nameRect.width = rect.width - 60;
+            nameRect.width = rect.width - 80;
             GUIStyle nameRuntimeStyle;
 
             if (list.Where(m => m.name == list[index].name).Count() > 1 && !string.IsNullOrEmpty(list[index].name))
@@ -447,6 +447,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
 
             rightRect.x -= 20;
+            list[index].sortingOrder = EditorGUI.IntField(rightRect, list[index].sortingOrder);
+
             /*Toggle Button Part End */
 
 
@@ -793,7 +795,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     DrawViewStateDetail(((ViewStateNode)currentSelectNode));
                 }
                 infoAreaRect = GUILayoutUtility.GetLastRect();
-                GUILayout.Label("",GUILayout.Height(5));
+                GUILayout.Label("", GUILayout.Height(5));
                 tabs = GUILayout.Toolbar(tabs, new string[] { "ViewPageItems", "Components" });
                 // showViewPageItem.target = EditorGUILayout.Foldout(showViewPageItem.target, "ViewPageItems");
                 using (var scroll = new EditorGUILayout.ScrollViewScope(scrollerPos))

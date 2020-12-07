@@ -186,6 +186,7 @@ namespace CloudMacaca.ViewSystem
         {
             public RectTransform rectTransform;
             public Canvas canvas;
+            public UnityEngine.UI.GraphicRaycaster raycaster;
         }
         static Dictionary<string, PageRootWrapper> runtimeRectTransformCache = new Dictionary<string, PageRootWrapper>();
         public static RectTransform CreatePageTransform(string name, Transform canvasRoot, int sortingOrder)
@@ -193,6 +194,7 @@ namespace CloudMacaca.ViewSystem
             PageRootWrapper wrapper;
             RectTransform previewUIRootRectTransform;
             Canvas canvas;
+            UnityEngine.UI.GraphicRaycaster raycaster;
             if (Application.isPlaying)
             {
                 if (runtimeRectTransformCache.TryGetValue(name, out wrapper))
@@ -203,6 +205,7 @@ namespace CloudMacaca.ViewSystem
             }
             var previewUIRoot = new GameObject(name);
             canvas = previewUIRoot.AddComponent<Canvas>();
+            raycaster = previewUIRoot.AddComponent<UnityEngine.UI.GraphicRaycaster>();
             canvas.sortingOrder = sortingOrder;
             canvas.overrideSorting = true;
             previewUIRootRectTransform = previewUIRoot.GetComponent<RectTransform>();
@@ -221,6 +224,7 @@ namespace CloudMacaca.ViewSystem
                     wrapper = new PageRootWrapper();
                     wrapper.rectTransform = previewUIRootRectTransform;
                     wrapper.canvas = canvas;
+                    wrapper.raycaster = raycaster;
                     runtimeRectTransformCache.Add(name, wrapper);
                 }
             }

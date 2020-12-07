@@ -124,6 +124,7 @@ namespace CloudMacaca.ViewSystem
         public List<ViewElementNavigationData> navigationDatas = new List<ViewElementNavigationData>();
         public PlatformOption excludePlatform = PlatformOption.Nothing;
         public ViewSystemRectTransformData transformData = new ViewSystemRectTransformData();
+        public int sortingOrder = 0;
 
         [System.Flags]
         public enum PlatformOption

@@ -244,7 +244,7 @@ namespace CloudMacaca.ViewSystem
 
             IEnumerable<ViewPageItem> viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
             IEnumerable<ViewPageItem> viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
-
+            List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
             // 如果兩個頁面之間的 ViewState 不同的話 才需要更新 ViewState 部分的 RuntimeViewElement
             if (nextViewState != currentViewState)
             {
@@ -327,8 +327,10 @@ namespace CloudMacaca.ViewSystem
             else
                 yield return Yielders.GetWaitForSeconds(TimeForPerviousPageOnLeave);
 
+            viewItemForNextPage.AddRange(viewItemNextPage);
+            if (viewItemNextState != null) viewItemForNextPage.AddRange(viewItemNextState);
             //對進場的呼叫改變狀態(ViewPage)
-            foreach (var item in viewItemNextPage)
+            foreach (var item in viewItemForNextPage.OrderBy(m => m.sortingOrder))
             {
                 if (item.runtimeViewElement == null)
                 {
@@ -361,37 +363,37 @@ namespace CloudMacaca.ViewSystem
             }
 
             //對進場的呼叫改變狀態(ViewPage)
-            foreach (var item in viewItemNextState)
-            {
-                if (item.runtimeViewElement == null)
-                {
-                    ViewSystemLog.LogError($"The runtimeViewElement is null for some reason, ignore this item.");
-                    continue;
-                }
-                //套用複寫值
-                item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
-                item.runtimeViewElement.ApplyEvent(item.eventDatas);
+            // foreach (var item in viewItemNextState)
+            // {
+            //     if (item.runtimeViewElement == null)
+            //     {
+            //         ViewSystemLog.LogError($"The runtimeViewElement is null for some reason, ignore this item.");
+            //         continue;
+            //     }
+            //     //套用複寫值
+            //     item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
+            //     item.runtimeViewElement.ApplyEvent(item.eventDatas);
 
-                //Delay 時間
-                if (!lastPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))
-                    lastPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
-                else
-                    lastPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
+            //     //Delay 時間
+            //     if (!lastPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))
+            //         lastPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
+            //     else
+            //         lastPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
 
-                // if (item.runtimeParent == null)
-                // {
-                if (!string.IsNullOrEmpty(item.parentPath))
-                {
-                    item.runtimeParent = transformCache.Find(item.parentPath);
-                }
-                else
-                {
-                    item.runtimeParent = vp.runtimePageRoot;
-                }
-                // }
+            //     // if (item.runtimeParent == null)
+            //     // {
+            //     if (!string.IsNullOrEmpty(item.parentPath))
+            //     {
+            //         item.runtimeParent = transformCache.Find(item.parentPath);
+            //     }
+            //     else
+            //     {
+            //         item.runtimeParent = vp.runtimePageRoot;
+            //     }
+            //     // }
 
-                item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.TweenTime, item.delayIn, item.delayOut);
-            }
+            //     item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.TweenTime, item.delayIn, item.delayOut);
+            // }
 
             float OnShowAnimationFinish = ViewSystemUtilitys.CalculateTimesNeedsForOnShow(viewItemNextPage.Select(m => m.runtimeViewElement), maxClampTime);
 
@@ -451,6 +453,7 @@ namespace CloudMacaca.ViewSystem
             List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
             IEnumerable<ViewPageItem> viewItemNextPage = null;
             IEnumerable<ViewPageItem> viewItemNextState = null;
+            List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
 
             string OverlayPageStateKey = GetOverlayStateKey(vp);
             bool samePage = false;
@@ -519,6 +522,8 @@ namespace CloudMacaca.ViewSystem
                 item.ChangePage(false, null, null, 0, 0, delayOut);
             }
 
+            viewItemForNextPage.AddRange(viewItemNextPage);
+            if (viewItemNextState != null) viewItemForNextPage.AddRange(viewItemNextState);
             //對進場的呼叫改變狀態
             foreach (var item in viewItemNextPage)
             {
@@ -553,40 +558,40 @@ namespace CloudMacaca.ViewSystem
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.TweenTime, item.delayIn, item.delayOut, reshowIfSamePage: RePlayOnShowWhileSamePage);
             }
 
-            if (viewItemNextState != null)
-            {
-                foreach (var item in viewItemNextState)
-                {
-                    if (RePlayOnShowWhileSamePage)
-                    {
-                        item.runtimeViewElement.OnShow();
-                        continue;
-                    }
-                    //套用複寫值
-                    item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
-                    item.runtimeViewElement.ApplyEvent(item.eventDatas);
+            // if (viewItemNextState != null)
+            // {
+            //     foreach (var item in viewItemNextState)
+            //     {
+            //         if (RePlayOnShowWhileSamePage)
+            //         {
+            //             item.runtimeViewElement.OnShow();
+            //             continue;
+            //         }
+            //         //套用複寫值
+            //         item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
+            //         item.runtimeViewElement.ApplyEvent(item.eventDatas);
 
-                    //Delay 時間
-                    if (!lastOverlayPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))
-                        lastOverlayPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
-                    else
-                        lastOverlayPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
+            //         //Delay 時間
+            //         if (!lastOverlayPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))
+            //             lastOverlayPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
+            //         else
+            //             lastOverlayPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
 
-                    // if (item.runtimeParent == null)
-                    // {
-                    if (!string.IsNullOrEmpty(item.parentPath))
-                    {
-                        item.runtimeParent = transformCache.Find(item.parentPath);
-                    }
-                    else
-                    {
-                        item.runtimeParent = vp.runtimePageRoot;
-                    }
-                    // }
+            //         // if (item.runtimeParent == null)
+            //         // {
+            //         if (!string.IsNullOrEmpty(item.parentPath))
+            //         {
+            //             item.runtimeParent = transformCache.Find(item.parentPath);
+            //         }
+            //         else
+            //         {
+            //             item.runtimeParent = vp.runtimePageRoot;
+            //         }
+            //         // }
 
-                    item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.TweenTime, item.delayIn, item.delayOut, reshowIfSamePage: RePlayOnShowWhileSamePage);
-                }
-            }
+            //         item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.TweenTime, item.delayIn, item.delayOut, reshowIfSamePage: RePlayOnShowWhileSamePage);
+            //     }
+            // }
 
             SetNavigationTarget(vp);
 
