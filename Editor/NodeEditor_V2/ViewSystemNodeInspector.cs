@@ -263,15 +263,31 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         const int rightBtnWidth = 0;
         ViewPageItem copyPasteBuffer;
         ViewElementOverridesImporterWindow overrideChecker;
-        ViewPageItem CopyItem(bool copyOverride = true, bool copyEvent = true)
+        ViewPageItem CopyItem(bool copyOverride = true, bool copyEvent = true, bool copyRectTransform = true)
         {
             var copyResult = new ViewPageItem(copyPasteBuffer.viewElement);
             copyResult.TweenTime = copyPasteBuffer.TweenTime;
             copyResult.delayOut = copyPasteBuffer.delayOut;
             copyResult.delayIn = copyPasteBuffer.delayIn;
             copyResult.parentPath = copyPasteBuffer.parentPath;
-            copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
             copyResult.parent = copyPasteBuffer.parent;
+            copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
+            copyResult.name = copyPasteBuffer.name;
+
+            if (copyRectTransform == true)
+            {
+                copyResult.transformData = new ViewSystemRectTransformData();
+                copyResult.transformData.anchoredPosition = copyPasteBuffer.transformData.anchoredPosition;
+                copyResult.transformData.anchorMax = copyPasteBuffer.transformData.anchorMax;
+                copyResult.transformData.anchorMin = copyPasteBuffer.transformData.anchorMin;
+                copyResult.transformData.pivot = copyPasteBuffer.transformData.pivot;
+                copyResult.transformData.localEulerAngles = copyPasteBuffer.transformData.localEulerAngles;
+                copyResult.transformData.localScale = copyPasteBuffer.transformData.localScale;
+                copyResult.transformData.offsetMax = copyPasteBuffer.transformData.offsetMax;
+                copyResult.transformData.offsetMin = copyPasteBuffer.transformData.offsetMin;
+                copyResult.transformData.sizeDelta = copyPasteBuffer.transformData.sizeDelta;
+                copyResult.parentPath = "";
+            }
 
             if (copyOverride == true)
             {
@@ -335,28 +351,28 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         genericMenu.AddItem(new GUIContent("Paste (Default)"), false,
                             () =>
                             {
-                                list[index] = CopyItem(false, false);
+                                list[index] = CopyItem(false, false, true);
                                 GUI.changed = true;
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Paste (with Property Data)"), false,
                             () =>
                             {
-                                list[index] = CopyItem(true, false);
+                                list[index] = CopyItem(true, false, true);
                                 GUI.changed = true;
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Paste (with Events Data)"), false,
                            () =>
                            {
-                               list[index] = CopyItem(false, true);
+                               list[index] = CopyItem(false, true, true);
                                GUI.changed = true;
                            }
-                       );
+                        );
                         genericMenu.AddItem(new GUIContent("Paste (with All Data)"), false,
                            () =>
                            {
-                               list[index] = CopyItem(true, true);
+                               list[index] = CopyItem(true, true, true);
                                GUI.changed = true;
                            }
                        );
