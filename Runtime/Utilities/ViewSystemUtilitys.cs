@@ -199,6 +199,7 @@ namespace CloudMacaca.ViewSystem
             {
                 if (runtimeRectTransformCache.TryGetValue(name, out wrapper))
                 {
+                    wrapper.canvas.overrideSorting = true;
                     wrapper.canvas.sortingOrder = sortingOrder;
                     return wrapper.rectTransform;
                 }
@@ -208,8 +209,9 @@ namespace CloudMacaca.ViewSystem
             raycaster = previewUIRoot.AddComponent<UnityEngine.UI.GraphicRaycaster>();
             previewUIRootRectTransform = previewUIRoot.GetComponent<RectTransform>();
             previewUIRootRectTransform.SetParent(canvasRoot, false);
-            canvas.sortingOrder = sortingOrder;
             canvas.overrideSorting = true;
+            canvas.sortingOrder = sortingOrder;
+
             previewUIRootRectTransform.localScale = Vector3.one;
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 0);
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);
