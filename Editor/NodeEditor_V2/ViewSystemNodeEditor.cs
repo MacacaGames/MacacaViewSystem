@@ -55,6 +55,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             visulaElementFromUXML.styleSheets.Add(styleSheet);
             visulaElementFromUXML.style.flexGrow = 1;
 
+
             toolbarContianer = new IMGUIContainer(DrawMenuBar);
             toolbarContianer.style.flexGrow = 1;
             visulaElementFromUXML.Q("toolbar").Add(toolbarContianer);
@@ -62,7 +63,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             inspectorContianer = new IMGUIContainer(DrawInspector);
             inspectorContianer.style.flexGrow = 1;
             visulaElementFromUXML.Q("inspector").Add(inspectorContianer);
-
+            if (EditorGUIUtility.isProSkin)
+            {
+                visulaElementFromUXML.Q("inspector").style.backgroundColor = new StyleColor(new Color(0.3f, 0.3f, 0.3f));
+            }
             nodeViewContianer = new IMGUIContainer(DrawNode);
             nodeViewContianer.style.flexGrow = 1;
             visulaElementFromUXML.Q("node-view").Add(nodeViewContianer);

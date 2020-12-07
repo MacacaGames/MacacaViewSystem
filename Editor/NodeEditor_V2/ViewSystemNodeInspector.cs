@@ -364,7 +364,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     genericMenu.ShowAsContext();
                 }
             }
-            EditorGUIUtility.labelWidth = 80.0f;
+            // EditorGUIUtility.labelWidth = 80.0f;
 
             Rect oriRect = rect;
 
@@ -793,7 +793,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     DrawViewStateDetail(((ViewStateNode)currentSelectNode));
                 }
                 infoAreaRect = GUILayoutUtility.GetLastRect();
-                tabs = GUILayout.Toolbar( tabs, new string[] { "ViewPageItems", "Components" });
+                GUILayout.Label("",GUILayout.Height(5));
+                tabs = GUILayout.Toolbar(tabs, new string[] { "ViewPageItems", "Components" });
                 // showViewPageItem.target = EditorGUILayout.Foldout(showViewPageItem.target, "ViewPageItems");
                 using (var scroll = new EditorGUILayout.ScrollViewScope(scrollerPos))
                 {
@@ -804,6 +805,19 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             if (viewPageItemList != null) viewPageItemList.DoLayoutList();
                             break;
                         case 1:
+                            if (currentSelectNode.nodeType == ViewStateNode.NodeType.FullPage || currentSelectNode.nodeType == ViewStateNode.NodeType.Overlay)
+                            {
+                                var vp = ((ViewPageNode)currentSelectNode).viewPage;
+                                var _cachedContent = EditorGUIUtility.ObjectContent(null, typeof(Canvas));
+                                _cachedContent.text = "Canvas";
+                                GUILayout.Label(_cachedContent, new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                                vp.canvasSortOrder = EditorGUILayout.IntField("sortingOrder", vp.canvasSortOrder);
+                                GUILayout.Label("", new GUIStyle("ToolbarSlider"));
+                            }
+                            else
+                            {
+                                GUILayout.Label("ViewState doesn't support components setting");
+                            }
                             break;
                     }
                 }

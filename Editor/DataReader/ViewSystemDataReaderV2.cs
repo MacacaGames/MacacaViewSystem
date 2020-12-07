@@ -240,7 +240,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             var canvas = root.Find($"{UIRootName}");
             string viewPageName = ViewSystemUtilitys.GetPageRootName(viewPage);
-            previewUIRoot = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas).gameObject;
+            previewUIRoot = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas, viewPage.canvasSortOrder).gameObject;
             Transform fullPageRoot = root.Find($"{UIRootName}/{viewPageName}");
             //TO do apply viewPage component on fullPageRoot
 

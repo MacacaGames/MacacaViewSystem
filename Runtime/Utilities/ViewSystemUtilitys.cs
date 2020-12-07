@@ -181,20 +181,32 @@ namespace CloudMacaca.ViewSystem
         {
             return "Page_" + (viewPage.viewPageType == ViewPage.ViewPageType.FullPage ? "FullPage" : viewPage.name);
         }
-        static Dictionary<string, RectTransform> runtimeRectTransformCache = new Dictionary<string, RectTransform>();
-        public static RectTransform CreatePageTransform(string name, Transform canvas)
+
+        class PageRootWrapper
         {
+            public RectTransform rectTransform;
+            public Canvas canvas;
+        }
+        static Dictionary<string, PageRootWrapper> runtimeRectTransformCache = new Dictionary<string, PageRootWrapper>();
+        public static RectTransform CreatePageTransform(string name, Transform canvasRoot, int sortingOrder)
+        {
+            PageRootWrapper wrapper;
             RectTransform previewUIRootRectTransform;
+            Canvas canvas;
             if (Application.isPlaying)
             {
-                if (runtimeRectTransformCache.TryGetValue(name, out previewUIRootRectTransform))
+                if (runtimeRectTransformCache.TryGetValue(name, out wrapper))
                 {
-                    return previewUIRootRectTransform;
+                    wrapper.canvas.sortingOrder = sortingOrder;
+                    return wrapper.rectTransform;
                 }
             }
             var previewUIRoot = new GameObject(name);
+            canvas = previewUIRoot.AddComponent<Canvas>();
+            canvas.sortingOrder = sortingOrder;
+            canvas.overrideSorting = true;
             previewUIRootRectTransform = previewUIRoot.AddComponent<RectTransform>();
-            previewUIRootRectTransform.SetParent(canvas, false);
+            previewUIRootRectTransform.SetParent(canvasRoot, false);
             previewUIRootRectTransform.localScale = Vector3.one;
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 0);
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);
@@ -206,7 +218,10 @@ namespace CloudMacaca.ViewSystem
             {
                 if (!runtimeRectTransformCache.ContainsKey(name))
                 {
-                    runtimeRectTransformCache.Add(name, previewUIRootRectTransform);
+                    wrapper = new PageRootWrapper();
+                    wrapper.rectTransform = previewUIRootRectTransform;
+                    wrapper.canvas = canvas;
+                    runtimeRectTransformCache.Add(name, wrapper);
                 }
             }
             return previewUIRootRectTransform;

@@ -32,6 +32,7 @@ namespace CloudMacaca.ViewSystem
         public string viewState = "";
         public ViewPageType viewPageType = ViewPageType.FullPage;
         public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.與前動畫同時;
+        public int canvasSortOrder = 0;
 
         #region Navigation
         public bool IsNavigation = false;
