@@ -206,10 +206,10 @@ namespace CloudMacaca.ViewSystem
             var previewUIRoot = new GameObject(name);
             canvas = previewUIRoot.AddComponent<Canvas>();
             raycaster = previewUIRoot.AddComponent<UnityEngine.UI.GraphicRaycaster>();
-            canvas.sortingOrder = sortingOrder;
-            canvas.overrideSorting = true;
             previewUIRootRectTransform = previewUIRoot.GetComponent<RectTransform>();
             previewUIRootRectTransform.SetParent(canvasRoot, false);
+            canvas.sortingOrder = sortingOrder;
+            canvas.overrideSorting = true;
             previewUIRootRectTransform.localScale = Vector3.one;
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 0);
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);
