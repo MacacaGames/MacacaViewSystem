@@ -17,7 +17,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ViewSystemNodeEditor editor;
         public bool show = true;
         AnimBool showBasicInfo;
-        AnimBool showViewPageItem;
+        // AnimBool showViewPageItem;
         ReorderableList viewPageItemList;
         GUIStyle nameStyle;
         GUIStyle nameUnnamedStyle;
@@ -36,8 +36,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             showBasicInfo = new AnimBool(true);
             showBasicInfo.valueChanged.AddListener(this.editor.Repaint);
 
-            showViewPageItem = new AnimBool(true);
-            showViewPageItem.valueChanged.AddListener(this.editor.Repaint);
+            // showViewPageItem = new AnimBool(true);
+            // showViewPageItem.valueChanged.AddListener(this.editor.Repaint);
 
             nameStyle = new GUIStyle
             {
@@ -121,25 +121,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 var vp = ((ViewPageNode)currentSelectNode).viewPage;
                 list = vp.viewPageItems;
-                // var s = saveData.viewPages.Single(m => m.viewPage == vp);
-                // var index = saveData.viewPages.IndexOf(s);
-                // var sp = serializedObject.FindProperty("viewPages");
-                // var x = sp.GetArrayElementAtIndex(index);
-                // var y = x.FindPropertyRelative("viewPage");
-                // var z = y.FindPropertyRelative("viewPageItems");
-                // serializedProperty = z;
             }
             if (currentSelectNode is ViewStateNode)
             {
                 var vs = ((ViewStateNode)currentSelectNode).viewState;
                 list = vs.viewPageItems;
-                // var s = saveData.viewStates.Single(m => m.viewState == vs);
-                // var index = saveData.viewStates.IndexOf(s);
-                // var sp = serializedObject.FindProperty("viewStates");
-                // var x = sp.GetArrayElementAtIndex(index);
-                // var y = x.FindPropertyRelative("viewState");
-                // var z = y.FindPropertyRelative("viewPageItems");
-                // serializedProperty = z;
             }
 
             editableLock.Clear();
@@ -164,14 +150,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             viewPageItemList = null;
             viewPageItemList = new ReorderableList(list, typeof(List<ViewPageItem>), true, true, true, false);
-            //viewPageItemList = new ReorderableList(serializedProperty.serializedObject, serializedProperty, true, true, true, false);
             viewPageItemList.drawElementCallback += DrawViewItemElement;
             viewPageItemList.drawHeaderCallback += DrawViewItemHeader;
             viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 6f;
             viewPageItemList.onAddCallback += AddItem;
             viewPageItemList.drawElementBackgroundCallback += DrawItemBackground;
             viewPageItemList.elementHeightCallback += ElementHight;
-            //viewPageItemList.elementHeightCallback += ElementHight;
             layouted = false;
         }
 
@@ -262,12 +246,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             transformEditStatus.Add(0);
             rotationScaleFoldout.Add(false);
             anchorPivotFoldout.Add(false);
-            // RebuildInspector();
         }
 
         private void DrawViewItemHeader(Rect rect)
         {
-
             float oriWidth = rect.width;
             rect.height = EditorGUIUtility.singleLineHeight;
             rect.x += 15;
@@ -276,10 +258,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             rect.width = 25;
             rect.x = oriWidth - 25;
-            // if (GUI.Button(rect, ReorderableList.defaultBehaviours.iconToolbarPlus, ReorderableList.defaultBehaviours.preButton))
-            // {
-            //     AddItem(viewPageItemList);
-            // }
         }
 
         const int rightBtnWidth = 0;
@@ -340,7 +318,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 return;
             }
-            //var vpi_sp = viewPageItemList.serializedProperty.GetArrayElementAtIndex(index);
             var e = Event.current;
             if (rect.Contains(e.mousePosition))
             {
@@ -477,9 +454,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             var veRect = rect;
             veRect.width = rect.width - 20;
-            //var viewElementProperty = vpi_sp.FindPropertyRelative("viewElement");
-            //ViewElement ve = (ViewElement)viewElementProperty.objectReferenceValue;
-            //ViewElement ve = list[index].viewElement;
+
             using (var check = new EditorGUI.ChangeCheckScope())
             {
                 string oriViewElement = "";
@@ -488,8 +463,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     oriViewElement = list[index].viewElement.name;
                 }
 
-                //EditorGUI.ObjectField(veRect, viewElementProperty,);
-                //list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), true);
+
                 list[index].viewElementObject = (GameObject)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElementObject, typeof(GameObject), true);
                 if (check.changed)
                 {
@@ -522,11 +496,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         original = PrefabUtility.GetCorrespondingObjectFromSource(cache);
                     }
 
-                    //if (overrideChecker) overrideChecker.Close();
                     overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
                     overrideChecker.SetData(cache.transform, original.transform, list[index], currentSelectNode);
                     overrideChecker.ShowUtility();
-                    //viewElementProperty.objectReferenceValue = original;
                     list[index].viewElement = original;
                     list[index].parent = cache.transform.parent;
                 }
@@ -617,7 +589,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 2;
                         anchorAndPivotRect.x += 30;
                         anchorAndPivotRect.width -= 30;
-                        // SmartAnchorFields(anchorRect, list[index].transformData);
                         bool widthMode = EditorGUIUtility.wideMode;
                         float lableWidth = EditorGUIUtility.labelWidth;
                         float fieldWidth = EditorGUIUtility.fieldWidth;
@@ -796,6 +767,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         Rect infoAreaRect;
         public Vector2 scrollerPos;
         bool layouted = false;
+        int tabs = 0;
         public void Draw()
         {
             // if (show)
@@ -821,13 +793,18 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     DrawViewStateDetail(((ViewStateNode)currentSelectNode));
                 }
                 infoAreaRect = GUILayoutUtility.GetLastRect();
-                showViewPageItem.target = EditorGUILayout.Foldout(showViewPageItem.target, "ViewPageItems");
+                tabs = GUILayout.Toolbar( tabs, new string[] { "ViewPageItems", "Components" });
+                // showViewPageItem.target = EditorGUILayout.Foldout(showViewPageItem.target, "ViewPageItems");
                 using (var scroll = new EditorGUILayout.ScrollViewScope(scrollerPos))
                 {
                     scrollerPos = scroll.scrollPosition;
-                    using (var fade = new EditorGUILayout.FadeGroupScope(showViewPageItem.faded))
+                    switch (tabs)
                     {
-                        if (viewPageItemList != null && fade.visible) viewPageItemList.DoLayoutList();
+                        case 0:
+                            if (viewPageItemList != null) viewPageItemList.DoLayoutList();
+                            break;
+                        case 1:
+                            break;
                     }
                 }
             }
@@ -836,11 +813,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 GUILayout.Label("Nothing selected :)");
             }
 
-            //if (serializedObject != null)
-            //    serializedObject.ApplyModifiedProperties();
-
             GUILayout.EndArea();
-            //DrawResizeBar();
         }
         //source from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/Inspector/RectTransformEditor.cs
         private delegate float FloatGetter(ViewSystemRectTransformData rect);

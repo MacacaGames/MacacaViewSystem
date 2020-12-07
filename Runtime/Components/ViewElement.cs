@@ -98,24 +98,25 @@ namespace CloudMacaca.ViewSystem
         [Flags]
         public enum RectTransformFlag
         {
-            SizeDelta = 0 << 1,
-            AnchoredPosition = 0 << 2,
-            AnchorMax = 0 << 3,
-            AnchorMin = 0 << 4,
-            LocalEulerAngles = 0 << 5,
-            LocalScale = 0 << 6,
-            Pivot = 0 << 7,
-            All,
+            SizeDelta = 1 << 0,
+            AnchoredPosition = 1 << 1,
+            AnchorMax = 1 << 2,
+            AnchorMin = 1 << 3,
+            LocalEulerAngles = 1 << 4,
+            LocalScale = 1 << 5,
+            Pivot = 1 << 6,
+            All = SizeDelta | AnchoredPosition | AnchorMax | AnchorMin | LocalEulerAngles | LocalScale | Pivot,
         }
         public void ApplyRectTransform(ViewSystemRectTransformData transformData, RectTransformFlag flag = RectTransformFlag.All)
         {
-            rectTransform.sizeDelta = transformData.sizeDelta;
-            rectTransform.anchoredPosition3D = transformData.anchoredPosition;
-            rectTransform.anchorMax = transformData.anchorMax;
-            rectTransform.anchorMin = transformData.anchorMin;
-            rectTransform.localEulerAngles = transformData.localEulerAngles;
-            rectTransform.localScale = transformData.localScale;
-            rectTransform.pivot = transformData.pivot;
+
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.SizeDelta)) rectTransform.sizeDelta = transformData.sizeDelta;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.AnchoredPosition)) rectTransform.anchoredPosition3D = transformData.anchoredPosition;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.AnchorMax)) rectTransform.anchorMax = transformData.anchorMax;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.AnchorMin)) rectTransform.anchorMin = transformData.anchorMin;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.LocalEulerAngles)) rectTransform.localEulerAngles = transformData.localEulerAngles;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.LocalScale)) rectTransform.localScale = transformData.localScale;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.Pivot)) rectTransform.pivot = transformData.pivot;
         }
 
         public virtual Selectable[] GetSelectables()
@@ -336,7 +337,7 @@ namespace CloudMacaca.ViewSystem
                 else
                 {
                     //如果目前的 parent 跟目標的 parent 是同一個人 那就什麼事都不錯
-                    if (parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
+                    if (rectTransformData == null && parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
                     {
                         //ViewSystemLog.LogWarning("Due to already set the same parent with target parent, ignore " +  name);
                         if (reshowIfSamePage)
@@ -380,6 +381,7 @@ namespace CloudMacaca.ViewSystem
                         }
                         else
                         {
+                            rectTransform.SetParent(parent, true);
                             ApplyRectTransform(rectTransformData,
                                 RectTransformFlag.AnchorMax |
                                 RectTransformFlag.AnchorMin |
@@ -402,7 +404,7 @@ namespace CloudMacaca.ViewSystem
                                 }
                             ));
                             viewController.StartMicroCoroutine(EaseUtility.To(
-                                rectTransform.anchoredPosition3D,
+                                rectTransform.localScale,
                                 rectTransformData.localScale,
                                 TweenTime,
                                 EaseStyle.QuadEaseOut,

@@ -358,7 +358,6 @@ namespace CloudMacaca.ViewSystem
                 // }
 
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.TweenTime, item.delayIn, item.delayOut);
-                item.runtimeViewElement.ApplyRectTransform(item.transformData);
             }
 
             //對進場的呼叫改變狀態(ViewPage)
@@ -901,7 +900,7 @@ namespace CloudMacaca.ViewSystem
 
         ViewSystemRectTransformData GetViewSystemRectTransformDataByViewPageItem(ViewPageItem item)
         {
-            return string.IsNullOrEmpty(item.parentPath) ? null : item.transformData;
+            return !string.IsNullOrEmpty(item.parentPath) ? null : item.transformData;
         }
 
         #endregion
