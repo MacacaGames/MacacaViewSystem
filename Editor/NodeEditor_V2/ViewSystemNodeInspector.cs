@@ -609,13 +609,17 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 2;
                             anchorAndPivotRect.x += 30;
                             anchorAndPivotRect.width -= 30;
+                            anchorAndPivotRect.width -= 70;
                             bool widthMode = EditorGUIUtility.wideMode;
                             float lableWidth = EditorGUIUtility.labelWidth;
                             float fieldWidth = EditorGUIUtility.fieldWidth;
                             EditorGUIUtility.fieldWidth = 40;
                             EditorGUIUtility.labelWidth = 70;
                             EditorGUIUtility.wideMode = true;
-
+                            Rect overrideFlagRect = anchorAndPivotRect;
+                            overrideFlagRect.x += 150;
+                            overrideFlagRect.width =100;
+                            list[index].transformFlag = (ViewElement.RectTransformFlag)EditorGUI.EnumFlagsField(overrideFlagRect,  list[index].transformFlag);
                             anchorPivotFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, anchorPivotFoldout[index], "Anchor and Pivot");
 
                             if (anchorPivotFoldout[index])
@@ -645,7 +649,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             {
                                 if (list[index].previewViewElement)
                                 {
-                                    list[index].previewViewElement.ApplyRectTransform(list[index].transformData);
+                                    list[index].previewViewElement.ApplyRectTransform(list[index].transformData, list[index].transformFlag);
                                 }
                             }
                         }
@@ -1316,7 +1320,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
 
 
-    
+
 
     }
 }

@@ -29,7 +29,7 @@ public class ViewElementRequestedPool
     {
         var viewElementInstance = runtimePool.RequestViewElement(template);
 
-        viewElementInstance.ChangePage(true, root, null);
+        viewElementInstance.ChangePage(true, root, null, ViewElement.RectTransformFlag.All);
         viewElementQueue.Enqueue(viewElementInstance);
 
         return viewElementInstance;
@@ -45,7 +45,7 @@ public class ViewElementRequestedPool
         while (viewElementQueue.Count > 0)
         {
             var ve = viewElementQueue.Dequeue();
-            ve.ChangePage(false, null, null, ignoreTransition: ignoreTransition);
+            ve.ChangePage(false, null, null, ViewElement.RectTransformFlag.All, ignoreTransition: ignoreTransition);
 
             recoveryAction?.Invoke(ve);
         }
@@ -55,7 +55,7 @@ public class ViewElementRequestedPool
     public void Recovery(ViewElement ve, bool ignoreTransition = true)
     {
         viewElementQueue.Remove(ve);
-        ve.ChangePage(false, null, null, ignoreTransition: ignoreTransition);
+        ve.ChangePage(false, null, null, ViewElement.RectTransformFlag.All, ignoreTransition: ignoreTransition);
         recoveryAction?.Invoke(ve);
         //runtimePool.RecoveryQueuedViewElement(true);
     }

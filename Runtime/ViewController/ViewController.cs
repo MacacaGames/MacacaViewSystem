@@ -359,7 +359,7 @@ namespace CloudMacaca.ViewSystem
                 }
                 // }
 
-                item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.TweenTime, item.delayIn, item.delayOut);
+                item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.transformFlag, item.TweenTime, item.delayIn, item.delayOut);
             }
 
             //對進場的呼叫改變狀態(ViewPage)
@@ -555,7 +555,7 @@ namespace CloudMacaca.ViewSystem
                 }
                 // }
 
-                item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.TweenTime, item.delayIn, item.delayOut, reshowIfSamePage: RePlayOnShowWhileSamePage);
+                item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.transformFlag, item.TweenTime, item.delayIn, item.delayOut, reshowIfSamePage: RePlayOnShowWhileSamePage);
             }
 
             // if (viewItemNextState != null)
@@ -660,7 +660,7 @@ namespace CloudMacaca.ViewSystem
                             // }
 
                             var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
-                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(vpi), tweenTimeIfNeed, 0, 0);
+                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(vpi), item.transformFlag, tweenTimeIfNeed, 0, 0);
                             ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.runtimeParent.name);
                         }
                         catch { }
@@ -683,7 +683,7 @@ namespace CloudMacaca.ViewSystem
                             }
                             // }
                             var vpi = currentViewState.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
-                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(vpi), tweenTimeIfNeed, 0, 0);
+                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(vpi), item.transformFlag, tweenTimeIfNeed, 0, 0);
                             ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name + "Try to back to origin Transfrom parent : " + vpi.runtimeParent.name);
                         }
                         catch { }
@@ -692,7 +692,7 @@ namespace CloudMacaca.ViewSystem
                 }
 
                 lastOverlayPageItemDelayOutTimes.TryGetValue(item.runtimeViewElement.name, out float delayOut);
-                item.runtimeViewElement.ChangePage(false, null, null, 0, 0, delayOut, ignoreTransition);
+                item.runtimeViewElement.ChangePage(false, null, null, item.transformFlag, 0, 0, delayOut, ignoreTransition);
             }
 
             //Get Back the Navigation to CurrentPage

@@ -245,7 +245,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             //TO do apply viewPage component on fullPageRoot
 
             //打開相對應物件
-            foreach (ViewPageItem item in viewItemForNextPage.OrderBy(m=>m.sortingOrder))
+            foreach (ViewPageItem item in viewItemForNextPage.OrderBy(m => m.sortingOrder))
             {
                 if (item.viewElement == null)
                 {
@@ -280,7 +280,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 }
                 else
                 {
-                    tempViewElement.ApplyRectTransform(item.transformData);
+                    tempViewElement.ApplyRectTransform(item.transformData, item.transformFlag);
                 }
 
                 tempViewElement.ApplyOverrides(item.overrideDatas);

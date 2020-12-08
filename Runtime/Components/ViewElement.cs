@@ -279,12 +279,12 @@ namespace CloudMacaca.ViewSystem
         }
         Coroutine changePageCoroutine = null;
 
-        public virtual void ChangePage(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
+        public virtual void ChangePage(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
         {
             NormalizeViewElement();
-            changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, rectTransformData, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
+            changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, rectTransformData, rectTransformOverrideFlag, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
         }
-        public IEnumerator OnChangePageRunner(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, float TweenTime, float delayIn, float delayOut, bool ignoreTransition, bool reshowIfSamePage)
+        public IEnumerator OnChangePageRunner(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, float TweenTime, float delayIn, float delayOut, bool ignoreTransition, bool reshowIfSamePage)
         {
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects.ToArray())
@@ -322,7 +322,7 @@ namespace CloudMacaca.ViewSystem
                     }
                     else
                     {
-                        ApplyRectTransform(rectTransformData);
+                        ApplyRectTransform(rectTransformData, rectTransformOverrideFlag);
                     }
 
                     float time = 0;
@@ -383,13 +383,12 @@ namespace CloudMacaca.ViewSystem
                         else
                         {
                             rectTransform.SetParent(parent, true);
-                            ApplyRectTransform(rectTransformData,
-                                RectTransformFlag.AnchorMax |
-                                RectTransformFlag.AnchorMin |
-                                RectTransformFlag.Pivot |
-                                RectTransformFlag.SizeDelta |
-                                RectTransformFlag.LocalEulerAngles
-                            );
+                            var flag = rectTransformOverrideFlag;
+                            FlagsHelper.Unset(ref flag, RectTransformFlag.AnchoredPosition);
+                            FlagsHelper.Unset(ref flag, RectTransformFlag.LocalScale);
+
+                            ApplyRectTransform(rectTransformData, flag);
+
                             viewController.StartMicroCoroutine(EaseUtility.To(
                                 rectTransform.anchoredPosition3D,
                                 rectTransformData.anchoredPosition,
@@ -445,7 +444,7 @@ namespace CloudMacaca.ViewSystem
                         }
                         else
                         {
-                            ApplyRectTransform(rectTransformData);
+                            ApplyRectTransform(rectTransformData, rectTransformOverrideFlag);
                         }
                         time = 0;
                         while (time < delayIn)
