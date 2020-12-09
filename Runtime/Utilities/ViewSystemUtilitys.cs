@@ -76,7 +76,7 @@ namespace CloudMacaca.ViewSystem
             return _platform;
         }
 
-        public static float CalculateWaitingTimeForCurrentOnLeave(IEnumerable<ViewPageItem> viewPageItems)
+        public static float CalculateDelayOutTime(IEnumerable<ViewPageItem> viewPageItems)
         {
             float maxDelayTime = 0;
             foreach (var item in viewPageItems)
@@ -89,7 +89,7 @@ namespace CloudMacaca.ViewSystem
             }
             return maxDelayTime;
         }
-        public static float CalculateWaitingTimeForCurrentOnShow(IEnumerable<ViewPageItem> viewPageItems)
+        public static float CalculateDelayInTime(IEnumerable<ViewPageItem> viewPageItems)
         {
             float maxDelayTime = 0;
             foreach (var item in viewPageItems)
@@ -103,7 +103,7 @@ namespace CloudMacaca.ViewSystem
             return maxDelayTime;
         }
 
-        public static float CalculateTimesNeedsForOnShow(IEnumerable<ViewElement> viewElements, float maxClampTime = 1)
+        public static float CalculateOnShowDuration(IEnumerable<ViewElement> viewElements, float maxClampTime = 1)
         {
             float maxInAnitionTime = 0;
 
@@ -124,7 +124,7 @@ namespace CloudMacaca.ViewSystem
             return Mathf.Clamp(maxInAnitionTime, 0, maxClampTime);
             //return maxOutAnitionTime;
         }
-        public static float CalculateTimesNeedsForOnLeave(IEnumerable<ViewElement> viewElements, float maxClampTime = 1)
+        public static float CalculateOnLeaveDuration(IEnumerable<ViewElement> viewElements, float maxClampTime = 1)
         {
             float maxOutAnitionTime = 0;
 

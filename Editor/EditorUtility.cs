@@ -131,7 +131,7 @@ namespace CloudMacaca.ViewSystem
             }
             public override Vector2 GetWindowSize()
             {
-                return new Vector2(rect.width, EditorGUIUtility.singleLineHeight * 6);
+                return new Vector2(rect.width, EditorGUIUtility.singleLineHeight * 5);
             }
 
             GUIStyle _toggleStyle;
@@ -174,7 +174,7 @@ namespace CloudMacaca.ViewSystem
 
                 viewPageItem.delayIn = EditorGUILayout.Slider("Delay In", viewPageItem.delayIn, 0, 1);
 
-                viewPageItem.delayOut = EditorGUILayout.Slider("Delay Out", viewPageItem.delayOut, 0, 1);
+                // viewPageItem.delayOut = EditorGUILayout.Slider("Delay Out", viewPageItem.delayOut, 0, 1);
                 //viewPageItem.excludePlatform = (ViewPageItem.PlatformOption)EditorGUILayout.EnumFlagsField(new GUIContent("Excude Platform", "Excude Platform define the platform which wish to show the ViewPageItem or not"), viewPageItem.excludePlatform);
                 CMEditorLayout.BitMaskField(ref viewPageItem.excludePlatform);
             }

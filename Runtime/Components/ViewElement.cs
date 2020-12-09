@@ -279,12 +279,12 @@ namespace CloudMacaca.ViewSystem
         }
         Coroutine changePageCoroutine = null;
 
-        public virtual void ChangePage(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
+        public virtual void ChangePage(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, float TweenTime = 0, float delayIn = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
         {
             NormalizeViewElement();
-            changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, rectTransformData, rectTransformOverrideFlag, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
+            changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, rectTransformData, rectTransformOverrideFlag, TweenTime, delayIn, ignoreTransition, reshowIfSamePage));
         }
-        public IEnumerator OnChangePageRunner(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, float TweenTime, float delayIn, float delayOut, bool ignoreTransition, bool reshowIfSamePage)
+        public IEnumerator OnChangePageRunner(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, float TweenTime, float delayIn, bool ignoreTransition, bool reshowIfSamePage)
         {
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects.ToArray())
