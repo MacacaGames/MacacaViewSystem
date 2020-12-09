@@ -333,7 +333,7 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
 
         public void ClearAllViewElementInScene()
         {
-            if (previewUIRootWrapper != null)
+            if (previewUIRootWrapper != null && previewUIRootWrapper.rectTransform)
             {
                 UnityEngine.Object.DestroyImmediate(previewUIRootWrapper.rectTransform.gameObject);
                 previewUIRootWrapper = null;
