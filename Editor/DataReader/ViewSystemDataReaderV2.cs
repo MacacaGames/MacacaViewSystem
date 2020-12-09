@@ -204,7 +204,14 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
         //     }
         // }
 
-        GameObject previewUIRoot;
+        ViewSystemUtilitys.PageRootWrapper previewUIRootWrapper;
+        public void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)
+        {
+            if (previewUIRootWrapper != null)
+            {
+                previewUIRootWrapper.safePadding.SetPaddingValue(edgeValues);
+            }
+        }
 
         public void OnViewPagePreview(ViewPage viewPage)
         {
@@ -240,9 +247,9 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
 
             var canvas = root.Find($"{UIRootName}");
             string viewPageName = ViewSystemUtilitys.GetPageRootName(viewPage);
-            var wrapper = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas, viewPage.canvasSortOrder);
-            previewUIRoot = wrapper.rectTransform.gameObject;
-           Transform fullPageRoot = root.Find($"{UIRootName}/{viewPageName}");
+            previewUIRootWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas, viewPage.canvasSortOrder);
+            Transform fullPageRoot = root.Find($"{UIRootName}/{viewPageName}");
+            ApplySafeArea(viewPage.edgeValues);
             //TO do apply viewPage component on fullPageRoot
 
             //打開相對應物件
@@ -326,10 +333,10 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
 
         public void ClearAllViewElementInScene()
         {
-            if (previewUIRoot != null)
+            if (previewUIRootWrapper != null)
             {
-                UnityEngine.Object.DestroyImmediate(previewUIRoot);
-                previewUIRoot = null;
+                UnityEngine.Object.DestroyImmediate(previewUIRootWrapper.rectTransform.gameObject);
+                previewUIRootWrapper = null;
             }
             var allViewElement = UnityEngine.Object.FindObjectsOfType<ViewElement>();
             //NestedViewElement is obslote do nothing with NestedViewElement.

@@ -864,36 +864,42 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
                                 var contents = new string[]{
                                    "Off","Balance","On",
                                 };
-
-                                using (var horizon = new GUILayout.HorizontalScope())
+                                using (var change = new EditorGUI.ChangeCheckScope())
                                 {
-                                    EditorGUILayout.PrefixLabel("Left");
-                                    vp.edgeValues.left = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.left, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
-                                }
 
-                                using (var horizon = new GUILayout.HorizontalScope())
-                                {
-                                    EditorGUILayout.PrefixLabel("Bottom");
-                                    vp.edgeValues.bottom = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.bottom, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
-                                }
-                                using (var horizon = new GUILayout.HorizontalScope())
-                                {
-                                    EditorGUILayout.PrefixLabel("Top");
-                                    vp.edgeValues.top = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.top, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
-                                }
-                                using (var horizon = new GUILayout.HorizontalScope())
-                                {
-                                    EditorGUILayout.PrefixLabel("Right");
-                                    vp.edgeValues.right = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.right, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
-                                }
+                                    using (var horizon = new GUILayout.HorizontalScope())
+                                    {
+                                        EditorGUILayout.PrefixLabel("Left");
+                                        vp.edgeValues.left = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.left, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                    }
 
-                                vp.edgeValues.influence = EditorGUILayout.Slider("Influence", vp.edgeValues.influence, 0, 1);
-                                vp.edgeValues.influenceLeft = EditorGUILayout.Slider("Influence Left", vp.edgeValues.influenceLeft, 0, 1);
-                                vp.edgeValues.influenceBottom = EditorGUILayout.Slider("Influence Bottom", vp.edgeValues.influenceBottom, 0, 1);
-                                vp.edgeValues.influenceTop = EditorGUILayout.Slider("Influence Top", vp.edgeValues.influenceTop, 0, 1);
-                                vp.edgeValues.influenceRight = EditorGUILayout.Slider("Influence Right", vp.edgeValues.influenceRight, 0, 1);
-                                vp.flipPadding = EditorGUILayout.Toggle("Flip Padding", vp.flipPadding);
+                                    using (var horizon = new GUILayout.HorizontalScope())
+                                    {
+                                        EditorGUILayout.PrefixLabel("Bottom");
+                                        vp.edgeValues.bottom = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.bottom, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                    }
+                                    using (var horizon = new GUILayout.HorizontalScope())
+                                    {
+                                        EditorGUILayout.PrefixLabel("Top");
+                                        vp.edgeValues.top = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.top, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                    }
+                                    using (var horizon = new GUILayout.HorizontalScope())
+                                    {
+                                        EditorGUILayout.PrefixLabel("Right");
+                                        vp.edgeValues.right = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.right, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                    }
 
+                                    vp.edgeValues.influence = EditorGUILayout.Slider("Influence", vp.edgeValues.influence, 0, 1);
+                                    vp.edgeValues.influenceLeft = EditorGUILayout.Slider("Influence Left", vp.edgeValues.influenceLeft, 0, 1);
+                                    vp.edgeValues.influenceBottom = EditorGUILayout.Slider("Influence Bottom", vp.edgeValues.influenceBottom, 0, 1);
+                                    vp.edgeValues.influenceTop = EditorGUILayout.Slider("Influence Top", vp.edgeValues.influenceTop, 0, 1);
+                                    vp.edgeValues.influenceRight = EditorGUILayout.Slider("Influence Right", vp.edgeValues.influenceRight, 0, 1);
+                                    vp.flipPadding = EditorGUILayout.Toggle("Flip Padding", vp.flipPadding);
+                                    if (change.changed && ViewSystemNodeEditor.Instance.EditMode)
+                                    {
+                                        ViewSystemNodeEditor.ApplySafeArea(vp.edgeValues);
+                                    }
+                                }
                             }
                             else
                             {

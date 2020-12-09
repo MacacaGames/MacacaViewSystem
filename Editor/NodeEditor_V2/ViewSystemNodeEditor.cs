@@ -85,6 +85,11 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
             }
         }
 
+        public static void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)
+        {
+            dataReader.ApplySafeArea(edgeValues);
+        }
+
         public void RefreshData(bool hardRefresh = true)
         {
             ClearEditor();
@@ -908,6 +913,7 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
                     ViewSystemNodeInspector.isMouseInSideBar());
             }
         }
+
 
         class VisualElementResizer : MouseManipulator
         {
