@@ -96,7 +96,7 @@ git submodule add hhttps://github.com/MacacaGames/MacacaUtility.git Assets/Macac
 
 # Setup
 ## 1. Editor
-Menu Path : CloudMacaca > ViewSystem > Visual Editor
+Menu Path : MacacaGames > ViewSystem > Visual Editor
 
 ViewSystem will create required data and save in Assets/ViewSystemResources folder automatically.
 

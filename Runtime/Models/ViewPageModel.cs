@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     [System.Serializable]
     public class View

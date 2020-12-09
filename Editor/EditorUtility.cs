@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     public class VS_EditorUtility
     {
@@ -63,7 +63,7 @@ namespace CloudMacaca.ViewSystem
                 return pi.PropertyType;
             }
 
-            return CloudMacaca.Utility.GetType(property.type) ?? typeof(UnityEngine.Object);
+            return MacacaGames.Utility.GetType(property.type) ?? typeof(UnityEngine.Object);
         }
 
         public static bool EditorableField(Rect rect, SerializedProperty Target, PropertyOverride overProperty, out float lineHeight)

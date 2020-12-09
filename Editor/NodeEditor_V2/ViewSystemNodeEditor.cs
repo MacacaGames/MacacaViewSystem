@@ -3,10 +3,10 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using CloudMacaca.ViewSystem;
+using MacacaGames.ViewSystem;
 using UnityEngine.UIElements;
 using UnityEditor.SceneManagement;
-namespace CloudMacaca.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNodeEditor : EditorWindow
     {
@@ -24,7 +24,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public static bool removeConnectWithoutAsk = false;
         public Transform ViewControllerRoot => dataReader.ViewControllerTransform;
 
-        [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
+        [MenuItem("MacacaGames/ViewSystem/Visual Editor")]
         private static void OpenWindow()
         {
             Instance = GetWindow<ViewSystemNodeEditor>();

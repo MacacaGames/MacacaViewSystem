@@ -7,9 +7,9 @@ using UnityEditor.AnimatedValues;
 using UnityEditorInternal;
 using System.Reflection;
 using UnityEditor.IMGUI.Controls;
-using CloudMacaca;
+using MacacaGames;
 
-namespace CloudMacaca.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNodeInspector
     {
@@ -459,7 +459,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     editor.console.LogErrorMessage("ViewElement has not been select yet!");
                     return;
                 }
-                CloudMacaca.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
+                MacacaGames.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
             }
 
             rightRect.x -= 20;

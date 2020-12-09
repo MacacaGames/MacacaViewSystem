@@ -5,8 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using Coroutine = CloudMacaca.ViewSystem.MicroCoroutine.Coroutine;
-namespace CloudMacaca.ViewSystem
+using Coroutine = MacacaGames.ViewSystem.MicroCoroutine.Coroutine;
+namespace MacacaGames.ViewSystem
 {
     [DisallowMultipleComponent]
     public class ViewElement : MonoBehaviour

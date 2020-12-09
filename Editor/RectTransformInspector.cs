@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace CloudMacaca.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.NodeEditorV2
 {
     [CustomEditor(typeof(RectTransform)), CanEditMultipleObjects]
     public class RectTransformEditor : Editor

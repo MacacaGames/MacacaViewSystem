@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     public class ViewSystemUtilitys
     {
@@ -40,37 +40,37 @@ namespace CloudMacaca.ViewSystem
             }
         }
 
-        static CloudMacaca.ViewSystem.ViewPageItem.PlatformOption _platform;
-        public static CloudMacaca.ViewSystem.ViewPageItem.PlatformOption SetupPlatformDefine()
+        static MacacaGames.ViewSystem.ViewPageItem.PlatformOption _platform;
+        public static MacacaGames.ViewSystem.ViewPageItem.PlatformOption SetupPlatformDefine()
         {
 #if UNITY_EDITOR
             if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.iOS)
             {
-                _platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.iOS;
+                _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.iOS;
             }
             else if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.tvOS)
             {
-                _platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.tvOS;
+                _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.tvOS;
             }
             else if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.Android)
             {
-                _platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.Android;
+                _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.Android;
             }
             else if (UnityEditor.EditorUserBuildSettings.activeBuildTarget == UnityEditor.BuildTarget.WSAPlayer)
             {
-                _platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.UWP;
+                _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.UWP;
             }
 #else
             if (Application.platform == RuntimePlatform.IPhonePlayer) {
-                _platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.iOS;
+                _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.iOS;
             } else if (Application.platform == RuntimePlatform.tvOS) {
-                _platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.tvOS;
+                _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.tvOS;
             } else if (Application.platform == RuntimePlatform.Android) {
-                _platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.Android;
+                _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.Android;
             } else if (Application.platform == RuntimePlatform.WSAPlayerARM ||
                 Application.platform == RuntimePlatform.WSAPlayerX64 ||
                 Application.platform == RuntimePlatform.WSAPlayerX86) {
-                _platform = CloudMacaca.ViewSystem.ViewPageItem.PlatformOption.UWP;
+                _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.UWP;
             }
 #endif
             return _platform;
@@ -169,7 +169,7 @@ namespace CloudMacaca.ViewSystem
                 throw new System.ArgumentException("ViewSystemUtility.GetComponent doesn't support GameObject due to GameObject is not a Component");
             }
             Component result = null;
-            System.Type t = CloudMacaca.Utility.GetType(type);
+            System.Type t = MacacaGames.Utility.GetType(type);
             if (t == null)
             {
                 return null;

@@ -23,7 +23,7 @@ public class ViewSystemEditHelper : EditorWindow
     Dictionary<string, string> newFileGUID = new Dictionary<string, string>();
     Dictionary<string, string> oldFileGUID = new Dictionary<string, string>();
 
-    [MenuItem("CloudMacaca/ViewSystem/ViewSystem Edit Helper")]
+    [MenuItem("MacacaGames/ViewSystem/ViewSystem Edit Helper")]
     public static void ShowWindow()
     {
         GetWindow<ViewSystemEditHelper>("ViewSystem Edit Helper");

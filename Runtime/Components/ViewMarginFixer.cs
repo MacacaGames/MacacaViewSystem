@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CloudMacaca;
+using MacacaGames;
 using UnityEngine.UI;
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     [ExecuteInEditMode]
     [System.Obsolete("ViewMarginFixer only required while using Custom Parent implement. Use RectTransform implement for more benfit")]
@@ -120,9 +120,9 @@ namespace CloudMacaca.ViewSystem
         //     //LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
         // }
 
-        public void AutoGuessFixTarget(CloudMacaca.AnchorPresets anchor = CloudMacaca.AnchorPresets.UnKnown)
+        public void AutoGuessFixTarget(MacacaGames.AnchorPresets anchor = MacacaGames.AnchorPresets.UnKnown)
         {
-            if (anchor == CloudMacaca.AnchorPresets.UnKnown)
+            if (anchor == MacacaGames.AnchorPresets.UnKnown)
             {
                 anchor = rectTransform.GetAnchorPresets();
             }
