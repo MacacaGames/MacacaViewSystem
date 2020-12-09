@@ -862,7 +862,7 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
                                 GUILayout.Label("Safe Padding", new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
 
                                 var contents = new string[]{
-                                    "On","Balance","Off"
+                                   "Off","Balance","On",
                                 };
 
                                 using (var horizon = new GUILayout.HorizontalScope())

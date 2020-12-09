@@ -271,9 +271,9 @@ namespace MacacaGames.ViewSystem
         public enum EdgeEvaluationMode
         {
             /// <summary>
-            /// Use a value reported from that edge.
+            /// Do not use a value reported from that edge.
             /// </summary>
-            On,
+            Off,
 
             /// <summary>
             /// Like <see cref="On"/> but also look at the opposite edge, 
@@ -282,9 +282,9 @@ namespace MacacaGames.ViewSystem
             Balanced,
 
             /// <summary>
-            /// Do not use a value reported from that edge.
+            /// Use a value reported from that edge.
             /// </summary>
-            Off,
+            On,
         }
 
         [Serializable]

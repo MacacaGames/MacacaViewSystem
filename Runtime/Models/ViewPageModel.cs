@@ -33,7 +33,7 @@ namespace MacacaGames.ViewSystem
         public ViewPageType viewPageType = ViewPageType.FullPage;
         public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.WithPervious;
         public int canvasSortOrder = 0;
-        public SafePadding.PerEdgeValues edgeValues;
+        public SafePadding.PerEdgeValues edgeValues =new SafePadding.PerEdgeValues();
         public bool flipPadding = false;
         #region Navigation
         public bool IsNavigation = false;
