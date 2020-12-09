@@ -106,7 +106,7 @@ namespace CloudMacaca.ViewSystem
             LocalEulerAngles = 1 << 4,
             LocalScale = 1 << 5,
             Pivot = 1 << 6,
-            All = SizeDelta | AnchoredPosition | AnchorMax | AnchorMin | LocalEulerAngles | LocalScale | Pivot,
+            All = ~0,
         }
         public void ApplyRectTransform(ViewSystemRectTransformData transformData, RectTransformFlag flag = RectTransformFlag.All)
         {
