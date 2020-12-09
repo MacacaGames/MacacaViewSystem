@@ -518,7 +518,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     overrideChecker.SetData(cache.transform, original.transform, list[index], currentSelectNode);
                     overrideChecker.ShowUtility();
                     list[index].viewElement = original;
-                    list[index].parent = cache.transform.parent;
+                    list[index].previewViewElement = cache;
+
+                    list[index].transformData = new ViewSystemRectTransformData();
+                    PickRectTransformValue();
+
+                    //list[index].parent = cache.transform.parent;
                 }
             }
 
@@ -588,19 +593,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             {
                                 if (GUI.Button(layoutButtonRect, new GUIContent("Pick", "Pick RectTransform value from preview ViewElement")))
                                 {
-                                    if (list[index].previewViewElement)
-                                    {
-                                        var previewRectTransform = list[index].previewViewElement.GetComponent<RectTransform>();
-                                        list[index].transformData.anchoredPosition = previewRectTransform.anchoredPosition3D;
-                                        list[index].transformData.anchorMax = previewRectTransform.anchorMax;
-                                        list[index].transformData.anchorMin = previewRectTransform.anchorMin;
-                                        list[index].transformData.offsetMax = previewRectTransform.offsetMax;
-                                        list[index].transformData.offsetMin = previewRectTransform.offsetMin;
-                                        list[index].transformData.pivot = previewRectTransform.pivot;
-                                        list[index].transformData.localScale = previewRectTransform.localScale;
-                                        list[index].transformData.sizeDelta = previewRectTransform.sizeDelta;
-                                        list[index].transformData.localEulerAngles = previewRectTransform.localEulerAngles;
-                                    }
+                                    PickRectTransformValue();
                                 }
                             }
                             smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
@@ -618,8 +611,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             EditorGUIUtility.wideMode = true;
                             Rect overrideFlagRect = anchorAndPivotRect;
                             overrideFlagRect.x += 150;
-                            overrideFlagRect.width =100;
-                            list[index].transformFlag = (ViewElement.RectTransformFlag)EditorGUI.EnumFlagsField(overrideFlagRect,  list[index].transformFlag);
+                            overrideFlagRect.width = 100;
+                            list[index].transformFlag = (ViewElement.RectTransformFlag)EditorGUI.EnumFlagsField(overrideFlagRect, list[index].transformFlag);
                             anchorPivotFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, anchorPivotFoldout[index], "Anchor and Pivot");
 
                             if (anchorPivotFoldout[index])
@@ -794,6 +787,22 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     Selection.objects = new[] { list[index].runtimeViewElement.gameObject };
                 }
                 else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+            }
+            void PickRectTransformValue()
+            {
+                if (list[index].previewViewElement)
+                {
+                    var previewRectTransform = list[index].previewViewElement.GetComponent<RectTransform>();
+                    list[index].transformData.anchoredPosition = previewRectTransform.anchoredPosition3D;
+                    list[index].transformData.anchorMax = previewRectTransform.anchorMax;
+                    list[index].transformData.anchorMin = previewRectTransform.anchorMin;
+                    list[index].transformData.offsetMax = previewRectTransform.offsetMax;
+                    list[index].transformData.offsetMin = previewRectTransform.offsetMin;
+                    list[index].transformData.pivot = previewRectTransform.pivot;
+                    list[index].transformData.localScale = previewRectTransform.localScale;
+                    list[index].transformData.sizeDelta = previewRectTransform.sizeDelta;
+                    list[index].transformData.localEulerAngles = previewRectTransform.localEulerAngles;
+                }
             }
         }
         static float InspectorWidth = 350;
