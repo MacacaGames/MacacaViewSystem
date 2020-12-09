@@ -28,11 +28,18 @@ public class ViewSystemEditHelper : EditorWindow
     {
         GetWindow<ViewSystemEditHelper>("ViewSystem Edit Helper");
     }
+    string ViewSystemEditHelperAnimationFilePath = "_Game/UI/Animation/";
+    // void SetAnimationFilePath(){
+    //     EditorPrefs.SetString("ViewSystemEditHelperAnimationFilePath", ViewSystemEditHelperAnimationFilePath);
+    // }
 
 
     void OnGUI()
     {
         // 自動生成 View Element 動畫檔案
+        GUILayout.Label("Animation File Path", EditorStyles.boldLabel);
+        ViewSystemEditHelperAnimationFilePath = EditorGUILayout.TextField("/", ViewSystemEditHelperAnimationFilePath);
+
         GUILayout.Label("Generate View Element Animation Files", EditorStyles.boldLabel);
         elementType = (ElementType)EditorGUILayout.EnumPopup("Element Type", elementType);
         newAnimationFileName = EditorGUILayout.TextField("Animation Name", newAnimationFileName);
@@ -93,7 +100,7 @@ public class ViewSystemEditHelper : EditorWindow
             }
 
             // 複製一份預設檔案至 newAnimationFileName 資料夾
-            targetDirectory = "Assets/0_Game/UI/Animation/" + newAnimationFileName;
+            targetDirectory = "Assets/" + ViewSystemEditHelperAnimationFilePath + newAnimationFileName;
             FileUtil.CopyFileOrDirectory(defaultAnimationFilesFoldPath, targetDirectory);
 
             // 將所有動畫檔案改名
@@ -156,10 +163,10 @@ public class ViewSystemEditHelper : EditorWindow
 
                 // 尋找 Controller 檔案，讀取文字
                 AssetDatabase.StartAssetEditing();
-                var animationControllerAsset = Directory.GetFiles(Application.dataPath + "/0_Game/UI/Animation/" + newAnimationFileName)
+                var animationControllerAsset = Directory.GetFiles(Application.dataPath + "/" + ViewSystemEditHelperAnimationFilePath + newAnimationFileName)
                     .FirstOrDefault(s => s.EndsWith(".controller"));
                 var content = File.ReadAllText(animationControllerAsset);
-                ViewSystemLog.Log("Find: " + Application.dataPath + "/0_Game/UI/Animation/" + newAnimationFileName + "/" + newAnimationFileName + ".controller");
+                ViewSystemLog.Log("Find: " + Application.dataPath + "/" + ViewSystemEditHelperAnimationFilePath + newAnimationFileName + "/" + newAnimationFileName + ".controller");
 
                 // 置換 GUID
                 foreach (var item in oldFileGUID)
@@ -180,7 +187,7 @@ public class ViewSystemEditHelper : EditorWindow
                 ViewSystemLog.Log("Replace 「" + newAnimationFileName + "」 Animation Controller Motion Clip Completed");
 
                 // Highlight Animator
-                string animatorPath = "Assets/0_Game/UI/Animation/" + newAnimationFileName + "/" + newAnimationFileName + ".controller";
+                string animatorPath = "Assets/" + ViewSystemEditHelperAnimationFilePath + newAnimationFileName + "/" + newAnimationFileName + ".controller";
                 UnityEditor.EditorGUIUtility.PingObject((Object)AssetDatabase.LoadAssetAtPath(animatorPath, typeof(AnimatorController)));
             }
         }
