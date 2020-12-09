@@ -13,6 +13,7 @@ namespace MacacaGames.ViewSystem
     {
 
         #region V2
+        public int sortingOrder;
         public static ViewElementRuntimePool runtimePool;
         public static ViewElementPool viewElementPool;
         [NonSerialized]
@@ -279,8 +280,9 @@ namespace MacacaGames.ViewSystem
         }
         Coroutine changePageCoroutine = null;
 
-        public virtual void ChangePage(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, float TweenTime = 0, float delayIn = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
+        public virtual void ChangePage(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, int sortingOrder = 0, float TweenTime = 0, float delayIn = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
         {
+            this.sortingOrder = sortingOrder;
             NormalizeViewElement();
             changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, rectTransformData, rectTransformOverrideFlag, TweenTime, delayIn, ignoreTransition, reshowIfSamePage));
         }

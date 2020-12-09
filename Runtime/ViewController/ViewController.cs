@@ -297,11 +297,6 @@ namespace MacacaGames.ViewSystem
                 item.ChangePage(false, null, null, 0, 0);
             }
 
-            // if (ignoreTimeScale)
-            //     yield return Yielders.GetWaitForSecondsRealtime(nextViewPageWaitTime);
-            // else
-            //     yield return Yielders.GetWaitForSeconds(nextViewPageWaitTime);
-
             //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
             yield return runtimePool.RecoveryQueuedViewElement();
 
@@ -360,41 +355,13 @@ namespace MacacaGames.ViewSystem
                 }
                 // }
 
-                item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.transformFlag, item.TweenTime, item.delayIn);
+                item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.transformFlag, item.sortingOrder, item.TweenTime, item.delayIn);
             }
 
-            //對進場的呼叫改變狀態(ViewPage)
-            // foreach (var item in viewItemNextState)
-            // {
-            //     if (item.runtimeViewElement == null)
-            //     {
-            //         ViewSystemLog.LogError($"The runtimeViewElement is null for some reason, ignore this item.");
-            //         continue;
-            //     }
-            //     //套用複寫值
-            //     item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
-            //     item.runtimeViewElement.ApplyEvent(item.eventDatas);
-
-            //     //Delay 時間
-            //     if (!lastPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))
-            //         lastPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
-            //     else
-            //         lastPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
-
-            //     // if (item.runtimeParent == null)
-            //     // {
-            //     if (!string.IsNullOrEmpty(item.parentPath))
-            //     {
-            //         item.runtimeParent = transformCache.Find(item.parentPath);
-            //     }
-            //     else
-            //     {
-            //         item.runtimeParent = vp.runtimePageRoot;
-            //     }
-            //     // }
-
-            //     item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.TweenTime, item.delayIn, item.delayOut);
-            // }
+            foreach (var item in currentLiveElements.OrderBy(m => m.sortingOrder))
+            {
+                item.rectTransform.SetAsLastSibling();
+            }
 
             float OnShowAnimationFinish = ViewSystemUtilitys.CalculateOnShowDuration(viewItemNextPage.Select(m => m.runtimeViewElement), maxClampTime);
 
@@ -558,9 +525,10 @@ namespace MacacaGames.ViewSystem
                 }
                 // }
 
-                item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.transformFlag, item.TweenTime, item.delayIn, reshowIfSamePage: RePlayOnShowWhileSamePage);
+                item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.transformFlag, item.sortingOrder, item.TweenTime, item.delayIn, reshowIfSamePage: RePlayOnShowWhileSamePage);
             }
 
+   
             // if (viewItemNextState != null)
             // {
             //     foreach (var item in viewItemNextState)
@@ -663,7 +631,7 @@ namespace MacacaGames.ViewSystem
                             // }
 
                             var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
-                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(vpi), item.transformFlag, tweenTimeIfNeed, 0);
+                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(vpi), item.transformFlag, item.sortingOrder, tweenTimeIfNeed, 0);
                             ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.runtimeParent.name);
                         }
                         catch { }
@@ -686,7 +654,7 @@ namespace MacacaGames.ViewSystem
                             }
                             // }
                             var vpi = currentViewState.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
-                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(vpi), item.transformFlag, tweenTimeIfNeed, 0);
+                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(vpi), item.transformFlag, item.sortingOrder, tweenTimeIfNeed, 0);
                             ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name + "Try to back to origin Transfrom parent : " + vpi.runtimeParent.name);
                         }
                         catch { }
@@ -695,7 +663,7 @@ namespace MacacaGames.ViewSystem
                 }
 
                 // lastOverlayPageItemDelayOutTimes.TryGetValue(item.runtimeViewElement.name, out float delayOut);
-                item.runtimeViewElement.ChangePage(false, null, null, item.transformFlag, 0, 0, ignoreTransition);
+                item.runtimeViewElement.ChangePage(false, null, null, item.transformFlag, item.sortingOrder, 0, 0, ignoreTransition);
             }
 
             //Get Back the Navigation to CurrentPage
