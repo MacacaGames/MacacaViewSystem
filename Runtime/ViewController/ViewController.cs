@@ -231,10 +231,12 @@ namespace MacacaGames.ViewSystem
 
             //Prepare runtime page root
             string viewPageRootName = ViewSystemUtilitys.GetPageRootName(vp);
+            var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, vp.canvasSortOrder);
             if (vp.runtimePageRoot == null)
             {
-                vp.runtimePageRoot = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, vp.canvasSortOrder);
+                vp.runtimePageRoot = pageWrapper.rectTransform;
             }
+            pageWrapper.safePadding.SetPaddingValue(vp.edgeValues);
 
             //所有檢查都通過開始換頁
             //IsPageTransition = true;
@@ -306,14 +308,14 @@ namespace MacacaGames.ViewSystem
             float TimeForPerviousPageOnLeave = 0;
             switch (vp.viewPageTransitionTimingType)
             {
-                case ViewPage.ViewPageTransitionTimingType.接續前動畫:
+                case ViewPage.ViewPageTransitionTimingType.AfterPervious:
                     //TimeForPerviousPageOnLeave = ViewSystemUtilitys.CalculateOnLeaveDuration(viewItemNextPage.Select(m => m.viewElement), maxClampTime);
                     TimeForPerviousPageOnLeave = nextViewPageWaitTime;
                     break;
-                case ViewPage.ViewPageTransitionTimingType.與前動畫同時:
+                case ViewPage.ViewPageTransitionTimingType.WithPervious:
                     TimeForPerviousPageOnLeave = 0;
                     break;
-                case ViewPage.ViewPageTransitionTimingType.自行設定:
+                case ViewPage.ViewPageTransitionTimingType.Custom:
                     TimeForPerviousPageOnLeave = vp.customPageTransitionWaitTime;
                     break;
             }
@@ -439,10 +441,12 @@ namespace MacacaGames.ViewSystem
 
             //Prepare runtime page root
             string viewPageRootName = ViewSystemUtilitys.GetPageRootName(vp);
+            var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, vp.canvasSortOrder);
             if (vp.runtimePageRoot == null)
             {
-                vp.runtimePageRoot = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, vp.canvasSortOrder);
+                vp.runtimePageRoot = pageWrapper.rectTransform;
             }
+            pageWrapper.safePadding.SetPaddingValue(vp.edgeValues);
 
             //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
             yield return runtimePool.RecoveryQueuedViewElement();

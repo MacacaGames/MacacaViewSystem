@@ -182,31 +182,34 @@ namespace MacacaGames.ViewSystem
             return "Page_" + (viewPage.viewPageType == ViewPage.ViewPageType.FullPage ? "FullPage" : viewPage.name);
         }
 
-        class PageRootWrapper
+        public class PageRootWrapper
         {
             public RectTransform rectTransform;
             public Canvas canvas;
             public UnityEngine.UI.GraphicRaycaster raycaster;
+            public SafePadding safePadding;
+
         }
         static Dictionary<string, PageRootWrapper> runtimeRectTransformCache = new Dictionary<string, PageRootWrapper>();
-        public static RectTransform CreatePageTransform(string name, Transform canvasRoot, int sortingOrder)
+        public static PageRootWrapper CreatePageTransform(string name, Transform canvasRoot, int sortingOrder)
         {
             PageRootWrapper wrapper;
             RectTransform previewUIRootRectTransform;
             Canvas canvas;
-            UnityEngine.UI.GraphicRaycaster raycaster;
+            UnityEngine.UI.GraphicRaycaster raycaster; SafePadding safePadding;
             if (Application.isPlaying)
             {
                 if (runtimeRectTransformCache.TryGetValue(name, out wrapper))
                 {
                     wrapper.canvas.overrideSorting = true;
                     wrapper.canvas.sortingOrder = sortingOrder;
-                    return wrapper.rectTransform;
+                    return wrapper;
                 }
             }
             var previewUIRoot = new GameObject(name);
             canvas = previewUIRoot.AddComponent<Canvas>();
             raycaster = previewUIRoot.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+            safePadding = previewUIRoot.AddComponent<SafePadding>();
             previewUIRootRectTransform = previewUIRoot.GetComponent<RectTransform>();
             previewUIRootRectTransform.SetParent(canvasRoot, false);
             canvas.overrideSorting = true;
@@ -219,18 +222,20 @@ namespace MacacaGames.ViewSystem
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 0);
             previewUIRootRectTransform.anchorMin = Vector2.zero;
             previewUIRootRectTransform.anchorMax = Vector2.one;
+            wrapper = new PageRootWrapper();
+            wrapper.rectTransform = previewUIRootRectTransform;
+            wrapper.canvas = canvas;
+            wrapper.raycaster = raycaster;
+            wrapper.safePadding = safePadding;
             if (Application.isPlaying)
             {
                 if (!runtimeRectTransformCache.ContainsKey(name))
                 {
-                    wrapper = new PageRootWrapper();
-                    wrapper.rectTransform = previewUIRootRectTransform;
-                    wrapper.canvas = canvas;
-                    wrapper.raycaster = raycaster;
+
                     runtimeRectTransformCache.Add(name, wrapper);
                 }
             }
-            return previewUIRootRectTransform;
+            return wrapper;
         }
 
     }

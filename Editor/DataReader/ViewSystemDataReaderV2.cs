@@ -240,8 +240,9 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
 
             var canvas = root.Find($"{UIRootName}");
             string viewPageName = ViewSystemUtilitys.GetPageRootName(viewPage);
-            previewUIRoot = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas, viewPage.canvasSortOrder).gameObject;
-            Transform fullPageRoot = root.Find($"{UIRootName}/{viewPageName}");
+            var wrapper = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas, viewPage.canvasSortOrder);
+            previewUIRoot = wrapper.rectTransform.gameObject;
+           Transform fullPageRoot = root.Find($"{UIRootName}/{viewPageName}");
             //TO do apply viewPage component on fullPageRoot
 
             //打開相對應物件

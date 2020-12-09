@@ -850,11 +850,50 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
                             if (currentSelectNode.nodeType == ViewStateNode.NodeType.FullPage || currentSelectNode.nodeType == ViewStateNode.NodeType.Overlay)
                             {
                                 var vp = ((ViewPageNode)currentSelectNode).viewPage;
-                                var _cachedContent = EditorGUIUtility.ObjectContent(null, typeof(Canvas));
-                                _cachedContent.text = "Canvas";
-                                GUILayout.Label(_cachedContent, new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+
+                                //Canvas
+                                var _canvasContent = EditorGUIUtility.ObjectContent(null, typeof(Canvas));
+                                _canvasContent.text = "Canvas";
+                                GUILayout.Label(_canvasContent, new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
                                 vp.canvasSortOrder = EditorGUILayout.IntField("sortingOrder", vp.canvasSortOrder);
                                 GUILayout.Label("", new GUIStyle("ToolbarSlider"));
+
+                                //SafePadding
+                                GUILayout.Label("Safe Padding", new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+
+                                var contents = new string[]{
+                                    "On","Balance","Off"
+                                };
+
+                                using (var horizon = new GUILayout.HorizontalScope())
+                                {
+                                    EditorGUILayout.PrefixLabel("Left");
+                                    vp.edgeValues.left = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.left, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                }
+
+                                using (var horizon = new GUILayout.HorizontalScope())
+                                {
+                                    EditorGUILayout.PrefixLabel("Bottom");
+                                    vp.edgeValues.bottom = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.bottom, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                }
+                                using (var horizon = new GUILayout.HorizontalScope())
+                                {
+                                    EditorGUILayout.PrefixLabel("Top");
+                                    vp.edgeValues.top = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.top, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                }
+                                using (var horizon = new GUILayout.HorizontalScope())
+                                {
+                                    EditorGUILayout.PrefixLabel("Right");
+                                    vp.edgeValues.right = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.right, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                }
+
+                                vp.edgeValues.influence = EditorGUILayout.Slider("Influence", vp.edgeValues.influence, 0, 1);
+                                vp.edgeValues.influenceLeft = EditorGUILayout.Slider("Influence Left", vp.edgeValues.influenceLeft, 0, 1);
+                                vp.edgeValues.influenceBottom = EditorGUILayout.Slider("Influence Bottom", vp.edgeValues.influenceBottom, 0, 1);
+                                vp.edgeValues.influenceTop = EditorGUILayout.Slider("Influence Top", vp.edgeValues.influenceTop, 0, 1);
+                                vp.edgeValues.influenceRight = EditorGUILayout.Slider("Influence Right", vp.edgeValues.influenceRight, 0, 1);
+                                vp.flipPadding = EditorGUILayout.Toggle("Flip Padding", vp.flipPadding);
+
                             }
                             else
                             {
@@ -1263,7 +1302,7 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
                             {
                                 vp.viewPageTransitionTimingType = (ViewPage.ViewPageTransitionTimingType)EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", vp.viewPageTransitionTimingType);
                             }
-                            using (var disable = new EditorGUI.DisabledGroupScope(vp.viewPageTransitionTimingType != ViewPage.ViewPageTransitionTimingType.自行設定))
+                            using (var disable = new EditorGUI.DisabledGroupScope(vp.viewPageTransitionTimingType != ViewPage.ViewPageTransitionTimingType.Custom))
                             {
                                 vp.customPageTransitionWaitTime = EditorGUILayout.FloatField("CustomPageTransitionWaitTime", vp.customPageTransitionWaitTime);
                             }
@@ -1314,7 +1353,7 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
                             }
                             using (var disable = new EditorGUI.DisabledGroupScope(true))
                             {
-                                EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", ViewPage.ViewPageTransitionTimingType.接續前動畫);
+                                EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", ViewPage.ViewPageTransitionTimingType.AfterPervious);
                                 EditorGUILayout.FloatField("CustomPageTransitionWaitTime", 0);
                             }
                             vs.targetFrameRate = EditorGUILayout.IntField("TargetFrameRate", vs.targetFrameRate);

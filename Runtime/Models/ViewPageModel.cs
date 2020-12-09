@@ -25,15 +25,16 @@ namespace MacacaGames.ViewSystem
         }
         public enum ViewPageTransitionTimingType
         {
-            與前動畫同時, 接續前動畫, 自行設定
+            WithPervious, AfterPervious, Custom
         }
         public RectTransform runtimePageRoot;
         public float customPageTransitionWaitTime = 0.5f;
         public string viewState = "";
         public ViewPageType viewPageType = ViewPageType.FullPage;
-        public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.與前動畫同時;
+        public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.WithPervious;
         public int canvasSortOrder = 0;
-
+        public SafePadding.PerEdgeValues edgeValues;
+        public bool flipPadding = false;
         #region Navigation
         public bool IsNavigation = false;
         public ViewElementNavigationTarget _firstSelectSetting;
@@ -70,6 +71,7 @@ namespace MacacaGames.ViewSystem
         }
         #endregion
     }
+
     [System.Serializable]
     public class ViewPageItem
     {
@@ -152,6 +154,7 @@ namespace MacacaGames.ViewSystem
             if (string.IsNullOrEmpty(Id))
                 Id = System.Guid.NewGuid().ToString().Substring(0, 8);
         }
+
     }
 
     [System.Serializable]
