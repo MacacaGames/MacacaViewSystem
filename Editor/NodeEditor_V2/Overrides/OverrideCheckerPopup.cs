@@ -5,7 +5,7 @@ using UnityEditor;
 using System.Linq;
 using UnityEditor.IMGUI.Controls;
 
-namespace CloudMacaca.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.NodeEditorV2
 {
     public class ViewElementOverridesImporterWindow : EditorWindow
     {
@@ -150,7 +150,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                                     // UnityEngine.Object targetComponent = targetObject.GetComponent(type);
                                     if (targetComponent == null)
                                     {
-                                        var type = CloudMacaca.Utility.GetType(item.overrideData.targetComponentType);
+                                        var type = MacacaGames.Utility.GetType(item.overrideData.targetComponentType);
                                         targetComponent = targetObject.GetComponent(type);
                                         //targetComponent = targetObject.GetComponent(item.overrideData.targetComponentType.Replace("UnityEngine.", ""));
                                     }

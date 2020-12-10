@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     public class FullPageChanger : PageChanger
     {

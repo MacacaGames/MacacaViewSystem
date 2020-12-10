@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using System;
 using UnityEngine.UI;
 
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     [DisallowMultipleComponent]
     public class ViewRuntimeOverride : MonoBehaviour

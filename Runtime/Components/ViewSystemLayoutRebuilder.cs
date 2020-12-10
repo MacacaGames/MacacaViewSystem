@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CloudMacaca;
+using MacacaGames;
 using UnityEngine.UI;
 
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     [ExecuteInEditMode]
     public class ViewSystemLayoutRebuilder : MonoBehaviour, IViewElementLifeCycle

@@ -5,13 +5,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using Coroutine = CloudMacaca.ViewSystem.MicroCoroutine.Coroutine;
-namespace CloudMacaca.ViewSystem
+using Coroutine = MacacaGames.ViewSystem.MicroCoroutine.Coroutine;
+namespace MacacaGames.ViewSystem
 {
     [DisallowMultipleComponent]
     public class ViewElement : MonoBehaviour
     {
+
         #region V2
+        public int sortingOrder;
         public static ViewElementRuntimePool runtimePool;
         public static ViewElementPool viewElementPool;
         [NonSerialized]
@@ -95,6 +97,29 @@ namespace CloudMacaca.ViewSystem
             }
             runtimeOverride.ApplyOverride(overrideDatas);
         }
+        [Flags]
+        public enum RectTransformFlag
+        {
+            SizeDelta = 1 << 0,
+            AnchoredPosition = 1 << 1,
+            AnchorMax = 1 << 2,
+            AnchorMin = 1 << 3,
+            LocalEulerAngles = 1 << 4,
+            LocalScale = 1 << 5,
+            Pivot = 1 << 6,
+            All = ~0,
+        }
+        public void ApplyRectTransform(ViewSystemRectTransformData transformData, RectTransformFlag flag = RectTransformFlag.All)
+        {
+
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.SizeDelta)) rectTransform.sizeDelta = transformData.sizeDelta;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.AnchoredPosition)) rectTransform.anchoredPosition3D = transformData.anchoredPosition;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.AnchorMax)) rectTransform.anchorMax = transformData.anchorMax;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.AnchorMin)) rectTransform.anchorMin = transformData.anchorMin;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.LocalEulerAngles)) rectTransform.localEulerAngles = transformData.localEulerAngles;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.LocalScale)) rectTransform.localScale = transformData.localScale;
+            if (FlagsHelper.IsSet(flag, RectTransformFlag.Pivot)) rectTransform.pivot = transformData.pivot;
+        }
 
         public virtual Selectable[] GetSelectables()
         {
@@ -106,7 +131,7 @@ namespace CloudMacaca.ViewSystem
         public static ViewControllerBase viewController;
 
         //ViewElementLifeCycle
-        protected List<IViewElementLifeCycle> lifeCyclesObjects;
+        protected List<IViewElementLifeCycle> lifeCyclesObjects = new List<IViewElementLifeCycle>();
         public void RegisterLifeCycleObject(IViewElementLifeCycle obj)
         {
             if (!lifeCyclesObjects.Contains(obj))
@@ -255,12 +280,13 @@ namespace CloudMacaca.ViewSystem
         }
         Coroutine changePageCoroutine = null;
 
-        public virtual void ChangePage(bool show, Transform parent, float TweenTime = 0, float delayIn = 0, float delayOut = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
+        public virtual void ChangePage(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, int sortingOrder = 0, float TweenTime = 0, float delayIn = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
         {
+            this.sortingOrder = sortingOrder;
             NormalizeViewElement();
-            changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, TweenTime, delayIn, delayOut, ignoreTransition, reshowIfSamePage));
+            changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, rectTransformData, rectTransformOverrideFlag, TweenTime, delayIn, ignoreTransition, reshowIfSamePage));
         }
-        public IEnumerator OnChangePageRunner(bool show, Transform parent, float TweenTime, float delayIn, float delayOut, bool ignoreTransition, bool reshowIfSamePage)
+        public IEnumerator OnChangePageRunner(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, float TweenTime, float delayIn, bool ignoreTransition, bool reshowIfSamePage)
         {
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects.ToArray())
@@ -289,17 +315,24 @@ namespace CloudMacaca.ViewSystem
                 //或是正在離開，都要重播 OnShow
                 if (IsShowed == false || OnLeaveWorking)
                 {
-                    // Debug.LogError(" rectTransform.SetParent(parent, true);");
                     rectTransform.SetParent(parent, true);
-                    rectTransform.anchoredPosition3D = Vector3.zero;
-                    rectTransform.localScale = Vector3.one;
+
+                    if (rectTransformData == null)
+                    {
+                        rectTransform.anchoredPosition3D = Vector3.zero;
+                        rectTransform.localScale = Vector3.one;
+                    }
+                    else
+                    {
+                        ApplyRectTransform(rectTransformData, rectTransformOverrideFlag);
+                    }
+
                     float time = 0;
                     while (time < delayIn)
                     {
                         time += GlobalTimer.deltaTime;
                         yield return null;
                     }
-                    // yield return Yielders.GetWaitForSecondsRealtime(delayIn);
                     OnShow();
                     goto END;
                 }
@@ -307,7 +340,7 @@ namespace CloudMacaca.ViewSystem
                 else
                 {
                     //如果目前的 parent 跟目標的 parent 是同一個人 那就什麼事都不錯
-                    if (parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
+                    if (rectTransformData == null && parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
                     {
                         //ViewSystemLog.LogWarning("Due to already set the same parent with target parent, ignore " +  name);
                         if (reshowIfSamePage)
@@ -320,58 +353,73 @@ namespace CloudMacaca.ViewSystem
                     if (TweenTime >= 0)
                     {
                         rectTransform.SetParent(parent, true);
+                        if (rectTransformData == null)
+                        {
+                            var marginFixer = GetComponent<ViewMarginFixer>();
+                            viewController.StartMicroCoroutine(EaseUtility.To(
+                                                    rectTransform.anchoredPosition3D,
+                                                    Vector3.zero,
+                                                    TweenTime,
+                                                    EaseStyle.QuadEaseOut,
+                                                    (v) =>
+                                                    {
+                                                        rectTransform.anchoredPosition3D = v;
+                                                    },
+                                                    () =>
+                                                    {
+                                                        if (marginFixer) marginFixer.ApplyModifyValue();
+                                                    }
+                                                ));
 
-                        var marginFixer = GetComponent<ViewMarginFixer>();
-                        // viewController.StartMicroCoroutine(EaseMethods.EaseVector3(
-                        //        rectTransform.anchoredPosition3D,
-                        //        Vector3.zero,
-                        //        TweenTime,
-                        //        EaseMethods.GetEase(EaseStyle.QuadEaseOut),
-                        //        (v) =>
-                        //        {
-                        //            rectTransform.anchoredPosition3D = v;
-                        //        },
-                        //        () =>
-                        //        {
-                        //            if (marginFixer) marginFixer.ApplyModifyValue();
-                        //        }
-                        //     ));
+                            viewController.StartMicroCoroutine(EaseUtility.To(
+                                rectTransform.localScale,
+                                Vector3.one,
+                                TweenTime,
+                                EaseStyle.QuadEaseOut,
+                                (v) =>
+                                {
+                                    rectTransform.localScale = v;
+                                }
+                            ));
+                        }
+                        else
+                        {
+                            rectTransform.SetParent(parent, true);
+                            var flag = rectTransformOverrideFlag;
+                            FlagsHelper.Unset(ref flag, RectTransformFlag.AnchoredPosition);
+                            FlagsHelper.Unset(ref flag, RectTransformFlag.LocalScale);
 
-                        // viewController.StartMicroCoroutine(EaseMethods.EaseVector3(
-                        //     rectTransform.localScale,
-                        //     Vector3.one,
-                        //     TweenTime,
-                        //     EaseMethods.GetEase(EaseStyle.QuadEaseOut),
-                        //     (v) =>
-                        //     {
-                        //         rectTransform.localScale = v;
-                        //     }
-                        // ));
-                        viewController.StartMicroCoroutine(EaseUtility.To(
-                            rectTransform.anchoredPosition3D,
-                            Vector3.zero,
-                            TweenTime,
-                            EaseStyle.QuadEaseOut,
-                            (v) =>
-                            {
-                                rectTransform.anchoredPosition3D = v;
-                            },
-                            () =>
-                            {
-                                if (marginFixer) marginFixer.ApplyModifyValue();
-                            }
-                        ));
+                            ApplyRectTransform(rectTransformData, flag);
 
-                        viewController.StartMicroCoroutine(EaseUtility.To(
-                            rectTransform.localScale,
-                            Vector3.one,
-                            TweenTime,
-                            EaseStyle.QuadEaseOut,
-                            (v) =>
-                            {
-                                rectTransform.localScale = v;
-                            }
-                        ));
+                            viewController.StartMicroCoroutine(EaseUtility.To(
+                                rectTransform.anchoredPosition3D,
+                                rectTransformData.anchoredPosition,
+                                TweenTime,
+                                EaseStyle.QuadEaseOut,
+                                (v) =>
+                                {
+                                    rectTransform.anchoredPosition3D = v;
+                                },
+                                () =>
+                                {
+
+                                }
+                            ));
+                            viewController.StartMicroCoroutine(EaseUtility.To(
+                                rectTransform.localScale,
+                                rectTransformData.localScale,
+                                TweenTime,
+                                EaseStyle.QuadEaseOut,
+                                (v) =>
+                                {
+                                    rectTransform.localScale = v;
+                                },
+                                () =>
+                                {
+
+                                }
+                            ));
+                        }
 
                         goto END;
                     }
@@ -391,8 +439,15 @@ namespace CloudMacaca.ViewSystem
                         }
                         ViewSystemLog.LogWarning("Try to ReShow ", this);
                         rectTransform.SetParent(parent, true);
-                        rectTransform.anchoredPosition3D = Vector3.zero;
-                        rectTransform.localScale = Vector3.one;
+                        if (rectTransformData == null)
+                        {
+                            rectTransform.anchoredPosition3D = Vector3.zero;
+                            rectTransform.localScale = Vector3.one;
+                        }
+                        else
+                        {
+                            ApplyRectTransform(rectTransformData, rectTransformOverrideFlag);
+                        }
                         time = 0;
                         while (time < delayIn)
                         {
@@ -737,11 +792,6 @@ namespace CloudMacaca.ViewSystem
             {
                 return;
             }
-            // Debug.LogError(" rectTransform.SetParent(viewElementPool.transformCache, true);");
-
-            //rectTransform.SetParent(viewElementPool.transformCache, true);
-            // rectTransform.anchoredPosition = Vector2.zero;
-            // rectTransform.localScale = Vector3.one;
 
             if (runtimePool != null)
             {
@@ -811,6 +861,7 @@ namespace CloudMacaca.ViewSystem
 
             return result;
         }
+
     }
 
 }

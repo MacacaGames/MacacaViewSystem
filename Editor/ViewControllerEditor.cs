@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
-using CloudMacaca;
+using MacacaGames;
 using UnityEditor.AnimatedValues;
 
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     [CustomEditor(typeof(ViewController))]
     public class ViewControllerEditor : Editor

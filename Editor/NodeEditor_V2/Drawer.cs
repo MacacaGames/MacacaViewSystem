@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class Drawer
 {
+    public static GUIContent anchorsContent = EditorGUIUtility.TrTextContent("Anchors");
+    public static GUIContent anchorMinContent = EditorGUIUtility.TrTextContent("Min", "The normalized position in the parent rectangle that the lower left corner is anchored to.");
+    public static GUIContent anchorMaxContent = EditorGUIUtility.TrTextContent("Max", "The normalized position in the parent rectangle that the upper right corner is anchored to.");
+    public static GUIContent pivotContent = EditorGUIUtility.TrTextContent("Pivot", "The pivot point specified in normalized values between 0 and 1. The pivot point is the origin of this rectangle. Rotation and scaling are around this point.");
+    public static GUIContent transformScaleContent = EditorGUIUtility.TrTextContent("Scale", "The local scaling of this Game Object relative to the parent. This scales everything including image borders and text.");
+
     static GUISkin skin = ScriptableObject.Instantiate(EditorGUIUtility.GetBuiltinSkin(EditorSkin.Inspector)) as GUISkin;
     static Texture2D _miniInfoIcon;
     public static Texture2D miniInfoIcon
@@ -39,7 +45,7 @@ public class Drawer
         {
             if (_overrideIcon == null)
             {
-                _overrideIcon = EditorGUIUtility.FindTexture( "PrefabOverlayAdded Icon");
+                _overrideIcon = EditorGUIUtility.FindTexture("PrefabOverlayAdded Icon");
             }
             return _overrideIcon;
         }
@@ -206,12 +212,12 @@ public class Drawer
                 _oddStyle = new GUIStyle
                 {
                     normal ={
-                background = CloudMacaca.CMEditorUtility.CreatePixelTexture("red Pixel (List GUI)", new Color32(0, 0, 0, 20))
+                background = MacacaGames.CMEditorUtility.CreatePixelTexture("red Pixel (List GUI)", new Color32(0, 0, 0, 20))
 
                 },
                     active =
                 {
-                    background = CloudMacaca.CMEditorUtility.CreatePixelTexture("red Pixel (List GUI)", new Color32(0, 0, 0, 20))
+                    background = MacacaGames.CMEditorUtility.CreatePixelTexture("red Pixel (List GUI)", new Color32(0, 0, 0, 20))
                 },
                     imagePosition = ImagePosition.ImageOnly,
                     alignment = TextAnchor.MiddleCenter,
@@ -234,12 +240,12 @@ public class Drawer
                 _overrideShowedStyle = new GUIStyle
                 {
                     normal ={
-                background = CloudMacaca.CMEditorUtility.CreatePixelTexture("_overrideShowedStyle Pixel (List GUI)", new Color32(120,216,99, 200))
+                background = MacacaGames.CMEditorUtility.CreatePixelTexture("_overrideShowedStyle Pixel (List GUI)", new Color32(120,216,99, 200))
 
                 },
                     active =
                 {
-                    background = CloudMacaca.CMEditorUtility.CreatePixelTexture("_overrideShowedStyle Pixel (List GUI)", new Color32(120,216,99, 200))
+                    background = MacacaGames.CMEditorUtility.CreatePixelTexture("_overrideShowedStyle Pixel (List GUI)", new Color32(120,216,99, 200))
                 },
                     imagePosition = ImagePosition.ImageOnly,
                     alignment = TextAnchor.MiddleCenter,
@@ -315,7 +321,7 @@ public class Drawer
                     fontSize = 12,
                     active =
                     {
-                        background = CloudMacaca.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255))
+                        background = MacacaGames.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255))
                     },
                     imagePosition = ImagePosition.ImageAbove,
                     alignment = TextAnchor.MiddleCenter
@@ -336,11 +342,11 @@ public class Drawer
                 {
                     normal =
                     {
-                        background = CloudMacaca.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255))
+                        background = MacacaGames.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255))
                     },
                     active =
                     {
-                        background = CloudMacaca.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255))
+                        background = MacacaGames.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255))
                     },
                     imagePosition = ImagePosition.ImageOnly,
                     alignment = TextAnchor.MiddleCenter
@@ -357,7 +363,7 @@ public class Drawer
             if (_darkBoxStyle == null)
             {
                 _darkBoxStyle = new GUIStyle(skin.box);
-                _darkBoxStyle.normal.background = CloudMacaca.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255));
+                _darkBoxStyle.normal.background = MacacaGames.CMEditorUtility.CreatePixelTexture("Dark Pixel (List GUI)", new Color32(100, 100, 100, 255));
             }
             return _darkBoxStyle;
         }

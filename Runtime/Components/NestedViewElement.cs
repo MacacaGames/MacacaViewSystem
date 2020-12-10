@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine;
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     [System.Obsolete("NestedViewElement is Obsolete, Use ViewElementGroup instead.")]
     public class NestedViewElement : MonoBehaviour

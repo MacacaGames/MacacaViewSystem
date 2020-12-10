@@ -8,7 +8,7 @@ using System;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 
-namespace CloudMacaca.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.NodeEditorV2
 {
     public class ViewSystemDataReaderV2 : IViewSystemDateReader
     {
@@ -133,14 +133,97 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         }
 
+        // public void OnViewPagePreview(ViewPage viewPage)
+        // {
+        //     if (data.globalSetting.UIRootScene == null)
+        //     {
+        //         ViewSystemLog.ShowNotification(editor, new GUIContent($"There is no canvas in your scene, do you enter EditMode?"), 2);
+        //         ViewSystemLog.LogError($"There is no canvas in your scene, do you enter EditMode?");
+        //         return;
+        //     }
+        //     //throw new System.NotImplementedException();
+        //     ClearAllViewElementInScene();
+        //     // 打開所有相關 ViewElements
+        //     ViewState viewPagePresetTemp;
+        //     List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
+
+        //     //從 ViewPagePreset 尋找 (ViewState)
+        //     if (!string.IsNullOrEmpty(viewPage.viewState))
+        //     {
+        //         viewPagePresetTemp = data.viewStates.Select(m => m.viewState).SingleOrDefault(m => m.name == viewPage.viewState);
+        //         if (viewPagePresetTemp != null)
+        //         {
+        //             viewItemForNextPage.AddRange(viewPagePresetTemp.viewPageItems);
+        //         }
+        //     }
+
+        //     //從 ViewPage 尋找
+        //     viewItemForNextPage.AddRange(viewPage.viewPageItems);
+
+        //     Transform root = ViewControllerTransform;
+
+        //     //打開相對應物件
+        //     foreach (ViewPageItem item in viewItemForNextPage)
+        //     {
+        //         if (item.viewElement == null)
+        //         {
+        //             ViewSystemLog.LogWarning($"There are some ViewElement didn't setup correctly in this page or state");
+        //             continue;
+        //         }
+        //         var temp = PrefabUtility.InstantiatePrefab(item.viewElement.gameObject);
+        //         ViewElement tempViewElement = ((GameObject)temp).GetComponent<ViewElement>();
+
+        //         tempViewElement.gameObject.SetActive(true);
+        //         var rectTransform = tempViewElement.GetComponent<RectTransform>();
+        //         Transform tempParent = root.Find(item.parentPath);
+        //         rectTransform.SetParent(tempParent, true);
+        //         rectTransform.anchoredPosition3D = Vector3.zero;
+        //         rectTransform.localScale = Vector3.one;
+
+        //         var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
+        //         if (mFix != null) mFix.ApplyModifyValue();
+
+        //         tempViewElement.ApplyOverrides(item.overrideDatas);
+        //         tempViewElement.ApplyNavigation(item.navigationDatas);
+
+        //         item.previewViewElement = tempViewElement;
+
+        //         //item.viewElement.SampleToLoopState();
+        //         if (tempViewElement.transition != ViewElement.TransitionType.Animator)
+        //             continue;
+
+        //         Animator animator = tempViewElement.animator;
+        //         AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+        //         foreach (AnimationClip clip in clips)
+        //         {
+        //             if (clip.name.ToLower().Contains(tempViewElement.AnimationStateName_Loop.ToLower()))
+        //             {
+        //                 clip.SampleAnimation(animator.gameObject, 0);
+        //             }
+        //         }
+        //     }
+        // }
+
+        ViewSystemUtilitys.PageRootWrapper previewUIRootWrapper;
+        public void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)
+        {
+            if (previewUIRootWrapper != null)
+            {
+                previewUIRootWrapper.safePadding.SetPaddingValue(edgeValues);
+            }
+        }
+
         public void OnViewPagePreview(ViewPage viewPage)
         {
+
+            string UIRootName = "";
             if (data.globalSetting.UIRootScene == null)
             {
                 ViewSystemLog.ShowNotification(editor, new GUIContent($"There is no canvas in your scene, do you enter EditMode?"), 2);
                 ViewSystemLog.LogError($"There is no canvas in your scene, do you enter EditMode?");
                 return;
             }
+            UIRootName = data.globalSetting.UIRoot.name;
             //throw new System.NotImplementedException();
             ClearAllViewElementInScene();
             // 打開所有相關 ViewElements
@@ -162,8 +245,15 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             Transform root = ViewControllerTransform;
 
+            var canvas = root.Find($"{UIRootName}");
+            string viewPageName = ViewSystemUtilitys.GetPageRootName(viewPage);
+            previewUIRootWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas, viewPage.canvasSortOrder);
+            Transform fullPageRoot = root.Find($"{UIRootName}/{viewPageName}");
+            ApplySafeArea(viewPage.edgeValues);
+            //TO do apply viewPage component on fullPageRoot
+
             //打開相對應物件
-            foreach (ViewPageItem item in viewItemForNextPage)
+            foreach (ViewPageItem item in viewItemForNextPage.OrderBy(m => m.sortingOrder))
             {
                 if (item.viewElement == null)
                 {
@@ -175,20 +265,38 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                 tempViewElement.gameObject.SetActive(true);
                 var rectTransform = tempViewElement.GetComponent<RectTransform>();
-                Transform tempParent = root.Find(item.parentPath);
-                rectTransform.SetParent(tempParent, true);
-                rectTransform.anchoredPosition3D = Vector3.zero;
-                rectTransform.localScale = Vector3.one;
+                Transform tempParent = null;
 
-                var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
-                if (mFix != null) mFix.ApplyModifyValue();
+
+                if (!string.IsNullOrEmpty(item.parentPath))
+                {
+                    //Custom Parent implement
+                    tempParent = root.Find(item.parentPath);
+                }
+                else
+                {
+                    //RectTransform implement
+                    tempParent = fullPageRoot;
+                }
+                tempParent = fullPageRoot;
+                rectTransform.SetParent(tempParent, true);
+
+                if (!string.IsNullOrEmpty(item.parentPath))
+                {
+                    var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
+                    if (mFix != null) mFix.ApplyModifyValue();
+                }
+                else
+                {
+                    tempViewElement.ApplyRectTransform(item.transformData, item.transformFlag);
+                }
 
                 tempViewElement.ApplyOverrides(item.overrideDatas);
                 tempViewElement.ApplyNavigation(item.navigationDatas);
 
                 item.previewViewElement = tempViewElement;
 
-                //item.viewElement.SampleToLoopState();
+                //Sample animator traisintion viewlement to target frame
                 if (tempViewElement.transition != ViewElement.TransitionType.Animator)
                     continue;
 
@@ -225,6 +333,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
         public void ClearAllViewElementInScene()
         {
+            if (previewUIRootWrapper != null && previewUIRootWrapper.rectTransform)
+            {
+                UnityEngine.Object.DestroyImmediate(previewUIRootWrapper.rectTransform.gameObject);
+                previewUIRootWrapper = null;
+            }
             var allViewElement = UnityEngine.Object.FindObjectsOfType<ViewElement>();
             //NestedViewElement is obslote do nothing with NestedViewElement.
             //var allNestedViewElement = UnityEngine.Object.FindObjectsOfType<NestedViewElement>();

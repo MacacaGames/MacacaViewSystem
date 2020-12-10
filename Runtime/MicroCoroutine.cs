@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     /// <summary>
     /// Simple supports(only yield return null) lightweight, threadsafe coroutine dispatcher.

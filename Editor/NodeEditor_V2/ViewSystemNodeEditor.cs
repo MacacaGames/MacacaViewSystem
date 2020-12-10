@@ -3,10 +3,10 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using CloudMacaca.ViewSystem;
+using MacacaGames.ViewSystem;
 using UnityEngine.UIElements;
 using UnityEditor.SceneManagement;
-namespace CloudMacaca.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNodeEditor : EditorWindow
     {
@@ -24,7 +24,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         public static bool removeConnectWithoutAsk = false;
         public Transform ViewControllerRoot => dataReader.ViewControllerTransform;
 
-        [MenuItem("CloudMacaca/ViewSystem/Visual Editor")]
+        [MenuItem("MacacaGames/ViewSystem/Visual Editor")]
         private static void OpenWindow()
         {
             Instance = GetWindow<ViewSystemNodeEditor>();
@@ -55,6 +55,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             visulaElementFromUXML.styleSheets.Add(styleSheet);
             visulaElementFromUXML.style.flexGrow = 1;
 
+
             toolbarContianer = new IMGUIContainer(DrawMenuBar);
             toolbarContianer.style.flexGrow = 1;
             visulaElementFromUXML.Q("toolbar").Add(toolbarContianer);
@@ -62,7 +63,10 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             inspectorContianer = new IMGUIContainer(DrawInspector);
             inspectorContianer.style.flexGrow = 1;
             visulaElementFromUXML.Q("inspector").Add(inspectorContianer);
-
+            if (EditorGUIUtility.isProSkin)
+            {
+                visulaElementFromUXML.Q("inspector").style.backgroundColor = new StyleColor(new Color(0.3f, 0.3f, 0.3f));
+            }
             nodeViewContianer = new IMGUIContainer(DrawNode);
             nodeViewContianer.style.flexGrow = 1;
             visulaElementFromUXML.Q("node-view").Add(nodeViewContianer);
@@ -79,6 +83,11 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 dataReader.EditEnd();
             }
+        }
+
+        public static void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)
+        {
+            dataReader.ApplySafeArea(edgeValues);
         }
 
         public void RefreshData(bool hardRefresh = true)
@@ -152,8 +161,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             EditorZoomArea.NoGroupBegin(zoomScale, scriptViewRect);
             DrawGrid();
-         
-   foreach (var item in viewStateList.ToArray())
+
+            foreach (var item in viewStateList.ToArray())
             {
 
                 if (!string.IsNullOrEmpty(item.viewState.name))
@@ -284,7 +293,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 dataReader.OnViewStateDelete(node);
                 viewStateList.Remove(node);
-              
+
             };
 
             if (viewState == null)
@@ -377,7 +386,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
                             //刪掉線
                             console.LogWarringMessage("Break original link, create new link");
-             
+
                             CreateConnection();
                             ClearConnectionSelection();
                         }
@@ -528,7 +537,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             viewStateNode.OnNodeConnect(viewPageNode);
             viewPageNode.OnNodeConnect(viewStateNode);
-           
+
             console.LogMessage("Create Link, State:" + viewStateNode.viewState.name + ", Page :" + viewPageNode.viewPage.name);
         }
 
@@ -755,6 +764,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     {
                         search = EditorGUILayout.TextField(search, new GUIStyle("SearchTextField"));
                     }
+
+
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(new GUIContent(Drawer.zoomIcon, "Zoom"), GUIStyle.none);
                     zoomScale = EditorGUILayout.Slider(zoomScale, zoomScaleMinMax.x, zoomScaleMinMax.y, GUILayout.Width(120));
@@ -777,6 +788,120 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
         }
 
+        public void MigrateToV3()
+        {
+            foreach (var vps in viewPageList)
+            {
+                foreach (var vpi in vps.viewPage.viewPageItems)
+                {
+                    if (vpi == null)
+                    {
+                        continue;
+                    }
+                    vpi.transformData = new ViewSystemRectTransformData();
+                    var parent = ViewControllerRoot.Find(vpi.parentPath) as RectTransform;
+                    if (parent != null)
+                    {
+                        vpi.transformData.anchoredPosition = parent.anchoredPosition3D;
+                        vpi.transformData.anchorMax = parent.anchorMax;
+                        vpi.transformData.anchorMin = parent.anchorMin;
+                        vpi.transformData.pivot = parent.pivot;
+                        vpi.transformData.localScale = parent.localScale;
+                        vpi.transformData.localEulerAngles = parent.localEulerAngles;
+                    }
+
+                    if (vpi.viewElement != null)
+                    {
+                        vpi.transformData.sizeDelta = vpi.viewElement.rectTransform.sizeDelta;
+                    }
+                    vpi.parentPath = "";
+                }
+            }
+            foreach (var vss in viewStateList)
+            {
+                foreach (var vpi in vss.viewState.viewPageItems)
+                {
+                    if (vpi == null)
+                    {
+                        continue;
+                    }
+                    vpi.transformData = new ViewSystemRectTransformData();
+                    var parent = ViewControllerRoot.Find(vpi.parentPath) as RectTransform;
+                    if (parent != null)
+                    {
+                        vpi.transformData.anchoredPosition = parent.anchoredPosition3D;
+                        vpi.transformData.anchorMax = parent.anchorMax;
+                        vpi.transformData.anchorMin = parent.anchorMin;
+                        vpi.transformData.pivot = parent.pivot;
+                        vpi.transformData.localScale = parent.localScale;
+                        vpi.transformData.localEulerAngles = parent.localEulerAngles;
+                    }
+
+                    if (vpi.viewElement != null)
+                    {
+                        vpi.transformData.sizeDelta = vpi.viewElement.rectTransform.sizeDelta;
+                    }
+                    vpi.parentPath = "";
+                }
+            }
+
+            dataReader.Save(viewPageList, viewStateList);
+        }
+        public void UpdateRectTransformValue(ViewElement viewElement)
+        {
+            ViewPageItem vpi = null;
+            if (viewElement == null)
+            {
+                ViewSystemLog.LogError("Error while try to copy RectTransform value to save data, Target item is null.");
+                return;
+            }
+            foreach (var item in viewPageList)
+            {
+                foreach (var vpis in item.viewPage.viewPageItems)
+                {
+                    if (vpis.previewViewElement == null)
+                    {
+                        continue;
+                    }
+                    if (vpis.previewViewElement.GetInstanceID() == viewElement.GetInstanceID())
+                    {
+                        vpi = vpis;
+                        break;
+                    }
+                }
+            }
+
+            foreach (var item in viewStateList)
+            {
+                foreach (var vpis in item.viewState.viewPageItems)
+                {
+                    if (vpis.previewViewElement == null)
+                    {
+                        continue;
+                    }
+                    if (vpis.previewViewElement.GetInstanceID() == viewElement.GetInstanceID())
+                    {
+                        vpi = vpis;
+                        break;
+                    }
+                }
+            }
+
+            if (vpi == null)
+            {
+                ViewSystemLog.LogError("No match item found");
+                return;
+            }
+            var parent = viewElement.GetComponent<RectTransform>();
+            vpi.transformData.anchoredPosition = parent.anchoredPosition3D;
+            vpi.transformData.anchorMax = parent.anchorMax;
+            vpi.transformData.anchorMin = parent.anchorMin;
+            vpi.transformData.pivot = parent.pivot;
+            vpi.transformData.localScale = parent.localScale;
+            vpi.transformData.localEulerAngles = parent.localEulerAngles;
+            vpi.transformData.sizeDelta = parent.sizeDelta;
+            Repaint();
+        }
         public bool IsNodeInactivable
         {
             get
@@ -788,6 +913,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     ViewSystemNodeInspector.isMouseInSideBar());
             }
         }
+
 
         class VisualElementResizer : MouseManipulator
         {
@@ -884,6 +1010,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             ViewSystemNodeEditor.allowPreviewWhenPlaying = EditorGUILayout.ToggleLeft("Allow Preview When Playing", ViewSystemNodeEditor.allowPreviewWhenPlaying);
             ViewSystemNodeEditor.overrideFromOrginal = EditorGUILayout.ToggleLeft("Get Override From Orginal Prefab", ViewSystemNodeEditor.overrideFromOrginal);
             ViewSystemNodeEditor.removeConnectWithoutAsk = EditorGUILayout.ToggleLeft("Remove Connect Without Ask", ViewSystemNodeEditor.removeConnectWithoutAsk);
+            if (GUILayout.Button("Migrate to V3"))
+            {
+                ViewSystemNodeEditor.Instance.MigrateToV3();
+            }
         }
     }
+
+
 }

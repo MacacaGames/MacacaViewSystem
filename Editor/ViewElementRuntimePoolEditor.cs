@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 using System.Linq;
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     [CustomEditor(typeof(ViewElementRuntimePool))]
     public class ViewElementRuntimePoolEditor : Editor

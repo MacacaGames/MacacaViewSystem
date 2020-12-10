@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Text;
-using CloudMacaca.ViewSystem;
-namespace CloudMacaca.ViewSystem
+using MacacaGames.ViewSystem;
+namespace MacacaGames.ViewSystem
 {
     public class ViewSystemScriptBaker : Editor
     {
@@ -13,7 +13,7 @@ namespace CloudMacaca.ViewSystem
             var sb = new StringBuilder();
             sb.AppendLine("using UnityEngine;");
             sb.AppendLine();
-            sb.AppendLine("namespace CloudMacaca.ViewSystem");
+            sb.AppendLine("namespace MacacaGames.ViewSystem");
             sb.AppendLine("{");
             sb.AppendLine("	public struct ViewSystemScriptable");
             sb.AppendLine("	{");
@@ -78,7 +78,7 @@ namespace CloudMacaca.ViewSystem
         static string GetPathToGeneratedScriptLocalization()
         {
 
-            CloudMacaca.ViewSystem.NodeEditorV2.ViewSystemDataReaderV2.CheckAndCreateResourceFolder();
+            MacacaGames.ViewSystem.NodeEditorV2.ViewSystemDataReaderV2.CheckAndCreateResourceFolder();
             string[] assets = AssetDatabase.FindAssets("ViewSystemScriptable");
             if (assets.Length > 0)
             {

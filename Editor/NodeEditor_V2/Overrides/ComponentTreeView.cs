@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using System.Linq;
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     public class ComponentTreeView : TreeView
     {

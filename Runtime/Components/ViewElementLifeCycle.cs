@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
 
 

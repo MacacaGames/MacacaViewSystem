@@ -7,9 +7,9 @@ using UnityEditor.AnimatedValues;
 using UnityEditorInternal;
 using System.Reflection;
 using UnityEditor.IMGUI.Controls;
-using CloudMacaca;
+using MacacaGames;
 
-namespace CloudMacaca.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.NodeEditorV2
 {
     public class ViewSystemNodeInspector
     {
@@ -17,7 +17,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         ViewSystemNodeEditor editor;
         public bool show = true;
         AnimBool showBasicInfo;
-        AnimBool showViewPageItem;
+        // AnimBool showViewPageItem;
         ReorderableList viewPageItemList;
         GUIStyle nameStyle;
         GUIStyle nameUnnamedStyle;
@@ -36,8 +36,8 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             showBasicInfo = new AnimBool(true);
             showBasicInfo.valueChanged.AddListener(this.editor.Repaint);
 
-            showViewPageItem = new AnimBool(true);
-            showViewPageItem.valueChanged.AddListener(this.editor.Repaint);
+            // showViewPageItem = new AnimBool(true);
+            // showViewPageItem.valueChanged.AddListener(this.editor.Repaint);
 
             nameStyle = new GUIStyle
             {
@@ -95,6 +95,9 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         }
         List<ViewPageItem> list;
         List<EditableLockItem> editableLock = new List<EditableLockItem>();
+        List<bool> anchorPivotFoldout = new List<bool>();
+        List<bool> rotationScaleFoldout = new List<bool>();
+        List<int> transformEditStatus = new List<int>();
         class EditableLockItem
         {
             public EditableLockItem(bool defaultValue)
@@ -118,31 +121,23 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 var vp = ((ViewPageNode)currentSelectNode).viewPage;
                 list = vp.viewPageItems;
-                // var s = saveData.viewPages.Single(m => m.viewPage == vp);
-                // var index = saveData.viewPages.IndexOf(s);
-                // var sp = serializedObject.FindProperty("viewPages");
-                // var x = sp.GetArrayElementAtIndex(index);
-                // var y = x.FindPropertyRelative("viewPage");
-                // var z = y.FindPropertyRelative("viewPageItems");
-                // serializedProperty = z;
             }
             if (currentSelectNode is ViewStateNode)
             {
                 var vs = ((ViewStateNode)currentSelectNode).viewState;
                 list = vs.viewPageItems;
-                // var s = saveData.viewStates.Single(m => m.viewState == vs);
-                // var index = saveData.viewStates.IndexOf(s);
-                // var sp = serializedObject.FindProperty("viewStates");
-                // var x = sp.GetArrayElementAtIndex(index);
-                // var y = x.FindPropertyRelative("viewState");
-                // var z = y.FindPropertyRelative("viewPageItems");
-                // serializedProperty = z;
             }
 
             editableLock.Clear();
+            transformEditStatus.Clear();
+            anchorPivotFoldout.Clear();
+            rotationScaleFoldout.Clear();
             list.All(x =>
             {
                 editableLock.Add(new EditableLockItem(true));
+                rotationScaleFoldout.Add(false);
+                anchorPivotFoldout.Add(false);
+                transformEditStatus.Add(string.IsNullOrEmpty(x.parentPath) ? 0 : 1);
                 return true;
             });
             RebuildInspector();
@@ -155,19 +150,24 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
         {
             viewPageItemList = null;
             viewPageItemList = new ReorderableList(list, typeof(List<ViewPageItem>), true, true, true, false);
-            //viewPageItemList = new ReorderableList(serializedProperty.serializedObject, serializedProperty, true, true, true, false);
             viewPageItemList.drawElementCallback += DrawViewItemElement;
             viewPageItemList.drawHeaderCallback += DrawViewItemHeader;
-            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 5f;
+            viewPageItemList.elementHeight = EditorGUIUtility.singleLineHeight * 6f;
             viewPageItemList.onAddCallback += AddItem;
             viewPageItemList.drawElementBackgroundCallback += DrawItemBackground;
-            //viewPageItemList.elementHeightCallback += ElementHight;
+            viewPageItemList.elementHeightCallback += ElementHight;
             layouted = false;
         }
 
         private float ElementHight(int index)
         {
-            throw new NotImplementedException();
+            return transformEditStatus[index] == 0 ? GetHeight() : EditorGUIUtility.singleLineHeight * 6f;
+            float GetHeight()
+            {
+                return EditorGUIUtility.singleLineHeight * 7.5f +
+               (anchorPivotFoldout[index] ? EditorGUIUtility.singleLineHeight * 3 + 6 : 0) +
+               (rotationScaleFoldout[index] ? EditorGUIUtility.singleLineHeight * 2 + 8 : 0);
+            }
         }
         int _currentShowOverrideItem = -1;
 
@@ -243,12 +243,13 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             }
 
             editableLock.Add(new EditableLockItem(true));
-            // RebuildInspector();
+            transformEditStatus.Add(0);
+            rotationScaleFoldout.Add(false);
+            anchorPivotFoldout.Add(false);
         }
 
         private void DrawViewItemHeader(Rect rect)
         {
-
             float oriWidth = rect.width;
             rect.height = EditorGUIUtility.singleLineHeight;
             rect.x += 15;
@@ -257,24 +258,36 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             rect.width = 25;
             rect.x = oriWidth - 25;
-            // if (GUI.Button(rect, ReorderableList.defaultBehaviours.iconToolbarPlus, ReorderableList.defaultBehaviours.preButton))
-            // {
-            //     AddItem(viewPageItemList);
-            // }
         }
 
         const int rightBtnWidth = 0;
         ViewPageItem copyPasteBuffer;
         ViewElementOverridesImporterWindow overrideChecker;
-        ViewPageItem CopyItem(bool copyOverride = true, bool copyEvent = true)
+        ViewPageItem CopyItem(bool copyOverride = true, bool copyEvent = true, bool copyRectTransform = true)
         {
             var copyResult = new ViewPageItem(copyPasteBuffer.viewElement);
             copyResult.TweenTime = copyPasteBuffer.TweenTime;
             copyResult.delayOut = copyPasteBuffer.delayOut;
             copyResult.delayIn = copyPasteBuffer.delayIn;
             copyResult.parentPath = copyPasteBuffer.parentPath;
-            copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
             copyResult.parent = copyPasteBuffer.parent;
+            copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
+            copyResult.name = copyPasteBuffer.name;
+
+            if (copyRectTransform == true)
+            {
+                copyResult.transformData = new ViewSystemRectTransformData();
+                copyResult.transformData.anchoredPosition = copyPasteBuffer.transformData.anchoredPosition;
+                copyResult.transformData.anchorMax = copyPasteBuffer.transformData.anchorMax;
+                copyResult.transformData.anchorMin = copyPasteBuffer.transformData.anchorMin;
+                copyResult.transformData.pivot = copyPasteBuffer.transformData.pivot;
+                copyResult.transformData.localEulerAngles = copyPasteBuffer.transformData.localEulerAngles;
+                copyResult.transformData.localScale = copyPasteBuffer.transformData.localScale;
+                copyResult.transformData.offsetMax = copyPasteBuffer.transformData.offsetMax;
+                copyResult.transformData.offsetMin = copyPasteBuffer.transformData.offsetMin;
+                copyResult.transformData.sizeDelta = copyPasteBuffer.transformData.sizeDelta;
+                copyResult.parentPath = "";
+            }
 
             if (copyOverride == true)
             {
@@ -321,7 +334,6 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             {
                 return;
             }
-            //var vpi_sp = viewPageItemList.serializedProperty.GetArrayElementAtIndex(index);
             var e = Event.current;
             if (rect.Contains(e.mousePosition))
             {
@@ -339,28 +351,28 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         genericMenu.AddItem(new GUIContent("Paste (Default)"), false,
                             () =>
                             {
-                                list[index] = CopyItem(false, false);
+                                list[index] = CopyItem(false, false, true);
                                 GUI.changed = true;
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Paste (with Property Data)"), false,
                             () =>
                             {
-                                list[index] = CopyItem(true, false);
+                                list[index] = CopyItem(true, false, true);
                                 GUI.changed = true;
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Paste (with Events Data)"), false,
                            () =>
                            {
-                               list[index] = CopyItem(false, true);
+                               list[index] = CopyItem(false, true, true);
                                GUI.changed = true;
                            }
-                       );
+                        );
                         genericMenu.AddItem(new GUIContent("Paste (with All Data)"), false,
                            () =>
                            {
-                               list[index] = CopyItem(true, true);
+                               list[index] = CopyItem(true, true, true);
                                GUI.changed = true;
                            }
                        );
@@ -368,7 +380,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     genericMenu.ShowAsContext();
                 }
             }
-            EditorGUIUtility.labelWidth = 80.0f;
+            // EditorGUIUtility.labelWidth = 80.0f;
 
             Rect oriRect = rect;
 
@@ -380,7 +392,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
             /*Name Part Start */
             var nameRect = rect;
             //nameRect.height += EditorGUIUtility.singleLineHeight * 0.25f;
-            nameRect.width = rect.width - 60;
+            nameRect.width = rect.width - 80;
             GUIStyle nameRuntimeStyle;
 
             if (list.Where(m => m.name == list[index].name).Count() > 1 && !string.IsNullOrEmpty(list[index].name))
@@ -447,10 +459,12 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     editor.console.LogErrorMessage("ViewElement has not been select yet!");
                     return;
                 }
-                CloudMacaca.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
+                MacacaGames.CMEditorUtility.InspectTarget(list[index].viewElement.gameObject);
             }
 
             rightRect.x -= 20;
+            list[index].sortingOrder = EditorGUI.IntField(rightRect, list[index].sortingOrder);
+
             /*Toggle Button Part End */
 
 
@@ -458,9 +472,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
 
             var veRect = rect;
             veRect.width = rect.width - 20;
-            //var viewElementProperty = vpi_sp.FindPropertyRelative("viewElement");
-            //ViewElement ve = (ViewElement)viewElementProperty.objectReferenceValue;
-            //ViewElement ve = list[index].viewElement;
+
             using (var check = new EditorGUI.ChangeCheckScope())
             {
                 string oriViewElement = "";
@@ -469,8 +481,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     oriViewElement = list[index].viewElement.name;
                 }
 
-                //EditorGUI.ObjectField(veRect, viewElementProperty,);
-                //list[index].viewElement = (ViewElement)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElement, typeof(ViewElement), true);
+
                 list[index].viewElementObject = (GameObject)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElementObject, typeof(GameObject), true);
                 if (check.changed)
                 {
@@ -503,13 +514,16 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                         original = PrefabUtility.GetCorrespondingObjectFromSource(cache);
                     }
 
-                    //if (overrideChecker) overrideChecker.Close();
                     overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
                     overrideChecker.SetData(cache.transform, original.transform, list[index], currentSelectNode);
                     overrideChecker.ShowUtility();
-                    //viewElementProperty.objectReferenceValue = original;
                     list[index].viewElement = original;
-                    list[index].parent = cache.transform.parent;
+                    list[index].previewViewElement = cache;
+
+                    list[index].transformData = new ViewSystemRectTransformData();
+                    PickRectTransformValue();
+
+                    //list[index].parent = cache.transform.parent;
                 }
             }
 
@@ -541,157 +555,261 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                    list[index].eventDatas?.Count() > 0 ||
                    list[index].navigationDatas?.Count() > 0)
             {
-                GUI.Label(new Rect(veRect.x, veRect.y, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
+                GUI.Label(new Rect(veRect.x, veRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
             }
             rect.y += EditorGUIUtility.singleLineHeight;
+            transformEditStatus[index] = GUI.Toolbar(rect, transformEditStatus[index], new string[] { "RectTransfrom", "Custom Parent" });
+            rect.y += EditorGUIUtility.singleLineHeight;
 
-            veRect = rect;
-            veRect.width = rect.width - 20;
-            if (!editableLock[index].parent)
+            switch (transformEditStatus[index])
             {
-                using (var check = new EditorGUI.ChangeCheckScope())
-                {
-                    list[index].parentPath = EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), list[index].parentPath);
-                    if (check.changed)
+                case 0:
                     {
-                        if (!string.IsNullOrEmpty(list[index].parentPath))
+                        using (var change = new EditorGUI.ChangeCheckScope())
                         {
-                            var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
-                            if (target)
+                            Rect smartPositionAndSizeRect = rect;
+                            Rect layoutButtonRect = rect;
+                            Rect anchorAndPivotRect = rect;
+                            Rect foldoutRect = rect;
+                            Rect previewBtnRect = rect;
+                            float btnWidth = 80;
+                            previewBtnRect.x = previewBtnRect.width - btnWidth + 20;
+                            previewBtnRect.width = btnWidth;
+                            previewBtnRect.height = EditorGUIUtility.singleLineHeight;
+                            previewBtnRect.y += 18;
+                            if (GUI.Button(previewBtnRect, new GUIContent("Select", "Highlight and select ViewElement object")))
                             {
-                                list[index].parent = target.transform;
+                                SelectCurrentViewElement();
+                            }
+
+                            layoutButtonRect.x -= 10;
+                            // layoutButtonRect.y ;
+                            layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
+                            layoutButtonRect.height = EditorGUIUtility.singleLineHeight * 2;
+                            LayoutDropdownButton(layoutButtonRect, list[index].transformData, false);
+                            layoutButtonRect.y += EditorGUIUtility.singleLineHeight * 3;
+                            layoutButtonRect.height = EditorGUIUtility.singleLineHeight;
+                            using (var disable = new EditorGUI.DisabledGroupScope(list[index].previewViewElement == null))
+                            {
+                                if (GUI.Button(layoutButtonRect, new GUIContent("Pick", "Pick RectTransform value from preview ViewElement")))
+                                {
+                                    PickRectTransformValue();
+                                }
+                            }
+                            smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
+                            SmartPositionAndSizeFields(smartPositionAndSizeRect, true, list[index].transformData, false, false);
+                            anchorAndPivotRect.height = EditorGUIUtility.singleLineHeight;
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 2;
+                            anchorAndPivotRect.x += 30;
+                            anchorAndPivotRect.width -= 30;
+                            anchorAndPivotRect.width -= 70;
+                            bool widthMode = EditorGUIUtility.wideMode;
+                            float lableWidth = EditorGUIUtility.labelWidth;
+                            float fieldWidth = EditorGUIUtility.fieldWidth;
+                            EditorGUIUtility.fieldWidth = 40;
+                            EditorGUIUtility.labelWidth = 70;
+                            EditorGUIUtility.wideMode = true;
+                            Rect overrideFlagRect = anchorAndPivotRect;
+                            overrideFlagRect.x += 150;
+                            overrideFlagRect.width = 100;
+                            list[index].transformFlag = (ViewElement.RectTransformFlag)EditorGUI.EnumFlagsField(overrideFlagRect, list[index].transformFlag);
+                            anchorPivotFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, anchorPivotFoldout[index], "Anchor and Pivot");
+
+                            if (anchorPivotFoldout[index])
+                            {
+                                anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
+                                list[index].transformData.anchorMin = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Min", list[index].transformData.anchorMin);
+                                anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                                list[index].transformData.anchorMax = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Max", list[index].transformData.anchorMax);
+                                anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                                list[index].transformData.pivot = EditorGUI.Vector2Field(anchorAndPivotRect, "Pivot", list[index].transformData.pivot);
+                            }
+                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                            rotationScaleFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, rotationScaleFoldout[index], "Rotation and Scale");
+
+                            if (rotationScaleFoldout[index])
+                            {
+                                anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
+                                list[index].transformData.localEulerAngles = EditorGUI.Vector3Field(anchorAndPivotRect, "Rotation", list[index].transformData.localEulerAngles);
+                                anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
+                                list[index].transformData.localScale = EditorGUI.Vector3Field(anchorAndPivotRect, "Scale", list[index].transformData.localScale);
+                            }
+                            EditorGUIUtility.wideMode = widthMode;
+                            EditorGUIUtility.labelWidth = lableWidth;
+                            EditorGUIUtility.fieldWidth = fieldWidth;
+
+                            if (change.changed)
+                            {
+                                if (list[index].previewViewElement)
+                                {
+                                    list[index].previewViewElement.ApplyRectTransform(list[index].transformData, list[index].transformFlag);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 1:
+                    {
+                        veRect = rect;
+                        veRect.width = rect.width - 20;
+
+                        if (!editableLock[index].parent)
+                        {
+                            using (var check = new EditorGUI.ChangeCheckScope())
+                            {
+                                list[index].parentPath = EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), list[index].parentPath);
+                                if (check.changed)
+                                {
+                                    if (!string.IsNullOrEmpty(list[index].parentPath))
+                                    {
+                                        var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
+                                        if (target)
+                                        {
+                                            list[index].parent = target.transform;
+                                        }
+                                    }
+                                    else
+                                        list[index].parent = null;
+                                }
                             }
                         }
                         else
-                            list[index].parent = null;
+                        {
+                            string shortPath = "";
+                            if (!string.IsNullOrEmpty(list[index]?.parentPath))
+                            {
+                                shortPath = list[index].parentPath.Split('/').Last();
+                            }
+                            using (var disable = new EditorGUI.DisabledGroupScope(true))
+                            {
+                                EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), shortPath);
+                            }
+                        }
+
+                        if (!string.IsNullOrEmpty(list[index].parentPath))
+                        {
+                            var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
+                            if (target == null)
+                            {
+                                GUI.Label(new Rect(veRect.x - 24, veRect.y, 24, 24), new GUIContent(Drawer.miniErrorIcon, "Transform cannot found in this item."));
+                            }
+                        }
+
+                        veRect.x += veRect.width;
+                        veRect.width = 20;
+                        editableLock[index].parent = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index].parent, new GUIStyle("IN LockButton"));
+
+                        rect.y += EditorGUIUtility.singleLineHeight;
+
+                        if (editableLock[index].parent)
+                        {
+                            var parentFunctionRect = rect;
+                            parentFunctionRect.width = rect.width * 0.32f;
+                            parentFunctionRect.x += rect.width * 0.01f;
+                            if (GUI.Button(parentFunctionRect, new GUIContent("Pick", "Pick Current Select Transform")))
+                            {
+                                var item = Selection.transforms;
+                                if (item.Length > 1)
+                                {
+                                    editor.console.LogErrorMessage("Only object can be selected.");
+                                    goto PICK_BREAK;
+                                }
+                                if (item.Length == 0)
+                                {
+                                    editor.console.LogErrorMessage("No object is been select, please check object is in scene or not.");
+                                    goto PICK_BREAK;
+                                }
+                                list[index].parent = item.First();
+                            }
+                        // Due to while using auto layout we cannot return
+                        // Therefore use goto to escap the if scope
+                        PICK_BREAK:
+                            parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
+                            if (GUI.Button(parentFunctionRect, new GUIContent("Parent", "Highlight parent Transform object")))
+                            {
+                                var go = GameObject.Find(list[index].parentPath);
+                                if (go)
+                                {
+                                    EditorGUIUtility.PingObject(go);
+                                    Selection.objects = new[] { go };
+                                }
+                                else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                            }
+                            parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
+
+                            if (GUI.Button(parentFunctionRect, new GUIContent("Select", "Highlight and select ViewElement object")))
+                            {
+                                SelectCurrentViewElement();
+                            }
+                        }
+                        else
+                        {
+                            list[index].parent = (Transform)EditorGUI.ObjectField(rect, "Drag to here", list[index].parent, typeof(Transform), true);
+                        }
+
+                        if (list[index].parent != null)
+                        {
+                            var path = AnimationUtility.CalculateTransformPath(list[index].parent, null);
+                            var sp = path.Split('/');
+                            if (sp.First() == editor.ViewControllerRoot.name)
+                            {
+                                list[index].parentPath = path.Substring(sp.First().Length + 1);
+                            }
+                            else
+                            {
+                                editor.console.LogErrorMessage("Selected Parent is not child of ViewController GameObject");
+                                ViewSystemLog.LogError("Selected Parent is not child of ViewController GameObject");
+                                list[index].parent = null;
+                            }
+                        }
                     }
-                }
-            }
-            else
-            {
-                string shortPath = "";
-                if (!string.IsNullOrEmpty(list[index]?.parentPath))
-                {
-                    shortPath = list[index].parentPath.Split('/').Last();
-                }
-                using (var disable = new EditorGUI.DisabledGroupScope(true))
-                {
-                    EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), shortPath);
-                }
-            }
-
-            if (!string.IsNullOrEmpty(list[index].parentPath))
-            {
-                var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
-                if (target == null)
-                {
-                    GUI.Label(new Rect(veRect.x - 24, veRect.y, 24, 24), new GUIContent(Drawer.miniErrorIcon, "Transform cannot found in this item."));
-                }
-            }
-
-
-
-            veRect.x += veRect.width;
-            veRect.width = 20;
-            editableLock[index].parent = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index].parent, new GUIStyle("IN LockButton"));
-
-            rect.y += EditorGUIUtility.singleLineHeight;
-
-            if (editableLock[index].parent)
-            {
-                var parentFunctionRect = rect;
-                parentFunctionRect.width = rect.width * 0.32f;
-                parentFunctionRect.x += rect.width * 0.01f;
-                if (GUI.Button(parentFunctionRect, new GUIContent("Pick", "Pick Current Select Transform")))
-                {
-                    var item = Selection.transforms;
-                    if (item.Length > 1)
-                    {
-                        editor.console.LogErrorMessage("Only object can be selected.");
-                        goto PICK_BREAK;
-                    }
-                    if (item.Length == 0)
-                    {
-                        editor.console.LogErrorMessage("No object is been select, please check object is in scene or not.");
-                        goto PICK_BREAK;
-                    }
-                    list[index].parent = item.First();
-                }
-            // Due to while using auto layout we cannot return
-            // Therefore use goto to escap the if scope
-            PICK_BREAK:
-                parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
-                if (GUI.Button(parentFunctionRect, new GUIContent("Select Parent", "Highlight parent Transform object")))
-                {
-                    var go = GameObject.Find(list[index].parentPath);
-                    if (go)
-                    {
-                        EditorGUIUtility.PingObject(go);
-                        Selection.objects = new[] { go };
-                    }
-                    else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                }
-                parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
-                if (GUI.Button(parentFunctionRect, new GUIContent("Select Preview", "Highlight the preview ViewElement object (Only work while is preview the selected page)")))
-                {
-                    if (list[index].previewViewElement)
-                    {
-                        EditorGUIUtility.PingObject(list[index].previewViewElement);
-                        Selection.objects = new[] { list[index].previewViewElement.gameObject };
-                    }
-                    else if (Application.isPlaying && list[index].runtimeViewElement)
-                    {
-                        EditorGUIUtility.PingObject(list[index].runtimeViewElement);
-                        Selection.objects = new[] { list[index].runtimeViewElement.gameObject };
-                    }
-                    else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                    // var go = GameObject.Find(list[index].parentPath);
-                    // if (go.transform.childCount > 0)
-                    // {
-                    //     var pi = go.transform.Find(list[index].viewElement.name);
-                    //     if (pi)
-                    //     {
-                    //         EditorGUIUtility.PingObject(pi);
-                    //         Selection.objects = new[] { pi };
-                    //     }
-                    //     else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                    // }
-                    // else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                }
-            }
-            else
-            {
-                list[index].parent = (Transform)EditorGUI.ObjectField(rect, "Drag to here", list[index].parent, typeof(Transform), true);
-            }
-
-            if (list[index].parent != null)
-            {
-                var path = AnimationUtility.CalculateTransformPath(list[index].parent, null);
-                var sp = path.Split('/');
-                if (sp.First() == editor.ViewControllerRoot.name)
-                {
-                    list[index].parentPath = path.Substring(sp.First().Length + 1);
-                }
-                else
-                {
-                    editor.console.LogErrorMessage("Selected Parent is not child of ViewController GameObject");
-                    ViewSystemLog.LogError("Selected Parent is not child of ViewController GameObject");
-                    list[index].parent = null;
-                }
+                    break;
             }
 
             rect.width = 18;
             rect.x -= 21;
+            rect.y = oriRect.y += 20;
             if (GUI.Button(rect, new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), Drawer.removeButtonStyle))
             {
                 viewPageItemList.index = index;
                 RemoveItem(viewPageItemList);
+            }
+            void SelectCurrentViewElement()
+            {
+                if (list[index].previewViewElement)
+                {
+                    EditorGUIUtility.PingObject(list[index].previewViewElement);
+                    Selection.objects = new[] { list[index].previewViewElement.gameObject };
+                }
+                else if (Application.isPlaying && list[index].runtimeViewElement)
+                {
+                    EditorGUIUtility.PingObject(list[index].runtimeViewElement);
+                    Selection.objects = new[] { list[index].runtimeViewElement.gameObject };
+                }
+                else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+            }
+            void PickRectTransformValue()
+            {
+                if (list[index].previewViewElement)
+                {
+                    var previewRectTransform = list[index].previewViewElement.GetComponent<RectTransform>();
+                    list[index].transformData.anchoredPosition = previewRectTransform.anchoredPosition3D;
+                    list[index].transformData.anchorMax = previewRectTransform.anchorMax;
+                    list[index].transformData.anchorMin = previewRectTransform.anchorMin;
+                    list[index].transformData.offsetMax = previewRectTransform.offsetMax;
+                    list[index].transformData.offsetMin = previewRectTransform.offsetMin;
+                    list[index].transformData.pivot = previewRectTransform.pivot;
+                    list[index].transformData.localScale = previewRectTransform.localScale;
+                    list[index].transformData.sizeDelta = previewRectTransform.sizeDelta;
+                    list[index].transformData.localEulerAngles = previewRectTransform.localEulerAngles;
+                }
             }
         }
         static float InspectorWidth = 350;
         Rect infoAreaRect;
         public Vector2 scrollerPos;
         bool layouted = false;
+        int tabs = 0;
         public void Draw()
         {
             // if (show)
@@ -717,13 +835,77 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                     DrawViewStateDetail(((ViewStateNode)currentSelectNode));
                 }
                 infoAreaRect = GUILayoutUtility.GetLastRect();
-                showViewPageItem.target = EditorGUILayout.Foldout(showViewPageItem.target, "ViewPageItems");
+                GUILayout.Label("", GUILayout.Height(5));
+                tabs = GUILayout.Toolbar(tabs, new string[] { "ViewPageItems", "Components" });
+                // showViewPageItem.target = EditorGUILayout.Foldout(showViewPageItem.target, "ViewPageItems");
                 using (var scroll = new EditorGUILayout.ScrollViewScope(scrollerPos))
                 {
                     scrollerPos = scroll.scrollPosition;
-                    using (var fade = new EditorGUILayout.FadeGroupScope(showViewPageItem.faded))
+                    switch (tabs)
                     {
-                        if (viewPageItemList != null && fade.visible) viewPageItemList.DoLayoutList();
+                        case 0:
+                            if (viewPageItemList != null) viewPageItemList.DoLayoutList();
+                            break;
+                        case 1:
+                            if (currentSelectNode.nodeType == ViewStateNode.NodeType.FullPage || currentSelectNode.nodeType == ViewStateNode.NodeType.Overlay)
+                            {
+                                var vp = ((ViewPageNode)currentSelectNode).viewPage;
+
+                                //Canvas
+                                var _canvasContent = EditorGUIUtility.ObjectContent(null, typeof(Canvas));
+                                _canvasContent.text = "Canvas";
+                                GUILayout.Label(_canvasContent, new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                                vp.canvasSortOrder = EditorGUILayout.IntField("sortingOrder", vp.canvasSortOrder);
+                                GUILayout.Label("", new GUIStyle("ToolbarSlider"));
+
+                                //SafePadding
+                                GUILayout.Label("Safe Padding", new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+
+                                var contents = new string[]{
+                                   "Off","Balance","On",
+                                };
+                                using (var change = new EditorGUI.ChangeCheckScope())
+                                {
+
+                                    using (var horizon = new GUILayout.HorizontalScope())
+                                    {
+                                        EditorGUILayout.PrefixLabel("Left");
+                                        vp.edgeValues.left = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.left, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                    }
+
+                                    using (var horizon = new GUILayout.HorizontalScope())
+                                    {
+                                        EditorGUILayout.PrefixLabel("Bottom");
+                                        vp.edgeValues.bottom = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.bottom, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                    }
+                                    using (var horizon = new GUILayout.HorizontalScope())
+                                    {
+                                        EditorGUILayout.PrefixLabel("Top");
+                                        vp.edgeValues.top = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.top, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                    }
+                                    using (var horizon = new GUILayout.HorizontalScope())
+                                    {
+                                        EditorGUILayout.PrefixLabel("Right");
+                                        vp.edgeValues.right = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)vp.edgeValues.right, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                                    }
+
+                                    vp.edgeValues.influence = EditorGUILayout.Slider("Influence", vp.edgeValues.influence, 0, 1);
+                                    vp.edgeValues.influenceLeft = EditorGUILayout.Slider("Influence Left", vp.edgeValues.influenceLeft, 0, 1);
+                                    vp.edgeValues.influenceBottom = EditorGUILayout.Slider("Influence Bottom", vp.edgeValues.influenceBottom, 0, 1);
+                                    vp.edgeValues.influenceTop = EditorGUILayout.Slider("Influence Top", vp.edgeValues.influenceTop, 0, 1);
+                                    vp.edgeValues.influenceRight = EditorGUILayout.Slider("Influence Right", vp.edgeValues.influenceRight, 0, 1);
+                                    vp.flipPadding = EditorGUILayout.Toggle("Flip Padding", vp.flipPadding);
+                                    if (change.changed && ViewSystemNodeEditor.Instance.EditMode)
+                                    {
+                                        ViewSystemNodeEditor.ApplySafeArea(vp.edgeValues);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                GUILayout.Label("ViewState doesn't support components setting");
+                            }
+                            break;
                     }
                 }
             }
@@ -732,12 +914,341 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                 GUILayout.Label("Nothing selected :)");
             }
 
-            //if (serializedObject != null)
-            //    serializedObject.ApplyModifiedProperties();
-
             GUILayout.EndArea();
-            //DrawResizeBar();
         }
+        //source from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/Inspector/RectTransformEditor.cs
+        private delegate float FloatGetter(ViewSystemRectTransformData rect);
+        private delegate void FloatSetter(ViewSystemRectTransformData rect, float f);
+        private static GUIContent[] s_XYLabels = { new GUIContent("X"), new GUIContent("Y") };
+        private static GUIContent[] s_XYZLabels = { new GUIContent("X"), new GUIContent("Y"), new GUIContent("Z") };
+        Rect GetColumnRect(Rect totalRect, int column)
+        {
+            totalRect.xMin += 30;
+            Rect _rect = totalRect;
+            _rect.xMin += (totalRect.width - 4) * (column / 3f) + column * 2;
+            _rect.width = (totalRect.width - 4) / 3f;
+            return _rect;
+        }
+        void FloatFieldLabelAbove(Rect position, FloatGetter getter, FloatSetter setter, ViewSystemRectTransformData _rectTransform, DrivenTransformProperties driven, GUIContent label)
+        {
+            float lableWidth = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = 45;
+            // using (new EditorGUI.DisabledScope(targets.Any(x => ((x as RectTransform).drivenProperties & driven) != 0)))
+            // {
+            float value = getter(_rectTransform);
+            using (var change = new EditorGUI.ChangeCheckScope())
+            {
+                Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+                float newValue = EditorGUI.FloatField(positionLabel, label, value, EditorStyles.miniTextField);
+                if (change.changed)
+                {
+                    setter(_rectTransform, newValue);
+                }
+            }
+            EditorGUIUtility.labelWidth = lableWidth;
+            // }
+        }
+        // void FloatField(Rect position, FloatGetter getter, FloatSetter setter, ViewSystemRectTransformData _rectTransform, DrivenTransformProperties driven, GUIContent label)
+        // {
+        //     // using (new EditorGUI.DisabledScope(targets.Any(x => ((x as RectTransform).drivenProperties & driven) != 0)))
+        //     // {
+        //     float value = getter(_rectTransform);
+        //     // EditorGUI.showMixedValue = targets.Select(x => getter(x as RectTransform)).Distinct().Count() >= 2;
+        //     using (var change = new EditorGUI.ChangeCheckScope())
+        //     {
+        //         float newValue = EditorGUI.FloatField(position, label, value);
+        //         if (change.changed)
+        //         {
+        //             setter(_rectTransform, newValue);
+        //         }
+        //     }
+        //     // }
+        // }
+        // void Vector2Field(Rect position,
+        //     FloatGetter xGetter, FloatSetter xSetter,
+        //     FloatGetter yGetter, FloatSetter ySetter,
+        //     ViewSystemRectTransformData _rectTransform,
+        //     DrivenTransformProperties xDriven, DrivenTransformProperties yDriven,
+        //     GUIContent label)
+        // {
+        //     // EditorGUI.BeginProperty(position, label, vec2Property);
+
+        //     // SerializedProperty xProperty = vec2Property.FindPropertyRelative("x");
+        //     // SerializedProperty yProperty = vec2Property.FindPropertyRelative("y");
+
+        //     // EditorGUI.PrefixLabel(position, -1, label);
+        //     // float t = EditorGUIUtility.labelWidth;
+        //     // int l = EditorGUI.indentLevel;
+        //     Rect r0 = GetColumnRect(position, 0);
+        //     Rect r1 = GetColumnRect(position, 1);
+        //     // EditorGUIUtility.labelWidth = EditorGUI.CalcPrefixLabelWidth(s_XYLabels[0]);
+        //     // EditorGUI.BeginProperty(r0, s_XYLabels[0], xProperty);
+        //     FloatField(r0, xGetter, xSetter, _rectTransform, xDriven, s_XYLabels[0]);
+        //     // EditorGUI.EndProperty();
+        //     // EditorGUI.BeginProperty(r0, s_XYLabels[1], yProperty);
+        //     FloatField(r1, yGetter, ySetter, _rectTransform, yDriven, s_XYLabels[1]);
+        //     // EditorGUI.EndProperty();
+        //     // EditorGUIUtility.labelWidth = t;
+        //     // EditorGUI.indentLevel = l;
+        //     // EditorGUI.EndProperty();
+        // }
+
+        void LayoutDropdownButton(Rect dropdownPosition, ViewSystemRectTransformData rectTransformData, bool anyWithoutParent)
+        {
+            dropdownPosition.x += 2;
+            dropdownPosition.y += 17;
+            // using (new EditorGUI.DisabledScope(anyWithoutParent))
+            // {
+            Color oldColor = GUI.color;
+            GUI.color = new Color(1, 1, 1, 0.6f) * oldColor;
+            if (EditorGUI.DropdownButton(dropdownPosition, GUIContent.none, FocusType.Passive, "box"))
+            {
+                GUIUtility.keyboardControl = 0;
+                LayoutDropdownWindow m_DropdownWindow = new LayoutDropdownWindow(rectTransformData);
+                PopupWindow.Show(dropdownPosition, m_DropdownWindow);
+            }
+            GUI.color = oldColor;
+            // }
+
+            // if (!anyWithoutParent)
+            // {
+            LayoutDropdownWindow.DrawLayoutMode(new RectOffset(7, 7, 7, 7).Remove(dropdownPosition), rectTransformData.anchorMin, rectTransformData.anchorMax, rectTransformData.anchoredPosition, rectTransformData.sizeDelta);
+            LayoutDropdownWindow.DrawLayoutModeHeadersOutsideRect(dropdownPosition, rectTransformData.anchorMin, rectTransformData.anchorMax, rectTransformData.anchoredPosition, rectTransformData.sizeDelta);
+            // }
+        }
+        void SmartAnchorFields(Rect anchorRect, ViewSystemRectTransformData rectTransformData)
+        {
+            // anchorRect.height = EditorGUIUtility.singleLineHeight;
+
+            // // EditorGUI.BeginChangeCheck();
+            // // EditorGUI.BeginProperty(anchorRect, null, m_AnchorMin);
+            // // EditorGUI.BeginProperty(anchorRect, null, m_AnchorMax);
+            // // m_ShowLayoutOptions = EditorGUI.Foldout(anchorRect, m_ShowLayoutOptions, styles.anchorsContent, true);
+
+
+            // // EditorGUI.EndProperty();
+            // // EditorGUI.EndProperty();
+            // // if (EditorGUI.EndChangeCheck())
+            // //     EditorPrefs.SetBool(kShowAnchorPropsPrefName, m_ShowLayoutOptions);
+
+            // // if (!m_ShowLayoutOptions)
+            // //     return;
+
+            // anchorRect.y += EditorGUIUtility.singleLineHeight;
+            // Vector2Field(anchorRect,
+            //     rectTransform => rectTransform.anchorMin.x,
+            //     (rectTransform, val) => rectTransform.anchorMin.x = val,
+            //     rectTransform => rectTransform.anchorMin.y,
+            //     (rectTransform, val) => rectTransform.anchorMin.y = val,
+            //     rectTransformData,
+            //     DrivenTransformProperties.AnchorMinX,
+            //     DrivenTransformProperties.AnchorMinY,
+            //     Drawer.anchorMinContent);
+
+            // // EditorGUILayout.Space(EditorGUI.kVerticalSpacingMultiField);
+
+            // // anchorRect.y += EditorGUIUtility.singleLineHeight + EditorGUI.kVerticalSpacingMultiField;
+            // Vector2Field(anchorRect,
+            //     rectTransform => rectTransform.anchorMax.x,
+            //     (rectTransform, val) => rectTransform.anchorMax.x = val,
+            //     rectTransform => rectTransform.anchorMax.y,
+            //     (rectTransform, val) => rectTransform.anchorMax.y = val,
+            //     rectTransformData,
+            //     DrivenTransformProperties.AnchorMaxX,
+            //     DrivenTransformProperties.AnchorMaxY,
+            //     Drawer.anchorMaxContent);
+
+        }
+
+        // void SmartPivotField()
+        // {
+        //     Vector2Field(EditorGUILayout.GetControlRect(),
+        //         rectTransform => rectTransform.pivot.x,
+        //         (rectTransform, val) => SetPivotSmart(rectTransform, val, 0, !m_RawEditMode, false),
+        //         rectTransform => rectTransform.pivot.y,
+        //         (rectTransform, val) => SetPivotSmart(rectTransform, val, 1, !m_RawEditMode, false),
+        //         DrivenTransformProperties.PivotX,
+        //         DrivenTransformProperties.PivotY,
+        //         m_Pivot,
+        //         styles.pivotContent);
+        // }
+        void SmartPositionAndSizeFields(Rect rect, bool anyWithoutParent, ViewSystemRectTransformData rectTransformData, bool anyDrivenX, bool anyDrivenY)
+        {
+            rect.height = EditorGUIUtility.singleLineHeight * 2;
+            Rect rect2;
+
+            bool anyStretchX = rectTransformData.anchorMin.x != rectTransformData.anchorMax.x;
+            bool anyStretchY = rectTransformData.anchorMin.y != rectTransformData.anchorMax.y;
+            bool anyNonStretchX = rectTransformData.anchorMin.x == rectTransformData.anchorMax.x;
+            bool anyNonStretchY = rectTransformData.anchorMin.y == rectTransformData.anchorMax.y;
+
+            rect2 = GetColumnRect(rect, 0);
+            if (anyNonStretchX || anyWithoutParent || anyDrivenX)
+            {
+                //EditorGUI.BeginProperty(rect2, null, m_AnchoredPosition.FindPropertyRelative("x"));
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.anchoredPosition.x,
+                    (rectTransform, val) => rectTransform.anchoredPosition = new Vector2(val, rectTransform.anchoredPosition.y),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionX,
+                    EditorGUIUtility.TrTextContent("Pos X"));
+            }
+            else
+            {
+                // Affected by both anchored position and size delta so do property handling for both. (E.g. showing animated value, prefab override etc.)
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.offsetMin.x,
+                    (rectTransform, val) => rectTransform.offsetMin = new Vector2(val, rectTransform.offsetMin.y),
+                    rectTransformData,
+                    DrivenTransformProperties.None,
+                    EditorGUIUtility.TrTextContent("Left"));
+            }
+
+            rect2 = GetColumnRect(rect, 1);
+            if (anyNonStretchY || anyWithoutParent || anyDrivenY)
+            {
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.anchoredPosition.y,
+                    (rectTransform, val) => rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, val),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionY,
+                    EditorGUIUtility.TrTextContent("Pos Y"));
+            }
+            else
+            {
+                // Affected by both anchored position and size delta so do property handling for both. (E.g. showing animated value, prefab override etc.)
+                // EditorGUI.BeginProperty(rect2, null, m_AnchoredPosition.FindPropertyRelative("y"));
+                // EditorGUI.BeginProperty(rect2, null, m_SizeDelta.FindPropertyRelative("y"));
+                // FloatFieldLabelAbove(rect2,
+                //     rectTransform => -rectTransform.offsetMax.y,
+                //     (rectTransform, val) => rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -val),
+                //     DrivenTransformProperties.None,
+                //     EditorGUIUtility.TrTextContent("Top"));
+                // SetFadingBasedOnControlID(ref m_ChangingTop, EditorGUIUtility.s_LastControlID);
+                // EditorGUI.EndProperty();
+                // EditorGUI.EndProperty();
+
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => -rectTransform.offsetMax.y,
+                    (rectTransform, val) => rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -val),
+                    rectTransformData,
+                    DrivenTransformProperties.None,
+                    EditorGUIUtility.TrTextContent("Top"));
+            }
+
+            rect2 = GetColumnRect(rect, 2);
+            // EditorGUI.BeginProperty(rect2, null, m_LocalPositionZ);
+            // FloatFieldLabelAbove(rect2,
+            //     rectTransform => rectTransform.transform.localPosition.z,
+            //     (rectTransform, val) => rectTransform.transform.localPosition = new Vector3(rectTransform.transform.localPosition.x, rectTransform.transform.localPosition.y, val),
+            //     DrivenTransformProperties.AnchoredPositionZ,
+            //     EditorGUIUtility.TrTextContent("Pos Z"));
+
+            // EditorGUI.EndProperty();
+            FloatFieldLabelAbove(
+                rect2,
+                rectTransform => rectTransform.anchoredPosition.z,
+                (rectTransform, val) => rectTransform.anchoredPosition = new Vector3(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y, val),
+                rectTransformData,
+                DrivenTransformProperties.AnchoredPositionZ,
+                EditorGUIUtility.TrTextContent("Pos Z"));
+            rect.y += EditorGUIUtility.singleLineHeight;
+
+            rect2 = GetColumnRect(rect, 0);
+            if (anyNonStretchX || anyWithoutParent || anyDrivenX)
+            {
+                // EditorGUI.BeginProperty(rect2, null, m_SizeDelta.FindPropertyRelative("x"));
+                // FloatFieldLabelAbove(rect2,
+                //     rectTransform => rectTransform.sizeDelta.x,
+                //     (rectTransform, val) => rectTransform.sizeDelta = new Vector2(val, rectTransform.sizeDelta.y),
+                //     DrivenTransformProperties.SizeDeltaX,
+                //     anyStretchX ? EditorGUIUtility.TrTextContent("W Delta") : EditorGUIUtility.TrTextContent("Width"));
+                // SetFadingBasedOnControlID(ref m_ChangingWidth, EditorGUIUtility.s_LastControlID);
+                // EditorGUI.EndProperty();
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.sizeDelta.x,
+                    (rectTransform, val) => rectTransform.sizeDelta = new Vector2(val, rectTransform.sizeDelta.y),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionZ,
+                    anyStretchX ? EditorGUIUtility.TrTextContent("W Delta") : EditorGUIUtility.TrTextContent("Width"));
+            }
+            else
+            {
+                // Affected by both anchored position and size delta so do property handling for both. (E.g. showing animated value, prefab override etc.)
+                // EditorGUI.BeginProperty(rect2, null, m_AnchoredPosition.FindPropertyRelative("x"));
+                // EditorGUI.BeginProperty(rect2, null, m_SizeDelta.FindPropertyRelative("x"));
+                // FloatFieldLabelAbove(rect2,
+                //     rectTransform => -rectTransform.offsetMax.x,
+                //     (rectTransform, val) => rectTransform.offsetMax = new Vector2(-val, rectTransform.offsetMax.y),
+                //     DrivenTransformProperties.None,
+                //     EditorGUIUtility.TrTextContent("Right"));
+                // SetFadingBasedOnControlID(ref m_ChangingRight, EditorGUIUtility.s_LastControlID);
+                // EditorGUI.EndProperty();
+                // EditorGUI.EndProperty();
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => -rectTransform.offsetMax.x,
+                    (rectTransform, val) => rectTransform.offsetMax = new Vector2(-val, rectTransform.offsetMax.y),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionZ,
+                    EditorGUIUtility.TrTextContent("Right"));
+            }
+
+            rect2 = GetColumnRect(rect, 1);
+            if (anyNonStretchY || anyWithoutParent || anyDrivenY)
+            {
+                // EditorGUI.BeginProperty(rect2, null, m_SizeDelta.FindPropertyRelative("y"));
+                // FloatFieldLabelAbove(rect2,
+                //     rectTransform => rectTransform.sizeDelta.y,
+                //     (rectTransform, val) => rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, val),
+                //     DrivenTransformProperties.SizeDeltaY,
+                //     anyStretchY ? EditorGUIUtility.TrTextContent("H Delta") : EditorGUIUtility.TrTextContent("Height"));
+                // SetFadingBasedOnControlID(ref m_ChangingHeight, EditorGUIUtility.s_LastControlID);
+                // EditorGUI.EndProperty();
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.sizeDelta.y,
+                    (rectTransform, val) => rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, val),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionZ,
+                    anyStretchY ? EditorGUIUtility.TrTextContent("H Delta") : EditorGUIUtility.TrTextContent("Height"));
+            }
+            else
+            {
+                // Affected by both anchored position and size delta so do property handling for both. (E.g. showing animated value, prefab override etc.)
+                // EditorGUI.BeginProperty(rect2, null, m_AnchoredPosition.FindPropertyRelative("y"));
+                // EditorGUI.BeginProperty(rect2, null, m_SizeDelta.FindPropertyRelative("y"));
+                // FloatFieldLabelAbove(rect2,
+                //     rectTransform => rectTransform.offsetMin.y,
+                //     (rectTransform, val) => rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, val),
+                //     DrivenTransformProperties.None,
+                //     EditorGUIUtility.TrTextContent("Bottom"));
+                // SetFadingBasedOnControlID(ref m_ChangingBottom, EditorGUIUtility.s_LastControlID);
+                // EditorGUI.EndProperty();
+                // EditorGUI.EndProperty();
+                FloatFieldLabelAbove(
+                    rect2,
+                    rectTransform => rectTransform.offsetMin.y,
+                    (rectTransform, val) => rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, val),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionZ,
+                    EditorGUIUtility.TrTextContent("Bottom"));
+            }
+
+            rect2 = rect;
+            rect2.height = EditorGUIUtility.singleLineHeight;
+            rect2.y += EditorGUIUtility.singleLineHeight;
+            rect2.yMin -= 2;
+            rect2.xMin = rect2.xMax - 26;
+
+        }
+
+
         Rect ResizeBarRect;
         bool resizeBarPressed = false;
         void DrawResizeBar()
@@ -797,7 +1308,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             {
                                 vp.viewPageTransitionTimingType = (ViewPage.ViewPageTransitionTimingType)EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", vp.viewPageTransitionTimingType);
                             }
-                            using (var disable = new EditorGUI.DisabledGroupScope(vp.viewPageTransitionTimingType != ViewPage.ViewPageTransitionTimingType.自行設定))
+                            using (var disable = new EditorGUI.DisabledGroupScope(vp.viewPageTransitionTimingType != ViewPage.ViewPageTransitionTimingType.Custom))
                             {
                                 vp.customPageTransitionWaitTime = EditorGUILayout.FloatField("CustomPageTransitionWaitTime", vp.customPageTransitionWaitTime);
                             }
@@ -848,7 +1359,7 @@ namespace CloudMacaca.ViewSystem.NodeEditorV2
                             }
                             using (var disable = new EditorGUI.DisabledGroupScope(true))
                             {
-                                EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", ViewPage.ViewPageTransitionTimingType.接續前動畫);
+                                EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", ViewPage.ViewPageTransitionTimingType.AfterPervious);
                                 EditorGUILayout.FloatField("CustomPageTransitionWaitTime", 0);
                             }
                             vs.targetFrameRate = EditorGUILayout.IntField("TargetFrameRate", vs.targetFrameRate);

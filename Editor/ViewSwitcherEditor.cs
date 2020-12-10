@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using CloudMacaca.ViewSystem;
+using MacacaGames.ViewSystem;
 using System.Linq;
 
 public class ViewSwitcherEditor : EditorWindow
 {
     // static EditorWindow _editor;
 
-    // [MenuItem("CloudMacaca/ViewSystem/ViewSwitcher")]
+    // [MenuItem("MacacaGames/ViewSystem/ViewSwitcher")]
     // public static void Init()
     // {
     //     EditorWindow window = GetWindow<ViewSwitcherEditor>();

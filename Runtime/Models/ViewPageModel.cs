@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     [System.Serializable]
     public class View
@@ -25,13 +25,16 @@ namespace CloudMacaca.ViewSystem
         }
         public enum ViewPageTransitionTimingType
         {
-            與前動畫同時, 接續前動畫, 自行設定
+            WithPervious, AfterPervious, Custom
         }
+        public RectTransform runtimePageRoot;
         public float customPageTransitionWaitTime = 0.5f;
         public string viewState = "";
         public ViewPageType viewPageType = ViewPageType.FullPage;
-        public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.與前動畫同時;
-
+        public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.WithPervious;
+        public int canvasSortOrder = 0;
+        public SafePadding.PerEdgeValues edgeValues =new SafePadding.PerEdgeValues();
+        public bool flipPadding = false;
         #region Navigation
         public bool IsNavigation = false;
         public ViewElementNavigationTarget _firstSelectSetting;
@@ -68,6 +71,7 @@ namespace CloudMacaca.ViewSystem
         }
         #endregion
     }
+
     [System.Serializable]
     public class ViewPageItem
     {
@@ -114,25 +118,16 @@ namespace CloudMacaca.ViewSystem
         public Transform parent;
         public Transform runtimeParent = null;
         public string parentPath;
-        GameObject _parentGameObject;
-        [HideInInspector]
-        public GameObject parentGameObject
-        {
-            get
-            {
-                if (_parentGameObject == null)
-                {
-                    _parentGameObject = runtimeParent.gameObject;
-                }
-                return _parentGameObject;
-            }
-        }
+
         public float TweenTime = 0.4f;
         public EaseStyle easeType = EaseStyle.QuadEaseOut;
         public float delayIn;
         public float delayOut;
         public List<ViewElementNavigationData> navigationDatas = new List<ViewElementNavigationData>();
         public PlatformOption excludePlatform = PlatformOption.Nothing;
+        public ViewSystemRectTransformData transformData = new ViewSystemRectTransformData();
+        public ViewElement.RectTransformFlag transformFlag = ViewElement.RectTransformFlag.All;
+        public int sortingOrder = 0;
 
         [System.Flags]
         public enum PlatformOption
@@ -159,15 +154,7 @@ namespace CloudMacaca.ViewSystem
             if (string.IsNullOrEmpty(Id))
                 Id = System.Guid.NewGuid().ToString().Substring(0, 8);
         }
-    }
 
-    [System.Serializable]
-    public class ViewSystemComponentData
-    {
-        public string targetTransformPath;
-        public string targetComponentType;
-        /// This value is save as SerializedProperty.PropertyPath
-        public string targetPropertyName;
     }
 
     [System.Serializable]
@@ -218,7 +205,47 @@ namespace CloudMacaca.ViewSystem
         }
         public PropertyOverride Value;
     }
+    [System.Serializable]
+    public class ViewSystemComponentData
+    {
+        public string targetTransformPath;
+        public string targetComponentType;
+        /// This value is save as SerializedProperty.PropertyPath
+        public string targetPropertyName;
+    }
+    [System.Serializable]
+    public class ViewSystemRectTransformData
+    {
+        //scale modify may not require
+        public Vector3 localScale;
+        public Vector3 localEulerAngles;
+        public Vector3 anchoredPosition;
+        public Vector2 pivot;
+        public Vector2 sizeDelta;
+        public Vector2 anchorMin;
+        public Vector2 anchorMax;
+        public Vector2 offsetMin;
+        public Vector2 offsetMax;
+        // public static void SetPivotSmart(float value, int axis, bool smart, bool parentSpace)
+        // {
+        //     Vector3 cornerBefore = GetRectReferenceCorner(rect, !parentSpace);
 
+        //     Vector2 rectPivot = rect.pivot;
+        //     rectPivot[axis] = value;
+        //     rect.pivot = rectPivot;
+
+        //     if (smart)
+        //     {
+        //         Vector3 cornerAfter = GetRectReferenceCorner(rect, !parentSpace);
+        //         Vector3 cornerOffset = cornerAfter - cornerBefore;
+        //         rect.anchoredPosition -= (Vector2)cornerOffset;
+
+        //         Vector3 pos = rect.transform.position;
+        //         pos.z -= cornerOffset.z;
+        //         rect.transform.position = pos;
+        //     }
+        // }
+    }
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
     public class ViewEventGroup : System.Attribute
     {

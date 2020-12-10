@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-namespace CloudMacaca.ViewSystem
+namespace MacacaGames.ViewSystem
 {
     public class ViewSystemSaveData : ScriptableObject
     {
@@ -132,13 +132,13 @@ namespace CloudMacaca.ViewSystem
                 case S_Type._enum:
                     {
                         var s = StringValue.Split(',');
-                        var enumType = CloudMacaca.Utility.GetType(s[0]);
+                        var enumType = MacacaGames.Utility.GetType(s[0]);
                         return System.Enum.Parse(enumType, s[1], false);
                     }
                 case S_Type._enumFlag:
                     {
                         var s = StringValue.Split(',');
-                        var enumType = CloudMacaca.Utility.GetType(s[0]);
+                        var enumType = MacacaGames.Utility.GetType(s[0]);
                         int v = 0;
                         int.TryParse(s[1], out v);
                         return System.Enum.ToObject(enumType, v);
