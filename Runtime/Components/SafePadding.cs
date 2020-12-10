@@ -254,8 +254,13 @@ namespace MacacaGames.ViewSystem
 
         private static Rect ToScreenRelativeRect(Rect absoluteRect)
         {
+#if UNITY_EDITOR
+            int w = Screen.width;
+            int h = Screen.height;
+#else
             int w = Screen.currentResolution.width;
             int h = Screen.currentResolution.height;
+#endif
             //Debug.Log($"{w} {h} {Screen.currentResolution} {absoluteRect}");
             return new Rect(
                 absoluteRect.x / w,
