@@ -297,8 +297,7 @@ namespace MacacaGames.ViewSystem
                 item.ChangePage(false, null, null, 0, 0);
             }
 
-            //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
-            yield return runtimePool.RecoveryQueuedViewElement();
+
 
             float TimeForPerviousPageOnLeave = 0;
             switch (vp.viewPageTransitionTimingType)
@@ -371,6 +370,8 @@ namespace MacacaGames.ViewSystem
             {
                 item.OnChangedPage();
             }
+            
+            yield return runtimePool.RecoveryQueuedViewElement();
 
             OnChanged?.Invoke();
 
@@ -528,7 +529,7 @@ namespace MacacaGames.ViewSystem
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.transformFlag, item.sortingOrder, item.TweenTime, item.delayIn, reshowIfSamePage: RePlayOnShowWhileSamePage);
             }
 
-   
+
             // if (viewItemNextState != null)
             // {
             //     foreach (var item in viewItemNextState)

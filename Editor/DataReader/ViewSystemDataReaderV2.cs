@@ -278,13 +278,14 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
                     //RectTransform implement
                     tempParent = fullPageRoot;
                 }
-                tempParent = fullPageRoot;
                 rectTransform.SetParent(tempParent, true);
 
                 if (!string.IsNullOrEmpty(item.parentPath))
                 {
                     var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
                     if (mFix != null) mFix.ApplyModifyValue();
+                    tempViewElement.rectTransform.localScale = Vector3.one;
+                    tempViewElement.rectTransform.anchoredPosition3D = Vector3.zero;
                 }
                 else
                 {
