@@ -59,7 +59,14 @@ public class ViewElementRequestedPool
         recoveryAction?.Invoke(ve);
         //runtimePool.RecoveryQueuedViewElement(true);
     }
-
+    /// <summary>
+    /// While call Recovery or RecoveryAll it's not really recovery, the system will move the element to a queue first and waiting for next system recovery cycle
+    /// This API make system force recovery all queue element
+    /// </summary>
+    public void RecoveryQueuedItems()
+    {
+        runtimePool.RecoveryQueuedViewElement(true);
+    }
     public int GetCurrentInUseViewElementCount()
     {
         return viewElementQueue.Count;
