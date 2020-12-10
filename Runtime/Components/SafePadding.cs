@@ -44,7 +44,7 @@ namespace MacacaGames.ViewSystem
             portraitOrDefaultPaddings = _edgeValues;
             UpdateRectBase();
         }
-        private protected DrivenRectTransformTracker m_Tracker;
+        private protected DrivenRectTransformTracker m_Tracker = new DrivenRectTransformTracker();
 
         private protected void UpdateRect()
         {
