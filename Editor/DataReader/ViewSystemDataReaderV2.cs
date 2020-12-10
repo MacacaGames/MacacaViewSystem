@@ -251,7 +251,7 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
             Transform fullPageRoot = root.Find($"{UIRootName}/{viewPageName}");
             ApplySafeArea(viewPage.edgeValues);
             //TO do apply viewPage component on fullPageRoot
-
+                
             //打開相對應物件
             foreach (ViewPageItem item in viewItemForNextPage.OrderBy(m => m.sortingOrder))
             {
@@ -278,13 +278,14 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
                     //RectTransform implement
                     tempParent = fullPageRoot;
                 }
-                tempParent = fullPageRoot;
                 rectTransform.SetParent(tempParent, true);
 
                 if (!string.IsNullOrEmpty(item.parentPath))
                 {
                     var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
                     if (mFix != null) mFix.ApplyModifyValue();
+                    tempViewElement.rectTransform.localScale = Vector3.one;
+                    tempViewElement.rectTransform.anchoredPosition = Vector3.zero;
                 }
                 else
                 {
