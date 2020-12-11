@@ -370,7 +370,7 @@ namespace MacacaGames.ViewSystem
             {
                 item.OnChangedPage();
             }
-            
+
             yield return runtimePool.RecoveryQueuedViewElement();
 
             OnChanged?.Invoke();
@@ -765,6 +765,9 @@ namespace MacacaGames.ViewSystem
             SetNavigationTarget(vp);
 
             InvokeOnViewPageChange(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
+#if UNITY_EDITOR
+            UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
+#endif
 
             if (!string.IsNullOrEmpty(vp.viewState) && viewStatesNames.Contains(vp.viewState) && currentViewState.name != vp.viewState)
             {
@@ -782,6 +785,7 @@ namespace MacacaGames.ViewSystem
                 {
                     Application.targetFrameRate = lastFrameRate;
                 }
+                UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
 #endif
 
                 InvokeOnViewStateChange(this, new ViewStateEventArgs(currentViewState, lastViewState));

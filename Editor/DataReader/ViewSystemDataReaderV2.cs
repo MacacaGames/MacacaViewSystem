@@ -249,7 +249,6 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
             string viewPageName = ViewSystemUtilitys.GetPageRootName(viewPage);
             previewUIRootWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas, viewPage.canvasSortOrder);
             Transform fullPageRoot = root.Find($"{UIRootName}/{viewPageName}");
-            ApplySafeArea(viewPage.edgeValues);
             //TO do apply viewPage component on fullPageRoot
 
             //打開相對應物件
@@ -297,6 +296,7 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
 
                 item.previewViewElement = tempViewElement;
 
+
                 //Sample animator traisintion viewlement to target frame
                 if (tempViewElement.transition != ViewElement.TransitionType.Animator)
                     continue;
@@ -311,6 +311,8 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
                     }
                 }
             }
+            ApplySafeArea(viewPage.edgeValues);
+            UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
         }
 
         public void Normalized()

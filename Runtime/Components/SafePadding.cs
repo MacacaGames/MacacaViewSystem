@@ -72,7 +72,6 @@ namespace MacacaGames.ViewSystem
                 switch (saem)
                 {
                     case EdgeEvaluationMode.On:
-                    case EdgeEvaluationMode.Balanced:
                     case EdgeEvaluationMode.Off:
                         return true;
                     //When "Unlocked" is supported, it will be false.
@@ -118,11 +117,7 @@ namespace MacacaGames.ViewSystem
                 case EdgeEvaluationMode.On:
                     finalPaddingsLDUR[0] = topRect.width * relativeLDUR[0];
                     break;
-                case EdgeEvaluationMode.Balanced:
-                    finalPaddingsLDUR[0] = relativeLDUR[3] > relativeLDUR[0] ?
-                        topRect.width * relativeLDUR[3] :
-                        topRect.width * relativeLDUR[0];
-                    break;
+             
             }
 
             switch (selectedOrientation.right)
@@ -130,11 +125,7 @@ namespace MacacaGames.ViewSystem
                 case EdgeEvaluationMode.On:
                     finalPaddingsLDUR[3] = topRect.width * relativeLDUR[3];
                     break;
-                case EdgeEvaluationMode.Balanced:
-                    finalPaddingsLDUR[3] = relativeLDUR[0] > relativeLDUR[3] ?
-                        topRect.width * relativeLDUR[0] :
-                        topRect.width * relativeLDUR[3];
-                    break;
+           
             }
 
             switch (selectedOrientation.bottom)
@@ -142,22 +133,13 @@ namespace MacacaGames.ViewSystem
                 case EdgeEvaluationMode.On:
                     finalPaddingsLDUR[1] = topRect.height * relativeLDUR[1];
                     break;
-                case EdgeEvaluationMode.Balanced:
-                    finalPaddingsLDUR[1] = relativeLDUR[2] > relativeLDUR[1] ?
-                        topRect.height * relativeLDUR[2] :
-                        topRect.height * relativeLDUR[1];
-                    break;
+           
             }
 
             switch (selectedOrientation.top)
             {
                 case EdgeEvaluationMode.On:
                     finalPaddingsLDUR[2] = topRect.height * relativeLDUR[2];
-                    break;
-                case EdgeEvaluationMode.Balanced:
-                    finalPaddingsLDUR[2] = relativeLDUR[1] > relativeLDUR[2] ?
-                        topRect.height * relativeLDUR[1] :
-                        topRect.height * relativeLDUR[2];
                     break;
             }
 
@@ -254,13 +236,15 @@ namespace MacacaGames.ViewSystem
 
         private static Rect ToScreenRelativeRect(Rect absoluteRect)
         {
-#if UNITY_EDITOR
             int w = Screen.width;
             int h = Screen.height;
-#else
-            int w = Screen.currentResolution.width;
-            int h = Screen.currentResolution.height;
-#endif
+// #if UNITY_EDITOR
+//             int w = Screen.width;
+//             int h = Screen.height;
+// #else
+//             int w = Screen.currentResolution.width;
+//             int h = Screen.currentResolution.height;
+// #endif
             //Debug.Log($"{w} {h} {Screen.currentResolution} {absoluteRect}");
             return new Rect(
                 absoluteRect.x / w,
@@ -279,12 +263,6 @@ namespace MacacaGames.ViewSystem
             /// Do not use a value reported from that edge.
             /// </summary>
             Off,
-
-            /// <summary>
-            /// Like <see cref="On"/> but also look at the opposite edge, 
-            /// if the value reported is higher on the other side, assume that value instead.
-            /// </summary>
-            Balanced,
 
             /// <summary>
             /// Use a value reported from that edge.
