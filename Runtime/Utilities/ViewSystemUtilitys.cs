@@ -207,14 +207,10 @@ namespace MacacaGames.ViewSystem
                 }
             }
             var previewUIRoot = new GameObject(name);
-            canvas = previewUIRoot.AddComponent<Canvas>();
-            raycaster = previewUIRoot.AddComponent<UnityEngine.UI.GraphicRaycaster>();
-            safePadding = previewUIRoot.AddComponent<SafePadding>();
-            previewUIRootRectTransform = previewUIRoot.GetComponent<RectTransform>();
-            previewUIRootRectTransform.SetParent(canvasRoot, false);
-            canvas.overrideSorting = true;
-            canvas.sortingOrder = sortingOrder;
 
+
+            previewUIRootRectTransform = previewUIRoot.AddComponent<RectTransform>();
+            previewUIRootRectTransform.SetParent(canvasRoot, false);
             previewUIRootRectTransform.localScale = Vector3.one;
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, 0);
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);
@@ -222,11 +218,20 @@ namespace MacacaGames.ViewSystem
             previewUIRootRectTransform.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0, 0);
             previewUIRootRectTransform.anchorMin = Vector2.zero;
             previewUIRootRectTransform.anchorMax = Vector2.one;
+
+            canvas = previewUIRoot.AddComponent<Canvas>();
+            canvas.overrideSorting = true;
+            canvas.sortingOrder = sortingOrder;
+
+            safePadding = previewUIRoot.AddComponent<SafePadding>();
+            raycaster = previewUIRoot.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+
             wrapper = new PageRootWrapper();
             wrapper.rectTransform = previewUIRootRectTransform;
             wrapper.canvas = canvas;
             wrapper.raycaster = raycaster;
             wrapper.safePadding = safePadding;
+
             if (Application.isPlaying)
             {
                 if (!runtimeRectTransformCache.ContainsKey(name))

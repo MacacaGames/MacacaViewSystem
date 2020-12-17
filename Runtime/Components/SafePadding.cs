@@ -28,6 +28,7 @@ namespace MacacaGames.ViewSystem
     /// although in reality it just pad in the shape of <see cref="Screen.safeArea"/> regardless of its parent rectangle size.
     /// </remarks>
     [DisallowMultipleComponent]
+    [ExecuteInEditMode]
     [RequireComponent(typeof(RectTransform))]
     public class SafePadding : UnityEngine.EventSystems.UIBehaviour, ILayoutSelfController
     {
@@ -44,10 +45,14 @@ namespace MacacaGames.ViewSystem
             portraitOrDefaultPaddings = _edgeValues;
             UpdateRectBase();
         }
-        private protected DrivenRectTransformTracker m_Tracker = new DrivenRectTransformTracker();
+        private DrivenRectTransformTracker m_Tracker;
 
         private protected void UpdateRect()
         {
+            if (rectTransform == null)
+            {
+                return;
+            }
 
             //TODO migrate auto Orientation with ViewSystem
             // PerEdgeValues selectedOrientation =
@@ -56,7 +61,6 @@ namespace MacacaGames.ViewSystem
             // landscapePaddings : portraitOrDefaultPaddings
             // : portraitOrDefaultPaddings;
             PerEdgeValues selectedOrientation = portraitOrDefaultPaddings;
-
             m_Tracker.Clear();
             m_Tracker.Add(this, rectTransform,
                 (LockSide(selectedOrientation.left) ? DrivenTransformProperties.AnchorMinX : 0) |
@@ -117,7 +121,7 @@ namespace MacacaGames.ViewSystem
                 case EdgeEvaluationMode.On:
                     finalPaddingsLDUR[0] = topRect.width * relativeLDUR[0];
                     break;
-             
+
             }
 
             switch (selectedOrientation.right)
@@ -125,7 +129,7 @@ namespace MacacaGames.ViewSystem
                 case EdgeEvaluationMode.On:
                     finalPaddingsLDUR[3] = topRect.width * relativeLDUR[3];
                     break;
-           
+
             }
 
             switch (selectedOrientation.bottom)
@@ -133,7 +137,7 @@ namespace MacacaGames.ViewSystem
                 case EdgeEvaluationMode.On:
                     finalPaddingsLDUR[1] = topRect.height * relativeLDUR[1];
                     break;
-           
+
             }
 
             switch (selectedOrientation.top)
@@ -238,13 +242,13 @@ namespace MacacaGames.ViewSystem
         {
             int w = Screen.width;
             int h = Screen.height;
-// #if UNITY_EDITOR
-//             int w = Screen.width;
-//             int h = Screen.height;
-// #else
-//             int w = Screen.currentResolution.width;
-//             int h = Screen.currentResolution.height;
-// #endif
+            // #if UNITY_EDITOR
+            //             int w = Screen.width;
+            //             int h = Screen.height;
+            // #else
+            //             int w = Screen.currentResolution.width;
+            //             int h = Screen.currentResolution.height;
+            // #endif
             //Debug.Log($"{w} {h} {Screen.currentResolution} {absoluteRect}");
             return new Rect(
                 absoluteRect.x / w,
