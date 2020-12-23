@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace MacacaGames.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.VisualEditor
 {
     interface IViewSystemDateReader
     {

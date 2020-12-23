@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 using System.Linq;
-namespace MacacaGames.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.VisualEditor
 {
     public class ViewPageNavigationWindow : ViewSystemNodeWindow
     {

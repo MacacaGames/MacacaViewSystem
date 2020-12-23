@@ -9,7 +9,7 @@ using System.Reflection;
 using UnityEditor.IMGUI.Controls;
 using MacacaGames;
 
-namespace MacacaGames.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.VisualEditor
 {
     public class ViewSystemNodeInspector
     {

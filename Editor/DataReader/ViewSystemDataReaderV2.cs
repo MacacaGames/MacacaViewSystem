@@ -8,7 +8,7 @@ using System;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 
-namespace MacacaGames.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.VisualEditor
 {
     public class ViewSystemDataReaderV2 : IViewSystemDateReader
     {
@@ -357,26 +357,37 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
             }
         }
 
+        public void Save()
+        {
+            Save(null, null);
+        }
+
         public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes)
         {
-            foreach (var item in viewPageNodes)
+            if (viewPageNodes != null)
             {
-                if (string.IsNullOrEmpty(item.viewPage.name))
+                foreach (var item in viewPageNodes)
                 {
-                    continue;
+                    if (string.IsNullOrEmpty(item.viewPage.name))
+                    {
+                        continue;
+                    }
+                    var vp = data.viewPages.SingleOrDefault(m => m.viewPage.name == item.viewPage.name);
+                    vp.nodePosition = new Vector2(item.rect.x, item.rect.y);
                 }
-                var vp = data.viewPages.SingleOrDefault(m => m.viewPage.name == item.viewPage.name);
-                vp.nodePosition = new Vector2(item.rect.x, item.rect.y);
             }
 
-            foreach (var item in viewStateNodes)
+            if (viewStateNodes != null)
             {
-                if (string.IsNullOrEmpty(item.viewState.name))
+                foreach (var item in viewStateNodes)
                 {
-                    continue;
+                    if (string.IsNullOrEmpty(item.viewState.name))
+                    {
+                        continue;
+                    }
+                    var vs = data.viewStates.SingleOrDefault(m => m.viewState.name == item.viewState.name);
+                    vs.nodePosition = new Vector2(item.rect.x, item.rect.y);
                 }
-                var vs = data.viewStates.SingleOrDefault(m => m.viewState.name == item.viewState.name);
-                vs.nodePosition = new Vector2(item.rect.x, item.rect.y);
             }
 
             if (data.globalSetting != null)

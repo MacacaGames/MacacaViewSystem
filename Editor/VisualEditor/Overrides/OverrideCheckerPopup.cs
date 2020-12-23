@@ -5,7 +5,7 @@ using UnityEditor;
 using System.Linq;
 using UnityEditor.IMGUI.Controls;
 
-namespace MacacaGames.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.VisualEditor
 {
     public class ViewElementOverridesImporterWindow : EditorWindow
     {

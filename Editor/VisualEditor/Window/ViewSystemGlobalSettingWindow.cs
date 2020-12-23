@@ -4,12 +4,11 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 
-namespace MacacaGames.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.VisualEditor
 {
     public class ViewSystemGlobalSettingWindow : ViewSystemNodeWindow
     {
 
-        public static bool showGlobalSetting;
         ViewSystemDataReaderV2 dataReader;
 
         static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;

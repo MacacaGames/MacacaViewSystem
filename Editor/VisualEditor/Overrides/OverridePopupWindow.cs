@@ -10,7 +10,7 @@ using System;
 using MacacaGames;
 using System.Reflection;
 
-namespace MacacaGames.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.VisualEditor
 {
     public class OverridePopupWindow : ViewSystemNodeWindow
     {

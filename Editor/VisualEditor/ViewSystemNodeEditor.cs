@@ -6,7 +6,7 @@ using System;
 using MacacaGames.ViewSystem;
 using UnityEngine.UIElements;
 using UnityEditor.SceneManagement;
-namespace MacacaGames.ViewSystem.NodeEditorV2
+namespace MacacaGames.ViewSystem.VisualEditor
 {
     public class ViewSystemNodeEditor : EditorWindow
     {
@@ -14,6 +14,7 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
         static ViewSystemDataReaderV2 dataReader;
         public static ViewSystemNodeInspector inspector;
         static ViewSystemGlobalSettingWindow globalSettingWindow;
+        static ViewPageOrderWindow viewPageOrderWindow;
         public OverridePopupWindow overridePopupWindow;
         public ViewPageNavigationWindow navigationWindow;
         private ViewSystemVerifier viewSystemVerifier;
@@ -101,6 +102,7 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
             inspector = new ViewSystemNodeInspector(this);
             //ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
             globalSettingWindow = new ViewSystemGlobalSettingWindow("Global Setting", this, (ViewSystemDataReaderV2)dataReader);
+            viewPageOrderWindow = new ViewPageOrderWindow("Overlay Order", this, (ViewSystemDataReaderV2)dataReader);
             overridePopupWindow = new OverridePopupWindow("Override", this, inspector);
             navigationWindow = new ViewPageNavigationWindow("Navigation Setting", this);
             viewSystemVerifier = new ViewSystemVerifier(this, saveData);
@@ -150,6 +152,7 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
 
             BeginWindows();
             if (globalSettingWindow != null) globalSettingWindow.OnGUI();
+            if (viewPageOrderWindow != null) viewPageOrderWindow.OnGUI();
             if (overridePopupWindow != null) overridePopupWindow.OnGUI();
             if (navigationWindow != null) navigationWindow.OnGUI();
             EndWindows();
@@ -729,6 +732,9 @@ namespace MacacaGames.ViewSystem.NodeEditorV2
                     if (globalSettingWindow != null)
                         globalSettingWindow.show = GUILayout.Toggle(globalSettingWindow.show, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("SceneViewTools")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
+                    GUILayout.Space(5);
+                    if (viewPageOrderWindow != null)
+                        viewPageOrderWindow.show = GUILayout.Toggle(viewPageOrderWindow.show, new GUIContent("Overlay Order"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
                     GUILayout.Space(5);
 
                     if (GUILayout.Button(new GUIContent("Verifiers"), EditorStyles.toolbarDropDown, GUILayout.Height(menuBarHeight)))
