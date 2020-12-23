@@ -89,16 +89,16 @@ public class Drawer
         }
     }
 
-    static Texture2D _sideBarIcon;
-    public static Texture2D sideBarIcon
+    static Texture2D _inspectorIcon;
+    public static Texture2D inspectorIcon
     {
         get
         {
-            if (_sideBarIcon == null)
+            if (_inspectorIcon == null)
             {
-                _sideBarIcon = EditorGUIUtility.FindTexture("CustomSorting");
+                _inspectorIcon = EditorGUIUtility.FindTexture( "d_Profiler.UIDetails@2x" );
             }
-            return _sideBarIcon;
+            return _inspectorIcon;
         }
     }
 

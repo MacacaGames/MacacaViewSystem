@@ -22,11 +22,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
         static float toastMessageFadeOutTimt = 1.5f;
 #endif
         bool isInit => target != null;
-        GUIStyle windowStyle;
-        public override GUIStyle GetWindowStyle()
-        {
-            return windowStyle;
-        }
+        // GUIStyle windowStyle;
+        // public override GUIStyle GetWindowStyle()
+        // {
+        //     return windowStyle;
+        // }
         ViewSystemNodeInspector sideBar;
         public OverridePopupWindow(string name, ViewSystemNodeEditor editor, ViewSystemNodeInspector sideBar)
         : base(name, editor)
@@ -42,12 +42,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 imagePosition = ImagePosition.ImageOnly,
                 alignment = TextAnchor.MiddleCenter
             };
-            windowStyle = new GUIStyle(Drawer.windowStyle);
-            RectOffset padding = windowStyle.padding;
+            // windowStyle = new GUIStyle(Drawer.windowStyle);
+            // RectOffset padding = windowStyle.padding;
 
-            padding.left = 1;
-            padding.right = 1;
-            padding.bottom = 0;
+            // padding.left = 1;
+            // padding.right = 1;
+            // padding.bottom = 0;
 
             resizeable = true;
         }

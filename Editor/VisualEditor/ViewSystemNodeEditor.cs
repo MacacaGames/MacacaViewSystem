@@ -681,7 +681,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     }
 
                     GUILayout.Space(5);
-                    if (GUILayout.Button(new GUIContent($"Save{(((ViewSystemDataReaderV2)dataReader).isDirty ? "*" : "")}"), EditorStyles.toolbarButton, GUILayout.Width(50)))
+                    if (GUILayout.Button(new GUIContent($"Save{(((ViewSystemDataReaderV2)dataReader).isDirty ? "*" : "")}", EditorGUIUtility.FindTexture("d_SaveAs@2x")), EditorStyles.toolbarButton, GUILayout.Width(50)))
                     {
                         if (isInit == false)
                         {
@@ -720,7 +720,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     GUILayout.Space(5);
                     using (var check = new EditorGUI.ChangeCheckScope())
                     {
-                        inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(Drawer.sideBarIcon, "Show SideBar"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
+                        inspector.show = GUILayout.Toggle(inspector.show, new GUIContent(Drawer.inspectorIcon, "Show Inspector"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
                         if (check.changed)
                         {
                             inspectorContianer.parent.style.display = inspector.show ? DisplayStyle.Flex : DisplayStyle.None;
@@ -734,7 +734,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
                     GUILayout.Space(5);
                     if (viewPageOrderWindow != null)
-                        viewPageOrderWindow.show = GUILayout.Toggle(viewPageOrderWindow.show, new GUIContent("Overlay Order"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
+                        viewPageOrderWindow.show = GUILayout.Toggle(viewPageOrderWindow.show, new GUIContent("Overlay Order", EditorGUIUtility.FindTexture("CustomSorting"), "Batch modify Overlay Pager Sorting Order"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
                     GUILayout.Space(5);
 
                     if (GUILayout.Button(new GUIContent("Verifiers"), EditorStyles.toolbarDropDown, GUILayout.Height(menuBarHeight)))

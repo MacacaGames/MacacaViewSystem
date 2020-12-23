@@ -11,11 +11,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
         public ViewPageNavigationWindow(string name, ViewSystemNodeEditor editor)
         : base(name, editor)
         {
-            windowStyle = new GUIStyle(Drawer.windowStyle);
-            RectOffset padding = windowStyle.padding;
-            padding.left = 0;
-            padding.right = 1;
-            padding.bottom = 0;
+            // windowStyle = new GUIStyle(Drawer.windowStyle);
+            // RectOffset padding = windowStyle.padding;
+            // padding.left = 0;
+            // padding.right = 1;
+            // padding.bottom = 0;
             EditorPrefs.SetBool(s_ShowNavigationKey, false);
             s_ShowNavigation = EditorPrefs.GetBool(s_ShowNavigationKey);
         }
@@ -307,10 +307,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 return new Vector2(baseWindowWidth + 300, 400);
             }
         }
-        GUIStyle windowStyle;
-        public override GUIStyle GetWindowStyle()
-        {
-            return windowStyle;
-        }
+        // GUIStyle windowStyle;
+        // public override GUIStyle GetWindowStyle()
+        // {
+        //     return windowStyle;
+        // }
     }
 }
