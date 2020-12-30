@@ -1,0 +1,1357 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ViewSystemNodeEditor
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ViewSystemNodeEditor
+   ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor">
+  
+  
+  <h1 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor" class="text-break">Class ViewSystemNodeEditor
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">UnityEngine.Object</span></div>
+    <div class="level2"><span class="xref">UnityEngine.ScriptableObject</span></div>
+    <div class="level3"><span class="xref">UnityEditor.EditorWindow</span></div>
+    <div class="level4"><span class="xref">ViewSystemNodeEditor</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.BeginWindows()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.EndWindows()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowNotification(UnityEngine.GUIContent)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowNotification(UnityEngine.GUIContent, System.Double)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.RemoveNotification()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowTab()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.Focus()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowUtility()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowPopup()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowModalUtility()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowAsDropDown(UnityEngine.Rect, UnityEngine.Vector2)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.Show()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.Show(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowAuxWindow()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowModal()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow(System.Type, System.Boolean, System.String, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow(System.Type, System.Boolean, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow(System.Type, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect(System.Type, UnityEngine.Rect, System.Boolean, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect(System.Type, UnityEngine.Rect, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect(System.Type, UnityEngine.Rect)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.Boolean, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.String, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.Boolean, System.String, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.String, System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.String, System.Boolean, System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.CreateWindow&lt;T&gt;(System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.CreateWindow&lt;T&gt;(System.String, System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.HasOpenInstances&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.FocusWindowIfItsOpen(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.FocusWindowIfItsOpen&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect&lt;T&gt;(UnityEngine.Rect)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect&lt;T&gt;(UnityEngine.Rect, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect&lt;T&gt;(UnityEngine.Rect, System.Boolean, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect&lt;T&gt;(UnityEngine.Rect, System.Boolean, System.String, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.Close()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.Repaint()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.SendEvent(UnityEngine.Event)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetExtraPaneTypes()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.rootVisualElement</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.wantsMouseMove</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.wantsMouseEnterLeaveWindow</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.autoRepaintOnSceneChange</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.maximized</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.focusedWindow</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.mouseOverWindow</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.minSize</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.maxSize</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.title</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.titleContent</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.depthBufferBits</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.antiAlias</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.position</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.SetDirty()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.CreateInstance(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.CreateInstance(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.CreateInstance&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.GetInstanceID()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Vector3, UnityEngine.Quaternion)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Transform, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Vector3, UnityEngine.Quaternion)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Transform, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Destroy(UnityEngine.Object, System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Destroy(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyImmediate(UnityEngine.Object, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyImmediate(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyObject(UnityEngine.Object, System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyObject(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindSceneObjectsOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfTypeIncludingAssets(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfType&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectOfType&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfTypeAll(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.name</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.hideFlags</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MacacaGames.ViewSystem.VisualEditor.html">MacacaGames.ViewSystem.VisualEditor</a></h6>
+  <h6><strong>Assembly</strong>: Macaca.ViewSystem.Editor.dll</h6>
+  <h5 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ViewSystemNodeEditor : EditorWindow</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_allowPreviewWhenPlaying.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.allowPreviewWhenPlaying%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L23">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_allowPreviewWhenPlaying" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.allowPreviewWhenPlaying">allowPreviewWhenPlaying</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool allowPreviewWhenPlaying</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_console.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.console%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L135">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_console" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.console">console</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ViewSystemNodeConsole console</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewSystemNodeConsole.html">ViewSystemNodeConsole</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_EditMode.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.EditMode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L652">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_EditMode" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.EditMode">EditMode</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool EditMode</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_floatWindowContianer.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.floatWindowContianer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L41">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_floatWindowContianer" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.floatWindowContianer">floatWindowContianer</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VisualElement floatWindowContianer</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.UIElements.VisualElement</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_inspector.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.inspector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L15">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_inspector" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.inspector">inspector</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ViewSystemNodeInspector inspector</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.html">ViewSystemNodeInspector</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_inspectorContianer.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.inspectorContianer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L40">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_inspectorContianer" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.inspectorContianer">inspectorContianer</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VisualElement inspectorContianer</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.UIElements.VisualElement</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_Instance.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.Instance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L13">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_Instance" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.Instance">Instance</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ViewSystemNodeEditor Instance</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html">ViewSystemNodeEditor</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_navigationWindow.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.navigationWindow%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L19">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_navigationWindow" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.navigationWindow">navigationWindow</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ViewPageNavigationWindow navigationWindow</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow.html">ViewPageNavigationWindow</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_nodeViewContianer.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.nodeViewContianer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L38">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_nodeViewContianer" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.nodeViewContianer">nodeViewContianer</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VisualElement nodeViewContianer</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.UIElements.VisualElement</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_overrideFromOrginal.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.overrideFromOrginal%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L24">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_overrideFromOrginal" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.overrideFromOrginal">overrideFromOrginal</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool overrideFromOrginal</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_overridePopupWindow.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.overridePopupWindow%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L18">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_overridePopupWindow" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.overridePopupWindow">overridePopupWindow</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public OverridePopupWindow overridePopupWindow</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow.html">OverridePopupWindow</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_removeConnectWithoutAsk.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.removeConnectWithoutAsk%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L25">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_removeConnectWithoutAsk" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.removeConnectWithoutAsk">removeConnectWithoutAsk</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool removeConnectWithoutAsk</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_saveData.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.saveData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L21">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_saveData" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.saveData">saveData</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ViewSystemSaveData saveData</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewSystemSaveData.html">ViewSystemSaveData</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_toolbarContianer.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.toolbarContianer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L39">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_toolbarContianer" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.toolbarContianer">toolbarContianer</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public VisualElement toolbarContianer</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.UIElements.VisualElement</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_viewPortScroll.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.viewPortScroll%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L138">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_viewPortScroll" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.viewPortScroll">viewPortScroll</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Vector2 viewPortScroll</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_zoomScale.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.zoomScale%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L136">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_zoomScale" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.zoomScale">zoomScale</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static float zoomScale</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_IsNodeInactivable.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.IsNodeInactivable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L911">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_IsNodeInactivable_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.IsNodeInactivable*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_IsNodeInactivable" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.IsNodeInactivable">IsNodeInactivable</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsNodeInactivable { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ViewControllerRoot.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ViewControllerRoot%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L26">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ViewControllerRoot_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ViewControllerRoot*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ViewControllerRoot" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ViewControllerRoot">ViewControllerRoot</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Transform ViewControllerRoot { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Transform</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_AddViewPageNode_UnityEngine_Vector2_System_Boolean_MacacaGames_ViewSystem_ViewPage_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewPageNode(UnityEngine.Vector2%2CSystem.Boolean%2CMacacaGames.ViewSystem.ViewPage)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L310">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_AddViewPageNode_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewPageNode*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_AddViewPageNode_UnityEngine_Vector2_System_Boolean_MacacaGames_ViewSystem_ViewPage_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewPageNode(UnityEngine.Vector2,System.Boolean,MacacaGames.ViewSystem.ViewPage)">AddViewPageNode(Vector2, Boolean, ViewPage)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ViewPageNode AddViewPageNode(Vector2 position, bool isOverlay, ViewPage viewPage = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td><span class="parametername">position</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">isOverlay</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewPage.html">ViewPage</a></td>
+        <td><span class="parametername">viewPage</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.VisualEditor.ViewPageNode.html">ViewPageNode</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_AddViewStateNode_UnityEngine_Vector2_MacacaGames_ViewSystem_ViewState_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewStateNode(UnityEngine.Vector2%2CMacacaGames.ViewSystem.ViewState)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L287">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_AddViewStateNode_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewStateNode*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_AddViewStateNode_UnityEngine_Vector2_MacacaGames_ViewSystem_ViewState_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewStateNode(UnityEngine.Vector2,MacacaGames.ViewSystem.ViewState)">AddViewStateNode(Vector2, ViewState)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ViewStateNode AddViewStateNode(Vector2 position, ViewState viewState = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td><span class="parametername">position</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewState.html">ViewState</a></td>
+        <td><span class="parametername">viewState</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.VisualEditor.ViewStateNode.html">ViewStateNode</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ApplySafeArea_MacacaGames_ViewSystem_SafePadding_PerEdgeValues_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L89">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ApplySafeArea_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ApplySafeArea*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ApplySafeArea_MacacaGames_ViewSystem_SafePadding_PerEdgeValues_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)">ApplySafeArea(SafePadding.PerEdgeValues)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.SafePadding.PerEdgeValues.html">SafePadding.PerEdgeValues</a></td>
+        <td><span class="parametername">edgeValues</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_CheckRepaint.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CheckRepaint%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L215">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_CheckRepaint_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CheckRepaint*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_CheckRepaint" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CheckRepaint">CheckRepaint()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CheckRepaint()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ClearEditor.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ClearEditor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L120">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ClearEditor_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ClearEditor*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ClearEditor" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ClearEditor">ClearEditor()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearEditor()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_CreateConnection_MacacaGames_ViewSystem_VisualEditor_ViewStateNode_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CreateConnection(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L520">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_CreateConnection_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CreateConnection*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_CreateConnection_MacacaGames_ViewSystem_VisualEditor_ViewStateNode_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CreateConnection(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)">CreateConnection(ViewStateNode)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CreateConnection(ViewStateNode viewStateNode)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.VisualEditor.ViewStateNode.html">ViewStateNode</a></td>
+        <td><span class="parametername">viewStateNode</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_DoZoom_System_Single_UnityEngine_Vector2_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DoZoom(System.Single%2CUnityEngine.Vector2)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L140">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_DoZoom_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DoZoom*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_DoZoom_System_Single_UnityEngine_Vector2_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DoZoom(System.Single,UnityEngine.Vector2)">DoZoom(Single, Vector2)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void DoZoom(float delta, Vector2 center)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">delta</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">UnityEngine.Vector2</span></td>
+        <td><span class="parametername">center</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_DrawGrid.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DrawGrid%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L615">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_DrawGrid_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DrawGrid*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_DrawGrid" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DrawGrid">DrawGrid()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void DrawGrid()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_MigrateToV3.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.MigrateToV3%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L797">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_MigrateToV3_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.MigrateToV3*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_MigrateToV3" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.MigrateToV3">MigrateToV3()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void MigrateToV3()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_OnEnable.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnEnable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L44">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_OnEnable_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnEnable*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_OnEnable" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnEnable">OnEnable()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnEnable()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_OnOpenAsset_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnOpenAsset(System.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L994">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_OnOpenAsset_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnOpenAsset*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_OnOpenAsset_System_Int32_System_Int32_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnOpenAsset(System.Int32,System.Int32)">OnOpenAsset(Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[OnOpenAsset(0)]
+public static bool OnOpenAsset(int instanceID, int line)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">instanceID</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">line</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_RefreshData_System_Boolean_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.RefreshData(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L94">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_RefreshData_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.RefreshData*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_RefreshData_System_Boolean_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.RefreshData(System.Boolean)">RefreshData(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RefreshData(bool hardRefresh = true)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">hardRefresh</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_UpdateRectTransformValue_MacacaGames_ViewSystem_ViewElement_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.UpdateRectTransformValue(MacacaGames.ViewSystem.ViewElement)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L856">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_UpdateRectTransformValue_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.UpdateRectTransformValue*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_UpdateRectTransformValue_MacacaGames_ViewSystem_ViewElement_" data-uid="MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.UpdateRectTransformValue(MacacaGames.ViewSystem.ViewElement)">UpdateRectTransformValue(ViewElement)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void UpdateRectTransformValue(ViewElement viewElement)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewElement.html">ViewElement</a></td>
+        <td><span class="parametername">viewElement</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/ViewSystemNodeEditor.cs/#L11" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -78,14 +78,102 @@
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">ViewElementLifeCycle.BoolEvent</span></div>
+    <div class="level1"><span class="xref">UnityEngine.Events.UnityEventBase</span></div>
+    <div class="level2"><span class="xref">UnityEngine.Events.UnityEvent</span>&lt;<span class="xref">System.Boolean</span>&gt;</div>
+    <div class="level3"><span class="xref">ViewElementLifeCycle.BoolEvent</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">UnityEngine.ISerializationCallbackReceiver</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEvent&lt;System.Boolean&gt;.AddListener(UnityEngine.Events.UnityAction&lt;System.Boolean&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEvent&lt;System.Boolean&gt;.RemoveListener(UnityEngine.Events.UnityAction&lt;System.Boolean&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEvent&lt;System.Boolean&gt;.FindMethod_Impl(System.String, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEvent&lt;System.Boolean&gt;.Invoke(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.UnityEngine.ISerializationCallbackReceiver.OnBeforeSerialize()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.UnityEngine.ISerializationCallbackReceiver.OnAfterDeserialize()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.GetPersistentEventCount()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.GetPersistentTarget(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.GetPersistentMethodName(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.SetPersistentListenerState(System.Int32, UnityEngine.Events.UnityEventCallState)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.AddListener(System.Object, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.RemoveListener(System.Object, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.RemoveAllListeners()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.Invoke(System.Object[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.GetValidMethodInfo(System.Object, System.String, System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.ValidateRegistration(System.Reflection.MethodInfo, System.Object, UnityEngine.Events.PersistentListenerMode)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.ValidateRegistration(System.Reflection.MethodInfo, System.Object, UnityEngine.Events.PersistentListenerMode, System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Events.UnityEventBase.RegisterPersistentListener(System.Int32, System.Object, System.Reflection.MethodInfo)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="MacacaGames.ViewSystem.html">MacacaGames.ViewSystem</a></h6>
-  <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
+  <h6><strong>Assembly</strong>: Macaca.ViewSystem.dll</h6>
   <h5 id="MacacaGames_ViewSystem_ViewElementLifeCycle_BoolEvent_syntax">Syntax</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[Serializable]
-public class BoolEvent : UnityEngine.Events.UnityEvent&lt;bool&gt;</code></pre>
+public class BoolEvent : UnityEvent&lt;bool&gt;, ISerializationCallbackReceiver</code></pre>
+  </div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">UnityEngine.ISerializationCallbackReceiver</span>
   </div>
 </article>
           </div>
@@ -94,6 +182,12 @@ public class BoolEvent : UnityEngine.Events.UnityEvent&lt;bool&gt;</code></pre>
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewElementLifeCycle_BoolEvent.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewElementLifeCycle.BoolEvent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/Components/ViewElementLifeCycle.cs/#L83" class="contribution-link">View Source</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">

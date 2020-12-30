@@ -1,3 +1,5 @@
+See [Document](https://macacagames.github.io/MacacaViewSystem/) for more detail.
+
 - [Overview](#overview)
   - [Feature](#feature)
 - [Concept](#concept)
@@ -86,7 +88,7 @@ git submodule add https://github.com/MacacaGames/MacacaViewSystem.git Assets/Mac
 ```
 Note: ViewSystem is dependency with MacacaUtility, so also add MacacaUtility in git submodule.
 ```bash
-git submodule add https://github.com/MacacaGames/MacacaUtility.git Assets/MacacaUtility
+git submodule add hhttps://github.com/MacacaGames/MacacaUtility.git Assets/MacacaUtility
 ```
 ## Option 2: Unity Package file
 > Work in progress
