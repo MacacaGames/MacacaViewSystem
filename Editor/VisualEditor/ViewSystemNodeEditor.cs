@@ -13,10 +13,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
         public static ViewSystemNodeEditor Instance;
         static ViewSystemDataReaderV2 dataReader;
         public static ViewSystemNodeInspector inspector;
-        static ViewSystemGlobalSettingWindow globalSettingWindow;
+        public static ViewSystemGlobalSettingWindow globalSettingWindow;
         static ViewPageOrderWindow viewPageOrderWindow;
         public OverridePopupWindow overridePopupWindow;
         public ViewPageNavigationWindow navigationWindow;
+        public ViewBreakpointWindow breakpointWindow;
         private ViewSystemVerifier viewSystemVerifier;
         public static ViewSystemSaveData saveData;
         bool isInit = false;
@@ -106,6 +107,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             overridePopupWindow = new OverridePopupWindow("Override", this, inspector);
             navigationWindow = new ViewPageNavigationWindow("Navigation Setting", this);
             viewSystemVerifier = new ViewSystemVerifier(this, saveData);
+            breakpointWindow = new ViewBreakpointWindow("Break point edit", this);
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
             viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));
@@ -155,6 +157,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             if (viewPageOrderWindow != null) viewPageOrderWindow.OnGUI();
             if (overridePopupWindow != null) overridePopupWindow.OnGUI();
             if (navigationWindow != null) navigationWindow.OnGUI();
+            if (breakpointWindow != null) breakpointWindow.OnGUI();
             EndWindows();
         }
         List<Rect> calculateCache = new List<Rect>();
@@ -890,6 +893,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     globalSettingWindow.show ||
                     overridePopupWindow.show ||
                     navigationWindow.show ||
+                    viewPageOrderWindow.show ||
+                    breakpointWindow.show ||
                     ViewSystemNodeInspector.isMouseInSideBar());
             }
         }

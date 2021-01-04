@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using System.Linq;
 namespace MacacaGames.ViewSystem
 {
     public class ViewSystemSaveData : ScriptableObject
     {
+
 
         public ViewSystemBaseSetting globalSetting;
         public List<ViewStateSaveData> viewStates = new List<ViewStateSaveData>();
@@ -59,6 +61,24 @@ namespace MacacaGames.ViewSystem
             /// If user the method call time interval less than this value, the call will be ignore!
             /// </summary>
             public float minimumTimeInterval = 0.2f;
+
+            public string[] builtInBreakPoints = new string[]{
+                "Horizon",
+                "Vertical"
+            };
+            public List<string> userBreakPoints = new List<string>();
+            private string[] _breakPoints;
+            public string[] breakPoints
+            {
+                get
+                {
+                    if (userBreakPoints.Count + builtInBreakPoints.Length != _breakPoints.Length)
+                    {
+                        _breakPoints = userBreakPoints.Union(builtInBreakPoints).ToArray();
+                    }
+                    return _breakPoints;
+                }
+            }
         }
 
     }

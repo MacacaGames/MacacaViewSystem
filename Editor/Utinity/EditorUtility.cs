@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEditorInternal;
 namespace MacacaGames.ViewSystem
 {
     public class VS_EditorUtility
@@ -120,6 +121,84 @@ namespace MacacaGames.ViewSystem
             }
             return EditorGUI.EndChangeCheck();
         }
+
+        public class ViewPageItemsBreakPointPopup : UnityEditor.PopupWindowContent
+        {
+            ViewPageItem viewPageItem;
+            Vector2 scrollPos;
+            System.Action<ViewElementTransform, string, string, ViewElement, Rect> OnDrawItem;
+            public ViewPageItemsBreakPointPopup(ViewPageItem viewPageItem, System.Action<ViewElementTransform, string, string, ViewElement, Rect> OnDrawItem)
+            {
+                this.viewPageItem = viewPageItem;
+                this.OnDrawItem = OnDrawItem;
+                reorderableList = null;
+                reorderableList = new ReorderableList(viewPageItem.breakPointViewElementTransforms, typeof(List<BreakPointViewElementTransform>), true, true, true, false);
+                reorderableList.drawElementCallback += DrawViewItemElement;
+                reorderableList.elementHeight = EditorGUIUtility.singleLineHeight * 6f;
+                reorderableList.onAddCallback += AddItem;
+                reorderableList.elementHeightCallback += ElementHight;
+            }
+
+            private void AddItem(ReorderableList list)
+            {
+                // this is ugly but there are a lot of cases like null types and default constructors
+                var elementType = list.list.GetType().GetElementType();
+                if (elementType == typeof(string))
+                    list.index = list.list.Add("");
+                else if (elementType != null && elementType.GetConstructor(Type.EmptyTypes) == null)
+                    Debug.LogError("Cannot add element. Type " + elementType + " has no default constructor. Implement a default constructor or implement your own add behaviour.");
+                else if (list.list.GetType().GetGenericArguments()[0] != null)
+                    list.index = list.list.Add(Activator.CreateInstance(list.list.GetType().GetGenericArguments()[0]));
+                else if (elementType != null)
+                    list.index = list.list.Add(Activator.CreateInstance(elementType));
+                else
+                    Debug.LogError("Cannot add element of type Null.");
+            }
+
+            private void DrawViewItemElement(Rect rect, int index, bool isActive, bool isFocused)
+            {
+                rect.height = EditorGUIUtility.singleLineHeight;
+                var item = viewPageItem.breakPointViewElementTransforms[index];
+                item.breakPointName = EditorGUI.TextField(rect, item.breakPointName);
+                rect.y += EditorGUIUtility.singleLineHeight;
+                OnDrawItem?.Invoke(item.transformData, viewPageItem.Id, item.breakPointName, viewPageItem.previewViewElement, rect);
+            }
+
+            float ElementHight(int index)
+            {
+                return GetHeight();
+                float GetHeight()
+                {
+                    return EditorGUIUtility.singleLineHeight * 7.5f + (EditorGUIUtility.singleLineHeight * 3 + 6) + (EditorGUIUtility.singleLineHeight * 2 + 8);
+                }
+                // with folddot feature
+                // float GetHeight()
+                // {
+                //     return EditorGUIUtility.singleLineHeight * 7.5f +
+                //    (anchorPivotFoldout[index] ? EditorGUIUtility.singleLineHeight * 3 + 6 : 0) +
+                //    (rotationScaleFoldout[index] ? EditorGUIUtility.singleLineHeight * 2 + 8 : 0);
+                // }
+            }
+            public override Vector2 GetWindowSize()
+            {
+                return new Vector2(300, 600);
+            }
+
+            ReorderableList reorderableList;
+            float height = EditorGUIUtility.singleLineHeight * 7.5f + (EditorGUIUtility.singleLineHeight * 3 + 6) + (EditorGUIUtility.singleLineHeight * 2 + 8);
+            public override void OnGUI(Rect rect)
+            {
+                using (var scroll = new EditorGUILayout.ScrollViewScope(scrollPos))
+                {
+                    reorderableList.DoLayoutList();
+                    //                    OnDrawItem?.Invoke(item.transformData, viewPageItem.Id, item.breakPointName, viewPageItem.previewViewElement, new Rect());
+
+                    scrollPos = scroll.scrollPosition;
+                }
+            }
+        }
+
+
         public class ViewPageItemDetailPopup : UnityEditor.PopupWindowContent
         {
             ViewPageItem viewPageItem;

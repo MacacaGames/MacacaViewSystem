@@ -187,6 +187,7 @@ namespace MacacaGames.ViewSystem
             return defaultTransformDatas;
         }
     }
+   
     [System.Serializable]
     public class ViewElementTransform
     {
@@ -195,11 +196,11 @@ namespace MacacaGames.ViewSystem
         public ViewSystemRectTransformData rectTransformData = new ViewSystemRectTransformData();
         public ViewElement.RectTransformFlag rectTransformFlag = ViewElement.RectTransformFlag.All;
     }
-
-    public struct BreakPointViewElementTransform
+    [System.Serializable]
+    public class BreakPointViewElementTransform
     {
         public string breakPointName;
-        public ViewElementTransform transformData;
+        public ViewElementTransform transformData = new ViewElementTransform();
     }
 
     [System.Serializable]

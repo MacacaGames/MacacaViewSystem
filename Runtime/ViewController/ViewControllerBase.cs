@@ -9,7 +9,7 @@ namespace MacacaGames.ViewSystem
 {
     public abstract class ViewControllerBase : MonoBehaviour, IViewController
     {
-
+    
         protected static float minimumTimeInterval = 0.2f;
 
         public virtual Canvas GetCanvas()
