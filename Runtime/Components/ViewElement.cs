@@ -317,7 +317,7 @@ namespace MacacaGames.ViewSystem
                 {
                     rectTransform.SetParent(parent, true);
 
-                    if (rectTransformData == null)
+                    if (rectTransformData == null || !string.IsNullOrEmpty(rectTransformData.parentPath))
                     {
                         rectTransform.anchoredPosition3D = Vector3.zero;
                         rectTransform.localScale = Vector3.one;
@@ -340,7 +340,7 @@ namespace MacacaGames.ViewSystem
                 else
                 {
                     //如果目前的 parent 跟目標的 parent 是同一個人 那就什麼事都不錯
-                    if (rectTransformData == null && parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
+                    if ((rectTransformData == null || !string.IsNullOrEmpty(rectTransformData.parentPath)) && parent.GetInstanceID() == rectTransform.parent.GetInstanceID())
                     {
                         //ViewSystemLog.LogWarning("Due to already set the same parent with target parent, ignore " +  name);
                         if (reshowIfSamePage)
@@ -353,7 +353,7 @@ namespace MacacaGames.ViewSystem
                     if (TweenTime >= 0)
                     {
                         rectTransform.SetParent(parent, true);
-                        if (rectTransformData == null)
+                        if (rectTransformData == null || !string.IsNullOrEmpty(rectTransformData.parentPath))
                         {
                             var marginFixer = GetComponent<ViewMarginFixer>();
                             viewController.StartMicroCoroutine(EaseUtility.To(
@@ -439,7 +439,7 @@ namespace MacacaGames.ViewSystem
                         }
                         ViewSystemLog.LogWarning("Try to ReShow ", this);
                         rectTransform.SetParent(parent, true);
-                        if (rectTransformData == null)
+                        if (rectTransformData == null || !string.IsNullOrEmpty(rectTransformData.parentPath))
                         {
                             rectTransform.anchoredPosition3D = Vector3.zero;
                             rectTransform.localScale = Vector3.one;
