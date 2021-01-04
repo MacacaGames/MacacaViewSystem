@@ -109,16 +109,16 @@ namespace MacacaGames.ViewSystem
             Pivot = 1 << 6,
             All = ~0,
         }
-        public void ApplyRectTransform(ViewSystemRectTransformData transformData, RectTransformFlag flag = RectTransformFlag.All)
+        public void ApplyRectTransform(ViewElementTransform viewElementTransform)
         {
 
-            if (FlagsHelper.IsSet(flag, RectTransformFlag.SizeDelta)) rectTransform.sizeDelta = transformData.sizeDelta;
-            if (FlagsHelper.IsSet(flag, RectTransformFlag.AnchoredPosition)) rectTransform.anchoredPosition3D = transformData.anchoredPosition;
-            if (FlagsHelper.IsSet(flag, RectTransformFlag.AnchorMax)) rectTransform.anchorMax = transformData.anchorMax;
-            if (FlagsHelper.IsSet(flag, RectTransformFlag.AnchorMin)) rectTransform.anchorMin = transformData.anchorMin;
-            if (FlagsHelper.IsSet(flag, RectTransformFlag.LocalEulerAngles)) rectTransform.localEulerAngles = transformData.localEulerAngles;
-            if (FlagsHelper.IsSet(flag, RectTransformFlag.LocalScale)) rectTransform.localScale = transformData.localScale;
-            if (FlagsHelper.IsSet(flag, RectTransformFlag.Pivot)) rectTransform.pivot = transformData.pivot;
+            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.SizeDelta)) rectTransform.sizeDelta = viewElementTransform.rectTransformData.sizeDelta;
+            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.AnchoredPosition)) rectTransform.anchoredPosition3D = viewElementTransform.rectTransformData.anchoredPosition;
+            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.AnchorMax)) rectTransform.anchorMax = viewElementTransform.rectTransformData.anchorMax;
+            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.AnchorMin)) rectTransform.anchorMin = viewElementTransform.rectTransformData.anchorMin;
+            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.LocalEulerAngles)) rectTransform.localEulerAngles = viewElementTransform.rectTransformData.localEulerAngles;
+            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.LocalScale)) rectTransform.localScale = viewElementTransform.rectTransformData.localScale;
+            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.Pivot)) rectTransform.pivot = viewElementTransform.rectTransformData.pivot;
         }
 
         public virtual Selectable[] GetSelectables()
@@ -280,13 +280,13 @@ namespace MacacaGames.ViewSystem
         }
         Coroutine changePageCoroutine = null;
 
-        public virtual void ChangePage(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, int sortingOrder = 0, float TweenTime = 0, float delayIn = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
+        public virtual void ChangePage(bool show, Transform parent, ViewElementTransform rectTransformData, int sortingOrder = 0, float TweenTime = 0, float delayIn = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
         {
             this.sortingOrder = sortingOrder;
             NormalizeViewElement();
-            changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, rectTransformData, rectTransformOverrideFlag, TweenTime, delayIn, ignoreTransition, reshowIfSamePage));
+            changePageCoroutine = viewController.StartMicroCoroutine(OnChangePageRunner(show, parent, rectTransformData, TweenTime, delayIn, ignoreTransition, reshowIfSamePage));
         }
-        public IEnumerator OnChangePageRunner(bool show, Transform parent, ViewSystemRectTransformData rectTransformData, RectTransformFlag rectTransformOverrideFlag, float TweenTime, float delayIn, bool ignoreTransition, bool reshowIfSamePage)
+        public IEnumerator OnChangePageRunner(bool show, Transform parent, ViewElementTransform rectTransformData, float TweenTime, float delayIn, bool ignoreTransition, bool reshowIfSamePage)
         {
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects.ToArray())
@@ -324,7 +324,7 @@ namespace MacacaGames.ViewSystem
                     }
                     else
                     {
-                        ApplyRectTransform(rectTransformData, rectTransformOverrideFlag);
+                        ApplyRectTransform(rectTransformData);
                     }
 
                     float time = 0;
@@ -357,19 +357,19 @@ namespace MacacaGames.ViewSystem
                         {
                             var marginFixer = GetComponent<ViewMarginFixer>();
                             viewController.StartMicroCoroutine(EaseUtility.To(
-                                                    rectTransform.anchoredPosition3D,
-                                                    Vector3.zero,
-                                                    TweenTime,
-                                                    EaseStyle.QuadEaseOut,
-                                                    (v) =>
-                                                    {
-                                                        rectTransform.anchoredPosition3D = v;
-                                                    },
-                                                    () =>
-                                                    {
-                                                        if (marginFixer) marginFixer.ApplyModifyValue();
-                                                    }
-                                                ));
+                                rectTransform.anchoredPosition3D,
+                                Vector3.zero,
+                                TweenTime,
+                                EaseStyle.QuadEaseOut,
+                                (v) =>
+                                {
+                                    rectTransform.anchoredPosition3D = v;
+                                },
+                                () =>
+                                {
+                                    if (marginFixer) marginFixer.ApplyModifyValue();
+                                }
+                            ));
 
                             viewController.StartMicroCoroutine(EaseUtility.To(
                                 rectTransform.localScale,
@@ -385,15 +385,15 @@ namespace MacacaGames.ViewSystem
                         else
                         {
                             rectTransform.SetParent(parent, true);
-                            var flag = rectTransformOverrideFlag;
+                            var flag = rectTransformData.rectTransformFlag;
                             FlagsHelper.Unset(ref flag, RectTransformFlag.AnchoredPosition);
                             FlagsHelper.Unset(ref flag, RectTransformFlag.LocalScale);
 
-                            ApplyRectTransform(rectTransformData, flag);
+                            ApplyRectTransform(rectTransformData);
 
                             viewController.StartMicroCoroutine(EaseUtility.To(
                                 rectTransform.anchoredPosition3D,
-                                rectTransformData.anchoredPosition,
+                                rectTransformData.rectTransformData.anchoredPosition,
                                 TweenTime,
                                 EaseStyle.QuadEaseOut,
                                 (v) =>
@@ -407,7 +407,7 @@ namespace MacacaGames.ViewSystem
                             ));
                             viewController.StartMicroCoroutine(EaseUtility.To(
                                 rectTransform.localScale,
-                                rectTransformData.localScale,
+                                rectTransformData.rectTransformData.localScale,
                                 TweenTime,
                                 EaseStyle.QuadEaseOut,
                                 (v) =>
@@ -446,7 +446,7 @@ namespace MacacaGames.ViewSystem
                         }
                         else
                         {
-                            ApplyRectTransform(rectTransformData, rectTransformOverrideFlag);
+                            ApplyRectTransform(rectTransformData);
                         }
                         time = 0;
                         while (time < delayIn)

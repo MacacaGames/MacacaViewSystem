@@ -267,10 +267,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 Transform tempParent = null;
 
 
-                if (!string.IsNullOrEmpty(item.parentPath))
+                if (!string.IsNullOrEmpty(item.GetCurrentViewElementTransform().parentPath))
                 {
                     //Custom Parent implement
-                    tempParent = root.Find(item.parentPath);
+                    tempParent = root.Find(item.GetCurrentViewElementTransform().parentPath);
                 }
                 else
                 {
@@ -279,7 +279,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 }
                 rectTransform.SetParent(tempParent, true);
 
-                if (!string.IsNullOrEmpty(item.parentPath))
+                if (!string.IsNullOrEmpty(item.GetCurrentViewElementTransform().parentPath))
                 {
                     var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
                     if (mFix != null) mFix.ApplyModifyValue();
@@ -288,7 +288,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 }
                 else
                 {
-                    tempViewElement.ApplyRectTransform(item.transformData, item.transformFlag);
+                    tempViewElement.ApplyRectTransform(item.GetCurrentViewElementTransform());
                 }
 
                 tempViewElement.ApplyOverrides(item.overrideDatas);

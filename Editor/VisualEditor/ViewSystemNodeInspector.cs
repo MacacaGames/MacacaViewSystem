@@ -137,7 +137,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 editableLock.Add(new EditableLockItem(true));
                 rotationScaleFoldout.Add(false);
                 anchorPivotFoldout.Add(false);
-                transformEditStatus.Add(string.IsNullOrEmpty(x.parentPath) ? 0 : 1);
+                transformEditStatus.Add(string.IsNullOrEmpty(x.defaultTransformDatas.parentPath) ? 0 : 1);
                 return true;
             });
             RebuildInspector();
@@ -266,64 +266,64 @@ namespace MacacaGames.ViewSystem.VisualEditor
         ViewPageItem CopyItem(bool copyOverride = true, bool copyEvent = true, bool copyRectTransform = true)
         {
             var copyResult = new ViewPageItem(copyPasteBuffer.viewElement);
-            copyResult.TweenTime = copyPasteBuffer.TweenTime;
-            copyResult.delayOut = copyPasteBuffer.delayOut;
-            copyResult.delayIn = copyPasteBuffer.delayIn;
-            copyResult.parentPath = copyPasteBuffer.parentPath;
-            copyResult.parent = copyPasteBuffer.parent;
-            copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
-            copyResult.name = copyPasteBuffer.name;
+            // copyResult.TweenTime = copyPasteBuffer.TweenTime;
+            // copyResult.delayOut = copyPasteBuffer.delayOut;
+            // copyResult.delayIn = copyPasteBuffer.delayIn;
+            // copyResult.parentPath = copyPasteBuffer.parentPath;
+            // copyResult.parent = copyPasteBuffer.parent;
+            // copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
+            // copyResult.name = copyPasteBuffer.name;
 
-            if (copyRectTransform == true)
-            {
-                copyResult.transformData = new ViewSystemRectTransformData();
-                copyResult.transformData.anchoredPosition = copyPasteBuffer.transformData.anchoredPosition;
-                copyResult.transformData.anchorMax = copyPasteBuffer.transformData.anchorMax;
-                copyResult.transformData.anchorMin = copyPasteBuffer.transformData.anchorMin;
-                copyResult.transformData.pivot = copyPasteBuffer.transformData.pivot;
-                copyResult.transformData.localEulerAngles = copyPasteBuffer.transformData.localEulerAngles;
-                copyResult.transformData.localScale = copyPasteBuffer.transformData.localScale;
-                copyResult.transformData.offsetMax = copyPasteBuffer.transformData.offsetMax;
-                copyResult.transformData.offsetMin = copyPasteBuffer.transformData.offsetMin;
-                copyResult.transformData.sizeDelta = copyPasteBuffer.transformData.sizeDelta;
-                copyResult.parentPath = "";
-            }
+            // if (copyRectTransform == true)
+            // {
+            //     copyResult.defaultTransformDatas.rectTransformData = new ViewSystemRectTransformData();
+            //     copyResult.defaultTransformDatas.rectTransformData.anchoredPosition = copyPasteBuffer.transformData.anchoredPosition;
+            //     copyResult.transformData.anchorMax = copyPasteBuffer.transformData.anchorMax;
+            //     copyResult.transformData.anchorMin = copyPasteBuffer.transformData.anchorMin;
+            //     copyResult.transformData.pivot = copyPasteBuffer.transformData.pivot;
+            //     copyResult.transformData.localEulerAngles = copyPasteBuffer.transformData.localEulerAngles;
+            //     copyResult.transformData.localScale = copyPasteBuffer.transformData.localScale;
+            //     copyResult.transformData.offsetMax = copyPasteBuffer.transformData.offsetMax;
+            //     copyResult.transformData.offsetMin = copyPasteBuffer.transformData.offsetMin;
+            //     copyResult.transformData.sizeDelta = copyPasteBuffer.transformData.sizeDelta;
+            //     copyResult.parentPath = "";
+            // }
 
-            if (copyOverride == true)
-            {
-                var originalOverrideDatas = copyPasteBuffer.overrideDatas.Select(x => x).ToList();
-                var copiedOverrideDatas = originalOverrideDatas.Select(x => new ViewElementPropertyOverrideData
-                {
-                    targetComponentType = x.targetComponentType,
-                    targetPropertyName = x.targetPropertyName,
+            // if (copyOverride == true)
+            // {
+            //     var originalOverrideDatas = copyPasteBuffer.overrideDatas.Select(x => x).ToList();
+            //     var copiedOverrideDatas = originalOverrideDatas.Select(x => new ViewElementPropertyOverrideData
+            //     {
+            //         targetComponentType = x.targetComponentType,
+            //         targetPropertyName = x.targetPropertyName,
 
-                    targetTransformPath = x.targetTransformPath,
-                    Value = new PropertyOverride
-                    {
-                        ObjectReferenceValue = x.Value.ObjectReferenceValue,
-                        s_Type = x.Value.s_Type,
-                        StringValue = x.Value.StringValue,
-                    }
-                }).ToList();
-                copyResult.overrideDatas = copiedOverrideDatas;
-            }
+            //         targetTransformPath = x.targetTransformPath,
+            //         Value = new PropertyOverride
+            //         {
+            //             ObjectReferenceValue = x.Value.ObjectReferenceValue,
+            //             s_Type = x.Value.s_Type,
+            //             StringValue = x.Value.StringValue,
+            //         }
+            //     }).ToList();
+            //     copyResult.overrideDatas = copiedOverrideDatas;
+            // }
 
-            if (copyEvent == true)
-            {
-                var originalEventDatas = copyPasteBuffer.eventDatas.Select(x => x).ToList();
-                var copyEventDatas = originalEventDatas.Select(
-                    x => new ViewElementEventData
-                    {
-                        targetComponentType = x.targetComponentType,
-                        targetPropertyName = x.targetPropertyName,
-                        targetTransformPath = x.targetTransformPath,
-                        methodName = x.methodName,
-                        scriptName = x.scriptName
-                    })
-                .ToList();
+            // if (copyEvent == true)
+            // {
+            //     var originalEventDatas = copyPasteBuffer.eventDatas.Select(x => x).ToList();
+            //     var copyEventDatas = originalEventDatas.Select(
+            //         x => new ViewElementEventData
+            //         {
+            //             targetComponentType = x.targetComponentType,
+            //             targetPropertyName = x.targetPropertyName,
+            //             targetTransformPath = x.targetTransformPath,
+            //             methodName = x.methodName,
+            //             scriptName = x.scriptName
+            //         })
+            //     .ToList();
 
-                copyResult.eventDatas = copyEventDatas;
-            }
+            //     copyResult.eventDatas = copyEventDatas;
+            // }
 
             return copyResult;
         }
@@ -520,7 +520,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     list[index].viewElement = original;
                     list[index].previewViewElement = cache;
 
-                    list[index].transformData = new ViewSystemRectTransformData();
+                    list[index].defaultTransformDatas.rectTransformData = new ViewSystemRectTransformData();
                     PickRectTransformValue();
 
                     //list[index].parent = cache.transform.parent;
@@ -586,7 +586,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             // layoutButtonRect.y ;
                             layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
                             layoutButtonRect.height = EditorGUIUtility.singleLineHeight * 2;
-                            LayoutDropdownButton(layoutButtonRect, list[index].transformData, false);
+                            LayoutDropdownButton(layoutButtonRect, list[index].defaultTransformDatas.rectTransformData, false);
                             layoutButtonRect.y += EditorGUIUtility.singleLineHeight * 3;
                             layoutButtonRect.height = EditorGUIUtility.singleLineHeight;
                             using (var disable = new EditorGUI.DisabledGroupScope(list[index].previewViewElement == null))
@@ -597,7 +597,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                 }
                             }
                             smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
-                            SmartPositionAndSizeFields(smartPositionAndSizeRect, true, list[index].transformData, false, false);
+                            SmartPositionAndSizeFields(smartPositionAndSizeRect, true, list[index].defaultTransformDatas.rectTransformData, false, false);
                             anchorAndPivotRect.height = EditorGUIUtility.singleLineHeight;
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 2;
                             anchorAndPivotRect.x += 30;
@@ -612,17 +612,17 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             Rect overrideFlagRect = anchorAndPivotRect;
                             overrideFlagRect.x += 150;
                             overrideFlagRect.width = 100;
-                            list[index].transformFlag = (ViewElement.RectTransformFlag)EditorGUI.EnumFlagsField(overrideFlagRect, list[index].transformFlag);
+                            list[index].defaultTransformDatas.rectTransformFlag = (ViewElement.RectTransformFlag)EditorGUI.EnumFlagsField(overrideFlagRect, list[index].defaultTransformDatas.rectTransformFlag);
                             anchorPivotFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, anchorPivotFoldout[index], "Anchor and Pivot");
 
                             if (anchorPivotFoldout[index])
                             {
                                 anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
-                                list[index].transformData.anchorMin = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Min", list[index].transformData.anchorMin);
+                                list[index].defaultTransformDatas.rectTransformData.anchorMin = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Min", list[index].defaultTransformDatas.rectTransformData.anchorMin);
                                 anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                                list[index].transformData.anchorMax = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Max", list[index].transformData.anchorMax);
+                                list[index].defaultTransformDatas.rectTransformData.anchorMax = EditorGUI.Vector2Field(anchorAndPivotRect, "Anchor Max", list[index].defaultTransformDatas.rectTransformData.anchorMax);
                                 anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                                list[index].transformData.pivot = EditorGUI.Vector2Field(anchorAndPivotRect, "Pivot", list[index].transformData.pivot);
+                                list[index].defaultTransformDatas.rectTransformData.pivot = EditorGUI.Vector2Field(anchorAndPivotRect, "Pivot", list[index].defaultTransformDatas.rectTransformData.pivot);
                             }
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
                             rotationScaleFoldout[index] = EditorGUI.Foldout(anchorAndPivotRect, rotationScaleFoldout[index], "Rotation and Scale");
@@ -630,9 +630,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             if (rotationScaleFoldout[index])
                             {
                                 anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
-                                list[index].transformData.localEulerAngles = EditorGUI.Vector3Field(anchorAndPivotRect, "Rotation", list[index].transformData.localEulerAngles);
+                                list[index].defaultTransformDatas.rectTransformData.localEulerAngles = EditorGUI.Vector3Field(anchorAndPivotRect, "Rotation", list[index].defaultTransformDatas.rectTransformData.localEulerAngles);
                                 anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                                list[index].transformData.localScale = EditorGUI.Vector3Field(anchorAndPivotRect, "Scale", list[index].transformData.localScale);
+                                list[index].defaultTransformDatas.rectTransformData.localScale = EditorGUI.Vector3Field(anchorAndPivotRect, "Scale", list[index].defaultTransformDatas.rectTransformData.localScale);
                             }
                             EditorGUIUtility.wideMode = widthMode;
                             EditorGUIUtility.labelWidth = lableWidth;
@@ -642,7 +642,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             {
                                 if (list[index].previewViewElement)
                                 {
-                                    list[index].previewViewElement.ApplyRectTransform(list[index].transformData, list[index].transformFlag);
+                                    list[index].previewViewElement.ApplyRectTransform(list[index].defaultTransformDatas);
                                 }
                             }
                         }
@@ -657,38 +657,38 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         {
                             using (var check = new EditorGUI.ChangeCheckScope())
                             {
-                                list[index].parentPath = EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), list[index].parentPath);
+                                list[index].defaultTransformDatas.parentPath = EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].defaultTransformDatas.parentPath), list[index].defaultTransformDatas.parentPath);
                                 if (check.changed)
                                 {
-                                    if (!string.IsNullOrEmpty(list[index].parentPath))
+                                    if (!string.IsNullOrEmpty(list[index].defaultTransformDatas.parentPath))
                                     {
-                                        var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
+                                        var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].defaultTransformDatas.parentPath);
                                         if (target)
                                         {
-                                            list[index].parent = target.transform;
+                                            list[index].defaultTransformDatas.parent = target.transform;
                                         }
                                     }
                                     else
-                                        list[index].parent = null;
+                                        list[index].defaultTransformDatas.parent = null;
                                 }
                             }
                         }
                         else
                         {
                             string shortPath = "";
-                            if (!string.IsNullOrEmpty(list[index]?.parentPath))
+                            if (!string.IsNullOrEmpty(list[index]?.defaultTransformDatas.parentPath))
                             {
-                                shortPath = list[index].parentPath.Split('/').Last();
+                                shortPath = list[index].defaultTransformDatas.parentPath.Split('/').Last();
                             }
                             using (var disable = new EditorGUI.DisabledGroupScope(true))
                             {
-                                EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].parentPath), shortPath);
+                                EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].defaultTransformDatas.parentPath), shortPath);
                             }
                         }
 
-                        if (!string.IsNullOrEmpty(list[index].parentPath))
+                        if (!string.IsNullOrEmpty(list[index].defaultTransformDatas.parentPath))
                         {
-                            var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].parentPath);
+                            var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].defaultTransformDatas.parentPath);
                             if (target == null)
                             {
                                 GUI.Label(new Rect(veRect.x - 24, veRect.y, 24, 24), new GUIContent(Drawer.miniErrorIcon, "Transform cannot found in this item."));
@@ -719,7 +719,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                     editor.console.LogErrorMessage("No object is been select, please check object is in scene or not.");
                                     goto PICK_BREAK;
                                 }
-                                list[index].parent = item.First();
+                                list[index].defaultTransformDatas.parent = item.First();
                             }
                         // Due to while using auto layout we cannot return
                         // Therefore use goto to escap the if scope
@@ -727,7 +727,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
                             if (GUI.Button(parentFunctionRect, new GUIContent("Parent", "Highlight parent Transform object")))
                             {
-                                var go = GameObject.Find(list[index].parentPath);
+                                var go = GameObject.Find(list[index].defaultTransformDatas.parentPath);
                                 if (go)
                                 {
                                     EditorGUIUtility.PingObject(go);
@@ -744,22 +744,22 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         }
                         else
                         {
-                            list[index].parent = (Transform)EditorGUI.ObjectField(rect, "Drag to here", list[index].parent, typeof(Transform), true);
+                            list[index].defaultTransformDatas.parent = (Transform)EditorGUI.ObjectField(rect, "Drag to here", list[index].defaultTransformDatas.parent, typeof(Transform), true);
                         }
 
-                        if (list[index].parent != null)
+                        if (list[index].defaultTransformDatas.parent != null)
                         {
-                            var path = AnimationUtility.CalculateTransformPath(list[index].parent, null);
+                            var path = AnimationUtility.CalculateTransformPath(list[index].defaultTransformDatas.parent, null);
                             var sp = path.Split('/');
                             if (sp.First() == editor.ViewControllerRoot.name)
                             {
-                                list[index].parentPath = path.Substring(sp.First().Length + 1);
+                                list[index].defaultTransformDatas.parentPath = path.Substring(sp.First().Length + 1);
                             }
                             else
                             {
                                 editor.console.LogErrorMessage("Selected Parent is not child of ViewController GameObject");
                                 ViewSystemLog.LogError("Selected Parent is not child of ViewController GameObject");
-                                list[index].parent = null;
+                                list[index].defaultTransformDatas.parent = null;
                             }
                         }
                     }
@@ -793,15 +793,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (list[index].previewViewElement)
                 {
                     var previewRectTransform = list[index].previewViewElement.GetComponent<RectTransform>();
-                    list[index].transformData.anchoredPosition = previewRectTransform.anchoredPosition3D;
-                    list[index].transformData.anchorMax = previewRectTransform.anchorMax;
-                    list[index].transformData.anchorMin = previewRectTransform.anchorMin;
-                    list[index].transformData.offsetMax = previewRectTransform.offsetMax;
-                    list[index].transformData.offsetMin = previewRectTransform.offsetMin;
-                    list[index].transformData.pivot = previewRectTransform.pivot;
-                    list[index].transformData.localScale = previewRectTransform.localScale;
-                    list[index].transformData.sizeDelta = previewRectTransform.sizeDelta;
-                    list[index].transformData.localEulerAngles = previewRectTransform.localEulerAngles;
+                    list[index].defaultTransformDatas.rectTransformData.anchoredPosition = previewRectTransform.anchoredPosition3D;
+                    list[index].defaultTransformDatas.rectTransformData.anchorMax = previewRectTransform.anchorMax;
+                    list[index].defaultTransformDatas.rectTransformData.anchorMin = previewRectTransform.anchorMin;
+                    list[index].defaultTransformDatas.rectTransformData.offsetMax = previewRectTransform.offsetMax;
+                    list[index].defaultTransformDatas.rectTransformData.offsetMin = previewRectTransform.offsetMin;
+                    list[index].defaultTransformDatas.rectTransformData.pivot = previewRectTransform.pivot;
+                    list[index].defaultTransformDatas.rectTransformData.localScale = previewRectTransform.localScale;
+                    list[index].defaultTransformDatas.rectTransformData.sizeDelta = previewRectTransform.sizeDelta;
+                    list[index].defaultTransformDatas.rectTransformData.localEulerAngles = previewRectTransform.localEulerAngles;
                 }
             }
         }

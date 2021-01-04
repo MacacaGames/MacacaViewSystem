@@ -804,23 +804,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     {
                         continue;
                     }
-                    vpi.transformData = new ViewSystemRectTransformData();
-                    var parent = ViewControllerRoot.Find(vpi.parentPath) as RectTransform;
-                    if (parent != null)
-                    {
-                        vpi.transformData.anchoredPosition = parent.anchoredPosition3D;
-                        vpi.transformData.anchorMax = parent.anchorMax;
-                        vpi.transformData.anchorMin = parent.anchorMin;
-                        vpi.transformData.pivot = parent.pivot;
-                        vpi.transformData.localScale = parent.localScale;
-                        vpi.transformData.localEulerAngles = parent.localEulerAngles;
-                    }
-
-                    if (vpi.viewElement != null)
-                    {
-                        vpi.transformData.sizeDelta = vpi.viewElement.rectTransform.sizeDelta;
-                    }
-                    vpi.parentPath = "";
+                    vpi.defaultTransformDatas.parent = vpi.parent;
+                    vpi.defaultTransformDatas.parentPath = vpi.parentPath;
+                    vpi.defaultTransformDatas.rectTransformData = vpi.transformData;
+                    vpi.defaultTransformDatas.rectTransformFlag = vpi.transformFlag;
                 }
             }
             foreach (var vss in viewStateList)
@@ -831,23 +818,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     {
                         continue;
                     }
-                    vpi.transformData = new ViewSystemRectTransformData();
-                    var parent = ViewControllerRoot.Find(vpi.parentPath) as RectTransform;
-                    if (parent != null)
-                    {
-                        vpi.transformData.anchoredPosition = parent.anchoredPosition3D;
-                        vpi.transformData.anchorMax = parent.anchorMax;
-                        vpi.transformData.anchorMin = parent.anchorMin;
-                        vpi.transformData.pivot = parent.pivot;
-                        vpi.transformData.localScale = parent.localScale;
-                        vpi.transformData.localEulerAngles = parent.localEulerAngles;
-                    }
-
-                    if (vpi.viewElement != null)
-                    {
-                        vpi.transformData.sizeDelta = vpi.viewElement.rectTransform.sizeDelta;
-                    }
-                    vpi.parentPath = "";
+                    vpi.defaultTransformDatas.parent = vpi.parent;
+                    vpi.defaultTransformDatas.parentPath = vpi.parentPath;
+                    vpi.defaultTransformDatas.rectTransformData = vpi.transformData;
+                    vpi.defaultTransformDatas.rectTransformFlag = vpi.transformFlag;
                 }
             }
 

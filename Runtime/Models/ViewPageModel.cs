@@ -33,7 +33,7 @@ namespace MacacaGames.ViewSystem
         public ViewPageType viewPageType = ViewPageType.FullPage;
         public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.WithPervious;
         public int canvasSortOrder = 0;
-        public SafePadding.PerEdgeValues edgeValues =new SafePadding.PerEdgeValues();
+        public SafePadding.PerEdgeValues edgeValues = new SafePadding.PerEdgeValues();
         public bool flipPadding = false;
         #region Navigation
         public bool IsNavigation = false;
@@ -92,8 +92,19 @@ namespace MacacaGames.ViewSystem
                 else return name;
             }
         }
-        static Transform ViewControllerObject;
 
+        //Due to Unity bug in new prefab workflow, UnityEngine.Object reference which is not a builtin type will missing after prefab enter prefab mode, so currentlly use GameObject to save the reference and get ViewElement by GetCompnent in Runtime
+        /// <summary>
+        /// The ViewElement's GameObject in Asset
+        /// </summary>
+        /// <value>ViewElement's GameObject (Asset)</value>
+        public GameObject viewElementObject;
+
+        /// <summary>
+        /// The ViewElement in Asset
+        /// If you wish to do something on ViewElement use <see cref="runtimeViewElement"> to avoid modify on Asset.
+        /// </summary>
+        /// <value>ViewElement (Asset)</value>
         public ViewElement viewElement
         {
             get
@@ -110,14 +121,22 @@ namespace MacacaGames.ViewSystem
             }
         }
 
-        //Due to Unity bug in new prefab workflow, UnityEngine.Object reference which is not a builtin type will missing after prefab enter prefab mode, so currentlly use GameObject to save the reference and get ViewElement by GetCompnent in Runtime
-        public GameObject viewElementObject;
+        /// <summary>
+        /// ViewElement runtime instance
+        /// </summary>
         public ViewElement runtimeViewElement = null;
         public List<ViewElementPropertyOverrideData> overrideDatas = new List<ViewElementPropertyOverrideData>();
         public List<ViewElementEventData> eventDatas = new List<ViewElementEventData>();
-        public Transform parent;
         public Transform runtimeParent = null;
+
+        #region Obsolete transform data, keeps for update tools 
+        public Transform parent;
         public string parentPath;
+        public ViewSystemRectTransformData transformData = new ViewSystemRectTransformData();
+        public ViewElement.RectTransformFlag transformFlag = ViewElement.RectTransformFlag.All;
+        #endregion
+
+        public ViewElementTransform defaultTransformDatas = new ViewElementTransform();
 
         public float TweenTime = 0.4f;
         public EaseStyle easeType = EaseStyle.QuadEaseOut;
@@ -125,8 +144,7 @@ namespace MacacaGames.ViewSystem
         public float delayOut;
         public List<ViewElementNavigationData> navigationDatas = new List<ViewElementNavigationData>();
         public PlatformOption excludePlatform = PlatformOption.Nothing;
-        public ViewSystemRectTransformData transformData = new ViewSystemRectTransformData();
-        public ViewElement.RectTransformFlag transformFlag = ViewElement.RectTransformFlag.All;
+
         public int sortingOrder = 0;
 
         [System.Flags]
@@ -142,7 +160,6 @@ namespace MacacaGames.ViewSystem
         public ViewPageItem(ViewElement ve)
         {
             viewElement = ve;
-            parent = null;
             GenerateId();
         }
         public ViewPageItem()
@@ -154,7 +171,18 @@ namespace MacacaGames.ViewSystem
             if (string.IsNullOrEmpty(Id))
                 Id = System.Guid.NewGuid().ToString().Substring(0, 8);
         }
-
+        public ViewElementTransform GetCurrentViewElementTransform()
+        {
+            return defaultTransformDatas;
+        }
+    }
+    [System.Serializable]
+    public class ViewElementTransform
+    {
+        public Transform parent;
+        public string parentPath;
+        public ViewSystemRectTransformData rectTransformData = new ViewSystemRectTransformData();
+        public ViewElement.RectTransformFlag rectTransformFlag = ViewElement.RectTransformFlag.All;
     }
 
     [System.Serializable]
