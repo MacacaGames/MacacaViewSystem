@@ -11,8 +11,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         ViewSystemDataReaderV2 dataReader;
 
-        static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
-        public ViewSystemGlobalSettingWindow(string name, ViewSystemNodeEditor editor, ViewSystemDataReaderV2 dataReader)
+        static ViewSystemSaveData saveData => ViewSystemVisualEditor.saveData;
+        public ViewSystemGlobalSettingWindow(string name, ViewSystemVisualEditor editor, ViewSystemDataReaderV2 dataReader)
         : base(name, editor)
         {
             this.dataReader = dataReader;

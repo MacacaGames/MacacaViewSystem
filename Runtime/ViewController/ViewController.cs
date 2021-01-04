@@ -344,9 +344,11 @@ namespace MacacaGames.ViewSystem
 
                 // if (item.runtimeParent == null)
                 // {
-                if (!string.IsNullOrEmpty(item.GetCurrentViewElementTransform().parentPath))
+                var transformData = item.GetCurrentViewElementTransform(currentBreakPoints);
+
+                if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
-                    item.runtimeParent = transformCache.Find(item.GetCurrentViewElementTransform().parentPath);
+                    item.runtimeParent = transformCache.Find(transformData.parentPath);
                 }
                 else
                 {
@@ -354,7 +356,7 @@ namespace MacacaGames.ViewSystem
                 }
                 // }
 
-                item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.sortingOrder, item.TweenTime, item.delayIn);
+                item.runtimeViewElement.ChangePage(true, item.runtimeParent, transformData, item.sortingOrder, item.TweenTime, item.delayIn);
             }
 
             foreach (var item in currentLiveElements.OrderBy(m => m.sortingOrder))
@@ -516,9 +518,11 @@ namespace MacacaGames.ViewSystem
 
                 // if (item.runtimeParent == null)
                 // {
-                if (!string.IsNullOrEmpty(item.GetCurrentViewElementTransform().parentPath))
+                var transformData = item.GetCurrentViewElementTransform(currentBreakPoints);
+
+                if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
-                    item.runtimeParent = transformCache.Find(item.GetCurrentViewElementTransform().parentPath);
+                    item.runtimeParent = transformCache.Find(transformData.parentPath);
                 }
                 else
                 {
@@ -526,7 +530,7 @@ namespace MacacaGames.ViewSystem
                 }
                 // }
 
-                item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.sortingOrder, item.TweenTime, item.delayIn, reshowIfSamePage: RePlayOnShowWhileSamePage);
+                item.runtimeViewElement.ChangePage(true, item.runtimeParent, transformData, item.sortingOrder, item.TweenTime, item.delayIn, reshowIfSamePage: RePlayOnShowWhileSamePage);
             }
 
 
@@ -619,20 +623,18 @@ namespace MacacaGames.ViewSystem
                         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
                         try
                         {
-                            // if (item.runtimeParent == null)
-                            // {
-                            if (!string.IsNullOrEmpty(item.GetCurrentViewElementTransform().parentPath))
+                            var transformData = item.GetCurrentViewElementTransform(currentBreakPoints);
+                            if (!string.IsNullOrEmpty(transformData.parentPath))
                             {
-                                item.runtimeParent = transformCache.Find(item.GetCurrentViewElementTransform().parentPath);
+                                item.runtimeParent = transformCache.Find(transformData.parentPath);
                             }
                             else
                             {
                                 item.runtimeParent = currentViewPage.runtimePageRoot;
                             }
-                            // }
 
                             var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
-                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(vpi), item.sortingOrder, tweenTimeIfNeed, 0);
+                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData, item.sortingOrder, tweenTimeIfNeed, 0);
                             ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.runtimeParent.name);
                         }
                         catch { }
@@ -643,19 +645,17 @@ namespace MacacaGames.ViewSystem
                         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
                         try
                         {
-                            // if (item.runtimeParent == null)
-                            // {
-                            if (!string.IsNullOrEmpty(item.GetCurrentViewElementTransform().parentPath))
+                            var transformData = item.GetCurrentViewElementTransform(currentBreakPoints);
+                            if (!string.IsNullOrEmpty(transformData.parentPath))
                             {
-                                item.runtimeParent = transformCache.Find(item.GetCurrentViewElementTransform().parentPath);
+                                item.runtimeParent = transformCache.Find(transformData.parentPath);
                             }
                             else
                             {
                                 item.runtimeParent = currentViewPage.runtimePageRoot;
                             }
-                            // }
                             var vpi = currentViewState.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
-                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(vpi), item.sortingOrder, tweenTimeIfNeed, 0);
+                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData, item.sortingOrder, tweenTimeIfNeed, 0);
                             ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name + "Try to back to origin Transfrom parent : " + vpi.runtimeParent.name);
                         }
                         catch { }
@@ -879,9 +879,20 @@ namespace MacacaGames.ViewSystem
             return false;
         }
 
-        ViewElementTransform GetViewSystemRectTransformDataByViewPageItem(ViewPageItem item)
+        // ViewElementTransform GetViewSystemRectTransformDataByViewPageItem(ViewPageItem item)
+        // {
+        //     return !string.IsNullOrEmpty(item.GetCurrentViewElementTransform(currentBreakPoints).parentPath) ? null : item.GetCurrentViewElementTransform(currentBreakPoints);
+        // }
+
+        List<string> currentBreakPoints = new List<string>();
+        public void SetBreakPoint(string breakPoint)
         {
-            return !string.IsNullOrEmpty(item.GetCurrentViewElementTransform().parentPath) ? null : item.GetCurrentViewElementTransform();
+            if (!currentBreakPoints.Contains(breakPoint)) currentBreakPoints.Add(breakPoint);
+        }
+
+        public void RemoveBreakPoint(string breakPoint)
+        {
+            currentBreakPoints.Remove(breakPoint);
         }
 
         #endregion

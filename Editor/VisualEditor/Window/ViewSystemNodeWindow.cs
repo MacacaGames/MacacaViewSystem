@@ -7,7 +7,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
     public class ViewSystemNodeWindow
     {
         protected bool resizeable;
-        protected ViewSystemNodeEditor editor;
+        protected ViewSystemVisualEditor editor;
         private Rect _rect;
         protected Rect rect
         {
@@ -25,7 +25,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         public string name;
 
         public bool dragable = true;
-        public ViewSystemNodeWindow(string name, ViewSystemNodeEditor editor)
+        public ViewSystemNodeWindow(string name, ViewSystemVisualEditor editor)
         {
             this.editor = editor;
             this.name = name;

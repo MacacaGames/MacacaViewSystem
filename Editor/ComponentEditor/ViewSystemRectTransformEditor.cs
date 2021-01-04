@@ -100,16 +100,16 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
 
             defaultEditor.OnInspectorGUI();
-            using (var disable = new EditorGUI.DisabledGroupScope(ViewSystemNodeEditor.Instance != null && !ViewSystemNodeEditor.Instance.EditMode))
+            using (var disable = new EditorGUI.DisabledGroupScope(ViewSystemVisualEditor.Instance != null && !ViewSystemVisualEditor.Instance.EditMode))
             {
                 if (GUILayout.Button("Copy value to ViewSystem"))
                 {
-                    if (ViewSystemNodeEditor.Instance == null)
+                    if (ViewSystemVisualEditor.Instance == null)
                     {
                         return;
                     }
 
-                    ViewSystemNodeEditor.Instance.UpdateRectTransformValue(rectTransform.GetComponent<ViewElement>());
+                    ViewSystemVisualEditor.Instance.UpdateRectTransformValue(rectTransform.GetComponent<ViewElement>());
                 }
             }
 

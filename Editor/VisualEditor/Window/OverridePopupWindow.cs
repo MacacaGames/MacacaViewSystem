@@ -14,7 +14,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 {
     public class OverridePopupWindow : ViewSystemNodeWindow
     {
-        static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
+        static ViewSystemSaveData saveData => ViewSystemVisualEditor.saveData;
         GameObject target;
         public ViewPageItem viewPageItem;
         GUIStyle removeButtonStyle;
@@ -28,7 +28,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         //     return windowStyle;
         // }
         ViewSystemNodeInspector sideBar;
-        public OverridePopupWindow(string name, ViewSystemNodeEditor editor, ViewSystemNodeInspector sideBar)
+        public OverridePopupWindow(string name, ViewSystemVisualEditor editor, ViewSystemNodeInspector sideBar)
         : base(name, editor)
         {
             this.sideBar = sideBar;

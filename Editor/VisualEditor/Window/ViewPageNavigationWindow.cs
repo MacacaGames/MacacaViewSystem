@@ -8,7 +8,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 {
     public class ViewPageNavigationWindow : ViewSystemNodeWindow
     {
-        public ViewPageNavigationWindow(string name, ViewSystemNodeEditor editor)
+        public ViewPageNavigationWindow(string name, ViewSystemVisualEditor editor)
         : base(name, editor)
         {
             // windowStyle = new GUIStyle(Drawer.windowStyle);

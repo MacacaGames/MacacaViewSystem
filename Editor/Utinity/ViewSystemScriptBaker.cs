@@ -8,7 +8,7 @@ namespace MacacaGames.ViewSystem
 {
     public class ViewSystemScriptBaker : Editor
     {
-        public static void BakeAllViewPageName(List<ViewPage> vps, List<ViewState> vss)
+        public static void BakeAllViewPageName(List<ViewPage> vps, List<ViewState> vss,List<string> bp)
         {
             var sb = new StringBuilder();
             sb.AppendLine("using UnityEngine;");
@@ -18,7 +18,7 @@ namespace MacacaGames.ViewSystem
             sb.AppendLine("	public struct ViewSystemScriptable");
             sb.AppendLine("	{");
             sb.AppendLine();
-
+            BuildBreakPoints(sb, bp);
             BuildScriptWithViewPages(sb, vps);
             BuildScriptWithViewStates(sb, vss);
             sb.AppendLine();
@@ -35,7 +35,25 @@ namespace MacacaGames.ViewSystem
 
             AssetDatabase.ImportAsset(ScriptFile);
         }
-
+        static void BuildBreakPoints(StringBuilder sb, List<string> bp)
+        {
+            if (bp == null)
+            {
+                return;
+            }
+            if (bp.Count == 0)
+            {
+                return;
+            }
+            sb.AppendLine("		public struct BreakPoints");
+            sb.AppendLine("		{");
+            foreach (var item in bp)
+            {
+                sb.AppendLine("		    public const string  " + item + " = \"" + item + "\";");
+                sb.AppendLine();
+            }
+            sb.AppendLine("		}");
+        }
         static void BuildScriptWithViewPages(StringBuilder sb, List<ViewPage> vps)
         {
             if (vps == null)

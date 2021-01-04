@@ -8,9 +8,9 @@ using UnityEngine.UIElements;
 using UnityEditor.SceneManagement;
 namespace MacacaGames.ViewSystem.VisualEditor
 {
-    public class ViewSystemNodeEditor : EditorWindow
+    public class ViewSystemVisualEditor : EditorWindow
     {
-        public static ViewSystemNodeEditor Instance;
+        public static ViewSystemVisualEditor Instance;
         static ViewSystemDataReaderV2 dataReader;
         public static ViewSystemNodeInspector inspector;
         public static ViewSystemGlobalSettingWindow globalSettingWindow;
@@ -29,7 +29,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         [MenuItem("MacacaGames/ViewSystem/Visual Editor")]
         private static void OpenWindow()
         {
-            Instance = GetWindow<ViewSystemNodeEditor>();
+            Instance = GetWindow<ViewSystemVisualEditor>();
             Instance.titleContent = new GUIContent("View System Visual Editor");
             Instance.minSize = new Vector2(600, 400);
             EditorApplication.playModeStateChanged += playModeStateChanged;
@@ -96,7 +96,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             ClearEditor();
             EditMode = false;
-            console = new ViewSystemNodeConsole();
             dataReader = new ViewSystemDataReaderV2(this);
             isInit = dataReader.Init();
             saveData = ((ViewSystemDataReaderV2)dataReader).GetSaveData();
@@ -107,7 +106,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             overridePopupWindow = new OverridePopupWindow("Override", this, inspector);
             navigationWindow = new ViewPageNavigationWindow("Navigation Setting", this);
             viewSystemVerifier = new ViewSystemVerifier(this, saveData);
-            breakpointWindow = new ViewBreakpointWindow("Break point edit", this);
+            breakpointWindow = new ViewBreakpointWindow("Break Point Setting", this);
             viewStatesPopup.Add("All");
             viewStatesPopup.Add("Overlay Only");
             viewStatesPopup.AddRange(viewStateList.Select(m => m.viewState.name));
@@ -134,7 +133,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         List<ViewPageNode> viewPageList = new List<ViewPageNode>();
         List<ViewStateNode> viewStateList = new List<ViewStateNode>();
-        public ViewSystemNodeConsole console;
         public static float zoomScale = 1.0f;
         Rect scriptViewRect;
         public static Vector2 viewPortScroll;
@@ -150,7 +148,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
         }
         void DrawFloatWindow()
         {
-            if (console.show) console.Draw(new Vector2(nodeViewContianer.contentRect.width, nodeViewContianer.contentRect.height));
 
             BeginWindows();
             if (globalSettingWindow != null) globalSettingWindow.OnGUI();
@@ -391,14 +388,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             selectedViewPageNode.currentLinkedViewStateNode.currentLinkedViewPageNode.Remove(selectedViewPageNode);
 
                             //刪掉線
-                            console.LogWarringMessage("Break original link, create new link");
 
                             CreateConnection();
                             ClearConnectionSelection();
                         }
                         else
                         {
-                            console.LogErrorMessage("The node has linked before");
                             ClearConnectionSelection();
                         }
                     }
@@ -443,7 +438,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         // 如果連線的節點跟原本的不同 刪掉舊的連線 然後建立新了
                         else if (selectedViewPageNode.currentLinkedViewStateNode != selectedViewStateNode)
                         {
-                            console.LogWarringMessage("Break original link, create new link");
                             //刪掉 ViewStateNode 裡的 ViewPageNode
                             selectedViewPageNode.currentLinkedViewStateNode.currentLinkedViewPageNode.Remove(selectedViewPageNode);
 
@@ -452,7 +446,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         }
                         else
                         {
-                            console.LogErrorMessage("The FullPage has linked before");
                             ClearConnectionSelection();
                         }
                     }
@@ -498,7 +491,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         // 如果連線的節點跟原本的不同 刪掉舊的連線 然後建立新了
                         else if (selectedViewPageNode.currentLinkedViewStateNode != selectedViewStateNode)
                         {
-                            console.LogWarringMessage("Break original link, create new link");
                             //刪掉 ViewStateNode 裡的 ViewPageNode
                             selectedViewPageNode.currentLinkedViewStateNode.currentLinkedViewPageNode.Remove(selectedViewPageNode);
 
@@ -508,7 +500,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         }
                         else
                         {
-                            console.LogErrorMessage("The Overlay has linked before");
                             ClearConnectionSelection();
                         }
                     }
@@ -544,7 +535,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
             viewStateNode.OnNodeConnect(viewPageNode);
             viewPageNode.OnNodeConnect(viewStateNode);
 
-            console.LogMessage("Create Link, State:" + viewStateNode.viewState.name + ", Page :" + viewPageNode.viewPage.name);
         }
 
         void OnDisconnect(ViewPageNode viewPageNode)
@@ -730,8 +720,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         }
                     }
                     GUILayout.Space(5);
-                    console.show = GUILayout.Toggle(console.show, new GUIContent(Drawer.miniErrorIcon, "Show Console"), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight), GUILayout.Width(25));
-                    GUILayout.Space(5);
                     if (globalSettingWindow != null)
                         globalSettingWindow.show = GUILayout.Toggle(globalSettingWindow.show, new GUIContent("Global Setting", EditorGUIUtility.FindTexture("SceneViewTools")), EditorStyles.toolbarButton, GUILayout.Height(menuBarHeight));
 
@@ -786,7 +774,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
                     if (GUILayout.Button(new GUIContent(Drawer.bakeScritpIcon, "Bake ViewPage and ViewState to script"), EditorStyles.toolbarButton, GUILayout.Width(50)))
                     {
-                        ViewSystemScriptBaker.BakeAllViewPageName(viewPageList.Select(m => m.viewPage).ToList(), viewStateList.Select(m => m.viewState).ToList());
+                        ViewSystemScriptBaker.BakeAllViewPageName(
+                            viewPageList.Select(m => m.viewPage).ToList(),
+                            viewStateList.Select(m => m.viewState).ToList(),
+                            saveData.globalSetting.breakPoints.ToList());
                     }
                     if (GUILayout.Button("Options", EditorStyles.toolbarDropDown))
                     {
@@ -992,12 +983,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         public override void OnGUI(Rect rect)
         {
-            ViewSystemNodeEditor.allowPreviewWhenPlaying = EditorGUILayout.ToggleLeft("Allow Preview When Playing", ViewSystemNodeEditor.allowPreviewWhenPlaying);
-            ViewSystemNodeEditor.overrideFromOrginal = EditorGUILayout.ToggleLeft("Get Override From Orginal Prefab", ViewSystemNodeEditor.overrideFromOrginal);
-            ViewSystemNodeEditor.removeConnectWithoutAsk = EditorGUILayout.ToggleLeft("Remove Connect Without Confirm", ViewSystemNodeEditor.removeConnectWithoutAsk);
+            ViewSystemVisualEditor.allowPreviewWhenPlaying = EditorGUILayout.ToggleLeft("Allow Preview When Playing", ViewSystemVisualEditor.allowPreviewWhenPlaying);
+            ViewSystemVisualEditor.overrideFromOrginal = EditorGUILayout.ToggleLeft("Get Override From Orginal Prefab", ViewSystemVisualEditor.overrideFromOrginal);
+            ViewSystemVisualEditor.removeConnectWithoutAsk = EditorGUILayout.ToggleLeft("Remove Connect Without Confirm", ViewSystemVisualEditor.removeConnectWithoutAsk);
             if (GUILayout.Button("Migrate to split transform"))
             {
-                ViewSystemNodeEditor.Instance.MigrateToSplitTransformData();
+                ViewSystemVisualEditor.Instance.MigrateToSplitTransformData();
             }
         }
     }

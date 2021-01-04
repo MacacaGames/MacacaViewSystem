@@ -10,10 +10,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
 {
     public class ViewSystemVerifier
     {
-        ViewSystemNodeEditor editor;
+        ViewSystemVisualEditor editor;
         GUIStyle windowStyle;
         ViewSystemSaveData saveData;
-        public ViewSystemVerifier(ViewSystemNodeEditor editor, ViewSystemSaveData saveData)
+        public ViewSystemVerifier(ViewSystemVisualEditor editor, ViewSystemSaveData saveData)
         {
             this.saveData = saveData;
             this.editor = editor;

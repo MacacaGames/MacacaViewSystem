@@ -10,9 +10,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
 {
     public class ViewBreakpointWindow : ViewSystemNodeWindow
     {
-        static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
+        static ViewSystemSaveData saveData => ViewSystemVisualEditor.saveData;
 
-        public ViewBreakpointWindow(string name, ViewSystemNodeEditor editor)
+        public ViewBreakpointWindow(string name, ViewSystemVisualEditor editor)
         : base(name, editor)
         {
         }
@@ -20,7 +20,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             this.viewPageItem = viewPageItem;
             reorderableList = null;
-            reorderableList = new ReorderableList(viewPageItem.breakPointViewElementTransforms, typeof(List<BreakPointViewElementTransform>), true, true, true, false);
+            reorderableList = new ReorderableList(viewPageItem.breakPointViewElementTransforms, typeof(List<BreakPointViewElementTransform>), true, true, true, true);
             reorderableList.drawElementCallback += DrawViewItemElement;
             reorderableList.elementHeight = EditorGUIUtility.singleLineHeight * 6f;
             reorderableList.onAddCallback += AddItem;
@@ -56,7 +56,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             cRect.x = rect.width - 80 + rect.x;
             if (GUI.Button(cRect, "Setting"))
             {
-                ViewSystemNodeEditor.globalSettingWindow.show = true;
+                ViewSystemVisualEditor.globalSettingWindow.show = true;
             }
             cRect.x = rect.x;
             cRect.width = rect.width - 80;
@@ -74,7 +74,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
 
             rect.y += EditorGUIUtility.singleLineHeight;
-            ViewSystemNodeEditor.inspector.DrawViewElementTransformDetail(item.transformData, viewPageItem.Id, item.breakPointName, viewPageItem.previewViewElement, rect);
+            ViewSystemVisualEditor.inspector.DrawViewElementTransformDetail(item.transformData, viewPageItem.Id, item.breakPointName, viewPageItem.previewViewElement, rect);
         }
 
         float ElementHight(int index)

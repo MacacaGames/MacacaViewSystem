@@ -14,7 +14,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
     public class ViewSystemNodeInspector
     {
         private ViewSystemNode currentSelectNode = null;
-        ViewSystemNodeEditor editor;
+        ViewSystemVisualEditor editor;
         public bool show = true;
         AnimBool showBasicInfo;
         // AnimBool showViewPageItem;
@@ -23,10 +23,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
         GUIStyle nameUnnamedStyle;
         GUIStyle nameErrorStyle;
         GUIStyle nameEditStyle;
-        static ViewSystemSaveData saveData => ViewSystemNodeEditor.saveData;
+        static ViewSystemSaveData saveData => ViewSystemVisualEditor.saveData;
         static GUIContent EditoModifyButton = new GUIContent(Drawer.overridePopupIcon, "Show/Hide Modified Properties and Events");
 
-        public ViewSystemNodeInspector(ViewSystemNodeEditor editor)
+        public ViewSystemNodeInspector(ViewSystemVisualEditor editor)
         {
             this.editor = editor;
 
@@ -148,9 +148,13 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         private float ElementHight(int index)
         {
-
             var item = viewPageItemList[index];
-            return transformEditStatus[$"{item.Id}_default"] == 0 ? GetHeight() : EditorGUIUtility.singleLineHeight * 7f;
+            string key = $"{item.Id}_default";
+            if (!transformEditStatus.ContainsKey(key))
+            {
+                transformEditStatus.Add(key, 0);
+            }
+            return transformEditStatus[key] == 0 ? GetHeight() : EditorGUIUtility.singleLineHeight * 7f;
             float GetHeight()
             {
                 return EditorGUIUtility.singleLineHeight * 7.5f + (EditorGUIUtility.singleLineHeight * 3 + 6) + (EditorGUIUtility.singleLineHeight * 2 + 8);
@@ -247,64 +251,62 @@ namespace MacacaGames.ViewSystem.VisualEditor
         ViewPageItem CopyItem(bool copyOverride = true, bool copyEvent = true, bool copyRectTransform = true)
         {
             var copyResult = new ViewPageItem(copyPasteBuffer.viewElement);
-            // copyResult.TweenTime = copyPasteBuffer.TweenTime;
-            // copyResult.delayOut = copyPasteBuffer.delayOut;
-            // copyResult.delayIn = copyPasteBuffer.delayIn;
-            // copyResult.parentPath = copyPasteBuffer.parentPath;
-            // copyResult.parent = copyPasteBuffer.parent;
-            // copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
-            // copyResult.name = copyPasteBuffer.name;
+            copyResult.TweenTime = copyPasteBuffer.TweenTime;
+            copyResult.delayOut = copyPasteBuffer.delayOut;
+            copyResult.delayIn = copyPasteBuffer.delayIn;
+            copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
+            copyResult.name = copyPasteBuffer.name;
 
-            // if (copyRectTransform == true)
-            // {
-            //     copyResult.defaultTransformDatas.rectTransformData = new ViewSystemRectTransformData();
-            //     copyResult.defaultTransformDatas.rectTransformData.anchoredPosition = copyPasteBuffer.transformData.anchoredPosition;
-            //     copyResult.transformData.anchorMax = copyPasteBuffer.transformData.anchorMax;
-            //     copyResult.transformData.anchorMin = copyPasteBuffer.transformData.anchorMin;
-            //     copyResult.transformData.pivot = copyPasteBuffer.transformData.pivot;
-            //     copyResult.transformData.localEulerAngles = copyPasteBuffer.transformData.localEulerAngles;
-            //     copyResult.transformData.localScale = copyPasteBuffer.transformData.localScale;
-            //     copyResult.transformData.offsetMax = copyPasteBuffer.transformData.offsetMax;
-            //     copyResult.transformData.offsetMin = copyPasteBuffer.transformData.offsetMin;
-            //     copyResult.transformData.sizeDelta = copyPasteBuffer.transformData.sizeDelta;
-            //     copyResult.parentPath = "";
-            // }
+            if (copyRectTransform == true)
+            {
+                copyResult.defaultTransformDatas.rectTransformData = new ViewSystemRectTransformData();
+                copyResult.defaultTransformDatas.rectTransformData.anchoredPosition = copyPasteBuffer.defaultTransformDatas.rectTransformData.anchoredPosition;
+                copyResult.defaultTransformDatas.rectTransformData.anchorMax = copyPasteBuffer.defaultTransformDatas.rectTransformData.anchorMax;
+                copyResult.defaultTransformDatas.rectTransformData.anchorMin = copyPasteBuffer.defaultTransformDatas.rectTransformData.anchorMin;
+                copyResult.defaultTransformDatas.rectTransformData.pivot = copyPasteBuffer.defaultTransformDatas.rectTransformData.pivot;
+                copyResult.defaultTransformDatas.rectTransformData.localEulerAngles = copyPasteBuffer.defaultTransformDatas.rectTransformData.localEulerAngles;
+                copyResult.defaultTransformDatas.rectTransformData.localScale = copyPasteBuffer.defaultTransformDatas.rectTransformData.localScale;
+                copyResult.defaultTransformDatas.rectTransformData.offsetMax = copyPasteBuffer.defaultTransformDatas.rectTransformData.offsetMax;
+                copyResult.defaultTransformDatas.rectTransformData.offsetMin = copyPasteBuffer.defaultTransformDatas.rectTransformData.offsetMin;
+                copyResult.defaultTransformDatas.rectTransformData.sizeDelta = copyPasteBuffer.defaultTransformDatas.rectTransformData.sizeDelta;
+                copyResult.defaultTransformDatas.parentPath = copyPasteBuffer.defaultTransformDatas.parentPath;
+            }
 
-            // if (copyOverride == true)
-            // {
-            //     var originalOverrideDatas = copyPasteBuffer.overrideDatas.Select(x => x).ToList();
-            //     var copiedOverrideDatas = originalOverrideDatas.Select(x => new ViewElementPropertyOverrideData
-            //     {
-            //         targetComponentType = x.targetComponentType,
-            //         targetPropertyName = x.targetPropertyName,
+            if (copyOverride == true)
+            {
+                var originalOverrideDatas = copyPasteBuffer.overrideDatas.Select(x => x).ToList();
+                var copiedOverrideDatas = originalOverrideDatas.Select(x => new ViewElementPropertyOverrideData
+                {
+                    targetComponentType = x.targetComponentType,
+                    targetPropertyName = x.targetPropertyName,
 
-            //         targetTransformPath = x.targetTransformPath,
-            //         Value = new PropertyOverride
-            //         {
-            //             ObjectReferenceValue = x.Value.ObjectReferenceValue,
-            //             s_Type = x.Value.s_Type,
-            //             StringValue = x.Value.StringValue,
-            //         }
-            //     }).ToList();
-            //     copyResult.overrideDatas = copiedOverrideDatas;
-            // }
+                    targetTransformPath = x.targetTransformPath,
+                    Value = new PropertyOverride
+                    {
+                        ObjectReferenceValue = x.Value.ObjectReferenceValue,
+                        s_Type = x.Value.s_Type,
+                        StringValue = x.Value.StringValue,
+                    }
+                }).ToList();
+                copyResult.overrideDatas = copiedOverrideDatas;
+            }
 
-            // if (copyEvent == true)
-            // {
-            //     var originalEventDatas = copyPasteBuffer.eventDatas.Select(x => x).ToList();
-            //     var copyEventDatas = originalEventDatas.Select(
-            //         x => new ViewElementEventData
-            //         {
-            //             targetComponentType = x.targetComponentType,
-            //             targetPropertyName = x.targetPropertyName,
-            //             targetTransformPath = x.targetTransformPath,
-            //             methodName = x.methodName,
-            //             scriptName = x.scriptName
-            //         })
-            //     .ToList();
+            if (copyEvent == true)
+            {
+                var originalEventDatas = copyPasteBuffer.eventDatas.Select(x => x).ToList();
+                var copyEventDatas = originalEventDatas.Select(
+                    x => new ViewElementEventData
+                    {
+                        targetComponentType = x.targetComponentType,
+                        targetPropertyName = x.targetPropertyName,
+                        targetTransformPath = x.targetTransformPath,
+                        methodName = x.methodName,
+                        scriptName = x.scriptName
+                    })
+                .ToList();
 
-            //     copyResult.eventDatas = copyEventDatas;
-            // }
+                copyResult.eventDatas = copyEventDatas;
+            }
 
             return copyResult;
         }
@@ -436,7 +438,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             {
                 if (viewPageItemList[index].viewElement == null)
                 {
-                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
+                    ViewSystemLog.LogError("ViewElement has not been select yet!");
                     return;
                 }
                 MacacaGames.CMEditorUtility.InspectTarget(viewPageItemList[index].viewElement.gameObject);
@@ -485,7 +487,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
                     var cache = viewPageItemList[index].viewElement;
                     ViewElement original;
-                    if (ViewSystemNodeEditor.overrideFromOrginal)
+                    if (ViewSystemVisualEditor.overrideFromOrginal)
                     {
                         original = PrefabUtility.GetCorrespondingObjectFromOriginalSource(cache);
                     }
@@ -512,7 +514,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             {
                 if (viewPageItemList[index].viewElement == null)
                 {
-                    editor.console.LogErrorMessage("ViewElement has not been select yet!");
+                    ViewSystemLog.LogError("ViewElement has not been select yet!");
                     return;
                 }
                 if (editor.overridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != viewPageItemList[index])
@@ -731,7 +733,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                 EditorGUIUtility.PingObject(go);
                                 Selection.objects = new[] { go };
                             }
-                            else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                            else ViewSystemLog.LogError("Target parent is not found, or the target parent is inactive.");
                         }
                         parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
 
@@ -750,7 +752,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             }
                             else
                             {
-                                editor.console.LogErrorMessage("Selected Parent is not child of ViewController GameObject");
+                                ViewSystemLog.LogError("Selected Parent is not child of ViewController GameObject");
                                 ViewSystemLog.LogError("Selected Parent is not child of ViewController GameObject");
                                 trasformData.parent = null;
                             }
@@ -779,7 +781,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 EditorGUIUtility.PingObject(vpi.previewViewElement);
                 Selection.objects = new[] { vpi.previewViewElement.gameObject };
             }
-            else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+            else ViewSystemLog.LogError("Target parent is not found, or the target parent is inactive.");
         }
 
         void PickRectTransformValue(ViewElementTransform targetData, RectTransform sourceRectTransform)
@@ -883,9 +885,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                     vp.edgeValues.influenceTop = EditorGUILayout.Slider("Influence Top", vp.edgeValues.influenceTop, 0, 1);
                                     vp.edgeValues.influenceRight = EditorGUILayout.Slider("Influence Right", vp.edgeValues.influenceRight, 0, 1);
                                     vp.flipPadding = EditorGUILayout.Toggle("Flip Padding", vp.flipPadding);
-                                    if (change.changed && ViewSystemNodeEditor.Instance.EditMode)
+                                    if (change.changed && ViewSystemVisualEditor.Instance.EditMode)
                                     {
-                                        ViewSystemNodeEditor.ApplySafeArea(vp.edgeValues);
+                                        ViewSystemVisualEditor.ApplySafeArea(vp.edgeValues);
                                     }
                                 }
                             }

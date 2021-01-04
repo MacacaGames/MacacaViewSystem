@@ -172,13 +172,13 @@ namespace MacacaGames.ViewSystem
             if (string.IsNullOrEmpty(Id))
                 Id = System.Guid.NewGuid().ToString().Substring(0, 8);
         }
-        public ViewElementTransform GetCurrentViewElementTransform(string[] breakPoints = null)
+        public ViewElementTransform GetCurrentViewElementTransform(IEnumerable<string> currentBreakPoints)
         {
             if (breakPointViewElementTransforms != null && breakPointViewElementTransforms.Count > 0)
             {
                 foreach (var item in breakPointViewElementTransforms)
                 {
-                    if (breakPoints.Contains(item.breakPointName))
+                    if (currentBreakPoints.Contains(item.breakPointName))
                     {
                         return item.transformData;
                     }

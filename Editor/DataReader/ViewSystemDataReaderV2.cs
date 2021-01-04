@@ -14,11 +14,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
     {
         const string ViewSystemResourceFolder = "Assets/ViewSystemResources/";
         const string ViewSystemSaveDataFileName = "ViewSystemData.asset";
-        public ViewSystemDataReaderV2(ViewSystemNodeEditor editor)
+        public ViewSystemDataReaderV2(ViewSystemVisualEditor editor)
         {
             this.editor = editor;
         }
-        ViewSystemNodeEditor editor;
+        ViewSystemVisualEditor editor;
 
         ViewSystemSaveData data;
         public Transform ViewControllerTransform;
@@ -266,11 +266,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 var rectTransform = tempViewElement.GetComponent<RectTransform>();
                 Transform tempParent = null;
 
-
-                if (!string.IsNullOrEmpty(item.GetCurrentViewElementTransform().parentPath))
+                // TODO preview viewpage with BreakPoint
+                var transformData = item.GetCurrentViewElementTransform(null);
+                if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
                     //Custom Parent implement
-                    tempParent = root.Find(item.GetCurrentViewElementTransform().parentPath);
+                    tempParent = root.Find(transformData.parentPath);
                 }
                 else
                 {
@@ -279,7 +280,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 }
                 rectTransform.SetParent(tempParent, true);
 
-                if (!string.IsNullOrEmpty(item.GetCurrentViewElementTransform().parentPath))
+                if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
                     var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
                     if (mFix != null) mFix.ApplyModifyValue();
@@ -288,7 +289,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 }
                 else
                 {
-                    tempViewElement.ApplyRectTransform(item.GetCurrentViewElementTransform());
+                    tempViewElement.ApplyRectTransform(transformData);
                 }
 
                 tempViewElement.ApplyOverrides(item.overrideDatas);

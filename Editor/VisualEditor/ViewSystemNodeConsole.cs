@@ -5,6 +5,7 @@ using System;
 
 namespace MacacaGames.ViewSystem
 {
+    [System.Obsolete]
     public class ViewSystemNodeConsole
     {
         public bool show = false;

@@ -200,7 +200,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         }
 
         public virtual void SetupNode() { }
-        private Vector2 editorViewPortScroll => ViewSystemNodeEditor.viewPortScroll;
+        private Vector2 editorViewPortScroll => ViewSystemVisualEditor.viewPortScroll;
         protected void DrawNode(string _name, bool highlight)
         {
             this.name = _name;
@@ -266,7 +266,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             get
             {
-                return ViewSystemNodeEditor.Instance.IsNodeInactivable;
+                return ViewSystemVisualEditor.Instance.IsNodeInactivable;
             }
         }
         bool rightBtn = false;
@@ -404,7 +404,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             bool btnInteractiable = IsInactivable;
             if (Application.isPlaying)
             {
-                btnInteractiable = ViewSystemNodeEditor.allowPreviewWhenPlaying && IsInactivable;
+                btnInteractiable = ViewSystemVisualEditor.allowPreviewWhenPlaying && IsInactivable;
             }
             if (CustomElement.Button(id, btnRect, new GUIContent("Preview"), new GUIStyle("ObjectPickerResultsEven"), btnInteractiable))
             {
