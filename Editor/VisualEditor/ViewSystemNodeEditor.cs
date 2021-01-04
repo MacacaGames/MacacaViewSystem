@@ -794,7 +794,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
         }
 
-        public void MigrateToV3()
+        public void MigrateToSplitTransformData()
         {
             foreach (var vps in viewPageList)
             {
@@ -989,10 +989,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             ViewSystemNodeEditor.allowPreviewWhenPlaying = EditorGUILayout.ToggleLeft("Allow Preview When Playing", ViewSystemNodeEditor.allowPreviewWhenPlaying);
             ViewSystemNodeEditor.overrideFromOrginal = EditorGUILayout.ToggleLeft("Get Override From Orginal Prefab", ViewSystemNodeEditor.overrideFromOrginal);
-            ViewSystemNodeEditor.removeConnectWithoutAsk = EditorGUILayout.ToggleLeft("Remove Connect Without Ask", ViewSystemNodeEditor.removeConnectWithoutAsk);
-            if (GUILayout.Button("Migrate to V3"))
+            ViewSystemNodeEditor.removeConnectWithoutAsk = EditorGUILayout.ToggleLeft("Remove Connect Without Confirm", ViewSystemNodeEditor.removeConnectWithoutAsk);
+            if (GUILayout.Button("Migrate to split transform"))
             {
-                ViewSystemNodeEditor.Instance.MigrateToV3();
+                ViewSystemNodeEditor.Instance.MigrateToSplitTransformData();
             }
         }
     }

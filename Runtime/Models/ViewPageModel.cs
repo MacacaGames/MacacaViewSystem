@@ -129,7 +129,7 @@ namespace MacacaGames.ViewSystem
         public List<ViewElementEventData> eventDatas = new List<ViewElementEventData>();
         public Transform runtimeParent = null;
 
-        #region Obsolete transform data, keeps for update tools 
+        #region Obsolete transform data, only keeps for update tools 
         public Transform parent;
         public string parentPath;
         public ViewSystemRectTransformData transformData = new ViewSystemRectTransformData();
@@ -137,6 +137,7 @@ namespace MacacaGames.ViewSystem
         #endregion
 
         public ViewElementTransform defaultTransformDatas = new ViewElementTransform();
+        public List<BreakPointViewElementTransform> breakPointViewElementTransforms = new List<BreakPointViewElementTransform>();
 
         public float TweenTime = 0.4f;
         public EaseStyle easeType = EaseStyle.QuadEaseOut;
@@ -171,8 +172,18 @@ namespace MacacaGames.ViewSystem
             if (string.IsNullOrEmpty(Id))
                 Id = System.Guid.NewGuid().ToString().Substring(0, 8);
         }
-        public ViewElementTransform GetCurrentViewElementTransform()
+        public ViewElementTransform GetCurrentViewElementTransform(string[] breakPoints = null)
         {
+            if (breakPointViewElementTransforms != null && breakPointViewElementTransforms.Count > 0)
+            {
+                foreach (var item in breakPointViewElementTransforms)
+                {
+                    if (breakPoints.Contains(item.breakPointName))
+                    {
+                        return item.transformData;
+                    }
+                }
+            }
             return defaultTransformDatas;
         }
     }
@@ -183,6 +194,12 @@ namespace MacacaGames.ViewSystem
         public string parentPath;
         public ViewSystemRectTransformData rectTransformData = new ViewSystemRectTransformData();
         public ViewElement.RectTransformFlag rectTransformFlag = ViewElement.RectTransformFlag.All;
+    }
+
+    public struct BreakPointViewElementTransform
+    {
+        public string breakPointName;
+        public ViewElementTransform transformData;
     }
 
     [System.Serializable]

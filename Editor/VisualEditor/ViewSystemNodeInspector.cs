@@ -94,7 +94,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
         }
         List<ViewPageItem> list;
-        List<EditableLockItem> editableLock = new List<EditableLockItem>();
+        // List<EditableLockItem> editableLock = new List<EditableLockItem>();
+        List<bool> nameEditLock = new List<bool>();
         List<bool> anchorPivotFoldout = new List<bool>();
         List<bool> rotationScaleFoldout = new List<bool>();
         List<int> transformEditStatus = new List<int>();
@@ -128,14 +129,16 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 list = vs.viewPageItems;
             }
 
-            editableLock.Clear();
+            //  editableLock.Clear();//
+            nameEditLock.Clear();
             transformEditStatus.Clear();
             anchorPivotFoldout.Clear();
             rotationScaleFoldout.Clear();
             list.All(x =>
             {
-                editableLock.Add(new EditableLockItem(true));
+                //    editableLock.Add(new EditableLockItem(true));//
                 rotationScaleFoldout.Add(false);
+                nameEditLock.Add(false);
                 anchorPivotFoldout.Add(false);
                 transformEditStatus.Add(string.IsNullOrEmpty(x.defaultTransformDatas.parentPath) ? 0 : 1);
                 return true;
@@ -161,7 +164,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         private float ElementHight(int index)
         {
-            return transformEditStatus[index] == 0 ? GetHeight() : EditorGUIUtility.singleLineHeight * 6f;
+            return transformEditStatus[index] == 0 ? GetHeight() : EditorGUIUtility.singleLineHeight * 7f;
             float GetHeight()
             {
                 return EditorGUIUtility.singleLineHeight * 7.5f +
@@ -242,10 +245,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     Debug.LogError("Cannot add element of type Null.");
             }
 
-            editableLock.Add(new EditableLockItem(true));
+            //editableLock.Add(new EditableLockItem(true));//
             transformEditStatus.Add(0);
             rotationScaleFoldout.Add(false);
             anchorPivotFoldout.Add(false);
+            nameEditLock.Add(false);
         }
 
         private void DrawViewItemHeader(Rect rect)
@@ -406,7 +410,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 nameRuntimeStyle = nameStyle;
             }
 
-            if (editableLock[index].name)
+            if (!nameEditLock[index])
             {
                 string showName;
                 if (string.IsNullOrEmpty(list[index].name) == true)
@@ -431,11 +435,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             if (e.isMouse && e.type == EventType.MouseDown && e.clickCount == 2 && nameRect.Contains(e.mousePosition))
             {
-                editableLock[index].name = !editableLock[index].name;
+                nameEditLock[index] = !nameEditLock[index];
             }
             nameRect.x += nameRect.width;
             nameRect.width = 16;
-            editableLock[index].name = EditorGUI.Toggle(nameRect, new GUIContent("", "Manual Name"), editableLock[index].name, nameEditStyle);
+            nameEditLock[index] = EditorGUI.Toggle(nameRect, new GUIContent("", "Manual Name"), nameEditLock[index], nameEditStyle);
 
             GUI.color = Color.white;
 
@@ -470,8 +474,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             rect.y += EditorGUIUtility.singleLineHeight * 1.25f;
 
-            var veRect = rect;
-            veRect.width = rect.width - 20;
+            var viewElementRect = rect;
+            viewElementRect.width = rect.width - 20;
 
             using (var check = new EditorGUI.ChangeCheckScope())
             {
@@ -482,7 +486,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 }
 
 
-                list[index].viewElementObject = (GameObject)EditorGUI.ObjectField(veRect, "View Element", list[index].viewElementObject, typeof(GameObject), true);
+                list[index].viewElementObject = (GameObject)EditorGUI.ObjectField(viewElementRect, "View Element", list[index].viewElementObject, typeof(GameObject), true);
                 if (check.changed)
                 {
                     if (list[index].viewElement == null)
@@ -521,16 +525,14 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     list[index].previewViewElement = cache;
 
                     list[index].defaultTransformDatas.rectTransformData = new ViewSystemRectTransformData();
-                    PickRectTransformValue();
-
-                    //list[index].parent = cache.transform.parent;
+                    PickRectTransformValue(list[index].defaultTransformDatas, list[index].previewViewElement.GetComponent<RectTransform>());
                 }
             }
 
-            veRect.x += veRect.width;
-            veRect.width = 20;
+            viewElementRect.x += viewElementRect.width;
+            viewElementRect.width = 20;
 
-            if (GUI.Button(veRect, EditoModifyButton, Drawer.removeButtonStyle))
+            if (GUI.Button(viewElementRect, EditoModifyButton, Drawer.removeButtonStyle))
             {
                 if (list[index].viewElement == null)
                 {
@@ -539,9 +541,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 }
                 if (editor.overridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != list[index])
                 {
-                    veRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
+                    viewElementRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
                     editor.overridePopupWindow.SetViewPageItem(list[index]);
-                    editor.overridePopupWindow.Show(veRect);
+                    editor.overridePopupWindow.Show(viewElementRect);
                     currentShowOverrideItem = index;
                 }
                 else
@@ -555,7 +557,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                    list[index].eventDatas?.Count() > 0 ||
                    list[index].navigationDatas?.Count() > 0)
             {
-                GUI.Label(new Rect(veRect.x, veRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
+                GUI.Label(new Rect(viewElementRect.x, viewElementRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
             }
             rect.y += EditorGUIUtility.singleLineHeight;
             transformEditStatus[index] = GUI.Toolbar(rect, transformEditStatus[index], new string[] { "RectTransfrom", "Custom Parent" });
@@ -579,7 +581,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             previewBtnRect.y += 18;
                             if (GUI.Button(previewBtnRect, new GUIContent("Select", "Highlight and select ViewElement object")))
                             {
-                                SelectCurrentViewElement();
+                                SelectCurrentViewElement(list[index]);
                             }
 
                             layoutButtonRect.x -= 10;
@@ -593,7 +595,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             {
                                 if (GUI.Button(layoutButtonRect, new GUIContent("Pick", "Pick RectTransform value from preview ViewElement")))
                                 {
-                                    PickRectTransformValue();
+                                    PickRectTransformValue(list[index].defaultTransformDatas, list[index].previewViewElement.GetComponent<RectTransform>());
                                 }
                             }
                             smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
@@ -650,14 +652,27 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     break;
                 case 1:
                     {
-                        veRect = rect;
-                        veRect.width = rect.width - 20;
-
-                        if (!editableLock[index].parent)
+                        //Transform No found hint
+                        if (!string.IsNullOrEmpty(list[index].defaultTransformDatas.parentPath))
                         {
+                            var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].defaultTransformDatas.parentPath);
+                            if (target == null)
+                            {
+                                GUI.Label(new Rect(rect.x - 24, rect.y, 24, 24), new GUIContent(Drawer.miniErrorIcon, "Transform cannot found in this item."));
+                            }
+                        }
+
+                        if (string.IsNullOrEmpty(list[index].defaultTransformDatas.parentPath))
+                        {
+                            list[index].defaultTransformDatas.parent = (Transform)EditorGUI.ObjectField(rect, "Drag to here", list[index].defaultTransformDatas.parent, typeof(Transform), true);
+                            rect.y += EditorGUIUtility.singleLineHeight;
+                        }
+                        else
+                        {
+
                             using (var check = new EditorGUI.ChangeCheckScope())
                             {
-                                list[index].defaultTransformDatas.parentPath = EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].defaultTransformDatas.parentPath), list[index].defaultTransformDatas.parentPath);
+                                list[index].defaultTransformDatas.parentPath = EditorGUI.TextField(rect, new GUIContent("Parent", list[index].defaultTransformDatas.parentPath), list[index].defaultTransformDatas.parentPath);
                                 if (check.changed)
                                 {
                                     if (!string.IsNullOrEmpty(list[index].defaultTransformDatas.parentPath))
@@ -672,88 +687,57 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                         list[index].defaultTransformDatas.parent = null;
                                 }
                             }
-                        }
-                        else
-                        {
+                            rect.y += EditorGUIUtility.singleLineHeight;
                             string shortPath = "";
                             if (!string.IsNullOrEmpty(list[index]?.defaultTransformDatas.parentPath))
                             {
                                 shortPath = list[index].defaultTransformDatas.parentPath.Split('/').Last();
-                            }
-                            using (var disable = new EditorGUI.DisabledGroupScope(true))
-                            {
-                                EditorGUI.TextField(veRect, new GUIContent("Parent", list[index].defaultTransformDatas.parentPath), shortPath);
-                            }
-                        }
-
-                        if (!string.IsNullOrEmpty(list[index].defaultTransformDatas.parentPath))
-                        {
-                            var target = GameObject.Find(saveData.globalSetting.ViewControllerObjectPath + "/" + list[index].defaultTransformDatas.parentPath);
-                            if (target == null)
-                            {
-                                GUI.Label(new Rect(veRect.x - 24, veRect.y, 24, 24), new GUIContent(Drawer.miniErrorIcon, "Transform cannot found in this item."));
+                                using (var disable = new EditorGUI.DisabledGroupScope(true))
+                                {
+                                    EditorGUI.TextField(rect, new GUIContent("Shor Path", list[index].defaultTransformDatas.parentPath), shortPath);
+                                }
                             }
                         }
-
-                        veRect.x += veRect.width;
-                        veRect.width = 20;
-                        editableLock[index].parent = EditorGUI.Toggle(veRect, new GUIContent("", "Enable Manual Modify"), editableLock[index].parent, new GUIStyle("IN LockButton"));
 
                         rect.y += EditorGUIUtility.singleLineHeight;
 
-                        if (editableLock[index].parent)
+                        var parentFunctionRect = rect;
+                        parentFunctionRect.width = rect.width * 0.32f;
+                        parentFunctionRect.x += rect.width * 0.01f;
+                        if (GUI.Button(parentFunctionRect, new GUIContent("Pick", "Pick Current Select Transform")))
                         {
-                            var parentFunctionRect = rect;
-                            parentFunctionRect.width = rect.width * 0.32f;
-                            parentFunctionRect.x += rect.width * 0.01f;
-                            if (GUI.Button(parentFunctionRect, new GUIContent("Pick", "Pick Current Select Transform")))
+                            var item = Selection.transforms;
+                            if (item.Length == 1)
                             {
-                                var item = Selection.transforms;
-                                if (item.Length > 1)
-                                {
-                                    editor.console.LogErrorMessage("Only object can be selected.");
-                                    goto PICK_BREAK;
-                                }
-                                if (item.Length == 0)
-                                {
-                                    editor.console.LogErrorMessage("No object is been select, please check object is in scene or not.");
-                                    goto PICK_BREAK;
-                                }
                                 list[index].defaultTransformDatas.parent = item.First();
                             }
-                        // Due to while using auto layout we cannot return
-                        // Therefore use goto to escap the if scope
-                        PICK_BREAK:
-                            parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
-                            if (GUI.Button(parentFunctionRect, new GUIContent("Parent", "Highlight parent Transform object")))
-                            {
-                                var go = GameObject.Find(list[index].defaultTransformDatas.parentPath);
-                                if (go)
-                                {
-                                    EditorGUIUtility.PingObject(go);
-                                    Selection.objects = new[] { go };
-                                }
-                                else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
-                            }
-                            parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
-
-                            if (GUI.Button(parentFunctionRect, new GUIContent("Select", "Highlight and select ViewElement object")))
-                            {
-                                SelectCurrentViewElement();
-                            }
                         }
-                        else
+
+                        parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
+                        if (GUI.Button(parentFunctionRect, new GUIContent("Parent", "Highlight parent Transform object")))
                         {
-                            list[index].defaultTransformDatas.parent = (Transform)EditorGUI.ObjectField(rect, "Drag to here", list[index].defaultTransformDatas.parent, typeof(Transform), true);
+                            var go = GameObject.Find(list[index].defaultTransformDatas.parentPath);
+                            if (go)
+                            {
+                                EditorGUIUtility.PingObject(go);
+                                Selection.objects = new[] { go };
+                            }
+                            else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                        }
+                        parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
+
+                        if (GUI.Button(parentFunctionRect, new GUIContent("Select", "Highlight and select ViewElement object")))
+                        {
+                            SelectCurrentViewElement(list[index]);
                         }
 
                         if (list[index].defaultTransformDatas.parent != null)
                         {
                             var path = AnimationUtility.CalculateTransformPath(list[index].defaultTransformDatas.parent, null);
                             var sp = path.Split('/');
-                            if (sp.First() == editor.ViewControllerRoot.name)
+                            if (sp.FirstOrDefault() == editor.ViewControllerRoot?.name)
                             {
-                                list[index].defaultTransformDatas.parentPath = path.Substring(sp.First().Length + 1);
+                                list[index].defaultTransformDatas.parentPath = path.Substring(sp.FirstOrDefault().Length + 1);
                             }
                             else
                             {
@@ -774,35 +758,36 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 viewPageItemList.index = index;
                 RemoveItem(viewPageItemList);
             }
-            void SelectCurrentViewElement()
+        }
+
+        void SelectCurrentViewElement(ViewPageItem vpi)
+        {
+            if (Application.isPlaying && vpi.runtimeViewElement)
             {
-                if (list[index].previewViewElement)
-                {
-                    EditorGUIUtility.PingObject(list[index].previewViewElement);
-                    Selection.objects = new[] { list[index].previewViewElement.gameObject };
-                }
-                else if (Application.isPlaying && list[index].runtimeViewElement)
-                {
-                    EditorGUIUtility.PingObject(list[index].runtimeViewElement);
-                    Selection.objects = new[] { list[index].runtimeViewElement.gameObject };
-                }
-                else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+                EditorGUIUtility.PingObject(vpi.runtimeViewElement);
+                Selection.objects = new[] { vpi.runtimeViewElement.gameObject };
             }
-            void PickRectTransformValue()
+            else if (vpi.previewViewElement)
             {
-                if (list[index].previewViewElement)
-                {
-                    var previewRectTransform = list[index].previewViewElement.GetComponent<RectTransform>();
-                    list[index].defaultTransformDatas.rectTransformData.anchoredPosition = previewRectTransform.anchoredPosition3D;
-                    list[index].defaultTransformDatas.rectTransformData.anchorMax = previewRectTransform.anchorMax;
-                    list[index].defaultTransformDatas.rectTransformData.anchorMin = previewRectTransform.anchorMin;
-                    list[index].defaultTransformDatas.rectTransformData.offsetMax = previewRectTransform.offsetMax;
-                    list[index].defaultTransformDatas.rectTransformData.offsetMin = previewRectTransform.offsetMin;
-                    list[index].defaultTransformDatas.rectTransformData.pivot = previewRectTransform.pivot;
-                    list[index].defaultTransformDatas.rectTransformData.localScale = previewRectTransform.localScale;
-                    list[index].defaultTransformDatas.rectTransformData.sizeDelta = previewRectTransform.sizeDelta;
-                    list[index].defaultTransformDatas.rectTransformData.localEulerAngles = previewRectTransform.localEulerAngles;
-                }
+                EditorGUIUtility.PingObject(vpi.previewViewElement);
+                Selection.objects = new[] { vpi.previewViewElement.gameObject };
+            }
+            else editor.console.LogErrorMessage("Target parent is not found, or the target parent is inactive.");
+        }
+
+        void PickRectTransformValue(ViewElementTransform targetData, RectTransform sourceRectTransform)
+        {
+            if (sourceRectTransform)
+            {
+                targetData.rectTransformData.anchoredPosition = sourceRectTransform.anchoredPosition3D;
+                targetData.rectTransformData.anchorMax = sourceRectTransform.anchorMax;
+                targetData.rectTransformData.anchorMin = sourceRectTransform.anchorMin;
+                targetData.rectTransformData.offsetMax = sourceRectTransform.offsetMax;
+                targetData.rectTransformData.offsetMin = sourceRectTransform.offsetMin;
+                targetData.rectTransformData.pivot = sourceRectTransform.pivot;
+                targetData.rectTransformData.localScale = sourceRectTransform.localScale;
+                targetData.rectTransformData.sizeDelta = sourceRectTransform.sizeDelta;
+                targetData.rectTransformData.localEulerAngles = sourceRectTransform.localEulerAngles;
             }
         }
         static float InspectorWidth = 350;
