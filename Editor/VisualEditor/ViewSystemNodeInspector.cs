@@ -549,6 +549,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 editor.breakpointWindow.Show();
                 // PopupWindow.Show(rect, new VS_EditorUtility.ViewPageItemsBreakPointPopup(viewPageItemList[index], DrawViewElementTransformDetail));
             }
+            //Has breakpoint hint
+            if (viewPageItemList[index].breakPointViewElementTransforms?.Count() > 0)
+            {
+                GUI.Label(new Rect(breakPointRect.x, breakPointRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has BreakPoint setup"));
+            }
 
             //Draw RectTransformDetail
             DrawViewElementTransformDetail(viewPageItemList[index].defaultTransformDatas, $"{viewPageItemList[index].Id}", "default", viewPageItemList[index].previewViewElement, rect);

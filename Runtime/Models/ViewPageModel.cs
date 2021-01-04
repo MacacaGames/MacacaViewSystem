@@ -174,7 +174,9 @@ namespace MacacaGames.ViewSystem
         }
         public ViewElementTransform GetCurrentViewElementTransform(IEnumerable<string> currentBreakPoints)
         {
-            if (breakPointViewElementTransforms != null && breakPointViewElementTransforms.Count > 0)
+            if (breakPointViewElementTransforms != null &&
+                breakPointViewElementTransforms.Count > 0 &&
+                currentBreakPoints != null)
             {
                 foreach (var item in breakPointViewElementTransforms)
                 {
@@ -187,7 +189,7 @@ namespace MacacaGames.ViewSystem
             return defaultTransformDatas;
         }
     }
-   
+
     [System.Serializable]
     public class ViewElementTransform
     {
