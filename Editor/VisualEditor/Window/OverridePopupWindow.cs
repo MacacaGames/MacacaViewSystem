@@ -376,12 +376,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
         Vector2 scrollPositionEvent;
         void DrawEvent()
         {
+            EditorGUILayout.HelpBox("Only the method which has \"Component\" parameters will be shown also the target MonoBahaviour required to assign in GlobalSetting", MessageType.Info);
+            if (GUILayout.Button("Setting"))
+            {
+                ViewSystemVisualEditor.globalSettingWindow.show = true;
+            }
             if (classMethodInfo.Count == 0)
             {
                 return;
             }
-
-            EditorGUILayout.HelpBox("Only the method which has Component parameters will be shown", MessageType.Info);
 
             using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPositionEvent))
             {
