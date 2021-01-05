@@ -35,6 +35,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
             {
                 ApplySortOrder();
             }
+            if (GUILayout.Button("Close"))
+            {
+                Hide();
+            }
             base.Draw(id);
         }
 

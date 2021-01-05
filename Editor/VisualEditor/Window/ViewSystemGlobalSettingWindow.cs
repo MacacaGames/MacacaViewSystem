@@ -126,6 +126,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
 
             }
+            if (GUILayout.Button("Close"))
+            {
+                Hide();
+            }
             base.Draw(id);
         }
     }
