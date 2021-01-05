@@ -1133,9 +1133,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
             {
                 if (GUI.Button(new Rect(rect.width - 25, rect.y, 25, 25), new GUIContent(EditorGUIUtility.IconContent("AnimatorStateMachine Icon").image, "Navigation"), Drawer.removeButtonStyle))
                 {
-                    editor.navigationWindow.Show();
-                    ViewState vs = saveData.viewStates.SingleOrDefault(m => m.viewState.name == vp.viewState).viewState;
+                    ViewState vs = null;
+
+                    if (!string.IsNullOrEmpty(vp.viewState)) vs = saveData.viewStates.SingleOrDefault(m => m.viewState.name == vp.viewState).viewState;
                     editor.navigationWindow.SetViewPage(vp, vs);
+                    editor.navigationWindow.Show();
                 }
             }
             using (var vertial = new EditorGUILayout.VerticalScope())
