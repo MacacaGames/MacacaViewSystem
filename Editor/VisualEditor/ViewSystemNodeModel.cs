@@ -5,7 +5,7 @@ using System;
 
 namespace MacacaGames.ViewSystem.VisualEditor
 {
-    public class ViewSystemNode
+    public class ViewSystemNode 
     {
         public const int ViewSystemNodeWidth = 160;
         public const int ViewStateNodeHeight = 60;
@@ -355,7 +355,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     }
                     break;
             }
-           
+
             return false;
         }
     }
