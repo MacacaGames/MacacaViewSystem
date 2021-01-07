@@ -107,6 +107,27 @@ namespace MacacaGames.ViewSystem
 #if DEBUG_NOTCH_SOLUTION
             Debug.Log($"SafeLDUR {string.Join(" ", relativeLDUR.Select(x => x.ToString()))}");
 #endif
+            // fixed: sometimes relativeLDUR will be NAN when start at some android devices. 
+            // if relativeLDUR is NAN then sizeDelta will be NAN, the safe area will be wrong.
+            if (float.IsNaN(relativeLDUR[0]))
+            {
+                relativeLDUR[0] = 0;
+            }
+
+            if (float.IsNaN(relativeLDUR[1]))
+            {
+                relativeLDUR[1] = 0;
+            }
+
+            if (float.IsNaN(relativeLDUR[2]))
+            {
+                relativeLDUR[2] = 0;
+            }
+
+            if (float.IsNaN(relativeLDUR[3]))
+            {
+                relativeLDUR[3] = 0;
+            }
 
             var currentRect = rectTransform.rect;
 
@@ -240,15 +261,15 @@ namespace MacacaGames.ViewSystem
 
         private static Rect ToScreenRelativeRect(Rect absoluteRect)
         {
-            int w = Screen.width;
-            int h = Screen.height;
-            // #if UNITY_EDITOR
-            //             int w = Screen.width;
-            //             int h = Screen.height;
-            // #else
-            //             int w = Screen.currentResolution.width;
-            //             int h = Screen.currentResolution.height;
-            // #endif
+            // int w = Screen.width;
+            // int h = Screen.height;
+            #if UNITY_EDITOR
+                        int w = Screen.width;
+                        int h = Screen.height;
+            #else
+                        int w = Screen.currentResolution.width;
+                        int h = Screen.currentResolution.height;
+            #endif
             //Debug.Log($"{w} {h} {Screen.currentResolution} {absoluteRect}");
             return new Rect(
                 absoluteRect.x / w,
