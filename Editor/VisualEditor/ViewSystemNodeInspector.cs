@@ -587,6 +587,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             transformEditStatus[key] = GUI.Toolbar(rect, transformEditStatus[key], new string[] { "RectTransfrom", "Custom Parent" });
             rect.y += EditorGUIUtility.singleLineHeight;
+            RectTransform rectTransform = null;
+            if (previewViewElement)
+            {
+                rectTransform = previewViewElement.GetComponent<RectTransform>();
+            }
 
             switch (transformEditStatus[key])
             {
@@ -616,14 +621,14 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             layoutButtonRect.x -= 10;
                             layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
                             layoutButtonRect.height = EditorGUIUtility.singleLineHeight * 2;
-                            LayoutDropdownButton(layoutButtonRect, trasformData.rectTransformData, false);
+                            LayoutDropdownButton(layoutButtonRect, trasformData.rectTransformData, rectTransform, false);
                             layoutButtonRect.y += EditorGUIUtility.singleLineHeight * 3;
                             layoutButtonRect.height = EditorGUIUtility.singleLineHeight;
-                            using (var disable = new EditorGUI.DisabledGroupScope(previewViewElement == null))
+                            using (var disable = new EditorGUI.DisabledGroupScope(rectTransform))
                             {
                                 if (GUI.Button(layoutButtonRect, new GUIContent("Pick", "Pick RectTransform value from preview ViewElement")))
                                 {
-                                    PickRectTransformValue(trasformData, previewViewElement.GetComponent<RectTransform>());
+                                    PickRectTransformValue(trasformData, rectTransform);
                                 }
                             }
                             smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
@@ -992,7 +997,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             EditorGUIUtility.labelWidth = lableWidth;
         }
 
-        void LayoutDropdownButton(Rect dropdownPosition, ViewSystemRectTransformData rectTransformData, bool anyWithoutParent)
+        void LayoutDropdownButton(Rect dropdownPosition, ViewSystemRectTransformData rectTransformData, RectTransform rectTransform, bool anyWithoutParent)
         {
             dropdownPosition.x += 2;
             dropdownPosition.y += 17;
@@ -1003,7 +1008,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             if (EditorGUI.DropdownButton(dropdownPosition, GUIContent.none, FocusType.Passive, "box"))
             {
                 GUIUtility.keyboardControl = 0;
-                LayoutDropdownWindow m_DropdownWindow = new LayoutDropdownWindow(rectTransformData);
+                LayoutDropdownWindow m_DropdownWindow = new LayoutDropdownWindow(rectTransformData, rectTransform, saveData);
                 PopupWindow.Show(dropdownPosition, m_DropdownWindow);
             }
             GUI.color = oldColor;

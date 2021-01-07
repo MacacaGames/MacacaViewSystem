@@ -258,6 +258,147 @@ namespace MacacaGames.ViewSystem
                 CMEditorLayout.BitMaskField(ref viewPageItem.excludePlatform);
             }
         }
+
+        public static void SetAnchorSmart(ViewSystemRectTransformData vs_rect, RectTransform rect, float value, int axis, bool isMax, bool smart)
+        {
+            SetAnchorSmart(vs_rect, rect, value, axis, isMax, smart, false, false, false);
+        }
+
+        public static void SetAnchorSmart(ViewSystemRectTransformData vs_rect, RectTransform rect, float value, int axis, bool isMax, bool smart, bool enforceExactValue)
+        {
+            SetAnchorSmart(vs_rect, rect, value, axis, isMax, smart, enforceExactValue, false, false);
+        }
+
+        public static void SetAnchorSmart(ViewSystemRectTransformData vs_rect, RectTransform rect, float value, int axis, bool isMax, bool smart, bool enforceExactValue, bool enforceMinNoLargerThanMax, bool moveTogether)
+        {
+            RectTransform parent = null;
+            if (rect == null)
+            {
+                smart = false;
+            }
+            else if (rect.transform.parent == null)
+            {
+                smart = false;
+            }
+            else
+            {
+                parent = rect.transform.parent.GetComponent<RectTransform>();
+                if (parent == null)
+                    smart = false;
+            }
+
+            bool clampToParent = !AnchorAllowedOutsideParent(axis, isMax ? 1 : 0);
+            if (clampToParent)
+                value = Mathf.Clamp01(value);
+            if (enforceMinNoLargerThanMax)
+            {
+                if (isMax)
+                    value = Mathf.Max(value, vs_rect.anchorMin[axis]);
+                else
+                    value = Mathf.Min(value, vs_rect.anchorMax[axis]);
+            }
+
+            float offsetSizePixels = 0;
+            float offsetPositionPixels = 0;
+            if (smart)
+            {
+                float oldValue = isMax ? vs_rect.anchorMax[axis] : vs_rect.anchorMin[axis];
+
+                offsetSizePixels = (value - oldValue) * parent.rect.size[axis];
+
+                // Ensure offset is in whole pixels.
+                // Note: In this particular instance we want to use Mathf.Round (which rounds towards nearest even number)
+                // instead of Round from this class which always rounds down.
+                // This makes the position of rect more stable when their anchors are changed.
+                float roundingDelta = 0;
+                if (ShouldDoIntSnapping(rect))
+                    roundingDelta = Mathf.Round(offsetSizePixels) - offsetSizePixels;
+                offsetSizePixels += roundingDelta;
+
+                if (!enforceExactValue)
+                {
+                    value += roundingDelta / parent.rect.size[axis];
+
+                    // Snap value to whole percent if close
+                    if (Mathf.Abs(Round(value * 1000) - value * 1000) < 0.1f)
+                        value = Round(value * 1000) * 0.001f;
+
+                    if (clampToParent)
+                        value = Mathf.Clamp01(value);
+                    if (enforceMinNoLargerThanMax)
+                    {
+                        if (isMax)
+                            value = Mathf.Max(value, vs_rect.anchorMin[axis]);
+                        else
+                            value = Mathf.Min(value, vs_rect.anchorMax[axis]);
+                    }
+                }
+
+                if (moveTogether)
+                    offsetPositionPixels = offsetSizePixels;
+                else
+                    offsetPositionPixels = (isMax ? offsetSizePixels * vs_rect.pivot[axis] : (offsetSizePixels * (1 - vs_rect.pivot[axis])));
+            }
+
+            if (isMax)
+            {
+                Vector2 rectAnchorMax = vs_rect.anchorMax;
+                rectAnchorMax[axis] = value;
+                vs_rect.anchorMax = rectAnchorMax;
+
+                Vector2 other = vs_rect.anchorMin;
+                if (moveTogether)
+                    other[axis] = s_StartDragAnchorMin[axis] + rectAnchorMax[axis] - s_StartDragAnchorMax[axis];
+                vs_rect.anchorMin = other;
+            }
+            else
+            {
+                Vector2 rectAnchorMin = vs_rect.anchorMin;
+                rectAnchorMin[axis] = value;
+                vs_rect.anchorMin = rectAnchorMin;
+
+                Vector2 other = vs_rect.anchorMax;
+                if (moveTogether)
+                    other[axis] = s_StartDragAnchorMax[axis] + rectAnchorMin[axis] - s_StartDragAnchorMin[axis];
+                vs_rect.anchorMax = other;
+            }
+
+            if (smart)
+            {
+                Vector2 rectPosition = vs_rect.anchoredPosition;
+                rectPosition[axis] -= offsetPositionPixels;
+                vs_rect.anchoredPosition = rectPosition;
+
+                if (!moveTogether)
+                {
+                    Vector2 rectSizeDelta = vs_rect.sizeDelta;
+                    rectSizeDelta[axis] += offsetSizePixels * (isMax ? -1 : 1);
+                    vs_rect.sizeDelta = rectSizeDelta;
+                }
+            }
+        }
+        static float Round(float value) { return Mathf.Floor(0.5f + value); }
+        static int RoundToInt(float value) { return Mathf.FloorToInt(0.5f + value); }
+        private static Vector2 s_StartDragAnchorMin;
+        private static Vector2 s_StartDragAnchorMax;
+
+        static bool AnchorAllowedOutsideParent(int axis, int minmax)
+        {
+            // Allow dragging outside if action key is held down (same key that disables snapping).
+            // Also allow when not dragging at all - for e.g. typing values into the Inspector.
+            if (EditorGUI.actionKey || EditorGUIUtility.hotControl == 0)
+                return true;
+            // Also allow if drag started outside of range to begin with.
+            float value = (minmax == 0 ? s_StartDragAnchorMin[axis] : s_StartDragAnchorMax[axis]);
+            return (value < -0.001f || value > 1.001f);
+        }
+        private static bool ShouldDoIntSnapping(RectTransform rect)
+        {
+            if (rect == null) return false;
+            Canvas canvas = rect.gameObject.GetComponentInParent<Canvas>();
+            return (canvas != null && canvas.renderMode != RenderMode.WorldSpace);
+        }
+
     }
 
     //source from UnityCsReference
@@ -332,9 +473,13 @@ namespace MacacaGames.ViewSystem
 
         public enum LayoutMode { Undefined = -1, Min = 0, Middle = 1, Max = 2, Stretch = 3 }
         ViewSystemRectTransformData _rectTransformData;
-        public LayoutDropdownWindow(ViewSystemRectTransformData rectTransformData)
+        RectTransform _rectTransform;
+        ViewSystemSaveData _saveData;
+        public LayoutDropdownWindow(ViewSystemRectTransformData rectTransformData, RectTransform rectTrasnform, ViewSystemSaveData saveData)
         {
+            _saveData = saveData;
             _rectTransformData = rectTransformData;
+            _rectTransform = rectTrasnform;
             m_InitValues = new Vector2[1, 4];
             m_InitValues[0, 0] = rectTransformData.anchorMin;
             m_InitValues[0, 1] = rectTransformData.anchorMax;
@@ -366,7 +511,7 @@ namespace MacacaGames.ViewSystem
                 editorWindow.Close();
 
             GUI.Label(new Rect(rect.x + 5, rect.y + 3, rect.width - 10, 16), EditorGUIUtility.TrTextContent("Anchor Presets"), EditorStyles.boldLabel);
-            GUI.Label(new Rect(rect.x + 5, rect.y + 3 + 16, rect.width - 10, 16), EditorGUIUtility.TrTextContent("Shift: Also set pivot     Alt: Also set position"), EditorStyles.label);
+            // GUI.Label(new Rect(rect.x + 5, rect.y + 3 + 16, rect.width - 10, 16), EditorGUIUtility.TrTextContent("Shift: Also set pivot     Alt: Also set position"), EditorStyles.label);
 
             Color oldColor = GUI.color;
             GUI.color = s_Styles.tableLineColor * oldColor;
@@ -436,8 +581,10 @@ namespace MacacaGames.ViewSystem
             LayoutMode vMode = GetLayoutModeForAxis(_rectTransformData.anchorMin, _rectTransformData.anchorMax, 1);
             vMode = SwappedVMode(vMode);
 
-            bool doPivot = Event.current.shift;
-            bool doPosition = Event.current.alt;
+            // bool doPivot = Event.current.shift;
+            bool doPivot = false;
+            // bool doPosition = Event.current.alt;
+            bool doPosition = false;
 
             int number = 5;
 
@@ -489,12 +636,28 @@ namespace MacacaGames.ViewSystem
                     int clickCount = Event.current.clickCount;
                     if (GUI.Button(position, GUIContent.none, GUIStyle.none))
                     {
-                        // SetLayoutModeForAxis(_rectTransformData.anchorMin, _rectTransformData, 0, cellHMode, doPivot, doPosition, m_InitValues);
-                        // SetLayoutModeForAxis(_rectTransformData.anchorMin, _rectTransformData, 1, SwappedVMode(cellVMode), doPivot, doPosition, m_InitValues);
-                        if (clickCount == 2)
-                            editorWindow.Close();
-                        else
-                            editorWindow.Repaint();
+                        if (_rectTransform == null)
+                        {
+                            if (EditorUtility.DisplayDialog(
+                                "Warning",
+                                "Modify Anchor without preview will not recalculate AnchorPosition and Padding values, Do you want to continue?",
+                                "Yes",
+                                "No"))
+                            {
+                                OnTableItemClick();
+                            }
+                        }
+                        OnTableItemClick();
+
+                        void OnTableItemClick()
+                        {
+                            SetLayoutModeForAxis(_saveData, _rectTransformData.anchorMin, _rectTransformData, _rectTransform, 0, cellHMode, doPivot, doPosition, m_InitValues);
+                            SetLayoutModeForAxis(_saveData, _rectTransformData.anchorMin, _rectTransformData, _rectTransform, 1, SwappedVMode(cellVMode), doPivot, doPosition, m_InitValues);
+                            if (clickCount == 2)
+                                editorWindow.Close();
+                            else
+                                editorWindow.Repaint();
+                        }
                     }
                 }
             }
@@ -517,91 +680,91 @@ namespace MacacaGames.ViewSystem
             return LayoutMode.Undefined;
         }
 
-        // static void SetLayoutModeForAxis(
-        //     Vector2 anchorMin,
-        //     ViewSystemRectTransformData gui,
-        //     int axis, LayoutMode layoutMode,
-        //     bool doPivot, bool doPosition, Vector2[,] defaultValues)
-        // {
-        //     // anchorMin.serializedObject.ApplyModifiedProperties();
+        static void SetLayoutModeForAxis(
+            ViewSystemSaveData saveData,
+            Vector2 anchorMin,
+            ViewSystemRectTransformData vs_rect,
+            RectTransform rect,
+            int axis, LayoutMode layoutMode,
+            bool doPivot, bool doPosition, Vector2[,] defaultValues)
+        {
+            // anchorMin.serializedObject.ApplyModifiedProperties();
 
-        //     // for (int i = 0; i < targetObjects.Length; i++)
-        //     // {
-        //     // RectTransform gui = targetObjects[i] as RectTransform;
-        //     // Undo.RecordObject(gui, "Change Rectangle Anchors");
+            // for (int i = 0; i < targetObjects.Length; i++)
+            // {
+            // RectTransform gui = targetObjects[i] as RectTransform;
+            Undo.RecordObject(saveData, "ViewSystem_ChangeRectangleAnchors");
+            // if (doPosition)
+            // {
+            //     if (defaultValues != null && defaultValues.Length > i)
+            //     {
+            //         Vector2 temp;
+            //         temp = vs_rect.anchorMin;
+            //         temp[axis] = defaultValues[0, 0][axis];
+            //         vs_rect.anchorMin = temp;
 
-        //     if (doPosition)
-        //     {
-        //         if (defaultValues != null && defaultValues.Length > i)
-        //         {
-        //             Vector2 temp;
+            //         temp = vs_rect.anchorMax;
+            //         temp[axis] = defaultValues[0, 1][axis];
+            //         vs_rect.anchorMax = temp;
 
-        //             temp = gui.anchorMin;
-        //             temp[axis] = defaultValues[0, 0][axis];
-        //             gui.anchorMin = temp;
+            //         temp = vs_rect.anchoredPosition;
+            //         temp[axis] = defaultValues[0, 2][axis];
+            //         vs_rect.anchoredPosition = temp;
 
-        //             temp = gui.anchorMax;
-        //             temp[axis] = defaultValues[0, 1][axis];
-        //             gui.anchorMax = temp;
+            //         temp = vs_rect.sizeDelta;
+            //         temp[axis] = defaultValues[0, 3][axis];
+            //         vs_rect.sizeDelta = temp;
+            //     }
+            // }
 
-        //             temp = gui.anchoredPosition;
-        //             temp[axis] = defaultValues[0, 2][axis];
-        //             gui.anchoredPosition = temp;
+            // if (doPivot && layoutMode != LayoutMode.Undefined)
+            // {
+            //     VS_EditorUtility.SetPivotSmart(vs_rect, rect, kPivotsForModes[(int)layoutMode], axis, true, true);
+            // }
 
-        //             temp = gui.sizeDelta;
-        //             temp[axis] = defaultValues[0, 3][axis];
-        //             gui.sizeDelta = temp;
-        //         }
-        //     }
+            Vector2 refPosition = Vector2.zero;
+            switch (layoutMode)
+            {
+                case LayoutMode.Min:
+                    VS_EditorUtility.SetAnchorSmart(vs_rect, rect, 0, axis, false, true, true);
+                    VS_EditorUtility.SetAnchorSmart(vs_rect, rect, 0, axis, true, true, true);
+                    refPosition = vs_rect.offsetMin;
+                    break;
+                case LayoutMode.Middle:
+                    VS_EditorUtility.SetAnchorSmart(vs_rect, rect, 0.5f, axis, false, true, true);
+                    VS_EditorUtility.SetAnchorSmart(vs_rect, rect, 0.5f, axis, true, true, true);
+                    refPosition = (vs_rect.offsetMin + vs_rect.offsetMax) * 0.5f;
+                    break;
+                case LayoutMode.Max:
+                    VS_EditorUtility.SetAnchorSmart(vs_rect, rect, 1, axis, false, true, true);
+                    VS_EditorUtility.SetAnchorSmart(vs_rect, rect, 1, axis, true, true, true);
+                    refPosition = vs_rect.offsetMax;
+                    break;
+                case LayoutMode.Stretch:
+                    VS_EditorUtility.SetAnchorSmart(vs_rect, rect, 0, axis, false, true, true);
+                    VS_EditorUtility.SetAnchorSmart(vs_rect, rect, 1, axis, true, true, true);
+                    refPosition = (vs_rect.offsetMin + vs_rect.offsetMax) * 0.5f;
+                    break;
+            }
 
-        //     if (doPivot && layoutMode != LayoutMode.Undefined)
-        //     {
-        //         RectTransformEditor.SetPivotSmart(gui, kPivotsForModes[(int)layoutMode], axis, true, true);
-        //     }
+            // if (doPosition)
+            // {
+            //     // Handle position
+            //     Vector2 rectPosition = vs_rect.anchoredPosition;
+            //     rectPosition[axis] -= refPosition[axis];
+            //     vs_rect.anchoredPosition = rectPosition;
 
-        //     Vector2 refPosition = Vector2.zero;
-        //     switch (layoutMode)
-        //     {
-        //         case LayoutMode.Min:
-        //             RectTransformEditor.SetAnchorSmart(gui, 0, axis, false, true, true);
-        //             RectTransformEditor.SetAnchorSmart(gui, 0, axis, true, true, true);
-        //             refPosition = gui.offsetMin;
-        //             break;
-        //         case LayoutMode.Middle:
-        //             RectTransformEditor.SetAnchorSmart(gui, 0.5f, axis, false, true, true);
-        //             RectTransformEditor.SetAnchorSmart(gui, 0.5f, axis, true, true, true);
-        //             refPosition = (gui.offsetMin + gui.offsetMax) * 0.5f;
-        //             break;
-        //         case LayoutMode.Max:
-        //             RectTransformEditor.SetAnchorSmart(gui, 1, axis, false, true, true);
-        //             RectTransformEditor.SetAnchorSmart(gui, 1, axis, true, true, true);
-        //             refPosition = gui.offsetMax;
-        //             break;
-        //         case LayoutMode.Stretch:
-        //             RectTransformEditor.SetAnchorSmart(gui, 0, axis, false, true, true);
-        //             RectTransformEditor.SetAnchorSmart(gui, 1, axis, true, true, true);
-        //             refPosition = (gui.offsetMin + gui.offsetMax) * 0.5f;
-        //             break;
-        //     }
-
-        //     if (doPosition)
-        //     {
-        //         // Handle position
-        //         Vector2 rectPosition = gui.anchoredPosition;
-        //         rectPosition[axis] -= refPosition[axis];
-        //         gui.anchoredPosition = rectPosition;
-
-        //         // Handle sizeDelta
-        //         if (layoutMode == LayoutMode.Stretch)
-        //         {
-        //             Vector2 rectSizeDelta = gui.sizeDelta;
-        //             rectSizeDelta[axis] = 0;
-        //             gui.sizeDelta = rectSizeDelta;
-        //         }
-        //     }
-        //     // }
-        //     // anchorMin.serializedObject.Update();
-        // }
+            //     // Handle sizeDelta
+            //     if (layoutMode == LayoutMode.Stretch)
+            //     {
+            //         Vector2 rectSizeDelta = vs_rect.sizeDelta;
+            //         rectSizeDelta[axis] = 0;
+            //         vs_rect.sizeDelta = rectSizeDelta;
+            //     }
+            // }
+            // }
+            // anchorMin.serializedObject.Update();
+        }
 
         internal static void DrawLayoutMode(Rect rect,
             Vector2 anchorMin,
@@ -802,5 +965,7 @@ namespace MacacaGames.ViewSystem
             }
         }
     }
+
+
 }
 
