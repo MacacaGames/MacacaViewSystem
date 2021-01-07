@@ -9,80 +9,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
     [CustomEditor(typeof(RectTransform)), CanEditMultipleObjects]
     public class ViewSystemRectTransformEditor : Editor
     {
-        // MethodInfo _onSceneGUI;
-        // MethodInfo _onHeaderGUI;
-        // Editor _provideEditor;
-        // RectTransform _target;
-        // private void OnEnable()
-        // {
-        //     _target = target as RectTransform;
-        //     var assembly = Assembly.GetAssembly(typeof(Editor));
-        //     var provideEditorType = assembly.GetTypes().Where(type => type.Name == "RectTransformEditor").FirstOrDefault();
-        //     if (provideEditorType == null)
-        //     {
-        //         //throw new Exception($"Can not find EditorType. type={editorTypeName}");
-        //     }
-
-        //     var provideCustomEditorType = GetCustomEditorType(provideEditorType);
-        //     var customEditorType = GetCustomEditorType(this.GetType());
-        //     if (provideCustomEditorType == null || customEditorType == null || provideCustomEditorType != customEditorType)
-        //     {
-        //         throw new Exception($"editor type is {provideCustomEditorType}. but CustomEditorType is {customEditorType}");
-        //     }
-
-        //     _onSceneGUI = GetMethodInfo(provideEditorType, "OnSceneGUI");
-        //     _onHeaderGUI = GetMethodInfo(provideEditorType, "OnHeaderGUI");
-        //     if (_onSceneGUI == null)
-        //         throw new Exception("_onSceneGUI is null");
-        //     if (_onHeaderGUI == null)
-        //         throw new Exception("_onHeaderGUI is null");
-        //     _provideEditor = Editor.CreateEditor(targets, provideEditorType);
-        //     if (_provideEditor == null)
-        //         throw new Exception("_provideEditor is null");
-        // }
-        // Type GetCustomEditorType(Type type)
-        // {
-        //     var attributes = type.GetCustomAttributes(typeof(CustomEditor), true) as CustomEditor[];
-        //     var attribute = attributes.FirstOrDefault();
-        //     if (attribute == null)
-        //     {
-        //         return null;
-        //     }
-
-        //     var field = attribute.GetType().GetField("m_InspectedType", BindingFlags.NonPublic | BindingFlags.Instance);
-        //     return field.GetValue(attribute) as Type;
-        // }
-
-        // MethodInfo GetMethodInfo(Type type, string method)
-        // {
-        //     var methodInfo = type.GetMethod(method, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
-        //     return methodInfo;
-        // }
-        // public override void OnInspectorGUI()
-        // {
-        //     _provideEditor.OnInspectorGUI();
-        //     using (var disable = new EditorGUI.DisabledGroupScope(ViewSystemNodeEditor.Instance != null && !ViewSystemNodeEditor.Instance.EditMode))
-        //     {
-        //         if (GUILayout.Button("Copy value to ViewSystem"))
-        //         {
-        //             if (ViewSystemNodeEditor.Instance == null)
-        //             {
-        //                 return;
-        //             }
-
-        //             ViewSystemNodeEditor.Instance.UpdateRectTransformValue(_target.GetComponent<ViewElement>());
-        //         }
-        //     }
-
-        // }
-        //Unity's built-in editor
         Editor defaultEditor;
-
+        public string text = "";
+        ViewElement viewElement;
         void OnEnable()
         {
             //When this inspector is created, also create the built-in inspector
             defaultEditor = Editor.CreateEditor(targets, Type.GetType("UnityEditor.RectTransformEditor, UnityEditor"));
             rectTransform = target as RectTransform;
+            viewElement = rectTransform.GetComponent<ViewElement>();
         }
 
         void OnDisable()
@@ -98,21 +33,45 @@ namespace MacacaGames.ViewSystem.VisualEditor
         float mass;
         public override void OnInspectorGUI()
         {
-
             defaultEditor.OnInspectorGUI();
-            using (var disable = new EditorGUI.DisabledGroupScope(ViewSystemVisualEditor.Instance != null && !ViewSystemVisualEditor.Instance.EditMode))
+            if (viewElement?.currentViewPageItem == null)
             {
-                if (GUILayout.Button("Copy value to ViewSystem"))
-                {
-                    if (ViewSystemVisualEditor.Instance == null)
-                    {
-                        return;
-                    }
-
-                    ViewSystemVisualEditor.Instance.UpdateRectTransformValue(rectTransform.GetComponent<ViewElement>());
-                }
+                return;
             }
 
+            EditorGUILayout.HelpBox(
+                $"ViewSystem Info: \n ViewPage: {viewElement.currentViewPage.name} \n ViewPageItem: {viewElement.currentViewPageItem.Id}",
+                MessageType.Info);
+
+            using (var disable = new EditorGUI.DisabledGroupScope(!ViewSystemVisualEditor.Instance.EditMode))
+            {
+                if (GUILayout.Button("Copy value to Default BreakPoint"))
+                {
+                    CopyValue(viewElement?.currentViewPageItem.defaultTransformDatas, rectTransform);
+                }
+                if (viewElement.currentViewPageItem.breakPointViewElementTransforms == null || viewElement.currentViewPageItem.breakPointViewElementTransforms.Count == 0)
+                {
+                    return;
+                }
+                foreach (var item in viewElement.currentViewPageItem.breakPointViewElementTransforms)
+                {
+                    if (GUILayout.Button($"Copy value to {item.breakPointName} BreakPoint"))
+                    {
+                        CopyValue(item.transformData, rectTransform);
+                    }
+                }
+            }
+        }
+
+        void CopyValue(ViewElementTransform transformData, RectTransform rectTransform)
+        {
+            transformData.rectTransformData.anchoredPosition = rectTransform.anchoredPosition3D;
+            transformData.rectTransformData.anchorMax = rectTransform.anchorMax;
+            transformData.rectTransformData.anchorMin = rectTransform.anchorMin;
+            transformData.rectTransformData.pivot = rectTransform.pivot;
+            transformData.rectTransformData.localScale = rectTransform.localScale;
+            transformData.rectTransformData.localEulerAngles = rectTransform.localEulerAngles;
+            transformData.rectTransformData.sizeDelta = rectTransform.sizeDelta;
         }
     }
 }

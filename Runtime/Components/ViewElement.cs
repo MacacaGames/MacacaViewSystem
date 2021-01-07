@@ -12,6 +12,14 @@ namespace MacacaGames.ViewSystem
     public class ViewElement : MonoBehaviour
     {
 
+#if UNITY_EDITOR
+    
+        public ViewPageItem currentViewPageItem;
+        public ViewPage currentViewPage;
+
+
+#endif
+
         #region V2
         public int sortingOrder;
         public static ViewElementRuntimePool runtimePool;

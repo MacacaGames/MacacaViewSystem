@@ -821,61 +821,61 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             dataReader.Save(viewPageList, viewStateList);
         }
-        public void UpdateRectTransformValue(ViewElement viewElement)
-        {
-            ViewPageItem vpi = null;
-            if (viewElement == null)
-            {
-                ViewSystemLog.LogError("Error while try to copy RectTransform value to save data, Target item is null.");
-                return;
-            }
-            foreach (var item in viewPageList)
-            {
-                foreach (var vpis in item.viewPage.viewPageItems)
-                {
-                    if (vpis.previewViewElement == null)
-                    {
-                        continue;
-                    }
-                    if (vpis.previewViewElement.GetInstanceID() == viewElement.GetInstanceID())
-                    {
-                        vpi = vpis;
-                        break;
-                    }
-                }
-            }
+        // public void UpdateRectTransformValue(ViewElement viewElement)
+        // {
+        //     ViewPageItem vpi = null;
+        //     if (viewElement == null)
+        //     {
+        //         ViewSystemLog.LogError("Error while try to copy RectTransform value to save data, Target item is null.");
+        //         return;
+        //     }
+        //     foreach (var item in viewPageList)
+        //     {
+        //         foreach (var vpis in item.viewPage.viewPageItems)
+        //         {
+        //             if (vpis.previewViewElement == null)
+        //             {
+        //                 continue;
+        //             }
+        //             if (vpis.previewViewElement.GetInstanceID() == viewElement.GetInstanceID())
+        //             {
+        //                 vpi = vpis;
+        //                 break;
+        //             }
+        //         }
+        //     }
 
-            foreach (var item in viewStateList)
-            {
-                foreach (var vpis in item.viewState.viewPageItems)
-                {
-                    if (vpis.previewViewElement == null)
-                    {
-                        continue;
-                    }
-                    if (vpis.previewViewElement.GetInstanceID() == viewElement.GetInstanceID())
-                    {
-                        vpi = vpis;
-                        break;
-                    }
-                }
-            }
+        //     foreach (var item in viewStateList)
+        //     {
+        //         foreach (var vpis in item.viewState.viewPageItems)
+        //         {
+        //             if (vpis.previewViewElement == null)
+        //             {
+        //                 continue;
+        //             }
+        //             if (vpis.previewViewElement.GetInstanceID() == viewElement.GetInstanceID())
+        //             {
+        //                 vpi = vpis;
+        //                 break;
+        //             }
+        //         }
+        //     }
 
-            if (vpi == null)
-            {
-                ViewSystemLog.LogError("No match item found");
-                return;
-            }
-            var parent = viewElement.GetComponent<RectTransform>();
-            vpi.transformData.anchoredPosition = parent.anchoredPosition3D;
-            vpi.transformData.anchorMax = parent.anchorMax;
-            vpi.transformData.anchorMin = parent.anchorMin;
-            vpi.transformData.pivot = parent.pivot;
-            vpi.transformData.localScale = parent.localScale;
-            vpi.transformData.localEulerAngles = parent.localEulerAngles;
-            vpi.transformData.sizeDelta = parent.sizeDelta;
-            Repaint();
-        }
+        //     if (vpi == null)
+        //     {
+        //         ViewSystemLog.LogError("No match item found");
+        //         return;
+        //     }
+        //     var parent = viewElement.GetComponent<RectTransform>();
+        //     vpi.transformData.anchoredPosition = parent.anchoredPosition3D;
+        //     vpi.transformData.anchorMax = parent.anchorMax;
+        //     vpi.transformData.anchorMin = parent.anchorMin;
+        //     vpi.transformData.pivot = parent.pivot;
+        //     vpi.transformData.localScale = parent.localScale;
+        //     vpi.transformData.localEulerAngles = parent.localEulerAngles;
+        //     vpi.transformData.sizeDelta = parent.sizeDelta;
+        //     Repaint();
+        // }
         public bool IsNodeInactivable
         {
             get

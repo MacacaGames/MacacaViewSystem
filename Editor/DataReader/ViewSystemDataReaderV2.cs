@@ -259,8 +259,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     ViewSystemLog.LogWarning($"There are some ViewElement didn't setup correctly in this page or state");
                     continue;
                 }
+
+
                 var temp = PrefabUtility.InstantiatePrefab(item.viewElement.gameObject);
                 ViewElement tempViewElement = ((GameObject)temp).GetComponent<ViewElement>();
+                tempViewElement.currentViewPageItem = item;
+                tempViewElement.currentViewPage = viewPage;
 
                 tempViewElement.gameObject.SetActive(true);
                 var rectTransform = tempViewElement.GetComponent<RectTransform>();
