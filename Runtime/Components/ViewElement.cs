@@ -111,7 +111,6 @@ namespace MacacaGames.ViewSystem
         }
         public void ApplyRectTransform(ViewElementTransform viewElementTransform)
         {
-
             if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.SizeDelta)) rectTransform.sizeDelta = viewElementTransform.rectTransformData.sizeDelta;
             if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.AnchoredPosition)) rectTransform.anchoredPosition3D = viewElementTransform.rectTransformData.anchoredPosition;
             if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.AnchorMax)) rectTransform.anchorMax = viewElementTransform.rectTransformData.anchorMax;
@@ -119,6 +118,15 @@ namespace MacacaGames.ViewSystem
             if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.LocalEulerAngles)) rectTransform.localEulerAngles = viewElementTransform.rectTransformData.localEulerAngles;
             if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.LocalScale)) rectTransform.localScale = viewElementTransform.rectTransformData.localScale;
             if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.Pivot)) rectTransform.pivot = viewElementTransform.rectTransformData.pivot;
+        }
+
+        public void ApplyOffectMax(ViewElementTransform viewElementTransform)
+        {
+            rectTransform.offsetMax = viewElementTransform.rectTransformData.offsetMax;
+        }
+        public void ApplyOffectMin(ViewElementTransform viewElementTransform)
+        {
+            rectTransform.offsetMin = viewElementTransform.rectTransformData.offsetMin;
         }
 
         public virtual Selectable[] GetSelectables()

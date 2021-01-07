@@ -632,7 +632,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                 }
                             }
                             smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
-                            SmartPositionAndSizeFields(smartPositionAndSizeRect, true, trasformData.rectTransformData, false, false);
+                            var modifyResult = SmartPositionAndSizeFields(smartPositionAndSizeRect, false, trasformData.rectTransformData, false, false);
                             anchorAndPivotRect.height = EditorGUIUtility.singleLineHeight;
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 2;
                             anchorAndPivotRect.x += 30;
@@ -669,6 +669,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                 if (previewViewElement)
                                 {
                                     previewViewElement.ApplyRectTransform(trasformData);
+                                    if (modifyResult)
+                                    {
+                                        previewViewElement.ApplyOffectMax(trasformData); 
+                                        previewViewElement.ApplyOffectMin(trasformData);
+                                    }
                                 }
                             }
                         }
@@ -931,7 +936,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
             GUILayout.EndArea();
         }
         //source from https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/Inspector/RectTransformEditor.cs
-        private delegate void FloatSetter(float f);
+        private delegate float FloatGetter(ViewSystemRectTransformData rect);
+        private delegate void FloatSetter(ViewSystemRectTransformData rect, float f);
         private delegate void Vector2Setter(Vector2 v);
         private delegate void Vector3Setter(Vector3 v);
         private static GUIContent[] s_XYLabels = { new GUIContent("X"), new GUIContent("Y") };
@@ -944,21 +950,25 @@ namespace MacacaGames.ViewSystem.VisualEditor
             _rect.width = (totalRect.width - 4) / 3f;
             return _rect;
         }
-        void FloatField(Rect position, float value, FloatSetter setter, GUIContent label)
+
+        void FloatFieldLabelAbove(Rect position, FloatGetter getter, FloatSetter setter, ViewSystemRectTransformData _rectTransform, DrivenTransformProperties driven, GUIContent label)
         {
             float lableWidth = EditorGUIUtility.labelWidth;
             EditorGUIUtility.labelWidth = 45;
+            // using (new EditorGUI.DisabledScope(targets.Any(x => ((x as RectTransform).drivenProperties & driven) != 0)))
+            // {
+            float value = getter(_rectTransform);
             using (var change = new EditorGUI.ChangeCheckScope())
             {
                 Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
                 float newValue = EditorGUI.FloatField(positionLabel, label, value, EditorStyles.miniTextField);
                 if (change.changed)
                 {
-                    Undo.RecordObject(saveData, "ViewSystem_Indpector");
-                    setter(newValue);
+                    setter(_rectTransform, newValue);
                 }
             }
             EditorGUIUtility.labelWidth = lableWidth;
+            // }
         }
         void Vector2Field(Rect position, GUIContent label, Vector2 value, Vector2Setter setter)
         {
@@ -1021,66 +1031,74 @@ namespace MacacaGames.ViewSystem.VisualEditor
             // }
         }
 
-        void SmartPositionAndSizeFields(Rect rect, bool anyWithoutParent, ViewSystemRectTransformData rectTransform, bool anyDrivenX, bool anyDrivenY)
+        bool SmartPositionAndSizeFields(Rect rect, bool anyWithoutParent, ViewSystemRectTransformData rectTransformData, bool anyDrivenX, bool anyDrivenY)
         {
             rect.height = EditorGUIUtility.singleLineHeight * 2;
             Rect rect2;
+            bool resutl = false;
 
-            bool anyStretchX = rectTransform.anchorMin.x != rectTransform.anchorMax.x;
-            bool anyStretchY = rectTransform.anchorMin.y != rectTransform.anchorMax.y;
-            bool anyNonStretchX = rectTransform.anchorMin.x == rectTransform.anchorMax.x;
-            bool anyNonStretchY = rectTransform.anchorMin.y == rectTransform.anchorMax.y;
+            bool anyStretchX = rectTransformData.anchorMin.x != rectTransformData.anchorMax.x;
+            bool anyStretchY = rectTransformData.anchorMin.y != rectTransformData.anchorMax.y;
+            bool anyNonStretchX = rectTransformData.anchorMin.x == rectTransformData.anchorMax.x;
+            bool anyNonStretchY = rectTransformData.anchorMin.y == rectTransformData.anchorMax.y;
 
             rect2 = GetColumnRect(rect, 0);
             if (anyNonStretchX || anyWithoutParent || anyDrivenX)
             {
                 //EditorGUI.BeginProperty(rect2, null, m_AnchoredPosition.FindPropertyRelative("x"));
-                FloatField(
+                FloatFieldLabelAbove(
                     rect2,
-                    rectTransform.anchoredPosition.x,
-                    (val) => rectTransform.anchoredPosition = new Vector2(val, rectTransform.anchoredPosition.y),
-
+                    rectTransform => rectTransform.anchoredPosition.x,
+                    (rectTransform, val) => rectTransform.anchoredPosition = new Vector2(val, rectTransform.anchoredPosition.y),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionX,
                     EditorGUIUtility.TrTextContent("Pos X"));
             }
             else
             {
                 // Affected by both anchored position and size delta so do property handling for both. (E.g. showing animated value, prefab override etc.)
-                FloatField(
+                FloatFieldLabelAbove(
                     rect2,
-                   rectTransform.offsetMin.x,
-                    (val) => rectTransform.offsetMin = new Vector2(val, rectTransform.offsetMin.y),
-
+                    rectTransform => rectTransform.offsetMin.x,
+                    (rectTransform, val) => rectTransform.offsetMin = new Vector2(val, rectTransform.offsetMin.y),
+                    rectTransformData,
+                    DrivenTransformProperties.None,
                     EditorGUIUtility.TrTextContent("Left"));
+                resutl = true;
             }
 
             rect2 = GetColumnRect(rect, 1);
             if (anyNonStretchY || anyWithoutParent || anyDrivenY)
             {
-                FloatField(
+                FloatFieldLabelAbove(
                     rect2,
-                 rectTransform.anchoredPosition.y,
-                    (val) => rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, val),
-
+                    rectTransform => rectTransform.anchoredPosition.y,
+                    (rectTransform, val) => rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, val),
+                    rectTransformData,
+                    DrivenTransformProperties.AnchoredPositionY,
                     EditorGUIUtility.TrTextContent("Pos Y"));
             }
             else
             {
 
-                FloatField(
+                FloatFieldLabelAbove(
                     rect2,
-                   -rectTransform.offsetMax.y,
-                    (val) => rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -val),
-
+                    rectTransform => -rectTransform.offsetMax.y,
+                    (rectTransform, val) => rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -val),
+                    rectTransformData,
+                    DrivenTransformProperties.None,
                     EditorGUIUtility.TrTextContent("Top"));
+                resutl = true;
             }
 
             rect2 = GetColumnRect(rect, 2);
 
-            FloatField(
+            FloatFieldLabelAbove(
                 rect2,
-               rectTransform.anchoredPosition.z,
-                (val) => rectTransform.anchoredPosition = new Vector3(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y, val),
-
+                rectTransform => rectTransform.anchoredPosition.z,
+                (rectTransform, val) => rectTransform.anchoredPosition = new Vector3(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y, val),
+                rectTransformData,
+                DrivenTransformProperties.AnchoredPositionZ,
                 EditorGUIUtility.TrTextContent("Pos Z"));
             rect.y += EditorGUIUtility.singleLineHeight;
 
@@ -1088,44 +1106,50 @@ namespace MacacaGames.ViewSystem.VisualEditor
             if (anyNonStretchX || anyWithoutParent || anyDrivenX)
             {
 
-                FloatField(
+                FloatFieldLabelAbove(
                     rect2,
-                   rectTransform.sizeDelta.x,
-                    (val) => rectTransform.sizeDelta = new Vector2(val, rectTransform.sizeDelta.y),
-
+                    rectTransform => rectTransform.sizeDelta.x,
+                    (rectTransform, val) => rectTransform.sizeDelta = new Vector2(val, rectTransform.sizeDelta.y),
+                    rectTransformData,
+                    DrivenTransformProperties.SizeDeltaX,
                     anyStretchX ? EditorGUIUtility.TrTextContent("W Delta") : EditorGUIUtility.TrTextContent("Width"));
             }
             else
             {
 
-                FloatField(
+                FloatFieldLabelAbove(
                     rect2,
-                     -rectTransform.offsetMax.x,
-                    (val) => rectTransform.offsetMax = new Vector2(-val, rectTransform.offsetMax.y),
-
+                    rectTransform => -rectTransform.offsetMax.x,
+                    (rectTransform, val) => rectTransform.offsetMax = new Vector2(-val, rectTransform.offsetMax.y),
+                    rectTransformData,
+                    DrivenTransformProperties.None,
                     EditorGUIUtility.TrTextContent("Right"));
+                resutl = true;
             }
 
             rect2 = GetColumnRect(rect, 1);
             if (anyNonStretchY || anyWithoutParent || anyDrivenY)
             {
 
-                FloatField(
+                FloatFieldLabelAbove(
                     rect2,
-                    rectTransform.sizeDelta.y,
-                    (val) => rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, val),
-
+                    rectTransform => rectTransform.sizeDelta.y,
+                    (rectTransform, val) => rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, val),
+                    rectTransformData,
+                    DrivenTransformProperties.SizeDeltaY,
                     anyStretchY ? EditorGUIUtility.TrTextContent("H Delta") : EditorGUIUtility.TrTextContent("Height"));
             }
             else
             {
 
-                FloatField(
+                FloatFieldLabelAbove(
                     rect2,
-                  rectTransform.offsetMin.y,
-                    (val) => rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, val),
-
+                    rectTransform => rectTransform.offsetMin.y,
+                    (rectTransform, val) => rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, val),
+                    rectTransformData,
+                    DrivenTransformProperties.None,
                     EditorGUIUtility.TrTextContent("Bottom"));
+                resutl = true;
             }
 
             rect2 = rect;
@@ -1133,7 +1157,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             rect2.y += EditorGUIUtility.singleLineHeight;
             rect2.yMin -= 2;
             rect2.xMin = rect2.xMax - 26;
-
+            return resutl;
         }
 
 
