@@ -63,6 +63,19 @@ public class Drawer
         }
     }
 
+    static Texture2D _breakPointIcon;
+    public static Texture2D breakPointIcon
+    {
+        get
+        {
+            if (_breakPointIcon == null)
+            {
+                _breakPointIcon = EditorGUIUtility.FindTexture("d_ToggleUVOverlay@2x");
+            }
+            return _breakPointIcon;
+        }
+    }
+
     static Texture2D _miniErrorIcon;
     public static Texture2D miniErrorIcon
     {

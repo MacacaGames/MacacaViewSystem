@@ -157,7 +157,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             return transformEditStatus[key] == 0 ? GetHeight() : EditorGUIUtility.singleLineHeight * 7f;
             float GetHeight()
             {
-                return EditorGUIUtility.singleLineHeight * 7.5f + (EditorGUIUtility.singleLineHeight * 3 + 6) + (EditorGUIUtility.singleLineHeight * 2 + 8);
+                return EditorGUIUtility.singleLineHeight * 7.5f + (EditorGUIUtility.singleLineHeight * 2 + 6) + (EditorGUIUtility.singleLineHeight * 1 + 8);
             }
             // with folddot feature
             // float GetHeight()
@@ -553,7 +553,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             breakPointRect.x = 0;
             breakPointRect.width = 16;
             breakPointRect.height = 16;
-            if (GUI.Button(breakPointRect, new GUIContent(EditorGUIUtility.FindTexture("d_ToggleUVOverlay@2x"), "BreakPoints Setting"), Drawer.removeButtonStyle))
+            if (GUI.Button(breakPointRect, new GUIContent(Drawer.breakPointIcon, "BreakPoints Setting"), Drawer.removeButtonStyle))
             {
                 editor.breakpointWindow.RebuildWindow(viewPageItemList[index]);
                 editor.breakpointWindow.Show();
@@ -644,7 +644,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             EditorGUIUtility.fieldWidth = 40;
                             EditorGUIUtility.labelWidth = 70;
 
-                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
+                            // anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
                             Vector2Field(anchorAndPivotRect, new GUIContent("Anchor Min"), trasformData.rectTransformData.anchorMin, (v) => { trasformData.rectTransformData.anchorMin = v; });
 
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
@@ -655,7 +655,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
 
-                            anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
+                            // anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
                             Vector3Field(anchorAndPivotRect, new GUIContent("Rotation"), trasformData.rectTransformData.localEulerAngles, (v) => { trasformData.rectTransformData.localEulerAngles = v; });
 
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
@@ -671,7 +671,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                     previewViewElement.ApplyRectTransform(trasformData);
                                     if (modifyResult)
                                     {
-                                        previewViewElement.ApplyOffectMax(trasformData); 
+                                        previewViewElement.ApplyOffectMax(trasformData);
                                         previewViewElement.ApplyOffectMin(trasformData);
                                     }
                                 }

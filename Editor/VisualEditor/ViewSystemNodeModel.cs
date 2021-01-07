@@ -5,7 +5,7 @@ using System;
 
 namespace MacacaGames.ViewSystem.VisualEditor
 {
-    public class ViewSystemNode 
+    public class ViewSystemNode
     {
         public const int ViewSystemNodeWidth = 160;
         public const int ViewStateNodeHeight = 60;
@@ -248,11 +248,19 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             if (HasOverride())
             {
-                GUI.Label(new Rect(drawRect.x + drawRect.width - 30, drawRect.y - 15f, 30, 30), new GUIContent(Drawer.overrideIcon, "This page or state has override."));
+                GUI.Label(new Rect(drawRect.x + drawRect.width - 20, drawRect.y, 20, 20), new GUIContent(Drawer.overridePopupIcon, "This page or state has override."));
+            }
+            if (HasBreakPoint())
+            {
+                GUI.Label(new Rect(drawRect.x + drawRect.width - 20, drawRect.y + 15f, 20, 20), new GUIContent(Drawer.breakPointIcon, "This page or state has override."));
             }
         }
 
         public virtual bool HasOverride()
+        {
+            return false;
+        }
+        public virtual bool HasBreakPoint()
         {
             return false;
         }
@@ -431,6 +439,22 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             return false;
         }
+        public override bool HasBreakPoint()
+        {
+            if (viewPage == null)
+            {
+                return false;
+            }
+            foreach (var item in viewPage.viewPageItems)
+            {
+                if (item.breakPointViewElementTransforms != null &&
+                    item.breakPointViewElementTransforms?.Count > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public ViewPage viewPage;
     }
 
@@ -468,6 +492,22 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (item.overrideDatas?.Count > 0 ||
                    item.eventDatas?.Count > 0 ||
                    item.navigationDatas?.Count > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public override bool HasBreakPoint()
+        {
+            if (viewState == null)
+            {
+                return false;
+            }
+            foreach (var item in viewState.viewPageItems)
+            {
+                if (item.breakPointViewElementTransforms != null &&
+                    item.breakPointViewElementTransforms?.Count > 0)
                 {
                     return true;
                 }
