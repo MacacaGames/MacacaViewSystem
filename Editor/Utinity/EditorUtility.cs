@@ -646,6 +646,10 @@ namespace MacacaGames.ViewSystem
                             {
                                 OnTableItemClick();
                             }
+                            else
+                            {
+                                return;
+                            }
                         }
                         OnTableItemClick();
 
@@ -657,6 +661,8 @@ namespace MacacaGames.ViewSystem
                                 editorWindow.Close();
                             else
                                 editorWindow.Repaint();
+
+                            UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
                         }
                     }
                 }

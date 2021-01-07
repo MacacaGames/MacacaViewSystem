@@ -624,7 +624,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             LayoutDropdownButton(layoutButtonRect, trasformData.rectTransformData, rectTransform, false);
                             layoutButtonRect.y += EditorGUIUtility.singleLineHeight * 3;
                             layoutButtonRect.height = EditorGUIUtility.singleLineHeight;
-                            using (var disable = new EditorGUI.DisabledGroupScope(rectTransform))
+                            using (var disable = new EditorGUI.DisabledGroupScope(!rectTransform))
                             {
                                 if (GUI.Button(layoutButtonRect, new GUIContent("Pick", "Pick RectTransform value from preview ViewElement")))
                                 {
