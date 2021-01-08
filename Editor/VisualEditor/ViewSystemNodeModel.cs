@@ -318,6 +318,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             }
                             isSelect = false;
                             GUI.changed = true;
+
                         }
                     }
                     if (e.button == 1)
@@ -416,10 +417,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             if (CustomElement.Button(id, btnRect, new GUIContent("Preview"), new GUIStyle("ObjectPickerResultsEven"), btnInteractiable))
             {
-                if (OnPreviewBtnClick != null)
-                {
-                    OnPreviewBtnClick(viewPage);
-                }
+                OnPreviewBtnClick?.Invoke(viewPage);
+                isSelect = false;
             }
         }
         public override bool HasOverride()
