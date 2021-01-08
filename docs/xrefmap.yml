@@ -7,6 +7,24 @@ references:
   commentId: N:MacacaGames.ViewSystem
   fullName: MacacaGames.ViewSystem
   nameWithType: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.BreakPointViewElementTransform
+  name: BreakPointViewElementTransform
+  href: api/MacacaGames.ViewSystem.BreakPointViewElementTransform.html
+  commentId: T:MacacaGames.ViewSystem.BreakPointViewElementTransform
+  fullName: MacacaGames.ViewSystem.BreakPointViewElementTransform
+  nameWithType: BreakPointViewElementTransform
+- uid: MacacaGames.ViewSystem.BreakPointViewElementTransform.breakPointName
+  name: breakPointName
+  href: api/MacacaGames.ViewSystem.BreakPointViewElementTransform.html#MacacaGames_ViewSystem_BreakPointViewElementTransform_breakPointName
+  commentId: F:MacacaGames.ViewSystem.BreakPointViewElementTransform.breakPointName
+  fullName: MacacaGames.ViewSystem.BreakPointViewElementTransform.breakPointName
+  nameWithType: BreakPointViewElementTransform.breakPointName
+- uid: MacacaGames.ViewSystem.BreakPointViewElementTransform.transformData
+  name: transformData
+  href: api/MacacaGames.ViewSystem.BreakPointViewElementTransform.html#MacacaGames_ViewSystem_BreakPointViewElementTransform_transformData
+  commentId: F:MacacaGames.ViewSystem.BreakPointViewElementTransform.transformData
+  fullName: MacacaGames.ViewSystem.BreakPointViewElementTransform.transformData
+  nameWithType: BreakPointViewElementTransform.transformData
 - uid: MacacaGames.ViewSystem.ComponentTreeView
   name: ComponentTreeView
   href: api/MacacaGames.ViewSystem.ComponentTreeView.html
@@ -374,18 +392,102 @@ references:
   commentId: T:MacacaGames.ViewSystem.IViewElementInjectable
   fullName: MacacaGames.ViewSystem.IViewElementInjectable
   nameWithType: IViewElementInjectable
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle
+  name: IViewElementLifeCycle
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html
+  commentId: T:MacacaGames.ViewSystem.IViewElementLifeCycle
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle
+  nameWithType: IViewElementLifeCycle
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave
+  name: OnBeforeLeave()
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnBeforeLeave
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave()
+  nameWithType: IViewElementLifeCycle.OnBeforeLeave()
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave*
+  name: OnBeforeLeave
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnBeforeLeave_
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave
+  nameWithType: IViewElementLifeCycle.OnBeforeLeave
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow
+  name: OnBeforeShow()
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnBeforeShow
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow()
+  nameWithType: IViewElementLifeCycle.OnBeforeShow()
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow*
+  name: OnBeforeShow
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnBeforeShow_
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow
+  nameWithType: IViewElementLifeCycle.OnBeforeShow
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage
+  name: OnChangedPage()
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnChangedPage
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage()
+  nameWithType: IViewElementLifeCycle.OnChangedPage()
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage*
+  name: OnChangedPage
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnChangedPage_
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage
+  nameWithType: IViewElementLifeCycle.OnChangedPage
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage(System.Boolean)
+  name: OnChangePage(Boolean)
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnChangePage_System_Boolean_
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage(System.Boolean)
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage(System.Boolean)
+  nameWithType: IViewElementLifeCycle.OnChangePage(Boolean)
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage*
+  name: OnChangePage
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnChangePage_
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage
+  nameWithType: IViewElementLifeCycle.OnChangePage
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave
+  name: OnStartLeave()
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnStartLeave
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave()
+  nameWithType: IViewElementLifeCycle.OnStartLeave()
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave*
+  name: OnStartLeave
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnStartLeave_
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave
+  nameWithType: IViewElementLifeCycle.OnStartLeave
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow
+  name: OnStartShow()
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnStartShow
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow()
+  nameWithType: IViewElementLifeCycle.OnStartShow()
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow*
+  name: OnStartShow
+  href: api/MacacaGames.ViewSystem.IViewElementLifeCycle.html#MacacaGames_ViewSystem_IViewElementLifeCycle_OnStartShow_
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow
+  nameWithType: IViewElementLifeCycle.OnStartShow
 - uid: MacacaGames.ViewSystem.LayoutDropdownWindow
   name: LayoutDropdownWindow
   href: api/MacacaGames.ViewSystem.LayoutDropdownWindow.html
   commentId: T:MacacaGames.ViewSystem.LayoutDropdownWindow
   fullName: MacacaGames.ViewSystem.LayoutDropdownWindow
   nameWithType: LayoutDropdownWindow
-- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.#ctor(MacacaGames.ViewSystem.ViewSystemRectTransformData)
-  name: LayoutDropdownWindow(ViewSystemRectTransformData)
-  href: api/MacacaGames.ViewSystem.LayoutDropdownWindow.html#MacacaGames_ViewSystem_LayoutDropdownWindow__ctor_MacacaGames_ViewSystem_ViewSystemRectTransformData_
-  commentId: M:MacacaGames.ViewSystem.LayoutDropdownWindow.#ctor(MacacaGames.ViewSystem.ViewSystemRectTransformData)
-  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutDropdownWindow(MacacaGames.ViewSystem.ViewSystemRectTransformData)
-  nameWithType: LayoutDropdownWindow.LayoutDropdownWindow(ViewSystemRectTransformData)
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.#ctor(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,MacacaGames.ViewSystem.ViewSystemSaveData)
+  name: LayoutDropdownWindow(ViewSystemRectTransformData, RectTransform, ViewSystemSaveData)
+  href: api/MacacaGames.ViewSystem.LayoutDropdownWindow.html#MacacaGames_ViewSystem_LayoutDropdownWindow__ctor_MacacaGames_ViewSystem_ViewSystemRectTransformData_UnityEngine_RectTransform_MacacaGames_ViewSystem_ViewSystemSaveData_
+  commentId: M:MacacaGames.ViewSystem.LayoutDropdownWindow.#ctor(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,MacacaGames.ViewSystem.ViewSystemSaveData)
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutDropdownWindow(MacacaGames.ViewSystem.ViewSystemRectTransformData, UnityEngine.RectTransform, MacacaGames.ViewSystem.ViewSystemSaveData)
+  nameWithType: LayoutDropdownWindow.LayoutDropdownWindow(ViewSystemRectTransformData, RectTransform, ViewSystemSaveData)
 - uid: MacacaGames.ViewSystem.LayoutDropdownWindow.#ctor*
   name: LayoutDropdownWindow
   href: api/MacacaGames.ViewSystem.LayoutDropdownWindow.html#MacacaGames_ViewSystem_LayoutDropdownWindow__ctor_
@@ -1069,6 +1171,28 @@ references:
   commentId: F:MacacaGames.ViewSystem.PropertyOverride.StringValue
   fullName: MacacaGames.ViewSystem.PropertyOverride.StringValue
   nameWithType: PropertyOverride.StringValue
+- uid: MacacaGames.ViewSystem.QueueExtension
+  name: QueueExtension
+  href: api/MacacaGames.ViewSystem.QueueExtension.html
+  commentId: T:MacacaGames.ViewSystem.QueueExtension
+  fullName: MacacaGames.ViewSystem.QueueExtension
+  nameWithType: QueueExtension
+- uid: MacacaGames.ViewSystem.QueueExtension.Remove*
+  name: Remove
+  href: api/MacacaGames.ViewSystem.QueueExtension.html#MacacaGames_ViewSystem_QueueExtension_Remove_
+  commentId: Overload:MacacaGames.ViewSystem.QueueExtension.Remove
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.QueueExtension.Remove
+  nameWithType: QueueExtension.Remove
+- uid: MacacaGames.ViewSystem.QueueExtension.Remove``1(System.Collections.Generic.Queue{``0},``0)
+  name: Remove<T>(Queue<T>, T)
+  href: api/MacacaGames.ViewSystem.QueueExtension.html#MacacaGames_ViewSystem_QueueExtension_Remove__1_System_Collections_Generic_Queue___0____0_
+  commentId: M:MacacaGames.ViewSystem.QueueExtension.Remove``1(System.Collections.Generic.Queue{``0},``0)
+  name.vb: Remove(Of T)(Queue(Of T), T)
+  fullName: MacacaGames.ViewSystem.QueueExtension.Remove<T>(System.Collections.Generic.Queue<T>, T)
+  fullName.vb: MacacaGames.ViewSystem.QueueExtension.Remove(Of T)(System.Collections.Generic.Queue(Of T), T)
+  nameWithType: QueueExtension.Remove<T>(Queue<T>, T)
+  nameWithType.vb: QueueExtension.Remove(Of T)(Queue(Of T), T)
 - uid: MacacaGames.ViewSystem.SafePadding
   name: SafePadding
   href: api/MacacaGames.ViewSystem.SafePadding.html
@@ -1614,12 +1738,38 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewController.LeaveOverlayViewPageBase
   nameWithType: ViewController.LeaveOverlayViewPageBase
+- uid: MacacaGames.ViewSystem.ViewController.RemoveBreakPoint(System.String)
+  name: RemoveBreakPoint(String)
+  href: api/MacacaGames.ViewSystem.ViewController.html#MacacaGames_ViewSystem_ViewController_RemoveBreakPoint_System_String_
+  commentId: M:MacacaGames.ViewSystem.ViewController.RemoveBreakPoint(System.String)
+  fullName: MacacaGames.ViewSystem.ViewController.RemoveBreakPoint(System.String)
+  nameWithType: ViewController.RemoveBreakPoint(String)
+- uid: MacacaGames.ViewSystem.ViewController.RemoveBreakPoint*
+  name: RemoveBreakPoint
+  href: api/MacacaGames.ViewSystem.ViewController.html#MacacaGames_ViewSystem_ViewController_RemoveBreakPoint_
+  commentId: Overload:MacacaGames.ViewSystem.ViewController.RemoveBreakPoint
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewController.RemoveBreakPoint
+  nameWithType: ViewController.RemoveBreakPoint
 - uid: MacacaGames.ViewSystem.ViewController.runtimePool
   name: runtimePool
   href: api/MacacaGames.ViewSystem.ViewController.html#MacacaGames_ViewSystem_ViewController_runtimePool
   commentId: F:MacacaGames.ViewSystem.ViewController.runtimePool
   fullName: MacacaGames.ViewSystem.ViewController.runtimePool
   nameWithType: ViewController.runtimePool
+- uid: MacacaGames.ViewSystem.ViewController.SetBreakPoint(System.String)
+  name: SetBreakPoint(String)
+  href: api/MacacaGames.ViewSystem.ViewController.html#MacacaGames_ViewSystem_ViewController_SetBreakPoint_System_String_
+  commentId: M:MacacaGames.ViewSystem.ViewController.SetBreakPoint(System.String)
+  fullName: MacacaGames.ViewSystem.ViewController.SetBreakPoint(System.String)
+  nameWithType: ViewController.SetBreakPoint(String)
+- uid: MacacaGames.ViewSystem.ViewController.SetBreakPoint*
+  name: SetBreakPoint
+  href: api/MacacaGames.ViewSystem.ViewController.html#MacacaGames_ViewSystem_ViewController_SetBreakPoint_
+  commentId: Overload:MacacaGames.ViewSystem.ViewController.SetBreakPoint
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewController.SetBreakPoint
+  nameWithType: ViewController.SetBreakPoint
 - uid: MacacaGames.ViewSystem.ViewController.SetUpNavigationOnViewPage(MacacaGames.ViewSystem.ViewPage)
   name: SetUpNavigationOnViewPage(ViewPage)
   href: api/MacacaGames.ViewSystem.ViewController.html#MacacaGames_ViewSystem_ViewController_SetUpNavigationOnViewPage_MacacaGames_ViewSystem_ViewPage_
@@ -2508,6 +2658,32 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewElement.ApplyNavigation
   nameWithType: ViewElement.ApplyNavigation
+- uid: MacacaGames.ViewSystem.ViewElement.ApplyOffectMax(MacacaGames.ViewSystem.ViewElementTransform)
+  name: ApplyOffectMax(ViewElementTransform)
+  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyOffectMax_MacacaGames_ViewSystem_ViewElementTransform_
+  commentId: M:MacacaGames.ViewSystem.ViewElement.ApplyOffectMax(MacacaGames.ViewSystem.ViewElementTransform)
+  fullName: MacacaGames.ViewSystem.ViewElement.ApplyOffectMax(MacacaGames.ViewSystem.ViewElementTransform)
+  nameWithType: ViewElement.ApplyOffectMax(ViewElementTransform)
+- uid: MacacaGames.ViewSystem.ViewElement.ApplyOffectMax*
+  name: ApplyOffectMax
+  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyOffectMax_
+  commentId: Overload:MacacaGames.ViewSystem.ViewElement.ApplyOffectMax
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewElement.ApplyOffectMax
+  nameWithType: ViewElement.ApplyOffectMax
+- uid: MacacaGames.ViewSystem.ViewElement.ApplyOffectMin(MacacaGames.ViewSystem.ViewElementTransform)
+  name: ApplyOffectMin(ViewElementTransform)
+  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyOffectMin_MacacaGames_ViewSystem_ViewElementTransform_
+  commentId: M:MacacaGames.ViewSystem.ViewElement.ApplyOffectMin(MacacaGames.ViewSystem.ViewElementTransform)
+  fullName: MacacaGames.ViewSystem.ViewElement.ApplyOffectMin(MacacaGames.ViewSystem.ViewElementTransform)
+  nameWithType: ViewElement.ApplyOffectMin(ViewElementTransform)
+- uid: MacacaGames.ViewSystem.ViewElement.ApplyOffectMin*
+  name: ApplyOffectMin
+  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyOffectMin_
+  commentId: Overload:MacacaGames.ViewSystem.ViewElement.ApplyOffectMin
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewElement.ApplyOffectMin
+  nameWithType: ViewElement.ApplyOffectMin
 - uid: MacacaGames.ViewSystem.ViewElement.ApplyOverrides(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData})
   name: ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData>)
   href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyOverrides_System_Collections_Generic_IEnumerable_MacacaGames_ViewSystem_ViewElementPropertyOverrideData__
@@ -2524,12 +2700,12 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewElement.ApplyOverrides
   nameWithType: ViewElement.ApplyOverrides
-- uid: MacacaGames.ViewSystem.ViewElement.ApplyRectTransform(MacacaGames.ViewSystem.ViewSystemRectTransformData,MacacaGames.ViewSystem.ViewElement.RectTransformFlag)
-  name: ApplyRectTransform(ViewSystemRectTransformData, ViewElement.RectTransformFlag)
-  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyRectTransform_MacacaGames_ViewSystem_ViewSystemRectTransformData_MacacaGames_ViewSystem_ViewElement_RectTransformFlag_
-  commentId: M:MacacaGames.ViewSystem.ViewElement.ApplyRectTransform(MacacaGames.ViewSystem.ViewSystemRectTransformData,MacacaGames.ViewSystem.ViewElement.RectTransformFlag)
-  fullName: MacacaGames.ViewSystem.ViewElement.ApplyRectTransform(MacacaGames.ViewSystem.ViewSystemRectTransformData, MacacaGames.ViewSystem.ViewElement.RectTransformFlag)
-  nameWithType: ViewElement.ApplyRectTransform(ViewSystemRectTransformData, ViewElement.RectTransformFlag)
+- uid: MacacaGames.ViewSystem.ViewElement.ApplyRectTransform(MacacaGames.ViewSystem.ViewElementTransform)
+  name: ApplyRectTransform(ViewElementTransform)
+  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyRectTransform_MacacaGames_ViewSystem_ViewElementTransform_
+  commentId: M:MacacaGames.ViewSystem.ViewElement.ApplyRectTransform(MacacaGames.ViewSystem.ViewElementTransform)
+  fullName: MacacaGames.ViewSystem.ViewElement.ApplyRectTransform(MacacaGames.ViewSystem.ViewElementTransform)
+  nameWithType: ViewElement.ApplyRectTransform(ViewElementTransform)
 - uid: MacacaGames.ViewSystem.ViewElement.ApplyRectTransform*
   name: ApplyRectTransform
   href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyRectTransform_
@@ -2574,12 +2750,12 @@ references:
   commentId: F:MacacaGames.ViewSystem.ViewElement.canvasOutTime
   fullName: MacacaGames.ViewSystem.ViewElement.canvasOutTime
   nameWithType: ViewElement.canvasOutTime
-- uid: MacacaGames.ViewSystem.ViewElement.ChangePage(System.Boolean,UnityEngine.Transform,MacacaGames.ViewSystem.ViewSystemRectTransformData,MacacaGames.ViewSystem.ViewElement.RectTransformFlag,System.Int32,System.Single,System.Single,System.Boolean,System.Boolean)
-  name: ChangePage(Boolean, Transform, ViewSystemRectTransformData, ViewElement.RectTransformFlag, Int32, Single, Single, Boolean, Boolean)
-  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ChangePage_System_Boolean_UnityEngine_Transform_MacacaGames_ViewSystem_ViewSystemRectTransformData_MacacaGames_ViewSystem_ViewElement_RectTransformFlag_System_Int32_System_Single_System_Single_System_Boolean_System_Boolean_
-  commentId: M:MacacaGames.ViewSystem.ViewElement.ChangePage(System.Boolean,UnityEngine.Transform,MacacaGames.ViewSystem.ViewSystemRectTransformData,MacacaGames.ViewSystem.ViewElement.RectTransformFlag,System.Int32,System.Single,System.Single,System.Boolean,System.Boolean)
-  fullName: MacacaGames.ViewSystem.ViewElement.ChangePage(System.Boolean, UnityEngine.Transform, MacacaGames.ViewSystem.ViewSystemRectTransformData, MacacaGames.ViewSystem.ViewElement.RectTransformFlag, System.Int32, System.Single, System.Single, System.Boolean, System.Boolean)
-  nameWithType: ViewElement.ChangePage(Boolean, Transform, ViewSystemRectTransformData, ViewElement.RectTransformFlag, Int32, Single, Single, Boolean, Boolean)
+- uid: MacacaGames.ViewSystem.ViewElement.ChangePage(System.Boolean,UnityEngine.Transform,MacacaGames.ViewSystem.ViewElementTransform,System.Int32,System.Single,System.Single,System.Boolean,System.Boolean)
+  name: ChangePage(Boolean, Transform, ViewElementTransform, Int32, Single, Single, Boolean, Boolean)
+  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ChangePage_System_Boolean_UnityEngine_Transform_MacacaGames_ViewSystem_ViewElementTransform_System_Int32_System_Single_System_Single_System_Boolean_System_Boolean_
+  commentId: M:MacacaGames.ViewSystem.ViewElement.ChangePage(System.Boolean,UnityEngine.Transform,MacacaGames.ViewSystem.ViewElementTransform,System.Int32,System.Single,System.Single,System.Boolean,System.Boolean)
+  fullName: MacacaGames.ViewSystem.ViewElement.ChangePage(System.Boolean, UnityEngine.Transform, MacacaGames.ViewSystem.ViewElementTransform, System.Int32, System.Single, System.Single, System.Boolean, System.Boolean)
+  nameWithType: ViewElement.ChangePage(Boolean, Transform, ViewElementTransform, Int32, Single, Single, Boolean, Boolean)
 - uid: MacacaGames.ViewSystem.ViewElement.ChangePage*
   name: ChangePage
   href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ChangePage_
@@ -2694,12 +2870,12 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewElement.OnChangedPage
   nameWithType: ViewElement.OnChangedPage
-- uid: MacacaGames.ViewSystem.ViewElement.OnChangePageRunner(System.Boolean,UnityEngine.Transform,MacacaGames.ViewSystem.ViewSystemRectTransformData,MacacaGames.ViewSystem.ViewElement.RectTransformFlag,System.Single,System.Single,System.Boolean,System.Boolean)
-  name: OnChangePageRunner(Boolean, Transform, ViewSystemRectTransformData, ViewElement.RectTransformFlag, Single, Single, Boolean, Boolean)
-  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_OnChangePageRunner_System_Boolean_UnityEngine_Transform_MacacaGames_ViewSystem_ViewSystemRectTransformData_MacacaGames_ViewSystem_ViewElement_RectTransformFlag_System_Single_System_Single_System_Boolean_System_Boolean_
-  commentId: M:MacacaGames.ViewSystem.ViewElement.OnChangePageRunner(System.Boolean,UnityEngine.Transform,MacacaGames.ViewSystem.ViewSystemRectTransformData,MacacaGames.ViewSystem.ViewElement.RectTransformFlag,System.Single,System.Single,System.Boolean,System.Boolean)
-  fullName: MacacaGames.ViewSystem.ViewElement.OnChangePageRunner(System.Boolean, UnityEngine.Transform, MacacaGames.ViewSystem.ViewSystemRectTransformData, MacacaGames.ViewSystem.ViewElement.RectTransformFlag, System.Single, System.Single, System.Boolean, System.Boolean)
-  nameWithType: ViewElement.OnChangePageRunner(Boolean, Transform, ViewSystemRectTransformData, ViewElement.RectTransformFlag, Single, Single, Boolean, Boolean)
+- uid: MacacaGames.ViewSystem.ViewElement.OnChangePageRunner(System.Boolean,UnityEngine.Transform,MacacaGames.ViewSystem.ViewElementTransform,System.Single,System.Single,System.Boolean,System.Boolean)
+  name: OnChangePageRunner(Boolean, Transform, ViewElementTransform, Single, Single, Boolean, Boolean)
+  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_OnChangePageRunner_System_Boolean_UnityEngine_Transform_MacacaGames_ViewSystem_ViewElementTransform_System_Single_System_Single_System_Boolean_System_Boolean_
+  commentId: M:MacacaGames.ViewSystem.ViewElement.OnChangePageRunner(System.Boolean,UnityEngine.Transform,MacacaGames.ViewSystem.ViewElementTransform,System.Single,System.Single,System.Boolean,System.Boolean)
+  fullName: MacacaGames.ViewSystem.ViewElement.OnChangePageRunner(System.Boolean, UnityEngine.Transform, MacacaGames.ViewSystem.ViewElementTransform, System.Single, System.Single, System.Boolean, System.Boolean)
+  nameWithType: ViewElement.OnChangePageRunner(Boolean, Transform, ViewElementTransform, Single, Single, Boolean, Boolean)
 - uid: MacacaGames.ViewSystem.ViewElement.OnChangePageRunner*
   name: OnChangePageRunner
   href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_OnChangePageRunner_
@@ -2863,11 +3039,11 @@ references:
   commentId: F:MacacaGames.ViewSystem.ViewElement.RectTransformFlag.SizeDelta
   fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.SizeDelta
   nameWithType: ViewElement.RectTransformFlag.SizeDelta
-- uid: MacacaGames.ViewSystem.ViewElement.RegisterLifeCycleObject(IViewElementLifeCycle)
+- uid: MacacaGames.ViewSystem.ViewElement.RegisterLifeCycleObject(MacacaGames.ViewSystem.IViewElementLifeCycle)
   name: RegisterLifeCycleObject(IViewElementLifeCycle)
-  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_RegisterLifeCycleObject_IViewElementLifeCycle_
-  commentId: M:MacacaGames.ViewSystem.ViewElement.RegisterLifeCycleObject(IViewElementLifeCycle)
-  fullName: MacacaGames.ViewSystem.ViewElement.RegisterLifeCycleObject(IViewElementLifeCycle)
+  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_RegisterLifeCycleObject_MacacaGames_ViewSystem_IViewElementLifeCycle_
+  commentId: M:MacacaGames.ViewSystem.ViewElement.RegisterLifeCycleObject(MacacaGames.ViewSystem.IViewElementLifeCycle)
+  fullName: MacacaGames.ViewSystem.ViewElement.RegisterLifeCycleObject(MacacaGames.ViewSystem.IViewElementLifeCycle)
   nameWithType: ViewElement.RegisterLifeCycleObject(IViewElementLifeCycle)
 - uid: MacacaGames.ViewSystem.ViewElement.RegisterLifeCycleObject*
   name: RegisterLifeCycleObject
@@ -2976,11 +3152,11 @@ references:
   commentId: F:MacacaGames.ViewSystem.ViewElement.TransitionType.Custom
   fullName: MacacaGames.ViewSystem.ViewElement.TransitionType.Custom
   nameWithType: ViewElement.TransitionType.Custom
-- uid: MacacaGames.ViewSystem.ViewElement.UnRegisterLifeCycleObject(IViewElementLifeCycle)
+- uid: MacacaGames.ViewSystem.ViewElement.UnRegisterLifeCycleObject(MacacaGames.ViewSystem.IViewElementLifeCycle)
   name: UnRegisterLifeCycleObject(IViewElementLifeCycle)
-  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_UnRegisterLifeCycleObject_IViewElementLifeCycle_
-  commentId: M:MacacaGames.ViewSystem.ViewElement.UnRegisterLifeCycleObject(IViewElementLifeCycle)
-  fullName: MacacaGames.ViewSystem.ViewElement.UnRegisterLifeCycleObject(IViewElementLifeCycle)
+  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_UnRegisterLifeCycleObject_MacacaGames_ViewSystem_IViewElementLifeCycle_
+  commentId: M:MacacaGames.ViewSystem.ViewElement.UnRegisterLifeCycleObject(MacacaGames.ViewSystem.IViewElementLifeCycle)
+  fullName: MacacaGames.ViewSystem.ViewElement.UnRegisterLifeCycleObject(MacacaGames.ViewSystem.IViewElementLifeCycle)
   nameWithType: ViewElement.UnRegisterLifeCycleObject(IViewElementLifeCycle)
 - uid: MacacaGames.ViewSystem.ViewElement.UnRegisterLifeCycleObject*
   name: UnRegisterLifeCycleObject
@@ -3379,6 +3555,114 @@ references:
   commentId: F:MacacaGames.ViewSystem.ViewElementPropertyOverrideData.Value
   fullName: MacacaGames.ViewSystem.ViewElementPropertyOverrideData.Value
   nameWithType: ViewElementPropertyOverrideData.Value
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool
+  name: ViewElementRequestedPool
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html
+  commentId: T:MacacaGames.ViewSystem.ViewElementRequestedPool
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool
+  nameWithType: ViewElementRequestedPool
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.#ctor(MacacaGames.ViewSystem.ViewElement)
+  name: ViewElementRequestedPool(ViewElement)
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool__ctor_MacacaGames_ViewSystem_ViewElement_
+  commentId: M:MacacaGames.ViewSystem.ViewElementRequestedPool.#ctor(MacacaGames.ViewSystem.ViewElement)
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.ViewElementRequestedPool(MacacaGames.ViewSystem.ViewElement)
+  nameWithType: ViewElementRequestedPool.ViewElementRequestedPool(ViewElement)
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.#ctor(MacacaGames.ViewSystem.ViewElement,System.Action{MacacaGames.ViewSystem.ViewElement})
+  name: ViewElementRequestedPool(ViewElement, Action<ViewElement>)
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool__ctor_MacacaGames_ViewSystem_ViewElement_System_Action_MacacaGames_ViewSystem_ViewElement__
+  commentId: M:MacacaGames.ViewSystem.ViewElementRequestedPool.#ctor(MacacaGames.ViewSystem.ViewElement,System.Action{MacacaGames.ViewSystem.ViewElement})
+  name.vb: ViewElementRequestedPool(ViewElement, Action(Of ViewElement))
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.ViewElementRequestedPool(MacacaGames.ViewSystem.ViewElement, System.Action<MacacaGames.ViewSystem.ViewElement>)
+  fullName.vb: MacacaGames.ViewSystem.ViewElementRequestedPool.ViewElementRequestedPool(MacacaGames.ViewSystem.ViewElement, System.Action(Of MacacaGames.ViewSystem.ViewElement))
+  nameWithType: ViewElementRequestedPool.ViewElementRequestedPool(ViewElement, Action<ViewElement>)
+  nameWithType.vb: ViewElementRequestedPool.ViewElementRequestedPool(ViewElement, Action(Of ViewElement))
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.#ctor*
+  name: ViewElementRequestedPool
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool__ctor_
+  commentId: Overload:MacacaGames.ViewSystem.ViewElementRequestedPool.#ctor
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.ViewElementRequestedPool
+  nameWithType: ViewElementRequestedPool.ViewElementRequestedPool
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.GetCurrentInUseViewElementCount
+  name: GetCurrentInUseViewElementCount()
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_GetCurrentInUseViewElementCount
+  commentId: M:MacacaGames.ViewSystem.ViewElementRequestedPool.GetCurrentInUseViewElementCount
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.GetCurrentInUseViewElementCount()
+  nameWithType: ViewElementRequestedPool.GetCurrentInUseViewElementCount()
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.GetCurrentInUseViewElementCount*
+  name: GetCurrentInUseViewElementCount
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_GetCurrentInUseViewElementCount_
+  commentId: Overload:MacacaGames.ViewSystem.ViewElementRequestedPool.GetCurrentInUseViewElementCount
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.GetCurrentInUseViewElementCount
+  nameWithType: ViewElementRequestedPool.GetCurrentInUseViewElementCount
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.Recovery(MacacaGames.ViewSystem.ViewElement,System.Boolean)
+  name: Recovery(ViewElement, Boolean)
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_Recovery_MacacaGames_ViewSystem_ViewElement_System_Boolean_
+  commentId: M:MacacaGames.ViewSystem.ViewElementRequestedPool.Recovery(MacacaGames.ViewSystem.ViewElement,System.Boolean)
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.Recovery(MacacaGames.ViewSystem.ViewElement, System.Boolean)
+  nameWithType: ViewElementRequestedPool.Recovery(ViewElement, Boolean)
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.Recovery*
+  name: Recovery
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_Recovery_
+  commentId: Overload:MacacaGames.ViewSystem.ViewElementRequestedPool.Recovery
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.Recovery
+  nameWithType: ViewElementRequestedPool.Recovery
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.recoveryAction
+  name: recoveryAction
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_recoveryAction
+  commentId: F:MacacaGames.ViewSystem.ViewElementRequestedPool.recoveryAction
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.recoveryAction
+  nameWithType: ViewElementRequestedPool.recoveryAction
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryAll(System.Boolean)
+  name: RecoveryAll(Boolean)
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_RecoveryAll_System_Boolean_
+  commentId: M:MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryAll(System.Boolean)
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryAll(System.Boolean)
+  nameWithType: ViewElementRequestedPool.RecoveryAll(Boolean)
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryAll*
+  name: RecoveryAll
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_RecoveryAll_
+  commentId: Overload:MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryAll
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryAll
+  nameWithType: ViewElementRequestedPool.RecoveryAll
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryQueuedItems
+  name: RecoveryQueuedItems()
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_RecoveryQueuedItems
+  commentId: M:MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryQueuedItems
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryQueuedItems()
+  nameWithType: ViewElementRequestedPool.RecoveryQueuedItems()
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryQueuedItems*
+  name: RecoveryQueuedItems
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_RecoveryQueuedItems_
+  commentId: Overload:MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryQueuedItems
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryQueuedItems
+  nameWithType: ViewElementRequestedPool.RecoveryQueuedItems
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.Request(UnityEngine.Transform)
+  name: Request(Transform)
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_Request_UnityEngine_Transform_
+  commentId: M:MacacaGames.ViewSystem.ViewElementRequestedPool.Request(UnityEngine.Transform)
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.Request(UnityEngine.Transform)
+  nameWithType: ViewElementRequestedPool.Request(Transform)
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.Request*
+  name: Request
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_Request_
+  commentId: Overload:MacacaGames.ViewSystem.ViewElementRequestedPool.Request
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.Request
+  nameWithType: ViewElementRequestedPool.Request
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.Request``1(UnityEngine.Transform)
+  name: Request<T>(Transform)
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_Request__1_UnityEngine_Transform_
+  commentId: M:MacacaGames.ViewSystem.ViewElementRequestedPool.Request``1(UnityEngine.Transform)
+  name.vb: Request(Of T)(Transform)
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.Request<T>(UnityEngine.Transform)
+  fullName.vb: MacacaGames.ViewSystem.ViewElementRequestedPool.Request(Of T)(UnityEngine.Transform)
+  nameWithType: ViewElementRequestedPool.Request<T>(Transform)
+  nameWithType.vb: ViewElementRequestedPool.Request(Of T)(Transform)
 - uid: MacacaGames.ViewSystem.ViewElementRuntimePool
   name: ViewElementRuntimePool
   href: api/MacacaGames.ViewSystem.ViewElementRuntimePool.html
@@ -3495,6 +3779,36 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewElementRuntimePoolEditor.TryGetPoolNameByInstanceId
   nameWithType: ViewElementRuntimePoolEditor.TryGetPoolNameByInstanceId
+- uid: MacacaGames.ViewSystem.ViewElementTransform
+  name: ViewElementTransform
+  href: api/MacacaGames.ViewSystem.ViewElementTransform.html
+  commentId: T:MacacaGames.ViewSystem.ViewElementTransform
+  fullName: MacacaGames.ViewSystem.ViewElementTransform
+  nameWithType: ViewElementTransform
+- uid: MacacaGames.ViewSystem.ViewElementTransform.parent
+  name: parent
+  href: api/MacacaGames.ViewSystem.ViewElementTransform.html#MacacaGames_ViewSystem_ViewElementTransform_parent
+  commentId: F:MacacaGames.ViewSystem.ViewElementTransform.parent
+  fullName: MacacaGames.ViewSystem.ViewElementTransform.parent
+  nameWithType: ViewElementTransform.parent
+- uid: MacacaGames.ViewSystem.ViewElementTransform.parentPath
+  name: parentPath
+  href: api/MacacaGames.ViewSystem.ViewElementTransform.html#MacacaGames_ViewSystem_ViewElementTransform_parentPath
+  commentId: F:MacacaGames.ViewSystem.ViewElementTransform.parentPath
+  fullName: MacacaGames.ViewSystem.ViewElementTransform.parentPath
+  nameWithType: ViewElementTransform.parentPath
+- uid: MacacaGames.ViewSystem.ViewElementTransform.rectTransformData
+  name: rectTransformData
+  href: api/MacacaGames.ViewSystem.ViewElementTransform.html#MacacaGames_ViewSystem_ViewElementTransform_rectTransformData
+  commentId: F:MacacaGames.ViewSystem.ViewElementTransform.rectTransformData
+  fullName: MacacaGames.ViewSystem.ViewElementTransform.rectTransformData
+  nameWithType: ViewElementTransform.rectTransformData
+- uid: MacacaGames.ViewSystem.ViewElementTransform.rectTransformFlag
+  name: rectTransformFlag
+  href: api/MacacaGames.ViewSystem.ViewElementTransform.html#MacacaGames_ViewSystem_ViewElementTransform_rectTransformFlag
+  commentId: F:MacacaGames.ViewSystem.ViewElementTransform.rectTransformFlag
+  fullName: MacacaGames.ViewSystem.ViewElementTransform.rectTransformFlag
+  nameWithType: ViewElementTransform.rectTransformFlag
 - uid: MacacaGames.ViewSystem.ViewEventGroup
   name: ViewEventGroup
   href: api/MacacaGames.ViewSystem.ViewEventGroup.html
@@ -3823,6 +4137,18 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewPageItem.ViewPageItem
   nameWithType: ViewPageItem.ViewPageItem
+- uid: MacacaGames.ViewSystem.ViewPageItem.breakPointViewElementTransforms
+  name: breakPointViewElementTransforms
+  href: api/MacacaGames.ViewSystem.ViewPageItem.html#MacacaGames_ViewSystem_ViewPageItem_breakPointViewElementTransforms
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.breakPointViewElementTransforms
+  fullName: MacacaGames.ViewSystem.ViewPageItem.breakPointViewElementTransforms
+  nameWithType: ViewPageItem.breakPointViewElementTransforms
+- uid: MacacaGames.ViewSystem.ViewPageItem.defaultTransformDatas
+  name: defaultTransformDatas
+  href: api/MacacaGames.ViewSystem.ViewPageItem.html#MacacaGames_ViewSystem_ViewPageItem_defaultTransformDatas
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.defaultTransformDatas
+  fullName: MacacaGames.ViewSystem.ViewPageItem.defaultTransformDatas
+  nameWithType: ViewPageItem.defaultTransformDatas
 - uid: MacacaGames.ViewSystem.ViewPageItem.delayIn
   name: delayIn
   href: api/MacacaGames.ViewSystem.ViewPageItem.html#MacacaGames_ViewSystem_ViewPageItem_delayIn
@@ -3866,6 +4192,22 @@ references:
   commentId: F:MacacaGames.ViewSystem.ViewPageItem.excludePlatform
   fullName: MacacaGames.ViewSystem.ViewPageItem.excludePlatform
   nameWithType: ViewPageItem.excludePlatform
+- uid: MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform(System.Collections.Generic.IEnumerable{System.String})
+  name: GetCurrentViewElementTransform(IEnumerable<String>)
+  href: api/MacacaGames.ViewSystem.ViewPageItem.html#MacacaGames_ViewSystem_ViewPageItem_GetCurrentViewElementTransform_System_Collections_Generic_IEnumerable_System_String__
+  commentId: M:MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform(System.Collections.Generic.IEnumerable{System.String})
+  name.vb: GetCurrentViewElementTransform(IEnumerable(Of String))
+  fullName: MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform(System.Collections.Generic.IEnumerable<System.String>)
+  fullName.vb: MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform(System.Collections.Generic.IEnumerable(Of System.String))
+  nameWithType: ViewPageItem.GetCurrentViewElementTransform(IEnumerable<String>)
+  nameWithType.vb: ViewPageItem.GetCurrentViewElementTransform(IEnumerable(Of String))
+- uid: MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform*
+  name: GetCurrentViewElementTransform
+  href: api/MacacaGames.ViewSystem.ViewPageItem.html#MacacaGames_ViewSystem_ViewPageItem_GetCurrentViewElementTransform_
+  commentId: Overload:MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform
+  nameWithType: ViewPageItem.GetCurrentViewElementTransform
 - uid: MacacaGames.ViewSystem.ViewPageItem.Id
   name: Id
   href: api/MacacaGames.ViewSystem.ViewPageItem.html#MacacaGames_ViewSystem_ViewPageItem_Id
@@ -4534,6 +4876,25 @@ references:
   commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting._maxWaitingTime
   fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting._maxWaitingTime
   nameWithType: ViewSystemSaveData.ViewSystemBaseSetting._maxWaitingTime
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  name: breakPoints
+  href: api/MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.html#MacacaGames_ViewSystem_ViewSystemSaveData_ViewSystemBaseSetting_breakPoints
+  commentId: P:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints*
+  name: breakPoints
+  href: api/MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.html#MacacaGames_ViewSystem_ViewSystemSaveData_ViewSystemBaseSetting_breakPoints_
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.builtInBreakPoints
+  name: builtInBreakPoints
+  href: api/MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.html#MacacaGames_ViewSystem_ViewSystemSaveData_ViewSystemBaseSetting_builtInBreakPoints
+  commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.builtInBreakPoints
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.builtInBreakPoints
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.builtInBreakPoints
 - uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.MaxWaitingTime
   name: MaxWaitingTime
   href: api/MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.html#MacacaGames_ViewSystem_ViewSystemSaveData_ViewSystemBaseSetting_MaxWaitingTime
@@ -4571,6 +4932,12 @@ references:
   commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UseNavigationSetting
   fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UseNavigationSetting
   nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.UseNavigationSetting
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.userBreakPoints
+  name: userBreakPoints
+  href: api/MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.html#MacacaGames_ViewSystem_ViewSystemSaveData_ViewSystemBaseSetting_userBreakPoints
+  commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.userBreakPoints
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.userBreakPoints
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.userBreakPoints
 - uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.ViewControllerObjectPath
   name: ViewControllerObjectPath
   href: api/MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.html#MacacaGames_ViewSystem_ViewSystemSaveData_ViewSystemBaseSetting_ViewControllerObjectPath
@@ -4583,15 +4950,15 @@ references:
   commentId: T:MacacaGames.ViewSystem.ViewSystemScriptBaker
   fullName: MacacaGames.ViewSystem.ViewSystemScriptBaker
   nameWithType: ViewSystemScriptBaker
-- uid: MacacaGames.ViewSystem.ViewSystemScriptBaker.BakeAllViewPageName(System.Collections.Generic.List{MacacaGames.ViewSystem.ViewPage},System.Collections.Generic.List{MacacaGames.ViewSystem.ViewState})
-  name: BakeAllViewPageName(List<ViewPage>, List<ViewState>)
-  href: api/MacacaGames.ViewSystem.ViewSystemScriptBaker.html#MacacaGames_ViewSystem_ViewSystemScriptBaker_BakeAllViewPageName_System_Collections_Generic_List_MacacaGames_ViewSystem_ViewPage__System_Collections_Generic_List_MacacaGames_ViewSystem_ViewState__
-  commentId: M:MacacaGames.ViewSystem.ViewSystemScriptBaker.BakeAllViewPageName(System.Collections.Generic.List{MacacaGames.ViewSystem.ViewPage},System.Collections.Generic.List{MacacaGames.ViewSystem.ViewState})
-  name.vb: BakeAllViewPageName(List(Of ViewPage), List(Of ViewState))
-  fullName: MacacaGames.ViewSystem.ViewSystemScriptBaker.BakeAllViewPageName(System.Collections.Generic.List<MacacaGames.ViewSystem.ViewPage>, System.Collections.Generic.List<MacacaGames.ViewSystem.ViewState>)
-  fullName.vb: MacacaGames.ViewSystem.ViewSystemScriptBaker.BakeAllViewPageName(System.Collections.Generic.List(Of MacacaGames.ViewSystem.ViewPage), System.Collections.Generic.List(Of MacacaGames.ViewSystem.ViewState))
-  nameWithType: ViewSystemScriptBaker.BakeAllViewPageName(List<ViewPage>, List<ViewState>)
-  nameWithType.vb: ViewSystemScriptBaker.BakeAllViewPageName(List(Of ViewPage), List(Of ViewState))
+- uid: MacacaGames.ViewSystem.ViewSystemScriptBaker.BakeAllViewPageName(System.Collections.Generic.List{MacacaGames.ViewSystem.ViewPage},System.Collections.Generic.List{MacacaGames.ViewSystem.ViewState},System.Collections.Generic.List{System.String})
+  name: BakeAllViewPageName(List<ViewPage>, List<ViewState>, List<String>)
+  href: api/MacacaGames.ViewSystem.ViewSystemScriptBaker.html#MacacaGames_ViewSystem_ViewSystemScriptBaker_BakeAllViewPageName_System_Collections_Generic_List_MacacaGames_ViewSystem_ViewPage__System_Collections_Generic_List_MacacaGames_ViewSystem_ViewState__System_Collections_Generic_List_System_String__
+  commentId: M:MacacaGames.ViewSystem.ViewSystemScriptBaker.BakeAllViewPageName(System.Collections.Generic.List{MacacaGames.ViewSystem.ViewPage},System.Collections.Generic.List{MacacaGames.ViewSystem.ViewState},System.Collections.Generic.List{System.String})
+  name.vb: BakeAllViewPageName(List(Of ViewPage), List(Of ViewState), List(Of String))
+  fullName: MacacaGames.ViewSystem.ViewSystemScriptBaker.BakeAllViewPageName(System.Collections.Generic.List<MacacaGames.ViewSystem.ViewPage>, System.Collections.Generic.List<MacacaGames.ViewSystem.ViewState>, System.Collections.Generic.List<System.String>)
+  fullName.vb: MacacaGames.ViewSystem.ViewSystemScriptBaker.BakeAllViewPageName(System.Collections.Generic.List(Of MacacaGames.ViewSystem.ViewPage), System.Collections.Generic.List(Of MacacaGames.ViewSystem.ViewState), System.Collections.Generic.List(Of System.String))
+  nameWithType: ViewSystemScriptBaker.BakeAllViewPageName(List<ViewPage>, List<ViewState>, List<String>)
+  nameWithType.vb: ViewSystemScriptBaker.BakeAllViewPageName(List(Of ViewPage), List(Of ViewState), List(Of String))
 - uid: MacacaGames.ViewSystem.ViewSystemScriptBaker.BakeAllViewPageName*
   name: BakeAllViewPageName
   href: api/MacacaGames.ViewSystem.ViewSystemScriptBaker.html#MacacaGames_ViewSystem_ViewSystemScriptBaker_BakeAllViewPageName_
@@ -5106,12 +5473,12 @@ references:
   commentId: T:MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow
   fullName: MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow
   nameWithType: OverridePopupWindow
-- uid: MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector)
-  name: OverridePopupWindow(String, ViewSystemNodeEditor, ViewSystemNodeInspector)
-  href: api/MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow.html#MacacaGames_ViewSystem_VisualEditor_OverridePopupWindow__ctor_System_String_MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeInspector_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector)
-  fullName: MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow.OverridePopupWindow(System.String, MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor, MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector)
-  nameWithType: OverridePopupWindow.OverridePopupWindow(String, ViewSystemNodeEditor, ViewSystemNodeInspector)
+- uid: MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector)
+  name: OverridePopupWindow(String, ViewSystemVisualEditor, ViewSystemNodeInspector)
+  href: api/MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow.html#MacacaGames_ViewSystem_VisualEditor_OverridePopupWindow__ctor_System_String_MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeInspector_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector)
+  fullName: MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow.OverridePopupWindow(System.String, MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor, MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector)
+  nameWithType: OverridePopupWindow.OverridePopupWindow(String, ViewSystemVisualEditor, ViewSystemNodeInspector)
 - uid: MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow.#ctor*
   name: OverridePopupWindow
   href: api/MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow.html#MacacaGames_ViewSystem_VisualEditor_OverridePopupWindow__ctor_
@@ -5225,6 +5592,51 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VisualEditor.PropertyFixerWindow.SetData
   nameWithType: PropertyFixerWindow.SetData
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow
+  name: ViewBreakpointWindow
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.html
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow
+  nameWithType: ViewBreakpointWindow
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  name: ViewBreakpointWindow(String, ViewSystemVisualEditor)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewBreakpointWindow__ctor_System_String_MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.ViewBreakpointWindow(System.String, MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  nameWithType: ViewBreakpointWindow.ViewBreakpointWindow(String, ViewSystemVisualEditor)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.#ctor*
+  name: ViewBreakpointWindow
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewBreakpointWindow__ctor_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.#ctor
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.ViewBreakpointWindow
+  nameWithType: ViewBreakpointWindow.ViewBreakpointWindow
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.Draw(System.Int32)
+  name: Draw(Int32)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewBreakpointWindow_Draw_System_Int32_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.Draw(System.Int32)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.Draw(System.Int32)
+  nameWithType: ViewBreakpointWindow.Draw(Int32)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.Draw*
+  name: Draw
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewBreakpointWindow_Draw_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.Draw
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.Draw
+  nameWithType: ViewBreakpointWindow.Draw
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.RebuildWindow(MacacaGames.ViewSystem.ViewPageItem)
+  name: RebuildWindow(ViewPageItem)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewBreakpointWindow_RebuildWindow_MacacaGames_ViewSystem_ViewPageItem_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.RebuildWindow(MacacaGames.ViewSystem.ViewPageItem)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.RebuildWindow(MacacaGames.ViewSystem.ViewPageItem)
+  nameWithType: ViewBreakpointWindow.RebuildWindow(ViewPageItem)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.RebuildWindow*
+  name: RebuildWindow
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewBreakpointWindow_RebuildWindow_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.RebuildWindow
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow.RebuildWindow
+  nameWithType: ViewBreakpointWindow.RebuildWindow
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow
   name: ViewElementOverridesImporterWindow
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.html
@@ -5250,12 +5662,12 @@ references:
   commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow
   nameWithType: ViewPageNavigationWindow
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  name: ViewPageNavigationWindow(String, ViewSystemNodeEditor)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewPageNavigationWindow__ctor_System_String_MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow.ViewPageNavigationWindow(System.String, MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  nameWithType: ViewPageNavigationWindow.ViewPageNavigationWindow(String, ViewSystemNodeEditor)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  name: ViewPageNavigationWindow(String, ViewSystemVisualEditor)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewPageNavigationWindow__ctor_System_String_MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow.ViewPageNavigationWindow(System.String, MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  nameWithType: ViewPageNavigationWindow.ViewPageNavigationWindow(String, ViewSystemVisualEditor)
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow.#ctor*
   name: ViewPageNavigationWindow
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewPageNavigationWindow__ctor_
@@ -5343,6 +5755,19 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageNode.Draw
   nameWithType: ViewPageNode.Draw
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewPageNode.HasBreakPoint
+  name: HasBreakPoint()
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewPageNode.html#MacacaGames_ViewSystem_VisualEditor_ViewPageNode_HasBreakPoint
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewPageNode.HasBreakPoint
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageNode.HasBreakPoint()
+  nameWithType: ViewPageNode.HasBreakPoint()
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewPageNode.HasBreakPoint*
+  name: HasBreakPoint
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewPageNode.html#MacacaGames_ViewSystem_VisualEditor_ViewPageNode_HasBreakPoint_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewPageNode.HasBreakPoint
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageNode.HasBreakPoint
+  nameWithType: ViewPageNode.HasBreakPoint
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewPageNode.HasOverride
   name: HasOverride()
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewPageNode.html#MacacaGames_ViewSystem_VisualEditor_ViewPageNode_HasOverride
@@ -5399,12 +5824,12 @@ references:
   commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow
   nameWithType: ViewPageOrderWindow
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
-  name: ViewPageOrderWindow(String, ViewSystemNodeEditor, ViewSystemDataReaderV2)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewPageOrderWindow__ctor_System_String_MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow.ViewPageOrderWindow(System.String, MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor, MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
-  nameWithType: ViewPageOrderWindow.ViewPageOrderWindow(String, ViewSystemNodeEditor, ViewSystemDataReaderV2)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
+  name: ViewPageOrderWindow(String, ViewSystemVisualEditor, ViewSystemDataReaderV2)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewPageOrderWindow__ctor_System_String_MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow.ViewPageOrderWindow(System.String, MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor, MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
+  nameWithType: ViewPageOrderWindow.ViewPageOrderWindow(String, ViewSystemVisualEditor, ViewSystemDataReaderV2)
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow.#ctor*
   name: ViewPageOrderWindow
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewPageOrderWindow__ctor_
@@ -5466,6 +5891,19 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewStateNode.Draw
   nameWithType: ViewStateNode.Draw
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewStateNode.HasBreakPoint
+  name: HasBreakPoint()
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewStateNode.html#MacacaGames_ViewSystem_VisualEditor_ViewStateNode_HasBreakPoint
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewStateNode.HasBreakPoint
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewStateNode.HasBreakPoint()
+  nameWithType: ViewStateNode.HasBreakPoint()
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewStateNode.HasBreakPoint*
+  name: HasBreakPoint
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewStateNode.html#MacacaGames_ViewSystem_VisualEditor_ViewStateNode_HasBreakPoint_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewStateNode.HasBreakPoint
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewStateNode.HasBreakPoint
+  nameWithType: ViewStateNode.HasBreakPoint
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewStateNode.HasOverride
   name: HasOverride()
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewStateNode.html#MacacaGames_ViewSystem_VisualEditor_ViewStateNode_HasOverride
@@ -5491,12 +5929,12 @@ references:
   commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
   nameWithType: ViewSystemDataReaderV2
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  name: ViewSystemDataReaderV2(ViewSystemNodeEditor)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2__ctor_MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ViewSystemDataReaderV2(MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  nameWithType: ViewSystemDataReaderV2.ViewSystemDataReaderV2(ViewSystemNodeEditor)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  name: ViewSystemDataReaderV2(ViewSystemVisualEditor)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2__ctor_MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ViewSystemDataReaderV2(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  nameWithType: ViewSystemDataReaderV2.ViewSystemDataReaderV2(ViewSystemVisualEditor)
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.#ctor*
   name: ViewSystemDataReaderV2
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2__ctor_
@@ -5640,12 +6078,15 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageDelete
   nameWithType: ViewSystemDataReaderV2.OnViewPageDelete
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage)
-  name: OnViewPagePreview(ViewPage)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2_OnViewPagePreview_MacacaGames_ViewSystem_ViewPage_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage)
-  nameWithType: ViewSystemDataReaderV2.OnViewPagePreview(ViewPage)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage,System.String[])
+  name: OnViewPagePreview(ViewPage, String[])
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2_OnViewPagePreview_MacacaGames_ViewSystem_ViewPage_System_String___
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage,System.String[])
+  name.vb: OnViewPagePreview(ViewPage, String())
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage, System.String[])
+  fullName.vb: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage, System.String())
+  nameWithType: ViewSystemDataReaderV2.OnViewPagePreview(ViewPage, String[])
+  nameWithType.vb: ViewSystemDataReaderV2.OnViewPagePreview(ViewPage, String())
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview*
   name: OnViewPagePreview
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2_OnViewPagePreview_
@@ -5739,12 +6180,12 @@ references:
   commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow
   nameWithType: ViewSystemGlobalSettingWindow
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
-  name: ViewSystemGlobalSettingWindow(String, ViewSystemNodeEditor, ViewSystemDataReaderV2)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemGlobalSettingWindow__ctor_System_String_MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow.ViewSystemGlobalSettingWindow(System.String, MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor, MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
-  nameWithType: ViewSystemGlobalSettingWindow.ViewSystemGlobalSettingWindow(String, ViewSystemNodeEditor, ViewSystemDataReaderV2)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
+  name: ViewSystemGlobalSettingWindow(String, ViewSystemVisualEditor, ViewSystemDataReaderV2)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemGlobalSettingWindow__ctor_System_String_MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow.ViewSystemGlobalSettingWindow(System.String, MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor, MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2)
+  nameWithType: ViewSystemGlobalSettingWindow.ViewSystemGlobalSettingWindow(String, ViewSystemVisualEditor, ViewSystemDataReaderV2)
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow.#ctor*
   name: ViewSystemGlobalSettingWindow
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemGlobalSettingWindow__ctor_
@@ -5863,6 +6304,19 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.GenerateRightBtnMenu
   nameWithType: ViewSystemNode.GenerateRightBtnMenu
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.HasBreakPoint
+  name: HasBreakPoint()
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNode_HasBreakPoint
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.HasBreakPoint
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.HasBreakPoint()
+  nameWithType: ViewSystemNode.HasBreakPoint()
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.HasBreakPoint*
+  name: HasBreakPoint
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNode_HasBreakPoint_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.HasBreakPoint
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.HasBreakPoint
+  nameWithType: ViewSystemNode.HasBreakPoint
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.HasOverride
   name: HasOverride()
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNode_HasOverride
@@ -6042,315 +6496,18 @@ references:
   commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.ViewSystemNodeWidth
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.ViewSystemNodeWidth
   nameWithType: ViewSystemNode.ViewSystemNodeWidth
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor
-  name: ViewSystemNodeEditor
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html
-  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor
-  nameWithType: ViewSystemNodeEditor
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewPageNode(UnityEngine.Vector2,System.Boolean,MacacaGames.ViewSystem.ViewPage)
-  name: AddViewPageNode(Vector2, Boolean, ViewPage)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_AddViewPageNode_UnityEngine_Vector2_System_Boolean_MacacaGames_ViewSystem_ViewPage_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewPageNode(UnityEngine.Vector2,System.Boolean,MacacaGames.ViewSystem.ViewPage)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewPageNode(UnityEngine.Vector2, System.Boolean, MacacaGames.ViewSystem.ViewPage)
-  nameWithType: ViewSystemNodeEditor.AddViewPageNode(Vector2, Boolean, ViewPage)
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewPageNode*
-  name: AddViewPageNode
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_AddViewPageNode_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewPageNode
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewPageNode
-  nameWithType: ViewSystemNodeEditor.AddViewPageNode
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewStateNode(UnityEngine.Vector2,MacacaGames.ViewSystem.ViewState)
-  name: AddViewStateNode(Vector2, ViewState)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_AddViewStateNode_UnityEngine_Vector2_MacacaGames_ViewSystem_ViewState_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewStateNode(UnityEngine.Vector2,MacacaGames.ViewSystem.ViewState)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewStateNode(UnityEngine.Vector2, MacacaGames.ViewSystem.ViewState)
-  nameWithType: ViewSystemNodeEditor.AddViewStateNode(Vector2, ViewState)
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewStateNode*
-  name: AddViewStateNode
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_AddViewStateNode_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewStateNode
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.AddViewStateNode
-  nameWithType: ViewSystemNodeEditor.AddViewStateNode
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.allowPreviewWhenPlaying
-  name: allowPreviewWhenPlaying
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_allowPreviewWhenPlaying
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.allowPreviewWhenPlaying
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.allowPreviewWhenPlaying
-  nameWithType: ViewSystemNodeEditor.allowPreviewWhenPlaying
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
-  name: ApplySafeArea(SafePadding.PerEdgeValues)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ApplySafeArea_MacacaGames_ViewSystem_SafePadding_PerEdgeValues_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
-  nameWithType: ViewSystemNodeEditor.ApplySafeArea(SafePadding.PerEdgeValues)
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ApplySafeArea*
-  name: ApplySafeArea
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ApplySafeArea_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ApplySafeArea
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ApplySafeArea
-  nameWithType: ViewSystemNodeEditor.ApplySafeArea
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CheckRepaint
-  name: CheckRepaint()
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_CheckRepaint
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CheckRepaint
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CheckRepaint()
-  nameWithType: ViewSystemNodeEditor.CheckRepaint()
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CheckRepaint*
-  name: CheckRepaint
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_CheckRepaint_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CheckRepaint
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CheckRepaint
-  nameWithType: ViewSystemNodeEditor.CheckRepaint
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ClearEditor
-  name: ClearEditor()
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ClearEditor
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ClearEditor
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ClearEditor()
-  nameWithType: ViewSystemNodeEditor.ClearEditor()
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ClearEditor*
-  name: ClearEditor
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ClearEditor_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ClearEditor
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ClearEditor
-  nameWithType: ViewSystemNodeEditor.ClearEditor
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.console
-  name: console
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_console
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.console
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.console
-  nameWithType: ViewSystemNodeEditor.console
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CreateConnection(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
-  name: CreateConnection(ViewStateNode)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_CreateConnection_MacacaGames_ViewSystem_VisualEditor_ViewStateNode_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CreateConnection(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CreateConnection(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
-  nameWithType: ViewSystemNodeEditor.CreateConnection(ViewStateNode)
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CreateConnection*
-  name: CreateConnection
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_CreateConnection_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CreateConnection
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.CreateConnection
-  nameWithType: ViewSystemNodeEditor.CreateConnection
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DoZoom(System.Single,UnityEngine.Vector2)
-  name: DoZoom(Single, Vector2)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_DoZoom_System_Single_UnityEngine_Vector2_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DoZoom(System.Single,UnityEngine.Vector2)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DoZoom(System.Single, UnityEngine.Vector2)
-  nameWithType: ViewSystemNodeEditor.DoZoom(Single, Vector2)
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DoZoom*
-  name: DoZoom
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_DoZoom_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DoZoom
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DoZoom
-  nameWithType: ViewSystemNodeEditor.DoZoom
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DrawGrid
-  name: DrawGrid()
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_DrawGrid
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DrawGrid
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DrawGrid()
-  nameWithType: ViewSystemNodeEditor.DrawGrid()
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DrawGrid*
-  name: DrawGrid
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_DrawGrid_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DrawGrid
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.DrawGrid
-  nameWithType: ViewSystemNodeEditor.DrawGrid
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.EditMode
-  name: EditMode
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_EditMode
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.EditMode
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.EditMode
-  nameWithType: ViewSystemNodeEditor.EditMode
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.floatWindowContianer
-  name: floatWindowContianer
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_floatWindowContianer
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.floatWindowContianer
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.floatWindowContianer
-  nameWithType: ViewSystemNodeEditor.floatWindowContianer
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.inspector
-  name: inspector
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_inspector
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.inspector
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.inspector
-  nameWithType: ViewSystemNodeEditor.inspector
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.inspectorContianer
-  name: inspectorContianer
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_inspectorContianer
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.inspectorContianer
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.inspectorContianer
-  nameWithType: ViewSystemNodeEditor.inspectorContianer
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.Instance
-  name: Instance
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_Instance
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.Instance
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.Instance
-  nameWithType: ViewSystemNodeEditor.Instance
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.IsNodeInactivable
-  name: IsNodeInactivable
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_IsNodeInactivable
-  commentId: P:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.IsNodeInactivable
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.IsNodeInactivable
-  nameWithType: ViewSystemNodeEditor.IsNodeInactivable
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.IsNodeInactivable*
-  name: IsNodeInactivable
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_IsNodeInactivable_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.IsNodeInactivable
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.IsNodeInactivable
-  nameWithType: ViewSystemNodeEditor.IsNodeInactivable
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.MigrateToV3
-  name: MigrateToV3()
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_MigrateToV3
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.MigrateToV3
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.MigrateToV3()
-  nameWithType: ViewSystemNodeEditor.MigrateToV3()
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.MigrateToV3*
-  name: MigrateToV3
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_MigrateToV3_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.MigrateToV3
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.MigrateToV3
-  nameWithType: ViewSystemNodeEditor.MigrateToV3
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.navigationWindow
-  name: navigationWindow
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_navigationWindow
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.navigationWindow
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.navigationWindow
-  nameWithType: ViewSystemNodeEditor.navigationWindow
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.nodeViewContianer
-  name: nodeViewContianer
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_nodeViewContianer
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.nodeViewContianer
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.nodeViewContianer
-  nameWithType: ViewSystemNodeEditor.nodeViewContianer
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnEnable
-  name: OnEnable()
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_OnEnable
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnEnable
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnEnable()
-  nameWithType: ViewSystemNodeEditor.OnEnable()
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnEnable*
-  name: OnEnable
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_OnEnable_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnEnable
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnEnable
-  nameWithType: ViewSystemNodeEditor.OnEnable
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnOpenAsset(System.Int32,System.Int32)
-  name: OnOpenAsset(Int32, Int32)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_OnOpenAsset_System_Int32_System_Int32_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnOpenAsset(System.Int32,System.Int32)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnOpenAsset(System.Int32, System.Int32)
-  nameWithType: ViewSystemNodeEditor.OnOpenAsset(Int32, Int32)
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnOpenAsset*
-  name: OnOpenAsset
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_OnOpenAsset_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnOpenAsset
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.OnOpenAsset
-  nameWithType: ViewSystemNodeEditor.OnOpenAsset
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.overrideFromOrginal
-  name: overrideFromOrginal
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_overrideFromOrginal
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.overrideFromOrginal
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.overrideFromOrginal
-  nameWithType: ViewSystemNodeEditor.overrideFromOrginal
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.overridePopupWindow
-  name: overridePopupWindow
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_overridePopupWindow
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.overridePopupWindow
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.overridePopupWindow
-  nameWithType: ViewSystemNodeEditor.overridePopupWindow
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.RefreshData(System.Boolean)
-  name: RefreshData(Boolean)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_RefreshData_System_Boolean_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.RefreshData(System.Boolean)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.RefreshData(System.Boolean)
-  nameWithType: ViewSystemNodeEditor.RefreshData(Boolean)
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.RefreshData*
-  name: RefreshData
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_RefreshData_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.RefreshData
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.RefreshData
-  nameWithType: ViewSystemNodeEditor.RefreshData
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.removeConnectWithoutAsk
-  name: removeConnectWithoutAsk
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_removeConnectWithoutAsk
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.removeConnectWithoutAsk
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.removeConnectWithoutAsk
-  nameWithType: ViewSystemNodeEditor.removeConnectWithoutAsk
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.saveData
-  name: saveData
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_saveData
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.saveData
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.saveData
-  nameWithType: ViewSystemNodeEditor.saveData
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.toolbarContianer
-  name: toolbarContianer
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_toolbarContianer
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.toolbarContianer
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.toolbarContianer
-  nameWithType: ViewSystemNodeEditor.toolbarContianer
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.UpdateRectTransformValue(MacacaGames.ViewSystem.ViewElement)
-  name: UpdateRectTransformValue(ViewElement)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_UpdateRectTransformValue_MacacaGames_ViewSystem_ViewElement_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.UpdateRectTransformValue(MacacaGames.ViewSystem.ViewElement)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.UpdateRectTransformValue(MacacaGames.ViewSystem.ViewElement)
-  nameWithType: ViewSystemNodeEditor.UpdateRectTransformValue(ViewElement)
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.UpdateRectTransformValue*
-  name: UpdateRectTransformValue
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_UpdateRectTransformValue_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.UpdateRectTransformValue
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.UpdateRectTransformValue
-  nameWithType: ViewSystemNodeEditor.UpdateRectTransformValue
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ViewControllerRoot
-  name: ViewControllerRoot
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ViewControllerRoot
-  commentId: P:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ViewControllerRoot
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ViewControllerRoot
-  nameWithType: ViewSystemNodeEditor.ViewControllerRoot
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ViewControllerRoot*
-  name: ViewControllerRoot
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_ViewControllerRoot_
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ViewControllerRoot
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.ViewControllerRoot
-  nameWithType: ViewSystemNodeEditor.ViewControllerRoot
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.viewPortScroll
-  name: viewPortScroll
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_viewPortScroll
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.viewPortScroll
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.viewPortScroll
-  nameWithType: ViewSystemNodeEditor.viewPortScroll
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.zoomScale
-  name: zoomScale
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_zoomScale
-  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.zoomScale
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor.zoomScale
-  nameWithType: ViewSystemNodeEditor.zoomScale
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
   name: ViewSystemNodeInspector
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.html
   commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
   nameWithType: ViewSystemNodeInspector
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  name: ViewSystemNodeInspector(ViewSystemNodeEditor)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeInspector__ctor_MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.ViewSystemNodeInspector(MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  nameWithType: ViewSystemNodeInspector.ViewSystemNodeInspector(ViewSystemNodeEditor)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  name: ViewSystemNodeInspector(ViewSystemVisualEditor)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeInspector__ctor_MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.ViewSystemNodeInspector(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  nameWithType: ViewSystemNodeInspector.ViewSystemNodeInspector(ViewSystemVisualEditor)
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.#ctor*
   name: ViewSystemNodeInspector
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeInspector__ctor_
@@ -6371,6 +6528,19 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Draw
   nameWithType: ViewSystemNodeInspector.Draw
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail(MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect)
+  name: DrawViewElementTransformDetail(ViewElementTransform, String, String, ViewElement, Rect)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeInspector_DrawViewElementTransformDetail_MacacaGames_ViewSystem_ViewElementTransform_System_String_System_String_MacacaGames_ViewSystem_ViewElement_UnityEngine_Rect_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail(MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail(MacacaGames.ViewSystem.ViewElementTransform, System.String, System.String, MacacaGames.ViewSystem.ViewElement, UnityEngine.Rect)
+  nameWithType: ViewSystemNodeInspector.DrawViewElementTransformDetail(ViewElementTransform, String, String, ViewElement, Rect)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail*
+  name: DrawViewElementTransformDetail
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeInspector_DrawViewElementTransformDetail_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail
+  nameWithType: ViewSystemNodeInspector.DrawViewElementTransformDetail
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.isMouseInSideBar
   name: isMouseInSideBar()
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeInspector_isMouseInSideBar
@@ -6441,12 +6611,12 @@ references:
   commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow
   nameWithType: ViewSystemNodeWindow
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  name: ViewSystemNodeWindow(String, ViewSystemNodeEditor)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeWindow__ctor_System_String_MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow.ViewSystemNodeWindow(System.String, MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor)
-  nameWithType: ViewSystemNodeWindow.ViewSystemNodeWindow(String, ViewSystemNodeEditor)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  name: ViewSystemNodeWindow(String, ViewSystemVisualEditor)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeWindow__ctor_System_String_MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow.#ctor(System.String,MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow.ViewSystemNodeWindow(System.String, MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  nameWithType: ViewSystemNodeWindow.ViewSystemNodeWindow(String, ViewSystemVisualEditor)
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow.#ctor*
   name: ViewSystemNodeWindow
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeWindow__ctor_
@@ -6594,18 +6764,24 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemRectTransformEditor.OnInspectorGUI
   nameWithType: ViewSystemRectTransformEditor.OnInspectorGUI
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemRectTransformEditor.text
+  name: text
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemRectTransformEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemRectTransformEditor_text
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemRectTransformEditor.text
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemRectTransformEditor.text
+  nameWithType: ViewSystemRectTransformEditor.text
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
   name: ViewSystemVerifier
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.html
   commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
   nameWithType: ViewSystemVerifier
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor,MacacaGames.ViewSystem.ViewSystemSaveData)
-  name: ViewSystemVerifier(ViewSystemNodeEditor, ViewSystemSaveData)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVerifier__ctor_MacacaGames_ViewSystem_VisualEditor_ViewSystemNodeEditor_MacacaGames_ViewSystem_ViewSystemSaveData_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor,MacacaGames.ViewSystem.ViewSystemSaveData)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.ViewSystemVerifier(MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeEditor, MacacaGames.ViewSystem.ViewSystemSaveData)
-  nameWithType: ViewSystemVerifier.ViewSystemVerifier(ViewSystemNodeEditor, ViewSystemSaveData)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.ViewSystemSaveData)
+  name: ViewSystemVerifier(ViewSystemVisualEditor, ViewSystemSaveData)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVerifier__ctor_MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_MacacaGames_ViewSystem_ViewSystemSaveData_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.ViewSystemSaveData)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.ViewSystemVerifier(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor, MacacaGames.ViewSystem.ViewSystemSaveData)
+  nameWithType: ViewSystemVerifier.ViewSystemVerifier(ViewSystemVisualEditor, ViewSystemSaveData)
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.#ctor*
   name: ViewSystemVerifier
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVerifier__ctor_
@@ -6738,6 +6914,296 @@ references:
   commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.ViewSystemGameObjectMissingData.viewSystemComponent
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.ViewSystemGameObjectMissingData.viewSystemComponent
   nameWithType: ViewSystemVerifier.ViewSystemGameObjectMissingData.viewSystemComponent
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+  name: ViewSystemVisualEditor
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+  nameWithType: ViewSystemVisualEditor
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewPageNode(UnityEngine.Vector2,System.Boolean,MacacaGames.ViewSystem.ViewPage)
+  name: AddViewPageNode(Vector2, Boolean, ViewPage)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_AddViewPageNode_UnityEngine_Vector2_System_Boolean_MacacaGames_ViewSystem_ViewPage_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewPageNode(UnityEngine.Vector2,System.Boolean,MacacaGames.ViewSystem.ViewPage)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewPageNode(UnityEngine.Vector2, System.Boolean, MacacaGames.ViewSystem.ViewPage)
+  nameWithType: ViewSystemVisualEditor.AddViewPageNode(Vector2, Boolean, ViewPage)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewPageNode*
+  name: AddViewPageNode
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_AddViewPageNode_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewPageNode
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewPageNode
+  nameWithType: ViewSystemVisualEditor.AddViewPageNode
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewStateNode(UnityEngine.Vector2,MacacaGames.ViewSystem.ViewState)
+  name: AddViewStateNode(Vector2, ViewState)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_AddViewStateNode_UnityEngine_Vector2_MacacaGames_ViewSystem_ViewState_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewStateNode(UnityEngine.Vector2,MacacaGames.ViewSystem.ViewState)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewStateNode(UnityEngine.Vector2, MacacaGames.ViewSystem.ViewState)
+  nameWithType: ViewSystemVisualEditor.AddViewStateNode(Vector2, ViewState)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewStateNode*
+  name: AddViewStateNode
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_AddViewStateNode_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewStateNode
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.AddViewStateNode
+  nameWithType: ViewSystemVisualEditor.AddViewStateNode
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.allowPreviewWhenPlaying
+  name: allowPreviewWhenPlaying
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_allowPreviewWhenPlaying
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.allowPreviewWhenPlaying
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.allowPreviewWhenPlaying
+  nameWithType: ViewSystemVisualEditor.allowPreviewWhenPlaying
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
+  name: ApplySafeArea(SafePadding.PerEdgeValues)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_ApplySafeArea_MacacaGames_ViewSystem_SafePadding_PerEdgeValues_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
+  nameWithType: ViewSystemVisualEditor.ApplySafeArea(SafePadding.PerEdgeValues)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ApplySafeArea*
+  name: ApplySafeArea
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_ApplySafeArea_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ApplySafeArea
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ApplySafeArea
+  nameWithType: ViewSystemVisualEditor.ApplySafeArea
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.breakpointWindow
+  name: breakpointWindow
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_breakpointWindow
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.breakpointWindow
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.breakpointWindow
+  nameWithType: ViewSystemVisualEditor.breakpointWindow
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CheckRepaint
+  name: CheckRepaint()
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_CheckRepaint
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CheckRepaint
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CheckRepaint()
+  nameWithType: ViewSystemVisualEditor.CheckRepaint()
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CheckRepaint*
+  name: CheckRepaint
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_CheckRepaint_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CheckRepaint
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CheckRepaint
+  nameWithType: ViewSystemVisualEditor.CheckRepaint
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ClearEditor
+  name: ClearEditor()
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_ClearEditor
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ClearEditor
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ClearEditor()
+  nameWithType: ViewSystemVisualEditor.ClearEditor()
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ClearEditor*
+  name: ClearEditor
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_ClearEditor_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ClearEditor
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ClearEditor
+  nameWithType: ViewSystemVisualEditor.ClearEditor
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CreateConnection(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  name: CreateConnection(ViewStateNode)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_CreateConnection_MacacaGames_ViewSystem_VisualEditor_ViewStateNode_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CreateConnection(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CreateConnection(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  nameWithType: ViewSystemVisualEditor.CreateConnection(ViewStateNode)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CreateConnection*
+  name: CreateConnection
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_CreateConnection_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CreateConnection
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CreateConnection
+  nameWithType: ViewSystemVisualEditor.CreateConnection
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DoZoom(System.Single,UnityEngine.Vector2)
+  name: DoZoom(Single, Vector2)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_DoZoom_System_Single_UnityEngine_Vector2_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DoZoom(System.Single,UnityEngine.Vector2)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DoZoom(System.Single, UnityEngine.Vector2)
+  nameWithType: ViewSystemVisualEditor.DoZoom(Single, Vector2)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DoZoom*
+  name: DoZoom
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_DoZoom_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DoZoom
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DoZoom
+  nameWithType: ViewSystemVisualEditor.DoZoom
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DrawGrid
+  name: DrawGrid()
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_DrawGrid
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DrawGrid
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DrawGrid()
+  nameWithType: ViewSystemVisualEditor.DrawGrid()
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DrawGrid*
+  name: DrawGrid
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_DrawGrid_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DrawGrid
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DrawGrid
+  nameWithType: ViewSystemVisualEditor.DrawGrid
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.EditMode
+  name: EditMode
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_EditMode
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.EditMode
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.EditMode
+  nameWithType: ViewSystemVisualEditor.EditMode
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.floatWindowContianer
+  name: floatWindowContianer
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_floatWindowContianer
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.floatWindowContianer
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.floatWindowContianer
+  nameWithType: ViewSystemVisualEditor.floatWindowContianer
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.globalSettingWindow
+  name: globalSettingWindow
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_globalSettingWindow
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.globalSettingWindow
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.globalSettingWindow
+  nameWithType: ViewSystemVisualEditor.globalSettingWindow
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.inspector
+  name: inspector
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_inspector
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.inspector
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.inspector
+  nameWithType: ViewSystemVisualEditor.inspector
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.inspectorContianer
+  name: inspectorContianer
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_inspectorContianer
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.inspectorContianer
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.inspectorContianer
+  nameWithType: ViewSystemVisualEditor.inspectorContianer
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.Instance
+  name: Instance
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_Instance
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.Instance
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.Instance
+  nameWithType: ViewSystemVisualEditor.Instance
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.IsNodeInactivable
+  name: IsNodeInactivable
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_IsNodeInactivable
+  commentId: P:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.IsNodeInactivable
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.IsNodeInactivable
+  nameWithType: ViewSystemVisualEditor.IsNodeInactivable
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.IsNodeInactivable*
+  name: IsNodeInactivable
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_IsNodeInactivable_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.IsNodeInactivable
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.IsNodeInactivable
+  nameWithType: ViewSystemVisualEditor.IsNodeInactivable
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.MigrateToSplitTransformData
+  name: MigrateToSplitTransformData()
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_MigrateToSplitTransformData
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.MigrateToSplitTransformData
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.MigrateToSplitTransformData()
+  nameWithType: ViewSystemVisualEditor.MigrateToSplitTransformData()
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.MigrateToSplitTransformData*
+  name: MigrateToSplitTransformData
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_MigrateToSplitTransformData_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.MigrateToSplitTransformData
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.MigrateToSplitTransformData
+  nameWithType: ViewSystemVisualEditor.MigrateToSplitTransformData
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.navigationWindow
+  name: navigationWindow
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_navigationWindow
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.navigationWindow
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.navigationWindow
+  nameWithType: ViewSystemVisualEditor.navigationWindow
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.nodeViewContianer
+  name: nodeViewContianer
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_nodeViewContianer
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.nodeViewContianer
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.nodeViewContianer
+  nameWithType: ViewSystemVisualEditor.nodeViewContianer
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnEnable
+  name: OnEnable()
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_OnEnable
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnEnable
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnEnable()
+  nameWithType: ViewSystemVisualEditor.OnEnable()
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnEnable*
+  name: OnEnable
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_OnEnable_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnEnable
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnEnable
+  nameWithType: ViewSystemVisualEditor.OnEnable
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnOpenAsset(System.Int32,System.Int32)
+  name: OnOpenAsset(Int32, Int32)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_OnOpenAsset_System_Int32_System_Int32_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnOpenAsset(System.Int32,System.Int32)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnOpenAsset(System.Int32, System.Int32)
+  nameWithType: ViewSystemVisualEditor.OnOpenAsset(Int32, Int32)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnOpenAsset*
+  name: OnOpenAsset
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_OnOpenAsset_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnOpenAsset
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnOpenAsset
+  nameWithType: ViewSystemVisualEditor.OnOpenAsset
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.overrideFromOrginal
+  name: overrideFromOrginal
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_overrideFromOrginal
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.overrideFromOrginal
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.overrideFromOrginal
+  nameWithType: ViewSystemVisualEditor.overrideFromOrginal
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.overridePopupWindow
+  name: overridePopupWindow
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_overridePopupWindow
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.overridePopupWindow
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.overridePopupWindow
+  nameWithType: ViewSystemVisualEditor.overridePopupWindow
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.RefreshData(System.Boolean)
+  name: RefreshData(Boolean)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_RefreshData_System_Boolean_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.RefreshData(System.Boolean)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.RefreshData(System.Boolean)
+  nameWithType: ViewSystemVisualEditor.RefreshData(Boolean)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.RefreshData*
+  name: RefreshData
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_RefreshData_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.RefreshData
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.RefreshData
+  nameWithType: ViewSystemVisualEditor.RefreshData
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.removeConnectWithoutAsk
+  name: removeConnectWithoutAsk
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_removeConnectWithoutAsk
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.removeConnectWithoutAsk
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.removeConnectWithoutAsk
+  nameWithType: ViewSystemVisualEditor.removeConnectWithoutAsk
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.saveData
+  name: saveData
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_saveData
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.saveData
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.saveData
+  nameWithType: ViewSystemVisualEditor.saveData
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.toolbarContianer
+  name: toolbarContianer
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_toolbarContianer
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.toolbarContianer
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.toolbarContianer
+  nameWithType: ViewSystemVisualEditor.toolbarContianer
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ViewControllerRoot
+  name: ViewControllerRoot
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_ViewControllerRoot
+  commentId: P:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ViewControllerRoot
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ViewControllerRoot
+  nameWithType: ViewSystemVisualEditor.ViewControllerRoot
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ViewControllerRoot*
+  name: ViewControllerRoot
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_ViewControllerRoot_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ViewControllerRoot
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ViewControllerRoot
+  nameWithType: ViewSystemVisualEditor.ViewControllerRoot
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.viewPortScroll
+  name: viewPortScroll
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_viewPortScroll
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.viewPortScroll
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.viewPortScroll
+  nameWithType: ViewSystemVisualEditor.viewPortScroll
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.zoomScale
+  name: zoomScale
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_zoomScale
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.zoomScale
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.zoomScale
+  nameWithType: ViewSystemVisualEditor.zoomScale
 - uid: MacacaGames.ViewSystem.VS_EditorUtility
   name: VS_EditorUtility
   href: api/MacacaGames.ViewSystem.VS_EditorUtility.html
@@ -6802,6 +7268,31 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VS_EditorUtility.IsPropertyNeedIgnore
   nameWithType: VS_EditorUtility.IsPropertyNeedIgnore
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean)
+  name: SetAnchorSmart(ViewSystemRectTransformData, RectTransform, Single, Int32, Boolean, Boolean)
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.html#MacacaGames_ViewSystem_VS_EditorUtility_SetAnchorSmart_MacacaGames_ViewSystem_ViewSystemRectTransformData_UnityEngine_RectTransform_System_Single_System_Int32_System_Boolean_System_Boolean_
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean)
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData, UnityEngine.RectTransform, System.Single, System.Int32, System.Boolean, System.Boolean)
+  nameWithType: VS_EditorUtility.SetAnchorSmart(ViewSystemRectTransformData, RectTransform, Single, Int32, Boolean, Boolean)
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean)
+  name: SetAnchorSmart(ViewSystemRectTransformData, RectTransform, Single, Int32, Boolean, Boolean, Boolean)
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.html#MacacaGames_ViewSystem_VS_EditorUtility_SetAnchorSmart_MacacaGames_ViewSystem_ViewSystemRectTransformData_UnityEngine_RectTransform_System_Single_System_Int32_System_Boolean_System_Boolean_System_Boolean_
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean)
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData, UnityEngine.RectTransform, System.Single, System.Int32, System.Boolean, System.Boolean, System.Boolean)
+  nameWithType: VS_EditorUtility.SetAnchorSmart(ViewSystemRectTransformData, RectTransform, Single, Int32, Boolean, Boolean, Boolean)
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  name: SetAnchorSmart(ViewSystemRectTransformData, RectTransform, Single, Int32, Boolean, Boolean, Boolean, Boolean, Boolean)
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.html#MacacaGames_ViewSystem_VS_EditorUtility_SetAnchorSmart_MacacaGames_ViewSystem_ViewSystemRectTransformData_UnityEngine_RectTransform_System_Single_System_Int32_System_Boolean_System_Boolean_System_Boolean_System_Boolean_System_Boolean_
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData, UnityEngine.RectTransform, System.Single, System.Int32, System.Boolean, System.Boolean, System.Boolean, System.Boolean, System.Boolean)
+  nameWithType: VS_EditorUtility.SetAnchorSmart(ViewSystemRectTransformData, RectTransform, Single, Int32, Boolean, Boolean, Boolean, Boolean, Boolean)
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart*
+  name: SetAnchorSmart
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.html#MacacaGames_ViewSystem_VS_EditorUtility_SetAnchorSmart_
+  commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart
+  nameWithType: VS_EditorUtility.SetAnchorSmart
 - uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemDetailPopup
   name: VS_EditorUtility.ViewPageItemDetailPopup
   href: api/MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemDetailPopup.html
@@ -6847,3 +7338,51 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemDetailPopup.OnGUI
   nameWithType: VS_EditorUtility.ViewPageItemDetailPopup.OnGUI
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup
+  name: VS_EditorUtility.ViewPageItemsBreakPointPopup
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.html
+  commentId: T:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.#ctor(MacacaGames.ViewSystem.ViewPageItem,System.Action{MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect})
+  name: ViewPageItemsBreakPointPopup(ViewPageItem, Action<ViewElementTransform, String, String, ViewElement, Rect>)
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.html#MacacaGames_ViewSystem_VS_EditorUtility_ViewPageItemsBreakPointPopup__ctor_MacacaGames_ViewSystem_ViewPageItem_System_Action_MacacaGames_ViewSystem_ViewElementTransform_System_String_System_String_MacacaGames_ViewSystem_ViewElement_UnityEngine_Rect__
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.#ctor(MacacaGames.ViewSystem.ViewPageItem,System.Action{MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect})
+  name.vb: ViewPageItemsBreakPointPopup(ViewPageItem, Action(Of ViewElementTransform, String, String, ViewElement, Rect))
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup(MacacaGames.ViewSystem.ViewPageItem, System.Action<MacacaGames.ViewSystem.ViewElementTransform, System.String, System.String, MacacaGames.ViewSystem.ViewElement, UnityEngine.Rect>)
+  fullName.vb: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup(MacacaGames.ViewSystem.ViewPageItem, System.Action(Of MacacaGames.ViewSystem.ViewElementTransform, System.String, System.String, MacacaGames.ViewSystem.ViewElement, UnityEngine.Rect))
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup(ViewPageItem, Action<ViewElementTransform, String, String, ViewElement, Rect>)
+  nameWithType.vb: VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup(ViewPageItem, Action(Of ViewElementTransform, String, String, ViewElement, Rect))
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.#ctor*
+  name: ViewPageItemsBreakPointPopup
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.html#MacacaGames_ViewSystem_VS_EditorUtility_ViewPageItemsBreakPointPopup__ctor_
+  commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.#ctor
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize
+  name: GetWindowSize()
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.html#MacacaGames_ViewSystem_VS_EditorUtility_ViewPageItemsBreakPointPopup_GetWindowSize
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize()
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize()
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize*
+  name: GetWindowSize
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.html#MacacaGames_ViewSystem_VS_EditorUtility_ViewPageItemsBreakPointPopup_GetWindowSize_
+  commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI(UnityEngine.Rect)
+  name: OnGUI(Rect)
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.html#MacacaGames_ViewSystem_VS_EditorUtility_ViewPageItemsBreakPointPopup_OnGUI_UnityEngine_Rect_
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI(UnityEngine.Rect)
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI(UnityEngine.Rect)
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI(Rect)
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI*
+  name: OnGUI
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.html#MacacaGames_ViewSystem_VS_EditorUtility_ViewPageItemsBreakPointPopup_OnGUI_
+  commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI
