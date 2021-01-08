@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 namespace MacacaGames.ViewSystem.VisualEditor
 {
-    public class ViewSystemDataReaderV2 : IViewSystemDateReader
+    public class ViewSystemDataReaderV2
     {
         const string ViewSystemResourceFolder = "Assets/ViewSystemResources/";
         const string ViewSystemSaveDataFileName = "ViewSystemData.asset";
@@ -213,7 +213,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
         }
 
-        public void OnViewPagePreview(ViewPage viewPage)
+        public void OnViewPagePreview(ViewPage viewPage, string[] breakPoints)
         {
 
             string UIRootName = "";
@@ -271,7 +271,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 Transform tempParent = null;
 
                 // TODO preview viewpage with BreakPoint
-                var transformData = item.GetCurrentViewElementTransform(null);
+                var transformData = item.GetCurrentViewElementTransform(breakPoints);
                 if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
                     //Custom Parent implement

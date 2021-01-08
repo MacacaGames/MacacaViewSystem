@@ -318,7 +318,60 @@ namespace MacacaGames.ViewSystem.VisualEditor
             );
             node.OnPreviewBtnClick += (m) =>
             {
-                dataReader.OnViewPagePreview(m);
+                var bps = HasBreakPoint(m);
+                if (bps.Length > 0)
+                {
+                    GenericMenu menu = new GenericMenu();
+                    menu.AddItem(new GUIContent($"Preview with Default BreakPoint  "), false, () =>
+                    {
+                        dataReader.OnViewPagePreview(m, null);
+                    });
+                    foreach (var item in bps)
+                    {
+                        menu.AddItem(new GUIContent($"Preview with {item} BreakPoint  "), false, () =>
+                        {
+                            dataReader.OnViewPagePreview(m, new string[]{
+                                item
+                            });
+                        });
+                    }
+                    menu.ShowAsContext();
+                }
+                else
+                {
+                    dataReader.OnViewPagePreview(m, null);
+                }
+
+                string[] HasBreakPoint(ViewPage _viewPage)
+                {
+                    List<string> result = new List<string>();
+                    foreach (var item in _viewPage.viewPageItems)
+                    {
+                        if (item.breakPointViewElementTransforms != null)
+                        {
+                            foreach (var bp in item.breakPointViewElementTransforms)
+                            {
+                                if (!result.Contains(bp.breakPointName)) result.Add(bp.breakPointName);
+                            }
+                        }
+                    }
+
+                    var viewState = viewStateList.SingleOrDefault(x => x.viewState.name == _viewPage.viewState);
+                    if (viewState != null)
+                    {
+                        foreach (var item in viewState.viewState.viewPageItems)
+                        {
+                            if (item.breakPointViewElementTransforms != null)
+                            {
+                                foreach (var bp in item.breakPointViewElementTransforms)
+                                {
+                                    if (!result.Contains(bp.breakPointName)) result.Add(bp.breakPointName);
+                                }
+                            }
+                        }
+                    }
+                    return result.ToArray();
+                }
             };
             node.OnNodeSelect += (m) =>
             {

@@ -45,21 +45,31 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             using (var disable = new EditorGUI.DisabledGroupScope(!ViewSystemVisualEditor.Instance.EditMode))
             {
-                if (GUILayout.Button("Copy value to Default BreakPoint"))
+                if (GUILayout.Button("Copy value to ViewSystem"))
                 {
-                    CopyValue(viewElement?.currentViewPageItem.defaultTransformDatas, rectTransform);
-                }
-                if (viewElement.currentViewPageItem.breakPointViewElementTransforms == null || viewElement.currentViewPageItem.breakPointViewElementTransforms.Count == 0)
-                {
-                    return;
-                }
-                foreach (var item in viewElement.currentViewPageItem.breakPointViewElementTransforms)
-                {
-                    if (GUILayout.Button($"Copy value to {item.breakPointName} BreakPoint"))
+                    if (viewElement.currentViewPageItem.breakPointViewElementTransforms == null || viewElement.currentViewPageItem.breakPointViewElementTransforms.Count == 0)
                     {
-                        CopyValue(item.transformData, rectTransform);
+                        CopyValue(viewElement?.currentViewPageItem.defaultTransformDatas, rectTransform);
+                    }
+                    else
+                    {
+                        GenericMenu menu = new GenericMenu();
+
+                        menu.AddItem(new GUIContent($"Copy to Default BreakPoint"), false, () =>
+                        {
+                            CopyValue(viewElement?.currentViewPageItem.defaultTransformDatas, rectTransform);
+                        });
+                        foreach (var item in viewElement.currentViewPageItem.breakPointViewElementTransforms)
+                        {
+                            menu.AddItem(new GUIContent($"Copy to {item.breakPointName} BreakPoint"), false, () =>
+                            {
+                                CopyValue(item.transformData, rectTransform);
+                            });
+                        }
+                        menu.ShowAsContext();
                     }
                 }
+
             }
         }
 
@@ -72,6 +82,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
             transformData.rectTransformData.localScale = rectTransform.localScale;
             transformData.rectTransformData.localEulerAngles = rectTransform.localEulerAngles;
             transformData.rectTransformData.sizeDelta = rectTransform.sizeDelta;
+            transformData.rectTransformData.offsetMax = rectTransform.offsetMax;
+            transformData.rectTransformData.offsetMin = rectTransform.offsetMin;
+            UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
         }
     }
 }

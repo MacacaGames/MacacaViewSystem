@@ -955,8 +955,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             float lableWidth = EditorGUIUtility.labelWidth;
             EditorGUIUtility.labelWidth = 45;
-            // using (new EditorGUI.DisabledScope(targets.Any(x => ((x as RectTransform).drivenProperties & driven) != 0)))
-            // {
+      
             float value = getter(_rectTransform);
             using (var change = new EditorGUI.ChangeCheckScope())
             {
@@ -968,8 +967,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 }
             }
             EditorGUIUtility.labelWidth = lableWidth;
-            // }
         }
+
         void Vector2Field(Rect position, GUIContent label, Vector2 value, Vector2Setter setter)
         {
             bool widthMode = EditorGUIUtility.wideMode;
@@ -983,11 +982,14 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (change.changed)
                 {
                     Undo.RecordObject(saveData, "ViewSystem_Indpector");
+                    newValue.x = Mathf.Clamp01(newValue.x);
+                    newValue.y = Mathf.Clamp01(newValue.y);
                     setter(newValue);
                 }
             }
             EditorGUIUtility.labelWidth = lableWidth;
         }
+        
         void Vector3Field(Rect position, GUIContent label, Vector3 value, Vector3Setter setter)
         {
             bool widthMode = EditorGUIUtility.wideMode;
@@ -1011,8 +1013,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             dropdownPosition.x += 2;
             dropdownPosition.y += 17;
-            // using (new EditorGUI.DisabledScope(anyWithoutParent))
-            // {
+   
             Color oldColor = GUI.color;
             GUI.color = new Color(1, 1, 1, 0.6f) * oldColor;
             if (EditorGUI.DropdownButton(dropdownPosition, GUIContent.none, FocusType.Passive, "box"))
@@ -1022,13 +1023,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 PopupWindow.Show(dropdownPosition, m_DropdownWindow);
             }
             GUI.color = oldColor;
-            // }
-
-            // if (!anyWithoutParent)
-            // {
+      
             LayoutDropdownWindow.DrawLayoutMode(new RectOffset(7, 7, 7, 7).Remove(dropdownPosition), rectTransformData.anchorMin, rectTransformData.anchorMax, rectTransformData.anchoredPosition, rectTransformData.sizeDelta);
             LayoutDropdownWindow.DrawLayoutModeHeadersOutsideRect(dropdownPosition, rectTransformData.anchorMin, rectTransformData.anchorMax, rectTransformData.anchoredPosition, rectTransformData.sizeDelta);
-            // }
         }
 
         bool SmartPositionAndSizeFields(Rect rect, bool anyWithoutParent, ViewSystemRectTransformData rectTransformData, bool anyDrivenX, bool anyDrivenY)
@@ -1238,6 +1235,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             }
         }
+
         void DrawViewStateDetail(ViewStateNode viewStateNode)
         {
 
@@ -1286,8 +1284,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     }
                 }
             }
-
         }
-
     }
 }
