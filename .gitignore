@@ -131,8 +131,3 @@ $RECYCLE.BIN/
 
 _NCrunch*
 
-
-docs/*/*.meta
-Document/*/*.meta
-docs/*.meta
-Document/*.meta
