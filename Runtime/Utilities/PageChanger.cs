@@ -148,7 +148,7 @@ namespace MacacaGames.ViewSystem
         }
         public static CustomYieldInstruction Leave(this OverlayPageChanger selfObj, bool customYieldInstruction)
         {
-            return new ViewCYInstruction.WaitForStandardYieldInstruction(PageChanger._viewController, selfObj._Leave());
+            return new WaitForStandardYieldInstruction(PageChanger._viewController, selfObj._Leave());
         }
     }
 
@@ -225,7 +225,7 @@ namespace MacacaGames.ViewSystem
 
         public static CustomYieldInstruction Show(this PageChanger selfObj, bool customYieldInstruction)
         {
-            return new ViewCYInstruction.WaitForStandardYieldInstruction(PageChanger._viewController, selfObj._Show());
+            return new WaitForStandardYieldInstruction(PageChanger._viewController, selfObj._Show());
         }
         // public static YieldInstruction GetYieldInstruction(this PageChanger selfObj)
         // {
