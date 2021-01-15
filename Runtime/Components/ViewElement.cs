@@ -125,25 +125,25 @@ namespace MacacaGames.ViewSystem
             if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.LocalEulerAngles)) rectTransform.localEulerAngles = viewElementTransform.rectTransformData.localEulerAngles;
             if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.LocalScale)) rectTransform.localScale = viewElementTransform.rectTransformData.localScale;
             if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.Pivot)) rectTransform.pivot = viewElementTransform.rectTransformData.pivot;
-            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.SizeDelta))
-            {
-                if (viewElementTransform.rectTransformData.anchorMin.x != viewElementTransform.rectTransformData.anchorMax.x ||
-                    viewElementTransform.rectTransformData.anchorMin.y != viewElementTransform.rectTransformData.anchorMax.y)
-                {
-                    ApplyOffectMax(viewElementTransform);
-                    ApplyOffectMin(viewElementTransform);
-                }
-            }
+            // if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.SizeDelta))
+            // {
+            //     if (viewElementTransform.rectTransformData.anchorMin.x != viewElementTransform.rectTransformData.anchorMax.x ||
+            //         viewElementTransform.rectTransformData.anchorMin.y != viewElementTransform.rectTransformData.anchorMax.y)
+            //     {
+            //         ApplyOffectMax(viewElementTransform);
+            //         ApplyOffectMin(viewElementTransform);
+            //     }
+            // }
         }
 
-        public void ApplyOffectMax(ViewElementTransform viewElementTransform)
-        {
-            rectTransform.offsetMax = viewElementTransform.rectTransformData.offsetMax;
-        }
-        public void ApplyOffectMin(ViewElementTransform viewElementTransform)
-        {
-            rectTransform.offsetMin = viewElementTransform.rectTransformData.offsetMin;
-        }
+        // public void ApplyOffectMax(ViewElementTransform viewElementTransform)
+        // {
+        //     rectTransform.offsetMax = viewElementTransform.rectTransformData.offsetMax;
+        // }
+        // public void ApplyOffectMin(ViewElementTransform viewElementTransform)
+        // {
+        //     rectTransform.offsetMin = viewElementTransform.rectTransformData.offsetMin;
+        // }
 
         public virtual Selectable[] GetSelectables()
         {

@@ -272,8 +272,47 @@ namespace MacacaGames.ViewSystem
         public Vector2 sizeDelta;
         public Vector2 anchorMin;
         public Vector2 anchorMax;
-        public Vector2 offsetMin;
-        public Vector2 offsetMax;
+
+        Vector2 anchoredPosition2D
+        {
+            get
+            {
+                return anchoredPosition;
+            }
+            set
+            {
+                anchoredPosition = new Vector3(value.x, value.y, anchoredPosition.z);
+            }
+        }
+
+        // Inspire from UnityEngine.CoreModule.dll
+        public Vector2 offsetMin
+        {
+            get
+            {
+                return anchoredPosition2D - Vector2.Scale(sizeDelta, pivot);
+            }
+            set
+            {
+                Vector2 vector = value - (anchoredPosition2D - Vector2.Scale(sizeDelta, pivot));
+                sizeDelta -= vector;
+                anchoredPosition2D += Vector2.Scale(vector, Vector2.one - pivot);
+            }
+        }
+
+        public Vector2 offsetMax
+        {
+            get
+            {
+                return anchoredPosition2D + Vector2.Scale(sizeDelta, Vector2.one - pivot);
+            }
+            set
+            {
+                Vector2 vector = value - (anchoredPosition2D + Vector2.Scale(sizeDelta, Vector2.one - pivot));
+                sizeDelta += vector;
+                anchoredPosition2D += Vector2.Scale(vector, pivot);
+            }
+        }
         // public static void SetPivotSmart(float value, int axis, bool smart, bool parentSpace)
         // {
         //     Vector3 cornerBefore = GetRectReferenceCorner(rect, !parentSpace);

@@ -669,11 +669,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                 if (previewViewElement)
                                 {
                                     previewViewElement.ApplyRectTransform(trasformData);
-                                    if (modifyResult)
-                                    {
-                                        previewViewElement.ApplyOffectMax(trasformData);
-                                        previewViewElement.ApplyOffectMin(trasformData);
-                                    }
+                                    // if (modifyResult)
+                                    // {
+                                    //     previewViewElement.ApplyOffectMax(trasformData);
+                                    //     previewViewElement.ApplyOffectMin(trasformData);
+                                    // }
                                 }
                             }
                         }
@@ -955,7 +955,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             float lableWidth = EditorGUIUtility.labelWidth;
             EditorGUIUtility.labelWidth = 45;
-      
+
             float value = getter(_rectTransform);
             using (var change = new EditorGUI.ChangeCheckScope())
             {
@@ -989,7 +989,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             EditorGUIUtility.labelWidth = lableWidth;
         }
-        
+
         void Vector3Field(Rect position, GUIContent label, Vector3 value, Vector3Setter setter)
         {
             bool widthMode = EditorGUIUtility.wideMode;
@@ -1013,7 +1013,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             dropdownPosition.x += 2;
             dropdownPosition.y += 17;
-   
+
             Color oldColor = GUI.color;
             GUI.color = new Color(1, 1, 1, 0.6f) * oldColor;
             if (EditorGUI.DropdownButton(dropdownPosition, GUIContent.none, FocusType.Passive, "box"))
@@ -1023,7 +1023,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 PopupWindow.Show(dropdownPosition, m_DropdownWindow);
             }
             GUI.color = oldColor;
-      
+
             LayoutDropdownWindow.DrawLayoutMode(new RectOffset(7, 7, 7, 7).Remove(dropdownPosition), rectTransformData.anchorMin, rectTransformData.anchorMax, rectTransformData.anchoredPosition, rectTransformData.sizeDelta);
             LayoutDropdownWindow.DrawLayoutModeHeadersOutsideRect(dropdownPosition, rectTransformData.anchorMin, rectTransformData.anchorMax, rectTransformData.anchoredPosition, rectTransformData.sizeDelta);
         }
