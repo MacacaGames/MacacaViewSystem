@@ -34,18 +34,37 @@ namespace MacacaGames.ViewSystem.VisualEditor
             showBasicInfo = new AnimBool(true);
             showBasicInfo.valueChanged.AddListener(this.editor.Repaint);
 
-            nameStyle = new GUIStyle
+            if (EditorGUIUtility.isProSkin)
             {
-                fontSize = 12,
-                fontStyle = FontStyle.Bold,
-                normal = { textColor = Color.black }
-            };
-            nameUnnamedStyle = new GUIStyle
+                nameStyle = new GUIStyle
+                {
+                    fontSize = 12,
+                    fontStyle = FontStyle.Bold,
+                    normal = { textColor = Color.white }
+                };
+                nameUnnamedStyle = new GUIStyle
+                {
+                    fontSize = 12,
+                    fontStyle = FontStyle.Italic,
+                    normal = { textColor = new Color(0.8f, 0.8f, 0.8f, 1) }
+                };
+            }
+            else
             {
-                fontSize = 12,
-                fontStyle = FontStyle.BoldAndItalic,
-                normal = { textColor = Color.gray }
-            };
+                nameStyle = new GUIStyle
+                {
+                    fontSize = 12,
+                    fontStyle = FontStyle.Bold,
+                    normal = { textColor = Color.black }
+                };
+                nameUnnamedStyle = new GUIStyle
+                {
+                    fontSize = 12,
+                    fontStyle = FontStyle.Italic,
+                    normal = { textColor = Color.gray }
+                };
+            }
+
             nameErrorStyle = new GUIStyle
             {
                 fontSize = 12,
@@ -375,8 +394,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
             /*Name Part Start */
             var nameRect = rect;
-            //nameRect.height += EditorGUIUtility.singleLineHeight * 0.25f;
-            nameRect.width = rect.width - 80;
+            nameRect.width = rect.width - 20 * 6;
             GUIStyle nameRuntimeStyle;
 
             if (viewPageItemList.Where(m => m.name == viewPageItemList[index].name).Count() > 1 && !string.IsNullOrEmpty(viewPageItemList[index].name))
@@ -406,7 +424,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 else
                 {
                     showName = viewPageItemList[index].name;
-                    GUI.Label(nameRect, showName, nameRuntimeStyle);
+                    GUI.Label(nameRect, new GUIContent(showName, showName), nameRuntimeStyle);
                 }
             }
             else
@@ -425,19 +443,57 @@ namespace MacacaGames.ViewSystem.VisualEditor
             {
                 nameEditLock[index] = !nameEditLock[index];
             }
-            nameRect.x += nameRect.width;
-            nameRect.width = 16;
-            nameEditLock[index] = EditorGUI.Toggle(nameRect, new GUIContent("", "Manual Name"), nameEditLock[index], nameEditStyle);
-
             GUI.color = Color.white;
 
             /*Name Part End */
 
             /*Toggle Button Part Start */
             Rect rightRect = rect;
-
             rightRect.x = rect.width;
             rightRect.width = 20;
+
+            if (GUI.Button(rightRect, new GUIContent(Drawer.breakPointIcon, "BreakPoints Setting"), Drawer.removeButtonStyle))
+            {
+                editor.breakpointWindow.RebuildWindow(viewPageItemList[index]);
+                editor.breakpointWindow.Show();
+                // PopupWindow.Show(rect, new VS_EditorUtility.ViewPageItemsBreakPointPopup(viewPageItemList[index], DrawViewElementTransformDetail));
+            }
+            //Has breakpoint hint
+            if (viewPageItemList[index].breakPointViewElementTransforms?.Count() > 0)
+            {
+                GUI.Label(new Rect(rightRect.x, rightRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has BreakPoint setup"));
+            }
+
+            rightRect.x -= 20;
+            if (GUI.Button(rightRect, EditoModifyButton, Drawer.removeButtonStyle))
+            {
+                if (viewPageItemList[index].viewElement == null)
+                {
+                    ViewSystemLog.LogError("ViewElement has not been select yet!");
+                    return;
+                }
+                if (editor.overridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != viewPageItemList[index])
+                {
+                    rightRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
+                    editor.overridePopupWindow.SetViewPageItem(viewPageItemList[index]);
+                    editor.overridePopupWindow.Show(rightRect);
+                    currentShowOverrideItem = index;
+                }
+                else
+                {
+                    editor.overridePopupWindow.show = false;
+                }
+            }
+            //Has override hint
+            if (viewPageItemList[index].overrideDatas?.Count() > 0 ||
+                   viewPageItemList[index].eventDatas?.Count() > 0 ||
+                   viewPageItemList[index].navigationDatas?.Count() > 0)
+            {
+                GUI.Label(new Rect(rightRect.x, rightRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
+            }
+
+
+            rightRect.x -= 20;
             if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("_Popup"), "More Setting"), Drawer.removeButtonStyle))
             {
                 PopupWindow.Show(rect, new VS_EditorUtility.ViewPageItemDetailPopup(rect, viewPageItemList[index]));
@@ -457,13 +513,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
             rightRect.x -= 20;
             viewPageItemList[index].sortingOrder = EditorGUI.IntField(rightRect, viewPageItemList[index].sortingOrder);
 
+            rightRect.x -= 20;
+            nameEditLock[index] = EditorGUI.Toggle(rightRect, new GUIContent("", "Manual Name"), nameEditLock[index], nameEditStyle);
             /*Toggle Button Part End */
 
 
             rect.y += EditorGUIUtility.singleLineHeight * 1.25f;
 
             var viewElementRect = rect;
-            viewElementRect.width = rect.width - 20;
+            viewElementRect.width = rect.width - 60;
 
             using (var check = new EditorGUI.ChangeCheckScope())
             {
@@ -473,8 +531,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     oriViewElement = viewPageItemList[index].viewElement.name;
                 }
 
-
+                var lableWidth = EditorGUIUtility.labelWidth;
+                EditorGUIUtility.labelWidth = 80;
                 viewPageItemList[index].viewElementObject = (GameObject)EditorGUI.ObjectField(viewElementRect, "View Element", viewPageItemList[index].viewElementObject, typeof(GameObject), true);
+                EditorGUIUtility.labelWidth = lableWidth;
                 if (check.changed)
                 {
                     if (viewPageItemList[index].viewElement == null)
@@ -518,52 +578,14 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
 
             viewElementRect.x += viewElementRect.width;
-            viewElementRect.width = 20;
+            viewElementRect.width = 60;
 
-            if (GUI.Button(viewElementRect, EditoModifyButton, Drawer.removeButtonStyle))
+            if (GUI.Button(viewElementRect, "Select"))
             {
-                if (viewPageItemList[index].viewElement == null)
-                {
-                    ViewSystemLog.LogError("ViewElement has not been select yet!");
-                    return;
-                }
-                if (editor.overridePopupWindow.show == false || editor.overridePopupWindow.viewPageItem != viewPageItemList[index])
-                {
-                    viewElementRect.y += infoAreaRect.height + EditorGUIUtility.singleLineHeight * 4.5f;
-                    editor.overridePopupWindow.SetViewPageItem(viewPageItemList[index]);
-                    editor.overridePopupWindow.Show(viewElementRect);
-                    currentShowOverrideItem = index;
-                }
-                else
-                {
-                    editor.overridePopupWindow.show = false;
-                }
-            }
-
-            //Has override hint
-            if (viewPageItemList[index].overrideDatas?.Count() > 0 ||
-                   viewPageItemList[index].eventDatas?.Count() > 0 ||
-                   viewPageItemList[index].navigationDatas?.Count() > 0)
-            {
-                GUI.Label(new Rect(viewElementRect.x, viewElementRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
+                SelectCurrentViewElement(viewPageItemList[index].Id);
             }
 
             rect.y += EditorGUIUtility.singleLineHeight;
-            var breakPointRect = rect;
-            breakPointRect.x = 0;
-            breakPointRect.width = 16;
-            breakPointRect.height = 16;
-            if (GUI.Button(breakPointRect, new GUIContent(Drawer.breakPointIcon, "BreakPoints Setting"), Drawer.removeButtonStyle))
-            {
-                editor.breakpointWindow.RebuildWindow(viewPageItemList[index]);
-                editor.breakpointWindow.Show();
-                // PopupWindow.Show(rect, new VS_EditorUtility.ViewPageItemsBreakPointPopup(viewPageItemList[index], DrawViewElementTransformDetail));
-            }
-            //Has breakpoint hint
-            if (viewPageItemList[index].breakPointViewElementTransforms?.Count() > 0)
-            {
-                GUI.Label(new Rect(breakPointRect.x, breakPointRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has BreakPoint setup"));
-            }
 
             //Draw RectTransformDetail
             DrawViewElementTransformDetail(viewPageItemList[index].defaultTransformDatas, $"{viewPageItemList[index].Id}", "default", viewPageItemList[index].previewViewElement, rect);
@@ -609,14 +631,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             previewBtnRect.width = btnWidth;
                             previewBtnRect.height = EditorGUIUtility.singleLineHeight;
                             previewBtnRect.y += 18;
-                            if (GUI.Button(previewBtnRect, new GUIContent("Select", "Highlight and select ViewElement object")))
-                            {
-                                SelectCurrentViewElement(viewPageItemId);
-                            }
-                            Rect overrideFlagRect = previewBtnRect;
-                            overrideFlagRect.y += EditorGUIUtility.singleLineHeight;
-                            overrideFlagRect.width = btnWidth;
-                            trasformData.rectTransformFlag = (ViewElement.RectTransformFlag)EditorGUI.EnumFlagsField(overrideFlagRect, trasformData.rectTransformFlag);
+                            // if (GUI.Button(previewBtnRect, new GUIContent("Select", "Highlight and select ViewElement object")))
+                            // {
+                            //     SelectCurrentViewElement(viewPageItemId);
+                            // }
+
 
                             layoutButtonRect.x -= 10;
                             layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
@@ -633,18 +652,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             }
                             smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
                             var modifyResult = SmartPositionAndSizeFields(smartPositionAndSizeRect, false, trasformData.rectTransformData, false, false);
+                            smartPositionAndSizeRect.y += EditorGUIUtility.singleLineHeight;
+                            var flagRect = GetColumnRect(smartPositionAndSizeRect, 2);
+                            trasformData.rectTransformFlag = (ViewElement.RectTransformFlag)EditorGUI.EnumFlagsField(flagRect, trasformData.rectTransformFlag);
                             anchorAndPivotRect.height = EditorGUIUtility.singleLineHeight;
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 2;
                             anchorAndPivotRect.x += 30;
-                            anchorAndPivotRect.width -= 30;
-                            anchorAndPivotRect.width -= 70;
 
-                            float lableWidth = EditorGUIUtility.labelWidth;
-                            float fieldWidth = EditorGUIUtility.fieldWidth;
-                            EditorGUIUtility.fieldWidth = 40;
-                            EditorGUIUtility.labelWidth = 70;
 
-                            // anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
+
                             Vector2Field(anchorAndPivotRect, new GUIContent("Anchor Min"), trasformData.rectTransformData.anchorMin, (v) => { trasformData.rectTransformData.anchorMin = v; });
 
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
@@ -661,8 +677,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
                             Vector3Field(anchorAndPivotRect, new GUIContent("Scale"), trasformData.rectTransformData.localScale, (v) => { trasformData.rectTransformData.localScale = v; });
 
-                            EditorGUIUtility.labelWidth = lableWidth;
-                            EditorGUIUtility.fieldWidth = fieldWidth;
+
 
                             if (change.changed)
                             {
@@ -755,10 +770,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         }
                         parentFunctionRect.x += parentFunctionRect.width + rect.width * 0.01f;
 
-                        if (GUI.Button(parentFunctionRect, new GUIContent("Select", "Highlight and select ViewElement object")))
-                        {
-                            SelectCurrentViewElement(viewPageItemId);
-                        }
+                        // if (GUI.Button(parentFunctionRect, new GUIContent("Select", "Highlight and select ViewElement object")))
+                        // {
+                        //     SelectCurrentViewElement(viewPageItemId);
+                        // }
 
                         if (trasformData.parent != null)
                         {
@@ -974,7 +989,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
             bool widthMode = EditorGUIUtility.wideMode;
             EditorGUIUtility.wideMode = true;
             float lableWidth = EditorGUIUtility.labelWidth;
-            EditorGUIUtility.labelWidth = 45;
+            float fieldWidth = EditorGUIUtility.fieldWidth;
+            EditorGUIUtility.labelWidth = 75;
+            EditorGUIUtility.fieldWidth = 40;
             using (var change = new EditorGUI.ChangeCheckScope())
             {
                 Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
@@ -987,6 +1004,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     setter(newValue);
                 }
             }
+            EditorGUIUtility.fieldWidth = fieldWidth;
             EditorGUIUtility.labelWidth = lableWidth;
         }
 
@@ -995,7 +1013,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
             bool widthMode = EditorGUIUtility.wideMode;
             EditorGUIUtility.wideMode = true;
             float lableWidth = EditorGUIUtility.labelWidth;
-            EditorGUIUtility.labelWidth = 45;
+            float fieldWidth = EditorGUIUtility.fieldWidth;
+            EditorGUIUtility.labelWidth = 75;
+            EditorGUIUtility.fieldWidth = 40;
             using (var change = new EditorGUI.ChangeCheckScope())
             {
                 Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
@@ -1006,6 +1026,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     setter(newValue);
                 }
             }
+            EditorGUIUtility.fieldWidth = fieldWidth;
             EditorGUIUtility.labelWidth = lableWidth;
         }
 
@@ -1148,6 +1169,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     EditorGUIUtility.TrTextContent("Bottom"));
                 resutl = true;
             }
+
+
+
 
             rect2 = rect;
             rect2.height = EditorGUIUtility.singleLineHeight;
