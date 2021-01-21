@@ -5,6 +5,18 @@
   "files": [
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/MacacaGames.ReadOnlyAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MacacaGames.ReadOnlyAttribute.html",
+          "hash": "eOFQa8VxFYPEG3KaDc6e3g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/MacacaGames.ViewSystem.BreakPointViewElementTransform.yml",
       "output": {
         ".html": {
@@ -353,30 +365,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.html",
-          "hash": "pawxMPZm+SYLLK3HN4i4WA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/MacacaGames.ViewSystem.ViewCYInstruction.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MacacaGames.ViewSystem.ViewCYInstruction.html",
-          "hash": "2Fiuv4WrTNjZ2/FyrYB7xA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/MacacaGames.ViewSystem.ViewController.yml",
       "output": {
         ".html": {
@@ -453,7 +441,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType.html",
-          "hash": "5jBXbKEAA49Jk0aPpwYBYA=="
+          "hash": "Lh+/7IpPscTuSrDu7oYWdQ=="
         }
       },
       "is_incremental": false,
@@ -465,7 +453,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MacacaGames.ViewSystem.ViewElement.RectTransformFlag.html",
-          "hash": "y4BjkeP8woEA94FmWN0+FQ=="
+          "hash": "9NS6wn3mK8kpsF+KRFaoNQ=="
         }
       },
       "is_incremental": false,
@@ -477,7 +465,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MacacaGames.ViewSystem.ViewElement.TransitionType.html",
-          "hash": "4+7CNGg2yY/j4ZQSDNMq4w=="
+          "hash": "h+VXftlU2IyRLIaTZYKrtg=="
         }
       },
       "is_incremental": false,
@@ -489,7 +477,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MacacaGames.ViewSystem.ViewElement.html",
-          "hash": "yFJawqHXuEII4NKh6quyPA=="
+          "hash": "C9ngRjtCMtKkqpO/XszYzA=="
         }
       },
       "is_incremental": false,
@@ -657,7 +645,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MacacaGames.ViewSystem.ViewEventGroup.html",
-          "hash": "QWKY1ew9QaFEPCwohkIt4g=="
+          "hash": "fVNovws9yoGSMh0YlATIew=="
         }
       },
       "is_incremental": false,
@@ -849,7 +837,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MacacaGames.ViewSystem.ViewSystemRectTransformData.html",
-          "hash": "zOh4/d9TQJc/90ySi43EOw=="
+          "hash": "fL6ksjTPA6s9HZ3pUWpgdA=="
         }
       },
       "is_incremental": false,
@@ -1269,7 +1257,19 @@
       "output": {
         ".html": {
           "relative_path": "api/MacacaGames.ViewSystem.html",
-          "hash": "hQXFju9dzq+IA1G/DNN6pg=="
+          "hash": "nKgbditSW7UKI5xbfpOhow=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MacacaGames.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MacacaGames.html",
+          "hash": "E2ZX6NuZ3OgU/SJHy8MAAg=="
         }
       },
       "is_incremental": false,
@@ -1281,7 +1281,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "NWGPANvwYtKLf3lUFRDImA=="
+          "hash": "V5Ga/eal5nf62T1UPH4/lQ=="
         }
       },
       "is_incremental": false,
@@ -1293,7 +1293,18 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "2r65GE7sU99DRneea35zAw=="
+          "hash": "QXllCiusJzLX/6kMxt9TbA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "favicon.ico"
         }
       },
       "is_incremental": false,
@@ -1311,7 +1322,18 @@
           "hash": "mt0Co9AGgFAwc1HJWUgg4w=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "logo.svg",
+      "output": {
+        "resource": {
+          "relative_path": "logo.svg"
+        }
+      },
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1330,23 +1352,32 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": true,
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
         "ConceptualDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 2,
-          "skipped_file_count": 2
+          "skipped_file_count": 0
         },
         "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 106,
-          "skipped_file_count": 47
+          "skipped_file_count": 0
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
           "can_incremental": false,
@@ -1359,8 +1390,8 @@
     },
     {
       "status": {
-        "can_incremental": true,
-        "details": "Can support incremental post processing.",
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
         "incrementalPhase": "postProcessing",
         "total_file_count": 0,
         "skipped_file_count": 0

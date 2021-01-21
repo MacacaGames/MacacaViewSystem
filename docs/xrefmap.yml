@@ -1,6 +1,18 @@
 ### YamlMime:XRefMap
 sorted: true
 references:
+- uid: MacacaGames
+  name: MacacaGames
+  href: api/MacacaGames.html
+  commentId: N:MacacaGames
+  fullName: MacacaGames
+  nameWithType: MacacaGames
+- uid: MacacaGames.ReadOnlyAttribute
+  name: ReadOnlyAttribute
+  href: api/MacacaGames.ReadOnlyAttribute.html
+  commentId: T:MacacaGames.ReadOnlyAttribute
+  fullName: MacacaGames.ReadOnlyAttribute
+  nameWithType: ReadOnlyAttribute
 - uid: MacacaGames.ViewSystem
   name: MacacaGames.ViewSystem
   href: api/MacacaGames.ViewSystem.html
@@ -2501,70 +2513,6 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewControllerEditor.OnInspectorGUI
   nameWithType: ViewControllerEditor.OnInspectorGUI
-- uid: MacacaGames.ViewSystem.ViewCYInstruction
-  name: ViewCYInstruction
-  href: api/MacacaGames.ViewSystem.ViewCYInstruction.html
-  commentId: T:MacacaGames.ViewSystem.ViewCYInstruction
-  fullName: MacacaGames.ViewSystem.ViewCYInstruction
-  nameWithType: ViewCYInstruction
-- uid: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction
-  name: ViewCYInstruction.WaitForStandardYieldInstruction
-  href: api/MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.html
-  commentId: T:MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction
-  fullName: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction
-  nameWithType: ViewCYInstruction.WaitForStandardYieldInstruction
-- uid: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.#ctor(UnityEngine.MonoBehaviour,UnityEngine.YieldInstruction)
-  name: WaitForStandardYieldInstruction(MonoBehaviour, YieldInstruction)
-  href: api/MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.html#MacacaGames_ViewSystem_ViewCYInstruction_WaitForStandardYieldInstruction__ctor_UnityEngine_MonoBehaviour_UnityEngine_YieldInstruction_
-  commentId: M:MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.#ctor(UnityEngine.MonoBehaviour,UnityEngine.YieldInstruction)
-  fullName: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.WaitForStandardYieldInstruction(UnityEngine.MonoBehaviour, UnityEngine.YieldInstruction)
-  nameWithType: ViewCYInstruction.WaitForStandardYieldInstruction.WaitForStandardYieldInstruction(MonoBehaviour, YieldInstruction)
-- uid: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.#ctor*
-  name: WaitForStandardYieldInstruction
-  href: api/MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.html#MacacaGames_ViewSystem_ViewCYInstruction_WaitForStandardYieldInstruction__ctor_
-  commentId: Overload:MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.#ctor
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.WaitForStandardYieldInstruction
-  nameWithType: ViewCYInstruction.WaitForStandardYieldInstruction.WaitForStandardYieldInstruction
-- uid: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.Coroutine
-  name: Coroutine
-  href: api/MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.html#MacacaGames_ViewSystem_ViewCYInstruction_WaitForStandardYieldInstruction_Coroutine
-  commentId: P:MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.Coroutine
-  fullName: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.Coroutine
-  nameWithType: ViewCYInstruction.WaitForStandardYieldInstruction.Coroutine
-- uid: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.Coroutine*
-  name: Coroutine
-  href: api/MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.html#MacacaGames_ViewSystem_ViewCYInstruction_WaitForStandardYieldInstruction_Coroutine_
-  commentId: Overload:MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.Coroutine
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.Coroutine
-  nameWithType: ViewCYInstruction.WaitForStandardYieldInstruction.Coroutine
-- uid: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.IEWaitForYieldInstruction
-  name: IEWaitForYieldInstruction()
-  href: api/MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.html#MacacaGames_ViewSystem_ViewCYInstruction_WaitForStandardYieldInstruction_IEWaitForYieldInstruction
-  commentId: M:MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.IEWaitForYieldInstruction
-  fullName: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.IEWaitForYieldInstruction()
-  nameWithType: ViewCYInstruction.WaitForStandardYieldInstruction.IEWaitForYieldInstruction()
-- uid: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.IEWaitForYieldInstruction*
-  name: IEWaitForYieldInstruction
-  href: api/MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.html#MacacaGames_ViewSystem_ViewCYInstruction_WaitForStandardYieldInstruction_IEWaitForYieldInstruction_
-  commentId: Overload:MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.IEWaitForYieldInstruction
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.IEWaitForYieldInstruction
-  nameWithType: ViewCYInstruction.WaitForStandardYieldInstruction.IEWaitForYieldInstruction
-- uid: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.keepWaiting
-  name: keepWaiting
-  href: api/MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.html#MacacaGames_ViewSystem_ViewCYInstruction_WaitForStandardYieldInstruction_keepWaiting
-  commentId: P:MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.keepWaiting
-  fullName: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.keepWaiting
-  nameWithType: ViewCYInstruction.WaitForStandardYieldInstruction.keepWaiting
-- uid: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.keepWaiting*
-  name: keepWaiting
-  href: api/MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.html#MacacaGames_ViewSystem_ViewCYInstruction_WaitForStandardYieldInstruction_keepWaiting_
-  commentId: Overload:MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.keepWaiting
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.ViewCYInstruction.WaitForStandardYieldInstruction.keepWaiting
-  nameWithType: ViewCYInstruction.WaitForStandardYieldInstruction.keepWaiting
 - uid: MacacaGames.ViewSystem.ViewElement
   name: ViewElement
   href: api/MacacaGames.ViewSystem.ViewElement.html
@@ -2658,32 +2606,6 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewElement.ApplyNavigation
   nameWithType: ViewElement.ApplyNavigation
-- uid: MacacaGames.ViewSystem.ViewElement.ApplyOffectMax(MacacaGames.ViewSystem.ViewElementTransform)
-  name: ApplyOffectMax(ViewElementTransform)
-  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyOffectMax_MacacaGames_ViewSystem_ViewElementTransform_
-  commentId: M:MacacaGames.ViewSystem.ViewElement.ApplyOffectMax(MacacaGames.ViewSystem.ViewElementTransform)
-  fullName: MacacaGames.ViewSystem.ViewElement.ApplyOffectMax(MacacaGames.ViewSystem.ViewElementTransform)
-  nameWithType: ViewElement.ApplyOffectMax(ViewElementTransform)
-- uid: MacacaGames.ViewSystem.ViewElement.ApplyOffectMax*
-  name: ApplyOffectMax
-  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyOffectMax_
-  commentId: Overload:MacacaGames.ViewSystem.ViewElement.ApplyOffectMax
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.ViewElement.ApplyOffectMax
-  nameWithType: ViewElement.ApplyOffectMax
-- uid: MacacaGames.ViewSystem.ViewElement.ApplyOffectMin(MacacaGames.ViewSystem.ViewElementTransform)
-  name: ApplyOffectMin(ViewElementTransform)
-  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyOffectMin_MacacaGames_ViewSystem_ViewElementTransform_
-  commentId: M:MacacaGames.ViewSystem.ViewElement.ApplyOffectMin(MacacaGames.ViewSystem.ViewElementTransform)
-  fullName: MacacaGames.ViewSystem.ViewElement.ApplyOffectMin(MacacaGames.ViewSystem.ViewElementTransform)
-  nameWithType: ViewElement.ApplyOffectMin(ViewElementTransform)
-- uid: MacacaGames.ViewSystem.ViewElement.ApplyOffectMin*
-  name: ApplyOffectMin
-  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyOffectMin_
-  commentId: Overload:MacacaGames.ViewSystem.ViewElement.ApplyOffectMin
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.ViewElement.ApplyOffectMin
-  nameWithType: ViewElement.ApplyOffectMin
 - uid: MacacaGames.ViewSystem.ViewElement.ApplyOverrides(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData})
   name: ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData>)
   href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_ApplyOverrides_System_Collections_Generic_IEnumerable_MacacaGames_ViewSystem_ViewElementPropertyOverrideData__
@@ -4757,13 +4679,27 @@ references:
 - uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax
   name: offsetMax
   href: api/MacacaGames.ViewSystem.ViewSystemRectTransformData.html#MacacaGames_ViewSystem_ViewSystemRectTransformData_offsetMax
-  commentId: F:MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax
+  commentId: P:MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax
+  nameWithType: ViewSystemRectTransformData.offsetMax
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax*
+  name: offsetMax
+  href: api/MacacaGames.ViewSystem.ViewSystemRectTransformData.html#MacacaGames_ViewSystem_ViewSystemRectTransformData_offsetMax_
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax
+  isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax
   nameWithType: ViewSystemRectTransformData.offsetMax
 - uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
   name: offsetMin
   href: api/MacacaGames.ViewSystem.ViewSystemRectTransformData.html#MacacaGames_ViewSystem_ViewSystemRectTransformData_offsetMin
-  commentId: F:MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
+  commentId: P:MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
+  nameWithType: ViewSystemRectTransformData.offsetMin
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin*
+  name: offsetMin
+  href: api/MacacaGames.ViewSystem.ViewSystemRectTransformData.html#MacacaGames_ViewSystem_ViewSystemRectTransformData_offsetMin_
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
+  isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
   nameWithType: ViewSystemRectTransformData.offsetMin
 - uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.pivot
