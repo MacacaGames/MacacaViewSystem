@@ -394,7 +394,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             rect.y += EditorGUIUtility.singleLineHeight * 0.25f;
             /*Name Part Start */
             var nameRect = rect;
-            nameRect.width = rect.width - 20 * 6;
+            nameRect.width = rect.width - 20 * 5;
             GUIStyle nameRuntimeStyle;
 
             if (viewPageItemList.Where(m => m.name == viewPageItemList[index].name).Count() > 1 && !string.IsNullOrEmpty(viewPageItemList[index].name))
@@ -451,20 +451,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
             Rect rightRect = rect;
             rightRect.x = rect.width;
             rightRect.width = 20;
-
-            if (GUI.Button(rightRect, new GUIContent(Drawer.breakPointIcon, "BreakPoints Setting"), Drawer.removeButtonStyle))
-            {
-                editor.breakpointWindow.RebuildWindow(viewPageItemList[index]);
-                editor.breakpointWindow.Show();
-                // PopupWindow.Show(rect, new VS_EditorUtility.ViewPageItemsBreakPointPopup(viewPageItemList[index], DrawViewElementTransformDetail));
-            }
-            //Has breakpoint hint
-            if (viewPageItemList[index].breakPointViewElementTransforms?.Count() > 0)
-            {
-                GUI.Label(new Rect(rightRect.x, rightRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has BreakPoint setup"));
-            }
-
-            rightRect.x -= 20;
             if (GUI.Button(rightRect, EditoModifyButton, Drawer.removeButtonStyle))
             {
                 if (viewPageItemList[index].viewElement == null)
@@ -492,6 +478,26 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 GUI.Label(new Rect(rightRect.x, rightRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has override"));
             }
 
+            rightRect.x -= 20;
+
+            if (GUI.Button(rightRect, new GUIContent(Drawer.breakPointIcon, "BreakPoints Setting"), Drawer.removeButtonStyle))
+            {
+                if (!editor.breakpointWindow.show)
+                {
+                    editor.breakpointWindow.RebuildWindow(viewPageItemList[index]);
+                    editor.breakpointWindow.Show();
+                }
+                else
+                {
+                    editor.breakpointWindow.show = false;
+                }
+            }
+
+            //Has breakpoint hint
+            if (viewPageItemList[index].breakPointViewElementTransforms?.Count() > 0)
+            {
+                GUI.Label(new Rect(rightRect.x, rightRect.y - 16, 24, 24), new GUIContent(Drawer.overrideIcon, "This item has BreakPoint setup"));
+            }
 
             rightRect.x -= 20;
             if (GUI.Button(rightRect, new GUIContent(EditorGUIUtility.FindTexture("_Popup"), "More Setting"), Drawer.removeButtonStyle))
@@ -511,14 +517,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
 
             rightRect.x -= 20;
-            viewPageItemList[index].sortingOrder = EditorGUI.IntField(rightRect, viewPageItemList[index].sortingOrder);
-
-            rightRect.x -= 20;
             nameEditLock[index] = EditorGUI.Toggle(rightRect, new GUIContent("", "Manual Name"), nameEditLock[index], nameEditStyle);
             /*Toggle Button Part End */
 
 
-            rect.y += EditorGUIUtility.singleLineHeight * 1.25f;
+            rect.y += EditorGUIUtility.singleLineHeight ;
 
             var viewElementRect = rect;
             viewElementRect.width = rect.width - 60;
@@ -587,12 +590,18 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             rect.y += EditorGUIUtility.singleLineHeight;
 
+
             //Draw RectTransformDetail
             DrawViewElementTransformDetail(viewPageItemList[index].defaultTransformDatas, $"{viewPageItemList[index].Id}", "default", viewPageItemList[index].previewViewElement, rect);
 
-            rect.width = 18;
-            rect.x -= 21;
-            rect.y = oriRect.y += 20;
+            rect.width = 20;
+            rect.x -= 20;
+            rect.y = oriRect.y += 26;
+            viewPageItemList[index].sortingOrder = EditorGUI.IntField(rect, viewPageItemList[index].sortingOrder);
+
+            rect.width = 24;
+            rect.height = 24;
+            rect.y = oriRect.height ;
             if (GUI.Button(rect, new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), Drawer.removeButtonStyle))
             {
                 viewPageItemReorderableList.index = index;
@@ -677,8 +686,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
                             Vector3Field(anchorAndPivotRect, new GUIContent("Scale"), trasformData.rectTransformData.localScale, (v) => { trasformData.rectTransformData.localScale = v; });
 
-
-
                             if (change.changed)
                             {
                                 if (previewViewElement)
@@ -746,7 +753,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         rect.y += EditorGUIUtility.singleLineHeight;
 
                         var parentFunctionRect = rect;
-                        parentFunctionRect.width = rect.width * 0.32f;
+                        parentFunctionRect.width = rect.width * 0.49f;
                         parentFunctionRect.x += rect.width * 0.01f;
                         if (GUI.Button(parentFunctionRect, new GUIContent("Pick", "Pick Current Select Transform")))
                         {
