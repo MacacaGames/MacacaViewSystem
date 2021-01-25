@@ -265,13 +265,14 @@ namespace MacacaGames.ViewSystem
     public class ViewSystemRectTransformData
     {
         //scale modify may not require
-        public Vector3 localScale;
+        public Vector3 localScale = Vector3.one;
         public Vector3 localEulerAngles;
         public Vector3 anchoredPosition;
-        public Vector2 pivot;
-        public Vector2 sizeDelta;
-        public Vector2 anchorMin;
-        public Vector2 anchorMax;
+        public Vector2 pivot = new Vector2(0.5f, 0.5f);
+        public Vector2 sizeDelta = new Vector2(100, 100);
+        public Vector2 anchorMin = new Vector2(0.5f, 0.5f);
+        public Vector2 anchorMax = new Vector2(0.5f, 0.5f);
+
 
         Vector2 anchoredPosition2D
         {
