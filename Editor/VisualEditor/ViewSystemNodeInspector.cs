@@ -521,7 +521,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             /*Toggle Button Part End */
 
 
-            rect.y += EditorGUIUtility.singleLineHeight ;
+            rect.y += EditorGUIUtility.singleLineHeight;
 
             var viewElementRect = rect;
             viewElementRect.width = rect.width - 60;
@@ -601,7 +601,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             rect.width = 24;
             rect.height = 24;
-            rect.y = oriRect.height ;
+            rect.y = oriRect.height;
             if (GUI.Button(rect, new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), Drawer.removeButtonStyle))
             {
                 viewPageItemReorderableList.index = index;
@@ -645,7 +645,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             //     SelectCurrentViewElement(viewPageItemId);
                             // }
 
-
                             layoutButtonRect.x -= 10;
                             layoutButtonRect.width = EditorGUIUtility.singleLineHeight * 2;
                             layoutButtonRect.height = EditorGUIUtility.singleLineHeight * 2;
@@ -659,8 +658,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                     PickRectTransformValue(trasformData, rectTransform);
                                 }
                             }
+                            
                             smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
-                            var modifyResult = SmartPositionAndSizeFields(smartPositionAndSizeRect, false, trasformData.rectTransformData, false, false);
+                            var modifyResult = SmartPositionAndSizeFields(smartPositionAndSizeRect, trasformData.rectTransformData, trasformData.rectTransformFlag);
                             smartPositionAndSizeRect.y += EditorGUIUtility.singleLineHeight;
                             var flagRect = GetColumnRect(smartPositionAndSizeRect, 2);
                             trasformData.rectTransformFlag = (ViewElement.RectTransformFlag)EditorGUI.EnumFlagsField(flagRect, trasformData.rectTransformFlag);
@@ -668,23 +668,41 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight * 2;
                             anchorAndPivotRect.x += 30;
 
-
-
-                            Vector2Field(anchorAndPivotRect, new GUIContent("Anchor Min"), trasformData.rectTransformData.anchorMin, (v) => { trasformData.rectTransformData.anchorMin = v; });
+                            Vector2Field(anchorAndPivotRect,
+                            new GUIContent("Anchor Min"),
+                            trasformData.rectTransformData.anchorMin,
+                            (v) => { trasformData.rectTransformData.anchorMin = v; },
+                            FlagsHelper.IsSet(trasformData.rectTransformFlag, ViewElement.RectTransformFlag.AnchorMin));
 
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                            Vector2Field(anchorAndPivotRect, new GUIContent("Anchor Max"), trasformData.rectTransformData.anchorMax, (v) => { trasformData.rectTransformData.anchorMax = v; });
+                            Vector2Field(anchorAndPivotRect,
+                            new GUIContent("Anchor Max"),
+                            trasformData.rectTransformData.anchorMax,
+                            (v) => { trasformData.rectTransformData.anchorMax = v; },
+                            FlagsHelper.IsSet(trasformData.rectTransformFlag, ViewElement.RectTransformFlag.AnchorMax));
 
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                            Vector2Field(anchorAndPivotRect, new GUIContent("Pivot"), trasformData.rectTransformData.pivot, (v) => { trasformData.rectTransformData.pivot = v; });
+                            Vector2Field(anchorAndPivotRect,
+                            new GUIContent("Pivot"),
+                            trasformData.rectTransformData.pivot,
+                            (v) => { trasformData.rectTransformData.pivot = v; },
+                            FlagsHelper.IsSet(trasformData.rectTransformFlag, ViewElement.RectTransformFlag.Pivot));
 
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
 
                             // anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight;
-                            Vector3Field(anchorAndPivotRect, new GUIContent("Rotation"), trasformData.rectTransformData.localEulerAngles, (v) => { trasformData.rectTransformData.localEulerAngles = v; });
+                            Vector3Field(anchorAndPivotRect,
+                            new GUIContent("Rotation"),
+                            trasformData.rectTransformData.localEulerAngles,
+                            (v) => { trasformData.rectTransformData.localEulerAngles = v; },
+                            FlagsHelper.IsSet(trasformData.rectTransformFlag, ViewElement.RectTransformFlag.LocalEulerAngles));
 
                             anchorAndPivotRect.y += EditorGUIUtility.singleLineHeight + 2;
-                            Vector3Field(anchorAndPivotRect, new GUIContent("Scale"), trasformData.rectTransformData.localScale, (v) => { trasformData.rectTransformData.localScale = v; });
+                            Vector3Field(anchorAndPivotRect,
+                            new GUIContent("Scale"),
+                            trasformData.rectTransformData.localScale,
+                            (v) => { trasformData.rectTransformData.localScale = v; },
+                            FlagsHelper.IsSet(trasformData.rectTransformFlag, ViewElement.RectTransformFlag.LocalScale));
 
                             if (change.changed)
                             {
@@ -973,25 +991,28 @@ namespace MacacaGames.ViewSystem.VisualEditor
             return _rect;
         }
 
-        void FloatFieldLabelAbove(Rect position, FloatGetter getter, FloatSetter setter, ViewSystemRectTransformData _rectTransform, DrivenTransformProperties driven, GUIContent label)
+        void FloatFieldLabelAbove(Rect position, FloatGetter getter, FloatSetter setter, ViewSystemRectTransformData _rectTransform, bool enable, GUIContent label)
         {
             float lableWidth = EditorGUIUtility.labelWidth;
             EditorGUIUtility.labelWidth = 45;
 
             float value = getter(_rectTransform);
-            using (var change = new EditorGUI.ChangeCheckScope())
+            using (var disable = new EditorGUI.DisabledGroupScope(!enable))
             {
-                Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-                float newValue = EditorGUI.FloatField(positionLabel, label, value, EditorStyles.miniTextField);
-                if (change.changed)
+                using (var change = new EditorGUI.ChangeCheckScope())
                 {
-                    setter(_rectTransform, newValue);
+                    Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+                    float newValue = EditorGUI.FloatField(positionLabel, label, value, EditorStyles.miniTextField);
+                    if (change.changed)
+                    {
+                        setter(_rectTransform, newValue);
+                    }
                 }
             }
             EditorGUIUtility.labelWidth = lableWidth;
         }
 
-        void Vector2Field(Rect position, GUIContent label, Vector2 value, Vector2Setter setter)
+        void Vector2Field(Rect position, GUIContent label, Vector2 value, Vector2Setter setter, bool enable)
         {
             bool widthMode = EditorGUIUtility.wideMode;
             EditorGUIUtility.wideMode = true;
@@ -999,23 +1020,26 @@ namespace MacacaGames.ViewSystem.VisualEditor
             float fieldWidth = EditorGUIUtility.fieldWidth;
             EditorGUIUtility.labelWidth = 75;
             EditorGUIUtility.fieldWidth = 40;
-            using (var change = new EditorGUI.ChangeCheckScope())
+            using (var disable = new EditorGUI.DisabledGroupScope(!enable))
             {
-                Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-                Vector2 newValue = EditorGUI.Vector2Field(positionLabel, label, value);
-                if (change.changed)
+                using (var change = new EditorGUI.ChangeCheckScope())
                 {
-                    Undo.RecordObject(saveData, "ViewSystem_Indpector");
-                    newValue.x = Mathf.Clamp01(newValue.x);
-                    newValue.y = Mathf.Clamp01(newValue.y);
-                    setter(newValue);
+                    Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+                    Vector2 newValue = EditorGUI.Vector2Field(positionLabel, label, value);
+                    if (change.changed)
+                    {
+                        Undo.RecordObject(saveData, "ViewSystem_Indpector");
+                        newValue.x = Mathf.Clamp01(newValue.x);
+                        newValue.y = Mathf.Clamp01(newValue.y);
+                        setter(newValue);
+                    }
                 }
             }
             EditorGUIUtility.fieldWidth = fieldWidth;
             EditorGUIUtility.labelWidth = lableWidth;
         }
 
-        void Vector3Field(Rect position, GUIContent label, Vector3 value, Vector3Setter setter)
+        void Vector3Field(Rect position, GUIContent label, Vector3 value, Vector3Setter setter, bool enable)
         {
             bool widthMode = EditorGUIUtility.wideMode;
             EditorGUIUtility.wideMode = true;
@@ -1023,14 +1047,17 @@ namespace MacacaGames.ViewSystem.VisualEditor
             float fieldWidth = EditorGUIUtility.fieldWidth;
             EditorGUIUtility.labelWidth = 75;
             EditorGUIUtility.fieldWidth = 40;
-            using (var change = new EditorGUI.ChangeCheckScope())
+            using (var disable = new EditorGUI.DisabledGroupScope(!enable))
             {
-                Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-                Vector3 newValue = EditorGUI.Vector3Field(positionLabel, label, value);
-                if (change.changed)
+                using (var change = new EditorGUI.ChangeCheckScope())
                 {
-                    Undo.RecordObject(saveData, "ViewSystem_Indpector");
-                    setter(newValue);
+                    Rect positionLabel = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+                    Vector3 newValue = EditorGUI.Vector3Field(positionLabel, label, value);
+                    if (change.changed)
+                    {
+                        Undo.RecordObject(saveData, "ViewSystem_Indpector");
+                        setter(newValue);
+                    }
                 }
             }
             EditorGUIUtility.fieldWidth = fieldWidth;
@@ -1056,12 +1083,14 @@ namespace MacacaGames.ViewSystem.VisualEditor
             LayoutDropdownWindow.DrawLayoutModeHeadersOutsideRect(dropdownPosition, rectTransformData.anchorMin, rectTransformData.anchorMax, rectTransformData.anchoredPosition, rectTransformData.sizeDelta);
         }
 
-        bool SmartPositionAndSizeFields(Rect rect, bool anyWithoutParent, ViewSystemRectTransformData rectTransformData, bool anyDrivenX, bool anyDrivenY)
+        bool SmartPositionAndSizeFields(Rect rect, ViewSystemRectTransformData rectTransformData, ViewElement.RectTransformFlag currentFlags)
         {
             rect.height = EditorGUIUtility.singleLineHeight * 2;
             Rect rect2;
             bool resutl = false;
-
+            bool anyDrivenX = false;
+            bool anyDrivenY = false;
+            bool anyWithoutParent = false;
             bool anyStretchX = rectTransformData.anchorMin.x != rectTransformData.anchorMax.x;
             bool anyStretchY = rectTransformData.anchorMin.y != rectTransformData.anchorMax.y;
             bool anyNonStretchX = rectTransformData.anchorMin.x == rectTransformData.anchorMax.x;
@@ -1076,7 +1105,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     rectTransform => rectTransform.anchoredPosition.x,
                     (rectTransform, val) => rectTransform.anchoredPosition = new Vector2(val, rectTransform.anchoredPosition.y),
                     rectTransformData,
-                    DrivenTransformProperties.AnchoredPositionX,
+                    FlagsHelper.IsSet(currentFlags, ViewElement.RectTransformFlag.AnchoredPosition),
                     EditorGUIUtility.TrTextContent("Pos X"));
             }
             else
@@ -1087,7 +1116,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     rectTransform => rectTransform.offsetMin.x,
                     (rectTransform, val) => rectTransform.offsetMin = new Vector2(val, rectTransform.offsetMin.y),
                     rectTransformData,
-                    DrivenTransformProperties.None,
+                    FlagsHelper.IsSet(currentFlags, ViewElement.RectTransformFlag.SizeDelta),
                     EditorGUIUtility.TrTextContent("Left"));
                 resutl = true;
             }
@@ -1100,7 +1129,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     rectTransform => rectTransform.anchoredPosition.y,
                     (rectTransform, val) => rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x, val),
                     rectTransformData,
-                    DrivenTransformProperties.AnchoredPositionY,
+                    FlagsHelper.IsSet(currentFlags, ViewElement.RectTransformFlag.AnchoredPosition),
                     EditorGUIUtility.TrTextContent("Pos Y"));
             }
             else
@@ -1111,7 +1140,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     rectTransform => -rectTransform.offsetMax.y,
                     (rectTransform, val) => rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -val),
                     rectTransformData,
-                    DrivenTransformProperties.None,
+                    FlagsHelper.IsSet(currentFlags, ViewElement.RectTransformFlag.SizeDelta),
                     EditorGUIUtility.TrTextContent("Top"));
                 resutl = true;
             }
@@ -1123,7 +1152,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 rectTransform => rectTransform.anchoredPosition.z,
                 (rectTransform, val) => rectTransform.anchoredPosition = new Vector3(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y, val),
                 rectTransformData,
-                DrivenTransformProperties.AnchoredPositionZ,
+                FlagsHelper.IsSet(currentFlags, ViewElement.RectTransformFlag.AnchoredPosition),
                 EditorGUIUtility.TrTextContent("Pos Z"));
             rect.y += EditorGUIUtility.singleLineHeight;
 
@@ -1136,7 +1165,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     rectTransform => rectTransform.sizeDelta.x,
                     (rectTransform, val) => rectTransform.sizeDelta = new Vector2(val, rectTransform.sizeDelta.y),
                     rectTransformData,
-                    DrivenTransformProperties.SizeDeltaX,
+                    FlagsHelper.IsSet(currentFlags, ViewElement.RectTransformFlag.SizeDelta),
                     anyStretchX ? EditorGUIUtility.TrTextContent("W Delta") : EditorGUIUtility.TrTextContent("Width"));
             }
             else
@@ -1147,7 +1176,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     rectTransform => -rectTransform.offsetMax.x,
                     (rectTransform, val) => rectTransform.offsetMax = new Vector2(-val, rectTransform.offsetMax.y),
                     rectTransformData,
-                    DrivenTransformProperties.None,
+                    FlagsHelper.IsSet(currentFlags, ViewElement.RectTransformFlag.SizeDelta),
                     EditorGUIUtility.TrTextContent("Right"));
                 resutl = true;
             }
@@ -1161,7 +1190,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     rectTransform => rectTransform.sizeDelta.y,
                     (rectTransform, val) => rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, val),
                     rectTransformData,
-                    DrivenTransformProperties.SizeDeltaY,
+                    FlagsHelper.IsSet(currentFlags, ViewElement.RectTransformFlag.SizeDelta),
                     anyStretchY ? EditorGUIUtility.TrTextContent("H Delta") : EditorGUIUtility.TrTextContent("Height"));
             }
             else
@@ -1172,13 +1201,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     rectTransform => rectTransform.offsetMin.y,
                     (rectTransform, val) => rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, val),
                     rectTransformData,
-                    DrivenTransformProperties.None,
+                    FlagsHelper.IsSet(currentFlags, ViewElement.RectTransformFlag.SizeDelta),
                     EditorGUIUtility.TrTextContent("Bottom"));
                 resutl = true;
             }
-
-
-
 
             rect2 = rect;
             rect2.height = EditorGUIUtility.singleLineHeight;
@@ -1187,7 +1213,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
             rect2.xMin = rect2.xMax - 26;
             return resutl;
         }
-
 
         Rect ResizeBarRect;
         bool resizeBarPressed = false;

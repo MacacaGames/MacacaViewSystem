@@ -313,25 +313,6 @@ namespace MacacaGames.ViewSystem
                 anchoredPosition2D += Vector2.Scale(vector, pivot);
             }
         }
-        // public static void SetPivotSmart(float value, int axis, bool smart, bool parentSpace)
-        // {
-        //     Vector3 cornerBefore = GetRectReferenceCorner(rect, !parentSpace);
-
-        //     Vector2 rectPivot = rect.pivot;
-        //     rectPivot[axis] = value;
-        //     rect.pivot = rectPivot;
-
-        //     if (smart)
-        //     {
-        //         Vector3 cornerAfter = GetRectReferenceCorner(rect, !parentSpace);
-        //         Vector3 cornerOffset = cornerAfter - cornerBefore;
-        //         rect.anchoredPosition -= (Vector2)cornerOffset;
-
-        //         Vector3 pos = rect.transform.position;
-        //         pos.z -= cornerOffset.z;
-        //         rect.transform.position = pos;
-        //     }
-        // }
     }
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
     public class ViewEventGroup : System.Attribute
