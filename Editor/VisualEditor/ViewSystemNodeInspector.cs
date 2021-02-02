@@ -601,7 +601,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             rect.width = 24;
             rect.height = 24;
-            rect.y = oriRect.height;
+            rect.y = oriRect.y + oriRect.height - 52;
             if (GUI.Button(rect, new GUIContent(EditorGUIUtility.FindTexture("d_TreeEditor.Trash")), Drawer.removeButtonStyle))
             {
                 viewPageItemReorderableList.index = index;
@@ -658,7 +658,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                     PickRectTransformValue(trasformData, rectTransform);
                                 }
                             }
-                            
+
                             smartPositionAndSizeRect.height = EditorGUIUtility.singleLineHeight * 4;
                             var modifyResult = SmartPositionAndSizeFields(smartPositionAndSizeRect, trasformData.rectTransformData, trasformData.rectTransformFlag);
                             smartPositionAndSizeRect.y += EditorGUIUtility.singleLineHeight;
