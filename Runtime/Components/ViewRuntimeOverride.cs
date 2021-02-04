@@ -67,10 +67,10 @@ namespace MacacaGames.ViewSystem
             public EventRuntimeDatas(UnityEventBase unityEvent, Component selectable)
             {
                 this.unityEvent = unityEvent;
-                this.selectable = selectable;
+                this.component = selectable;
             }
             public UnityEventBase unityEvent;
-            public Component selectable;
+            public Component component;
         }
         delegate void EventDelegate<Self>(Self selectable);
         private static EventDelegate<Component> CreateOpenDelegate(string method, Component target)
@@ -78,14 +78,15 @@ namespace MacacaGames.ViewSystem
             return (EventDelegate<Component>)
                 Delegate.CreateDelegate(type: typeof(EventDelegate<Component>), target, method, true, true);
         }
-        Dictionary<string, EventDelegate<Component>> cachedDelegate = new Dictionary<string, EventDelegate<Component>>();
+        static Dictionary<string, EventDelegate<Component>> cachedDelegate = new Dictionary<string, EventDelegate<Component>>();
         Dictionary<string, EventRuntimeDatas> cachedUnityEvent = new Dictionary<string, EventRuntimeDatas>();
         public void ClearAllEvent()
         {
-            foreach (var item in cachedUnityEvent)
-            {
-                item.Value.unityEvent.RemoveAllListeners();
-            }
+            currentEventDelegates.Clear();
+            // foreach (var item in cachedUnityEvent)
+            // {
+            //     item.Value.unityEvent.RemoveAllListeners();
+            // }
         }
 
         public void SetEvent(IEnumerable<ViewElementEventData> eventDatas)
@@ -93,11 +94,11 @@ namespace MacacaGames.ViewSystem
             currentEventDatas = eventDatas.ToArray();
 
             //Group by Component transform_component_property
-            var groupedEventData = eventDatas.GroupBy(item => item.targetTransformPath + "," + item.targetComponentType + "," + item.targetPropertyName);
+            var groupedEventData = eventDatas.GroupBy(item => item.targetTransformPath + ";" + item.targetComponentType + ";" + item.targetPropertyName);
 
             foreach (var item in groupedEventData)
             {
-                string[] p = item.Key.Split(',');
+                string[] p = item.Key.Split(';');
                 //p[0] is targetTransformPath
                 Transform targetTansform = GetTransform(p[0]);
                 if (targetTansform == null)
@@ -108,10 +109,10 @@ namespace MacacaGames.ViewSystem
 
                 EventRuntimeDatas eventRuntimeDatas;
 
+                // Get UnityEvent property instance
                 if (!cachedUnityEvent.TryGetValue(item.Key, out eventRuntimeDatas))
                 {
                     //p[1] is targetComponentType
-                    //Component selectable = ViewSystemUtilitys.GetComponent(targetTansform, p[1]);
                     var result = GetCachedComponent(targetTansform, p[0], p[1]);
                     //p[2] is targetPropertyPath
                     string property = p[2];
@@ -122,19 +123,22 @@ namespace MacacaGames.ViewSystem
                     var unityEvent = (UnityEventBase)GetPropertyValue(result.Component, property);
                     eventRuntimeDatas = new EventRuntimeDatas(unityEvent, (Component)result.Component);
                     cachedUnityEvent.Add(item.Key, eventRuntimeDatas);
-
+                    if (eventRuntimeDatas.unityEvent is UnityEvent events)
+                    {
+                        events.AddListener(EventHandler);
+                    }
                 }
+                currentComponent = eventRuntimeDatas.component;
 
                 // Usually there is only one event on one Selectable
                 // But the system allow mutil event on one Selectable
                 foreach (var item2 in item)
                 {
-                    var id_delegate = item2.scriptName + "_" + item2.methodName;
-                    EventDelegate<Component> openDelegate;
+                    var id_delegate = item2.scriptName + ";" + item2.methodName;
 
                     //Try to get the cached openDelegate object first
                     //Or create a new openDelegate
-                    if (!cachedDelegate.TryGetValue(id_delegate, out openDelegate))
+                    if (!cachedDelegate.TryGetValue(id_delegate, out EventDelegate<Component> openDelegate))
                     {
                         // Get Method
                         Type type = Utility.GetType(item2.scriptName);
@@ -159,19 +163,12 @@ namespace MacacaGames.ViewSystem
                         }
                         cachedDelegate.Add(id_delegate, openDelegate);
                     }
-
-                    currentEventDelegate = openDelegate;
-                    currentSelectable = eventRuntimeDatas.selectable;
-
-                    if (eventRuntimeDatas.unityEvent is UnityEvent events)
-                    {
-                        events.AddListener(EventHandler);
-                    }
+                    currentEventDelegates.Add(openDelegate);
                 }
             }
         }
-        EventDelegate<Component> currentEventDelegate;
-        UnityEngine.Component currentSelectable;
+        List<EventDelegate<Component>> currentEventDelegates = new List<EventDelegate<Component>>();
+        UnityEngine.Component currentComponent;
         void EventHandler()
         {
             if (ViewController.Instance.IsPageTransition)
@@ -179,8 +176,19 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogWarning("The page is in transition, event will not fire!");
                 return;
             }
-            currentEventDelegate?.Invoke(currentSelectable);
+            foreach (var item in currentEventDelegates)
+            {
+                try
+                {
+                    item?.Invoke(currentComponent);
+                }
+                catch (Exception ex)
+                {
+                    ViewSystemLog.LogError($"Error Occure while invoke event: {ex.Message}");
+                }
+            }
         }
+
         const string GeneratedScriptInstanceGameObjectName = "Generated_ViewSystem";
         Component GenerateScriptInstance(Type type)
         {
