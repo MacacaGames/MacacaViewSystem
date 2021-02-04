@@ -2,7 +2,12 @@ name: github pages
 
 on:
   workflow_dispatch:
-
+  push:
+    branches: 
+    - master
+    paths:
+    - 'docs~/**'
+  
 jobs:
   deploy:
     runs-on: ubuntu-18.04
