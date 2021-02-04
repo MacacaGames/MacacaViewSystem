@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using UnityEditor.SceneManagement;
 namespace MacacaGames.ViewSystem.VisualEditor
 {
+
     public class ViewSystemVisualEditor : EditorWindow
     {
         public static ViewSystemVisualEditor Instance;
@@ -32,7 +33,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
             Instance = GetWindow<ViewSystemVisualEditor>();
             Instance.titleContent = new GUIContent("View System Visual Editor");
             Instance.minSize = new Vector2(600, 400);
-            EditorApplication.playModeStateChanged += playModeStateChanged;
         }
 
 
@@ -44,6 +44,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         bool inspectorResize = false;
         public void OnEnable()
         {
+
             Instance = this;
             RefreshData();
 
@@ -79,13 +80,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             root.Add(visulaElementFromUXML);
         }
 
-        private static void playModeStateChanged(PlayModeStateChange obj)
-        {
-            if (obj == PlayModeStateChange.EnteredPlayMode)
-            {
-                dataReader.EditEnd();
-            }
-        }
+
 
         public static void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)
         {
@@ -130,7 +125,18 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             EditorApplication.playModeStateChanged -= playModeStateChanged;
         }
-
+        void Awake()
+        {
+            EditorApplication.playModeStateChanged += playModeStateChanged;
+        }
+        private static void playModeStateChanged(PlayModeStateChange obj)
+        {
+            Debug.Log("playModeStateChanged");
+            if (obj == PlayModeStateChange.ExitingEditMode)
+            {
+                dataReader.EditEnd();
+            }
+        }
         List<ViewPageNode> viewPageList = new List<ViewPageNode>();
         List<ViewStateNode> viewStateList = new List<ViewStateNode>();
         public static float zoomScale = 1.0f;

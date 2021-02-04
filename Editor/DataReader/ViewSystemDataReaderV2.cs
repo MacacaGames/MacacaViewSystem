@@ -89,6 +89,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
         public void EditEnd()
         {
             EditorSceneManager.CloseScene(SceneManager.GetSceneByName(ViewSystemEditScene), true);
+            // EditorSceneManager.CloseScene(SceneManager.GetSceneByName("Untitled"), true);
+
         }
 
         public void RefeshEdit()
