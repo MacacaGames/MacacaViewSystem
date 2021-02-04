@@ -1,0 +1,696 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class FixerWindow
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class FixerWindow
+   ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow">
+  
+  
+  <h1 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow" class="text-break">Class FixerWindow
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">UnityEngine.Object</span></div>
+    <div class="level2"><span class="xref">UnityEngine.ScriptableObject</span></div>
+    <div class="level3"><span class="xref">UnityEditor.EditorWindow</span></div>
+    <div class="level4"><span class="xref">FixerWindow</span></div>
+      <div class="level5"><a class="xref" href="MacacaGames.ViewSystem.VisualEditor.ComponentFixerWindow.html">ComponentFixerWindow</a></div>
+      <div class="level5"><a class="xref" href="MacacaGames.ViewSystem.VisualEditor.EventFixerWindow.html">EventFixerWindow</a></div>
+      <div class="level5"><a class="xref" href="MacacaGames.ViewSystem.VisualEditor.GameObjectFixerWindow.html">GameObjectFixerWindow</a></div>
+      <div class="level5"><a class="xref" href="MacacaGames.ViewSystem.VisualEditor.PropertyFixerWindow.html">PropertyFixerWindow</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.BeginWindows()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.EndWindows()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowNotification(UnityEngine.GUIContent)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowNotification(UnityEngine.GUIContent, System.Double)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.RemoveNotification()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowTab()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.Focus()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowUtility()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowPopup()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowModalUtility()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowAsDropDown(UnityEngine.Rect, UnityEngine.Vector2)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.Show()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.Show(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowAuxWindow()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.ShowModal()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow(System.Type, System.Boolean, System.String, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow(System.Type, System.Boolean, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow(System.Type, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect(System.Type, UnityEngine.Rect, System.Boolean, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect(System.Type, UnityEngine.Rect, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect(System.Type, UnityEngine.Rect)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.Boolean, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.String, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.Boolean, System.String, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.String, System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindow&lt;T&gt;(System.String, System.Boolean, System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.CreateWindow&lt;T&gt;(System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.CreateWindow&lt;T&gt;(System.String, System.Type[])</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.HasOpenInstances&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.FocusWindowIfItsOpen(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.FocusWindowIfItsOpen&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect&lt;T&gt;(UnityEngine.Rect)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect&lt;T&gt;(UnityEngine.Rect, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect&lt;T&gt;(UnityEngine.Rect, System.Boolean, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetWindowWithRect&lt;T&gt;(UnityEngine.Rect, System.Boolean, System.String, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.Close()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.Repaint()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.SendEvent(UnityEngine.Event)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.GetExtraPaneTypes()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.rootVisualElement</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.wantsMouseMove</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.wantsMouseEnterLeaveWindow</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.autoRepaintOnSceneChange</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.maximized</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.focusedWindow</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.mouseOverWindow</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.minSize</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.maxSize</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.title</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.titleContent</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.depthBufferBits</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.antiAlias</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.EditorWindow.position</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.SetDirty()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.CreateInstance(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.CreateInstance(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.ScriptableObject.CreateInstance&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.GetInstanceID()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Vector3, UnityEngine.Quaternion)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Transform, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Vector3, UnityEngine.Quaternion)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Transform, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Destroy(UnityEngine.Object, System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Destroy(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyImmediate(UnityEngine.Object, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyImmediate(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyObject(UnityEngine.Object, System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyObject(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindSceneObjectsOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfTypeIncludingAssets(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfType&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectOfType&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfTypeAll(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.name</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.hideFlags</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MacacaGames.ViewSystem.VisualEditor.html">MacacaGames.ViewSystem.VisualEditor</a></h6>
+  <h6><strong>Assembly</strong>: Macaca.ViewSystem.Editor.dll</h6>
+  <h5 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class FixerWindow : EditorWindow</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_FixerWindow_icon.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.FixerWindow.icon%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ViewSystemVerifier.cs/#L993">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_icon" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.icon">icon</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Texture icon</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Texture</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_FixerWindow_lable.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.FixerWindow.lable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ViewSystemVerifier.cs/#L994">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_lable" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.lable">lable</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected string lable</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnAllClick.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnAllClick%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ViewSystemVerifier.cs/#L996">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnAllClick" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnAllClick">OnAllClick</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Action OnAllClick</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnApplyClick.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnApplyClick%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ViewSystemVerifier.cs/#L999">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnApplyClick" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnApplyClick">OnApplyClick</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Action OnApplyClick</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnCancelClick.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnCancelClick%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ViewSystemVerifier.cs/#L998">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnCancelClick" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnCancelClick">OnCancelClick</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Action OnCancelClick</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnComplete.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnComplete%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ViewSystemVerifier.cs/#L991">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnComplete" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnComplete">OnComplete</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Action OnComplete</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnNoneClick.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnNoneClick%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ViewSystemVerifier.cs/#L997">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnNoneClick" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnNoneClick">OnNoneClick</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Action OnNoneClick</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_FixerWindow_CheckBeforeApply.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.FixerWindow.CheckBeforeApply%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ViewSystemVerifier.cs/#L1001">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_CheckBeforeApply_" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.CheckBeforeApply*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_CheckBeforeApply" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.CheckBeforeApply">CheckBeforeApply()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool CheckBeforeApply()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnDrawScrollArea.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnDrawScrollArea%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ViewSystemVerifier.cs/#L995">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnDrawScrollArea_" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnDrawScrollArea*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnDrawScrollArea" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnDrawScrollArea">OnDrawScrollArea()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void OnDrawScrollArea()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnGUI.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnGUI%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ViewSystemVerifier.cs/#L1005">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnGUI_" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnGUI*"></a>
+  <h4 id="MacacaGames_ViewSystem_VisualEditor_FixerWindow_OnGUI" data-uid="MacacaGames.ViewSystem.VisualEditor.FixerWindow.OnGUI">OnGUI()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnGUI()</code></pre>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_VisualEditor_FixerWindow.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.VisualEditor.FixerWindow%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ViewSystemVerifier.cs/#L989" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

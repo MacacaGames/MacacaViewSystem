@@ -1,0 +1,642 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ComponentTreeView
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ComponentTreeView
+   ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="MacacaGames.ViewSystem.ComponentTreeView">
+  
+  
+  <h1 id="MacacaGames_ViewSystem_ComponentTreeView" data-uid="MacacaGames.ViewSystem.ComponentTreeView" class="text-break">Class ComponentTreeView
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">UnityEditor.IMGUI.Controls.TreeView</span></div>
+    <div class="level2"><span class="xref">ComponentTreeView</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.BuildRows(UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.Reload()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.Repaint()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetCellRectForTreeFoldouts(UnityEngine.Rect)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetRowRect(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetRows()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.FindRows(System.Collections.Generic.IList&lt;System.Int32&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.FindItem(System.Int32, UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetFirstAndLastVisibleRows(System.Int32, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.ExpandAll()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.CollapseAll()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SetExpandedRecursive(System.Int32, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Int32, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Collections.Generic.IList&lt;System.Int32&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetExpanded()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.IsExpanded(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetSelection()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList&lt;System.Int32&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList&lt;System.Int32&gt;, UnityEditor.IMGUI.Controls.TreeViewSelectionOptions)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.IsSelected(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.HasSelection()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.HasFocus()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SetFocus()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SetFocusAndEnsureSelectedItem()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SelectionClick(UnityEditor.IMGUI.Controls.TreeViewItem, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem, System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.EndRename()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.FrameItem(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.OnGUI(UnityEngine.Rect)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SelectAllRows()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetFoldoutIndent(UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetContentIndent(UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SortItemIDsInRowOrder(System.Collections.Generic.IList&lt;System.Int32&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.CenterRectUsingSingleLineHeight(UnityEngine.Rect)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.AddExpandedRows(UnityEditor.IMGUI.Controls.TreeViewItem, System.Collections.Generic.IList&lt;UnityEditor.IMGUI.Controls.TreeViewItem&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SelectionChanged(System.Collections.Generic.IList&lt;System.Int32&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SingleClickedItem(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.ContextClickedItem(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.ContextClicked()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.ExpandedStateChanged()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SearchChanged(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.KeyEvent()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetAncestors(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetDescendantsThatHaveChildren(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.CanMultiSelect(UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.CanRename(UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.RenameEnded(UnityEditor.IMGUI.Controls.TreeView.RenameEndedArgs)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.CanStartDrag(UnityEditor.IMGUI.Controls.TreeView.CanStartDragArgs)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDropArgs)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.HandleDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.DragAndDropArgs)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.CanBeParent(UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.CanChangeExpandedState(UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.DoesItemMatchSearch(UnityEditor.IMGUI.Controls.TreeViewItem, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.BeforeRowsGUI()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.AfterRowsGUI()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.RefreshCustomRowHeights()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetCustomRowHeight(System.Int32, UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.GetRenameRect(UnityEngine.Rect, System.Int32, UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.CommandEventHandling()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SetupParentsAndChildrenFromDepths(UnityEditor.IMGUI.Controls.TreeViewItem, System.Collections.Generic.IList&lt;UnityEditor.IMGUI.Controls.TreeViewItem&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.SetupDepthsFromParentsAndChildren(UnityEditor.IMGUI.Controls.TreeViewItem)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.CreateChildListForCollapsedParent()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.IsChildListForACollapsedParent(System.Collections.Generic.IList&lt;UnityEditor.IMGUI.Controls.TreeViewItem&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.getNewSelectionOverride</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.foldoutOverride</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.state</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.multiColumnHeader</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.rootItem</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.isInitialized</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.treeViewRect</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.baseIndent</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.foldoutWidth</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.extraSpaceBeforeIconAndLabel</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.customFoldoutYOffset</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.columnIndexForTreeFoldouts</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.useScrollView</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.depthIndentWidth</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.showAlternatingRowBackgrounds</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.showBorder</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.showingHorizontalScrollBar</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.showingVerticalScrollBar</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.cellMargin</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.totalHeight</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.rowHeight</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.treeViewControlID</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.isDragging</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.hasSearch</span>
+    </div>
+    <div>
+      <span class="xref">UnityEditor.IMGUI.Controls.TreeView.searchString</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MacacaGames.ViewSystem.html">MacacaGames.ViewSystem</a></h6>
+  <h6><strong>Assembly</strong>: Macaca.ViewSystem.Editor.dll</h6>
+  <h5 id="MacacaGames_ViewSystem_ComponentTreeView_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ComponentTreeView : TreeView</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView__ctor_UnityEngine_GameObject_MacacaGames_ViewSystem_ViewPageItem_UnityEditor_IMGUI_Controls_TreeViewState_System_Boolean_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.%23ctor(UnityEngine.GameObject%2CMacacaGames.ViewSystem.ViewPageItem%2CUnityEditor.IMGUI.Controls.TreeViewState%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L13">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ComponentTreeView__ctor_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.#ctor*"></a>
+  <h4 id="MacacaGames_ViewSystem_ComponentTreeView__ctor_UnityEngine_GameObject_MacacaGames_ViewSystem_ViewPageItem_UnityEditor_IMGUI_Controls_TreeViewState_System_Boolean_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)">ComponentTreeView(GameObject, ViewPageItem, TreeViewState, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ComponentTreeView(GameObject go, ViewPageItem viewPageItem, TreeViewState treeViewState, bool isPrefabRoot)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.GameObject</span></td>
+        <td><span class="parametername">go</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewPageItem.html">ViewPageItem</a></td>
+        <td><span class="parametername">viewPageItem</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">UnityEditor.IMGUI.Controls.TreeViewState</span></td>
+        <td><span class="parametername">treeViewState</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">isPrefabRoot</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView_BuildRoot.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.BuildRoot%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L127">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ComponentTreeView_BuildRoot_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.BuildRoot*"></a>
+  <h4 id="MacacaGames_ViewSystem_ComponentTreeView_BuildRoot" data-uid="MacacaGames.ViewSystem.ComponentTreeView.BuildRoot">BuildRoot()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override TreeViewItem BuildRoot()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEditor.IMGUI.Controls.TreeViewItem</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">UnityEditor.IMGUI.Controls.TreeView.BuildRoot()</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView_DoubleClickedItem_System_Int32_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L299">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ComponentTreeView_DoubleClickedItem_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem*"></a>
+  <h4 id="MacacaGames_ViewSystem_ComponentTreeView_DoubleClickedItem_System_Int32_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem(System.Int32)">DoubleClickedItem(Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void DoubleClickedItem(int id)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">UnityEditor.IMGUI.Controls.TreeView.DoubleClickedItem(System.Int32)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView_DrawValue_UnityEngine_Rect_UnityEditor_SerializedProperty_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.DrawValue(UnityEngine.Rect%2CUnityEditor.SerializedProperty)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L232">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ComponentTreeView_DrawValue_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.DrawValue*"></a>
+  <h4 id="MacacaGames_ViewSystem_ComponentTreeView_DrawValue_UnityEngine_Rect_UnityEditor_SerializedProperty_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.DrawValue(UnityEngine.Rect,UnityEditor.SerializedProperty)">DrawValue(Rect, SerializedProperty)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void DrawValue(Rect rect, SerializedProperty Target)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Rect</span></td>
+        <td><span class="parametername">rect</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">UnityEditor.SerializedProperty</span></td>
+        <td><span class="parametername">Target</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView_RowGUI_UnityEditor_IMGUI_Controls_TreeView_RowGUIArgs_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L164">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ComponentTreeView_RowGUI_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.RowGUI*"></a>
+  <h4 id="MacacaGames_ViewSystem_ComponentTreeView_RowGUI_UnityEditor_IMGUI_Controls_TreeView_RowGUIArgs_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)">RowGUI(TreeView.RowGUIArgs)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void RowGUI(TreeView.RowGUIArgs args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs</span></td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">UnityEditor.IMGUI.Controls.TreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)</span></div>
+  <h3 id="events">Events
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView_OnItemClick.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.OnItemClick%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L317">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ComponentTreeView_OnItemClick" data-uid="MacacaGames.ViewSystem.ComponentTreeView.OnItemClick">OnItemClick</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event ComponentTreeView._OnItemClick OnItemClick</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ComponentTreeView._OnItemClick.html">ComponentTreeView._OnItemClick</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L9" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

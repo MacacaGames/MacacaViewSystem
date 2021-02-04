@@ -1,0 +1,2412 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ViewControllerBase
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ViewControllerBase
+   ">
+    <meta name="generator" content="docfx 2.56.6.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="MacacaGames.ViewSystem.ViewControllerBase">
+  
+  
+  <h1 id="MacacaGames_ViewSystem_ViewControllerBase" data-uid="MacacaGames.ViewSystem.ViewControllerBase" class="text-break">Class ViewControllerBase
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">UnityEngine.Object</span></div>
+    <div class="level2"><span class="xref">UnityEngine.Component</span></div>
+    <div class="level3"><span class="xref">UnityEngine.Behaviour</span></div>
+    <div class="level4"><span class="xref">UnityEngine.MonoBehaviour</span></div>
+    <div class="level5"><span class="xref">ViewControllerBase</span></div>
+      <div class="level6"><a class="xref" href="MacacaGames.ViewSystem.ViewController.html">ViewController</a></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="MacacaGames.ViewSystem.IViewController.html">IViewController</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.IsInvoking()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.CancelInvoke()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.Invoke(System.String, System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.InvokeRepeating(System.String, System.Single, System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.CancelInvoke(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.IsInvoking(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.StartCoroutine(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.StartCoroutine(System.String, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.StartCoroutine(System.Collections.IEnumerator)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.StartCoroutine_Auto(System.Collections.IEnumerator)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.StopCoroutine(System.Collections.IEnumerator)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.StopCoroutine(UnityEngine.Coroutine)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.StopCoroutine(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.StopAllCoroutines()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.print(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.useGUILayout</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.MonoBehaviour.runInEditMode</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Behaviour.enabled</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Behaviour.isActiveAndEnabled</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponent(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponent&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.TryGetComponent(System.Type, UnityEngine.Component)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.TryGetComponent&lt;T&gt;(T)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponent(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentInChildren(System.Type, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentInChildren(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentInChildren&lt;T&gt;(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentInChildren&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentsInChildren(System.Type, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentsInChildren(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentsInChildren&lt;T&gt;(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentsInChildren&lt;T&gt;(System.Boolean, System.Collections.Generic.List&lt;T&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentsInChildren&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentsInChildren&lt;T&gt;(System.Collections.Generic.List&lt;T&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentInParent(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentInParent&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentsInParent(System.Type, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentsInParent(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentsInParent&lt;T&gt;(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentsInParent&lt;T&gt;(System.Boolean, System.Collections.Generic.List&lt;T&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponentsInParent&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponents(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponents(System.Type, System.Collections.Generic.List&lt;UnityEngine.Component&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponents&lt;T&gt;(System.Collections.Generic.List&lt;T&gt;)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.GetComponents&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.CompareTag(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.SendMessageUpwards(System.String, System.Object, UnityEngine.SendMessageOptions)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.SendMessageUpwards(System.String, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.SendMessageUpwards(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.SendMessageUpwards(System.String, UnityEngine.SendMessageOptions)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.SendMessage(System.String, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.SendMessage(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.SendMessage(System.String, System.Object, UnityEngine.SendMessageOptions)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.SendMessage(System.String, UnityEngine.SendMessageOptions)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.BroadcastMessage(System.String, System.Object, UnityEngine.SendMessageOptions)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.BroadcastMessage(System.String, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.BroadcastMessage(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.BroadcastMessage(System.String, UnityEngine.SendMessageOptions)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.transform</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.gameObject</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Component.tag</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.GetInstanceID()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Vector3, UnityEngine.Quaternion)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate(UnityEngine.Object, UnityEngine.Transform, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Vector3, UnityEngine.Quaternion)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Vector3, UnityEngine.Quaternion, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Transform)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Instantiate&lt;T&gt;(T, UnityEngine.Transform, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Destroy(UnityEngine.Object, System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.Destroy(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyImmediate(UnityEngine.Object, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyImmediate(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyObject(UnityEngine.Object, System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.DestroyObject(UnityEngine.Object)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindSceneObjectsOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfTypeIncludingAssets(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfType&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectOfType&lt;T&gt;()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectsOfTypeAll(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.FindObjectOfType(System.Type)</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.name</span>
+    </div>
+    <div>
+      <span class="xref">UnityEngine.Object.hideFlags</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MacacaGames.ViewSystem.html">MacacaGames.ViewSystem</a></h6>
+  <h6><strong>Assembly</strong>: Macaca.ViewSystem.dll</h6>
+  <h5 id="MacacaGames_ViewSystem_ViewControllerBase_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class ViewControllerBase : MonoBehaviour, IViewController</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase__incance.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase._incance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L25">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase__incance" data-uid="MacacaGames.ViewSystem.ViewControllerBase._incance">_incance</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected static ViewControllerBase _incance</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.html">ViewControllerBase</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_ChangePageToCoroutine.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.ChangePageToCoroutine%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L343">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_ChangePageToCoroutine" data-uid="MacacaGames.ViewSystem.ViewControllerBase.ChangePageToCoroutine">ChangePageToCoroutine</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Coroutine ChangePageToCoroutine</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Coroutine</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_currentLiveElements.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.currentLiveElements%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L251">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_currentLiveElements" data-uid="MacacaGames.ViewSystem.ViewControllerBase.currentLiveElements">currentLiveElements</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SerializeField]
+protected List&lt;ViewElement&gt; currentLiveElements</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="MacacaGames.ViewSystem.ViewElement.html">ViewElement</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_currentViewPage.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.currentViewPage%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L260">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_currentViewPage" data-uid="MacacaGames.ViewSystem.ViewControllerBase.currentViewPage">currentViewPage</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[HideInInspector]
+public ViewPage currentViewPage</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewPage.html">ViewPage</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_currentViewState.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.currentViewState%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L263">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_currentViewState" data-uid="MacacaGames.ViewSystem.ViewControllerBase.currentViewState">currentViewState</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[HideInInspector]
+public ViewState currentViewState</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewState.html">ViewState</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_lastViewPage.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.lastViewPage%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L254">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_lastViewPage" data-uid="MacacaGames.ViewSystem.ViewControllerBase.lastViewPage">lastViewPage</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[HideInInspector]
+public ViewPage lastViewPage</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewPage.html">ViewPage</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_lastViewState.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.lastViewState%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L257">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_lastViewState" data-uid="MacacaGames.ViewSystem.ViewControllerBase.lastViewState">lastViewState</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[HideInInspector]
+public ViewState lastViewState</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewState.html">ViewState</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_minimumTimeInterval.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.minimumTimeInterval%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L13">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_minimumTimeInterval" data-uid="MacacaGames.ViewSystem.ViewControllerBase.minimumTimeInterval">minimumTimeInterval</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected static float minimumTimeInterval</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_nextViewPage.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.nextViewPage%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L266">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_nextViewPage" data-uid="MacacaGames.ViewSystem.ViewControllerBase.nextViewPage">nextViewPage</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[HideInInspector]
+public ViewPage nextViewPage</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewPage.html">ViewPage</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_nextViewState.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.nextViewState%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L269">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_nextViewState" data-uid="MacacaGames.ViewSystem.ViewControllerBase.nextViewState">nextViewState</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[HideInInspector]
+public ViewState nextViewState</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewState.html">ViewState</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_overlayPageStatusDict.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.overlayPageStatusDict%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L282">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_overlayPageStatusDict" data-uid="MacacaGames.ViewSystem.ViewControllerBase.overlayPageStatusDict">overlayPageStatusDict</h4>
+  <div class="markdown level1 summary"><p>The current active Overlay Dictionary which has no ViewState.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SerializeField]
+protected Dictionary&lt;string, ViewSystemUtilitys.OverlayPageStatus&gt; overlayPageStatusDict</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <a class="xref" href="MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.html">ViewSystemUtilitys.OverlayPageStatus</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_viewPages.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.viewPages%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L246">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_viewPages" data-uid="MacacaGames.ViewSystem.ViewControllerBase.viewPages">viewPages</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;ViewPage&gt; viewPages</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="MacacaGames.ViewSystem.ViewPage.html">ViewPage</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_viewStates.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.viewStates%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L247">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_viewStates" data-uid="MacacaGames.ViewSystem.ViewControllerBase.viewStates">viewStates</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;ViewState&gt; viewStates</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="MacacaGames.ViewSystem.ViewState.html">ViewState</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_viewStatesNames.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.viewStatesNames%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L248">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_viewStatesNames" data-uid="MacacaGames.ViewSystem.ViewControllerBase.viewStatesNames">viewStatesNames</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected static IEnumerable&lt;string&gt; viewStatesNames</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_IsOverlayTransition.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.IsOverlayTransition%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L180">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_IsOverlayTransition_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.IsOverlayTransition*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_IsOverlayTransition" data-uid="MacacaGames.ViewSystem.ViewControllerBase.IsOverlayTransition">IsOverlayTransition</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsOverlayTransition { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_IsPageTransition.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.IsPageTransition%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L336">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_IsPageTransition_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.IsPageTransition*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_IsPageTransition" data-uid="MacacaGames.ViewSystem.ViewControllerBase.IsPageTransition">IsPageTransition</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsPageTransition { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_platform.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.platform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L271">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_platform_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.platform*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_platform" data-uid="MacacaGames.ViewSystem.ViewControllerBase.platform">platform</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ViewPageItem.PlatformOption platform { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewPageItem.PlatformOption.html">ViewPageItem.PlatformOption</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_Awake.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.Awake%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L215">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_Awake_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.Awake*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_Awake" data-uid="MacacaGames.ViewSystem.ViewControllerBase.Awake">Awake()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Awake()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_ChangePage_System_String_System_Action_System_Action_System_Action_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.ChangePage(System.String%2CSystem.Action%2CSystem.Action%2CSystem.Action%2CSystem.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L114">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_ChangePage_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.ChangePage*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_ChangePage_System_String_System_Action_System_Action_System_Action_System_Boolean_System_Boolean_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.ChangePage(System.String,System.Action,System.Action,System.Action,System.Boolean,System.Boolean)">ChangePage(String, Action, Action, Action, Boolean, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Coroutine ChangePage(string targetViewPageName, Action OnStart = null, Action OnChanged = null, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">targetViewPageName</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnStart</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnChanged</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnComplete</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">AutoWaitPreviousPageFinish</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">ignoreTimeScale</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Coroutine</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_ChangePageBase_System_String_System_Action_System_Action_System_Action_System_Boolean_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.ChangePageBase(System.String%2CSystem.Action%2CSystem.Action%2CSystem.Action%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L153">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_ChangePageBase_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.ChangePageBase*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_ChangePageBase_System_String_System_Action_System_Action_System_Action_System_Boolean_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.ChangePageBase(System.String,System.Action,System.Action,System.Action,System.Boolean)">ChangePageBase(String, Action, Action, Action, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnCheaged, Action OnComplete, bool ignoreTimeScale)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">viewPageName</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnStart</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnCheaged</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnComplete</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">ignoreTimeScale</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_CheckTimeProtect.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.CheckTimeProtect%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L198">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_CheckTimeProtect_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.CheckTimeProtect*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_CheckTimeProtect" data-uid="MacacaGames.ViewSystem.ViewControllerBase.CheckTimeProtect">CheckTimeProtect()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected bool CheckTimeProtect()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_FullPageChanger.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.FullPageChanger%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L362">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_FullPageChanger_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.FullPageChanger*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_FullPageChanger" data-uid="MacacaGames.ViewSystem.ViewControllerBase.FullPageChanger">FullPageChanger()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static FullPageChanger FullPageChanger()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.FullPageChanger.html">FullPageChanger</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_GetAllViewPageItemInViewPage_MacacaGames_ViewSystem_ViewPage_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.GetAllViewPageItemInViewPage(MacacaGames.ViewSystem.ViewPage)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L296">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_GetAllViewPageItemInViewPage_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.GetAllViewPageItemInViewPage*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_GetAllViewPageItemInViewPage_MacacaGames_ViewSystem_ViewPage_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.GetAllViewPageItemInViewPage(MacacaGames.ViewSystem.ViewPage)">GetAllViewPageItemInViewPage(ViewPage)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IEnumerable&lt;ViewPageItem&gt; GetAllViewPageItemInViewPage(ViewPage vp)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewPage.html">ViewPage</a></td>
+        <td><span class="parametername">vp</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="MacacaGames.ViewSystem.ViewPageItem.html">ViewPageItem</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_GetAllViewPageItemInViewState_MacacaGames_ViewSystem_ViewState_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.GetAllViewPageItemInViewState(MacacaGames.ViewSystem.ViewState)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L291">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_GetAllViewPageItemInViewState_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.GetAllViewPageItemInViewState*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_GetAllViewPageItemInViewState_MacacaGames_ViewSystem_ViewState_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.GetAllViewPageItemInViewState(MacacaGames.ViewSystem.ViewState)">GetAllViewPageItemInViewState(ViewState)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected IEnumerable&lt;ViewPageItem&gt; GetAllViewPageItemInViewState(ViewState vs)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewState.html">ViewState</a></td>
+        <td><span class="parametername">vs</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="MacacaGames.ViewSystem.ViewPageItem.html">ViewPageItem</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_GetCanvas.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.GetCanvas%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L15">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_GetCanvas_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.GetCanvas*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_GetCanvas" data-uid="MacacaGames.ViewSystem.ViewControllerBase.GetCanvas">GetCanvas()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual Canvas GetCanvas()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Canvas</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_GetCurrentOverpageNames.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.GetCurrentOverpageNames%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L176">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_GetCurrentOverpageNames_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.GetCurrentOverpageNames*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_GetCurrentOverpageNames" data-uid="MacacaGames.ViewSystem.ViewControllerBase.GetCurrentOverpageNames">GetCurrentOverpageNames()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual IEnumerable&lt;string&gt; GetCurrentOverpageNames()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_GetOverlayStateKey_MacacaGames_ViewSystem_ViewPage_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.GetOverlayStateKey(MacacaGames.ViewSystem.ViewPage)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L29">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_GetOverlayStateKey_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.GetOverlayStateKey*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_GetOverlayStateKey_MacacaGames_ViewSystem_ViewPage_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.GetOverlayStateKey(MacacaGames.ViewSystem.ViewPage)">GetOverlayStateKey(ViewPage)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected string GetOverlayStateKey(ViewPage vp)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewPage.html">ViewPage</a></td>
+        <td><span class="parametername">vp</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_HasOverlayPageLive.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.HasOverlayPageLive%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L168">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_HasOverlayPageLive_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.HasOverlayPageLive*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_HasOverlayPageLive" data-uid="MacacaGames.ViewSystem.ViewControllerBase.HasOverlayPageLive">HasOverlayPageLive()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool HasOverlayPageLive()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_InvokeOnOverlayPageLeave_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewPageEventArgs_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.InvokeOnOverlayPageLeave(System.Object%2CMacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L444">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnOverlayPageLeave_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnOverlayPageLeave*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnOverlayPageLeave_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewPageEventArgs_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnOverlayPageLeave(System.Object,MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs)">InvokeOnOverlayPageLeave(Object, ViewControllerBase.ViewPageEventArgs)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void InvokeOnOverlayPageLeave(object obj, ViewControllerBase.ViewPageEventArgs args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs.html">ViewControllerBase.ViewPageEventArgs</a></td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_InvokeOnOverlayPageShow_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewPageEventArgs_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.InvokeOnOverlayPageShow(System.Object%2CMacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L435">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnOverlayPageShow_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnOverlayPageShow*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnOverlayPageShow_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewPageEventArgs_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnOverlayPageShow(System.Object,MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs)">InvokeOnOverlayPageShow(Object, ViewControllerBase.ViewPageEventArgs)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void InvokeOnOverlayPageShow(object obj, ViewControllerBase.ViewPageEventArgs args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs.html">ViewControllerBase.ViewPageEventArgs</a></td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewPageChange_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewPageEventArgs_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewPageChange(System.Object%2CMacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L408">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewPageChange_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewPageChange*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewPageChange_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewPageEventArgs_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewPageChange(System.Object,MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs)">InvokeOnViewPageChange(Object, ViewControllerBase.ViewPageEventArgs)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void InvokeOnViewPageChange(object obj, ViewControllerBase.ViewPageEventArgs args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs.html">ViewControllerBase.ViewPageEventArgs</a></td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewPageChangeEnd_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewPageEventArgs_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewPageChangeEnd(System.Object%2CMacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L426">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewPageChangeEnd_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewPageChangeEnd*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewPageChangeEnd_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewPageEventArgs_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewPageChangeEnd(System.Object,MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs)">InvokeOnViewPageChangeEnd(Object, ViewControllerBase.ViewPageEventArgs)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void InvokeOnViewPageChangeEnd(object obj, ViewControllerBase.ViewPageEventArgs args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs.html">ViewControllerBase.ViewPageEventArgs</a></td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewPageChangeStart_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewPageTrisitionEventArgs_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewPageChangeStart(System.Object%2CMacacaGames.ViewSystem.ViewControllerBase.ViewPageTrisitionEventArgs)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L417">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewPageChangeStart_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewPageChangeStart*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewPageChangeStart_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewPageTrisitionEventArgs_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewPageChangeStart(System.Object,MacacaGames.ViewSystem.ViewControllerBase.ViewPageTrisitionEventArgs)">InvokeOnViewPageChangeStart(Object, ViewControllerBase.ViewPageTrisitionEventArgs)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void InvokeOnViewPageChangeStart(object obj, ViewControllerBase.ViewPageTrisitionEventArgs args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewPageTrisitionEventArgs.html">ViewControllerBase.ViewPageTrisitionEventArgs</a></td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewStateChange_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewStateEventArgs_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewStateChange(System.Object%2CMacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L399">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewStateChange_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewStateChange*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_InvokeOnViewStateChange_System_Object_MacacaGames_ViewSystem_ViewControllerBase_ViewStateEventArgs_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.InvokeOnViewStateChange(System.Object,MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs)">InvokeOnViewStateChange(Object, ViewControllerBase.ViewStateEventArgs)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void InvokeOnViewStateChange(object obj, ViewControllerBase.ViewStateEventArgs args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.html">ViewControllerBase.ViewStateEventArgs</a></td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_IsOverPageLive_System_String_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.IsOverPageLive(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L172">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_IsOverPageLive_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.IsOverPageLive*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_IsOverPageLive_System_String_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.IsOverPageLive(System.String)">IsOverPageLive(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual bool IsOverPageLive(string viewPageName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">viewPageName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_IsViewPageExsit_System_String_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.IsViewPageExsit(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L26">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_IsViewPageExsit_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.IsViewPageExsit*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_IsViewPageExsit_System_String_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.IsViewPageExsit(System.String)">IsViewPageExsit(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract bool IsViewPageExsit(string viewPageName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">viewPageName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_LeaveOverlayViewPage_System_String_System_Single_System_Action_System_Boolean_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.LeaveOverlayViewPage(System.String%2CSystem.Single%2CSystem.Action%2CSystem.Boolean%2CSystem.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L76">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_LeaveOverlayViewPage_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.LeaveOverlayViewPage*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_LeaveOverlayViewPage_System_String_System_Single_System_Action_System_Boolean_System_Boolean_System_Boolean_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.LeaveOverlayViewPage(System.String,System.Single,System.Action,System.Boolean,System.Boolean,System.Boolean)">LeaveOverlayViewPage(String, Single, Action, Boolean, Boolean, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">viewPageName</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">tweenTimeIfNeed</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnComplete</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">ignoreTransition</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">ignoreTimeScale</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">waitForShowFinish</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Coroutine</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_LeaveOverlayViewPageBase_MacacaGames_ViewSystem_ViewSystemUtilitys_OverlayPageStatus_System_Single_System_Action_System_Boolean_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.LeaveOverlayViewPageBase(MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus%2CSystem.Single%2CSystem.Action%2CSystem.Boolean%2CSystem.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L147">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_LeaveOverlayViewPageBase_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.LeaveOverlayViewPageBase*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_LeaveOverlayViewPageBase_MacacaGames_ViewSystem_ViewSystemUtilitys_OverlayPageStatus_System_Single_System_Action_System_Boolean_System_Boolean_System_Boolean_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.LeaveOverlayViewPageBase(MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus,System.Single,System.Action,System.Boolean,System.Boolean,System.Boolean)">LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageStatus, Single, Action, Boolean, Boolean, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageStatus overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.html">ViewSystemUtilitys.OverlayPageStatus</a></td>
+        <td><span class="parametername">overlayPageState</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">tweenTimeIfNeed</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnComplete</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">ignoreTransition</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">ignoreTimeScale</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">waitForShowFinish</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_OverlayPageChanger.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.OverlayPageChanger%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L376">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_OverlayPageChanger_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.OverlayPageChanger*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_OverlayPageChanger" data-uid="MacacaGames.ViewSystem.ViewControllerBase.OverlayPageChanger">OverlayPageChanger()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static OverlayPageChanger OverlayPageChanger()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.OverlayPageChanger.html">OverlayPageChanger</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_RecoveryChanger_MacacaGames_ViewSystem_PageChanger_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.RecoveryChanger(MacacaGames.ViewSystem.PageChanger)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L354">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_RecoveryChanger_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.RecoveryChanger*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_RecoveryChanger_MacacaGames_ViewSystem_PageChanger_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.RecoveryChanger(MacacaGames.ViewSystem.PageChanger)">RecoveryChanger(PageChanger)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RecoveryChanger(PageChanger pageChanger)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.PageChanger.html">PageChanger</a></td>
+        <td><span class="parametername">pageChanger</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_ShowOverlayViewPage_System_String_System_Boolean_System_Action_System_Action_System_Action_System_Boolean_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.ShowOverlayViewPage(System.String%2CSystem.Boolean%2CSystem.Action%2CSystem.Action%2CSystem.Action%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L41">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_ShowOverlayViewPage_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.ShowOverlayViewPage*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_ShowOverlayViewPage_System_String_System_Boolean_System_Action_System_Action_System_Action_System_Boolean_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.ShowOverlayViewPage(System.String,System.Boolean,System.Action,System.Action,System.Action,System.Boolean)">ShowOverlayViewPage(String, Boolean, Action, Action, Action, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnStart = null, Action OnChanged = null, Action OnComplete = null, bool ignoreTimeScale = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">viewPageName</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">RePlayOnShowWhileSamePage</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnStart</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnChanged</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnComplete</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">ignoreTimeScale</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">UnityEngine.Coroutine</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_ShowOverlayViewPageBase_MacacaGames_ViewSystem_ViewPage_System_Boolean_System_Action_System_Action_System_Action_System_Boolean_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.ShowOverlayViewPageBase(MacacaGames.ViewSystem.ViewPage%2CSystem.Boolean%2CSystem.Action%2CSystem.Action%2CSystem.Action%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L141">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_ShowOverlayViewPageBase_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.ShowOverlayViewPageBase*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_ShowOverlayViewPageBase_MacacaGames_ViewSystem_ViewPage_System_Boolean_System_Action_System_Action_System_Action_System_Boolean_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.ShowOverlayViewPageBase(MacacaGames.ViewSystem.ViewPage,System.Boolean,System.Action,System.Action,System.Action,System.Boolean)">ShowOverlayViewPageBase(ViewPage, Boolean, Action, Action, Action, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewPage.html">ViewPage</a></td>
+        <td><span class="parametername">vp</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">RePlayOnShowWhileSamePage</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnStart</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnChanged</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnComplete</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">ignoreTimeScale</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_Start.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.Start%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L223">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_Start_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.Start*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_Start" data-uid="MacacaGames.ViewSystem.ViewControllerBase.Start">Start()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Start()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_StartMicroCoroutine_System_Collections_IEnumerator_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.StartMicroCoroutine(System.Collections.IEnumerator)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L238">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_StartMicroCoroutine_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.StartMicroCoroutine*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_StartMicroCoroutine_System_Collections_IEnumerator_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.StartMicroCoroutine(System.Collections.IEnumerator)">StartMicroCoroutine(IEnumerator)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MicroCoroutine.Coroutine StartMicroCoroutine(IEnumerator routine)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td><span class="parametername">routine</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.MicroCoroutine.Coroutine.html">MicroCoroutine.Coroutine</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_StopMicroCoroutine_MacacaGames_ViewSystem_MicroCoroutine_Coroutine_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.StopMicroCoroutine(MacacaGames.ViewSystem.MicroCoroutine.Coroutine)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L233">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_StopMicroCoroutine_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.StopMicroCoroutine*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_StopMicroCoroutine_MacacaGames_ViewSystem_MicroCoroutine_Coroutine_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.StopMicroCoroutine(MacacaGames.ViewSystem.MicroCoroutine.Coroutine)">StopMicroCoroutine(MicroCoroutine.Coroutine)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void StopMicroCoroutine(MicroCoroutine.Coroutine coroutine)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MacacaGames.ViewSystem.MicroCoroutine.Coroutine.html">MicroCoroutine.Coroutine</a></td>
+        <td><span class="parametername">coroutine</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_TryLeaveAllOverlayPage.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.TryLeaveAllOverlayPage%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L159">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_TryLeaveAllOverlayPage_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.TryLeaveAllOverlayPage*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_TryLeaveAllOverlayPage" data-uid="MacacaGames.ViewSystem.ViewControllerBase.TryLeaveAllOverlayPage">TryLeaveAllOverlayPage()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void TryLeaveAllOverlayPage()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_WaitPrevious_System_String_System_Action_System_Action_System_Action_System_Boolean_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.WaitPrevious(System.String%2CSystem.Action%2CSystem.Action%2CSystem.Action%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L344">View Source</a>
+  </span>
+  <a id="MacacaGames_ViewSystem_ViewControllerBase_WaitPrevious_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.WaitPrevious*"></a>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_WaitPrevious_System_String_System_Action_System_Action_System_Action_System_Boolean_" data-uid="MacacaGames.ViewSystem.ViewControllerBase.WaitPrevious(System.String,System.Action,System.Action,System.Action,System.Boolean)">WaitPrevious(String, Action, Action, Action, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerator WaitPrevious(string viewPageName, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">viewPageName</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnStart</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnChanged</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnComplete</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">ignoreTimeScale</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="events">Events
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_OnOverlayPageLeave.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.OnOverlayPageLeave%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L443">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_OnOverlayPageLeave" data-uid="MacacaGames.ViewSystem.ViewControllerBase.OnOverlayPageLeave">OnOverlayPageLeave</h4>
+  <div class="markdown level1 summary"><p>OnOverlayPageLeave Calls on an overlay page is leave.(the transition may still working)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;ViewControllerBase.ViewPageEventArgs&gt; OnOverlayPageLeave</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs.html">ViewControllerBase.ViewPageEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_OnOverlayPageShow.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.OnOverlayPageShow%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L434">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_OnOverlayPageShow" data-uid="MacacaGames.ViewSystem.ViewControllerBase.OnOverlayPageShow">OnOverlayPageShow</h4>
+  <div class="markdown level1 summary"><p>OnOverlayPageShow Calls on an overlay page is show.(the transition may still working)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;ViewControllerBase.ViewPageEventArgs&gt; OnOverlayPageShow</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs.html">ViewControllerBase.ViewPageEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_OnViewPageChange.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.OnViewPageChange%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L407">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_OnViewPageChange" data-uid="MacacaGames.ViewSystem.ViewControllerBase.OnViewPageChange">OnViewPageChange</h4>
+  <div class="markdown level1 summary"><p>OnViewPageChange Calls on last page has leave finished, next page is ready to show.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;ViewControllerBase.ViewPageEventArgs&gt; OnViewPageChange</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs.html">ViewControllerBase.ViewPageEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_OnViewPageChangeEnd.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.OnViewPageChangeEnd%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L425">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_OnViewPageChangeEnd" data-uid="MacacaGames.ViewSystem.ViewControllerBase.OnViewPageChangeEnd">OnViewPageChangeEnd</h4>
+  <div class="markdown level1 summary"><p>OnViewPageChangeEnd Calls on page is changed finish, all animation include in OnShow or OnLeave is finished. (Note. the sometimes the Event fire early due to the animation time is longer than &quot;Change Page Max Waiting&quot; time)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;ViewControllerBase.ViewPageEventArgs&gt; OnViewPageChangeEnd</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs.html">ViewControllerBase.ViewPageEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_OnViewPageChangeStart.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.OnViewPageChangeStart%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L416">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_OnViewPageChangeStart" data-uid="MacacaGames.ViewSystem.ViewControllerBase.OnViewPageChangeStart">OnViewPageChangeStart</h4>
+  <div class="markdown level1 summary"><p>OnViewPageChangeStart Calls on page is ready to change with no error(eg. no page fonud etc.), and in this moment last page is still in view.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;ViewControllerBase.ViewPageTrisitionEventArgs&gt; OnViewPageChangeStart</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewPageTrisitionEventArgs.html">ViewControllerBase.ViewPageTrisitionEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase_OnViewStateChange.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase.OnViewStateChange%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L398">View Source</a>
+  </span>
+  <h4 id="MacacaGames_ViewSystem_ViewControllerBase_OnViewStateChange" data-uid="MacacaGames.ViewSystem.ViewControllerBase.OnViewStateChange">OnViewStateChange</h4>
+  <div class="markdown level1 summary"><p>OnViewStateChange Calls on the ViewPage is changed and has different ViewState.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public event EventHandler&lt;ViewControllerBase.ViewStateEventArgs&gt; OnViewStateChange</code></pre>
+  </div>
+  <h5 class="eventType">Event Type</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.EventHandler</span>&lt;<a class="xref" href="MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.html">ViewControllerBase.ViewStateEventArgs</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="MacacaGames.ViewSystem.IViewController.html">IViewController</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ViewControllerBase.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ViewControllerBase%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Runtime/ViewController/ViewControllerBase.cs/#L10" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
