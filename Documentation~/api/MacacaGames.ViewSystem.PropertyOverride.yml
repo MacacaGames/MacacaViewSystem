@@ -1,0 +1,590 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.PropertyOverride
+  commentId: T:MacacaGames.ViewSystem.PropertyOverride
+  id: PropertyOverride
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.PropertyOverride.GetValue
+  - MacacaGames.ViewSystem.PropertyOverride.ObjectReferenceValue
+  - MacacaGames.ViewSystem.PropertyOverride.s_Type
+  - MacacaGames.ViewSystem.PropertyOverride.SetType(MacacaGames.ViewSystem.PropertyOverride.S_Type)
+  - MacacaGames.ViewSystem.PropertyOverride.SetValue(System.Object)
+  - MacacaGames.ViewSystem.PropertyOverride.StringValue
+  langs:
+  - csharp
+  - vb
+  name: PropertyOverride
+  nameWithType: PropertyOverride
+  fullName: MacacaGames.ViewSystem.PropertyOverride
+  type: Class
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: PropertyOverride
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 126
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class PropertyOverride
+    content.vb: >-
+      <Serializable>
+
+      Public Class PropertyOverride
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.PropertyOverride.GetValue
+  commentId: M:MacacaGames.ViewSystem.PropertyOverride.GetValue
+  id: GetValue
+  parent: MacacaGames.ViewSystem.PropertyOverride
+  langs:
+  - csharp
+  - vb
+  name: GetValue()
+  nameWithType: PropertyOverride.GetValue()
+  fullName: MacacaGames.ViewSystem.PropertyOverride.GetValue()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: GetValue
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 131
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public object GetValue()
+    return:
+      type: System.Object
+    content.vb: Public Function GetValue As Object
+  overload: MacacaGames.ViewSystem.PropertyOverride.GetValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.PropertyOverride.SetValue(System.Object)
+  commentId: M:MacacaGames.ViewSystem.PropertyOverride.SetValue(System.Object)
+  id: SetValue(System.Object)
+  parent: MacacaGames.ViewSystem.PropertyOverride
+  langs:
+  - csharp
+  - vb
+  name: SetValue(Object)
+  nameWithType: PropertyOverride.SetValue(Object)
+  fullName: MacacaGames.ViewSystem.PropertyOverride.SetValue(System.Object)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: SetValue
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 235
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public void SetValue(object value)
+    parameters:
+    - id: value
+      type: System.Object
+    content.vb: Public Sub SetValue(value As Object)
+  overload: MacacaGames.ViewSystem.PropertyOverride.SetValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.PropertyOverride.SetType(MacacaGames.ViewSystem.PropertyOverride.S_Type)
+  commentId: M:MacacaGames.ViewSystem.PropertyOverride.SetType(MacacaGames.ViewSystem.PropertyOverride.S_Type)
+  id: SetType(MacacaGames.ViewSystem.PropertyOverride.S_Type)
+  parent: MacacaGames.ViewSystem.PropertyOverride
+  langs:
+  - csharp
+  - vb
+  name: SetType(PropertyOverride.S_Type)
+  nameWithType: PropertyOverride.SetType(PropertyOverride.S_Type)
+  fullName: MacacaGames.ViewSystem.PropertyOverride.SetType(MacacaGames.ViewSystem.PropertyOverride.S_Type)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: SetType
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 307
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public void SetType(PropertyOverride.S_Type t)
+    parameters:
+    - id: t
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+    content.vb: Public Sub SetType(t As PropertyOverride.S_Type)
+  overload: MacacaGames.ViewSystem.PropertyOverride.SetType*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.PropertyOverride.s_Type
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.s_Type
+  id: s_Type
+  parent: MacacaGames.ViewSystem.PropertyOverride
+  langs:
+  - csharp
+  - vb
+  name: s_Type
+  nameWithType: PropertyOverride.s_Type
+  fullName: MacacaGames.ViewSystem.PropertyOverride.s_Type
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: s_Type
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 316
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public PropertyOverride.S_Type s_Type
+    return:
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+    content.vb: Public s_Type As PropertyOverride.S_Type
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.PropertyOverride.ObjectReferenceValue
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.ObjectReferenceValue
+  id: ObjectReferenceValue
+  parent: MacacaGames.ViewSystem.PropertyOverride
+  langs:
+  - csharp
+  - vb
+  name: ObjectReferenceValue
+  nameWithType: PropertyOverride.ObjectReferenceValue
+  fullName: MacacaGames.ViewSystem.PropertyOverride.ObjectReferenceValue
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ObjectReferenceValue
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 317
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Object ObjectReferenceValue
+    return:
+      type: UnityEngine.Object
+    content.vb: Public ObjectReferenceValue As Object
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.PropertyOverride.StringValue
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.StringValue
+  id: StringValue
+  parent: MacacaGames.ViewSystem.PropertyOverride
+  langs:
+  - csharp
+  - vb
+  name: StringValue
+  nameWithType: PropertyOverride.StringValue
+  fullName: MacacaGames.ViewSystem.PropertyOverride.StringValue
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: StringValue
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 318
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public string StringValue
+    return:
+      type: System.String
+    content.vb: Public StringValue As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: MacacaGames.ViewSystem.PropertyOverride.GetValue*
+  commentId: Overload:MacacaGames.ViewSystem.PropertyOverride.GetValue
+  name: GetValue
+  nameWithType: PropertyOverride.GetValue
+  fullName: MacacaGames.ViewSystem.PropertyOverride.GetValue
+- uid: MacacaGames.ViewSystem.PropertyOverride.SetValue*
+  commentId: Overload:MacacaGames.ViewSystem.PropertyOverride.SetValue
+  name: SetValue
+  nameWithType: PropertyOverride.SetValue
+  fullName: MacacaGames.ViewSystem.PropertyOverride.SetValue
+- uid: MacacaGames.ViewSystem.PropertyOverride.SetType*
+  commentId: Overload:MacacaGames.ViewSystem.PropertyOverride.SetType
+  name: SetType
+  nameWithType: PropertyOverride.SetType
+  fullName: MacacaGames.ViewSystem.PropertyOverride.SetType
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  commentId: T:MacacaGames.ViewSystem.PropertyOverride.S_Type
+  parent: MacacaGames.ViewSystem
+  name: PropertyOverride.S_Type
+  nameWithType: PropertyOverride.S_Type
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type
+- uid: UnityEngine.Object
+  commentId: T:UnityEngine.Object
+  parent: UnityEngine
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: UnityEngine.Object
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

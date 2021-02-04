@@ -1,0 +1,622 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewMarginFixer.Margin
+  commentId: T:MacacaGames.ViewSystem.ViewMarginFixer.Margin
+  id: ViewMarginFixer.Margin
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewMarginFixer.Margin.bottom
+  - MacacaGames.ViewSystem.ViewMarginFixer.Margin.left
+  - MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyBottom
+  - MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyLeft
+  - MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyRight
+  - MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyTop
+  - MacacaGames.ViewSystem.ViewMarginFixer.Margin.right
+  - MacacaGames.ViewSystem.ViewMarginFixer.Margin.top
+  langs:
+  - csharp
+  - vb
+  name: ViewMarginFixer.Margin
+  nameWithType: ViewMarginFixer.Margin
+  fullName: MacacaGames.ViewSystem.ViewMarginFixer.Margin
+  type: Class
+  source:
+    remote:
+      path: Runtime/Components/ViewMarginFixer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Margin
+    path: ../Runtime/Components/ViewMarginFixer.cs
+    startLine: 301
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class Margin
+    content.vb: >-
+      <Serializable>
+
+      Public Class Margin
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyTop
+  commentId: F:MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyTop
+  id: modifyTop
+  parent: MacacaGames.ViewSystem.ViewMarginFixer.Margin
+  langs:
+  - csharp
+  - vb
+  name: modifyTop
+  nameWithType: ViewMarginFixer.Margin.modifyTop
+  fullName: MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyTop
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewMarginFixer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: modifyTop
+    path: ../Runtime/Components/ViewMarginFixer.cs
+    startLine: 304
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public bool modifyTop
+    return:
+      type: System.Boolean
+    content.vb: Public modifyTop As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewMarginFixer.Margin.top
+  commentId: F:MacacaGames.ViewSystem.ViewMarginFixer.Margin.top
+  id: top
+  parent: MacacaGames.ViewSystem.ViewMarginFixer.Margin
+  langs:
+  - csharp
+  - vb
+  name: top
+  nameWithType: ViewMarginFixer.Margin.top
+  fullName: MacacaGames.ViewSystem.ViewMarginFixer.Margin.top
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewMarginFixer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: top
+    path: ../Runtime/Components/ViewMarginFixer.cs
+    startLine: 305
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float top
+    return:
+      type: System.Single
+    content.vb: Public top As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyBottom
+  commentId: F:MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyBottom
+  id: modifyBottom
+  parent: MacacaGames.ViewSystem.ViewMarginFixer.Margin
+  langs:
+  - csharp
+  - vb
+  name: modifyBottom
+  nameWithType: ViewMarginFixer.Margin.modifyBottom
+  fullName: MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyBottom
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewMarginFixer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: modifyBottom
+    path: ../Runtime/Components/ViewMarginFixer.cs
+    startLine: 306
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public bool modifyBottom
+    return:
+      type: System.Boolean
+    content.vb: Public modifyBottom As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewMarginFixer.Margin.bottom
+  commentId: F:MacacaGames.ViewSystem.ViewMarginFixer.Margin.bottom
+  id: bottom
+  parent: MacacaGames.ViewSystem.ViewMarginFixer.Margin
+  langs:
+  - csharp
+  - vb
+  name: bottom
+  nameWithType: ViewMarginFixer.Margin.bottom
+  fullName: MacacaGames.ViewSystem.ViewMarginFixer.Margin.bottom
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewMarginFixer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: bottom
+    path: ../Runtime/Components/ViewMarginFixer.cs
+    startLine: 307
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float bottom
+    return:
+      type: System.Single
+    content.vb: Public bottom As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyRight
+  commentId: F:MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyRight
+  id: modifyRight
+  parent: MacacaGames.ViewSystem.ViewMarginFixer.Margin
+  langs:
+  - csharp
+  - vb
+  name: modifyRight
+  nameWithType: ViewMarginFixer.Margin.modifyRight
+  fullName: MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyRight
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewMarginFixer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: modifyRight
+    path: ../Runtime/Components/ViewMarginFixer.cs
+    startLine: 308
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public bool modifyRight
+    return:
+      type: System.Boolean
+    content.vb: Public modifyRight As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewMarginFixer.Margin.right
+  commentId: F:MacacaGames.ViewSystem.ViewMarginFixer.Margin.right
+  id: right
+  parent: MacacaGames.ViewSystem.ViewMarginFixer.Margin
+  langs:
+  - csharp
+  - vb
+  name: right
+  nameWithType: ViewMarginFixer.Margin.right
+  fullName: MacacaGames.ViewSystem.ViewMarginFixer.Margin.right
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewMarginFixer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: right
+    path: ../Runtime/Components/ViewMarginFixer.cs
+    startLine: 309
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float right
+    return:
+      type: System.Single
+    content.vb: Public right As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyLeft
+  commentId: F:MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyLeft
+  id: modifyLeft
+  parent: MacacaGames.ViewSystem.ViewMarginFixer.Margin
+  langs:
+  - csharp
+  - vb
+  name: modifyLeft
+  nameWithType: ViewMarginFixer.Margin.modifyLeft
+  fullName: MacacaGames.ViewSystem.ViewMarginFixer.Margin.modifyLeft
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewMarginFixer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: modifyLeft
+    path: ../Runtime/Components/ViewMarginFixer.cs
+    startLine: 310
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public bool modifyLeft
+    return:
+      type: System.Boolean
+    content.vb: Public modifyLeft As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewMarginFixer.Margin.left
+  commentId: F:MacacaGames.ViewSystem.ViewMarginFixer.Margin.left
+  id: left
+  parent: MacacaGames.ViewSystem.ViewMarginFixer.Margin
+  langs:
+  - csharp
+  - vb
+  name: left
+  nameWithType: ViewMarginFixer.Margin.left
+  fullName: MacacaGames.ViewSystem.ViewMarginFixer.Margin.left
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewMarginFixer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: left
+    path: ../Runtime/Components/ViewMarginFixer.cs
+    startLine: 311
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float left
+    return:
+      type: System.Single
+    content.vb: Public left As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single

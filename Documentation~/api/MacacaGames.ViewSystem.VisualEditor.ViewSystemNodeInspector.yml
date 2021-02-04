@@ -1,0 +1,742 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  id: ViewSystemNodeInspector
+  parent: MacacaGames.ViewSystem.VisualEditor
+  children:
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Draw
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail(MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.isMouseInSideBar
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Normalized
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.RebuildInspector
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.scrollerPos
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.SetCurrentSelectItem(MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.show
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemNodeInspector
+  nameWithType: ViewSystemNodeInspector
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  type: Class
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeInspector.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewSystemNodeInspector
+    path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
+    startLine: 13
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public class ViewSystemNodeInspector
+    content.vb: Public Class ViewSystemNodeInspector
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.show
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.show
+  id: show
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  langs:
+  - csharp
+  - vb
+  name: show
+  nameWithType: ViewSystemNodeInspector.show
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.show
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeInspector.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: show
+    path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
+    startLine: 17
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public bool show
+    return:
+      type: System.Boolean
+    content.vb: Public show As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  id: '#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)'
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemNodeInspector(ViewSystemVisualEditor)
+  nameWithType: ViewSystemNodeInspector.ViewSystemNodeInspector(ViewSystemVisualEditor)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.ViewSystemNodeInspector(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  type: Constructor
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeInspector.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
+    startLine: 28
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public ViewSystemNodeInspector(ViewSystemVisualEditor editor)
+    parameters:
+    - id: editor
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+    content.vb: Public Sub New(editor As ViewSystemVisualEditor)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.isMouseInSideBar
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.isMouseInSideBar
+  id: isMouseInSideBar
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  langs:
+  - csharp
+  - vb
+  name: isMouseInSideBar()
+  nameWithType: ViewSystemNodeInspector.isMouseInSideBar()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.isMouseInSideBar()
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeInspector.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: isMouseInSideBar
+    path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
+    startLine: 95
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public static bool isMouseInSideBar()
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function isMouseInSideBar As Boolean
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.isMouseInSideBar*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.SetCurrentSelectItem(MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.SetCurrentSelectItem(MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  id: SetCurrentSelectItem(MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  langs:
+  - csharp
+  - vb
+  name: SetCurrentSelectItem(ViewSystemNode)
+  nameWithType: ViewSystemNodeInspector.SetCurrentSelectItem(ViewSystemNode)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.SetCurrentSelectItem(MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeInspector.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: SetCurrentSelectItem
+    path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
+    startLine: 115
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void SetCurrentSelectItem(ViewSystemNode currentSelectNode)
+    parameters:
+    - id: currentSelectNode
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode
+    content.vb: Public Sub SetCurrentSelectItem(currentSelectNode As ViewSystemNode)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.SetCurrentSelectItem*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Normalized
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Normalized
+  id: Normalized
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  langs:
+  - csharp
+  - vb
+  name: Normalized()
+  nameWithType: ViewSystemNodeInspector.Normalized()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Normalized()
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeInspector.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Normalized
+    path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
+    startLine: 150
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void Normalized()
+    content.vb: Public Sub Normalized
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Normalized*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.RebuildInspector
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.RebuildInspector
+  id: RebuildInspector
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  langs:
+  - csharp
+  - vb
+  name: RebuildInspector()
+  nameWithType: ViewSystemNodeInspector.RebuildInspector()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.RebuildInspector()
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeInspector.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: RebuildInspector
+    path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
+    startLine: 154
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void RebuildInspector()
+    content.vb: Public Sub RebuildInspector
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.RebuildInspector*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail(MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail(MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect)
+  id: DrawViewElementTransformDetail(MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  langs:
+  - csharp
+  - vb
+  name: DrawViewElementTransformDetail(ViewElementTransform, String, String, ViewElement, Rect)
+  nameWithType: ViewSystemNodeInspector.DrawViewElementTransformDetail(ViewElementTransform, String, String, ViewElement, Rect)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail(MacacaGames.ViewSystem.ViewElementTransform, System.String, System.String, MacacaGames.ViewSystem.ViewElement, UnityEngine.Rect)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeInspector.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: DrawViewElementTransformDetail
+    path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
+    startLine: 611
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void DrawViewElementTransformDetail(ViewElementTransform trasformData, string viewPageItemId, string breakPoint, ViewElement previewViewElement, Rect rect)
+    parameters:
+    - id: trasformData
+      type: MacacaGames.ViewSystem.ViewElementTransform
+    - id: viewPageItemId
+      type: System.String
+    - id: breakPoint
+      type: System.String
+    - id: previewViewElement
+      type: MacacaGames.ViewSystem.ViewElement
+    - id: rect
+      type: UnityEngine.Rect
+    content.vb: Public Sub DrawViewElementTransformDetail(trasformData As ViewElementTransform, viewPageItemId As String, breakPoint As String, previewViewElement As ViewElement, rect As Rect)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.scrollerPos
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.scrollerPos
+  id: scrollerPos
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  langs:
+  - csharp
+  - vb
+  name: scrollerPos
+  nameWithType: ViewSystemNodeInspector.scrollerPos
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.scrollerPos
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeInspector.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: scrollerPos
+    path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
+    startLine: 861
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public Vector2 scrollerPos
+    return:
+      type: UnityEngine.Vector2
+    content.vb: Public scrollerPos As Vector2
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Draw
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Draw
+  id: Draw
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+  langs:
+  - csharp
+  - vb
+  name: Draw()
+  nameWithType: ViewSystemNodeInspector.Draw()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Draw()
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeInspector.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Draw
+    path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
+    startLine: 864
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void Draw()
+    content.vb: Public Sub Draw
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Draw*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: MacacaGames.ViewSystem.VisualEditor
+  commentId: N:MacacaGames.ViewSystem.VisualEditor
+  name: MacacaGames.ViewSystem.VisualEditor
+  nameWithType: MacacaGames.ViewSystem.VisualEditor
+  fullName: MacacaGames.ViewSystem.VisualEditor
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.#ctor
+  name: ViewSystemNodeInspector
+  nameWithType: ViewSystemNodeInspector.ViewSystemNodeInspector
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.ViewSystemNodeInspector
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+  parent: MacacaGames.ViewSystem.VisualEditor
+  name: ViewSystemVisualEditor
+  nameWithType: ViewSystemVisualEditor
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.isMouseInSideBar*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.isMouseInSideBar
+  name: isMouseInSideBar
+  nameWithType: ViewSystemNodeInspector.isMouseInSideBar
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.isMouseInSideBar
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.SetCurrentSelectItem*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.SetCurrentSelectItem
+  name: SetCurrentSelectItem
+  nameWithType: ViewSystemNodeInspector.SetCurrentSelectItem
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.SetCurrentSelectItem
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemNode
+  parent: MacacaGames.ViewSystem.VisualEditor
+  name: ViewSystemNode
+  nameWithType: ViewSystemNode
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Normalized*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Normalized
+  name: Normalized
+  nameWithType: ViewSystemNodeInspector.Normalized
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Normalized
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.RebuildInspector*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.RebuildInspector
+  name: RebuildInspector
+  nameWithType: ViewSystemNodeInspector.RebuildInspector
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.RebuildInspector
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail
+  name: DrawViewElementTransformDetail
+  nameWithType: ViewSystemNodeInspector.DrawViewElementTransformDetail
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.DrawViewElementTransformDetail
+- uid: MacacaGames.ViewSystem.ViewElementTransform
+  commentId: T:MacacaGames.ViewSystem.ViewElementTransform
+  parent: MacacaGames.ViewSystem
+  name: ViewElementTransform
+  nameWithType: ViewElementTransform
+  fullName: MacacaGames.ViewSystem.ViewElementTransform
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: MacacaGames.ViewSystem.ViewElement
+  commentId: T:MacacaGames.ViewSystem.ViewElement
+  parent: MacacaGames.ViewSystem
+  name: ViewElement
+  nameWithType: ViewElement
+  fullName: MacacaGames.ViewSystem.ViewElement
+- uid: UnityEngine.Rect
+  commentId: T:UnityEngine.Rect
+  parent: UnityEngine
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: UnityEngine.Rect
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEngine.Vector2
+  commentId: T:UnityEngine.Vector2
+  parent: UnityEngine
+  isExternal: true
+  name: Vector2
+  nameWithType: Vector2
+  fullName: UnityEngine.Vector2
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Draw*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Draw
+  name: Draw
+  nameWithType: ViewSystemNodeInspector.Draw
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector.Draw

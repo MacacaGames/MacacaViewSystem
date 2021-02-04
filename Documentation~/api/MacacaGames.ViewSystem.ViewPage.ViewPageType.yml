@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewPage.ViewPageType
+  commentId: T:MacacaGames.ViewSystem.ViewPage.ViewPageType
+  id: ViewPage.ViewPageType
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewPage.ViewPageType.FullPage
+  - MacacaGames.ViewSystem.ViewPage.ViewPageType.Overlay
+  langs:
+  - csharp
+  - vb
+  name: ViewPage.ViewPageType
+  nameWithType: ViewPage.ViewPageType
+  fullName: MacacaGames.ViewSystem.ViewPage.ViewPageType
+  type: Enum
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewPageType
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 21
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public enum ViewPageType
+    content.vb: Public Enum ViewPageType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.ViewPage.ViewPageType.FullPage
+  commentId: F:MacacaGames.ViewSystem.ViewPage.ViewPageType.FullPage
+  id: FullPage
+  parent: MacacaGames.ViewSystem.ViewPage.ViewPageType
+  langs:
+  - csharp
+  - vb
+  name: FullPage
+  nameWithType: ViewPage.ViewPageType.FullPage
+  fullName: MacacaGames.ViewSystem.ViewPage.ViewPageType.FullPage
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: FullPage
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 23
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: FullPage = 0
+    return:
+      type: MacacaGames.ViewSystem.ViewPage.ViewPageType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewPage.ViewPageType.Overlay
+  commentId: F:MacacaGames.ViewSystem.ViewPage.ViewPageType.Overlay
+  id: Overlay
+  parent: MacacaGames.ViewSystem.ViewPage.ViewPageType
+  langs:
+  - csharp
+  - vb
+  name: Overlay
+  nameWithType: ViewPage.ViewPageType.Overlay
+  fullName: MacacaGames.ViewSystem.ViewPage.ViewPageType.Overlay
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Overlay
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 23
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Overlay = 1
+    return:
+      type: MacacaGames.ViewSystem.ViewPage.ViewPageType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.ViewPage.ViewPageType
+  commentId: T:MacacaGames.ViewSystem.ViewPage.ViewPageType
+  parent: MacacaGames.ViewSystem
+  name: ViewPage.ViewPageType
+  nameWithType: ViewPage.ViewPageType
+  fullName: MacacaGames.ViewSystem.ViewPage.ViewPageType

@@ -1,0 +1,507 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewElementNavigationData
+  commentId: T:MacacaGames.ViewSystem.ViewElementNavigationData
+  id: ViewElementNavigationData
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewElementNavigationData.#ctor
+  - MacacaGames.ViewSystem.ViewElementNavigationData.mode
+  - MacacaGames.ViewSystem.ViewElementNavigationData.navigation
+  langs:
+  - csharp
+  - vb
+  name: ViewElementNavigationData
+  nameWithType: ViewElementNavigationData
+  fullName: MacacaGames.ViewSystem.ViewElementNavigationData
+  type: Class
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewElementNavigationData
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 220
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class ViewElementNavigationData : ViewSystemComponentData
+    content.vb: >-
+      <Serializable>
+
+      Public Class ViewElementNavigationData
+          Inherits ViewSystemComponentData
+  inheritance:
+  - System.Object
+  - MacacaGames.ViewSystem.ViewSystemComponentData
+  inheritedMembers:
+  - MacacaGames.ViewSystem.ViewSystemComponentData.targetTransformPath
+  - MacacaGames.ViewSystem.ViewSystemComponentData.targetComponentType
+  - MacacaGames.ViewSystem.ViewSystemComponentData.targetPropertyName
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.ViewElementNavigationData.#ctor
+  commentId: M:MacacaGames.ViewSystem.ViewElementNavigationData.#ctor
+  id: '#ctor'
+  parent: MacacaGames.ViewSystem.ViewElementNavigationData
+  langs:
+  - csharp
+  - vb
+  name: ViewElementNavigationData()
+  nameWithType: ViewElementNavigationData.ViewElementNavigationData()
+  fullName: MacacaGames.ViewSystem.ViewElementNavigationData.ViewElementNavigationData()
+  type: Constructor
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 223
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewElementNavigationData()
+    content.vb: Public Sub New
+  overload: MacacaGames.ViewSystem.ViewElementNavigationData.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewElementNavigationData.mode
+  commentId: F:MacacaGames.ViewSystem.ViewElementNavigationData.mode
+  id: mode
+  parent: MacacaGames.ViewSystem.ViewElementNavigationData
+  langs:
+  - csharp
+  - vb
+  name: mode
+  nameWithType: ViewElementNavigationData.mode
+  fullName: MacacaGames.ViewSystem.ViewElementNavigationData.mode
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: mode
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 227
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Navigation.Mode mode
+    return:
+      type: UnityEngine.UI.Navigation.Mode
+    content.vb: Public mode As Navigation.Mode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewElementNavigationData.navigation
+  commentId: P:MacacaGames.ViewSystem.ViewElementNavigationData.navigation
+  id: navigation
+  parent: MacacaGames.ViewSystem.ViewElementNavigationData
+  langs:
+  - csharp
+  - vb
+  name: navigation
+  nameWithType: ViewElementNavigationData.navigation
+  fullName: MacacaGames.ViewSystem.ViewElementNavigationData.navigation
+  type: Property
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: navigation
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 228
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Navigation navigation { get; }
+    parameters: []
+    return:
+      type: UnityEngine.UI.Navigation
+    content.vb: Public ReadOnly Property navigation As Navigation
+  overload: MacacaGames.ViewSystem.ViewElementNavigationData.navigation*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: MacacaGames.ViewSystem.ViewSystemComponentData
+  commentId: T:MacacaGames.ViewSystem.ViewSystemComponentData
+  parent: MacacaGames.ViewSystem
+  name: ViewSystemComponentData
+  nameWithType: ViewSystemComponentData
+  fullName: MacacaGames.ViewSystem.ViewSystemComponentData
+- uid: MacacaGames.ViewSystem.ViewSystemComponentData.targetTransformPath
+  commentId: F:MacacaGames.ViewSystem.ViewSystemComponentData.targetTransformPath
+  parent: MacacaGames.ViewSystem.ViewSystemComponentData
+  name: targetTransformPath
+  nameWithType: ViewSystemComponentData.targetTransformPath
+  fullName: MacacaGames.ViewSystem.ViewSystemComponentData.targetTransformPath
+- uid: MacacaGames.ViewSystem.ViewSystemComponentData.targetComponentType
+  commentId: F:MacacaGames.ViewSystem.ViewSystemComponentData.targetComponentType
+  parent: MacacaGames.ViewSystem.ViewSystemComponentData
+  name: targetComponentType
+  nameWithType: ViewSystemComponentData.targetComponentType
+  fullName: MacacaGames.ViewSystem.ViewSystemComponentData.targetComponentType
+- uid: MacacaGames.ViewSystem.ViewSystemComponentData.targetPropertyName
+  commentId: F:MacacaGames.ViewSystem.ViewSystemComponentData.targetPropertyName
+  parent: MacacaGames.ViewSystem.ViewSystemComponentData
+  name: targetPropertyName
+  nameWithType: ViewSystemComponentData.targetPropertyName
+  fullName: MacacaGames.ViewSystem.ViewSystemComponentData.targetPropertyName
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: MacacaGames.ViewSystem.ViewElementNavigationData.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.ViewElementNavigationData.#ctor
+  name: ViewElementNavigationData
+  nameWithType: ViewElementNavigationData.ViewElementNavigationData
+  fullName: MacacaGames.ViewSystem.ViewElementNavigationData.ViewElementNavigationData
+- uid: UnityEngine.UI.Navigation.Mode
+  commentId: T:UnityEngine.UI.Navigation.Mode
+  parent: UnityEngine.UI
+  name: Navigation.Mode
+  nameWithType: Navigation.Mode
+  fullName: UnityEngine.UI.Navigation.Mode
+- uid: UnityEngine.UI
+  commentId: N:UnityEngine.UI
+  name: UnityEngine.UI
+  nameWithType: UnityEngine.UI
+  fullName: UnityEngine.UI
+- uid: MacacaGames.ViewSystem.ViewElementNavigationData.navigation*
+  commentId: Overload:MacacaGames.ViewSystem.ViewElementNavigationData.navigation
+  name: navigation
+  nameWithType: ViewElementNavigationData.navigation
+  fullName: MacacaGames.ViewSystem.ViewElementNavigationData.navigation
+- uid: UnityEngine.UI.Navigation
+  commentId: T:UnityEngine.UI.Navigation
+  parent: UnityEngine.UI
+  name: Navigation
+  nameWithType: Navigation
+  fullName: UnityEngine.UI.Navigation

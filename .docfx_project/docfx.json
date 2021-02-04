@@ -1,0 +1,78 @@
+
+{
+    "metadata" : [
+        {
+            "src" : [
+                {
+                    "files" : [
+                        "Macaca.ViewSystem.Editor.csproj",
+                        "Macaca.ViewSystem.csproj"
+                    ],
+                    "src"   : "../../../"
+                }
+            ],
+            "dest" : "../Documentation~/api",
+            "disableGitFeatures" : false,
+            "disableDefaultFilter" : false,
+            "filter"               : ""
+        }
+    ],
+    "build"    : {
+        "content" : [
+            {
+                "src" : "",
+                "files" : [
+                    "index.md",
+                    "**.yml",
+                    "api/**.yml",
+                    "api/index.md"
+                ]
+            },
+            {
+                "src" : "../Documentation~",
+                "files" : [
+                    "*.md",
+                    "*.yml",
+                    "**/*.md",
+                    "**/*.yml"
+                ]
+            }
+        ],
+        "resource" : [
+            {
+                "src" : "",
+                "files" : [
+                    "images/**",
+                    "favicon.ico",
+                    "logo.svg"
+                ]
+            }
+        ],
+        "overwrite" : [
+            {
+                "files" : [
+                    "apidoc/**.md"
+                ],
+                "exclude" : [
+                    "obj/**",
+                    "_site/**"
+                ]
+            }
+        ],
+        "dest"      : "../docs~",
+        "globalMetadataFiles" : [
+        ],
+        "fileMetadataFiles"   : [
+        ],
+        "template"            : [
+            "default"
+        ],
+        "postProcessors"      : [
+        ],
+        "markdownEngineName"  : "markdig",
+        "noLangKeyword"       : false,
+        "keepFileLink"        : false,
+        "cleanupCacheHistory" : false,
+        "disableGitFeatures"  : false
+    }
+}

@@ -1,0 +1,1205 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.PageChanger
+  commentId: T:MacacaGames.ViewSystem.PageChanger
+  id: PageChanger
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.PageChanger.#ctor(MacacaGames.ViewSystem.ViewControllerBase)
+  - MacacaGames.ViewSystem.PageChanger._Show
+  - MacacaGames.ViewSystem.PageChanger.Reset
+  langs:
+  - csharp
+  - vb
+  name: PageChanger
+  nameWithType: PageChanger
+  fullName: MacacaGames.ViewSystem.PageChanger
+  type: Class
+  source:
+    remote:
+      path: Runtime/Utilities/PageChanger.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: PageChanger
+    path: ../Runtime/Utilities/PageChanger.cs
+    startLine: 52
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public class PageChanger
+    content.vb: Public Class PageChanger
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - MacacaGames.ViewSystem.FullPageChanger
+  - MacacaGames.ViewSystem.OverlayPageChanger
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.SetPage(System.String)
+  - MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.OnStart(System.Action)
+  - MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.OnComplete(System.Action)
+  - MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.OnChanged(System.Action)
+  - MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(System.Boolean)
+  - MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(System.Boolean)
+  - MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.Show
+  - MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.Show(System.Boolean)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.PageChanger.#ctor(MacacaGames.ViewSystem.ViewControllerBase)
+  commentId: M:MacacaGames.ViewSystem.PageChanger.#ctor(MacacaGames.ViewSystem.ViewControllerBase)
+  id: '#ctor(MacacaGames.ViewSystem.ViewControllerBase)'
+  parent: MacacaGames.ViewSystem.PageChanger
+  langs:
+  - csharp
+  - vb
+  name: PageChanger(ViewControllerBase)
+  nameWithType: PageChanger.PageChanger(ViewControllerBase)
+  fullName: MacacaGames.ViewSystem.PageChanger.PageChanger(MacacaGames.ViewSystem.ViewControllerBase)
+  type: Constructor
+  source:
+    remote:
+      path: Runtime/Utilities/PageChanger.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Runtime/Utilities/PageChanger.cs
+    startLine: 62
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public PageChanger(ViewControllerBase viewController)
+    parameters:
+    - id: viewController
+      type: MacacaGames.ViewSystem.ViewControllerBase
+    content.vb: Public Sub New(viewController As ViewControllerBase)
+  overload: MacacaGames.ViewSystem.PageChanger.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.PageChanger.Reset
+  commentId: M:MacacaGames.ViewSystem.PageChanger.Reset
+  id: Reset
+  parent: MacacaGames.ViewSystem.PageChanger
+  langs:
+  - csharp
+  - vb
+  name: Reset()
+  nameWithType: PageChanger.Reset()
+  fullName: MacacaGames.ViewSystem.PageChanger.Reset()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/PageChanger.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Reset
+    path: ../Runtime/Utilities/PageChanger.cs
+    startLine: 68
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public virtual PageChanger Reset()
+    return:
+      type: MacacaGames.ViewSystem.PageChanger
+    content.vb: Public Overridable Function Reset As PageChanger
+  overload: MacacaGames.ViewSystem.PageChanger.Reset*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: MacacaGames.ViewSystem.PageChanger._Show
+  commentId: M:MacacaGames.ViewSystem.PageChanger._Show
+  id: _Show
+  parent: MacacaGames.ViewSystem.PageChanger
+  langs:
+  - csharp
+  - vb
+  name: _Show()
+  nameWithType: PageChanger._Show()
+  fullName: MacacaGames.ViewSystem.PageChanger._Show()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/PageChanger.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _Show
+    path: ../Runtime/Utilities/PageChanger.cs
+    startLine: 84
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public virtual YieldInstruction _Show()
+    return:
+      type: UnityEngine.YieldInstruction
+    content.vb: Public Overridable Function _Show As YieldInstruction
+  overload: MacacaGames.ViewSystem.PageChanger._Show*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.SetPage(System.String)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.SetPage(MacacaGames.ViewSystem.PageChanger,System.String)
+  parent: MacacaGames.ViewSystem.PageChangerExtension
+  definition: MacacaGames.ViewSystem.PageChangerExtension.SetPage(MacacaGames.ViewSystem.PageChanger,System.String)
+  name: SetPage(String)
+  nameWithType: PageChangerExtension.SetPage(String)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.SetPage(System.String)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetPage(System.String)
+    name: SetPage
+    nameWithType: PageChangerExtension.SetPage
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetPage
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetPage(System.String)
+    name: SetPage
+    nameWithType: PageChangerExtension.SetPage
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetPage
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.OnStart(System.Action)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.OnStart(MacacaGames.ViewSystem.PageChanger,System.Action)
+  parent: MacacaGames.ViewSystem.PageChangerExtension
+  definition: MacacaGames.ViewSystem.PageChangerExtension.OnStart(MacacaGames.ViewSystem.PageChanger,System.Action)
+  name: OnStart(Action)
+  nameWithType: PageChangerExtension.OnStart(Action)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.OnStart(System.Action)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnStart(System.Action)
+    name: OnStart
+    nameWithType: PageChangerExtension.OnStart
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnStart
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnStart(System.Action)
+    name: OnStart
+    nameWithType: PageChangerExtension.OnStart
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnStart
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.OnComplete(System.Action)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.OnComplete(MacacaGames.ViewSystem.PageChanger,System.Action)
+  parent: MacacaGames.ViewSystem.PageChangerExtension
+  definition: MacacaGames.ViewSystem.PageChangerExtension.OnComplete(MacacaGames.ViewSystem.PageChanger,System.Action)
+  name: OnComplete(Action)
+  nameWithType: PageChangerExtension.OnComplete(Action)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.OnComplete(System.Action)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnComplete(System.Action)
+    name: OnComplete
+    nameWithType: PageChangerExtension.OnComplete
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnComplete
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnComplete(System.Action)
+    name: OnComplete
+    nameWithType: PageChangerExtension.OnComplete
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnComplete
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.OnChanged(System.Action)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.OnChanged(MacacaGames.ViewSystem.PageChanger,System.Action)
+  parent: MacacaGames.ViewSystem.PageChangerExtension
+  definition: MacacaGames.ViewSystem.PageChangerExtension.OnChanged(MacacaGames.ViewSystem.PageChanger,System.Action)
+  name: OnChanged(Action)
+  nameWithType: PageChangerExtension.OnChanged(Action)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.OnChanged(System.Action)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnChanged(System.Action)
+    name: OnChanged
+    nameWithType: PageChangerExtension.OnChanged
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnChanged
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnChanged(System.Action)
+    name: OnChanged
+    nameWithType: PageChangerExtension.OnChanged
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnChanged
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(System.Boolean)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  parent: MacacaGames.ViewSystem.PageChangerExtension
+  definition: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  name: SetWaitPreviousPageFinish(Boolean)
+  nameWithType: PageChangerExtension.SetWaitPreviousPageFinish(Boolean)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(System.Boolean)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(System.Boolean)
+    name: SetWaitPreviousPageFinish
+    nameWithType: PageChangerExtension.SetWaitPreviousPageFinish
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(System.Boolean)
+    name: SetWaitPreviousPageFinish
+    nameWithType: PageChangerExtension.SetWaitPreviousPageFinish
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(System.Boolean)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  parent: MacacaGames.ViewSystem.PageChangerExtension
+  definition: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  name: SetIgnoreTimeScale(Boolean)
+  nameWithType: PageChangerExtension.SetIgnoreTimeScale(Boolean)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(System.Boolean)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(System.Boolean)
+    name: SetIgnoreTimeScale
+    nameWithType: PageChangerExtension.SetIgnoreTimeScale
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(System.Boolean)
+    name: SetIgnoreTimeScale
+    nameWithType: PageChangerExtension.SetIgnoreTimeScale
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.Show
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger)
+  parent: MacacaGames.ViewSystem.PageChangerExtension
+  definition: MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger)
+  name: Show()
+  nameWithType: PageChangerExtension.Show()
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.Show()
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.Show
+    name: Show
+    nameWithType: PageChangerExtension.Show
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.Show
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.Show
+    name: Show
+    nameWithType: PageChangerExtension.Show
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.Show
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChanger.MacacaGames.ViewSystem.PageChangerExtension.Show(System.Boolean)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  parent: MacacaGames.ViewSystem.PageChangerExtension
+  definition: MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  name: Show(Boolean)
+  nameWithType: PageChangerExtension.Show(Boolean)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.Show(System.Boolean)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.Show(System.Boolean)
+    name: Show
+    nameWithType: PageChangerExtension.Show
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.Show
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.Show(System.Boolean)
+    name: Show
+    nameWithType: PageChangerExtension.Show
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.Show
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: MacacaGames.ViewSystem.PageChangerExtension.SetPage(MacacaGames.ViewSystem.PageChanger,System.String)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.SetPage(MacacaGames.ViewSystem.PageChanger,System.String)
+  isExternal: true
+  name: SetPage(PageChanger, String)
+  nameWithType: PageChangerExtension.SetPage(PageChanger, String)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.SetPage(MacacaGames.ViewSystem.PageChanger, System.String)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetPage(MacacaGames.ViewSystem.PageChanger,System.String)
+    name: SetPage
+    nameWithType: PageChangerExtension.SetPage
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetPage
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetPage(MacacaGames.ViewSystem.PageChanger,System.String)
+    name: SetPage
+    nameWithType: PageChangerExtension.SetPage
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetPage
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChangerExtension
+  commentId: T:MacacaGames.ViewSystem.PageChangerExtension
+  parent: MacacaGames.ViewSystem
+  name: PageChangerExtension
+  nameWithType: PageChangerExtension
+  fullName: MacacaGames.ViewSystem.PageChangerExtension
+- uid: MacacaGames.ViewSystem.PageChangerExtension.OnStart(MacacaGames.ViewSystem.PageChanger,System.Action)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.OnStart(MacacaGames.ViewSystem.PageChanger,System.Action)
+  isExternal: true
+  name: OnStart(PageChanger, Action)
+  nameWithType: PageChangerExtension.OnStart(PageChanger, Action)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.OnStart(MacacaGames.ViewSystem.PageChanger, System.Action)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnStart(MacacaGames.ViewSystem.PageChanger,System.Action)
+    name: OnStart
+    nameWithType: PageChangerExtension.OnStart
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnStart
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnStart(MacacaGames.ViewSystem.PageChanger,System.Action)
+    name: OnStart
+    nameWithType: PageChangerExtension.OnStart
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnStart
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChangerExtension.OnComplete(MacacaGames.ViewSystem.PageChanger,System.Action)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.OnComplete(MacacaGames.ViewSystem.PageChanger,System.Action)
+  isExternal: true
+  name: OnComplete(PageChanger, Action)
+  nameWithType: PageChangerExtension.OnComplete(PageChanger, Action)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.OnComplete(MacacaGames.ViewSystem.PageChanger, System.Action)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnComplete(MacacaGames.ViewSystem.PageChanger,System.Action)
+    name: OnComplete
+    nameWithType: PageChangerExtension.OnComplete
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnComplete
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnComplete(MacacaGames.ViewSystem.PageChanger,System.Action)
+    name: OnComplete
+    nameWithType: PageChangerExtension.OnComplete
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnComplete
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChangerExtension.OnChanged(MacacaGames.ViewSystem.PageChanger,System.Action)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.OnChanged(MacacaGames.ViewSystem.PageChanger,System.Action)
+  isExternal: true
+  name: OnChanged(PageChanger, Action)
+  nameWithType: PageChangerExtension.OnChanged(PageChanger, Action)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.OnChanged(MacacaGames.ViewSystem.PageChanger, System.Action)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnChanged(MacacaGames.ViewSystem.PageChanger,System.Action)
+    name: OnChanged
+    nameWithType: PageChangerExtension.OnChanged
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnChanged
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.OnChanged(MacacaGames.ViewSystem.PageChanger,System.Action)
+    name: OnChanged
+    nameWithType: PageChangerExtension.OnChanged
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.OnChanged
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  isExternal: true
+  name: SetWaitPreviousPageFinish(PageChanger, Boolean)
+  nameWithType: PageChangerExtension.SetWaitPreviousPageFinish(PageChanger, Boolean)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(MacacaGames.ViewSystem.PageChanger, System.Boolean)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+    name: SetWaitPreviousPageFinish
+    nameWithType: PageChangerExtension.SetWaitPreviousPageFinish
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+    name: SetWaitPreviousPageFinish
+    nameWithType: PageChangerExtension.SetWaitPreviousPageFinish
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetWaitPreviousPageFinish
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  isExternal: true
+  name: SetIgnoreTimeScale(PageChanger, Boolean)
+  nameWithType: PageChangerExtension.SetIgnoreTimeScale(PageChanger, Boolean)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(MacacaGames.ViewSystem.PageChanger, System.Boolean)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+    name: SetIgnoreTimeScale
+    nameWithType: PageChangerExtension.SetIgnoreTimeScale
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+    name: SetIgnoreTimeScale
+    nameWithType: PageChangerExtension.SetIgnoreTimeScale
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.SetIgnoreTimeScale
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger)
+  name: Show(PageChanger)
+  nameWithType: PageChangerExtension.Show(PageChanger)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger)
+    name: Show
+    nameWithType: PageChangerExtension.Show
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.Show
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger)
+    name: Show
+    nameWithType: PageChangerExtension.Show
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.Show
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  commentId: M:MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+  isExternal: true
+  name: Show(PageChanger, Boolean)
+  nameWithType: PageChangerExtension.Show(PageChanger, Boolean)
+  fullName: MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger, System.Boolean)
+  spec.csharp:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+    name: Show
+    nameWithType: PageChangerExtension.Show
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.Show
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MacacaGames.ViewSystem.PageChangerExtension.Show(MacacaGames.ViewSystem.PageChanger,System.Boolean)
+    name: Show
+    nameWithType: PageChangerExtension.Show
+    fullName: MacacaGames.ViewSystem.PageChangerExtension.Show
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+    nameWithType: PageChanger
+    fullName: MacacaGames.ViewSystem.PageChanger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.PageChanger.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.PageChanger.#ctor
+  name: PageChanger
+  nameWithType: PageChanger.PageChanger
+  fullName: MacacaGames.ViewSystem.PageChanger.PageChanger
+- uid: MacacaGames.ViewSystem.ViewControllerBase
+  commentId: T:MacacaGames.ViewSystem.ViewControllerBase
+  parent: MacacaGames.ViewSystem
+  name: ViewControllerBase
+  nameWithType: ViewControllerBase
+  fullName: MacacaGames.ViewSystem.ViewControllerBase
+- uid: MacacaGames.ViewSystem.PageChanger.Reset*
+  commentId: Overload:MacacaGames.ViewSystem.PageChanger.Reset
+  name: Reset
+  nameWithType: PageChanger.Reset
+  fullName: MacacaGames.ViewSystem.PageChanger.Reset
+- uid: MacacaGames.ViewSystem.PageChanger
+  commentId: T:MacacaGames.ViewSystem.PageChanger
+  parent: MacacaGames.ViewSystem
+  name: PageChanger
+  nameWithType: PageChanger
+  fullName: MacacaGames.ViewSystem.PageChanger
+- uid: MacacaGames.ViewSystem.PageChanger._Show*
+  commentId: Overload:MacacaGames.ViewSystem.PageChanger._Show
+  name: _Show
+  nameWithType: PageChanger._Show
+  fullName: MacacaGames.ViewSystem.PageChanger._Show
+- uid: UnityEngine.YieldInstruction
+  commentId: T:UnityEngine.YieldInstruction
+  parent: UnityEngine
+  isExternal: true
+  name: YieldInstruction
+  nameWithType: YieldInstruction
+  fullName: UnityEngine.YieldInstruction
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine

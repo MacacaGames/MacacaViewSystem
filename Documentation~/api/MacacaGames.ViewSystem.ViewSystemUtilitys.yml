@@ -1,0 +1,936 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys
+  commentId: T:MacacaGames.ViewSystem.ViewSystemUtilitys
+  id: ViewSystemUtilitys
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayInTime(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem})
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayOutTime(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem})
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnLeaveDuration(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement},System.Single)
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnShowDuration(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement},System.Single)
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.CreatePageTransform(System.String,UnityEngine.Transform,System.Int32)
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.GetComponent(UnityEngine.Component,System.String)
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.GetPageRootName(MacacaGames.ViewSystem.ViewPage)
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.ParseUnityEngineProperty(System.String)
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.SetupPlatformDefine
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemUtilitys
+  nameWithType: ViewSystemUtilitys
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys
+  type: Class
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewSystemUtilitys
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 6
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public class ViewSystemUtilitys
+    content.vb: Public Class ViewSystemUtilitys
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.SetupPlatformDefine
+  commentId: M:MacacaGames.ViewSystem.ViewSystemUtilitys.SetupPlatformDefine
+  id: SetupPlatformDefine
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys
+  langs:
+  - csharp
+  - vb
+  name: SetupPlatformDefine()
+  nameWithType: ViewSystemUtilitys.SetupPlatformDefine()
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.SetupPlatformDefine()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: SetupPlatformDefine
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 43
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static ViewPageItem.PlatformOption SetupPlatformDefine()
+    return:
+      type: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+    content.vb: Public Shared Function SetupPlatformDefine As ViewPageItem.PlatformOption
+  overload: MacacaGames.ViewSystem.ViewSystemUtilitys.SetupPlatformDefine*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayOutTime(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem})
+  commentId: M:MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayOutTime(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem})
+  id: CalculateDelayOutTime(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem})
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys
+  langs:
+  - csharp
+  - vb
+  name: CalculateDelayOutTime(IEnumerable<ViewPageItem>)
+  nameWithType: ViewSystemUtilitys.CalculateDelayOutTime(IEnumerable<ViewPageItem>)
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayOutTime(System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewPageItem>)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: CalculateDelayOutTime
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 78
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static float CalculateDelayOutTime(IEnumerable<ViewPageItem> viewPageItems)
+    parameters:
+    - id: viewPageItems
+      type: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem}
+    return:
+      type: System.Single
+    content.vb: Public Shared Function CalculateDelayOutTime(viewPageItems As IEnumerable(Of ViewPageItem)) As Single
+  overload: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayOutTime*
+  nameWithType.vb: ViewSystemUtilitys.CalculateDelayOutTime(IEnumerable(Of ViewPageItem))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayOutTime(System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewPageItem))
+  name.vb: CalculateDelayOutTime(IEnumerable(Of ViewPageItem))
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayInTime(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem})
+  commentId: M:MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayInTime(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem})
+  id: CalculateDelayInTime(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem})
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys
+  langs:
+  - csharp
+  - vb
+  name: CalculateDelayInTime(IEnumerable<ViewPageItem>)
+  nameWithType: ViewSystemUtilitys.CalculateDelayInTime(IEnumerable<ViewPageItem>)
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayInTime(System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewPageItem>)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: CalculateDelayInTime
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 91
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static float CalculateDelayInTime(IEnumerable<ViewPageItem> viewPageItems)
+    parameters:
+    - id: viewPageItems
+      type: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem}
+    return:
+      type: System.Single
+    content.vb: Public Shared Function CalculateDelayInTime(viewPageItems As IEnumerable(Of ViewPageItem)) As Single
+  overload: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayInTime*
+  nameWithType.vb: ViewSystemUtilitys.CalculateDelayInTime(IEnumerable(Of ViewPageItem))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayInTime(System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewPageItem))
+  name.vb: CalculateDelayInTime(IEnumerable(Of ViewPageItem))
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnShowDuration(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement},System.Single)
+  commentId: M:MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnShowDuration(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement},System.Single)
+  id: CalculateOnShowDuration(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement},System.Single)
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys
+  langs:
+  - csharp
+  - vb
+  name: CalculateOnShowDuration(IEnumerable<ViewElement>, Single)
+  nameWithType: ViewSystemUtilitys.CalculateOnShowDuration(IEnumerable<ViewElement>, Single)
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnShowDuration(System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElement>, System.Single)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: CalculateOnShowDuration
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 105
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static float CalculateOnShowDuration(IEnumerable<ViewElement> viewElements, float maxClampTime = 1F)
+    parameters:
+    - id: viewElements
+      type: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement}
+    - id: maxClampTime
+      type: System.Single
+    return:
+      type: System.Single
+    content.vb: Public Shared Function CalculateOnShowDuration(viewElements As IEnumerable(Of ViewElement), maxClampTime As Single = 1F) As Single
+  overload: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnShowDuration*
+  nameWithType.vb: ViewSystemUtilitys.CalculateOnShowDuration(IEnumerable(Of ViewElement), Single)
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnShowDuration(System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElement), System.Single)
+  name.vb: CalculateOnShowDuration(IEnumerable(Of ViewElement), Single)
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnLeaveDuration(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement},System.Single)
+  commentId: M:MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnLeaveDuration(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement},System.Single)
+  id: CalculateOnLeaveDuration(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement},System.Single)
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys
+  langs:
+  - csharp
+  - vb
+  name: CalculateOnLeaveDuration(IEnumerable<ViewElement>, Single)
+  nameWithType: ViewSystemUtilitys.CalculateOnLeaveDuration(IEnumerable<ViewElement>, Single)
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnLeaveDuration(System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElement>, System.Single)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: CalculateOnLeaveDuration
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 126
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static float CalculateOnLeaveDuration(IEnumerable<ViewElement> viewElements, float maxClampTime = 1F)
+    parameters:
+    - id: viewElements
+      type: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement}
+    - id: maxClampTime
+      type: System.Single
+    return:
+      type: System.Single
+    content.vb: Public Shared Function CalculateOnLeaveDuration(viewElements As IEnumerable(Of ViewElement), maxClampTime As Single = 1F) As Single
+  overload: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnLeaveDuration*
+  nameWithType.vb: ViewSystemUtilitys.CalculateOnLeaveDuration(IEnumerable(Of ViewElement), Single)
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnLeaveDuration(System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElement), System.Single)
+  name.vb: CalculateOnLeaveDuration(IEnumerable(Of ViewElement), Single)
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.ParseUnityEngineProperty(System.String)
+  commentId: M:MacacaGames.ViewSystem.ViewSystemUtilitys.ParseUnityEngineProperty(System.String)
+  id: ParseUnityEngineProperty(System.String)
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys
+  langs:
+  - csharp
+  - vb
+  name: ParseUnityEngineProperty(String)
+  nameWithType: ViewSystemUtilitys.ParseUnityEngineProperty(String)
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.ParseUnityEngineProperty(System.String)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ParseUnityEngineProperty
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 145
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static string ParseUnityEngineProperty(string ori)
+    parameters:
+    - id: ori
+      type: System.String
+    return:
+      type: System.String
+    content.vb: Public Shared Function ParseUnityEngineProperty(ori As String) As String
+  overload: MacacaGames.ViewSystem.ViewSystemUtilitys.ParseUnityEngineProperty*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.GetComponent(UnityEngine.Component,System.String)
+  commentId: M:MacacaGames.ViewSystem.ViewSystemUtilitys.GetComponent(UnityEngine.Component,System.String)
+  id: GetComponent(UnityEngine.Component,System.String)
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys
+  langs:
+  - csharp
+  - vb
+  name: GetComponent(Component, String)
+  nameWithType: ViewSystemUtilitys.GetComponent(Component, String)
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.GetComponent(UnityEngine.Component, System.String)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: GetComponent
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 164
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static Component GetComponent(Component target, string type)
+    parameters:
+    - id: target
+      type: UnityEngine.Component
+    - id: type
+      type: System.String
+    return:
+      type: UnityEngine.Component
+    content.vb: Public Shared Function GetComponent(target As Component, type As String) As Component
+  overload: MacacaGames.ViewSystem.ViewSystemUtilitys.GetComponent*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.GetPageRootName(MacacaGames.ViewSystem.ViewPage)
+  commentId: M:MacacaGames.ViewSystem.ViewSystemUtilitys.GetPageRootName(MacacaGames.ViewSystem.ViewPage)
+  id: GetPageRootName(MacacaGames.ViewSystem.ViewPage)
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys
+  langs:
+  - csharp
+  - vb
+  name: GetPageRootName(ViewPage)
+  nameWithType: ViewSystemUtilitys.GetPageRootName(ViewPage)
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.GetPageRootName(MacacaGames.ViewSystem.ViewPage)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: GetPageRootName
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 179
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static string GetPageRootName(ViewPage viewPage)
+    parameters:
+    - id: viewPage
+      type: MacacaGames.ViewSystem.ViewPage
+    return:
+      type: System.String
+    content.vb: Public Shared Function GetPageRootName(viewPage As ViewPage) As String
+  overload: MacacaGames.ViewSystem.ViewSystemUtilitys.GetPageRootName*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.CreatePageTransform(System.String,UnityEngine.Transform,System.Int32)
+  commentId: M:MacacaGames.ViewSystem.ViewSystemUtilitys.CreatePageTransform(System.String,UnityEngine.Transform,System.Int32)
+  id: CreatePageTransform(System.String,UnityEngine.Transform,System.Int32)
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys
+  langs:
+  - csharp
+  - vb
+  name: CreatePageTransform(String, Transform, Int32)
+  nameWithType: ViewSystemUtilitys.CreatePageTransform(String, Transform, Int32)
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.CreatePageTransform(System.String, UnityEngine.Transform, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: CreatePageTransform
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 193
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static ViewSystemUtilitys.PageRootWrapper CreatePageTransform(string name, Transform canvasRoot, int sortingOrder)
+    parameters:
+    - id: name
+      type: System.String
+    - id: canvasRoot
+      type: UnityEngine.Transform
+    - id: sortingOrder
+      type: System.Int32
+    return:
+      type: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper
+    content.vb: Public Shared Function CreatePageTransform(name As String, canvasRoot As Transform, sortingOrder As Integer) As ViewSystemUtilitys.PageRootWrapper
+  overload: MacacaGames.ViewSystem.ViewSystemUtilitys.CreatePageTransform*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.SetupPlatformDefine*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemUtilitys.SetupPlatformDefine
+  name: SetupPlatformDefine
+  nameWithType: ViewSystemUtilitys.SetupPlatformDefine
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.SetupPlatformDefine
+- uid: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  commentId: T:MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  parent: MacacaGames.ViewSystem
+  name: ViewPageItem.PlatformOption
+  nameWithType: ViewPageItem.PlatformOption
+  fullName: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayOutTime*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayOutTime
+  name: CalculateDelayOutTime
+  nameWithType: ViewSystemUtilitys.CalculateDelayOutTime
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayOutTime
+- uid: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem}
+  commentId: T:System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewPageItem}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ViewPageItem>
+  nameWithType: IEnumerable<ViewPageItem>
+  fullName: System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewPageItem>
+  nameWithType.vb: IEnumerable(Of ViewPageItem)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewPageItem)
+  name.vb: IEnumerable(Of ViewPageItem)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MacacaGames.ViewSystem.ViewPageItem
+    name: ViewPageItem
+    nameWithType: ViewPageItem
+    fullName: MacacaGames.ViewSystem.ViewPageItem
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MacacaGames.ViewSystem.ViewPageItem
+    name: ViewPageItem
+    nameWithType: ViewPageItem
+    fullName: MacacaGames.ViewSystem.ViewPageItem
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayInTime*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayInTime
+  name: CalculateDelayInTime
+  nameWithType: ViewSystemUtilitys.CalculateDelayInTime
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateDelayInTime
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnShowDuration*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnShowDuration
+  name: CalculateOnShowDuration
+  nameWithType: ViewSystemUtilitys.CalculateOnShowDuration
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnShowDuration
+- uid: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement}
+  commentId: T:System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElement}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ViewElement>
+  nameWithType: IEnumerable<ViewElement>
+  fullName: System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElement>
+  nameWithType.vb: IEnumerable(Of ViewElement)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElement)
+  name.vb: IEnumerable(Of ViewElement)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MacacaGames.ViewSystem.ViewElement
+    name: ViewElement
+    nameWithType: ViewElement
+    fullName: MacacaGames.ViewSystem.ViewElement
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MacacaGames.ViewSystem.ViewElement
+    name: ViewElement
+    nameWithType: ViewElement
+    fullName: MacacaGames.ViewSystem.ViewElement
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnLeaveDuration*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnLeaveDuration
+  name: CalculateOnLeaveDuration
+  nameWithType: ViewSystemUtilitys.CalculateOnLeaveDuration
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.CalculateOnLeaveDuration
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.ParseUnityEngineProperty*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemUtilitys.ParseUnityEngineProperty
+  name: ParseUnityEngineProperty
+  nameWithType: ViewSystemUtilitys.ParseUnityEngineProperty
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.ParseUnityEngineProperty
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.GetComponent*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemUtilitys.GetComponent
+  name: GetComponent
+  nameWithType: ViewSystemUtilitys.GetComponent
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.GetComponent
+- uid: UnityEngine.Component
+  commentId: T:UnityEngine.Component
+  parent: UnityEngine
+  isExternal: true
+  name: Component
+  nameWithType: Component
+  fullName: UnityEngine.Component
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.GetPageRootName*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemUtilitys.GetPageRootName
+  name: GetPageRootName
+  nameWithType: ViewSystemUtilitys.GetPageRootName
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.GetPageRootName
+- uid: MacacaGames.ViewSystem.ViewPage
+  commentId: T:MacacaGames.ViewSystem.ViewPage
+  parent: MacacaGames.ViewSystem
+  name: ViewPage
+  nameWithType: ViewPage
+  fullName: MacacaGames.ViewSystem.ViewPage
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.CreatePageTransform*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemUtilitys.CreatePageTransform
+  name: CreatePageTransform
+  nameWithType: ViewSystemUtilitys.CreatePageTransform
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.CreatePageTransform
+- uid: UnityEngine.Transform
+  commentId: T:UnityEngine.Transform
+  parent: UnityEngine
+  isExternal: true
+  name: Transform
+  nameWithType: Transform
+  fullName: UnityEngine.Transform
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper
+  commentId: T:MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper
+  parent: MacacaGames.ViewSystem
+  name: ViewSystemUtilitys.PageRootWrapper
+  nameWithType: ViewSystemUtilitys.PageRootWrapper
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper

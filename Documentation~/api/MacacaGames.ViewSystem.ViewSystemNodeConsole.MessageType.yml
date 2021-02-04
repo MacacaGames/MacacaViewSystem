@@ -1,0 +1,145 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  commentId: T:MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  id: ViewSystemNodeConsole.MessageType
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Error
+  - MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Normal
+  - MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Warring
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemNodeConsole.MessageType
+  nameWithType: ViewSystemNodeConsole.MessageType
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  type: Enum
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeConsole.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: MessageType
+    path: ../Editor/VisualEditor/ViewSystemNodeConsole.cs
+    startLine: 17
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public enum MessageType
+    content.vb: Public Enum MessageType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Normal
+  commentId: F:MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Normal
+  id: Normal
+  parent: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  langs:
+  - csharp
+  - vb
+  name: Normal
+  nameWithType: ViewSystemNodeConsole.MessageType.Normal
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Normal
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeConsole.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Normal
+    path: ../Editor/VisualEditor/ViewSystemNodeConsole.cs
+    startLine: 19
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Normal = 0
+    return:
+      type: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Warring
+  commentId: F:MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Warring
+  id: Warring
+  parent: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  langs:
+  - csharp
+  - vb
+  name: Warring
+  nameWithType: ViewSystemNodeConsole.MessageType.Warring
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Warring
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeConsole.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Warring
+    path: ../Editor/VisualEditor/ViewSystemNodeConsole.cs
+    startLine: 20
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Warring = 1
+    return:
+      type: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Error
+  commentId: F:MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Error
+  id: Error
+  parent: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  langs:
+  - csharp
+  - vb
+  name: Error
+  nameWithType: ViewSystemNodeConsole.MessageType.Error
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType.Error
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeConsole.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Error
+    path: ../Editor/VisualEditor/ViewSystemNodeConsole.cs
+    startLine: 21
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Error = 2
+    return:
+      type: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  commentId: T:MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  parent: MacacaGames.ViewSystem
+  name: ViewSystemNodeConsole.MessageType
+  nameWithType: ViewSystemNodeConsole.MessageType
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType

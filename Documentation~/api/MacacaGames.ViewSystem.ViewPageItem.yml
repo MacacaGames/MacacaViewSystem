@@ -1,0 +1,1565 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewPageItem
+  commentId: T:MacacaGames.ViewSystem.ViewPageItem
+  id: ViewPageItem
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewPageItem.#ctor
+  - MacacaGames.ViewSystem.ViewPageItem.#ctor(MacacaGames.ViewSystem.ViewElement)
+  - MacacaGames.ViewSystem.ViewPageItem.breakPointViewElementTransforms
+  - MacacaGames.ViewSystem.ViewPageItem.defaultTransformDatas
+  - MacacaGames.ViewSystem.ViewPageItem.delayIn
+  - MacacaGames.ViewSystem.ViewPageItem.delayOut
+  - MacacaGames.ViewSystem.ViewPageItem.displayName
+  - MacacaGames.ViewSystem.ViewPageItem.easeType
+  - MacacaGames.ViewSystem.ViewPageItem.eventDatas
+  - MacacaGames.ViewSystem.ViewPageItem.excludePlatform
+  - MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform(System.Collections.Generic.IEnumerable{System.String})
+  - MacacaGames.ViewSystem.ViewPageItem.Id
+  - MacacaGames.ViewSystem.ViewPageItem.name
+  - MacacaGames.ViewSystem.ViewPageItem.navigationDatas
+  - MacacaGames.ViewSystem.ViewPageItem.overrideDatas
+  - MacacaGames.ViewSystem.ViewPageItem.parent
+  - MacacaGames.ViewSystem.ViewPageItem.parentPath
+  - MacacaGames.ViewSystem.ViewPageItem.runtimeParent
+  - MacacaGames.ViewSystem.ViewPageItem.runtimeViewElement
+  - MacacaGames.ViewSystem.ViewPageItem.sortingOrder
+  - MacacaGames.ViewSystem.ViewPageItem.transformData
+  - MacacaGames.ViewSystem.ViewPageItem.transformFlag
+  - MacacaGames.ViewSystem.ViewPageItem.TweenTime
+  - MacacaGames.ViewSystem.ViewPageItem.viewElement
+  - MacacaGames.ViewSystem.ViewPageItem.viewElementObject
+  langs:
+  - csharp
+  - vb
+  name: ViewPageItem
+  nameWithType: ViewPageItem
+  fullName: MacacaGames.ViewSystem.ViewPageItem
+  type: Class
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewPageItem
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 74
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class ViewPageItem
+    content.vb: >-
+      <Serializable>
+
+      Public Class ViewPageItem
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.ViewPageItem.Id
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.Id
+  id: Id
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: ViewPageItem.Id
+  fullName: MacacaGames.ViewSystem.ViewPageItem.Id
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Id
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 77
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public string Id
+    return:
+      type: System.String
+    content.vb: Public Id As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.name
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.name
+  id: name
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: name
+  nameWithType: ViewPageItem.name
+  fullName: MacacaGames.ViewSystem.ViewPageItem.name
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: name
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 81
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public string name
+    return:
+      type: System.String
+    content.vb: Public name As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.displayName
+  commentId: P:MacacaGames.ViewSystem.ViewPageItem.displayName
+  id: displayName
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: displayName
+  nameWithType: ViewPageItem.displayName
+  fullName: MacacaGames.ViewSystem.ViewPageItem.displayName
+  type: Property
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: displayName
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 83
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public string displayName { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property displayName As String
+  overload: MacacaGames.ViewSystem.ViewPageItem.displayName*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: MacacaGames.ViewSystem.ViewPageItem.viewElementObject
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.viewElementObject
+  id: viewElementObject
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: viewElementObject
+  nameWithType: ViewPageItem.viewElementObject
+  fullName: MacacaGames.ViewSystem.ViewPageItem.viewElementObject
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: viewElementObject
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 100
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nThe ViewElement&apos;s GameObject in Asset\n"
+  example: []
+  syntax:
+    content: public GameObject viewElementObject
+    return:
+      type: UnityEngine.GameObject
+      description: ViewElement&apos;s GameObject (Asset)
+    content.vb: Public viewElementObject As GameObject
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.viewElement
+  commentId: P:MacacaGames.ViewSystem.ViewPageItem.viewElement
+  id: viewElement
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: viewElement
+  nameWithType: ViewPageItem.viewElement
+  fullName: MacacaGames.ViewSystem.ViewPageItem.viewElement
+  type: Property
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: viewElement
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 107
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewElement viewElement { get; set; }
+    parameters: []
+    return:
+      type: MacacaGames.ViewSystem.ViewElement
+    content.vb: Public Property viewElement As ViewElement
+  overload: MacacaGames.ViewSystem.ViewPageItem.viewElement*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.runtimeViewElement
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.runtimeViewElement
+  id: runtimeViewElement
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: runtimeViewElement
+  nameWithType: ViewPageItem.runtimeViewElement
+  fullName: MacacaGames.ViewSystem.ViewPageItem.runtimeViewElement
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: runtimeViewElement
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 126
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nViewElement runtime instance\n"
+  example: []
+  syntax:
+    content: public ViewElement runtimeViewElement
+    return:
+      type: MacacaGames.ViewSystem.ViewElement
+    content.vb: Public runtimeViewElement As ViewElement
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.overrideDatas
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.overrideDatas
+  id: overrideDatas
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: overrideDatas
+  nameWithType: ViewPageItem.overrideDatas
+  fullName: MacacaGames.ViewSystem.ViewPageItem.overrideDatas
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: overrideDatas
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 127
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public List<ViewElementPropertyOverrideData> overrideDatas
+    return:
+      type: System.Collections.Generic.List{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}
+    content.vb: Public overrideDatas As List(Of ViewElementPropertyOverrideData)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.eventDatas
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.eventDatas
+  id: eventDatas
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: eventDatas
+  nameWithType: ViewPageItem.eventDatas
+  fullName: MacacaGames.ViewSystem.ViewPageItem.eventDatas
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: eventDatas
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 128
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public List<ViewElementEventData> eventDatas
+    return:
+      type: System.Collections.Generic.List{MacacaGames.ViewSystem.ViewElementEventData}
+    content.vb: Public eventDatas As List(Of ViewElementEventData)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.runtimeParent
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.runtimeParent
+  id: runtimeParent
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: runtimeParent
+  nameWithType: ViewPageItem.runtimeParent
+  fullName: MacacaGames.ViewSystem.ViewPageItem.runtimeParent
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: runtimeParent
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 129
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Transform runtimeParent
+    return:
+      type: UnityEngine.Transform
+    content.vb: Public runtimeParent As Transform
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.parent
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.parent
+  id: parent
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: parent
+  nameWithType: ViewPageItem.parent
+  fullName: MacacaGames.ViewSystem.ViewPageItem.parent
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: parent
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 132
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Transform parent
+    return:
+      type: UnityEngine.Transform
+    content.vb: Public parent As Transform
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.parentPath
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.parentPath
+  id: parentPath
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: parentPath
+  nameWithType: ViewPageItem.parentPath
+  fullName: MacacaGames.ViewSystem.ViewPageItem.parentPath
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: parentPath
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 133
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public string parentPath
+    return:
+      type: System.String
+    content.vb: Public parentPath As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.transformData
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.transformData
+  id: transformData
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: transformData
+  nameWithType: ViewPageItem.transformData
+  fullName: MacacaGames.ViewSystem.ViewPageItem.transformData
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: transformData
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 134
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewSystemRectTransformData transformData
+    return:
+      type: MacacaGames.ViewSystem.ViewSystemRectTransformData
+    content.vb: Public transformData As ViewSystemRectTransformData
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.transformFlag
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.transformFlag
+  id: transformFlag
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: transformFlag
+  nameWithType: ViewPageItem.transformFlag
+  fullName: MacacaGames.ViewSystem.ViewPageItem.transformFlag
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: transformFlag
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 135
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewElement.RectTransformFlag transformFlag
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+    content.vb: Public transformFlag As ViewElement.RectTransformFlag
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.defaultTransformDatas
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.defaultTransformDatas
+  id: defaultTransformDatas
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: defaultTransformDatas
+  nameWithType: ViewPageItem.defaultTransformDatas
+  fullName: MacacaGames.ViewSystem.ViewPageItem.defaultTransformDatas
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: defaultTransformDatas
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 138
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewElementTransform defaultTransformDatas
+    return:
+      type: MacacaGames.ViewSystem.ViewElementTransform
+    content.vb: Public defaultTransformDatas As ViewElementTransform
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.breakPointViewElementTransforms
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.breakPointViewElementTransforms
+  id: breakPointViewElementTransforms
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: breakPointViewElementTransforms
+  nameWithType: ViewPageItem.breakPointViewElementTransforms
+  fullName: MacacaGames.ViewSystem.ViewPageItem.breakPointViewElementTransforms
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: breakPointViewElementTransforms
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 139
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public List<BreakPointViewElementTransform> breakPointViewElementTransforms
+    return:
+      type: System.Collections.Generic.List{MacacaGames.ViewSystem.BreakPointViewElementTransform}
+    content.vb: Public breakPointViewElementTransforms As List(Of BreakPointViewElementTransform)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.TweenTime
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.TweenTime
+  id: TweenTime
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: TweenTime
+  nameWithType: ViewPageItem.TweenTime
+  fullName: MacacaGames.ViewSystem.ViewPageItem.TweenTime
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: TweenTime
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 141
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float TweenTime
+    return:
+      type: System.Single
+    content.vb: Public TweenTime As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.easeType
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.easeType
+  id: easeType
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: easeType
+  nameWithType: ViewPageItem.easeType
+  fullName: MacacaGames.ViewSystem.ViewPageItem.easeType
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: easeType
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 142
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public EaseStyle easeType
+    return:
+      type: EaseStyle
+    content.vb: Public easeType As EaseStyle
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.delayIn
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.delayIn
+  id: delayIn
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: delayIn
+  nameWithType: ViewPageItem.delayIn
+  fullName: MacacaGames.ViewSystem.ViewPageItem.delayIn
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: delayIn
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 143
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float delayIn
+    return:
+      type: System.Single
+    content.vb: Public delayIn As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.delayOut
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.delayOut
+  id: delayOut
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: delayOut
+  nameWithType: ViewPageItem.delayOut
+  fullName: MacacaGames.ViewSystem.ViewPageItem.delayOut
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: delayOut
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 144
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float delayOut
+    return:
+      type: System.Single
+    content.vb: Public delayOut As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.navigationDatas
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.navigationDatas
+  id: navigationDatas
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: navigationDatas
+  nameWithType: ViewPageItem.navigationDatas
+  fullName: MacacaGames.ViewSystem.ViewPageItem.navigationDatas
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: navigationDatas
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 145
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public List<ViewElementNavigationData> navigationDatas
+    return:
+      type: System.Collections.Generic.List{MacacaGames.ViewSystem.ViewElementNavigationData}
+    content.vb: Public navigationDatas As List(Of ViewElementNavigationData)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.excludePlatform
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.excludePlatform
+  id: excludePlatform
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: excludePlatform
+  nameWithType: ViewPageItem.excludePlatform
+  fullName: MacacaGames.ViewSystem.ViewPageItem.excludePlatform
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: excludePlatform
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 146
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewPageItem.PlatformOption excludePlatform
+    return:
+      type: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+    content.vb: Public excludePlatform As ViewPageItem.PlatformOption
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.sortingOrder
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.sortingOrder
+  id: sortingOrder
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: sortingOrder
+  nameWithType: ViewPageItem.sortingOrder
+  fullName: MacacaGames.ViewSystem.ViewPageItem.sortingOrder
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: sortingOrder
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 148
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public int sortingOrder
+    return:
+      type: System.Int32
+    content.vb: Public sortingOrder As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.#ctor(MacacaGames.ViewSystem.ViewElement)
+  commentId: M:MacacaGames.ViewSystem.ViewPageItem.#ctor(MacacaGames.ViewSystem.ViewElement)
+  id: '#ctor(MacacaGames.ViewSystem.ViewElement)'
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: ViewPageItem(ViewElement)
+  nameWithType: ViewPageItem.ViewPageItem(ViewElement)
+  fullName: MacacaGames.ViewSystem.ViewPageItem.ViewPageItem(MacacaGames.ViewSystem.ViewElement)
+  type: Constructor
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 160
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewPageItem(ViewElement ve)
+    parameters:
+    - id: ve
+      type: MacacaGames.ViewSystem.ViewElement
+    content.vb: Public Sub New(ve As ViewElement)
+  overload: MacacaGames.ViewSystem.ViewPageItem.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.#ctor
+  commentId: M:MacacaGames.ViewSystem.ViewPageItem.#ctor
+  id: '#ctor'
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: ViewPageItem()
+  nameWithType: ViewPageItem.ViewPageItem()
+  fullName: MacacaGames.ViewSystem.ViewPageItem.ViewPageItem()
+  type: Constructor
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 165
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewPageItem()
+    content.vb: Public Sub New
+  overload: MacacaGames.ViewSystem.ViewPageItem.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform(System.Collections.Generic.IEnumerable{System.String})
+  commentId: M:MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform(System.Collections.Generic.IEnumerable{System.String})
+  id: GetCurrentViewElementTransform(System.Collections.Generic.IEnumerable{System.String})
+  parent: MacacaGames.ViewSystem.ViewPageItem
+  langs:
+  - csharp
+  - vb
+  name: GetCurrentViewElementTransform(IEnumerable<String>)
+  nameWithType: ViewPageItem.GetCurrentViewElementTransform(IEnumerable<String>)
+  fullName: MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform(System.Collections.Generic.IEnumerable<System.String>)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: GetCurrentViewElementTransform
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 174
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewElementTransform GetCurrentViewElementTransform(IEnumerable<string> currentBreakPoints)
+    parameters:
+    - id: currentBreakPoints
+      type: System.Collections.Generic.IEnumerable{System.String}
+    return:
+      type: MacacaGames.ViewSystem.ViewElementTransform
+    content.vb: Public Function GetCurrentViewElementTransform(currentBreakPoints As IEnumerable(Of String)) As ViewElementTransform
+  overload: MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform*
+  nameWithType.vb: ViewPageItem.GetCurrentViewElementTransform(IEnumerable(Of String))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform(System.Collections.Generic.IEnumerable(Of System.String))
+  name.vb: GetCurrentViewElementTransform(IEnumerable(Of String))
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: MacacaGames.ViewSystem.ViewPageItem.displayName*
+  commentId: Overload:MacacaGames.ViewSystem.ViewPageItem.displayName
+  name: displayName
+  nameWithType: ViewPageItem.displayName
+  fullName: MacacaGames.ViewSystem.ViewPageItem.displayName
+- uid: UnityEngine.GameObject
+  commentId: T:UnityEngine.GameObject
+  parent: UnityEngine
+  isExternal: true
+  name: GameObject
+  nameWithType: GameObject
+  fullName: UnityEngine.GameObject
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: MacacaGames.ViewSystem.ViewPageItem.viewElement*
+  commentId: Overload:MacacaGames.ViewSystem.ViewPageItem.viewElement
+  name: viewElement
+  nameWithType: ViewPageItem.viewElement
+  fullName: MacacaGames.ViewSystem.ViewPageItem.viewElement
+- uid: MacacaGames.ViewSystem.ViewElement
+  commentId: T:MacacaGames.ViewSystem.ViewElement
+  parent: MacacaGames.ViewSystem
+  name: ViewElement
+  nameWithType: ViewElement
+  fullName: MacacaGames.ViewSystem.ViewElement
+- uid: System.Collections.Generic.List{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}
+  commentId: T:System.Collections.Generic.List{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<ViewElementPropertyOverrideData>
+  nameWithType: List<ViewElementPropertyOverrideData>
+  fullName: System.Collections.Generic.List<MacacaGames.ViewSystem.ViewElementPropertyOverrideData>
+  nameWithType.vb: List(Of ViewElementPropertyOverrideData)
+  fullName.vb: System.Collections.Generic.List(Of MacacaGames.ViewSystem.ViewElementPropertyOverrideData)
+  name.vb: List(Of ViewElementPropertyOverrideData)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+    name: ViewElementPropertyOverrideData
+    nameWithType: ViewElementPropertyOverrideData
+    fullName: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+    name: ViewElementPropertyOverrideData
+    nameWithType: ViewElementPropertyOverrideData
+    fullName: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections.Generic.List{MacacaGames.ViewSystem.ViewElementEventData}
+  commentId: T:System.Collections.Generic.List{MacacaGames.ViewSystem.ViewElementEventData}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<ViewElementEventData>
+  nameWithType: List<ViewElementEventData>
+  fullName: System.Collections.Generic.List<MacacaGames.ViewSystem.ViewElementEventData>
+  nameWithType.vb: List(Of ViewElementEventData)
+  fullName.vb: System.Collections.Generic.List(Of MacacaGames.ViewSystem.ViewElementEventData)
+  name.vb: List(Of ViewElementEventData)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MacacaGames.ViewSystem.ViewElementEventData
+    name: ViewElementEventData
+    nameWithType: ViewElementEventData
+    fullName: MacacaGames.ViewSystem.ViewElementEventData
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MacacaGames.ViewSystem.ViewElementEventData
+    name: ViewElementEventData
+    nameWithType: ViewElementEventData
+    fullName: MacacaGames.ViewSystem.ViewElementEventData
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEngine.Transform
+  commentId: T:UnityEngine.Transform
+  parent: UnityEngine
+  isExternal: true
+  name: Transform
+  nameWithType: Transform
+  fullName: UnityEngine.Transform
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  commentId: T:MacacaGames.ViewSystem.ViewSystemRectTransformData
+  parent: MacacaGames.ViewSystem
+  name: ViewSystemRectTransformData
+  nameWithType: ViewSystemRectTransformData
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData
+- uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  commentId: T:MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  parent: MacacaGames.ViewSystem
+  name: ViewElement.RectTransformFlag
+  nameWithType: ViewElement.RectTransformFlag
+  fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+- uid: MacacaGames.ViewSystem.ViewElementTransform
+  commentId: T:MacacaGames.ViewSystem.ViewElementTransform
+  parent: MacacaGames.ViewSystem
+  name: ViewElementTransform
+  nameWithType: ViewElementTransform
+  fullName: MacacaGames.ViewSystem.ViewElementTransform
+- uid: System.Collections.Generic.List{MacacaGames.ViewSystem.BreakPointViewElementTransform}
+  commentId: T:System.Collections.Generic.List{MacacaGames.ViewSystem.BreakPointViewElementTransform}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<BreakPointViewElementTransform>
+  nameWithType: List<BreakPointViewElementTransform>
+  fullName: System.Collections.Generic.List<MacacaGames.ViewSystem.BreakPointViewElementTransform>
+  nameWithType.vb: List(Of BreakPointViewElementTransform)
+  fullName.vb: System.Collections.Generic.List(Of MacacaGames.ViewSystem.BreakPointViewElementTransform)
+  name.vb: List(Of BreakPointViewElementTransform)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MacacaGames.ViewSystem.BreakPointViewElementTransform
+    name: BreakPointViewElementTransform
+    nameWithType: BreakPointViewElementTransform
+    fullName: MacacaGames.ViewSystem.BreakPointViewElementTransform
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MacacaGames.ViewSystem.BreakPointViewElementTransform
+    name: BreakPointViewElementTransform
+    nameWithType: BreakPointViewElementTransform
+    fullName: MacacaGames.ViewSystem.BreakPointViewElementTransform
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: EaseStyle
+  commentId: T:EaseStyle
+  name: EaseStyle
+  nameWithType: EaseStyle
+  fullName: EaseStyle
+- uid: System.Collections.Generic.List{MacacaGames.ViewSystem.ViewElementNavigationData}
+  commentId: T:System.Collections.Generic.List{MacacaGames.ViewSystem.ViewElementNavigationData}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<ViewElementNavigationData>
+  nameWithType: List<ViewElementNavigationData>
+  fullName: System.Collections.Generic.List<MacacaGames.ViewSystem.ViewElementNavigationData>
+  nameWithType.vb: List(Of ViewElementNavigationData)
+  fullName.vb: System.Collections.Generic.List(Of MacacaGames.ViewSystem.ViewElementNavigationData)
+  name.vb: List(Of ViewElementNavigationData)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MacacaGames.ViewSystem.ViewElementNavigationData
+    name: ViewElementNavigationData
+    nameWithType: ViewElementNavigationData
+    fullName: MacacaGames.ViewSystem.ViewElementNavigationData
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MacacaGames.ViewSystem.ViewElementNavigationData
+    name: ViewElementNavigationData
+    nameWithType: ViewElementNavigationData
+    fullName: MacacaGames.ViewSystem.ViewElementNavigationData
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  commentId: T:MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  parent: MacacaGames.ViewSystem
+  name: ViewPageItem.PlatformOption
+  nameWithType: ViewPageItem.PlatformOption
+  fullName: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: MacacaGames.ViewSystem.ViewPageItem.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.ViewPageItem.#ctor
+  name: ViewPageItem
+  nameWithType: ViewPageItem.ViewPageItem
+  fullName: MacacaGames.ViewSystem.ViewPageItem.ViewPageItem
+- uid: MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform*
+  commentId: Overload:MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform
+  name: GetCurrentViewElementTransform
+  nameWithType: ViewPageItem.GetCurrentViewElementTransform
+  fullName: MacacaGames.ViewSystem.ViewPageItem.GetCurrentViewElementTransform
+- uid: System.Collections.Generic.IEnumerable{System.String}
+  commentId: T:System.Collections.Generic.IEnumerable{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<String>
+  nameWithType: IEnumerable<String>
+  fullName: System.Collections.Generic.IEnumerable<System.String>
+  nameWithType.vb: IEnumerable(Of String)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of System.String)
+  name.vb: IEnumerable(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )

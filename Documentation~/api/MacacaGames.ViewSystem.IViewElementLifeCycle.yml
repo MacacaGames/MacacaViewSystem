@@ -1,0 +1,260 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle
+  commentId: T:MacacaGames.ViewSystem.IViewElementLifeCycle
+  id: IViewElementLifeCycle
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave
+  - MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow
+  - MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage
+  - MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage(System.Boolean)
+  - MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave
+  - MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow
+  langs:
+  - csharp
+  - vb
+  name: IViewElementLifeCycle
+  nameWithType: IViewElementLifeCycle
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle
+  type: Interface
+  source:
+    remote:
+      path: Runtime/Interface/IViewElementLifeCycle.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: IViewElementLifeCycle
+    path: ../Runtime/Interface/IViewElementLifeCycle.cs
+    startLine: 5
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public interface IViewElementLifeCycle
+    content.vb: Public Interface IViewElementLifeCycle
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow
+  id: OnBeforeShow
+  parent: MacacaGames.ViewSystem.IViewElementLifeCycle
+  langs:
+  - csharp
+  - vb
+  name: OnBeforeShow()
+  nameWithType: IViewElementLifeCycle.OnBeforeShow()
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Interface/IViewElementLifeCycle.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnBeforeShow
+    path: ../Runtime/Interface/IViewElementLifeCycle.cs
+    startLine: 10
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nWhile the ViewElement prepare to Show\n"
+  example: []
+  syntax:
+    content: void OnBeforeShow()
+    content.vb: Sub OnBeforeShow
+  overload: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow*
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave
+  id: OnBeforeLeave
+  parent: MacacaGames.ViewSystem.IViewElementLifeCycle
+  langs:
+  - csharp
+  - vb
+  name: OnBeforeLeave()
+  nameWithType: IViewElementLifeCycle.OnBeforeLeave()
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Interface/IViewElementLifeCycle.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnBeforeLeave
+    path: ../Runtime/Interface/IViewElementLifeCycle.cs
+    startLine: 14
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nWhile the ViewElement prepare to Leave\n"
+  example: []
+  syntax:
+    content: void OnBeforeLeave()
+    content.vb: Sub OnBeforeLeave
+  overload: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave*
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow
+  id: OnStartShow
+  parent: MacacaGames.ViewSystem.IViewElementLifeCycle
+  langs:
+  - csharp
+  - vb
+  name: OnStartShow()
+  nameWithType: IViewElementLifeCycle.OnStartShow()
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Interface/IViewElementLifeCycle.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnStartShow
+    path: ../Runtime/Interface/IViewElementLifeCycle.cs
+    startLine: 18
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nWhile the ViewElement start to Show\n"
+  example: []
+  syntax:
+    content: void OnStartShow()
+    content.vb: Sub OnStartShow
+  overload: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow*
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave
+  id: OnStartLeave
+  parent: MacacaGames.ViewSystem.IViewElementLifeCycle
+  langs:
+  - csharp
+  - vb
+  name: OnStartLeave()
+  nameWithType: IViewElementLifeCycle.OnStartLeave()
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Interface/IViewElementLifeCycle.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnStartLeave
+    path: ../Runtime/Interface/IViewElementLifeCycle.cs
+    startLine: 22
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nWhile the ViewElement start to Leave\n"
+  example: []
+  syntax:
+    content: void OnStartLeave()
+    content.vb: Sub OnStartLeave
+  overload: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave*
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage(System.Boolean)
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage(System.Boolean)
+  id: OnChangePage(System.Boolean)
+  parent: MacacaGames.ViewSystem.IViewElementLifeCycle
+  langs:
+  - csharp
+  - vb
+  name: OnChangePage(Boolean)
+  nameWithType: IViewElementLifeCycle.OnChangePage(Boolean)
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage(System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Interface/IViewElementLifeCycle.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnChangePage
+    path: ../Runtime/Interface/IViewElementLifeCycle.cs
+    startLine: 26
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nWhile the ChangePage method on ViewElement has been called.\n"
+  example: []
+  syntax:
+    content: void OnChangePage(bool show)
+    parameters:
+    - id: show
+      type: System.Boolean
+    content.vb: Sub OnChangePage(show As Boolean)
+  overload: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage*
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage
+  commentId: M:MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage
+  id: OnChangedPage
+  parent: MacacaGames.ViewSystem.IViewElementLifeCycle
+  langs:
+  - csharp
+  - vb
+  name: OnChangedPage()
+  nameWithType: IViewElementLifeCycle.OnChangedPage()
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Interface/IViewElementLifeCycle.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnChangedPage
+    path: ../Runtime/Interface/IViewElementLifeCycle.cs
+    startLine: 30
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nWhile the ViewPage is Changed on ViewController.\n"
+  example: []
+  syntax:
+    content: void OnChangedPage()
+    content.vb: Sub OnChangedPage
+  overload: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage*
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow*
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow
+  name: OnBeforeShow
+  nameWithType: IViewElementLifeCycle.OnBeforeShow
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeShow
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave*
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave
+  name: OnBeforeLeave
+  nameWithType: IViewElementLifeCycle.OnBeforeLeave
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnBeforeLeave
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow*
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow
+  name: OnStartShow
+  nameWithType: IViewElementLifeCycle.OnStartShow
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartShow
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave*
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave
+  name: OnStartLeave
+  nameWithType: IViewElementLifeCycle.OnStartLeave
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnStartLeave
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage*
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage
+  name: OnChangePage
+  nameWithType: IViewElementLifeCycle.OnChangePage
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangePage
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage*
+  commentId: Overload:MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage
+  name: OnChangedPage
+  nameWithType: IViewElementLifeCycle.OnChangedPage
+  fullName: MacacaGames.ViewSystem.IViewElementLifeCycle.OnChangedPage

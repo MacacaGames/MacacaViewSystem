@@ -1,0 +1,40 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.IViewElementInjectable
+  commentId: T:MacacaGames.ViewSystem.IViewElementInjectable
+  id: IViewElementInjectable
+  parent: MacacaGames.ViewSystem
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: IViewElementInjectable
+  nameWithType: IViewElementInjectable
+  fullName: MacacaGames.ViewSystem.IViewElementInjectable
+  type: Interface
+  source:
+    remote:
+      path: Runtime/Interface/IViewElementInjectalbe.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: IViewElementInjectable
+    path: ../Runtime/Interface/IViewElementInjectalbe.cs
+    startLine: 5
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public interface IViewElementInjectable
+    content.vb: Public Interface IViewElementInjectable
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem

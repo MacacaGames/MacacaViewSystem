@@ -1,0 +1,841 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  commentId: T:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  id: ViewSystemSaveData.ViewSystemBaseSetting
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting._maxWaitingTime
+  - MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  - MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.builtInBreakPoints
+  - MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.MaxWaitingTime
+  - MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.minimumTimeInterval
+  - MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UIRoot
+  - MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UIRootScene
+  - MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UseNavigationSetting
+  - MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.userBreakPoints
+  - MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.ViewControllerObjectPath
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemSaveData.ViewSystemBaseSetting
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  type: Class
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewSystemBaseSetting
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 40
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class ViewSystemBaseSetting
+    content.vb: >-
+      <Serializable>
+
+      Public Class ViewSystemBaseSetting
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UseNavigationSetting
+  commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UseNavigationSetting
+  id: UseNavigationSetting
+  parent: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  langs:
+  - csharp
+  - vb
+  name: UseNavigationSetting
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.UseNavigationSetting
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UseNavigationSetting
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: UseNavigationSetting
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 43
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public bool UseNavigationSetting
+    return:
+      type: System.Boolean
+    content.vb: Public UseNavigationSetting As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.ViewControllerObjectPath
+  commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.ViewControllerObjectPath
+  id: ViewControllerObjectPath
+  parent: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  langs:
+  - csharp
+  - vb
+  name: ViewControllerObjectPath
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.ViewControllerObjectPath
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.ViewControllerObjectPath
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewControllerObjectPath
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 44
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public string ViewControllerObjectPath
+    return:
+      type: System.String
+    content.vb: Public ViewControllerObjectPath As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UIRoot
+  commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UIRoot
+  id: UIRoot
+  parent: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  langs:
+  - csharp
+  - vb
+  name: UIRoot
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.UIRoot
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UIRoot
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: UIRoot
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 45
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public GameObject UIRoot
+    return:
+      type: UnityEngine.GameObject
+    content.vb: Public UIRoot As GameObject
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UIRootScene
+  commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UIRootScene
+  id: UIRootScene
+  parent: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  langs:
+  - csharp
+  - vb
+  name: UIRootScene
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.UIRootScene
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.UIRootScene
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: UIRootScene
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 46
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public GameObject UIRootScene
+    return:
+      type: UnityEngine.GameObject
+    content.vb: Public UIRootScene As GameObject
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.MaxWaitingTime
+  commentId: P:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.MaxWaitingTime
+  id: MaxWaitingTime
+  parent: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  langs:
+  - csharp
+  - vb
+  name: MaxWaitingTime
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.MaxWaitingTime
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.MaxWaitingTime
+  type: Property
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: MaxWaitingTime
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 50
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float MaxWaitingTime { get; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public ReadOnly Property MaxWaitingTime As Single
+  overload: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.MaxWaitingTime*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting._maxWaitingTime
+  commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting._maxWaitingTime
+  id: _maxWaitingTime
+  parent: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  langs:
+  - csharp
+  - vb
+  name: _maxWaitingTime
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting._maxWaitingTime
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting._maxWaitingTime
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _maxWaitingTime
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 57
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float _maxWaitingTime
+    return:
+      type: System.Single
+    content.vb: Public _maxWaitingTime As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.minimumTimeInterval
+  commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.minimumTimeInterval
+  id: minimumTimeInterval
+  parent: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  langs:
+  - csharp
+  - vb
+  name: minimumTimeInterval
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.minimumTimeInterval
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.minimumTimeInterval
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: minimumTimeInterval
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 62
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nThe minimum effective interval Show/Leave OverlayPage or ChangePage on FullPage call.\nIf user the method call time interval less than this value, the call will be ignore!\n"
+  example: []
+  syntax:
+    content: public float minimumTimeInterval
+    return:
+      type: System.Single
+    content.vb: Public minimumTimeInterval As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.builtInBreakPoints
+  commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.builtInBreakPoints
+  id: builtInBreakPoints
+  parent: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  langs:
+  - csharp
+  - vb
+  name: builtInBreakPoints
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.builtInBreakPoints
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.builtInBreakPoints
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: builtInBreakPoints
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 64
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public string[] builtInBreakPoints
+    return:
+      type: System.String[]
+    content.vb: Public builtInBreakPoints As String()
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.userBreakPoints
+  commentId: F:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.userBreakPoints
+  id: userBreakPoints
+  parent: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  langs:
+  - csharp
+  - vb
+  name: userBreakPoints
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.userBreakPoints
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.userBreakPoints
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: userBreakPoints
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 68
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public List<string> userBreakPoints
+    return:
+      type: System.Collections.Generic.List{System.String}
+    content.vb: Public userBreakPoints As List(Of String)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  commentId: P:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  id: breakPoints
+  parent: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+  langs:
+  - csharp
+  - vb
+  name: breakPoints
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  type: Property
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: breakPoints
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 70
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public string[] breakPoints { get; }
+    parameters: []
+    return:
+      type: System.String[]
+    content.vb: Public ReadOnly Property breakPoints As String()
+  overload: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: UnityEngine.GameObject
+  commentId: T:UnityEngine.GameObject
+  parent: UnityEngine
+  isExternal: true
+  name: GameObject
+  nameWithType: GameObject
+  fullName: UnityEngine.GameObject
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.MaxWaitingTime*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.MaxWaitingTime
+  name: MaxWaitingTime
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.MaxWaitingTime
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.MaxWaitingTime
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: System.String[]
+  isExternal: true
+  name: String[]
+  nameWithType: String[]
+  fullName: System.String[]
+  nameWithType.vb: String()
+  fullName.vb: System.String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<String>
+  nameWithType: List<String>
+  fullName: System.Collections.Generic.List<System.String>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of System.String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  name: breakPoints
+  nameWithType: ViewSystemSaveData.ViewSystemBaseSetting.breakPoints
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting.breakPoints

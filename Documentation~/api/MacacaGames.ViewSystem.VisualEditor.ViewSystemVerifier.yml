@@ -1,0 +1,642 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
+  id: ViewSystemVerifier
+  parent: MacacaGames.ViewSystem.VisualEditor
+  children:
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.ViewSystemSaveData)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.bindingFlags
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyComponent(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyEvents
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyGameObject(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyPagesAndStates
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyProperty(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemVerifier
+  nameWithType: ViewSystemVerifier
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
+  type: Class
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewSystemVerifier
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 10
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public class ViewSystemVerifier
+    content.vb: Public Class ViewSystemVerifier
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.ViewSystemSaveData)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.ViewSystemSaveData)
+  id: '#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor,MacacaGames.ViewSystem.ViewSystemSaveData)'
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemVerifier(ViewSystemVisualEditor, ViewSystemSaveData)
+  nameWithType: ViewSystemVerifier.ViewSystemVerifier(ViewSystemVisualEditor, ViewSystemSaveData)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.ViewSystemVerifier(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor, MacacaGames.ViewSystem.ViewSystemSaveData)
+  type: Constructor
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 15
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public ViewSystemVerifier(ViewSystemVisualEditor editor, ViewSystemSaveData saveData)
+    parameters:
+    - id: editor
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+    - id: saveData
+      type: MacacaGames.ViewSystem.ViewSystemSaveData
+    content.vb: Public Sub New(editor As ViewSystemVisualEditor, saveData As ViewSystemSaveData)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyPagesAndStates
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyPagesAndStates
+  id: VerifyPagesAndStates
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
+  langs:
+  - csharp
+  - vb
+  name: VerifyPagesAndStates()
+  nameWithType: ViewSystemVerifier.VerifyPagesAndStates()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyPagesAndStates()
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: VerifyPagesAndStates
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 26
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void VerifyPagesAndStates()
+    content.vb: Public Sub VerifyPagesAndStates
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyPagesAndStates*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyGameObject(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyGameObject(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  id: VerifyGameObject(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
+  langs:
+  - csharp
+  - vb
+  name: VerifyGameObject(ViewSystemVerifier.VerifyTarget)
+  nameWithType: ViewSystemVerifier.VerifyGameObject(ViewSystemVerifier.VerifyTarget)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyGameObject(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: VerifyGameObject
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 86
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void VerifyGameObject(ViewSystemVerifier.VerifyTarget verifyTarget = ViewSystemVerifier.VerifyTarget.All)
+    parameters:
+    - id: verifyTarget
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+    content.vb: Public Sub VerifyGameObject(verifyTarget As ViewSystemVerifier.VerifyTarget = ViewSystemVerifier.VerifyTarget.All)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyGameObject*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyComponent(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyComponent(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  id: VerifyComponent(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
+  langs:
+  - csharp
+  - vb
+  name: VerifyComponent(ViewSystemVerifier.VerifyTarget)
+  nameWithType: ViewSystemVerifier.VerifyComponent(ViewSystemVerifier.VerifyTarget)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyComponent(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: VerifyComponent
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 202
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void VerifyComponent(ViewSystemVerifier.VerifyTarget verifyTarget)
+    parameters:
+    - id: verifyTarget
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+    content.vb: Public Sub VerifyComponent(verifyTarget As ViewSystemVerifier.VerifyTarget)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyComponent*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.bindingFlags
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.bindingFlags
+  id: bindingFlags
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
+  langs:
+  - csharp
+  - vb
+  name: bindingFlags
+  nameWithType: ViewSystemVerifier.bindingFlags
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.bindingFlags
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: bindingFlags
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 284
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public static BindingFlags bindingFlags
+    return:
+      type: System.Reflection.BindingFlags
+    content.vb: Public Shared bindingFlags As BindingFlags
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyProperty(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyProperty(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  id: VerifyProperty(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
+  langs:
+  - csharp
+  - vb
+  name: VerifyProperty(ViewSystemVerifier.VerifyTarget)
+  nameWithType: ViewSystemVerifier.VerifyProperty(ViewSystemVerifier.VerifyTarget)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyProperty(MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: VerifyProperty
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 289
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void VerifyProperty(ViewSystemVerifier.VerifyTarget verifyTarget)
+    parameters:
+    - id: verifyTarget
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+    content.vb: Public Sub VerifyProperty(verifyTarget As ViewSystemVerifier.VerifyTarget)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyProperty*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyEvents
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyEvents
+  id: VerifyEvents
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
+  langs:
+  - csharp
+  - vb
+  name: VerifyEvents()
+  nameWithType: ViewSystemVerifier.VerifyEvents()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyEvents()
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: VerifyEvents
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 353
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void VerifyEvents()
+    content.vb: Public Sub VerifyEvents
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyEvents*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: MacacaGames.ViewSystem.VisualEditor
+  commentId: N:MacacaGames.ViewSystem.VisualEditor
+  name: MacacaGames.ViewSystem.VisualEditor
+  nameWithType: MacacaGames.ViewSystem.VisualEditor
+  fullName: MacacaGames.ViewSystem.VisualEditor
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.#ctor
+  name: ViewSystemVerifier
+  nameWithType: ViewSystemVerifier.ViewSystemVerifier
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.ViewSystemVerifier
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+  parent: MacacaGames.ViewSystem.VisualEditor
+  name: ViewSystemVisualEditor
+  nameWithType: ViewSystemVisualEditor
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData
+  commentId: T:MacacaGames.ViewSystem.ViewSystemSaveData
+  parent: MacacaGames.ViewSystem
+  name: ViewSystemSaveData
+  nameWithType: ViewSystemSaveData
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyPagesAndStates*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyPagesAndStates
+  name: VerifyPagesAndStates
+  nameWithType: ViewSystemVerifier.VerifyPagesAndStates
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyPagesAndStates
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyGameObject*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyGameObject
+  name: VerifyGameObject
+  nameWithType: ViewSystemVerifier.VerifyGameObject
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyGameObject
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  parent: MacacaGames.ViewSystem.VisualEditor
+  name: ViewSystemVerifier.VerifyTarget
+  nameWithType: ViewSystemVerifier.VerifyTarget
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyComponent*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyComponent
+  name: VerifyComponent
+  nameWithType: ViewSystemVerifier.VerifyComponent
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyComponent
+- uid: System.Reflection.BindingFlags
+  commentId: T:System.Reflection.BindingFlags
+  parent: System.Reflection
+  isExternal: true
+  name: BindingFlags
+  nameWithType: BindingFlags
+  fullName: System.Reflection.BindingFlags
+- uid: System.Reflection
+  commentId: N:System.Reflection
+  isExternal: true
+  name: System.Reflection
+  nameWithType: System.Reflection
+  fullName: System.Reflection
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyProperty*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyProperty
+  name: VerifyProperty
+  nameWithType: ViewSystemVerifier.VerifyProperty
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyProperty
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyEvents*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyEvents
+  name: VerifyEvents
+  nameWithType: ViewSystemVerifier.VerifyEvents
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyEvents

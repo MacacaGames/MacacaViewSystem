@@ -1,0 +1,216 @@
+### YamlMime:TableOfContent
+- uid: MacacaGames
+  name: MacacaGames
+  items:
+  - uid: MacacaGames.ReadOnlyAttribute
+    name: ReadOnlyAttribute
+- uid: MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  items:
+  - uid: MacacaGames.ViewSystem.BreakPointViewElementTransform
+    name: BreakPointViewElementTransform
+  - uid: MacacaGames.ViewSystem.ComponentTreeView
+    name: ComponentTreeView
+  - uid: MacacaGames.ViewSystem.ComponentTreeView._OnItemClick
+    name: ComponentTreeView._OnItemClick
+  - uid: MacacaGames.ViewSystem.FullPageChanger
+    name: FullPageChanger
+  - uid: MacacaGames.ViewSystem.FullPageChangerExtension
+    name: FullPageChangerExtension
+  - uid: MacacaGames.ViewSystem.IViewController
+    name: IViewController
+  - uid: MacacaGames.ViewSystem.IViewElementInjectable
+    name: IViewElementInjectable
+  - uid: MacacaGames.ViewSystem.IViewElementLifeCycle
+    name: IViewElementLifeCycle
+  - uid: MacacaGames.ViewSystem.LayoutDropdownWindow
+    name: LayoutDropdownWindow
+  - uid: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+    name: LayoutDropdownWindow.LayoutMode
+  - uid: MacacaGames.ViewSystem.MicroCoroutine
+    name: MicroCoroutine
+  - uid: MacacaGames.ViewSystem.MicroCoroutine.Coroutine
+    name: MicroCoroutine.Coroutine
+  - uid: MacacaGames.ViewSystem.NestedViewElement
+    name: NestedViewElement
+  - uid: MacacaGames.ViewSystem.NestedViewElementEditor
+    name: NestedViewElementEditor
+  - uid: MacacaGames.ViewSystem.OverlayPageChanger
+    name: OverlayPageChanger
+  - uid: MacacaGames.ViewSystem.OverlayPageChangerExtension
+    name: OverlayPageChangerExtension
+  - uid: MacacaGames.ViewSystem.PageChanger
+    name: PageChanger
+  - uid: MacacaGames.ViewSystem.PageChangerExtension
+    name: PageChangerExtension
+  - uid: MacacaGames.ViewSystem.PropertyOverride
+    name: PropertyOverride
+  - uid: MacacaGames.ViewSystem.PropertyOverride.S_Type
+    name: PropertyOverride.S_Type
+  - uid: MacacaGames.ViewSystem.QueueExtension
+    name: QueueExtension
+  - uid: MacacaGames.ViewSystem.SafePadding
+    name: SafePadding
+  - uid: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+    name: SafePadding.EdgeEvaluationMode
+  - uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+    name: SafePadding.PerEdgeValues
+  - uid: MacacaGames.ViewSystem.VectorConvert
+    name: VectorConvert
+  - uid: MacacaGames.ViewSystem.View
+    name: View
+  - uid: MacacaGames.ViewSystem.ViewController
+    name: ViewController
+  - uid: MacacaGames.ViewSystem.ViewControllerBase
+    name: ViewControllerBase
+  - uid: MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs
+    name: ViewControllerBase.ViewPageEventArgs
+  - uid: MacacaGames.ViewSystem.ViewControllerBase.ViewPageTrisitionEventArgs
+    name: ViewControllerBase.ViewPageTrisitionEventArgs
+  - uid: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs
+    name: ViewControllerBase.ViewStateEventArgs
+  - uid: MacacaGames.ViewSystem.ViewControllerEditor
+    name: ViewControllerEditor
+  - uid: MacacaGames.ViewSystem.ViewElement
+    name: ViewElement
+  - uid: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType
+    name: ViewElement.AnimatorTransitionType
+  - uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+    name: ViewElement.RectTransformFlag
+  - uid: MacacaGames.ViewSystem.ViewElement.TransitionType
+    name: ViewElement.TransitionType
+  - uid: MacacaGames.ViewSystem.ViewElementEditor
+    name: ViewElementEditor
+  - uid: MacacaGames.ViewSystem.ViewElementEventData
+    name: ViewElementEventData
+  - uid: MacacaGames.ViewSystem.ViewElementGroup
+    name: ViewElementGroup
+  - uid: MacacaGames.ViewSystem.ViewElementLifeCycle
+    name: ViewElementLifeCycle
+  - uid: MacacaGames.ViewSystem.ViewElementLifeCycle.BoolEvent
+    name: ViewElementLifeCycle.BoolEvent
+  - uid: MacacaGames.ViewSystem.ViewElementNavigationData
+    name: ViewElementNavigationData
+  - uid: MacacaGames.ViewSystem.ViewElementNavigationDataViewState
+    name: ViewElementNavigationDataViewState
+  - uid: MacacaGames.ViewSystem.ViewElementNavigationTarget
+    name: ViewElementNavigationTarget
+  - uid: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+    name: ViewElementPropertyOverrideData
+  - uid: MacacaGames.ViewSystem.ViewElementRequestedPool
+    name: ViewElementRequestedPool
+  - uid: MacacaGames.ViewSystem.ViewElementRuntimePool
+    name: ViewElementRuntimePool
+  - uid: MacacaGames.ViewSystem.ViewElementRuntimePoolEditor
+    name: ViewElementRuntimePoolEditor
+  - uid: MacacaGames.ViewSystem.ViewElementTransform
+    name: ViewElementTransform
+  - uid: MacacaGames.ViewSystem.ViewEventGroup
+    name: ViewEventGroup
+  - uid: MacacaGames.ViewSystem.ViewMarginFixer
+    name: ViewMarginFixer
+  - uid: MacacaGames.ViewSystem.ViewMarginFixer.Margin
+    name: ViewMarginFixer.Margin
+  - uid: MacacaGames.ViewSystem.ViewMarginFixerEditor
+    name: ViewMarginFixerEditor
+  - uid: MacacaGames.ViewSystem.ViewPage
+    name: ViewPage
+  - uid: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+    name: ViewPage.ViewPageTransitionTimingType
+  - uid: MacacaGames.ViewSystem.ViewPage.ViewPageType
+    name: ViewPage.ViewPageType
+  - uid: MacacaGames.ViewSystem.ViewPageItem
+    name: ViewPageItem
+  - uid: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+    name: ViewPageItem.PlatformOption
+  - uid: MacacaGames.ViewSystem.ViewRuntimeOverride
+    name: ViewRuntimeOverride
+  - uid: MacacaGames.ViewSystem.ViewState
+    name: ViewState
+  - uid: MacacaGames.ViewSystem.ViewSystemComponentData
+    name: ViewSystemComponentData
+  - uid: MacacaGames.ViewSystem.ViewSystemLayoutRebuilder
+    name: ViewSystemLayoutRebuilder
+  - uid: MacacaGames.ViewSystem.ViewSystemNodeConsole
+    name: ViewSystemNodeConsole
+  - uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.ConsoleMsg
+    name: ViewSystemNodeConsole.ConsoleMsg
+  - uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+    name: ViewSystemNodeConsole.MessageType
+  - uid: MacacaGames.ViewSystem.ViewSystemRectTransformData
+    name: ViewSystemRectTransformData
+  - uid: MacacaGames.ViewSystem.ViewSystemSaveData
+    name: ViewSystemSaveData
+  - uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewPageSaveData
+    name: ViewSystemSaveData.ViewPageSaveData
+  - uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewStateSaveData
+    name: ViewSystemSaveData.ViewStateSaveData
+  - uid: MacacaGames.ViewSystem.ViewSystemSaveData.ViewSystemBaseSetting
+    name: ViewSystemSaveData.ViewSystemBaseSetting
+  - uid: MacacaGames.ViewSystem.ViewSystemScriptBaker
+    name: ViewSystemScriptBaker
+  - uid: MacacaGames.ViewSystem.ViewSystemUtilitys
+    name: ViewSystemUtilitys
+  - uid: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus
+    name: ViewSystemUtilitys.OverlayPageStatus
+  - uid: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+    name: ViewSystemUtilitys.OverlayPageStatus.Transition
+  - uid: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper
+    name: ViewSystemUtilitys.PageRootWrapper
+  - uid: MacacaGames.ViewSystem.VS_EditorUtility
+    name: VS_EditorUtility
+  - uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemDetailPopup
+    name: VS_EditorUtility.ViewPageItemDetailPopup
+  - uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup
+    name: VS_EditorUtility.ViewPageItemsBreakPointPopup
+- uid: MacacaGames.ViewSystem.VisualEditor
+  name: MacacaGames.ViewSystem.VisualEditor
+  items:
+  - uid: MacacaGames.ViewSystem.VisualEditor.ComponentFixerWindow
+    name: ComponentFixerWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.EditorPopupSetting
+    name: EditorPopupSetting
+  - uid: MacacaGames.ViewSystem.VisualEditor.EventFixerWindow
+    name: EventFixerWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.FixerWindow
+    name: FixerWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.GameObjectFixerWindow
+    name: GameObjectFixerWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.OverridePopupWindow
+    name: OverridePopupWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.PropertyFixerWindow
+    name: PropertyFixerWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewBreakpointWindow
+    name: ViewBreakpointWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow
+    name: ViewElementOverridesImporterWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewPageNavigationWindow
+    name: ViewPageNavigationWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewPageNode
+    name: ViewPageNode
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewPageOrderWindow
+    name: ViewPageOrderWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewStateNode
+    name: ViewStateNode
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+    name: ViewSystemDataReaderV2
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemGlobalSettingWindow
+    name: ViewSystemGlobalSettingWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode
+    name: ViewSystemNode
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+    name: ViewSystemNode.NodeType
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeInspector
+    name: ViewSystemNodeInspector
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNodeWindow
+    name: ViewSystemNodeWindow
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemRectTransformEditor
+    name: ViewSystemRectTransformEditor
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier
+    name: ViewSystemVerifier
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+    name: ViewSystemVerifier.VerifyTarget
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.ViewSystemGameObjectMissingData
+    name: ViewSystemVerifier.ViewSystemGameObjectMissingData
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+    name: ViewSystemVisualEditor

@@ -1,0 +1,56 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ComponentTreeView._OnItemClick
+  commentId: T:MacacaGames.ViewSystem.ComponentTreeView._OnItemClick
+  id: ComponentTreeView._OnItemClick
+  parent: MacacaGames.ViewSystem
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: ComponentTreeView._OnItemClick
+  nameWithType: ComponentTreeView._OnItemClick
+  fullName: MacacaGames.ViewSystem.ComponentTreeView._OnItemClick
+  type: Delegate
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ComponentTreeView.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _OnItemClick
+    path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
+    startLine: 315
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public delegate void _OnItemClick(SerializedProperty targetProperty);
+    parameters:
+    - id: targetProperty
+      type: UnityEditor.SerializedProperty
+    content.vb: Public Delegate Sub _OnItemClick(targetProperty As SerializedProperty)
+  modifiers.csharp:
+  - public
+  - delegate
+  modifiers.vb:
+  - Public
+  - Delegate
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: UnityEditor.SerializedProperty
+  commentId: T:UnityEditor.SerializedProperty
+  parent: UnityEditor
+  isExternal: true
+  name: SerializedProperty
+  nameWithType: SerializedProperty
+  fullName: UnityEditor.SerializedProperty
+- uid: UnityEditor
+  commentId: N:UnityEditor
+  isExternal: true
+  name: UnityEditor
+  nameWithType: UnityEditor
+  fullName: UnityEditor

@@ -1,0 +1,145 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+  id: ViewSystemNode.NodeType
+  parent: MacacaGames.ViewSystem.VisualEditor
+  children:
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.FullPage
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.Overlay
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.ViewState
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemNode.NodeType
+  nameWithType: ViewSystemNode.NodeType
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+  type: Enum
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: NodeType
+    path: ../Editor/VisualEditor/ViewSystemNodeModel.cs
+    startLine: 13
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public enum NodeType
+    content.vb: Public Enum NodeType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.FullPage
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.FullPage
+  id: FullPage
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+  langs:
+  - csharp
+  - vb
+  name: FullPage
+  nameWithType: ViewSystemNode.NodeType.FullPage
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.FullPage
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: FullPage
+    path: ../Editor/VisualEditor/ViewSystemNodeModel.cs
+    startLine: 15
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: FullPage = 0
+    return:
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.Overlay
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.Overlay
+  id: Overlay
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+  langs:
+  - csharp
+  - vb
+  name: Overlay
+  nameWithType: ViewSystemNode.NodeType.Overlay
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.Overlay
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Overlay
+    path: ../Editor/VisualEditor/ViewSystemNodeModel.cs
+    startLine: 15
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: Overlay = 1
+    return:
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.ViewState
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.ViewState
+  id: ViewState
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+  langs:
+  - csharp
+  - vb
+  name: ViewState
+  nameWithType: ViewSystemNode.NodeType.ViewState
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType.ViewState
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewState
+    path: ../Editor/VisualEditor/ViewSystemNodeModel.cs
+    startLine: 15
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: ViewState = 2
+    return:
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem.VisualEditor
+  commentId: N:MacacaGames.ViewSystem.VisualEditor
+  name: MacacaGames.ViewSystem.VisualEditor
+  nameWithType: MacacaGames.ViewSystem.VisualEditor
+  fullName: MacacaGames.ViewSystem.VisualEditor
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType
+  parent: MacacaGames.ViewSystem.VisualEditor
+  name: ViewSystemNode.NodeType
+  nameWithType: ViewSystemNode.NodeType
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode.NodeType

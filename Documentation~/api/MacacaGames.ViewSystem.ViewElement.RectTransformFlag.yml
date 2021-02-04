@@ -1,0 +1,320 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  commentId: T:MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  id: ViewElement.RectTransformFlag
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewElement.RectTransformFlag.All
+  - MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchoredPosition
+  - MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchorMax
+  - MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchorMin
+  - MacacaGames.ViewSystem.ViewElement.RectTransformFlag.LocalEulerAngles
+  - MacacaGames.ViewSystem.ViewElement.RectTransformFlag.LocalScale
+  - MacacaGames.ViewSystem.ViewElement.RectTransformFlag.Pivot
+  - MacacaGames.ViewSystem.ViewElement.RectTransformFlag.SizeDelta
+  langs:
+  - csharp
+  - vb
+  name: ViewElement.RectTransformFlag
+  nameWithType: ViewElement.RectTransformFlag
+  fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  type: Enum
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: RectTransformFlag
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 104
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum RectTransformFlag
+    content.vb: >-
+      <Flags>
+
+      Public Enum RectTransformFlag
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.SizeDelta
+  commentId: F:MacacaGames.ViewSystem.ViewElement.RectTransformFlag.SizeDelta
+  id: SizeDelta
+  parent: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  langs:
+  - csharp
+  - vb
+  name: SizeDelta
+  nameWithType: ViewElement.RectTransformFlag.SizeDelta
+  fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.SizeDelta
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: SizeDelta
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 107
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: SizeDelta = 1
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchoredPosition
+  commentId: F:MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchoredPosition
+  id: AnchoredPosition
+  parent: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  langs:
+  - csharp
+  - vb
+  name: AnchoredPosition
+  nameWithType: ViewElement.RectTransformFlag.AnchoredPosition
+  fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchoredPosition
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: AnchoredPosition
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 108
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: AnchoredPosition = 2
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchorMax
+  commentId: F:MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchorMax
+  id: AnchorMax
+  parent: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  langs:
+  - csharp
+  - vb
+  name: AnchorMax
+  nameWithType: ViewElement.RectTransformFlag.AnchorMax
+  fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchorMax
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: AnchorMax
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 109
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: AnchorMax = 4
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchorMin
+  commentId: F:MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchorMin
+  id: AnchorMin
+  parent: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  langs:
+  - csharp
+  - vb
+  name: AnchorMin
+  nameWithType: ViewElement.RectTransformFlag.AnchorMin
+  fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.AnchorMin
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: AnchorMin
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 110
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: AnchorMin = 8
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.LocalEulerAngles
+  commentId: F:MacacaGames.ViewSystem.ViewElement.RectTransformFlag.LocalEulerAngles
+  id: LocalEulerAngles
+  parent: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  langs:
+  - csharp
+  - vb
+  name: LocalEulerAngles
+  nameWithType: ViewElement.RectTransformFlag.LocalEulerAngles
+  fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.LocalEulerAngles
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: LocalEulerAngles
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 111
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: LocalEulerAngles = 16
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.LocalScale
+  commentId: F:MacacaGames.ViewSystem.ViewElement.RectTransformFlag.LocalScale
+  id: LocalScale
+  parent: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  langs:
+  - csharp
+  - vb
+  name: LocalScale
+  nameWithType: ViewElement.RectTransformFlag.LocalScale
+  fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.LocalScale
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: LocalScale
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 112
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: LocalScale = 32
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.Pivot
+  commentId: F:MacacaGames.ViewSystem.ViewElement.RectTransformFlag.Pivot
+  id: Pivot
+  parent: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  langs:
+  - csharp
+  - vb
+  name: Pivot
+  nameWithType: ViewElement.RectTransformFlag.Pivot
+  fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.Pivot
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Pivot
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 113
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Pivot = 64
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.All
+  commentId: F:MacacaGames.ViewSystem.ViewElement.RectTransformFlag.All
+  id: All
+  parent: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: ViewElement.RectTransformFlag.All
+  fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag.All
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: All
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 114
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: All = -1
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  commentId: T:MacacaGames.ViewSystem.ViewElement.RectTransformFlag
+  parent: MacacaGames.ViewSystem
+  name: ViewElement.RectTransformFlag
+  nameWithType: ViewElement.RectTransformFlag
+  fullName: MacacaGames.ViewSystem.ViewElement.RectTransformFlag

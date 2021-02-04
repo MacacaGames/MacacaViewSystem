@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType
+  commentId: T:MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType
+  id: ViewElement.AnimatorTransitionType
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType.Direct
+  - MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType.Trigger
+  langs:
+  - csharp
+  - vb
+  name: ViewElement.AnimatorTransitionType
+  nameWithType: ViewElement.AnimatorTransitionType
+  fullName: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType
+  type: Enum
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: AnimatorTransitionType
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 179
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public enum AnimatorTransitionType
+    content.vb: Public Enum AnimatorTransitionType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType.Direct
+  commentId: F:MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType.Direct
+  id: Direct
+  parent: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType
+  langs:
+  - csharp
+  - vb
+  name: Direct
+  nameWithType: ViewElement.AnimatorTransitionType.Direct
+  fullName: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType.Direct
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Direct
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 181
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Direct = 0
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType.Trigger
+  commentId: F:MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType.Trigger
+  id: Trigger
+  parent: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType
+  langs:
+  - csharp
+  - vb
+  name: Trigger
+  nameWithType: ViewElement.AnimatorTransitionType.Trigger
+  fullName: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType.Trigger
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Trigger
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 182
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Trigger = 1
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType
+  commentId: T:MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType
+  parent: MacacaGames.ViewSystem
+  name: ViewElement.AnimatorTransitionType
+  nameWithType: ViewElement.AnimatorTransitionType
+  fullName: MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType

@@ -1,0 +1,22 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames
+  commentId: N:MacacaGames
+  id: MacacaGames
+  children:
+  - MacacaGames.ReadOnlyAttribute
+  langs:
+  - csharp
+  - vb
+  name: MacacaGames
+  nameWithType: MacacaGames
+  fullName: MacacaGames
+  type: Namespace
+  assemblies:
+  - Macaca.ViewSystem
+references:
+- uid: MacacaGames.ReadOnlyAttribute
+  commentId: T:MacacaGames.ReadOnlyAttribute
+  name: ReadOnlyAttribute
+  nameWithType: ReadOnlyAttribute
+  fullName: MacacaGames.ReadOnlyAttribute

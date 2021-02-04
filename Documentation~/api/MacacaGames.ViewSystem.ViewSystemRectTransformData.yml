@@ -1,0 +1,678 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  commentId: T:MacacaGames.ViewSystem.ViewSystemRectTransformData
+  id: ViewSystemRectTransformData
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewSystemRectTransformData.anchoredPosition
+  - MacacaGames.ViewSystem.ViewSystemRectTransformData.anchorMax
+  - MacacaGames.ViewSystem.ViewSystemRectTransformData.anchorMin
+  - MacacaGames.ViewSystem.ViewSystemRectTransformData.localEulerAngles
+  - MacacaGames.ViewSystem.ViewSystemRectTransformData.localScale
+  - MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax
+  - MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
+  - MacacaGames.ViewSystem.ViewSystemRectTransformData.pivot
+  - MacacaGames.ViewSystem.ViewSystemRectTransformData.sizeDelta
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemRectTransformData
+  nameWithType: ViewSystemRectTransformData
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  type: Class
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewSystemRectTransformData
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 263
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class ViewSystemRectTransformData
+    content.vb: >-
+      <Serializable>
+
+      Public Class ViewSystemRectTransformData
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.localScale
+  commentId: F:MacacaGames.ViewSystem.ViewSystemRectTransformData.localScale
+  id: localScale
+  parent: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  langs:
+  - csharp
+  - vb
+  name: localScale
+  nameWithType: ViewSystemRectTransformData.localScale
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.localScale
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: localScale
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 267
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Vector3 localScale
+    return:
+      type: UnityEngine.Vector3
+    content.vb: Public localScale As Vector3
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.localEulerAngles
+  commentId: F:MacacaGames.ViewSystem.ViewSystemRectTransformData.localEulerAngles
+  id: localEulerAngles
+  parent: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  langs:
+  - csharp
+  - vb
+  name: localEulerAngles
+  nameWithType: ViewSystemRectTransformData.localEulerAngles
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.localEulerAngles
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: localEulerAngles
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 268
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Vector3 localEulerAngles
+    return:
+      type: UnityEngine.Vector3
+    content.vb: Public localEulerAngles As Vector3
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.anchoredPosition
+  commentId: F:MacacaGames.ViewSystem.ViewSystemRectTransformData.anchoredPosition
+  id: anchoredPosition
+  parent: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  langs:
+  - csharp
+  - vb
+  name: anchoredPosition
+  nameWithType: ViewSystemRectTransformData.anchoredPosition
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.anchoredPosition
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: anchoredPosition
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 269
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Vector3 anchoredPosition
+    return:
+      type: UnityEngine.Vector3
+    content.vb: Public anchoredPosition As Vector3
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.pivot
+  commentId: F:MacacaGames.ViewSystem.ViewSystemRectTransformData.pivot
+  id: pivot
+  parent: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  langs:
+  - csharp
+  - vb
+  name: pivot
+  nameWithType: ViewSystemRectTransformData.pivot
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.pivot
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: pivot
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 270
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Vector2 pivot
+    return:
+      type: UnityEngine.Vector2
+    content.vb: Public pivot As Vector2
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.sizeDelta
+  commentId: F:MacacaGames.ViewSystem.ViewSystemRectTransformData.sizeDelta
+  id: sizeDelta
+  parent: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  langs:
+  - csharp
+  - vb
+  name: sizeDelta
+  nameWithType: ViewSystemRectTransformData.sizeDelta
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.sizeDelta
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: sizeDelta
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 271
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Vector2 sizeDelta
+    return:
+      type: UnityEngine.Vector2
+    content.vb: Public sizeDelta As Vector2
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.anchorMin
+  commentId: F:MacacaGames.ViewSystem.ViewSystemRectTransformData.anchorMin
+  id: anchorMin
+  parent: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  langs:
+  - csharp
+  - vb
+  name: anchorMin
+  nameWithType: ViewSystemRectTransformData.anchorMin
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.anchorMin
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: anchorMin
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 272
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Vector2 anchorMin
+    return:
+      type: UnityEngine.Vector2
+    content.vb: Public anchorMin As Vector2
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.anchorMax
+  commentId: F:MacacaGames.ViewSystem.ViewSystemRectTransformData.anchorMax
+  id: anchorMax
+  parent: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  langs:
+  - csharp
+  - vb
+  name: anchorMax
+  nameWithType: ViewSystemRectTransformData.anchorMax
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.anchorMax
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: anchorMax
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 273
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Vector2 anchorMax
+    return:
+      type: UnityEngine.Vector2
+    content.vb: Public anchorMax As Vector2
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
+  commentId: P:MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
+  id: offsetMin
+  parent: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  langs:
+  - csharp
+  - vb
+  name: offsetMin
+  nameWithType: ViewSystemRectTransformData.offsetMin
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
+  type: Property
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: offsetMin
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 289
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Vector2 offsetMin { get; set; }
+    parameters: []
+    return:
+      type: UnityEngine.Vector2
+    content.vb: Public Property offsetMin As Vector2
+  overload: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax
+  commentId: P:MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax
+  id: offsetMax
+  parent: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  langs:
+  - csharp
+  - vb
+  name: offsetMax
+  nameWithType: ViewSystemRectTransformData.offsetMax
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax
+  type: Property
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: offsetMax
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 303
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Vector2 offsetMax { get; set; }
+    parameters: []
+    return:
+      type: UnityEngine.Vector2
+    content.vb: Public Property offsetMax As Vector2
+  overload: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEngine.Vector3
+  commentId: T:UnityEngine.Vector3
+  parent: UnityEngine
+  isExternal: true
+  name: Vector3
+  nameWithType: Vector3
+  fullName: UnityEngine.Vector3
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEngine.Vector2
+  commentId: T:UnityEngine.Vector2
+  parent: UnityEngine
+  isExternal: true
+  name: Vector2
+  nameWithType: Vector2
+  fullName: UnityEngine.Vector2
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
+  name: offsetMin
+  nameWithType: ViewSystemRectTransformData.offsetMin
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMin
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax
+  name: offsetMax
+  nameWithType: ViewSystemRectTransformData.offsetMax
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData.offsetMax

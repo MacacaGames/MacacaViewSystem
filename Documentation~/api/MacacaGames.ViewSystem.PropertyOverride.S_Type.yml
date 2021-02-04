@@ -1,0 +1,376 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  commentId: T:MacacaGames.ViewSystem.PropertyOverride.S_Type
+  id: PropertyOverride.S_Type
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.PropertyOverride.S_Type._bool
+  - MacacaGames.ViewSystem.PropertyOverride.S_Type._color
+  - MacacaGames.ViewSystem.PropertyOverride.S_Type._enum
+  - MacacaGames.ViewSystem.PropertyOverride.S_Type._enumFlag
+  - MacacaGames.ViewSystem.PropertyOverride.S_Type._float
+  - MacacaGames.ViewSystem.PropertyOverride.S_Type._int
+  - MacacaGames.ViewSystem.PropertyOverride.S_Type._objcetReferenct
+  - MacacaGames.ViewSystem.PropertyOverride.S_Type._string
+  - MacacaGames.ViewSystem.PropertyOverride.S_Type._vector2
+  - MacacaGames.ViewSystem.PropertyOverride.S_Type._vector3
+  langs:
+  - csharp
+  - vb
+  name: PropertyOverride.S_Type
+  nameWithType: PropertyOverride.S_Type
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  type: Enum
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: S_Type
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 312
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public enum S_Type
+    content.vb: Public Enum S_Type
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type._bool
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.S_Type._bool
+  id: _bool
+  parent: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  langs:
+  - csharp
+  - vb
+  name: _bool
+  nameWithType: PropertyOverride.S_Type._bool
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type._bool
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _bool
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 314
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: _bool = 0
+    return:
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type._float
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.S_Type._float
+  id: _float
+  parent: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  langs:
+  - csharp
+  - vb
+  name: _float
+  nameWithType: PropertyOverride.S_Type._float
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type._float
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _float
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 314
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: _float = 1
+    return:
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type._int
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.S_Type._int
+  id: _int
+  parent: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  langs:
+  - csharp
+  - vb
+  name: _int
+  nameWithType: PropertyOverride.S_Type._int
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type._int
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _int
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 314
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: _int = 2
+    return:
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type._color
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.S_Type._color
+  id: _color
+  parent: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  langs:
+  - csharp
+  - vb
+  name: _color
+  nameWithType: PropertyOverride.S_Type._color
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type._color
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _color
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 314
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: _color = 3
+    return:
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type._objcetReferenct
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.S_Type._objcetReferenct
+  id: _objcetReferenct
+  parent: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  langs:
+  - csharp
+  - vb
+  name: _objcetReferenct
+  nameWithType: PropertyOverride.S_Type._objcetReferenct
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type._objcetReferenct
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _objcetReferenct
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 314
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: _objcetReferenct = 4
+    return:
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type._string
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.S_Type._string
+  id: _string
+  parent: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  langs:
+  - csharp
+  - vb
+  name: _string
+  nameWithType: PropertyOverride.S_Type._string
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type._string
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _string
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 314
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: _string = 5
+    return:
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type._enum
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.S_Type._enum
+  id: _enum
+  parent: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  langs:
+  - csharp
+  - vb
+  name: _enum
+  nameWithType: PropertyOverride.S_Type._enum
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type._enum
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _enum
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 314
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: _enum = 6
+    return:
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type._vector3
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.S_Type._vector3
+  id: _vector3
+  parent: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  langs:
+  - csharp
+  - vb
+  name: _vector3
+  nameWithType: PropertyOverride.S_Type._vector3
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type._vector3
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _vector3
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 314
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: _vector3 = 7
+    return:
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type._vector2
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.S_Type._vector2
+  id: _vector2
+  parent: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  langs:
+  - csharp
+  - vb
+  name: _vector2
+  nameWithType: PropertyOverride.S_Type._vector2
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type._vector2
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _vector2
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 314
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: _vector2 = 8
+    return:
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type._enumFlag
+  commentId: F:MacacaGames.ViewSystem.PropertyOverride.S_Type._enumFlag
+  id: _enumFlag
+  parent: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  langs:
+  - csharp
+  - vb
+  name: _enumFlag
+  nameWithType: PropertyOverride.S_Type._enumFlag
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type._enumFlag
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: _enumFlag
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 314
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: _enumFlag = 9
+    return:
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.PropertyOverride.S_Type
+  commentId: T:MacacaGames.ViewSystem.PropertyOverride.S_Type
+  parent: MacacaGames.ViewSystem
+  name: PropertyOverride.S_Type
+  nameWithType: PropertyOverride.S_Type
+  fullName: MacacaGames.ViewSystem.PropertyOverride.S_Type

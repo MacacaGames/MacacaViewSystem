@@ -1,0 +1,211 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  commentId: T:MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  id: LayoutDropdownWindow.LayoutMode
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Max
+  - MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Middle
+  - MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Min
+  - MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Stretch
+  - MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Undefined
+  langs:
+  - csharp
+  - vb
+  name: LayoutDropdownWindow.LayoutMode
+  nameWithType: LayoutDropdownWindow.LayoutMode
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  type: Enum
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: LayoutMode
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 473
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public enum LayoutMode
+    content.vb: Public Enum LayoutMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Undefined
+  commentId: F:MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Undefined
+  id: Undefined
+  parent: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  langs:
+  - csharp
+  - vb
+  name: Undefined
+  nameWithType: LayoutDropdownWindow.LayoutMode.Undefined
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Undefined
+  type: Field
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Undefined
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 473
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Undefined = -1
+    return:
+      type: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Min
+  commentId: F:MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Min
+  id: Min
+  parent: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  langs:
+  - csharp
+  - vb
+  name: Min
+  nameWithType: LayoutDropdownWindow.LayoutMode.Min
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Min
+  type: Field
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Min
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 473
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Min = 0
+    return:
+      type: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Middle
+  commentId: F:MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Middle
+  id: Middle
+  parent: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  langs:
+  - csharp
+  - vb
+  name: Middle
+  nameWithType: LayoutDropdownWindow.LayoutMode.Middle
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Middle
+  type: Field
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Middle
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 473
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Middle = 1
+    return:
+      type: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Max
+  commentId: F:MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Max
+  id: Max
+  parent: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  langs:
+  - csharp
+  - vb
+  name: Max
+  nameWithType: LayoutDropdownWindow.LayoutMode.Max
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Max
+  type: Field
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Max
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 473
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Max = 2
+    return:
+      type: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Stretch
+  commentId: F:MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Stretch
+  id: Stretch
+  parent: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  langs:
+  - csharp
+  - vb
+  name: Stretch
+  nameWithType: LayoutDropdownWindow.LayoutMode.Stretch
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode.Stretch
+  type: Field
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Stretch
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 473
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Stretch = 3
+    return:
+      type: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  commentId: T:MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode
+  parent: MacacaGames.ViewSystem
+  name: LayoutDropdownWindow.LayoutMode
+  nameWithType: LayoutDropdownWindow.LayoutMode
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutMode

@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+  commentId: T:MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+  id: SafePadding.EdgeEvaluationMode
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode.Off
+  - MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode.On
+  langs:
+  - csharp
+  - vb
+  name: SafePadding.EdgeEvaluationMode
+  nameWithType: SafePadding.EdgeEvaluationMode
+  fullName: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+  type: Enum
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: EdgeEvaluationMode
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 284
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nHow a component looks at a particular edge to take the edge&apos;s property.\nMeaning depends on context of that component.\n"
+  example: []
+  syntax:
+    content: public enum EdgeEvaluationMode
+    content.vb: Public Enum EdgeEvaluationMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode.Off
+  commentId: F:MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode.Off
+  id: Off
+  parent: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+  langs:
+  - csharp
+  - vb
+  name: Off
+  nameWithType: SafePadding.EdgeEvaluationMode.Off
+  fullName: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode.Off
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Off
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 289
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nDo not use a value reported from that edge.\n"
+  example: []
+  syntax:
+    content: Off = 0
+    return:
+      type: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode.On
+  commentId: F:MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode.On
+  id: On
+  parent: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+  langs:
+  - csharp
+  - vb
+  name: On
+  nameWithType: SafePadding.EdgeEvaluationMode.On
+  fullName: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode.On
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: On
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 294
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nUse a value reported from that edge.\n"
+  example: []
+  syntax:
+    content: On = 1
+    return:
+      type: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+  commentId: T:MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+  parent: MacacaGames.ViewSystem
+  name: SafePadding.EdgeEvaluationMode
+  nameWithType: SafePadding.EdgeEvaluationMode
+  fullName: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode

@@ -1,0 +1,607 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole
+  commentId: T:MacacaGames.ViewSystem.ViewSystemNodeConsole
+  id: ViewSystemNodeConsole
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewSystemNodeConsole.Draw(UnityEngine.Vector2)
+  - MacacaGames.ViewSystem.ViewSystemNodeConsole.isMinimal
+  - MacacaGames.ViewSystem.ViewSystemNodeConsole.LogErrorMessage(System.String)
+  - MacacaGames.ViewSystem.ViewSystemNodeConsole.LogMessage(System.String,MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType)
+  - MacacaGames.ViewSystem.ViewSystemNodeConsole.LogWarringMessage(System.String)
+  - MacacaGames.ViewSystem.ViewSystemNodeConsole.show
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemNodeConsole
+  nameWithType: ViewSystemNodeConsole
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole
+  type: Class
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeConsole.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewSystemNodeConsole
+    path: ../Editor/VisualEditor/ViewSystemNodeConsole.cs
+    startLine: 7
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: >-
+      [Obsolete]
+
+      public class ViewSystemNodeConsole
+    content.vb: >-
+      <Obsolete>
+
+      Public Class ViewSystemNodeConsole
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.show
+  commentId: F:MacacaGames.ViewSystem.ViewSystemNodeConsole.show
+  id: show
+  parent: MacacaGames.ViewSystem.ViewSystemNodeConsole
+  langs:
+  - csharp
+  - vb
+  name: show
+  nameWithType: ViewSystemNodeConsole.show
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.show
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeConsole.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: show
+    path: ../Editor/VisualEditor/ViewSystemNodeConsole.cs
+    startLine: 10
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public bool show
+    return:
+      type: System.Boolean
+    content.vb: Public show As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogErrorMessage(System.String)
+  commentId: M:MacacaGames.ViewSystem.ViewSystemNodeConsole.LogErrorMessage(System.String)
+  id: LogErrorMessage(System.String)
+  parent: MacacaGames.ViewSystem.ViewSystemNodeConsole
+  langs:
+  - csharp
+  - vb
+  name: LogErrorMessage(String)
+  nameWithType: ViewSystemNodeConsole.LogErrorMessage(String)
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogErrorMessage(System.String)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeConsole.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: LogErrorMessage
+    path: ../Editor/VisualEditor/ViewSystemNodeConsole.cs
+    startLine: 23
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public void LogErrorMessage(string msg)
+    parameters:
+    - id: msg
+      type: System.String
+    content.vb: Public Sub LogErrorMessage(msg As String)
+  overload: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogErrorMessage*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogWarringMessage(System.String)
+  commentId: M:MacacaGames.ViewSystem.ViewSystemNodeConsole.LogWarringMessage(System.String)
+  id: LogWarringMessage(System.String)
+  parent: MacacaGames.ViewSystem.ViewSystemNodeConsole
+  langs:
+  - csharp
+  - vb
+  name: LogWarringMessage(String)
+  nameWithType: ViewSystemNodeConsole.LogWarringMessage(String)
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogWarringMessage(System.String)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeConsole.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: LogWarringMessage
+    path: ../Editor/VisualEditor/ViewSystemNodeConsole.cs
+    startLine: 27
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public void LogWarringMessage(string msg)
+    parameters:
+    - id: msg
+      type: System.String
+    content.vb: Public Sub LogWarringMessage(msg As String)
+  overload: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogWarringMessage*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogMessage(System.String,MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType)
+  commentId: M:MacacaGames.ViewSystem.ViewSystemNodeConsole.LogMessage(System.String,MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType)
+  id: LogMessage(System.String,MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType)
+  parent: MacacaGames.ViewSystem.ViewSystemNodeConsole
+  langs:
+  - csharp
+  - vb
+  name: LogMessage(String, ViewSystemNodeConsole.MessageType)
+  nameWithType: ViewSystemNodeConsole.LogMessage(String, ViewSystemNodeConsole.MessageType)
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogMessage(System.String, MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeConsole.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: LogMessage
+    path: ../Editor/VisualEditor/ViewSystemNodeConsole.cs
+    startLine: 31
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public void LogMessage(string msg, ViewSystemNodeConsole.MessageType messageType = ViewSystemNodeConsole.MessageType.Normal)
+    parameters:
+    - id: msg
+      type: System.String
+    - id: messageType
+      type: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+    content.vb: Public Sub LogMessage(msg As String, messageType As ViewSystemNodeConsole.MessageType = ViewSystemNodeConsole.MessageType.Normal)
+  overload: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogMessage*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.isMinimal
+  commentId: F:MacacaGames.ViewSystem.ViewSystemNodeConsole.isMinimal
+  id: isMinimal
+  parent: MacacaGames.ViewSystem.ViewSystemNodeConsole
+  langs:
+  - csharp
+  - vb
+  name: isMinimal
+  nameWithType: ViewSystemNodeConsole.isMinimal
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.isMinimal
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeConsole.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: isMinimal
+    path: ../Editor/VisualEditor/ViewSystemNodeConsole.cs
+    startLine: 47
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public bool isMinimal
+    return:
+      type: System.Boolean
+    content.vb: Public isMinimal As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.Draw(UnityEngine.Vector2)
+  commentId: M:MacacaGames.ViewSystem.ViewSystemNodeConsole.Draw(UnityEngine.Vector2)
+  id: Draw(UnityEngine.Vector2)
+  parent: MacacaGames.ViewSystem.ViewSystemNodeConsole
+  langs:
+  - csharp
+  - vb
+  name: Draw(Vector2)
+  nameWithType: ViewSystemNodeConsole.Draw(Vector2)
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.Draw(UnityEngine.Vector2)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemNodeConsole.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Draw
+    path: ../Editor/VisualEditor/ViewSystemNodeConsole.cs
+    startLine: 50
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public void Draw(Vector2 EditorindowWidthAndHeight)
+    parameters:
+    - id: EditorindowWidthAndHeight
+      type: UnityEngine.Vector2
+    content.vb: Public Sub Draw(EditorindowWidthAndHeight As Vector2)
+  overload: MacacaGames.ViewSystem.ViewSystemNodeConsole.Draw*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogErrorMessage*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemNodeConsole.LogErrorMessage
+  name: LogErrorMessage
+  nameWithType: ViewSystemNodeConsole.LogErrorMessage
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogErrorMessage
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogWarringMessage*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemNodeConsole.LogWarringMessage
+  name: LogWarringMessage
+  nameWithType: ViewSystemNodeConsole.LogWarringMessage
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogWarringMessage
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogMessage*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemNodeConsole.LogMessage
+  name: LogMessage
+  nameWithType: ViewSystemNodeConsole.LogMessage
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.LogMessage
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  commentId: T:MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+  parent: MacacaGames.ViewSystem
+  name: ViewSystemNodeConsole.MessageType
+  nameWithType: ViewSystemNodeConsole.MessageType
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.MessageType
+- uid: MacacaGames.ViewSystem.ViewSystemNodeConsole.Draw*
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemNodeConsole.Draw
+  name: Draw
+  nameWithType: ViewSystemNodeConsole.Draw
+  fullName: MacacaGames.ViewSystem.ViewSystemNodeConsole.Draw
+- uid: UnityEngine.Vector2
+  commentId: T:UnityEngine.Vector2
+  parent: UnityEngine
+  isExternal: true
+  name: Vector2
+  nameWithType: Vector2
+  fullName: UnityEngine.Vector2
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine

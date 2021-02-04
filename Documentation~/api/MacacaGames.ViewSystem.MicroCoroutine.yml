@@ -1,0 +1,604 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.MicroCoroutine
+  commentId: T:MacacaGames.ViewSystem.MicroCoroutine
+  id: MicroCoroutine
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.MicroCoroutine.#ctor(System.Action{System.Exception})
+  - MacacaGames.ViewSystem.MicroCoroutine.AddCoroutine(System.Collections.IEnumerator)
+  - MacacaGames.ViewSystem.MicroCoroutine.RemoveCoroutine(MacacaGames.ViewSystem.MicroCoroutine.Coroutine)
+  - MacacaGames.ViewSystem.MicroCoroutine.Update
+  langs:
+  - csharp
+  - vb
+  name: MicroCoroutine
+  nameWithType: MicroCoroutine
+  fullName: MacacaGames.ViewSystem.MicroCoroutine
+  type: Class
+  source:
+    remote:
+      path: Runtime/MicroCoroutine.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: MicroCoroutine
+    path: ../Runtime/MicroCoroutine.cs
+    startLine: 9
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nSimple supports(only yield return null) lightweight, threadsafe coroutine dispatcher.\n"
+  example: []
+  syntax:
+    content: public class MicroCoroutine
+    content.vb: Public Class MicroCoroutine
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.MicroCoroutine.AddCoroutine(System.Collections.IEnumerator)
+  commentId: M:MacacaGames.ViewSystem.MicroCoroutine.AddCoroutine(System.Collections.IEnumerator)
+  id: AddCoroutine(System.Collections.IEnumerator)
+  parent: MacacaGames.ViewSystem.MicroCoroutine
+  langs:
+  - csharp
+  - vb
+  name: AddCoroutine(IEnumerator)
+  nameWithType: MicroCoroutine.AddCoroutine(IEnumerator)
+  fullName: MacacaGames.ViewSystem.MicroCoroutine.AddCoroutine(System.Collections.IEnumerator)
+  type: Method
+  source:
+    remote:
+      path: Runtime/MicroCoroutine.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: AddCoroutine
+    path: ../Runtime/MicroCoroutine.cs
+    startLine: 27
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public MicroCoroutine.Coroutine AddCoroutine(IEnumerator enumerator)
+    parameters:
+    - id: enumerator
+      type: System.Collections.IEnumerator
+    return:
+      type: MacacaGames.ViewSystem.MicroCoroutine.Coroutine
+    content.vb: Public Function AddCoroutine(enumerator As IEnumerator) As MicroCoroutine.Coroutine
+  overload: MacacaGames.ViewSystem.MicroCoroutine.AddCoroutine*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.MicroCoroutine.RemoveCoroutine(MacacaGames.ViewSystem.MicroCoroutine.Coroutine)
+  commentId: M:MacacaGames.ViewSystem.MicroCoroutine.RemoveCoroutine(MacacaGames.ViewSystem.MicroCoroutine.Coroutine)
+  id: RemoveCoroutine(MacacaGames.ViewSystem.MicroCoroutine.Coroutine)
+  parent: MacacaGames.ViewSystem.MicroCoroutine
+  langs:
+  - csharp
+  - vb
+  name: RemoveCoroutine(MicroCoroutine.Coroutine)
+  nameWithType: MicroCoroutine.RemoveCoroutine(MicroCoroutine.Coroutine)
+  fullName: MacacaGames.ViewSystem.MicroCoroutine.RemoveCoroutine(MacacaGames.ViewSystem.MicroCoroutine.Coroutine)
+  type: Method
+  source:
+    remote:
+      path: Runtime/MicroCoroutine.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: RemoveCoroutine
+    path: ../Runtime/MicroCoroutine.cs
+    startLine: 39
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public void RemoveCoroutine(MicroCoroutine.Coroutine enumerator)
+    parameters:
+    - id: enumerator
+      type: MacacaGames.ViewSystem.MicroCoroutine.Coroutine
+    content.vb: Public Sub RemoveCoroutine(enumerator As MicroCoroutine.Coroutine)
+  overload: MacacaGames.ViewSystem.MicroCoroutine.RemoveCoroutine*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.MicroCoroutine.#ctor(System.Action{System.Exception})
+  commentId: M:MacacaGames.ViewSystem.MicroCoroutine.#ctor(System.Action{System.Exception})
+  id: '#ctor(System.Action{System.Exception})'
+  parent: MacacaGames.ViewSystem.MicroCoroutine
+  langs:
+  - csharp
+  - vb
+  name: MicroCoroutine(Action<Exception>)
+  nameWithType: MicroCoroutine.MicroCoroutine(Action<Exception>)
+  fullName: MacacaGames.ViewSystem.MicroCoroutine.MicroCoroutine(System.Action<System.Exception>)
+  type: Constructor
+  source:
+    remote:
+      path: Runtime/MicroCoroutine.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Runtime/MicroCoroutine.cs
+    startLine: 50
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public MicroCoroutine(Action<Exception> unhandledExceptionCallback)
+    parameters:
+    - id: unhandledExceptionCallback
+      type: System.Action{System.Exception}
+    content.vb: Public Sub New(unhandledExceptionCallback As Action(Of Exception))
+  overload: MacacaGames.ViewSystem.MicroCoroutine.#ctor*
+  nameWithType.vb: MicroCoroutine.MicroCoroutine(Action(Of Exception))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: MacacaGames.ViewSystem.MicroCoroutine.MicroCoroutine(System.Action(Of System.Exception))
+  name.vb: MicroCoroutine(Action(Of Exception))
+- uid: MacacaGames.ViewSystem.MicroCoroutine.Update
+  commentId: M:MacacaGames.ViewSystem.MicroCoroutine.Update
+  id: Update
+  parent: MacacaGames.ViewSystem.MicroCoroutine
+  langs:
+  - csharp
+  - vb
+  name: Update()
+  nameWithType: MicroCoroutine.Update()
+  fullName: MacacaGames.ViewSystem.MicroCoroutine.Update()
+  type: Method
+  source:
+    remote:
+      path: Runtime/MicroCoroutine.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Update
+    path: ../Runtime/MicroCoroutine.cs
+    startLine: 54
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public void Update()
+    content.vb: Public Sub Update
+  overload: MacacaGames.ViewSystem.MicroCoroutine.Update*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: MacacaGames.ViewSystem.MicroCoroutine.AddCoroutine*
+  commentId: Overload:MacacaGames.ViewSystem.MicroCoroutine.AddCoroutine
+  name: AddCoroutine
+  nameWithType: MicroCoroutine.AddCoroutine
+  fullName: MacacaGames.ViewSystem.MicroCoroutine.AddCoroutine
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: MacacaGames.ViewSystem.MicroCoroutine.Coroutine
+  commentId: T:MacacaGames.ViewSystem.MicroCoroutine.Coroutine
+  parent: MacacaGames.ViewSystem
+  name: MicroCoroutine.Coroutine
+  nameWithType: MicroCoroutine.Coroutine
+  fullName: MacacaGames.ViewSystem.MicroCoroutine.Coroutine
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: MacacaGames.ViewSystem.MicroCoroutine.RemoveCoroutine*
+  commentId: Overload:MacacaGames.ViewSystem.MicroCoroutine.RemoveCoroutine
+  name: RemoveCoroutine
+  nameWithType: MicroCoroutine.RemoveCoroutine
+  fullName: MacacaGames.ViewSystem.MicroCoroutine.RemoveCoroutine
+- uid: MacacaGames.ViewSystem.MicroCoroutine.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.MicroCoroutine.#ctor
+  name: MicroCoroutine
+  nameWithType: MicroCoroutine.MicroCoroutine
+  fullName: MacacaGames.ViewSystem.MicroCoroutine.MicroCoroutine
+- uid: System.Action{System.Exception}
+  commentId: T:System.Action{System.Exception}
+  parent: System
+  definition: System.Action`1
+  name: Action<Exception>
+  nameWithType: Action<Exception>
+  fullName: System.Action<System.Exception>
+  nameWithType.vb: Action(Of Exception)
+  fullName.vb: System.Action(Of System.Exception)
+  name.vb: Action(Of Exception)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Exception
+    name: Exception
+    nameWithType: Exception
+    fullName: System.Exception
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Exception
+    name: Exception
+    nameWithType: Exception
+    fullName: System.Exception
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.MicroCoroutine.Update*
+  commentId: Overload:MacacaGames.ViewSystem.MicroCoroutine.Update
+  name: Update
+  nameWithType: MicroCoroutine.Update
+  fullName: MacacaGames.ViewSystem.MicroCoroutine.Update

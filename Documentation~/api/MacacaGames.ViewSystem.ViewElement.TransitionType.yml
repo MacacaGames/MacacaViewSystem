@@ -1,0 +1,178 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewElement.TransitionType
+  commentId: T:MacacaGames.ViewSystem.ViewElement.TransitionType
+  id: ViewElement.TransitionType
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewElement.TransitionType.ActiveSwitch
+  - MacacaGames.ViewSystem.ViewElement.TransitionType.Animator
+  - MacacaGames.ViewSystem.ViewElement.TransitionType.CanvasGroupAlpha
+  - MacacaGames.ViewSystem.ViewElement.TransitionType.Custom
+  langs:
+  - csharp
+  - vb
+  name: ViewElement.TransitionType
+  nameWithType: ViewElement.TransitionType
+  fullName: MacacaGames.ViewSystem.ViewElement.TransitionType
+  type: Enum
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: TransitionType
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 171
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public enum TransitionType
+    content.vb: Public Enum TransitionType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.ViewElement.TransitionType.Animator
+  commentId: F:MacacaGames.ViewSystem.ViewElement.TransitionType.Animator
+  id: Animator
+  parent: MacacaGames.ViewSystem.ViewElement.TransitionType
+  langs:
+  - csharp
+  - vb
+  name: Animator
+  nameWithType: ViewElement.TransitionType.Animator
+  fullName: MacacaGames.ViewSystem.ViewElement.TransitionType.Animator
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Animator
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 173
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Animator = 0
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.TransitionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewElement.TransitionType.CanvasGroupAlpha
+  commentId: F:MacacaGames.ViewSystem.ViewElement.TransitionType.CanvasGroupAlpha
+  id: CanvasGroupAlpha
+  parent: MacacaGames.ViewSystem.ViewElement.TransitionType
+  langs:
+  - csharp
+  - vb
+  name: CanvasGroupAlpha
+  nameWithType: ViewElement.TransitionType.CanvasGroupAlpha
+  fullName: MacacaGames.ViewSystem.ViewElement.TransitionType.CanvasGroupAlpha
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: CanvasGroupAlpha
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 174
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: CanvasGroupAlpha = 1
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.TransitionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewElement.TransitionType.ActiveSwitch
+  commentId: F:MacacaGames.ViewSystem.ViewElement.TransitionType.ActiveSwitch
+  id: ActiveSwitch
+  parent: MacacaGames.ViewSystem.ViewElement.TransitionType
+  langs:
+  - csharp
+  - vb
+  name: ActiveSwitch
+  nameWithType: ViewElement.TransitionType.ActiveSwitch
+  fullName: MacacaGames.ViewSystem.ViewElement.TransitionType.ActiveSwitch
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ActiveSwitch
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 175
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: ActiveSwitch = 2
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.TransitionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewElement.TransitionType.Custom
+  commentId: F:MacacaGames.ViewSystem.ViewElement.TransitionType.Custom
+  id: Custom
+  parent: MacacaGames.ViewSystem.ViewElement.TransitionType
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: ViewElement.TransitionType.Custom
+  fullName: MacacaGames.ViewSystem.ViewElement.TransitionType.Custom
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Custom
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 176
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Custom = 3
+    return:
+      type: MacacaGames.ViewSystem.ViewElement.TransitionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.ViewElement.TransitionType
+  commentId: T:MacacaGames.ViewSystem.ViewElement.TransitionType
+  parent: MacacaGames.ViewSystem
+  name: ViewElement.TransitionType
+  nameWithType: ViewElement.TransitionType
+  fullName: MacacaGames.ViewSystem.ViewElement.TransitionType

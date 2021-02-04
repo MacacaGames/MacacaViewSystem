@@ -1,0 +1,653 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  commentId: T:MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  id: SafePadding.PerEdgeValues
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.SafePadding.PerEdgeValues.bottom
+  - MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influence
+  - MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceBottom
+  - MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceLeft
+  - MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceRight
+  - MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceTop
+  - MacacaGames.ViewSystem.SafePadding.PerEdgeValues.left
+  - MacacaGames.ViewSystem.SafePadding.PerEdgeValues.right
+  - MacacaGames.ViewSystem.SafePadding.PerEdgeValues.top
+  langs:
+  - csharp
+  - vb
+  name: SafePadding.PerEdgeValues
+  nameWithType: SafePadding.PerEdgeValues
+  fullName: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  type: Class
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: PerEdgeValues
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 297
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class PerEdgeValues
+    content.vb: >-
+      <Serializable>
+
+      Public Class PerEdgeValues
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.left
+  commentId: F:MacacaGames.ViewSystem.SafePadding.PerEdgeValues.left
+  id: left
+  parent: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  langs:
+  - csharp
+  - vb
+  name: left
+  nameWithType: SafePadding.PerEdgeValues.left
+  fullName: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.left
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: left
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 300
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public SafePadding.EdgeEvaluationMode left
+    return:
+      type: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+    content.vb: Public left As SafePadding.EdgeEvaluationMode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.bottom
+  commentId: F:MacacaGames.ViewSystem.SafePadding.PerEdgeValues.bottom
+  id: bottom
+  parent: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  langs:
+  - csharp
+  - vb
+  name: bottom
+  nameWithType: SafePadding.PerEdgeValues.bottom
+  fullName: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.bottom
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: bottom
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 301
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public SafePadding.EdgeEvaluationMode bottom
+    return:
+      type: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+    content.vb: Public bottom As SafePadding.EdgeEvaluationMode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.top
+  commentId: F:MacacaGames.ViewSystem.SafePadding.PerEdgeValues.top
+  id: top
+  parent: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  langs:
+  - csharp
+  - vb
+  name: top
+  nameWithType: SafePadding.PerEdgeValues.top
+  fullName: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.top
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: top
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 302
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public SafePadding.EdgeEvaluationMode top
+    return:
+      type: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+    content.vb: Public top As SafePadding.EdgeEvaluationMode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.right
+  commentId: F:MacacaGames.ViewSystem.SafePadding.PerEdgeValues.right
+  id: right
+  parent: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  langs:
+  - csharp
+  - vb
+  name: right
+  nameWithType: SafePadding.PerEdgeValues.right
+  fullName: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.right
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: right
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 303
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public SafePadding.EdgeEvaluationMode right
+    return:
+      type: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+    content.vb: Public right As SafePadding.EdgeEvaluationMode
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influence
+  commentId: F:MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influence
+  id: influence
+  parent: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  langs:
+  - csharp
+  - vb
+  name: influence
+  nameWithType: SafePadding.PerEdgeValues.influence
+  fullName: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influence
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: influence
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 304
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float influence
+    return:
+      type: System.Single
+    content.vb: Public influence As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceLeft
+  commentId: F:MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceLeft
+  id: influenceLeft
+  parent: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  langs:
+  - csharp
+  - vb
+  name: influenceLeft
+  nameWithType: SafePadding.PerEdgeValues.influenceLeft
+  fullName: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceLeft
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: influenceLeft
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 305
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float influenceLeft
+    return:
+      type: System.Single
+    content.vb: Public influenceLeft As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceBottom
+  commentId: F:MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceBottom
+  id: influenceBottom
+  parent: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  langs:
+  - csharp
+  - vb
+  name: influenceBottom
+  nameWithType: SafePadding.PerEdgeValues.influenceBottom
+  fullName: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceBottom
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: influenceBottom
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 306
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float influenceBottom
+    return:
+      type: System.Single
+    content.vb: Public influenceBottom As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceTop
+  commentId: F:MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceTop
+  id: influenceTop
+  parent: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  langs:
+  - csharp
+  - vb
+  name: influenceTop
+  nameWithType: SafePadding.PerEdgeValues.influenceTop
+  fullName: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceTop
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: influenceTop
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 307
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float influenceTop
+    return:
+      type: System.Single
+    content.vb: Public influenceTop As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceRight
+  commentId: F:MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceRight
+  id: influenceRight
+  parent: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  langs:
+  - csharp
+  - vb
+  name: influenceRight
+  nameWithType: SafePadding.PerEdgeValues.influenceRight
+  fullName: MacacaGames.ViewSystem.SafePadding.PerEdgeValues.influenceRight
+  type: Field
+  source:
+    remote:
+      path: Runtime/Components/SafePadding.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: influenceRight
+    path: ../Runtime/Components/SafePadding.cs
+    startLine: 308
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public float influenceRight
+    return:
+      type: System.Single
+    content.vb: Public influenceRight As Single
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+  commentId: T:MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+  parent: MacacaGames.ViewSystem
+  name: SafePadding.EdgeEvaluationMode
+  nameWithType: SafePadding.EdgeEvaluationMode
+  fullName: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single

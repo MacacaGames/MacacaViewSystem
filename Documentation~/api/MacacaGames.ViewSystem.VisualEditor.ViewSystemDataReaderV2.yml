@@ -1,0 +1,1315 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  id: ViewSystemDataReaderV2
+  parent: MacacaGames.ViewSystem.VisualEditor
+  children:
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.CheckAndCreateResourceFolder
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ClearAllViewElementInScene
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditEnd
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditStart
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GetSaveData
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Init
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.isDirty
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Normalized
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageAdd(MacacaGames.ViewSystem.VisualEditor.ViewPageNode)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageDelete(MacacaGames.ViewSystem.VisualEditor.ViewPageNode)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage,System.String[])
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateAdd(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateDelete(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.RefeshEdit
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save(System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewPageNode},System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewStateNode})
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject(UnityEngine.GameObject)
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ViewControllerTransform
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemDataReaderV2
+  nameWithType: ViewSystemDataReaderV2
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  type: Class
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewSystemDataReaderV2
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 12
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public class ViewSystemDataReaderV2
+    content.vb: Public Class ViewSystemDataReaderV2
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  id: '#ctor(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)'
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemDataReaderV2(ViewSystemVisualEditor)
+  nameWithType: ViewSystemDataReaderV2.ViewSystemDataReaderV2(ViewSystemVisualEditor)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ViewSystemDataReaderV2(MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor)
+  type: Constructor
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 16
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public ViewSystemDataReaderV2(ViewSystemVisualEditor editor)
+    parameters:
+    - id: editor
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+    content.vb: Public Sub New(editor As ViewSystemVisualEditor)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ViewControllerTransform
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ViewControllerTransform
+  id: ViewControllerTransform
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: ViewControllerTransform
+  nameWithType: ViewSystemDataReaderV2.ViewControllerTransform
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ViewControllerTransform
+  type: Field
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewControllerTransform
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 23
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public Transform ViewControllerTransform
+    return:
+      type: UnityEngine.Transform
+    content.vb: Public ViewControllerTransform As Transform
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.isDirty
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.isDirty
+  id: isDirty
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: isDirty
+  nameWithType: ViewSystemDataReaderV2.isDirty
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.isDirty
+  type: Field
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: isDirty
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 24
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public bool isDirty
+    return:
+      type: System.Boolean
+    content.vb: Public isDirty As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Init
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Init
+  id: Init
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: Init()
+  nameWithType: ViewSystemDataReaderV2.Init()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Init()
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Init
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 26
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public bool Init()
+    return:
+      type: System.Boolean
+    content.vb: Public Function Init As Boolean
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Init*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditStart
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditStart
+  id: EditStart
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: EditStart()
+  nameWithType: ViewSystemDataReaderV2.EditStart()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditStart()
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: EditStart
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 56
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void EditStart()
+    content.vb: Public Sub EditStart
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditStart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditEnd
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditEnd
+  id: EditEnd
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: EditEnd()
+  nameWithType: ViewSystemDataReaderV2.EditEnd()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditEnd()
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: EditEnd
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 88
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void EditEnd()
+    content.vb: Public Sub EditEnd
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditEnd*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.RefeshEdit
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.RefeshEdit
+  id: RefeshEdit
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: RefeshEdit()
+  nameWithType: ViewSystemDataReaderV2.RefeshEdit()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.RefeshEdit()
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: RefeshEdit
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 93
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void RefeshEdit()
+    content.vb: Public Sub RefeshEdit
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.RefeshEdit*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageAdd(MacacaGames.ViewSystem.VisualEditor.ViewPageNode)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageAdd(MacacaGames.ViewSystem.VisualEditor.ViewPageNode)
+  id: OnViewPageAdd(MacacaGames.ViewSystem.VisualEditor.ViewPageNode)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: OnViewPageAdd(ViewPageNode)
+  nameWithType: ViewSystemDataReaderV2.OnViewPageAdd(ViewPageNode)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageAdd(MacacaGames.ViewSystem.VisualEditor.ViewPageNode)
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnViewPageAdd
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 99
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void OnViewPageAdd(ViewPageNode node)
+    parameters:
+    - id: node
+      type: MacacaGames.ViewSystem.VisualEditor.ViewPageNode
+    content.vb: Public Sub OnViewPageAdd(node As ViewPageNode)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageAdd*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateAdd(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateAdd(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  id: OnViewStateAdd(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: OnViewStateAdd(ViewStateNode)
+  nameWithType: ViewSystemDataReaderV2.OnViewStateAdd(ViewStateNode)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateAdd(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnViewStateAdd
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 105
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void OnViewStateAdd(ViewStateNode node)
+    parameters:
+    - id: node
+      type: MacacaGames.ViewSystem.VisualEditor.ViewStateNode
+    content.vb: Public Sub OnViewStateAdd(node As ViewStateNode)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateAdd*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageDelete(MacacaGames.ViewSystem.VisualEditor.ViewPageNode)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageDelete(MacacaGames.ViewSystem.VisualEditor.ViewPageNode)
+  id: OnViewPageDelete(MacacaGames.ViewSystem.VisualEditor.ViewPageNode)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: OnViewPageDelete(ViewPageNode)
+  nameWithType: ViewSystemDataReaderV2.OnViewPageDelete(ViewPageNode)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageDelete(MacacaGames.ViewSystem.VisualEditor.ViewPageNode)
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnViewPageDelete
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 111
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void OnViewPageDelete(ViewPageNode node)
+    parameters:
+    - id: node
+      type: MacacaGames.ViewSystem.VisualEditor.ViewPageNode
+    content.vb: Public Sub OnViewPageDelete(node As ViewPageNode)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageDelete*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateDelete(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateDelete(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  id: OnViewStateDelete(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: OnViewStateDelete(ViewStateNode)
+  nameWithType: ViewSystemDataReaderV2.OnViewStateDelete(ViewStateNode)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateDelete(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnViewStateDelete
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 119
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void OnViewStateDelete(ViewStateNode node)
+    parameters:
+    - id: node
+      type: MacacaGames.ViewSystem.VisualEditor.ViewStateNode
+    content.vb: Public Sub OnViewStateDelete(node As ViewStateNode)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateDelete*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
+  id: ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: ApplySafeArea(SafePadding.PerEdgeValues)
+  nameWithType: ViewSystemDataReaderV2.ApplySafeArea(SafePadding.PerEdgeValues)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ApplySafeArea
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 207
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)
+    parameters:
+    - id: edgeValues
+      type: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+    content.vb: Public Sub ApplySafeArea(edgeValues As SafePadding.PerEdgeValues)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage,System.String[])
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage,System.String[])
+  id: OnViewPagePreview(MacacaGames.ViewSystem.ViewPage,System.String[])
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: OnViewPagePreview(ViewPage, String[])
+  nameWithType: ViewSystemDataReaderV2.OnViewPagePreview(ViewPage, String[])
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage, System.String[])
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnViewPagePreview
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 215
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void OnViewPagePreview(ViewPage viewPage, string[] breakPoints)
+    parameters:
+    - id: viewPage
+      type: MacacaGames.ViewSystem.ViewPage
+    - id: breakPoints
+      type: System.String[]
+    content.vb: Public Sub OnViewPagePreview(viewPage As ViewPage, breakPoints As String())
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview*
+  nameWithType.vb: ViewSystemDataReaderV2.OnViewPagePreview(ViewPage, String())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview(MacacaGames.ViewSystem.ViewPage, System.String())
+  name.vb: OnViewPagePreview(ViewPage, String())
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Normalized
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Normalized
+  id: Normalized
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: Normalized()
+  nameWithType: ViewSystemDataReaderV2.Normalized()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Normalized()
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Normalized
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 322
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void Normalized()
+    content.vb: Public Sub Normalized
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Normalized*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ClearAllViewElementInScene
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ClearAllViewElementInScene
+  id: ClearAllViewElementInScene
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: ClearAllViewElementInScene()
+  nameWithType: ViewSystemDataReaderV2.ClearAllViewElementInScene()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ClearAllViewElementInScene()
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ClearAllViewElementInScene
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 341
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void ClearAllViewElementInScene()
+    content.vb: Public Sub ClearAllViewElementInScene
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ClearAllViewElementInScene*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save
+  id: Save
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: Save()
+  nameWithType: ViewSystemDataReaderV2.Save()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save()
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Save
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 364
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void Save()
+    content.vb: Public Sub Save
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save(System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewPageNode},System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewStateNode})
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save(System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewPageNode},System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewStateNode})
+  id: Save(System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewPageNode},System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewStateNode})
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: Save(List<ViewPageNode>, List<ViewStateNode>)
+  nameWithType: ViewSystemDataReaderV2.Save(List<ViewPageNode>, List<ViewStateNode>)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save(System.Collections.Generic.List<MacacaGames.ViewSystem.VisualEditor.ViewPageNode>, System.Collections.Generic.List<MacacaGames.ViewSystem.VisualEditor.ViewStateNode>)
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Save
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 369
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes)
+    parameters:
+    - id: viewPageNodes
+      type: System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewPageNode}
+    - id: viewStateNodes
+      type: System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewStateNode}
+    content.vb: Public Sub Save(viewPageNodes As List(Of ViewPageNode), viewStateNodes As List(Of ViewStateNode))
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save*
+  nameWithType.vb: ViewSystemDataReaderV2.Save(List(Of ViewPageNode), List(Of ViewStateNode))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save(System.Collections.Generic.List(Of MacacaGames.ViewSystem.VisualEditor.ViewPageNode), System.Collections.Generic.List(Of MacacaGames.ViewSystem.VisualEditor.ViewStateNode))
+  name.vb: Save(List(Of ViewPageNode), List(Of ViewStateNode))
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GetSaveData
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GetSaveData
+  id: GetSaveData
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: GetSaveData()
+  nameWithType: ViewSystemDataReaderV2.GetSaveData()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GetSaveData()
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: GetSaveData
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 410
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public ViewSystemSaveData GetSaveData()
+    return:
+      type: MacacaGames.ViewSystem.ViewSystemSaveData
+    content.vb: Public Function GetSaveData As ViewSystemSaveData
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GetSaveData*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject(UnityEngine.GameObject)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject(UnityEngine.GameObject)
+  id: SetUIRootObject(UnityEngine.GameObject)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: SetUIRootObject(GameObject)
+  nameWithType: ViewSystemDataReaderV2.SetUIRootObject(GameObject)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject(UnityEngine.GameObject)
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: SetUIRootObject
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 415
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void SetUIRootObject(GameObject obj)
+    parameters:
+    - id: obj
+      type: UnityEngine.GameObject
+    content.vb: Public Sub SetUIRootObject(obj As GameObject)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.CheckAndCreateResourceFolder
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.CheckAndCreateResourceFolder
+  id: CheckAndCreateResourceFolder
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: CheckAndCreateResourceFolder()
+  nameWithType: ViewSystemDataReaderV2.CheckAndCreateResourceFolder()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.CheckAndCreateResourceFolder()
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: CheckAndCreateResourceFolder
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 426
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public static void CheckAndCreateResourceFolder()
+    content.vb: Public Shared Sub CheckAndCreateResourceFolder
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.CheckAndCreateResourceFolder*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: MacacaGames.ViewSystem.VisualEditor
+  commentId: N:MacacaGames.ViewSystem.VisualEditor
+  name: MacacaGames.ViewSystem.VisualEditor
+  nameWithType: MacacaGames.ViewSystem.VisualEditor
+  fullName: MacacaGames.ViewSystem.VisualEditor
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.#ctor
+  name: ViewSystemDataReaderV2
+  nameWithType: ViewSystemDataReaderV2.ViewSystemDataReaderV2
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ViewSystemDataReaderV2
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+  parent: MacacaGames.ViewSystem.VisualEditor
+  name: ViewSystemVisualEditor
+  nameWithType: ViewSystemVisualEditor
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+- uid: UnityEngine.Transform
+  commentId: T:UnityEngine.Transform
+  parent: UnityEngine
+  isExternal: true
+  name: Transform
+  nameWithType: Transform
+  fullName: UnityEngine.Transform
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Init*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Init
+  name: Init
+  nameWithType: ViewSystemDataReaderV2.Init
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Init
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditStart*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditStart
+  name: EditStart
+  nameWithType: ViewSystemDataReaderV2.EditStart
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditStart
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditEnd*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditEnd
+  name: EditEnd
+  nameWithType: ViewSystemDataReaderV2.EditEnd
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditEnd
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.RefeshEdit*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.RefeshEdit
+  name: RefeshEdit
+  nameWithType: ViewSystemDataReaderV2.RefeshEdit
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.RefeshEdit
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageAdd*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageAdd
+  name: OnViewPageAdd
+  nameWithType: ViewSystemDataReaderV2.OnViewPageAdd
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageAdd
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewPageNode
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewPageNode
+  parent: MacacaGames.ViewSystem.VisualEditor
+  name: ViewPageNode
+  nameWithType: ViewPageNode
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageNode
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateAdd*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateAdd
+  name: OnViewStateAdd
+  nameWithType: ViewSystemDataReaderV2.OnViewStateAdd
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateAdd
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewStateNode
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewStateNode
+  parent: MacacaGames.ViewSystem.VisualEditor
+  name: ViewStateNode
+  nameWithType: ViewStateNode
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewStateNode
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageDelete*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageDelete
+  name: OnViewPageDelete
+  nameWithType: ViewSystemDataReaderV2.OnViewPageDelete
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPageDelete
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateDelete*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateDelete
+  name: OnViewStateDelete
+  nameWithType: ViewSystemDataReaderV2.OnViewStateDelete
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateDelete
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea
+  name: ApplySafeArea
+  nameWithType: ViewSystemDataReaderV2.ApplySafeArea
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea
+- uid: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  commentId: T:MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+  parent: MacacaGames.ViewSystem
+  name: SafePadding.PerEdgeValues
+  nameWithType: SafePadding.PerEdgeValues
+  fullName: MacacaGames.ViewSystem.SafePadding.PerEdgeValues
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview
+  name: OnViewPagePreview
+  nameWithType: ViewSystemDataReaderV2.OnViewPagePreview
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewPagePreview
+- uid: MacacaGames.ViewSystem.ViewPage
+  commentId: T:MacacaGames.ViewSystem.ViewPage
+  parent: MacacaGames.ViewSystem
+  name: ViewPage
+  nameWithType: ViewPage
+  fullName: MacacaGames.ViewSystem.ViewPage
+- uid: System.String[]
+  isExternal: true
+  name: String[]
+  nameWithType: String[]
+  fullName: System.String[]
+  nameWithType.vb: String()
+  fullName.vb: System.String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Normalized*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Normalized
+  name: Normalized
+  nameWithType: ViewSystemDataReaderV2.Normalized
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Normalized
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ClearAllViewElementInScene*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ClearAllViewElementInScene
+  name: ClearAllViewElementInScene
+  nameWithType: ViewSystemDataReaderV2.ClearAllViewElementInScene
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ClearAllViewElementInScene
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save
+  name: Save
+  nameWithType: ViewSystemDataReaderV2.Save
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Save
+- uid: System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewPageNode}
+  commentId: T:System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewPageNode}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<ViewPageNode>
+  nameWithType: List<ViewPageNode>
+  fullName: System.Collections.Generic.List<MacacaGames.ViewSystem.VisualEditor.ViewPageNode>
+  nameWithType.vb: List(Of ViewPageNode)
+  fullName.vb: System.Collections.Generic.List(Of MacacaGames.ViewSystem.VisualEditor.ViewPageNode)
+  name.vb: List(Of ViewPageNode)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewPageNode
+    name: ViewPageNode
+    nameWithType: ViewPageNode
+    fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageNode
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewPageNode
+    name: ViewPageNode
+    nameWithType: ViewPageNode
+    fullName: MacacaGames.ViewSystem.VisualEditor.ViewPageNode
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewStateNode}
+  commentId: T:System.Collections.Generic.List{MacacaGames.ViewSystem.VisualEditor.ViewStateNode}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<ViewStateNode>
+  nameWithType: List<ViewStateNode>
+  fullName: System.Collections.Generic.List<MacacaGames.ViewSystem.VisualEditor.ViewStateNode>
+  nameWithType.vb: List(Of ViewStateNode)
+  fullName.vb: System.Collections.Generic.List(Of MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
+  name.vb: List(Of ViewStateNode)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewStateNode
+    name: ViewStateNode
+    nameWithType: ViewStateNode
+    fullName: MacacaGames.ViewSystem.VisualEditor.ViewStateNode
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MacacaGames.ViewSystem.VisualEditor.ViewStateNode
+    name: ViewStateNode
+    nameWithType: ViewStateNode
+    fullName: MacacaGames.ViewSystem.VisualEditor.ViewStateNode
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GetSaveData*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GetSaveData
+  name: GetSaveData
+  nameWithType: ViewSystemDataReaderV2.GetSaveData
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GetSaveData
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData
+  commentId: T:MacacaGames.ViewSystem.ViewSystemSaveData
+  parent: MacacaGames.ViewSystem
+  name: ViewSystemSaveData
+  nameWithType: ViewSystemSaveData
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject
+  name: SetUIRootObject
+  nameWithType: ViewSystemDataReaderV2.SetUIRootObject
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject
+- uid: UnityEngine.GameObject
+  commentId: T:UnityEngine.GameObject
+  parent: UnityEngine
+  isExternal: true
+  name: GameObject
+  nameWithType: GameObject
+  fullName: UnityEngine.GameObject
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.CheckAndCreateResourceFolder*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.CheckAndCreateResourceFolder
+  name: CheckAndCreateResourceFolder
+  nameWithType: ViewSystemDataReaderV2.CheckAndCreateResourceFolder
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.CheckAndCreateResourceFolder

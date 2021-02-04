@@ -1,0 +1,145 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+  commentId: T:MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+  id: ViewPage.ViewPageTransitionTimingType
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.AfterPervious
+  - MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.Custom
+  - MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.WithPervious
+  langs:
+  - csharp
+  - vb
+  name: ViewPage.ViewPageTransitionTimingType
+  nameWithType: ViewPage.ViewPageTransitionTimingType
+  fullName: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+  type: Enum
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewPageTransitionTimingType
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 25
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public enum ViewPageTransitionTimingType
+    content.vb: Public Enum ViewPageTransitionTimingType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.WithPervious
+  commentId: F:MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.WithPervious
+  id: WithPervious
+  parent: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+  langs:
+  - csharp
+  - vb
+  name: WithPervious
+  nameWithType: ViewPage.ViewPageTransitionTimingType.WithPervious
+  fullName: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.WithPervious
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: WithPervious
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 27
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: WithPervious = 0
+    return:
+      type: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.AfterPervious
+  commentId: F:MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.AfterPervious
+  id: AfterPervious
+  parent: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+  langs:
+  - csharp
+  - vb
+  name: AfterPervious
+  nameWithType: ViewPage.ViewPageTransitionTimingType.AfterPervious
+  fullName: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.AfterPervious
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: AfterPervious
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 27
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: AfterPervious = 1
+    return:
+      type: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.Custom
+  commentId: F:MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.Custom
+  id: Custom
+  parent: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: ViewPage.ViewPageTransitionTimingType.Custom
+  fullName: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType.Custom
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Custom
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 27
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Custom = 2
+    return:
+      type: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+  commentId: T:MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType
+  parent: MacacaGames.ViewSystem
+  name: ViewPage.ViewPageTransitionTimingType
+  nameWithType: ViewPage.ViewPageTransitionTimingType
+  fullName: MacacaGames.ViewSystem.ViewPage.ViewPageTransitionTimingType

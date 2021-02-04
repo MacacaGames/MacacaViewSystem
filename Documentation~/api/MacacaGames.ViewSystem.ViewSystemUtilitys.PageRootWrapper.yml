@@ -1,0 +1,507 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper
+  commentId: T:MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper
+  id: ViewSystemUtilitys.PageRootWrapper
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.canvas
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.raycaster
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.rectTransform
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.safePadding
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemUtilitys.PageRootWrapper
+  nameWithType: ViewSystemUtilitys.PageRootWrapper
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper
+  type: Class
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: PageRootWrapper
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 184
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public class PageRootWrapper
+    content.vb: Public Class PageRootWrapper
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.rectTransform
+  commentId: F:MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.rectTransform
+  id: rectTransform
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper
+  langs:
+  - csharp
+  - vb
+  name: rectTransform
+  nameWithType: ViewSystemUtilitys.PageRootWrapper.rectTransform
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.rectTransform
+  type: Field
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: rectTransform
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 186
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public RectTransform rectTransform
+    return:
+      type: UnityEngine.RectTransform
+    content.vb: Public rectTransform As RectTransform
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.canvas
+  commentId: F:MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.canvas
+  id: canvas
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper
+  langs:
+  - csharp
+  - vb
+  name: canvas
+  nameWithType: ViewSystemUtilitys.PageRootWrapper.canvas
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.canvas
+  type: Field
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: canvas
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 187
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public Canvas canvas
+    return:
+      type: UnityEngine.Canvas
+    content.vb: Public canvas As Canvas
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.raycaster
+  commentId: F:MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.raycaster
+  id: raycaster
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper
+  langs:
+  - csharp
+  - vb
+  name: raycaster
+  nameWithType: ViewSystemUtilitys.PageRootWrapper.raycaster
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.raycaster
+  type: Field
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: raycaster
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 188
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public GraphicRaycaster raycaster
+    return:
+      type: UnityEngine.UI.GraphicRaycaster
+    content.vb: Public raycaster As GraphicRaycaster
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.safePadding
+  commentId: F:MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.safePadding
+  id: safePadding
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper
+  langs:
+  - csharp
+  - vb
+  name: safePadding
+  nameWithType: ViewSystemUtilitys.PageRootWrapper.safePadding
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.PageRootWrapper.safePadding
+  type: Field
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: safePadding
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 189
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public SafePadding safePadding
+    return:
+      type: MacacaGames.ViewSystem.SafePadding
+    content.vb: Public safePadding As SafePadding
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEngine.RectTransform
+  commentId: T:UnityEngine.RectTransform
+  parent: UnityEngine
+  isExternal: true
+  name: RectTransform
+  nameWithType: RectTransform
+  fullName: UnityEngine.RectTransform
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEngine.Canvas
+  commentId: T:UnityEngine.Canvas
+  parent: UnityEngine
+  isExternal: true
+  name: Canvas
+  nameWithType: Canvas
+  fullName: UnityEngine.Canvas
+- uid: UnityEngine.UI.GraphicRaycaster
+  commentId: T:UnityEngine.UI.GraphicRaycaster
+  parent: UnityEngine.UI
+  name: GraphicRaycaster
+  nameWithType: GraphicRaycaster
+  fullName: UnityEngine.UI.GraphicRaycaster
+- uid: UnityEngine.UI
+  commentId: N:UnityEngine.UI
+  name: UnityEngine.UI
+  nameWithType: UnityEngine.UI
+  fullName: UnityEngine.UI
+- uid: MacacaGames.ViewSystem.SafePadding
+  commentId: T:MacacaGames.ViewSystem.SafePadding
+  parent: MacacaGames.ViewSystem
+  name: SafePadding
+  nameWithType: SafePadding
+  fullName: MacacaGames.ViewSystem.SafePadding

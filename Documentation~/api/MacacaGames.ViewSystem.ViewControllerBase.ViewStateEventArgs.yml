@@ -1,0 +1,471 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs
+  commentId: T:MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs
+  id: ViewControllerBase.ViewStateEventArgs
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.#ctor(MacacaGames.ViewSystem.ViewState,MacacaGames.ViewSystem.ViewState)
+  - MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.currentViewState
+  - MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.lastViewState
+  langs:
+  - csharp
+  - vb
+  name: ViewControllerBase.ViewStateEventArgs
+  nameWithType: ViewControllerBase.ViewStateEventArgs
+  fullName: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs
+  type: Class
+  source:
+    remote:
+      path: Runtime/ViewController/ViewControllerBase.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewStateEventArgs
+    path: ../Runtime/ViewController/ViewControllerBase.cs
+    startLine: 448
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: 'public class ViewStateEventArgs : EventArgs'
+    content.vb: >-
+      Public Class ViewStateEventArgs
+          Inherits EventArgs
+  inheritance:
+  - System.Object
+  - System.EventArgs
+  inheritedMembers:
+  - System.EventArgs.Empty
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.currentViewState
+  commentId: F:MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.currentViewState
+  id: currentViewState
+  parent: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs
+  langs:
+  - csharp
+  - vb
+  name: currentViewState
+  nameWithType: ViewControllerBase.ViewStateEventArgs.currentViewState
+  fullName: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.currentViewState
+  type: Field
+  source:
+    remote:
+      path: Runtime/ViewController/ViewControllerBase.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: currentViewState
+    path: ../Runtime/ViewController/ViewControllerBase.cs
+    startLine: 450
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewState currentViewState
+    return:
+      type: MacacaGames.ViewSystem.ViewState
+    content.vb: Public currentViewState As ViewState
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.lastViewState
+  commentId: F:MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.lastViewState
+  id: lastViewState
+  parent: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs
+  langs:
+  - csharp
+  - vb
+  name: lastViewState
+  nameWithType: ViewControllerBase.ViewStateEventArgs.lastViewState
+  fullName: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.lastViewState
+  type: Field
+  source:
+    remote:
+      path: Runtime/ViewController/ViewControllerBase.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: lastViewState
+    path: ../Runtime/ViewController/ViewControllerBase.cs
+    startLine: 451
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewState lastViewState
+    return:
+      type: MacacaGames.ViewSystem.ViewState
+    content.vb: Public lastViewState As ViewState
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.#ctor(MacacaGames.ViewSystem.ViewState,MacacaGames.ViewSystem.ViewState)
+  commentId: M:MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.#ctor(MacacaGames.ViewSystem.ViewState,MacacaGames.ViewSystem.ViewState)
+  id: '#ctor(MacacaGames.ViewSystem.ViewState,MacacaGames.ViewSystem.ViewState)'
+  parent: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs
+  langs:
+  - csharp
+  - vb
+  name: ViewStateEventArgs(ViewState, ViewState)
+  nameWithType: ViewControllerBase.ViewStateEventArgs.ViewStateEventArgs(ViewState, ViewState)
+  fullName: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.ViewStateEventArgs(MacacaGames.ViewSystem.ViewState, MacacaGames.ViewSystem.ViewState)
+  type: Constructor
+  source:
+    remote:
+      path: Runtime/ViewController/ViewControllerBase.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Runtime/ViewController/ViewControllerBase.cs
+    startLine: 452
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewStateEventArgs(ViewState CurrentViewState, ViewState LastVilastViewState)
+    parameters:
+    - id: CurrentViewState
+      type: MacacaGames.ViewSystem.ViewState
+    - id: LastVilastViewState
+      type: MacacaGames.ViewSystem.ViewState
+    content.vb: Public Sub New(CurrentViewState As ViewState, LastVilastViewState As ViewState)
+  overload: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.EventArgs
+  commentId: T:System.EventArgs
+  parent: System
+  isExternal: true
+  name: EventArgs
+  nameWithType: EventArgs
+  fullName: System.EventArgs
+- uid: System.EventArgs.Empty
+  commentId: F:System.EventArgs.Empty
+  parent: System.EventArgs
+  isExternal: true
+  name: Empty
+  nameWithType: EventArgs.Empty
+  fullName: System.EventArgs.Empty
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: MacacaGames.ViewSystem.ViewState
+  commentId: T:MacacaGames.ViewSystem.ViewState
+  parent: MacacaGames.ViewSystem
+  name: ViewState
+  nameWithType: ViewState
+  fullName: MacacaGames.ViewSystem.ViewState
+- uid: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.#ctor
+  name: ViewStateEventArgs
+  nameWithType: ViewControllerBase.ViewStateEventArgs.ViewStateEventArgs
+  fullName: MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs.ViewStateEventArgs

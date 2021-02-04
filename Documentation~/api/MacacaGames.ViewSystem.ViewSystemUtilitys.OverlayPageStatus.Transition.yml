@@ -1,0 +1,145 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+  commentId: T:MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+  id: ViewSystemUtilitys.OverlayPageStatus.Transition
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.Leave
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.None
+  - MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.Show
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemUtilitys.OverlayPageStatus.Transition
+  nameWithType: ViewSystemUtilitys.OverlayPageStatus.Transition
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+  type: Enum
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Transition
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 34
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public enum Transition
+    content.vb: Public Enum Transition
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.None
+  commentId: F:MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.None
+  id: None
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ViewSystemUtilitys.OverlayPageStatus.Transition.None
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.None
+  type: Field
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: None
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 36
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: None = 0
+    return:
+      type: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.Show
+  commentId: F:MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.Show
+  id: Show
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+  langs:
+  - csharp
+  - vb
+  name: Show
+  nameWithType: ViewSystemUtilitys.OverlayPageStatus.Transition.Show
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.Show
+  type: Field
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Show
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 37
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Show = 1
+    return:
+      type: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.Leave
+  commentId: F:MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.Leave
+  id: Leave
+  parent: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+  langs:
+  - csharp
+  - vb
+  name: Leave
+  nameWithType: ViewSystemUtilitys.OverlayPageStatus.Transition.Leave
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition.Leave
+  type: Field
+  source:
+    remote:
+      path: Runtime/Utilities/ViewSystemUtilitys.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Leave
+    path: ../Runtime/Utilities/ViewSystemUtilitys.cs
+    startLine: 38
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Leave = 2
+    return:
+      type: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+  commentId: T:MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition
+  parent: MacacaGames.ViewSystem
+  name: ViewSystemUtilitys.OverlayPageStatus.Transition
+  nameWithType: ViewSystemUtilitys.OverlayPageStatus.Transition
+  fullName: MacacaGames.ViewSystem.ViewSystemUtilitys.OverlayPageStatus.Transition

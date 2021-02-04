@@ -1,0 +1,254 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  commentId: T:MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  id: ViewPageItem.PlatformOption
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ViewPageItem.PlatformOption.All
+  - MacacaGames.ViewSystem.ViewPageItem.PlatformOption.Android
+  - MacacaGames.ViewSystem.ViewPageItem.PlatformOption.iOS
+  - MacacaGames.ViewSystem.ViewPageItem.PlatformOption.Nothing
+  - MacacaGames.ViewSystem.ViewPageItem.PlatformOption.tvOS
+  - MacacaGames.ViewSystem.ViewPageItem.PlatformOption.UWP
+  langs:
+  - csharp
+  - vb
+  name: ViewPageItem.PlatformOption
+  nameWithType: ViewPageItem.PlatformOption
+  fullName: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  type: Enum
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: PlatformOption
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 150
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum PlatformOption
+    content.vb: >-
+      <Flags>
+
+      Public Enum PlatformOption
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.Nothing
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.PlatformOption.Nothing
+  id: Nothing
+  parent: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  langs:
+  - csharp
+  - vb
+  name: Nothing
+  nameWithType: ViewPageItem.PlatformOption.Nothing
+  fullName: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.Nothing
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Nothing
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 153
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Nothing = 0
+    return:
+      type: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.Android
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.PlatformOption.Android
+  id: Android
+  parent: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  langs:
+  - csharp
+  - vb
+  name: Android
+  nameWithType: ViewPageItem.PlatformOption.Android
+  fullName: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.Android
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Android
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 154
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: Android = 1
+    return:
+      type: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.iOS
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.PlatformOption.iOS
+  id: iOS
+  parent: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  langs:
+  - csharp
+  - vb
+  name: iOS
+  nameWithType: ViewPageItem.PlatformOption.iOS
+  fullName: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.iOS
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: iOS
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 155
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: iOS = 2
+    return:
+      type: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.UWP
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.PlatformOption.UWP
+  id: UWP
+  parent: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  langs:
+  - csharp
+  - vb
+  name: UWP
+  nameWithType: ViewPageItem.PlatformOption.UWP
+  fullName: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.UWP
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: UWP
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 156
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: UWP = 4
+    return:
+      type: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.tvOS
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.PlatformOption.tvOS
+  id: tvOS
+  parent: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  langs:
+  - csharp
+  - vb
+  name: tvOS
+  nameWithType: ViewPageItem.PlatformOption.tvOS
+  fullName: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.tvOS
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: tvOS
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 157
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: tvOS = 8
+    return:
+      type: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.All
+  commentId: F:MacacaGames.ViewSystem.ViewPageItem.PlatformOption.All
+  id: All
+  parent: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: ViewPageItem.PlatformOption.All
+  fullName: MacacaGames.ViewSystem.ViewPageItem.PlatformOption.All
+  type: Field
+  source:
+    remote:
+      path: Runtime/Models/ViewPageModel.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: All
+    path: ../Runtime/Models/ViewPageModel.cs
+    startLine: 158
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: All = 15
+    return:
+      type: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  commentId: T:MacacaGames.ViewSystem.ViewPageItem.PlatformOption
+  parent: MacacaGames.ViewSystem
+  name: ViewPageItem.PlatformOption
+  nameWithType: ViewPageItem.PlatformOption
+  fullName: MacacaGames.ViewSystem.ViewPageItem.PlatformOption

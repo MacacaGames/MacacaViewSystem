@@ -1,0 +1,846 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup
+  commentId: T:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup
+  id: VS_EditorUtility.ViewPageItemsBreakPointPopup
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.#ctor(MacacaGames.ViewSystem.ViewPageItem,System.Action{MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect})
+  - MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize
+  - MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI(UnityEngine.Rect)
+  langs:
+  - csharp
+  - vb
+  name: VS_EditorUtility.ViewPageItemsBreakPointPopup
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup
+  type: Class
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ViewPageItemsBreakPointPopup
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 124
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: 'public class ViewPageItemsBreakPointPopup : PopupWindowContent'
+    content.vb: >-
+      Public Class ViewPageItemsBreakPointPopup
+          Inherits PopupWindowContent
+  inheritance:
+  - System.Object
+  - UnityEditor.PopupWindowContent
+  inheritedMembers:
+  - UnityEditor.PopupWindowContent.OnOpen
+  - UnityEditor.PopupWindowContent.OnClose
+  - UnityEditor.PopupWindowContent.editorWindow
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.#ctor(MacacaGames.ViewSystem.ViewPageItem,System.Action{MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect})
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.#ctor(MacacaGames.ViewSystem.ViewPageItem,System.Action{MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect})
+  id: '#ctor(MacacaGames.ViewSystem.ViewPageItem,System.Action{MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect})'
+  parent: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup
+  langs:
+  - csharp
+  - vb
+  name: ViewPageItemsBreakPointPopup(ViewPageItem, Action<ViewElementTransform, String, String, ViewElement, Rect>)
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup(ViewPageItem, Action<ViewElementTransform, String, String, ViewElement, Rect>)
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup(MacacaGames.ViewSystem.ViewPageItem, System.Action<MacacaGames.ViewSystem.ViewElementTransform, System.String, System.String, MacacaGames.ViewSystem.ViewElement, UnityEngine.Rect>)
+  type: Constructor
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 129
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ViewPageItemsBreakPointPopup(ViewPageItem viewPageItem, Action<ViewElementTransform, string, string, ViewElement, Rect> OnDrawItem)
+    parameters:
+    - id: viewPageItem
+      type: MacacaGames.ViewSystem.ViewPageItem
+    - id: OnDrawItem
+      type: System.Action{MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect}
+    content.vb: Public Sub New(viewPageItem As ViewPageItem, OnDrawItem As Action(Of ViewElementTransform, String, String, ViewElement, Rect))
+  overload: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.#ctor*
+  nameWithType.vb: VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup(ViewPageItem, Action(Of ViewElementTransform, String, String, ViewElement, Rect))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup(MacacaGames.ViewSystem.ViewPageItem, System.Action(Of MacacaGames.ViewSystem.ViewElementTransform, System.String, System.String, MacacaGames.ViewSystem.ViewElement, UnityEngine.Rect))
+  name.vb: ViewPageItemsBreakPointPopup(ViewPageItem, Action(Of ViewElementTransform, String, String, ViewElement, Rect))
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize
+  id: GetWindowSize
+  parent: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup
+  langs:
+  - csharp
+  - vb
+  name: GetWindowSize()
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize()
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize()
+  type: Method
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: GetWindowSize
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 181
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public override Vector2 GetWindowSize()
+    return:
+      type: UnityEngine.Vector2
+    content.vb: Public Overrides Function GetWindowSize As Vector2
+  overridden: UnityEditor.PopupWindowContent.GetWindowSize
+  overload: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI(UnityEngine.Rect)
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI(UnityEngine.Rect)
+  id: OnGUI(UnityEngine.Rect)
+  parent: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup
+  langs:
+  - csharp
+  - vb
+  name: OnGUI(Rect)
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI(Rect)
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI(UnityEngine.Rect)
+  type: Method
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnGUI
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 188
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public override void OnGUI(Rect rect)
+    parameters:
+    - id: rect
+      type: UnityEngine.Rect
+    content.vb: Public Overrides Sub OnGUI(rect As Rect)
+  overridden: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  overload: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: UnityEditor.PopupWindowContent
+  commentId: T:UnityEditor.PopupWindowContent
+  parent: UnityEditor
+  isExternal: true
+  name: PopupWindowContent
+  nameWithType: PopupWindowContent
+  fullName: UnityEditor.PopupWindowContent
+- uid: UnityEditor.PopupWindowContent.OnOpen
+  commentId: M:UnityEditor.PopupWindowContent.OnOpen
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnOpen()
+  nameWithType: PopupWindowContent.OnOpen()
+  fullName: UnityEditor.PopupWindowContent.OnOpen()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnOpen
+    name: OnOpen
+    nameWithType: PopupWindowContent.OnOpen
+    fullName: UnityEditor.PopupWindowContent.OnOpen
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnOpen
+    name: OnOpen
+    nameWithType: PopupWindowContent.OnOpen
+    fullName: UnityEditor.PopupWindowContent.OnOpen
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.PopupWindowContent.OnClose
+  commentId: M:UnityEditor.PopupWindowContent.OnClose
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnClose()
+  nameWithType: PopupWindowContent.OnClose()
+  fullName: UnityEditor.PopupWindowContent.OnClose()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnClose
+    name: OnClose
+    nameWithType: PopupWindowContent.OnClose
+    fullName: UnityEditor.PopupWindowContent.OnClose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnClose
+    name: OnClose
+    nameWithType: PopupWindowContent.OnClose
+    fullName: UnityEditor.PopupWindowContent.OnClose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.PopupWindowContent.editorWindow
+  commentId: P:UnityEditor.PopupWindowContent.editorWindow
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: editorWindow
+  nameWithType: PopupWindowContent.editorWindow
+  fullName: UnityEditor.PopupWindowContent.editorWindow
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEditor
+  commentId: N:UnityEditor
+  isExternal: true
+  name: UnityEditor
+  nameWithType: UnityEditor
+  fullName: UnityEditor
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.#ctor
+  name: ViewPageItemsBreakPointPopup
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.ViewPageItemsBreakPointPopup
+- uid: MacacaGames.ViewSystem.ViewPageItem
+  commentId: T:MacacaGames.ViewSystem.ViewPageItem
+  parent: MacacaGames.ViewSystem
+  name: ViewPageItem
+  nameWithType: ViewPageItem
+  fullName: MacacaGames.ViewSystem.ViewPageItem
+- uid: System.Action{MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect}
+  commentId: T:System.Action{MacacaGames.ViewSystem.ViewElementTransform,System.String,System.String,MacacaGames.ViewSystem.ViewElement,UnityEngine.Rect}
+  parent: System
+  definition: System.Action`5
+  name: Action<ViewElementTransform, String, String, ViewElement, Rect>
+  nameWithType: Action<ViewElementTransform, String, String, ViewElement, Rect>
+  fullName: System.Action<MacacaGames.ViewSystem.ViewElementTransform, System.String, System.String, MacacaGames.ViewSystem.ViewElement, UnityEngine.Rect>
+  nameWithType.vb: Action(Of ViewElementTransform, String, String, ViewElement, Rect)
+  fullName.vb: System.Action(Of MacacaGames.ViewSystem.ViewElementTransform, System.String, System.String, MacacaGames.ViewSystem.ViewElement, UnityEngine.Rect)
+  name.vb: Action(Of ViewElementTransform, String, String, ViewElement, Rect)
+  spec.csharp:
+  - uid: System.Action`5
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MacacaGames.ViewSystem.ViewElementTransform
+    name: ViewElementTransform
+    nameWithType: ViewElementTransform
+    fullName: MacacaGames.ViewSystem.ViewElementTransform
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MacacaGames.ViewSystem.ViewElement
+    name: ViewElement
+    nameWithType: ViewElement
+    fullName: MacacaGames.ViewSystem.ViewElement
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`5
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MacacaGames.ViewSystem.ViewElementTransform
+    name: ViewElementTransform
+    nameWithType: ViewElementTransform
+    fullName: MacacaGames.ViewSystem.ViewElementTransform
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MacacaGames.ViewSystem.ViewElement
+    name: ViewElement
+    nameWithType: ViewElement
+    fullName: MacacaGames.ViewSystem.ViewElement
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action`5
+  commentId: T:System.Action`5
+  isExternal: true
+  name: Action<T1, T2, T3, T4, T5>
+  nameWithType: Action<T1, T2, T3, T4, T5>
+  fullName: System.Action<T1, T2, T3, T4, T5>
+  nameWithType.vb: Action(Of T1, T2, T3, T4, T5)
+  fullName.vb: System.Action(Of T1, T2, T3, T4, T5)
+  name.vb: Action(Of T1, T2, T3, T4, T5)
+  spec.csharp:
+  - uid: System.Action`5
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T1
+    nameWithType: T1
+    fullName: T1
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T2
+    nameWithType: T2
+    fullName: T2
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T3
+    nameWithType: T3
+    fullName: T3
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T4
+    nameWithType: T4
+    fullName: T4
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T5
+    nameWithType: T5
+    fullName: T5
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`5
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T1
+    nameWithType: T1
+    fullName: T1
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T2
+    nameWithType: T2
+    fullName: T2
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T3
+    nameWithType: T3
+    fullName: T3
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T4
+    nameWithType: T4
+    fullName: T4
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T5
+    nameWithType: T5
+    fullName: T5
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.PopupWindowContent.GetWindowSize
+  commentId: M:UnityEditor.PopupWindowContent.GetWindowSize
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: GetWindowSize()
+  nameWithType: PopupWindowContent.GetWindowSize()
+  fullName: UnityEditor.PopupWindowContent.GetWindowSize()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.GetWindowSize
+    name: GetWindowSize
+    nameWithType: PopupWindowContent.GetWindowSize
+    fullName: UnityEditor.PopupWindowContent.GetWindowSize
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.GetWindowSize
+    name: GetWindowSize
+    nameWithType: PopupWindowContent.GetWindowSize
+    fullName: UnityEditor.PopupWindowContent.GetWindowSize
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize*
+  commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize
+  name: GetWindowSize
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.GetWindowSize
+- uid: UnityEngine.Vector2
+  commentId: T:UnityEngine.Vector2
+  parent: UnityEngine
+  isExternal: true
+  name: Vector2
+  nameWithType: Vector2
+  fullName: UnityEngine.Vector2
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  commentId: M:UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnGUI(Rect)
+  nameWithType: PopupWindowContent.OnGUI(Rect)
+  fullName: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+    name: OnGUI
+    nameWithType: PopupWindowContent.OnGUI
+    fullName: UnityEditor.PopupWindowContent.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+    name: OnGUI
+    nameWithType: PopupWindowContent.OnGUI
+    fullName: UnityEditor.PopupWindowContent.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI*
+  commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI
+  name: OnGUI
+  nameWithType: VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemsBreakPointPopup.OnGUI
+- uid: UnityEngine.Rect
+  commentId: T:UnityEngine.Rect
+  parent: UnityEngine
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: UnityEngine.Rect

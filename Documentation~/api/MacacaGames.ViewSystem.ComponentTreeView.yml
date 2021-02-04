@@ -1,0 +1,3905 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.ComponentTreeView
+  commentId: T:MacacaGames.ViewSystem.ComponentTreeView
+  id: ComponentTreeView
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)
+  - MacacaGames.ViewSystem.ComponentTreeView.BuildRoot
+  - MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem(System.Int32)
+  - MacacaGames.ViewSystem.ComponentTreeView.DrawValue(UnityEngine.Rect,UnityEditor.SerializedProperty)
+  - MacacaGames.ViewSystem.ComponentTreeView.OnItemClick
+  - MacacaGames.ViewSystem.ComponentTreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)
+  langs:
+  - csharp
+  - vb
+  name: ComponentTreeView
+  nameWithType: ComponentTreeView
+  fullName: MacacaGames.ViewSystem.ComponentTreeView
+  type: Class
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ComponentTreeView.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ComponentTreeView
+    path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
+    startLine: 8
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: 'public class ComponentTreeView : TreeView'
+    content.vb: >-
+      Public Class ComponentTreeView
+          Inherits TreeView
+  inheritance:
+  - System.Object
+  - UnityEditor.IMGUI.Controls.TreeView
+  inheritedMembers:
+  - UnityEditor.IMGUI.Controls.TreeView.BuildRows(UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.Reload
+  - UnityEditor.IMGUI.Controls.TreeView.Repaint
+  - UnityEditor.IMGUI.Controls.TreeView.GetCellRectForTreeFoldouts(UnityEngine.Rect)
+  - UnityEditor.IMGUI.Controls.TreeView.GetRowRect(System.Int32)
+  - UnityEditor.IMGUI.Controls.TreeView.GetRows
+  - UnityEditor.IMGUI.Controls.TreeView.FindRows(System.Collections.Generic.IList{System.Int32})
+  - UnityEditor.IMGUI.Controls.TreeView.FindItem(System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.GetFirstAndLastVisibleRows(System.Int32@,System.Int32@)
+  - UnityEditor.IMGUI.Controls.TreeView.ExpandAll
+  - UnityEditor.IMGUI.Controls.TreeView.CollapseAll
+  - UnityEditor.IMGUI.Controls.TreeView.SetExpandedRecursive(System.Int32,System.Boolean)
+  - UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Int32,System.Boolean)
+  - UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Collections.Generic.IList{System.Int32})
+  - UnityEditor.IMGUI.Controls.TreeView.GetExpanded
+  - UnityEditor.IMGUI.Controls.TreeView.IsExpanded(System.Int32)
+  - UnityEditor.IMGUI.Controls.TreeView.GetSelection
+  - UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList{System.Int32})
+  - UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList{System.Int32},UnityEditor.IMGUI.Controls.TreeViewSelectionOptions)
+  - UnityEditor.IMGUI.Controls.TreeView.IsSelected(System.Int32)
+  - UnityEditor.IMGUI.Controls.TreeView.HasSelection
+  - UnityEditor.IMGUI.Controls.TreeView.HasFocus
+  - UnityEditor.IMGUI.Controls.TreeView.SetFocus
+  - UnityEditor.IMGUI.Controls.TreeView.SetFocusAndEnsureSelectedItem
+  - UnityEditor.IMGUI.Controls.TreeView.SelectionClick(UnityEditor.IMGUI.Controls.TreeViewItem,System.Boolean)
+  - UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem,System.Single)
+  - UnityEditor.IMGUI.Controls.TreeView.EndRename
+  - UnityEditor.IMGUI.Controls.TreeView.FrameItem(System.Int32)
+  - UnityEditor.IMGUI.Controls.TreeView.OnGUI(UnityEngine.Rect)
+  - UnityEditor.IMGUI.Controls.TreeView.SelectAllRows
+  - UnityEditor.IMGUI.Controls.TreeView.GetFoldoutIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.GetContentIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.SortItemIDsInRowOrder(System.Collections.Generic.IList{System.Int32})
+  - UnityEditor.IMGUI.Controls.TreeView.CenterRectUsingSingleLineHeight(UnityEngine.Rect@)
+  - UnityEditor.IMGUI.Controls.TreeView.AddExpandedRows(UnityEditor.IMGUI.Controls.TreeViewItem,System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+  - UnityEditor.IMGUI.Controls.TreeView.SelectionChanged(System.Collections.Generic.IList{System.Int32})
+  - UnityEditor.IMGUI.Controls.TreeView.SingleClickedItem(System.Int32)
+  - UnityEditor.IMGUI.Controls.TreeView.ContextClickedItem(System.Int32)
+  - UnityEditor.IMGUI.Controls.TreeView.ContextClicked
+  - UnityEditor.IMGUI.Controls.TreeView.ExpandedStateChanged
+  - UnityEditor.IMGUI.Controls.TreeView.SearchChanged(System.String)
+  - UnityEditor.IMGUI.Controls.TreeView.KeyEvent
+  - UnityEditor.IMGUI.Controls.TreeView.GetAncestors(System.Int32)
+  - UnityEditor.IMGUI.Controls.TreeView.GetDescendantsThatHaveChildren(System.Int32)
+  - UnityEditor.IMGUI.Controls.TreeView.CanMultiSelect(UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.CanRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.RenameEnded(UnityEditor.IMGUI.Controls.TreeView.RenameEndedArgs)
+  - UnityEditor.IMGUI.Controls.TreeView.CanStartDrag(UnityEditor.IMGUI.Controls.TreeView.CanStartDragArgs)
+  - UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDropArgs)
+  - UnityEditor.IMGUI.Controls.TreeView.HandleDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.DragAndDropArgs)
+  - UnityEditor.IMGUI.Controls.TreeView.CanBeParent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.CanChangeExpandedState(UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.DoesItemMatchSearch(UnityEditor.IMGUI.Controls.TreeViewItem,System.String)
+  - UnityEditor.IMGUI.Controls.TreeView.BeforeRowsGUI
+  - UnityEditor.IMGUI.Controls.TreeView.AfterRowsGUI
+  - UnityEditor.IMGUI.Controls.TreeView.RefreshCustomRowHeights
+  - UnityEditor.IMGUI.Controls.TreeView.GetCustomRowHeight(System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.GetRenameRect(UnityEngine.Rect,System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.CommandEventHandling
+  - UnityEditor.IMGUI.Controls.TreeView.SetupParentsAndChildrenFromDepths(UnityEditor.IMGUI.Controls.TreeViewItem,System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+  - UnityEditor.IMGUI.Controls.TreeView.SetupDepthsFromParentsAndChildren(UnityEditor.IMGUI.Controls.TreeViewItem)
+  - UnityEditor.IMGUI.Controls.TreeView.CreateChildListForCollapsedParent
+  - UnityEditor.IMGUI.Controls.TreeView.IsChildListForACollapsedParent(System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+  - UnityEditor.IMGUI.Controls.TreeView.getNewSelectionOverride
+  - UnityEditor.IMGUI.Controls.TreeView.foldoutOverride
+  - UnityEditor.IMGUI.Controls.TreeView.state
+  - UnityEditor.IMGUI.Controls.TreeView.multiColumnHeader
+  - UnityEditor.IMGUI.Controls.TreeView.rootItem
+  - UnityEditor.IMGUI.Controls.TreeView.isInitialized
+  - UnityEditor.IMGUI.Controls.TreeView.treeViewRect
+  - UnityEditor.IMGUI.Controls.TreeView.baseIndent
+  - UnityEditor.IMGUI.Controls.TreeView.foldoutWidth
+  - UnityEditor.IMGUI.Controls.TreeView.extraSpaceBeforeIconAndLabel
+  - UnityEditor.IMGUI.Controls.TreeView.customFoldoutYOffset
+  - UnityEditor.IMGUI.Controls.TreeView.columnIndexForTreeFoldouts
+  - UnityEditor.IMGUI.Controls.TreeView.useScrollView
+  - UnityEditor.IMGUI.Controls.TreeView.depthIndentWidth
+  - UnityEditor.IMGUI.Controls.TreeView.showAlternatingRowBackgrounds
+  - UnityEditor.IMGUI.Controls.TreeView.showBorder
+  - UnityEditor.IMGUI.Controls.TreeView.showingHorizontalScrollBar
+  - UnityEditor.IMGUI.Controls.TreeView.showingVerticalScrollBar
+  - UnityEditor.IMGUI.Controls.TreeView.cellMargin
+  - UnityEditor.IMGUI.Controls.TreeView.totalHeight
+  - UnityEditor.IMGUI.Controls.TreeView.rowHeight
+  - UnityEditor.IMGUI.Controls.TreeView.treeViewControlID
+  - UnityEditor.IMGUI.Controls.TreeView.isDragging
+  - UnityEditor.IMGUI.Controls.TreeView.hasSearch
+  - UnityEditor.IMGUI.Controls.TreeView.searchString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)
+  commentId: M:MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)
+  id: '#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)'
+  parent: MacacaGames.ViewSystem.ComponentTreeView
+  langs:
+  - csharp
+  - vb
+  name: ComponentTreeView(GameObject, ViewPageItem, TreeViewState, Boolean)
+  nameWithType: ComponentTreeView.ComponentTreeView(GameObject, ViewPageItem, TreeViewState, Boolean)
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.ComponentTreeView(UnityEngine.GameObject, MacacaGames.ViewSystem.ViewPageItem, UnityEditor.IMGUI.Controls.TreeViewState, System.Boolean)
+  type: Constructor
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ComponentTreeView.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
+    startLine: 12
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public ComponentTreeView(GameObject go, ViewPageItem viewPageItem, TreeViewState treeViewState, bool isPrefabRoot)
+    parameters:
+    - id: go
+      type: UnityEngine.GameObject
+    - id: viewPageItem
+      type: MacacaGames.ViewSystem.ViewPageItem
+    - id: treeViewState
+      type: UnityEditor.IMGUI.Controls.TreeViewState
+    - id: isPrefabRoot
+      type: System.Boolean
+    content.vb: Public Sub New(go As GameObject, viewPageItem As ViewPageItem, treeViewState As TreeViewState, isPrefabRoot As Boolean)
+  overload: MacacaGames.ViewSystem.ComponentTreeView.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.ComponentTreeView.BuildRoot
+  commentId: M:MacacaGames.ViewSystem.ComponentTreeView.BuildRoot
+  id: BuildRoot
+  parent: MacacaGames.ViewSystem.ComponentTreeView
+  langs:
+  - csharp
+  - vb
+  name: BuildRoot()
+  nameWithType: ComponentTreeView.BuildRoot()
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.BuildRoot()
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ComponentTreeView.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: BuildRoot
+    path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
+    startLine: 126
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: protected override TreeViewItem BuildRoot()
+    return:
+      type: UnityEditor.IMGUI.Controls.TreeViewItem
+    content.vb: Protected Overrides Function BuildRoot As TreeViewItem
+  overridden: UnityEditor.IMGUI.Controls.TreeView.BuildRoot
+  overload: MacacaGames.ViewSystem.ComponentTreeView.BuildRoot*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+- uid: MacacaGames.ViewSystem.ComponentTreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)
+  commentId: M:MacacaGames.ViewSystem.ComponentTreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)
+  id: RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)
+  parent: MacacaGames.ViewSystem.ComponentTreeView
+  langs:
+  - csharp
+  - vb
+  name: RowGUI(TreeView.RowGUIArgs)
+  nameWithType: ComponentTreeView.RowGUI(TreeView.RowGUIArgs)
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ComponentTreeView.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: RowGUI
+    path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
+    startLine: 163
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: protected override void RowGUI(TreeView.RowGUIArgs args)
+    parameters:
+    - id: args
+      type: UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs
+    content.vb: Protected Overrides Sub RowGUI(args As TreeView.RowGUIArgs)
+  overridden: UnityEditor.IMGUI.Controls.TreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)
+  overload: MacacaGames.ViewSystem.ComponentTreeView.RowGUI*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+- uid: MacacaGames.ViewSystem.ComponentTreeView.DrawValue(UnityEngine.Rect,UnityEditor.SerializedProperty)
+  commentId: M:MacacaGames.ViewSystem.ComponentTreeView.DrawValue(UnityEngine.Rect,UnityEditor.SerializedProperty)
+  id: DrawValue(UnityEngine.Rect,UnityEditor.SerializedProperty)
+  parent: MacacaGames.ViewSystem.ComponentTreeView
+  langs:
+  - csharp
+  - vb
+  name: DrawValue(Rect, SerializedProperty)
+  nameWithType: ComponentTreeView.DrawValue(Rect, SerializedProperty)
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.DrawValue(UnityEngine.Rect, UnityEditor.SerializedProperty)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ComponentTreeView.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: DrawValue
+    path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
+    startLine: 231
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: protected void DrawValue(Rect rect, SerializedProperty Target)
+    parameters:
+    - id: rect
+      type: UnityEngine.Rect
+    - id: Target
+      type: UnityEditor.SerializedProperty
+    content.vb: Protected Sub DrawValue(rect As Rect, Target As SerializedProperty)
+  overload: MacacaGames.ViewSystem.ComponentTreeView.DrawValue*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem(System.Int32)
+  commentId: M:MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem(System.Int32)
+  id: DoubleClickedItem(System.Int32)
+  parent: MacacaGames.ViewSystem.ComponentTreeView
+  langs:
+  - csharp
+  - vb
+  name: DoubleClickedItem(Int32)
+  nameWithType: ComponentTreeView.DoubleClickedItem(Int32)
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ComponentTreeView.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: DoubleClickedItem
+    path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
+    startLine: 298
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: protected override void DoubleClickedItem(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+    content.vb: Protected Overrides Sub DoubleClickedItem(id As Integer)
+  overridden: UnityEditor.IMGUI.Controls.TreeView.DoubleClickedItem(System.Int32)
+  overload: MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+- uid: MacacaGames.ViewSystem.ComponentTreeView.OnItemClick
+  commentId: E:MacacaGames.ViewSystem.ComponentTreeView.OnItemClick
+  id: OnItemClick
+  parent: MacacaGames.ViewSystem.ComponentTreeView
+  langs:
+  - csharp
+  - vb
+  name: OnItemClick
+  nameWithType: ComponentTreeView.OnItemClick
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.OnItemClick
+  type: Event
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ComponentTreeView.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnItemClick
+    path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
+    startLine: 316
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public event ComponentTreeView._OnItemClick OnItemClick
+    return:
+      type: MacacaGames.ViewSystem.ComponentTreeView._OnItemClick
+    content.vb: Public Event OnItemClick As ComponentTreeView._OnItemClick
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: UnityEditor.IMGUI.Controls.TreeView
+  commentId: T:UnityEditor.IMGUI.Controls.TreeView
+  parent: UnityEditor.IMGUI.Controls
+  isExternal: true
+  name: TreeView
+  nameWithType: TreeView
+  fullName: UnityEditor.IMGUI.Controls.TreeView
+- uid: UnityEditor.IMGUI.Controls.TreeView.BuildRows(UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.BuildRows(UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: BuildRows(TreeViewItem)
+  nameWithType: TreeView.BuildRows(TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.BuildRows(UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.BuildRows(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: BuildRows
+    nameWithType: TreeView.BuildRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.BuildRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.BuildRows(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: BuildRows
+    nameWithType: TreeView.BuildRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.BuildRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.Reload
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.Reload
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: Reload()
+  nameWithType: TreeView.Reload()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.Reload()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.Reload
+    name: Reload
+    nameWithType: TreeView.Reload
+    fullName: UnityEditor.IMGUI.Controls.TreeView.Reload
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.Reload
+    name: Reload
+    nameWithType: TreeView.Reload
+    fullName: UnityEditor.IMGUI.Controls.TreeView.Reload
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.Repaint
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.Repaint
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: Repaint()
+  nameWithType: TreeView.Repaint()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.Repaint()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.Repaint
+    name: Repaint
+    nameWithType: TreeView.Repaint
+    fullName: UnityEditor.IMGUI.Controls.TreeView.Repaint
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.Repaint
+    name: Repaint
+    nameWithType: TreeView.Repaint
+    fullName: UnityEditor.IMGUI.Controls.TreeView.Repaint
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetCellRectForTreeFoldouts(UnityEngine.Rect)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetCellRectForTreeFoldouts(UnityEngine.Rect)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetCellRectForTreeFoldouts(Rect)
+  nameWithType: TreeView.GetCellRectForTreeFoldouts(Rect)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetCellRectForTreeFoldouts(UnityEngine.Rect)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetCellRectForTreeFoldouts(UnityEngine.Rect)
+    name: GetCellRectForTreeFoldouts
+    nameWithType: TreeView.GetCellRectForTreeFoldouts
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetCellRectForTreeFoldouts
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetCellRectForTreeFoldouts(UnityEngine.Rect)
+    name: GetCellRectForTreeFoldouts
+    nameWithType: TreeView.GetCellRectForTreeFoldouts
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetCellRectForTreeFoldouts
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetRowRect(System.Int32)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetRowRect(System.Int32)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetRowRect(Int32)
+  nameWithType: TreeView.GetRowRect(Int32)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetRowRect(System.Int32)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetRowRect(System.Int32)
+    name: GetRowRect
+    nameWithType: TreeView.GetRowRect
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetRowRect
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetRowRect(System.Int32)
+    name: GetRowRect
+    nameWithType: TreeView.GetRowRect
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetRowRect
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetRows
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetRows
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetRows()
+  nameWithType: TreeView.GetRows()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetRows()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetRows
+    name: GetRows
+    nameWithType: TreeView.GetRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetRows
+    name: GetRows
+    nameWithType: TreeView.GetRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.FindRows(System.Collections.Generic.IList{System.Int32})
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.FindRows(System.Collections.Generic.IList{System.Int32})
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: FindRows(IList<Int32>)
+  nameWithType: TreeView.FindRows(IList<Int32>)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.FindRows(System.Collections.Generic.IList<System.Int32>)
+  nameWithType.vb: TreeView.FindRows(IList(Of Int32))
+  fullName.vb: UnityEditor.IMGUI.Controls.TreeView.FindRows(System.Collections.Generic.IList(Of System.Int32))
+  name.vb: FindRows(IList(Of Int32))
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.FindRows(System.Collections.Generic.IList{System.Int32})
+    name: FindRows
+    nameWithType: TreeView.FindRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.FindRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.FindRows(System.Collections.Generic.IList{System.Int32})
+    name: FindRows
+    nameWithType: TreeView.FindRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.FindRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.FindItem(System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.FindItem(System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: FindItem(Int32, TreeViewItem)
+  nameWithType: TreeView.FindItem(Int32, TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.FindItem(System.Int32, UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.FindItem(System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: FindItem
+    nameWithType: TreeView.FindItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.FindItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.FindItem(System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: FindItem
+    nameWithType: TreeView.FindItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.FindItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetFirstAndLastVisibleRows(System.Int32@,System.Int32@)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetFirstAndLastVisibleRows(System.Int32@,System.Int32@)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetFirstAndLastVisibleRows(Int32, Int32)
+  nameWithType: TreeView.GetFirstAndLastVisibleRows(Int32, Int32)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetFirstAndLastVisibleRows(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetFirstAndLastVisibleRows(System.Int32@,System.Int32@)
+    name: GetFirstAndLastVisibleRows
+    nameWithType: TreeView.GetFirstAndLastVisibleRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetFirstAndLastVisibleRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetFirstAndLastVisibleRows(System.Int32@,System.Int32@)
+    name: GetFirstAndLastVisibleRows
+    nameWithType: TreeView.GetFirstAndLastVisibleRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetFirstAndLastVisibleRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.ExpandAll
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.ExpandAll
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: ExpandAll()
+  nameWithType: TreeView.ExpandAll()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.ExpandAll()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.ExpandAll
+    name: ExpandAll
+    nameWithType: TreeView.ExpandAll
+    fullName: UnityEditor.IMGUI.Controls.TreeView.ExpandAll
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.ExpandAll
+    name: ExpandAll
+    nameWithType: TreeView.ExpandAll
+    fullName: UnityEditor.IMGUI.Controls.TreeView.ExpandAll
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.CollapseAll
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.CollapseAll
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: CollapseAll()
+  nameWithType: TreeView.CollapseAll()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.CollapseAll()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CollapseAll
+    name: CollapseAll
+    nameWithType: TreeView.CollapseAll
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CollapseAll
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CollapseAll
+    name: CollapseAll
+    nameWithType: TreeView.CollapseAll
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CollapseAll
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SetExpandedRecursive(System.Int32,System.Boolean)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SetExpandedRecursive(System.Int32,System.Boolean)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SetExpandedRecursive(Int32, Boolean)
+  nameWithType: TreeView.SetExpandedRecursive(Int32, Boolean)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SetExpandedRecursive(System.Int32, System.Boolean)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetExpandedRecursive(System.Int32,System.Boolean)
+    name: SetExpandedRecursive
+    nameWithType: TreeView.SetExpandedRecursive
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetExpandedRecursive
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetExpandedRecursive(System.Int32,System.Boolean)
+    name: SetExpandedRecursive
+    nameWithType: TreeView.SetExpandedRecursive
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetExpandedRecursive
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Int32,System.Boolean)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Int32,System.Boolean)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SetExpanded(Int32, Boolean)
+  nameWithType: TreeView.SetExpanded(Int32, Boolean)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Int32, System.Boolean)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Int32,System.Boolean)
+    name: SetExpanded
+    nameWithType: TreeView.SetExpanded
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetExpanded
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Int32,System.Boolean)
+    name: SetExpanded
+    nameWithType: TreeView.SetExpanded
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetExpanded
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Collections.Generic.IList{System.Int32})
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Collections.Generic.IList{System.Int32})
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SetExpanded(IList<Int32>)
+  nameWithType: TreeView.SetExpanded(IList<Int32>)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Collections.Generic.IList<System.Int32>)
+  nameWithType.vb: TreeView.SetExpanded(IList(Of Int32))
+  fullName.vb: UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Collections.Generic.IList(Of System.Int32))
+  name.vb: SetExpanded(IList(Of Int32))
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Collections.Generic.IList{System.Int32})
+    name: SetExpanded
+    nameWithType: TreeView.SetExpanded
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetExpanded
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetExpanded(System.Collections.Generic.IList{System.Int32})
+    name: SetExpanded
+    nameWithType: TreeView.SetExpanded
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetExpanded
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetExpanded
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetExpanded
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetExpanded()
+  nameWithType: TreeView.GetExpanded()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetExpanded()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetExpanded
+    name: GetExpanded
+    nameWithType: TreeView.GetExpanded
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetExpanded
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetExpanded
+    name: GetExpanded
+    nameWithType: TreeView.GetExpanded
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetExpanded
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.IsExpanded(System.Int32)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.IsExpanded(System.Int32)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: IsExpanded(Int32)
+  nameWithType: TreeView.IsExpanded(Int32)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.IsExpanded(System.Int32)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.IsExpanded(System.Int32)
+    name: IsExpanded
+    nameWithType: TreeView.IsExpanded
+    fullName: UnityEditor.IMGUI.Controls.TreeView.IsExpanded
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.IsExpanded(System.Int32)
+    name: IsExpanded
+    nameWithType: TreeView.IsExpanded
+    fullName: UnityEditor.IMGUI.Controls.TreeView.IsExpanded
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetSelection
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetSelection
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetSelection()
+  nameWithType: TreeView.GetSelection()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetSelection()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetSelection
+    name: GetSelection
+    nameWithType: TreeView.GetSelection
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetSelection
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetSelection
+    name: GetSelection
+    nameWithType: TreeView.GetSelection
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetSelection
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList{System.Int32})
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList{System.Int32})
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SetSelection(IList<Int32>)
+  nameWithType: TreeView.SetSelection(IList<Int32>)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList<System.Int32>)
+  nameWithType.vb: TreeView.SetSelection(IList(Of Int32))
+  fullName.vb: UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList(Of System.Int32))
+  name.vb: SetSelection(IList(Of Int32))
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList{System.Int32})
+    name: SetSelection
+    nameWithType: TreeView.SetSelection
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetSelection
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList{System.Int32})
+    name: SetSelection
+    nameWithType: TreeView.SetSelection
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetSelection
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList{System.Int32},UnityEditor.IMGUI.Controls.TreeViewSelectionOptions)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList{System.Int32},UnityEditor.IMGUI.Controls.TreeViewSelectionOptions)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SetSelection(IList<Int32>, TreeViewSelectionOptions)
+  nameWithType: TreeView.SetSelection(IList<Int32>, TreeViewSelectionOptions)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList<System.Int32>, UnityEditor.IMGUI.Controls.TreeViewSelectionOptions)
+  nameWithType.vb: TreeView.SetSelection(IList(Of Int32), TreeViewSelectionOptions)
+  fullName.vb: UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList(Of System.Int32), UnityEditor.IMGUI.Controls.TreeViewSelectionOptions)
+  name.vb: SetSelection(IList(Of Int32), TreeViewSelectionOptions)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList{System.Int32},UnityEditor.IMGUI.Controls.TreeViewSelectionOptions)
+    name: SetSelection
+    nameWithType: TreeView.SetSelection
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetSelection
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.IMGUI.Controls.TreeViewSelectionOptions
+    name: TreeViewSelectionOptions
+    nameWithType: TreeViewSelectionOptions
+    fullName: UnityEditor.IMGUI.Controls.TreeViewSelectionOptions
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetSelection(System.Collections.Generic.IList{System.Int32},UnityEditor.IMGUI.Controls.TreeViewSelectionOptions)
+    name: SetSelection
+    nameWithType: TreeView.SetSelection
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetSelection
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.IMGUI.Controls.TreeViewSelectionOptions
+    name: TreeViewSelectionOptions
+    nameWithType: TreeViewSelectionOptions
+    fullName: UnityEditor.IMGUI.Controls.TreeViewSelectionOptions
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.IsSelected(System.Int32)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.IsSelected(System.Int32)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: IsSelected(Int32)
+  nameWithType: TreeView.IsSelected(Int32)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.IsSelected(System.Int32)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.IsSelected(System.Int32)
+    name: IsSelected
+    nameWithType: TreeView.IsSelected
+    fullName: UnityEditor.IMGUI.Controls.TreeView.IsSelected
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.IsSelected(System.Int32)
+    name: IsSelected
+    nameWithType: TreeView.IsSelected
+    fullName: UnityEditor.IMGUI.Controls.TreeView.IsSelected
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.HasSelection
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.HasSelection
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: HasSelection()
+  nameWithType: TreeView.HasSelection()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.HasSelection()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.HasSelection
+    name: HasSelection
+    nameWithType: TreeView.HasSelection
+    fullName: UnityEditor.IMGUI.Controls.TreeView.HasSelection
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.HasSelection
+    name: HasSelection
+    nameWithType: TreeView.HasSelection
+    fullName: UnityEditor.IMGUI.Controls.TreeView.HasSelection
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.HasFocus
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.HasFocus
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: HasFocus()
+  nameWithType: TreeView.HasFocus()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.HasFocus()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.HasFocus
+    name: HasFocus
+    nameWithType: TreeView.HasFocus
+    fullName: UnityEditor.IMGUI.Controls.TreeView.HasFocus
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.HasFocus
+    name: HasFocus
+    nameWithType: TreeView.HasFocus
+    fullName: UnityEditor.IMGUI.Controls.TreeView.HasFocus
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SetFocus
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SetFocus
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SetFocus()
+  nameWithType: TreeView.SetFocus()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SetFocus()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetFocus
+    name: SetFocus
+    nameWithType: TreeView.SetFocus
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetFocus
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetFocus
+    name: SetFocus
+    nameWithType: TreeView.SetFocus
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetFocus
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SetFocusAndEnsureSelectedItem
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SetFocusAndEnsureSelectedItem
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SetFocusAndEnsureSelectedItem()
+  nameWithType: TreeView.SetFocusAndEnsureSelectedItem()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SetFocusAndEnsureSelectedItem()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetFocusAndEnsureSelectedItem
+    name: SetFocusAndEnsureSelectedItem
+    nameWithType: TreeView.SetFocusAndEnsureSelectedItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetFocusAndEnsureSelectedItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetFocusAndEnsureSelectedItem
+    name: SetFocusAndEnsureSelectedItem
+    nameWithType: TreeView.SetFocusAndEnsureSelectedItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetFocusAndEnsureSelectedItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SelectionClick(UnityEditor.IMGUI.Controls.TreeViewItem,System.Boolean)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SelectionClick(UnityEditor.IMGUI.Controls.TreeViewItem,System.Boolean)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SelectionClick(TreeViewItem, Boolean)
+  nameWithType: TreeView.SelectionClick(TreeViewItem, Boolean)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SelectionClick(UnityEditor.IMGUI.Controls.TreeViewItem, System.Boolean)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SelectionClick(UnityEditor.IMGUI.Controls.TreeViewItem,System.Boolean)
+    name: SelectionClick
+    nameWithType: TreeView.SelectionClick
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SelectionClick
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SelectionClick(UnityEditor.IMGUI.Controls.TreeViewItem,System.Boolean)
+    name: SelectionClick
+    nameWithType: TreeView.SelectionClick
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SelectionClick
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: BeginRename(TreeViewItem)
+  nameWithType: TreeView.BeginRename(TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: BeginRename
+    nameWithType: TreeView.BeginRename
+    fullName: UnityEditor.IMGUI.Controls.TreeView.BeginRename
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: BeginRename
+    nameWithType: TreeView.BeginRename
+    fullName: UnityEditor.IMGUI.Controls.TreeView.BeginRename
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem,System.Single)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem,System.Single)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: BeginRename(TreeViewItem, Single)
+  nameWithType: TreeView.BeginRename(TreeViewItem, Single)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem, System.Single)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem,System.Single)
+    name: BeginRename
+    nameWithType: TreeView.BeginRename
+    fullName: UnityEditor.IMGUI.Controls.TreeView.BeginRename
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.BeginRename(UnityEditor.IMGUI.Controls.TreeViewItem,System.Single)
+    name: BeginRename
+    nameWithType: TreeView.BeginRename
+    fullName: UnityEditor.IMGUI.Controls.TreeView.BeginRename
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.EndRename
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.EndRename
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: EndRename()
+  nameWithType: TreeView.EndRename()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.EndRename()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.EndRename
+    name: EndRename
+    nameWithType: TreeView.EndRename
+    fullName: UnityEditor.IMGUI.Controls.TreeView.EndRename
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.EndRename
+    name: EndRename
+    nameWithType: TreeView.EndRename
+    fullName: UnityEditor.IMGUI.Controls.TreeView.EndRename
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.FrameItem(System.Int32)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.FrameItem(System.Int32)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: FrameItem(Int32)
+  nameWithType: TreeView.FrameItem(Int32)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.FrameItem(System.Int32)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.FrameItem(System.Int32)
+    name: FrameItem
+    nameWithType: TreeView.FrameItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.FrameItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.FrameItem(System.Int32)
+    name: FrameItem
+    nameWithType: TreeView.FrameItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.FrameItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.OnGUI(UnityEngine.Rect)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.OnGUI(UnityEngine.Rect)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: OnGUI(Rect)
+  nameWithType: TreeView.OnGUI(Rect)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.OnGUI(UnityEngine.Rect)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.OnGUI(UnityEngine.Rect)
+    name: OnGUI
+    nameWithType: TreeView.OnGUI
+    fullName: UnityEditor.IMGUI.Controls.TreeView.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.OnGUI(UnityEngine.Rect)
+    name: OnGUI
+    nameWithType: TreeView.OnGUI
+    fullName: UnityEditor.IMGUI.Controls.TreeView.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SelectAllRows
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SelectAllRows
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SelectAllRows()
+  nameWithType: TreeView.SelectAllRows()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SelectAllRows()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SelectAllRows
+    name: SelectAllRows
+    nameWithType: TreeView.SelectAllRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SelectAllRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SelectAllRows
+    name: SelectAllRows
+    nameWithType: TreeView.SelectAllRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SelectAllRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetFoldoutIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetFoldoutIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetFoldoutIndent(TreeViewItem)
+  nameWithType: TreeView.GetFoldoutIndent(TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetFoldoutIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetFoldoutIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: GetFoldoutIndent
+    nameWithType: TreeView.GetFoldoutIndent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetFoldoutIndent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetFoldoutIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: GetFoldoutIndent
+    nameWithType: TreeView.GetFoldoutIndent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetFoldoutIndent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetContentIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetContentIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetContentIndent(TreeViewItem)
+  nameWithType: TreeView.GetContentIndent(TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetContentIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetContentIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: GetContentIndent
+    nameWithType: TreeView.GetContentIndent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetContentIndent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetContentIndent(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: GetContentIndent
+    nameWithType: TreeView.GetContentIndent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetContentIndent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SortItemIDsInRowOrder(System.Collections.Generic.IList{System.Int32})
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SortItemIDsInRowOrder(System.Collections.Generic.IList{System.Int32})
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SortItemIDsInRowOrder(IList<Int32>)
+  nameWithType: TreeView.SortItemIDsInRowOrder(IList<Int32>)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SortItemIDsInRowOrder(System.Collections.Generic.IList<System.Int32>)
+  nameWithType.vb: TreeView.SortItemIDsInRowOrder(IList(Of Int32))
+  fullName.vb: UnityEditor.IMGUI.Controls.TreeView.SortItemIDsInRowOrder(System.Collections.Generic.IList(Of System.Int32))
+  name.vb: SortItemIDsInRowOrder(IList(Of Int32))
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SortItemIDsInRowOrder(System.Collections.Generic.IList{System.Int32})
+    name: SortItemIDsInRowOrder
+    nameWithType: TreeView.SortItemIDsInRowOrder
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SortItemIDsInRowOrder
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SortItemIDsInRowOrder(System.Collections.Generic.IList{System.Int32})
+    name: SortItemIDsInRowOrder
+    nameWithType: TreeView.SortItemIDsInRowOrder
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SortItemIDsInRowOrder
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.CenterRectUsingSingleLineHeight(UnityEngine.Rect@)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.CenterRectUsingSingleLineHeight(UnityEngine.Rect@)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: CenterRectUsingSingleLineHeight(Rect)
+  nameWithType: TreeView.CenterRectUsingSingleLineHeight(Rect)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.CenterRectUsingSingleLineHeight(UnityEngine.Rect)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CenterRectUsingSingleLineHeight(UnityEngine.Rect@)
+    name: CenterRectUsingSingleLineHeight
+    nameWithType: TreeView.CenterRectUsingSingleLineHeight
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CenterRectUsingSingleLineHeight
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CenterRectUsingSingleLineHeight(UnityEngine.Rect@)
+    name: CenterRectUsingSingleLineHeight
+    nameWithType: TreeView.CenterRectUsingSingleLineHeight
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CenterRectUsingSingleLineHeight
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.AddExpandedRows(UnityEditor.IMGUI.Controls.TreeViewItem,System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.AddExpandedRows(UnityEditor.IMGUI.Controls.TreeViewItem,System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: AddExpandedRows(TreeViewItem, IList<TreeViewItem>)
+  nameWithType: TreeView.AddExpandedRows(TreeViewItem, IList<TreeViewItem>)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.AddExpandedRows(UnityEditor.IMGUI.Controls.TreeViewItem, System.Collections.Generic.IList<UnityEditor.IMGUI.Controls.TreeViewItem>)
+  nameWithType.vb: TreeView.AddExpandedRows(TreeViewItem, IList(Of TreeViewItem))
+  fullName.vb: UnityEditor.IMGUI.Controls.TreeView.AddExpandedRows(UnityEditor.IMGUI.Controls.TreeViewItem, System.Collections.Generic.IList(Of UnityEditor.IMGUI.Controls.TreeViewItem))
+  name.vb: AddExpandedRows(TreeViewItem, IList(Of TreeViewItem))
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.AddExpandedRows(UnityEditor.IMGUI.Controls.TreeViewItem,System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+    name: AddExpandedRows
+    nameWithType: TreeView.AddExpandedRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.AddExpandedRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.AddExpandedRows(UnityEditor.IMGUI.Controls.TreeViewItem,System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+    name: AddExpandedRows
+    nameWithType: TreeView.AddExpandedRows
+    fullName: UnityEditor.IMGUI.Controls.TreeView.AddExpandedRows
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SelectionChanged(System.Collections.Generic.IList{System.Int32})
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SelectionChanged(System.Collections.Generic.IList{System.Int32})
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SelectionChanged(IList<Int32>)
+  nameWithType: TreeView.SelectionChanged(IList<Int32>)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SelectionChanged(System.Collections.Generic.IList<System.Int32>)
+  nameWithType.vb: TreeView.SelectionChanged(IList(Of Int32))
+  fullName.vb: UnityEditor.IMGUI.Controls.TreeView.SelectionChanged(System.Collections.Generic.IList(Of System.Int32))
+  name.vb: SelectionChanged(IList(Of Int32))
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SelectionChanged(System.Collections.Generic.IList{System.Int32})
+    name: SelectionChanged
+    nameWithType: TreeView.SelectionChanged
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SelectionChanged
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SelectionChanged(System.Collections.Generic.IList{System.Int32})
+    name: SelectionChanged
+    nameWithType: TreeView.SelectionChanged
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SelectionChanged
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SingleClickedItem(System.Int32)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SingleClickedItem(System.Int32)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SingleClickedItem(Int32)
+  nameWithType: TreeView.SingleClickedItem(Int32)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SingleClickedItem(System.Int32)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SingleClickedItem(System.Int32)
+    name: SingleClickedItem
+    nameWithType: TreeView.SingleClickedItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SingleClickedItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SingleClickedItem(System.Int32)
+    name: SingleClickedItem
+    nameWithType: TreeView.SingleClickedItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SingleClickedItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.ContextClickedItem(System.Int32)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.ContextClickedItem(System.Int32)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: ContextClickedItem(Int32)
+  nameWithType: TreeView.ContextClickedItem(Int32)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.ContextClickedItem(System.Int32)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.ContextClickedItem(System.Int32)
+    name: ContextClickedItem
+    nameWithType: TreeView.ContextClickedItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.ContextClickedItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.ContextClickedItem(System.Int32)
+    name: ContextClickedItem
+    nameWithType: TreeView.ContextClickedItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.ContextClickedItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.ContextClicked
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.ContextClicked
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: ContextClicked()
+  nameWithType: TreeView.ContextClicked()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.ContextClicked()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.ContextClicked
+    name: ContextClicked
+    nameWithType: TreeView.ContextClicked
+    fullName: UnityEditor.IMGUI.Controls.TreeView.ContextClicked
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.ContextClicked
+    name: ContextClicked
+    nameWithType: TreeView.ContextClicked
+    fullName: UnityEditor.IMGUI.Controls.TreeView.ContextClicked
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.ExpandedStateChanged
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.ExpandedStateChanged
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: ExpandedStateChanged()
+  nameWithType: TreeView.ExpandedStateChanged()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.ExpandedStateChanged()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.ExpandedStateChanged
+    name: ExpandedStateChanged
+    nameWithType: TreeView.ExpandedStateChanged
+    fullName: UnityEditor.IMGUI.Controls.TreeView.ExpandedStateChanged
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.ExpandedStateChanged
+    name: ExpandedStateChanged
+    nameWithType: TreeView.ExpandedStateChanged
+    fullName: UnityEditor.IMGUI.Controls.TreeView.ExpandedStateChanged
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SearchChanged(System.String)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SearchChanged(System.String)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SearchChanged(String)
+  nameWithType: TreeView.SearchChanged(String)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SearchChanged(System.String)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SearchChanged(System.String)
+    name: SearchChanged
+    nameWithType: TreeView.SearchChanged
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SearchChanged
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SearchChanged(System.String)
+    name: SearchChanged
+    nameWithType: TreeView.SearchChanged
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SearchChanged
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.KeyEvent
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.KeyEvent
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: KeyEvent()
+  nameWithType: TreeView.KeyEvent()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.KeyEvent()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.KeyEvent
+    name: KeyEvent
+    nameWithType: TreeView.KeyEvent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.KeyEvent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.KeyEvent
+    name: KeyEvent
+    nameWithType: TreeView.KeyEvent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.KeyEvent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetAncestors(System.Int32)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetAncestors(System.Int32)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetAncestors(Int32)
+  nameWithType: TreeView.GetAncestors(Int32)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetAncestors(System.Int32)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetAncestors(System.Int32)
+    name: GetAncestors
+    nameWithType: TreeView.GetAncestors
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetAncestors
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetAncestors(System.Int32)
+    name: GetAncestors
+    nameWithType: TreeView.GetAncestors
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetAncestors
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetDescendantsThatHaveChildren(System.Int32)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetDescendantsThatHaveChildren(System.Int32)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetDescendantsThatHaveChildren(Int32)
+  nameWithType: TreeView.GetDescendantsThatHaveChildren(Int32)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetDescendantsThatHaveChildren(System.Int32)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetDescendantsThatHaveChildren(System.Int32)
+    name: GetDescendantsThatHaveChildren
+    nameWithType: TreeView.GetDescendantsThatHaveChildren
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetDescendantsThatHaveChildren
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetDescendantsThatHaveChildren(System.Int32)
+    name: GetDescendantsThatHaveChildren
+    nameWithType: TreeView.GetDescendantsThatHaveChildren
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetDescendantsThatHaveChildren
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.CanMultiSelect(UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.CanMultiSelect(UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: CanMultiSelect(TreeViewItem)
+  nameWithType: TreeView.CanMultiSelect(TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.CanMultiSelect(UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanMultiSelect(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: CanMultiSelect
+    nameWithType: TreeView.CanMultiSelect
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanMultiSelect
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanMultiSelect(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: CanMultiSelect
+    nameWithType: TreeView.CanMultiSelect
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanMultiSelect
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.CanRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.CanRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: CanRename(TreeViewItem)
+  nameWithType: TreeView.CanRename(TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.CanRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: CanRename
+    nameWithType: TreeView.CanRename
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanRename
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanRename(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: CanRename
+    nameWithType: TreeView.CanRename
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanRename
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.RenameEnded(UnityEditor.IMGUI.Controls.TreeView.RenameEndedArgs)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.RenameEnded(UnityEditor.IMGUI.Controls.TreeView.RenameEndedArgs)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: RenameEnded(TreeView.RenameEndedArgs)
+  nameWithType: TreeView.RenameEnded(TreeView.RenameEndedArgs)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.RenameEnded(UnityEditor.IMGUI.Controls.TreeView.RenameEndedArgs)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.RenameEnded(UnityEditor.IMGUI.Controls.TreeView.RenameEndedArgs)
+    name: RenameEnded
+    nameWithType: TreeView.RenameEnded
+    fullName: UnityEditor.IMGUI.Controls.TreeView.RenameEnded
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeView.RenameEndedArgs
+    name: TreeView.RenameEndedArgs
+    nameWithType: TreeView.RenameEndedArgs
+    fullName: UnityEditor.IMGUI.Controls.TreeView.RenameEndedArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.RenameEnded(UnityEditor.IMGUI.Controls.TreeView.RenameEndedArgs)
+    name: RenameEnded
+    nameWithType: TreeView.RenameEnded
+    fullName: UnityEditor.IMGUI.Controls.TreeView.RenameEnded
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeView.RenameEndedArgs
+    name: TreeView.RenameEndedArgs
+    nameWithType: TreeView.RenameEndedArgs
+    fullName: UnityEditor.IMGUI.Controls.TreeView.RenameEndedArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.CanStartDrag(UnityEditor.IMGUI.Controls.TreeView.CanStartDragArgs)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.CanStartDrag(UnityEditor.IMGUI.Controls.TreeView.CanStartDragArgs)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: CanStartDrag(TreeView.CanStartDragArgs)
+  nameWithType: TreeView.CanStartDrag(TreeView.CanStartDragArgs)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.CanStartDrag(UnityEditor.IMGUI.Controls.TreeView.CanStartDragArgs)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanStartDrag(UnityEditor.IMGUI.Controls.TreeView.CanStartDragArgs)
+    name: CanStartDrag
+    nameWithType: TreeView.CanStartDrag
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanStartDrag
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanStartDragArgs
+    name: TreeView.CanStartDragArgs
+    nameWithType: TreeView.CanStartDragArgs
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanStartDragArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanStartDrag(UnityEditor.IMGUI.Controls.TreeView.CanStartDragArgs)
+    name: CanStartDrag
+    nameWithType: TreeView.CanStartDrag
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanStartDrag
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanStartDragArgs
+    name: TreeView.CanStartDragArgs
+    nameWithType: TreeView.CanStartDragArgs
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanStartDragArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDropArgs)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDropArgs)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SetupDragAndDrop(TreeView.SetupDragAndDropArgs)
+  nameWithType: TreeView.SetupDragAndDrop(TreeView.SetupDragAndDropArgs)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDropArgs)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDropArgs)
+    name: SetupDragAndDrop
+    nameWithType: TreeView.SetupDragAndDrop
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDrop
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDropArgs
+    name: TreeView.SetupDragAndDropArgs
+    nameWithType: TreeView.SetupDragAndDropArgs
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDropArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDropArgs)
+    name: SetupDragAndDrop
+    nameWithType: TreeView.SetupDragAndDrop
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDrop
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDropArgs
+    name: TreeView.SetupDragAndDropArgs
+    nameWithType: TreeView.SetupDragAndDropArgs
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetupDragAndDropArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.HandleDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.DragAndDropArgs)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.HandleDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.DragAndDropArgs)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: HandleDragAndDrop(TreeView.DragAndDropArgs)
+  nameWithType: TreeView.HandleDragAndDrop(TreeView.DragAndDropArgs)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.HandleDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.DragAndDropArgs)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.HandleDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.DragAndDropArgs)
+    name: HandleDragAndDrop
+    nameWithType: TreeView.HandleDragAndDrop
+    fullName: UnityEditor.IMGUI.Controls.TreeView.HandleDragAndDrop
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeView.DragAndDropArgs
+    name: TreeView.DragAndDropArgs
+    nameWithType: TreeView.DragAndDropArgs
+    fullName: UnityEditor.IMGUI.Controls.TreeView.DragAndDropArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.HandleDragAndDrop(UnityEditor.IMGUI.Controls.TreeView.DragAndDropArgs)
+    name: HandleDragAndDrop
+    nameWithType: TreeView.HandleDragAndDrop
+    fullName: UnityEditor.IMGUI.Controls.TreeView.HandleDragAndDrop
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeView.DragAndDropArgs
+    name: TreeView.DragAndDropArgs
+    nameWithType: TreeView.DragAndDropArgs
+    fullName: UnityEditor.IMGUI.Controls.TreeView.DragAndDropArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.CanBeParent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.CanBeParent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: CanBeParent(TreeViewItem)
+  nameWithType: TreeView.CanBeParent(TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.CanBeParent(UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanBeParent(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: CanBeParent
+    nameWithType: TreeView.CanBeParent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanBeParent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanBeParent(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: CanBeParent
+    nameWithType: TreeView.CanBeParent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanBeParent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.CanChangeExpandedState(UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.CanChangeExpandedState(UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: CanChangeExpandedState(TreeViewItem)
+  nameWithType: TreeView.CanChangeExpandedState(TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.CanChangeExpandedState(UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanChangeExpandedState(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: CanChangeExpandedState
+    nameWithType: TreeView.CanChangeExpandedState
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanChangeExpandedState
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CanChangeExpandedState(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: CanChangeExpandedState
+    nameWithType: TreeView.CanChangeExpandedState
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CanChangeExpandedState
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.DoesItemMatchSearch(UnityEditor.IMGUI.Controls.TreeViewItem,System.String)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.DoesItemMatchSearch(UnityEditor.IMGUI.Controls.TreeViewItem,System.String)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: DoesItemMatchSearch(TreeViewItem, String)
+  nameWithType: TreeView.DoesItemMatchSearch(TreeViewItem, String)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.DoesItemMatchSearch(UnityEditor.IMGUI.Controls.TreeViewItem, System.String)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.DoesItemMatchSearch(UnityEditor.IMGUI.Controls.TreeViewItem,System.String)
+    name: DoesItemMatchSearch
+    nameWithType: TreeView.DoesItemMatchSearch
+    fullName: UnityEditor.IMGUI.Controls.TreeView.DoesItemMatchSearch
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.DoesItemMatchSearch(UnityEditor.IMGUI.Controls.TreeViewItem,System.String)
+    name: DoesItemMatchSearch
+    nameWithType: TreeView.DoesItemMatchSearch
+    fullName: UnityEditor.IMGUI.Controls.TreeView.DoesItemMatchSearch
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.BeforeRowsGUI
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.BeforeRowsGUI
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: BeforeRowsGUI()
+  nameWithType: TreeView.BeforeRowsGUI()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.BeforeRowsGUI()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.BeforeRowsGUI
+    name: BeforeRowsGUI
+    nameWithType: TreeView.BeforeRowsGUI
+    fullName: UnityEditor.IMGUI.Controls.TreeView.BeforeRowsGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.BeforeRowsGUI
+    name: BeforeRowsGUI
+    nameWithType: TreeView.BeforeRowsGUI
+    fullName: UnityEditor.IMGUI.Controls.TreeView.BeforeRowsGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.AfterRowsGUI
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.AfterRowsGUI
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: AfterRowsGUI()
+  nameWithType: TreeView.AfterRowsGUI()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.AfterRowsGUI()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.AfterRowsGUI
+    name: AfterRowsGUI
+    nameWithType: TreeView.AfterRowsGUI
+    fullName: UnityEditor.IMGUI.Controls.TreeView.AfterRowsGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.AfterRowsGUI
+    name: AfterRowsGUI
+    nameWithType: TreeView.AfterRowsGUI
+    fullName: UnityEditor.IMGUI.Controls.TreeView.AfterRowsGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.RefreshCustomRowHeights
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.RefreshCustomRowHeights
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: RefreshCustomRowHeights()
+  nameWithType: TreeView.RefreshCustomRowHeights()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.RefreshCustomRowHeights()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.RefreshCustomRowHeights
+    name: RefreshCustomRowHeights
+    nameWithType: TreeView.RefreshCustomRowHeights
+    fullName: UnityEditor.IMGUI.Controls.TreeView.RefreshCustomRowHeights
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.RefreshCustomRowHeights
+    name: RefreshCustomRowHeights
+    nameWithType: TreeView.RefreshCustomRowHeights
+    fullName: UnityEditor.IMGUI.Controls.TreeView.RefreshCustomRowHeights
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetCustomRowHeight(System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetCustomRowHeight(System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetCustomRowHeight(Int32, TreeViewItem)
+  nameWithType: TreeView.GetCustomRowHeight(Int32, TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetCustomRowHeight(System.Int32, UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetCustomRowHeight(System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: GetCustomRowHeight
+    nameWithType: TreeView.GetCustomRowHeight
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetCustomRowHeight
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetCustomRowHeight(System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: GetCustomRowHeight
+    nameWithType: TreeView.GetCustomRowHeight
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetCustomRowHeight
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.GetRenameRect(UnityEngine.Rect,System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.GetRenameRect(UnityEngine.Rect,System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: GetRenameRect(Rect, Int32, TreeViewItem)
+  nameWithType: TreeView.GetRenameRect(Rect, Int32, TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.GetRenameRect(UnityEngine.Rect, System.Int32, UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetRenameRect(UnityEngine.Rect,System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: GetRenameRect
+    nameWithType: TreeView.GetRenameRect
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetRenameRect
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.GetRenameRect(UnityEngine.Rect,System.Int32,UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: GetRenameRect
+    nameWithType: TreeView.GetRenameRect
+    fullName: UnityEditor.IMGUI.Controls.TreeView.GetRenameRect
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.CommandEventHandling
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.CommandEventHandling
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: CommandEventHandling()
+  nameWithType: TreeView.CommandEventHandling()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.CommandEventHandling()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CommandEventHandling
+    name: CommandEventHandling
+    nameWithType: TreeView.CommandEventHandling
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CommandEventHandling
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CommandEventHandling
+    name: CommandEventHandling
+    nameWithType: TreeView.CommandEventHandling
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CommandEventHandling
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SetupParentsAndChildrenFromDepths(UnityEditor.IMGUI.Controls.TreeViewItem,System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SetupParentsAndChildrenFromDepths(UnityEditor.IMGUI.Controls.TreeViewItem,System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SetupParentsAndChildrenFromDepths(TreeViewItem, IList<TreeViewItem>)
+  nameWithType: TreeView.SetupParentsAndChildrenFromDepths(TreeViewItem, IList<TreeViewItem>)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SetupParentsAndChildrenFromDepths(UnityEditor.IMGUI.Controls.TreeViewItem, System.Collections.Generic.IList<UnityEditor.IMGUI.Controls.TreeViewItem>)
+  nameWithType.vb: TreeView.SetupParentsAndChildrenFromDepths(TreeViewItem, IList(Of TreeViewItem))
+  fullName.vb: UnityEditor.IMGUI.Controls.TreeView.SetupParentsAndChildrenFromDepths(UnityEditor.IMGUI.Controls.TreeViewItem, System.Collections.Generic.IList(Of UnityEditor.IMGUI.Controls.TreeViewItem))
+  name.vb: SetupParentsAndChildrenFromDepths(TreeViewItem, IList(Of TreeViewItem))
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetupParentsAndChildrenFromDepths(UnityEditor.IMGUI.Controls.TreeViewItem,System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+    name: SetupParentsAndChildrenFromDepths
+    nameWithType: TreeView.SetupParentsAndChildrenFromDepths
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetupParentsAndChildrenFromDepths
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetupParentsAndChildrenFromDepths(UnityEditor.IMGUI.Controls.TreeViewItem,System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+    name: SetupParentsAndChildrenFromDepths
+    nameWithType: TreeView.SetupParentsAndChildrenFromDepths
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetupParentsAndChildrenFromDepths
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.SetupDepthsFromParentsAndChildren(UnityEditor.IMGUI.Controls.TreeViewItem)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.SetupDepthsFromParentsAndChildren(UnityEditor.IMGUI.Controls.TreeViewItem)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: SetupDepthsFromParentsAndChildren(TreeViewItem)
+  nameWithType: TreeView.SetupDepthsFromParentsAndChildren(TreeViewItem)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.SetupDepthsFromParentsAndChildren(UnityEditor.IMGUI.Controls.TreeViewItem)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetupDepthsFromParentsAndChildren(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: SetupDepthsFromParentsAndChildren
+    nameWithType: TreeView.SetupDepthsFromParentsAndChildren
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetupDepthsFromParentsAndChildren
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.SetupDepthsFromParentsAndChildren(UnityEditor.IMGUI.Controls.TreeViewItem)
+    name: SetupDepthsFromParentsAndChildren
+    nameWithType: TreeView.SetupDepthsFromParentsAndChildren
+    fullName: UnityEditor.IMGUI.Controls.TreeView.SetupDepthsFromParentsAndChildren
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.CreateChildListForCollapsedParent
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.CreateChildListForCollapsedParent
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: CreateChildListForCollapsedParent()
+  nameWithType: TreeView.CreateChildListForCollapsedParent()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.CreateChildListForCollapsedParent()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CreateChildListForCollapsedParent
+    name: CreateChildListForCollapsedParent
+    nameWithType: TreeView.CreateChildListForCollapsedParent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CreateChildListForCollapsedParent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.CreateChildListForCollapsedParent
+    name: CreateChildListForCollapsedParent
+    nameWithType: TreeView.CreateChildListForCollapsedParent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.CreateChildListForCollapsedParent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.IsChildListForACollapsedParent(System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.IsChildListForACollapsedParent(System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: IsChildListForACollapsedParent(IList<TreeViewItem>)
+  nameWithType: TreeView.IsChildListForACollapsedParent(IList<TreeViewItem>)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.IsChildListForACollapsedParent(System.Collections.Generic.IList<UnityEditor.IMGUI.Controls.TreeViewItem>)
+  nameWithType.vb: TreeView.IsChildListForACollapsedParent(IList(Of TreeViewItem))
+  fullName.vb: UnityEditor.IMGUI.Controls.TreeView.IsChildListForACollapsedParent(System.Collections.Generic.IList(Of UnityEditor.IMGUI.Controls.TreeViewItem))
+  name.vb: IsChildListForACollapsedParent(IList(Of TreeViewItem))
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.IsChildListForACollapsedParent(System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+    name: IsChildListForACollapsedParent
+    nameWithType: TreeView.IsChildListForACollapsedParent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.IsChildListForACollapsedParent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.IsChildListForACollapsedParent(System.Collections.Generic.IList{UnityEditor.IMGUI.Controls.TreeViewItem})
+    name: IsChildListForACollapsedParent
+    nameWithType: TreeView.IsChildListForACollapsedParent
+    fullName: UnityEditor.IMGUI.Controls.TreeView.IsChildListForACollapsedParent
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: UnityEditor.IMGUI.Controls.TreeViewItem
+    name: TreeViewItem
+    nameWithType: TreeViewItem
+    fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.IMGUI.Controls.TreeView.getNewSelectionOverride
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.getNewSelectionOverride
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: getNewSelectionOverride
+  nameWithType: TreeView.getNewSelectionOverride
+  fullName: UnityEditor.IMGUI.Controls.TreeView.getNewSelectionOverride
+- uid: UnityEditor.IMGUI.Controls.TreeView.foldoutOverride
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.foldoutOverride
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: foldoutOverride
+  nameWithType: TreeView.foldoutOverride
+  fullName: UnityEditor.IMGUI.Controls.TreeView.foldoutOverride
+- uid: UnityEditor.IMGUI.Controls.TreeView.state
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.state
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: state
+  nameWithType: TreeView.state
+  fullName: UnityEditor.IMGUI.Controls.TreeView.state
+- uid: UnityEditor.IMGUI.Controls.TreeView.multiColumnHeader
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.multiColumnHeader
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: multiColumnHeader
+  nameWithType: TreeView.multiColumnHeader
+  fullName: UnityEditor.IMGUI.Controls.TreeView.multiColumnHeader
+- uid: UnityEditor.IMGUI.Controls.TreeView.rootItem
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.rootItem
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: rootItem
+  nameWithType: TreeView.rootItem
+  fullName: UnityEditor.IMGUI.Controls.TreeView.rootItem
+- uid: UnityEditor.IMGUI.Controls.TreeView.isInitialized
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.isInitialized
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: isInitialized
+  nameWithType: TreeView.isInitialized
+  fullName: UnityEditor.IMGUI.Controls.TreeView.isInitialized
+- uid: UnityEditor.IMGUI.Controls.TreeView.treeViewRect
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.treeViewRect
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: treeViewRect
+  nameWithType: TreeView.treeViewRect
+  fullName: UnityEditor.IMGUI.Controls.TreeView.treeViewRect
+- uid: UnityEditor.IMGUI.Controls.TreeView.baseIndent
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.baseIndent
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: baseIndent
+  nameWithType: TreeView.baseIndent
+  fullName: UnityEditor.IMGUI.Controls.TreeView.baseIndent
+- uid: UnityEditor.IMGUI.Controls.TreeView.foldoutWidth
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.foldoutWidth
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: foldoutWidth
+  nameWithType: TreeView.foldoutWidth
+  fullName: UnityEditor.IMGUI.Controls.TreeView.foldoutWidth
+- uid: UnityEditor.IMGUI.Controls.TreeView.extraSpaceBeforeIconAndLabel
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.extraSpaceBeforeIconAndLabel
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: extraSpaceBeforeIconAndLabel
+  nameWithType: TreeView.extraSpaceBeforeIconAndLabel
+  fullName: UnityEditor.IMGUI.Controls.TreeView.extraSpaceBeforeIconAndLabel
+- uid: UnityEditor.IMGUI.Controls.TreeView.customFoldoutYOffset
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.customFoldoutYOffset
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: customFoldoutYOffset
+  nameWithType: TreeView.customFoldoutYOffset
+  fullName: UnityEditor.IMGUI.Controls.TreeView.customFoldoutYOffset
+- uid: UnityEditor.IMGUI.Controls.TreeView.columnIndexForTreeFoldouts
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.columnIndexForTreeFoldouts
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: columnIndexForTreeFoldouts
+  nameWithType: TreeView.columnIndexForTreeFoldouts
+  fullName: UnityEditor.IMGUI.Controls.TreeView.columnIndexForTreeFoldouts
+- uid: UnityEditor.IMGUI.Controls.TreeView.useScrollView
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.useScrollView
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: useScrollView
+  nameWithType: TreeView.useScrollView
+  fullName: UnityEditor.IMGUI.Controls.TreeView.useScrollView
+- uid: UnityEditor.IMGUI.Controls.TreeView.depthIndentWidth
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.depthIndentWidth
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: depthIndentWidth
+  nameWithType: TreeView.depthIndentWidth
+  fullName: UnityEditor.IMGUI.Controls.TreeView.depthIndentWidth
+- uid: UnityEditor.IMGUI.Controls.TreeView.showAlternatingRowBackgrounds
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.showAlternatingRowBackgrounds
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: showAlternatingRowBackgrounds
+  nameWithType: TreeView.showAlternatingRowBackgrounds
+  fullName: UnityEditor.IMGUI.Controls.TreeView.showAlternatingRowBackgrounds
+- uid: UnityEditor.IMGUI.Controls.TreeView.showBorder
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.showBorder
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: showBorder
+  nameWithType: TreeView.showBorder
+  fullName: UnityEditor.IMGUI.Controls.TreeView.showBorder
+- uid: UnityEditor.IMGUI.Controls.TreeView.showingHorizontalScrollBar
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.showingHorizontalScrollBar
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: showingHorizontalScrollBar
+  nameWithType: TreeView.showingHorizontalScrollBar
+  fullName: UnityEditor.IMGUI.Controls.TreeView.showingHorizontalScrollBar
+- uid: UnityEditor.IMGUI.Controls.TreeView.showingVerticalScrollBar
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.showingVerticalScrollBar
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: showingVerticalScrollBar
+  nameWithType: TreeView.showingVerticalScrollBar
+  fullName: UnityEditor.IMGUI.Controls.TreeView.showingVerticalScrollBar
+- uid: UnityEditor.IMGUI.Controls.TreeView.cellMargin
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.cellMargin
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: cellMargin
+  nameWithType: TreeView.cellMargin
+  fullName: UnityEditor.IMGUI.Controls.TreeView.cellMargin
+- uid: UnityEditor.IMGUI.Controls.TreeView.totalHeight
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.totalHeight
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: totalHeight
+  nameWithType: TreeView.totalHeight
+  fullName: UnityEditor.IMGUI.Controls.TreeView.totalHeight
+- uid: UnityEditor.IMGUI.Controls.TreeView.rowHeight
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.rowHeight
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: rowHeight
+  nameWithType: TreeView.rowHeight
+  fullName: UnityEditor.IMGUI.Controls.TreeView.rowHeight
+- uid: UnityEditor.IMGUI.Controls.TreeView.treeViewControlID
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.treeViewControlID
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: treeViewControlID
+  nameWithType: TreeView.treeViewControlID
+  fullName: UnityEditor.IMGUI.Controls.TreeView.treeViewControlID
+- uid: UnityEditor.IMGUI.Controls.TreeView.isDragging
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.isDragging
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: isDragging
+  nameWithType: TreeView.isDragging
+  fullName: UnityEditor.IMGUI.Controls.TreeView.isDragging
+- uid: UnityEditor.IMGUI.Controls.TreeView.hasSearch
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.hasSearch
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: hasSearch
+  nameWithType: TreeView.hasSearch
+  fullName: UnityEditor.IMGUI.Controls.TreeView.hasSearch
+- uid: UnityEditor.IMGUI.Controls.TreeView.searchString
+  commentId: P:UnityEditor.IMGUI.Controls.TreeView.searchString
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: searchString
+  nameWithType: TreeView.searchString
+  fullName: UnityEditor.IMGUI.Controls.TreeView.searchString
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEditor.IMGUI.Controls
+  commentId: N:UnityEditor.IMGUI.Controls
+  isExternal: true
+  name: UnityEditor.IMGUI.Controls
+  nameWithType: UnityEditor.IMGUI.Controls
+  fullName: UnityEditor.IMGUI.Controls
+- uid: MacacaGames.ViewSystem.ComponentTreeView.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.ComponentTreeView.#ctor
+  name: ComponentTreeView
+  nameWithType: ComponentTreeView.ComponentTreeView
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.ComponentTreeView
+- uid: UnityEngine.GameObject
+  commentId: T:UnityEngine.GameObject
+  parent: UnityEngine
+  isExternal: true
+  name: GameObject
+  nameWithType: GameObject
+  fullName: UnityEngine.GameObject
+- uid: MacacaGames.ViewSystem.ViewPageItem
+  commentId: T:MacacaGames.ViewSystem.ViewPageItem
+  parent: MacacaGames.ViewSystem
+  name: ViewPageItem
+  nameWithType: ViewPageItem
+  fullName: MacacaGames.ViewSystem.ViewPageItem
+- uid: UnityEditor.IMGUI.Controls.TreeViewState
+  commentId: T:UnityEditor.IMGUI.Controls.TreeViewState
+  parent: UnityEditor.IMGUI.Controls
+  isExternal: true
+  name: TreeViewState
+  nameWithType: TreeViewState
+  fullName: UnityEditor.IMGUI.Controls.TreeViewState
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEditor.IMGUI.Controls.TreeView.BuildRoot
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.BuildRoot
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: BuildRoot()
+  nameWithType: TreeView.BuildRoot()
+  fullName: UnityEditor.IMGUI.Controls.TreeView.BuildRoot()
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.BuildRoot
+    name: BuildRoot
+    nameWithType: TreeView.BuildRoot
+    fullName: UnityEditor.IMGUI.Controls.TreeView.BuildRoot
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.BuildRoot
+    name: BuildRoot
+    nameWithType: TreeView.BuildRoot
+    fullName: UnityEditor.IMGUI.Controls.TreeView.BuildRoot
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.ComponentTreeView.BuildRoot*
+  commentId: Overload:MacacaGames.ViewSystem.ComponentTreeView.BuildRoot
+  name: BuildRoot
+  nameWithType: ComponentTreeView.BuildRoot
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.BuildRoot
+- uid: UnityEditor.IMGUI.Controls.TreeViewItem
+  commentId: T:UnityEditor.IMGUI.Controls.TreeViewItem
+  parent: UnityEditor.IMGUI.Controls
+  isExternal: true
+  name: TreeViewItem
+  nameWithType: TreeViewItem
+  fullName: UnityEditor.IMGUI.Controls.TreeViewItem
+- uid: UnityEditor.IMGUI.Controls.TreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: RowGUI(TreeView.RowGUIArgs)
+  nameWithType: TreeView.RowGUI(TreeView.RowGUIArgs)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)
+    name: RowGUI
+    nameWithType: TreeView.RowGUI
+    fullName: UnityEditor.IMGUI.Controls.TreeView.RowGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs
+    name: TreeView.RowGUIArgs
+    nameWithType: TreeView.RowGUIArgs
+    fullName: UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)
+    name: RowGUI
+    nameWithType: TreeView.RowGUI
+    fullName: UnityEditor.IMGUI.Controls.TreeView.RowGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs
+    name: TreeView.RowGUIArgs
+    nameWithType: TreeView.RowGUIArgs
+    fullName: UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.ComponentTreeView.RowGUI*
+  commentId: Overload:MacacaGames.ViewSystem.ComponentTreeView.RowGUI
+  name: RowGUI
+  nameWithType: ComponentTreeView.RowGUI
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.RowGUI
+- uid: UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs
+  commentId: T:UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs
+  parent: UnityEditor.IMGUI.Controls
+  isExternal: true
+  name: TreeView.RowGUIArgs
+  nameWithType: TreeView.RowGUIArgs
+  fullName: UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs
+- uid: MacacaGames.ViewSystem.ComponentTreeView.DrawValue*
+  commentId: Overload:MacacaGames.ViewSystem.ComponentTreeView.DrawValue
+  name: DrawValue
+  nameWithType: ComponentTreeView.DrawValue
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.DrawValue
+- uid: UnityEngine.Rect
+  commentId: T:UnityEngine.Rect
+  parent: UnityEngine
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: UnityEngine.Rect
+- uid: UnityEditor.SerializedProperty
+  commentId: T:UnityEditor.SerializedProperty
+  parent: UnityEditor
+  isExternal: true
+  name: SerializedProperty
+  nameWithType: SerializedProperty
+  fullName: UnityEditor.SerializedProperty
+- uid: UnityEditor
+  commentId: N:UnityEditor
+  isExternal: true
+  name: UnityEditor
+  nameWithType: UnityEditor
+  fullName: UnityEditor
+- uid: UnityEditor.IMGUI.Controls.TreeView.DoubleClickedItem(System.Int32)
+  commentId: M:UnityEditor.IMGUI.Controls.TreeView.DoubleClickedItem(System.Int32)
+  parent: UnityEditor.IMGUI.Controls.TreeView
+  isExternal: true
+  name: DoubleClickedItem(Int32)
+  nameWithType: TreeView.DoubleClickedItem(Int32)
+  fullName: UnityEditor.IMGUI.Controls.TreeView.DoubleClickedItem(System.Int32)
+  spec.csharp:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.DoubleClickedItem(System.Int32)
+    name: DoubleClickedItem
+    nameWithType: TreeView.DoubleClickedItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.DoubleClickedItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.IMGUI.Controls.TreeView.DoubleClickedItem(System.Int32)
+    name: DoubleClickedItem
+    nameWithType: TreeView.DoubleClickedItem
+    fullName: UnityEditor.IMGUI.Controls.TreeView.DoubleClickedItem
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem*
+  commentId: Overload:MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem
+  name: DoubleClickedItem
+  nameWithType: ComponentTreeView.DoubleClickedItem
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: MacacaGames.ViewSystem.ComponentTreeView._OnItemClick
+  commentId: T:MacacaGames.ViewSystem.ComponentTreeView._OnItemClick
+  parent: MacacaGames.ViewSystem
+  name: ComponentTreeView._OnItemClick
+  nameWithType: ComponentTreeView._OnItemClick
+  fullName: MacacaGames.ViewSystem.ComponentTreeView._OnItemClick

@@ -1,0 +1,145 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  id: ViewSystemVerifier.VerifyTarget
+  parent: MacacaGames.ViewSystem.VisualEditor
+  children:
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.All
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.Event
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.Override
+  langs:
+  - csharp
+  - vb
+  name: ViewSystemVerifier.VerifyTarget
+  nameWithType: ViewSystemVerifier.VerifyTarget
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  type: Enum
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: VerifyTarget
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 80
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public enum VerifyTarget
+    content.vb: Public Enum VerifyTarget
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.All
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.All
+  id: All
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: ViewSystemVerifier.VerifyTarget.All
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.All
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: All
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 82
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: All = 0
+    return:
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.Override
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.Override
+  id: Override
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  langs:
+  - csharp
+  - vb
+  name: Override
+  nameWithType: ViewSystemVerifier.VerifyTarget.Override
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.Override
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Override
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 83
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: Override = 1
+    return:
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.Event
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.Event
+  id: Event
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  langs:
+  - csharp
+  - vb
+  name: Event
+  nameWithType: ViewSystemVerifier.VerifyTarget.Event
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget.Event
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Event
+    path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
+    startLine: 84
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: Event = 2
+    return:
+      type: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: MacacaGames.ViewSystem.VisualEditor
+  commentId: N:MacacaGames.ViewSystem.VisualEditor
+  name: MacacaGames.ViewSystem.VisualEditor
+  nameWithType: MacacaGames.ViewSystem.VisualEditor
+  fullName: MacacaGames.ViewSystem.VisualEditor
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget
+  parent: MacacaGames.ViewSystem.VisualEditor
+  name: ViewSystemVerifier.VerifyTarget
+  nameWithType: ViewSystemVerifier.VerifyTarget
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVerifier.VerifyTarget

@@ -1,0 +1,743 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow
+  commentId: T:MacacaGames.ViewSystem.LayoutDropdownWindow
+  id: LayoutDropdownWindow
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.LayoutDropdownWindow.#ctor(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,MacacaGames.ViewSystem.ViewSystemSaveData)
+  - MacacaGames.ViewSystem.LayoutDropdownWindow.GetWindowSize
+  - MacacaGames.ViewSystem.LayoutDropdownWindow.OnClose
+  - MacacaGames.ViewSystem.LayoutDropdownWindow.OnGUI(UnityEngine.Rect)
+  - MacacaGames.ViewSystem.LayoutDropdownWindow.OnOpen
+  langs:
+  - csharp
+  - vb
+  name: LayoutDropdownWindow
+  nameWithType: LayoutDropdownWindow
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow
+  type: Class
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: LayoutDropdownWindow
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 404
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: 'public class LayoutDropdownWindow : PopupWindowContent'
+    content.vb: >-
+      Public Class LayoutDropdownWindow
+          Inherits PopupWindowContent
+  inheritance:
+  - System.Object
+  - UnityEditor.PopupWindowContent
+  inheritedMembers:
+  - UnityEditor.PopupWindowContent.editorWindow
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.#ctor(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,MacacaGames.ViewSystem.ViewSystemSaveData)
+  commentId: M:MacacaGames.ViewSystem.LayoutDropdownWindow.#ctor(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,MacacaGames.ViewSystem.ViewSystemSaveData)
+  id: '#ctor(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,MacacaGames.ViewSystem.ViewSystemSaveData)'
+  parent: MacacaGames.ViewSystem.LayoutDropdownWindow
+  langs:
+  - csharp
+  - vb
+  name: LayoutDropdownWindow(ViewSystemRectTransformData, RectTransform, ViewSystemSaveData)
+  nameWithType: LayoutDropdownWindow.LayoutDropdownWindow(ViewSystemRectTransformData, RectTransform, ViewSystemSaveData)
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutDropdownWindow(MacacaGames.ViewSystem.ViewSystemRectTransformData, UnityEngine.RectTransform, MacacaGames.ViewSystem.ViewSystemSaveData)
+  type: Constructor
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 477
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public LayoutDropdownWindow(ViewSystemRectTransformData rectTransformData, RectTransform rectTrasnform, ViewSystemSaveData saveData)
+    parameters:
+    - id: rectTransformData
+      type: MacacaGames.ViewSystem.ViewSystemRectTransformData
+    - id: rectTrasnform
+      type: UnityEngine.RectTransform
+    - id: saveData
+      type: MacacaGames.ViewSystem.ViewSystemSaveData
+    content.vb: Public Sub New(rectTransformData As ViewSystemRectTransformData, rectTrasnform As RectTransform, saveData As ViewSystemSaveData)
+  overload: MacacaGames.ViewSystem.LayoutDropdownWindow.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.OnOpen
+  commentId: M:MacacaGames.ViewSystem.LayoutDropdownWindow.OnOpen
+  id: OnOpen
+  parent: MacacaGames.ViewSystem.LayoutDropdownWindow
+  langs:
+  - csharp
+  - vb
+  name: OnOpen()
+  nameWithType: LayoutDropdownWindow.OnOpen()
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.OnOpen()
+  type: Method
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnOpen
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 489
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public override void OnOpen()
+    content.vb: Public Overrides Sub OnOpen
+  overridden: UnityEditor.PopupWindowContent.OnOpen
+  overload: MacacaGames.ViewSystem.LayoutDropdownWindow.OnOpen*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.OnClose
+  commentId: M:MacacaGames.ViewSystem.LayoutDropdownWindow.OnClose
+  id: OnClose
+  parent: MacacaGames.ViewSystem.LayoutDropdownWindow
+  langs:
+  - csharp
+  - vb
+  name: OnClose()
+  nameWithType: LayoutDropdownWindow.OnClose()
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.OnClose()
+  type: Method
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnClose
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 494
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public override void OnClose()
+    content.vb: Public Overrides Sub OnClose
+  overridden: UnityEditor.PopupWindowContent.OnClose
+  overload: MacacaGames.ViewSystem.LayoutDropdownWindow.OnClose*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.GetWindowSize
+  commentId: M:MacacaGames.ViewSystem.LayoutDropdownWindow.GetWindowSize
+  id: GetWindowSize
+  parent: MacacaGames.ViewSystem.LayoutDropdownWindow
+  langs:
+  - csharp
+  - vb
+  name: GetWindowSize()
+  nameWithType: LayoutDropdownWindow.GetWindowSize()
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.GetWindowSize()
+  type: Method
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: GetWindowSize
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 499
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public override Vector2 GetWindowSize()
+    return:
+      type: UnityEngine.Vector2
+    content.vb: Public Overrides Function GetWindowSize As Vector2
+  overridden: UnityEditor.PopupWindowContent.GetWindowSize
+  overload: MacacaGames.ViewSystem.LayoutDropdownWindow.GetWindowSize*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.OnGUI(UnityEngine.Rect)
+  commentId: M:MacacaGames.ViewSystem.LayoutDropdownWindow.OnGUI(UnityEngine.Rect)
+  id: OnGUI(UnityEngine.Rect)
+  parent: MacacaGames.ViewSystem.LayoutDropdownWindow
+  langs:
+  - csharp
+  - vb
+  name: OnGUI(Rect)
+  nameWithType: LayoutDropdownWindow.OnGUI(Rect)
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.OnGUI(UnityEngine.Rect)
+  type: Method
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnGUI
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 504
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public override void OnGUI(Rect rect)
+    parameters:
+    - id: rect
+      type: UnityEngine.Rect
+    content.vb: Public Overrides Sub OnGUI(rect As Rect)
+  overridden: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  overload: MacacaGames.ViewSystem.LayoutDropdownWindow.OnGUI*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: UnityEditor.PopupWindowContent
+  commentId: T:UnityEditor.PopupWindowContent
+  parent: UnityEditor
+  isExternal: true
+  name: PopupWindowContent
+  nameWithType: PopupWindowContent
+  fullName: UnityEditor.PopupWindowContent
+- uid: UnityEditor.PopupWindowContent.editorWindow
+  commentId: P:UnityEditor.PopupWindowContent.editorWindow
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: editorWindow
+  nameWithType: PopupWindowContent.editorWindow
+  fullName: UnityEditor.PopupWindowContent.editorWindow
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEditor
+  commentId: N:UnityEditor
+  isExternal: true
+  name: UnityEditor
+  nameWithType: UnityEditor
+  fullName: UnityEditor
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.LayoutDropdownWindow.#ctor
+  name: LayoutDropdownWindow
+  nameWithType: LayoutDropdownWindow.LayoutDropdownWindow
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.LayoutDropdownWindow
+- uid: MacacaGames.ViewSystem.ViewSystemRectTransformData
+  commentId: T:MacacaGames.ViewSystem.ViewSystemRectTransformData
+  parent: MacacaGames.ViewSystem
+  name: ViewSystemRectTransformData
+  nameWithType: ViewSystemRectTransformData
+  fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData
+- uid: UnityEngine.RectTransform
+  commentId: T:UnityEngine.RectTransform
+  parent: UnityEngine
+  isExternal: true
+  name: RectTransform
+  nameWithType: RectTransform
+  fullName: UnityEngine.RectTransform
+- uid: MacacaGames.ViewSystem.ViewSystemSaveData
+  commentId: T:MacacaGames.ViewSystem.ViewSystemSaveData
+  parent: MacacaGames.ViewSystem
+  name: ViewSystemSaveData
+  nameWithType: ViewSystemSaveData
+  fullName: MacacaGames.ViewSystem.ViewSystemSaveData
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEditor.PopupWindowContent.OnOpen
+  commentId: M:UnityEditor.PopupWindowContent.OnOpen
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnOpen()
+  nameWithType: PopupWindowContent.OnOpen()
+  fullName: UnityEditor.PopupWindowContent.OnOpen()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnOpen
+    name: OnOpen
+    nameWithType: PopupWindowContent.OnOpen
+    fullName: UnityEditor.PopupWindowContent.OnOpen
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnOpen
+    name: OnOpen
+    nameWithType: PopupWindowContent.OnOpen
+    fullName: UnityEditor.PopupWindowContent.OnOpen
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.OnOpen*
+  commentId: Overload:MacacaGames.ViewSystem.LayoutDropdownWindow.OnOpen
+  name: OnOpen
+  nameWithType: LayoutDropdownWindow.OnOpen
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.OnOpen
+- uid: UnityEditor.PopupWindowContent.OnClose
+  commentId: M:UnityEditor.PopupWindowContent.OnClose
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnClose()
+  nameWithType: PopupWindowContent.OnClose()
+  fullName: UnityEditor.PopupWindowContent.OnClose()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnClose
+    name: OnClose
+    nameWithType: PopupWindowContent.OnClose
+    fullName: UnityEditor.PopupWindowContent.OnClose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnClose
+    name: OnClose
+    nameWithType: PopupWindowContent.OnClose
+    fullName: UnityEditor.PopupWindowContent.OnClose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.OnClose*
+  commentId: Overload:MacacaGames.ViewSystem.LayoutDropdownWindow.OnClose
+  name: OnClose
+  nameWithType: LayoutDropdownWindow.OnClose
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.OnClose
+- uid: UnityEditor.PopupWindowContent.GetWindowSize
+  commentId: M:UnityEditor.PopupWindowContent.GetWindowSize
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: GetWindowSize()
+  nameWithType: PopupWindowContent.GetWindowSize()
+  fullName: UnityEditor.PopupWindowContent.GetWindowSize()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.GetWindowSize
+    name: GetWindowSize
+    nameWithType: PopupWindowContent.GetWindowSize
+    fullName: UnityEditor.PopupWindowContent.GetWindowSize
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.GetWindowSize
+    name: GetWindowSize
+    nameWithType: PopupWindowContent.GetWindowSize
+    fullName: UnityEditor.PopupWindowContent.GetWindowSize
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.GetWindowSize*
+  commentId: Overload:MacacaGames.ViewSystem.LayoutDropdownWindow.GetWindowSize
+  name: GetWindowSize
+  nameWithType: LayoutDropdownWindow.GetWindowSize
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.GetWindowSize
+- uid: UnityEngine.Vector2
+  commentId: T:UnityEngine.Vector2
+  parent: UnityEngine
+  isExternal: true
+  name: Vector2
+  nameWithType: Vector2
+  fullName: UnityEngine.Vector2
+- uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  commentId: M:UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnGUI(Rect)
+  nameWithType: PopupWindowContent.OnGUI(Rect)
+  fullName: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+    name: OnGUI
+    nameWithType: PopupWindowContent.OnGUI
+    fullName: UnityEditor.PopupWindowContent.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+    name: OnGUI
+    nameWithType: PopupWindowContent.OnGUI
+    fullName: UnityEditor.PopupWindowContent.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.LayoutDropdownWindow.OnGUI*
+  commentId: Overload:MacacaGames.ViewSystem.LayoutDropdownWindow.OnGUI
+  name: OnGUI
+  nameWithType: LayoutDropdownWindow.OnGUI
+  fullName: MacacaGames.ViewSystem.LayoutDropdownWindow.OnGUI
+- uid: UnityEngine.Rect
+  commentId: T:UnityEngine.Rect
+  parent: UnityEngine
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: UnityEngine.Rect
