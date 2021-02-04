@@ -7,6 +7,23 @@ namespace MacacaGames.ViewSystem
 {
     public class ViewElementRequestedPool
     {
+        static Dictionary<int, ViewElementRequestedPool> requestPoolCache = new Dictionary<int, ViewElementRequestedPool>();
+
+        /// <summary>
+        /// Get the cached pool
+        /// </summary>
+        /// <param name="template">The source ViewElement</param>
+        /// <returns>the pool</returns>
+        public static ViewElementRequestedPool GetPool(ViewElement template)
+        {
+            if (!requestPoolCache.TryGetValue(template.GetInstanceID(), out ViewElementRequestedPool result))
+            {
+                result = new ViewElementRequestedPool(template);
+                requestPoolCache.Add(template.GetInstanceID(), result);
+            }
+            return result;
+        }
+
         ViewElementRuntimePool runtimePool => ViewController.runtimePool;
 
         Queue<ViewElement> viewElementQueue = new Queue<ViewElement>();
@@ -15,11 +32,20 @@ namespace MacacaGames.ViewSystem
 
         public Action<ViewElement> recoveryAction;
 
+        /// <summary>
+        /// Create new ViewElementRequestedPool, it is strongly recommend to use <See cref="ViewElementRequestedPool.GetPool(ViewElement)"> to get the global cached instance instead of create a new one.
+        /// </summary>
+        /// <param name="template">The source ViewElement</param>
         public ViewElementRequestedPool(ViewElement template)
         {
             this.template = template;
         }
 
+        /// <summary>
+        /// Create new ViewElementRequestedPool, it is strongly recommend to use <See cref="ViewElementRequestedPool.GetPool(ViewElement)"> to get the global cached instance instead of create a new one.
+        /// </summary>
+        /// <param name="template">The source ViewElement</param>
+        /// <param name="recoveryAction">The callback will invoke every time while the ViewElement is recovery which managed by ViewElementRequestedPool</param>
         public ViewElementRequestedPool(ViewElement template, Action<ViewElement> recoveryAction)
         {
             this.template = template;
