@@ -20,22 +20,7 @@ public class HierarchyTreeView : TreeView
 
     public void Draw()
     {
-        // using (var vertical = new GUILayout.VerticalScope())
-        // {
-        //     foreach (var item in hierarchyData)
-        //     {
-        //         using (var horizon = new GUILayout.HorizontalScope())
-        //         {
-        //             GUILayout.Space(item.layer * padding);
-        //             GUILayout.Label(prefabIcon, GUILayout.Width(20), GUILayout.Height(20));
-        //             if (GUILayout.Button(item.transform.name, labelStyle))
-        //             {
-        //                 OnItemClick?.Invoke(item.transform.gameObject);
-        //             }
-        //             GUILayout.Label(arrowIcon, GUILayout.Width(20), GUILayout.Height(20));
-        //         }
-        //     }
-        // }
+   
     }
     int id = 1;
 
@@ -81,36 +66,7 @@ public class HierarchyTreeView : TreeView
         }
         OnItemClick?.Invoke(select.transform.gameObject);
     }
-    // protected override void ContextClickedItem(int id)
-    // {
-    //     base.ContextClickedItem(id);
-    //     var select = hierarchyData.SingleOrDefault(x => x.id == id);
-    //     if (select == null)
-    //     {
-    //         return;
-    //     }
-
-    //     if (Event.current.type != EventType.MouseDown)
-    //     {
-    //         return;
-    //     }
-
-    //     if (Event.current.button != 1)
-    //     {
-    //         return;
-    //     }
-    //     GenericMenu genericMenu = new GenericMenu();
-
-    //     genericMenu.AddItem(new GUIContent("Add Component"), false,
-    //         () =>
-    //         {
-    //             ViewSystemLog.Log("right click");
-    //         }
-    //     );
-
-    //     genericMenu.ShowAsContext();
-    //     Event.current.Use();
-    // }
+   
     class HierarchyData
     {
         public HierarchyData(int layer, Transform transform, int id)
