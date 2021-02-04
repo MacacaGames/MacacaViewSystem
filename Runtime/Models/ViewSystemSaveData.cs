@@ -85,6 +85,14 @@ namespace MacacaGames.ViewSystem
 
     public class VectorConvert
     {
+        public static string Vector3ToString(Vector3 vector)
+        {
+            return ((Vector3)vector).ToString("F3");
+        }
+        public static string Vector2ToString(Vector2 vector)
+        {
+            return ((Vector3)vector).ToString("F3");
+        }
         public static Vector3 StringToVector3(string sVector)
         {
             // Remove the parentheses
@@ -131,40 +139,13 @@ namespace MacacaGames.ViewSystem
 
         public object GetValue()
         {
-            switch (s_Type)
+            if (s_Type == S_Type._objcetReferenct)
             {
-                case S_Type._vector3:
-                    return VectorConvert.StringToVector3(StringValue);
-                case S_Type._vector2:
-                    return VectorConvert.StringToVector2(StringValue);
-                case S_Type._bool:
-                    return System.Convert.ToBoolean(StringValue);
-                case S_Type._float:
-                    return float.Parse(StringValue, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                case S_Type._int:
-                    return int.Parse(StringValue, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
-                case S_Type._color:
-                    return ColorUtility.TryParseHtmlString("#" + StringValue, out Color c) ? c : Color.black;
-                case S_Type._objcetReferenct:
-                    return ObjectReferenceValue;
-                case S_Type._string:
-                    return StringValue;
-                case S_Type._enum:
-                    {
-                        var s = StringValue.Split(',');
-                        var enumType = MacacaGames.Utility.GetType(s[0]);
-                        return System.Enum.Parse(enumType, s[1], false);
-                    }
-                case S_Type._enumFlag:
-                    {
-                        var s = StringValue.Split(',');
-                        var enumType = MacacaGames.Utility.GetType(s[0]);
-                        int v = 0;
-                        int.TryParse(s[1], out v);
-                        return System.Enum.ToObject(enumType, v);
-                    }
-                default:
-                    return null;
+                return ObjectReferenceValue;
+            }
+            else
+            {
+                return ConvertFromStringValue(s_Type, StringValue);
             }
         }
 #if UNITY_EDITOR
@@ -235,7 +216,6 @@ namespace MacacaGames.ViewSystem
 
         public void SetValue(object value)
         {
-            bool toStringDirectly = true;
             if (value is int || value is long)
             {
                 s_Type = S_Type._int;
@@ -243,14 +223,10 @@ namespace MacacaGames.ViewSystem
             else if (value is Vector3)
             {
                 s_Type = S_Type._vector3;
-                StringValue = ((Vector3)value).ToString("F3");
-                toStringDirectly = false;
             }
             else if (value is Vector2)
             {
                 s_Type = S_Type._vector2;
-                StringValue = ((Vector2)value).ToString("F3");
-                toStringDirectly = false;
             }
             else if (value is string)
             {
@@ -264,19 +240,9 @@ namespace MacacaGames.ViewSystem
             {
                 s_Type = S_Type._bool;
             }
-
             else if (value is Color)
             {
                 s_Type = S_Type._color;
-                StringValue = ColorUtility.ToHtmlStringRGBA((Color)value);
-                toStringDirectly = false;
-            }
-            else if (value == null)
-            {
-                // Only UnityEngine.Object may be null
-                s_Type = S_Type._objcetReferenct;
-                ObjectReferenceValue = null;
-                toStringDirectly = false;
             }
             else if (value.GetType().IsEnum)
             {
@@ -285,24 +251,25 @@ namespace MacacaGames.ViewSystem
                 if (isFlag)
                 {
                     s_Type = S_Type._enumFlag;
-                    StringValue = value.GetType().ToString() + "," + (int)value;
                 }
                 else
                 {
                     s_Type = S_Type._enum;
-                    StringValue = value.GetType().ToString() + "," + value.ToString();
                 }
-
-                toStringDirectly = false;
             }
             else if (value.GetType().IsSubclassOf(typeof(UnityEngine.Object)) ||
                     value.GetType().IsAssignableFrom(typeof(UnityEngine.Object)))
             {
                 s_Type = S_Type._objcetReferenct;
                 ObjectReferenceValue = (UnityEngine.Object)value;
-                toStringDirectly = false;
             }
-            if (toStringDirectly) StringValue = value.ToString();
+            else if (value == null)
+            {
+                // Only UnityEngine.Object may be null
+                s_Type = S_Type._objcetReferenct;
+                ObjectReferenceValue = null;
+            }
+            StringValue = ConvertToStringValue(value);
         }
 
         public void SetType(S_Type t)
@@ -317,6 +284,74 @@ namespace MacacaGames.ViewSystem
         public S_Type s_Type = S_Type._string;
         public UnityEngine.Object ObjectReferenceValue;
         public string StringValue;
+
+        public static object ConvertFromStringValue(S_Type sType, string StringValue)
+        {
+            switch (sType)
+            {
+                case S_Type._vector3:
+                    return VectorConvert.StringToVector3(StringValue);
+                case S_Type._vector2:
+                    return VectorConvert.StringToVector2(StringValue);
+                case S_Type._bool:
+                    return System.Convert.ToBoolean(StringValue);
+                case S_Type._float:
+                    return float.Parse(StringValue, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                case S_Type._int:
+                    return int.Parse(StringValue, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                case S_Type._color:
+                    return ColorUtility.TryParseHtmlString("#" + StringValue, out Color c) ? c : Color.black;
+                case S_Type._string:
+                    return StringValue;
+                case S_Type._enum:
+                    {
+                        var s = StringValue.Split(',');
+                        var enumType = MacacaGames.Utility.GetType(s[0]);
+                        return System.Enum.Parse(enumType, s[1], false);
+                    }
+                case S_Type._enumFlag:
+                    {
+                        var s = StringValue.Split(',');
+                        var enumType = MacacaGames.Utility.GetType(s[0]);
+                        int v = 0;
+                        int.TryParse(s[1], out v);
+                        return System.Enum.ToObject(enumType, v);
+                    }
+                default:
+                    return null;
+            }
+        }
+
+        public static string ConvertToStringValue(object value)
+        {
+            if (value is Vector3)
+            {
+                return VectorConvert.Vector3ToString((Vector3)value);
+            }
+            else if (value is Vector2)
+            {
+                return VectorConvert.Vector2ToString((Vector2)value);
+            }
+            else if (value is Color)
+            {
+                return ColorUtility.ToHtmlStringRGBA((Color)value);
+            }
+            else if (value.GetType().IsEnum)
+            {
+                bool isFlag = false;
+                isFlag = value.GetType().GetCustomAttribute(typeof(System.FlagsAttribute)) != null;
+                if (isFlag)
+                {
+                    return value.GetType().ToString() + "," + (int)value;
+                }
+                else
+                {
+                    return value.GetType().ToString() + "," + value.ToString();
+                }
+            }
+            else
+                return value.ToString();
+        }
     }
 
 }

@@ -320,7 +320,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 rect.x = ori_Rect.x;
 
                 //EditorGUI.PropertyField(rect, sp);
-                if (VS_EditorUtility.EditorableField(rect, sp, item.viewElementPropertyOverrideData.Value, out float lh))
+                if (VS_EditorUtility.SmartOverrideField(rect, sp, item.viewElementPropertyOverrideData.Value, out float lh))
                 {
 
                 }
