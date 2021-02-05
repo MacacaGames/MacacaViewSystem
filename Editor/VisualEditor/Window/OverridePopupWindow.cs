@@ -22,11 +22,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         static float toastMessageFadeOutTimt = 1.5f;
 #endif
         bool isInit => target != null;
-        // GUIStyle windowStyle;
-        // public override GUIStyle GetWindowStyle()
-        // {
-        //     return windowStyle;
-        // }
+
         ViewSystemNodeInspector sideBar;
         public OverridePopupWindow(string name, ViewSystemVisualEditor editor, ViewSystemNodeInspector sideBar)
         : base(name, editor)
@@ -42,12 +38,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 imagePosition = ImagePosition.ImageOnly,
                 alignment = TextAnchor.MiddleCenter
             };
-            // windowStyle = new GUIStyle(Drawer.windowStyle);
-            // RectOffset padding = windowStyle.padding;
-
-            // padding.left = 1;
-            // padding.right = 1;
-            // padding.bottom = 0;
 
             resizeable = true;
         }
@@ -66,8 +56,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
         public void Show(Rect itemRect)
         {
             this.itemRect = itemRect;
-            // rect.x =;
-            // rect.y = 200;
             rect = new Rect(itemRect.x * 0.5f, 200, rect.width, rect.height);
             show = true;
         }
@@ -78,15 +66,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
             if (show == false) return;
             EditorGUIUtility.labelWidth = 0;
             var targetPos = new Vector2(itemRect.center.x, itemRect.center.y - sideBar.scrollerPos.y);
-            // Handles.DrawBezier(
-            //     targetPos,
-            //     rect.position,
-            //     targetPos,
-            //     rect.position,
-            //     Color.black,
-            //     null,
-            //     4f
-            // );
         }
         public override void Draw(int window)
         {
@@ -543,9 +522,22 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             componentTreeView = new ComponentTreeView(
                 currentSelectGameObject,
-                viewPageItem,
+                viewPageItem.viewElement,
                 m_ComponentTreeViewState,
-                currentSelectGameObject == target);
+                currentSelectGameObject == target,
+                (sp, path) =>
+                {
+                    return viewPageItem.overrideDatas.Where(
+                        m =>
+                        m.targetPropertyName == sp.name &&
+                        m.targetTransformPath == path &&
+                        m.targetComponentType == sp.serializedObject.targetObject.GetType().ToString()
+                    ).Count() > 0;
+                },
+                () =>
+                {
+
+                });
 
             componentTreeView.OnItemClick += (sp) =>
             {

@@ -81,8 +81,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 stretchHeight = false,
                 fixedHeight = 14,
                 fixedWidth = 14,
-                onNormal = { background = EditorGUIUtility.FindTexture("d_editicon.sml") },
-                normal = { background = EditorGUIUtility.FindTexture("d_FilterSelectedOnly") }
+                onNormal = { background = EditorGUIUtility.FindTexture("d_FilterSelectedOnly") },
+                normal = { background = EditorGUIUtility.FindTexture("d_editicon.sml") }
             };
 
             excludePlatformOptions.Clear();

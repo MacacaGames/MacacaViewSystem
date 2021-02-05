@@ -121,7 +121,7 @@ namespace MacacaGames.ViewSystem
             }
             return EditorGUI.EndChangeCheck();
         }
-        public static bool SmartOverrideField(Rect rect, SerializedProperty Target, out float lineHeight)
+        public static bool SmartOverrideField(Rect rect, GUIContent content, SerializedProperty Target, out float lineHeight)
         {
             lineHeight = EditorGUIUtility.singleLineHeight * 2.5f;
             if (Target == null)
@@ -129,7 +129,6 @@ namespace MacacaGames.ViewSystem
                 GUI.Label(rect, "There is some property wrong on the override");
                 return false;
             }
-            GUIContent content = new GUIContent("Value");
             var typeEnum = Target.FindPropertyRelative("s_Type").enumValueIndex;
             var stringValue = Target.FindPropertyRelative("StringValue");
             var objectReferenceValue = Target.FindPropertyRelative("ObjectReferenceValue");

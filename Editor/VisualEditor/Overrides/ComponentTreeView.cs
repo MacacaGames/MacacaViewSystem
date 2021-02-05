@@ -8,16 +8,21 @@ namespace MacacaGames.ViewSystem
 {
     public class ComponentTreeView : TreeView
     {
-        ViewPageItem viewPageItem;
+        // ViewPageItem viewPageItem;
+        ViewElement viewElement;
         GameObject go;
-        public ComponentTreeView(GameObject go, ViewPageItem viewPageItem, TreeViewState treeViewState, bool isPrefabRoot)
+        System.Func<SerializedProperty, string, bool> IsModify;
+        System.Action OnDelete;
+        public ComponentTreeView(GameObject go, ViewElement viewElement, TreeViewState treeViewState, bool isPrefabRoot, System.Func<SerializedProperty, string, bool> IsModify, System.Action OnDelete)
             : base(treeViewState)
         {
             this.go = go;
-            this.viewPageItem = viewPageItem;
+            this.viewElement = viewElement;
             rowHeight = 24;
             showBorder = true;
             showAlternatingRowBackgrounds = true;
+            this.IsModify = IsModify;
+            this.OnDelete = OnDelete;
             CacheComponent(go, 0, isPrefabRoot);
             Reload();
         }
@@ -182,15 +187,15 @@ namespace MacacaGames.ViewSystem
             //Properties
             if (item.depth == 1)
             {
-                var path = AnimationUtility.CalculateTransformPath(go.transform, viewPageItem.viewElement.transform);
+                var path = AnimationUtility.CalculateTransformPath(go.transform, viewElement.transform);
                 var single = serializedPropertys.SelectMany(x => x.Value).SingleOrDefault(m => m.id == item.id);
                 var sp = (SerializedProperty)single.values;
-                bool isModified = viewPageItem.overrideDatas.Where(m =>
-                     m.targetPropertyName == sp.name &&
-                     m.targetTransformPath == path &&
-                     m.targetComponentType == sp.serializedObject.targetObject.GetType().ToString()
-                ).Count() > 0;
-
+                // bool isModified = viewPageItem.overrideDatas.Where(m =>
+                //      m.targetPropertyName == sp.name &&
+                //      m.targetTransformPath == path &&
+                //      m.targetComponentType == sp.serializedObject.targetObject.GetType().ToString()
+                // ).Count() > 0;
+                bool isModified = (IsModify != null && IsModify.Invoke(sp, path));
                 if (isModified)
                 {
                     GUI.Box(args.rowRect, GUIContent.none, new GUIStyle("U2D.createRect"));
@@ -198,18 +203,19 @@ namespace MacacaGames.ViewSystem
                     r.x -= 4;
                     r.width = 24;
                     r.height = 24;
-                    if (GUI.Button(r, new GUIContent(EditorGUIUtility.FindTexture("winbtn_mac_close_h")), new GUIStyle("AC PreviewHeader")))
-                    {
-                        if (EditorUtility.DisplayDialog("Warring", "Do you want to remove this modified override?", "Yes", "No"))
-                        {
-                            var s = viewPageItem.overrideDatas.Where(m =>
-                                m.targetPropertyName == sp.name &&
-                                m.targetTransformPath == path &&
-                                m.targetComponentType == sp.serializedObject.targetObject.GetType().ToString()
-                            ).FirstOrDefault();
-                            viewPageItem.overrideDatas.Remove(s);
-                        }
-                    }
+                    // if (GUI.Button(r, new GUIContent(EditorGUIUtility.FindTexture("winbtn_mac_close_h")), new GUIStyle("AC PreviewHeader")))
+                    // {
+                    //     if (EditorUtility.DisplayDialog("Warring", "Do you want to remove this modified override?", "Yes", "No"))
+                    //     {
+                    //         // var s = viewPageItem.overrideDatas.Where(m =>
+                    //         //     m.targetPropertyName == sp.name &&
+                    //         //     m.targetTransformPath == path &&
+                    //         //     m.targetComponentType == sp.serializedObject.targetObject.GetType().ToString()
+                    //         // ).FirstOrDefault();
+                    //         // viewPageItem.overrideDatas.Remove(s);
+                    //         OnDelete?.Invoke();
+                    //     }
+                    // }
                 }
 
                 rect.y = args.rowRect.y;
@@ -261,12 +267,13 @@ namespace MacacaGames.ViewSystem
                             break;
                         }
                     case SerializedPropertyType.Enum:
-                        if (Target.enumValueIndex < Target.enumDisplayNames.Length && Target.enumValueIndex >=0)
+                        if (Target.enumValueIndex < Target.enumDisplayNames.Length && Target.enumValueIndex >= 0)
                         {
                             GUI.Box(rect, Target.enumDisplayNames[Target.enumValueIndex].ToString(), Drawer.valueBoxStyle);
                         }
-                        else{
-                            GUI.Box(rect, new GUIContent(Drawer.miniErrorIcon,"The enum value set on prefab is missing, please check the component."), Drawer.valueBoxStyle);
+                        else
+                        {
+                            GUI.Box(rect, new GUIContent(Drawer.miniErrorIcon, "The enum value set on prefab is missing, please check the component."), Drawer.valueBoxStyle);
                         }
                         break;
                     case SerializedPropertyType.LayerMask:
@@ -309,9 +316,7 @@ namespace MacacaGames.ViewSystem
                 var sp = (SerializedProperty)single.values;
                 OnItemClick?.Invoke((SerializedProperty)single.values);
             }
-
         }
-
 
         public delegate void _OnItemClick(SerializedProperty targetProperty);
         public event _OnItemClick OnItemClick;
