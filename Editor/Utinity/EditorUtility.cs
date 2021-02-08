@@ -121,91 +121,135 @@ namespace MacacaGames.ViewSystem
             }
             return EditorGUI.EndChangeCheck();
         }
-        public static bool SmartOverrideField(Rect rect, GUIContent content, SerializedProperty Target, out float lineHeight)
+        public static bool SmartOverrideField(Rect rect, GUIContent content, PropertyOverride overProperty, out float lineHeight)
         {
             lineHeight = EditorGUIUtility.singleLineHeight * 2.5f;
-            if (Target == null)
+            if (overProperty == null)
             {
                 GUI.Label(rect, "There is some property wrong on the override");
                 return false;
             }
-            var typeEnum = Target.FindPropertyRelative("s_Type").enumValueIndex;
-            var stringValue = Target.FindPropertyRelative("StringValue");
-            var objectReferenceValue = Target.FindPropertyRelative("ObjectReferenceValue");
-            var s_type = (PropertyOverride.S_Type)typeEnum;
             EditorGUI.BeginChangeCheck();
-            switch (s_type)
+            switch (overProperty.s_Type)
             {
                 case PropertyOverride.S_Type._vector3:
-                    lineHeight = EditorGUIUtility.singleLineHeight * 3.5f;
-                    stringValue.stringValue =
-                        PropertyOverride.ConvertToStringValue(
-                            EditorGUI.Vector3Field(rect, content, (Vector3)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
-                        );
+                    overProperty.SetValue(EditorGUI.Vector3Field(rect, content, (Vector3)overProperty.GetValue()));
                     break;
                 case PropertyOverride.S_Type._vector2:
-                    lineHeight = EditorGUIUtility.singleLineHeight * 3.5f;
-                    stringValue.stringValue =
-                        PropertyOverride.ConvertToStringValue(
-                            EditorGUI.Vector2Field(rect, content, (Vector2)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
-                        );
+                    overProperty.SetValue(EditorGUI.Vector2Field(rect, content, (Vector2)overProperty.GetValue()));
                     break;
                 case PropertyOverride.S_Type._float:
-                    stringValue.stringValue =
-                        PropertyOverride.ConvertToStringValue(
-                            EditorGUI.FloatField(rect, content, (float)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
-                        );
-                    // overProperty.SetValue(EditorGUI.FloatField(rect, content, (float)overProperty.GetValue()));
+                    overProperty.SetValue(EditorGUI.FloatField(rect, content, (float)overProperty.GetValue()));
                     break;
                 case PropertyOverride.S_Type._int:
-                    // overProperty.SetValue();
-                    stringValue.stringValue =
-                        PropertyOverride.ConvertToStringValue(
-                            EditorGUI.IntField(rect, content, (int)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
-                        );
+                    overProperty.SetValue(EditorGUI.IntField(rect, content, (int)overProperty.GetValue()));
                     break;
                 case PropertyOverride.S_Type._string:
-                    // overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
-                    stringValue.stringValue =
-                        PropertyOverride.ConvertToStringValue(
-                            EditorGUI.TextField(rect, content, (string)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
-                        );
+                    overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
                     break;
                 case PropertyOverride.S_Type._bool:
-                    // overProperty.SetValue(EditorGUI.Toggle(rect, content, (bool)overProperty.GetValue()));
-                    stringValue.stringValue =
-                       PropertyOverride.ConvertToStringValue(
-                           EditorGUI.Toggle(rect, content, (bool)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
-                       );
+                    overProperty.SetValue(EditorGUI.Toggle(rect, content, (bool)overProperty.GetValue()));
                     break;
                 case PropertyOverride.S_Type._color:
-                    // overProperty.SetValue(EditorGUI.ColorField(rect, content, (Color)overProperty.GetValue()));
-                    stringValue.stringValue =
-                       PropertyOverride.ConvertToStringValue(
-                           EditorGUI.ColorField(rect, content, (Color)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
-                       );
-                    break;
-                case PropertyOverride.S_Type._enum:
-                    // overProperty.SetValue(EditorGUI.EnumPopup(rect, content, (Enum)overProperty.GetValue()));
-                    stringValue.stringValue =
-                        PropertyOverride.ConvertToStringValue(
-                            EditorGUI.EnumPopup(rect, content, (Enum)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
-                        );
-                    break;
-                case PropertyOverride.S_Type._enumFlag:
-                    // overProperty.SetValue(EditorGUI.EnumFlagsField(rect, content, (Enum)overProperty.GetValue()));
-                    stringValue.stringValue =
-                        PropertyOverride.ConvertToStringValue(
-                            EditorGUI.EnumFlagsField(rect, content, (Enum)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
-                        );
+                    overProperty.SetValue(EditorGUI.ColorField(rect, content, (Color)overProperty.GetValue()));
                     break;
                 case PropertyOverride.S_Type._objcetReferenct:
-                    // overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, GetPropertyType(Target), false);
-                    objectReferenceValue.objectReferenceValue = EditorGUI.ObjectField(rect, content, objectReferenceValue.objectReferenceValue, GetPropertyType(Target), false);
+                    overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, overProperty.ObjectReferenceValue.GetType(), false);
+                    break;
+                case PropertyOverride.S_Type._enum:
+                    overProperty.SetValue(EditorGUI.EnumPopup(rect, content, (Enum)overProperty.GetValue()));
+                    break;
+                case PropertyOverride.S_Type._enumFlag:
+                    overProperty.SetValue(EditorGUI.EnumFlagsField(rect, content, (Enum)overProperty.GetValue()));
                     break;
             }
             return EditorGUI.EndChangeCheck();
         }
+        // public static bool SmartOverrideField(Rect rect, GUIContent content, SerializedProperty Target, out float lineHeight)
+        // {
+        //     lineHeight = EditorGUIUtility.singleLineHeight * 2.5f;
+        //     if (Target == null)
+        //     {
+        //         GUI.Label(rect, "There is some property wrong on the override");
+        //         return false;
+        //     }
+        //     var typeEnum = Target.FindPropertyRelative("s_Type").enumValueIndex;
+        //     var stringValue = Target.FindPropertyRelative("StringValue");
+        //     var objectReferenceValue = Target.FindPropertyRelative("ObjectReferenceValue");
+        //     var s_type = (PropertyOverride.S_Type)typeEnum;
+        //     EditorGUI.BeginChangeCheck();
+        //     switch (s_type)
+        //     {
+        //         case PropertyOverride.S_Type._vector3:
+        //             lineHeight = EditorGUIUtility.singleLineHeight * 3.5f;
+        //             stringValue.stringValue =
+        //                 PropertyOverride.ConvertToStringValue(
+        //                     EditorGUI.Vector3Field(rect, content, (Vector3)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
+        //                 );
+        //             break;
+        //         case PropertyOverride.S_Type._vector2:
+        //             lineHeight = EditorGUIUtility.singleLineHeight * 3.5f;
+        //             stringValue.stringValue =
+        //                 PropertyOverride.ConvertToStringValue(
+        //                     EditorGUI.Vector2Field(rect, content, (Vector2)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
+        //                 );
+        //             break;
+        //         case PropertyOverride.S_Type._float:
+        //             stringValue.stringValue =
+        //                 PropertyOverride.ConvertToStringValue(
+        //                     EditorGUI.FloatField(rect, content, (float)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
+        //                 );
+        //             // overProperty.SetValue(EditorGUI.FloatField(rect, content, (float)overProperty.GetValue()));
+        //             break;
+        //         case PropertyOverride.S_Type._int:
+        //             // overProperty.SetValue();
+        //             stringValue.stringValue =
+        //                 PropertyOverride.ConvertToStringValue(
+        //                     EditorGUI.IntField(rect, content, (int)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
+        //                 );
+        //             break;
+        //         case PropertyOverride.S_Type._string:
+        //             // overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
+        //             stringValue.stringValue =
+        //                 PropertyOverride.ConvertToStringValue(
+        //                     EditorGUI.TextField(rect, content, (string)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
+        //                 );
+        //             break;
+        //         case PropertyOverride.S_Type._bool:
+        //             // overProperty.SetValue(EditorGUI.Toggle(rect, content, (bool)overProperty.GetValue()));
+        //             stringValue.stringValue =
+        //                PropertyOverride.ConvertToStringValue(
+        //                    EditorGUI.Toggle(rect, content, (bool)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
+        //                );
+        //             break;
+        //         case PropertyOverride.S_Type._color:
+        //             // overProperty.SetValue(EditorGUI.ColorField(rect, content, (Color)overProperty.GetValue()));
+        //             stringValue.stringValue =
+        //                PropertyOverride.ConvertToStringValue(
+        //                    EditorGUI.ColorField(rect, content, (Color)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
+        //                );
+        //             break;
+        //         case PropertyOverride.S_Type._enum:
+        //             // overProperty.SetValue(EditorGUI.EnumPopup(rect, content, (Enum)overProperty.GetValue()));
+        //             stringValue.stringValue =
+        //                 PropertyOverride.ConvertToStringValue(
+        //                     EditorGUI.EnumPopup(rect, content, (Enum)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
+        //                 );
+        //             break;
+        //         case PropertyOverride.S_Type._enumFlag:
+        //             // overProperty.SetValue(EditorGUI.EnumFlagsField(rect, content, (Enum)overProperty.GetValue()));
+        //             stringValue.stringValue =
+        //                 PropertyOverride.ConvertToStringValue(
+        //                     EditorGUI.EnumFlagsField(rect, content, (Enum)PropertyOverride.ConvertFromStringValue(s_type, stringValue.stringValue))
+        //                 );
+        //             break;
+        //         case PropertyOverride.S_Type._objcetReferenct:
+        //             // overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, GetPropertyType(Target), false);
+        //             objectReferenceValue.objectReferenceValue = EditorGUI.ObjectField(rect, content, objectReferenceValue.objectReferenceValue, GetPropertyType(Target), false);
+        //             break;
+        //     }
+        //     return EditorGUI.EndChangeCheck();
+        // }
 
 
         public class ViewPageItemsBreakPointPopup : UnityEditor.PopupWindowContent

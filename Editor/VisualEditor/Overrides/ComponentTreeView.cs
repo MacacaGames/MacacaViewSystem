@@ -283,7 +283,7 @@ namespace MacacaGames.ViewSystem
                         GUI.Box(rect, Target.vector3Value.ToString(), Drawer.valueBoxStyle);
                         break;
                     case SerializedPropertyType.Vector2:
-                        GUI.Box(rect, Target.vector3Value.ToString(), Drawer.valueBoxStyle);
+                        GUI.Box(rect, Target.vector2Value.ToString(), Drawer.valueBoxStyle);
                         break;
                     case SerializedPropertyType.ObjectReference:
                         using (var disable = new EditorGUI.DisabledGroupScope(true))

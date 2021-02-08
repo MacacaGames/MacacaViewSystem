@@ -149,6 +149,33 @@ namespace MacacaGames.ViewSystem
             }
         }
 #if UNITY_EDITOR
+        // public UnityEditor.SerializedPropertyType GetSerializedPropertyType()
+        // {
+        //     switch (s_Type)
+        //     {
+        //         case S_Type._vector3:
+        //             return UnityEditor.SerializedPropertyType.Vector3;
+        //         case S_Type._vector2:
+        //             return UnityEditor.SerializedPropertyType.Vector2;
+        //         case S_Type._float:
+        //             return UnityEditor.SerializedPropertyType.Float;
+        //         case S_Type._int:
+        //             return UnityEditor.SerializedPropertyType.Integer;
+        //         case S_Type._string:
+        //             return UnityEditor.SerializedPropertyType.String;
+        //         case S_Type._bool:
+        //             return UnityEditor.SerializedPropertyType.Boolean;
+        //         case S_Type._color:
+        //             return UnityEditor.SerializedPropertyType.Color;
+        //         case S_Type._objcetReferenct:
+        //             return UnityEditor.SerializedPropertyType.ObjectReference;
+        //         case S_Type._enum:
+        //             return UnityEditor.SerializedPropertyType.Enum;
+        //         case S_Type._enumFlag:
+        //             return UnityEditor.SerializedPropertyType.Enum;
+        //     }
+
+        // }
         public void SetValue(UnityEditor.SerializedProperty property)
         {
             switch (property.propertyType)
@@ -284,6 +311,7 @@ namespace MacacaGames.ViewSystem
         public S_Type s_Type = S_Type._string;
         public UnityEngine.Object ObjectReferenceValue;
         public string StringValue;
+
 
         public static object ConvertFromStringValue(S_Type sType, string StringValue)
         {
