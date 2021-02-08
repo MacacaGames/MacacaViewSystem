@@ -308,7 +308,7 @@ namespace MacacaGames.ViewSystem
             var single = serializedPropertys.SelectMany(x => x.Value).SingleOrDefault(m => m.id == id);
             if (single == null)
             {
-                SetExpandedRecursive(id, true);
+                SetExpandedRecursive(id, !IsExpanded(id));
                 return;
             }
             if (single.values is SerializedProperty)

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
+using System.Reflection;
 namespace MacacaGames.ViewSystem
 {
     [CustomPropertyDrawer(typeof(ViewElementPropertyOverrideData))]
@@ -19,11 +20,28 @@ namespace MacacaGames.ViewSystem
             catch { }
             var rootObjectName = viewElement != null ? viewElement.name : "{RootObject}";
             var btnRect = oriRect;
-            btnRect.width = 30;
+            btnRect.width = 26;
             btnRect.height = EditorGUIUtility.singleLineHeight;
             btnRect.x = oriRect.width;
             using (var disable = new EditorGUI.DisabledGroupScope(viewElement == null))
             {
+                if (GUI.Button(btnRect, new GUIContent(EditorGUIUtility.FindTexture("preAudioPlayOn"))))
+                {
+                    // Debug.Log(property.propertyPath);
+                    // Debug.Log(property.serializedObject);
+                    // Debug.Log(property.serializedObject.targetObject);
+                    // Debug.Log(property.serializedObject.targetObject.GetType());
+                    var t = property.serializedObject.targetObject.GetType().GetField(property.propertyPath.Split('.').FirstOrDefault());
+                    var array = (IEnumerable<ViewElementPropertyOverrideData>)t.GetValue(property.serializedObject.targetObject);
+                    // Debug.Log(array);
+                    // var v = property.GetTargetObjectOfProperty();
+                    if (viewElement != null)
+                    {
+                        viewElement.ApplyOverrides(array);
+                        Rebuild(viewElement);
+                    }
+                }
+                btnRect.x += 26;
                 if (GUI.Button(btnRect, new GUIContent(EditorGUIUtility.FindTexture("d_Search Icon"))))
                 {
                     PopupWindow.Show(btnRect, new OverridePopup(property, viewElement));
@@ -48,8 +66,13 @@ namespace MacacaGames.ViewSystem
             else
             {
                 float paddind = 20;
-                GUI.Label(rect, new GUIContent(rootObjectName + "/" + targetTransformPath.stringValue, Drawer.prefabIcon, targetTransformPath.stringValue));
+                GUI.Label(rect, new GUIContent((string.IsNullOrEmpty(targetTransformPath.stringValue) ? rootObjectName : rootObjectName + "/") + targetTransformPath.stringValue, Drawer.prefabIcon, targetTransformPath.stringValue));
                 rect.y += EditorGUIUtility.singleLineHeight;
+
+                var arrowRect = rect;
+                arrowRect.width = paddind;
+                GUI.Label(arrowRect, EditorGUIUtility.FindTexture("tab_next@2x"));
+
                 var rectComponent = rect;
                 rectComponent.x += paddind;
                 rectComponent.width = oriRect.width - paddind;
@@ -58,6 +81,25 @@ namespace MacacaGames.ViewSystem
                 rect.y += EditorGUIUtility.singleLineHeight;
                 VS_EditorUtility.SmartOverrideField(rect, new GUIContent(propertySp.stringValue), property.FindPropertyRelative("Value"), out float lh);
             }
+        }
+        void Rebuild(ViewElement viewElement)
+        {
+            viewElement.gameObject.SetActive(false);
+            viewElement.gameObject.SetActive(true);
+            // foreach (var rectTransform in viewElement.GetComponents<RectTransform>())
+            // {
+            //     rectTransform.ForceUpdateRectTransforms();
+            // }
+            // foreach (var graphic in viewElement.GetComponents<UnityEngine.UI.Graphic>())
+            // {
+            //     graphic.SetAllDirty();
+            //     graphic.SetVerticesDirty();
+            //     UnityEngine.UI.CanvasUpdateRegistry.RegisterCanvasElementForGraphicRebuild(graphic);
+            // }
+            // Canvas.ForceUpdateCanvases();
+
+            // UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
+            // UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(viewElement.rectTransform);
         }
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -88,7 +130,50 @@ namespace MacacaGames.ViewSystem
 
             public override void OnGUI(Rect rect)
             {
+                DrawHeader();
                 DrawScrollViewHierarchy(rect);
+            }
+            GUIContent header = new GUIContent();
+            private void DrawHeader()
+            {
+                if (currentSelectGameObject)
+                {
+                    header.image = Drawer.prefabIcon;
+                    header.text = currentSelectGameObject.gameObject.name;
+                }
+                else if (currentSelectSerializedObject != null)
+                {
+                    header = new GUIContent(EditorGUIUtility.ObjectContent(currentSelectSerializedObject.targetObject, currentSelectSerializedObject.targetObject.GetType()));
+                }
+                else if (target != null)
+                {
+                    header.text = "Nothing is selected";
+                    header.image = null;
+                }
+                else
+                {
+                    header.text = "Nothing is selected";
+                    header.image = null;
+                }
+                using (var horizon = new GUILayout.HorizontalScope())
+                {
+                    if (GUILayout.Button(header, new GUIStyle("dockareaStandalone")))
+                    {
+                        if (currentSelectGameObject)
+                        {
+                            currentSelectGameObject = null;
+                        }
+                        if (currentSelectSerializedObject != null)
+                        {
+                            currentSelectGameObject = lastSelectGameObject;
+                            currentSelectSerializedObject = null;
+                        }
+                    }
+                    var r = GUILayoutUtility.GetLastRect();
+                    r.width = 20;
+                    r.y -= 2;
+                    if (currentSelectGameObject != null) GUI.Label(r, EditorGUIUtility.FindTexture("d_Profiler.PrevFrame"));
+                }
             }
             Vector2 scrollPositionHierarchy;
             void DrawScrollViewHierarchy(Rect rect)

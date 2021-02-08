@@ -89,9 +89,7 @@ namespace MacacaGames.ViewSystem
         }
         public void ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
-            runtimeOverride.ClearAllEvent();
-            runtimeOverride.ResetToDefaultValues();
-            runtimeOverride.RevertToLastNavigation();
+            RevertOverrides();
             if (overrideDatas == null)
             {
                 return;
@@ -101,6 +99,12 @@ namespace MacacaGames.ViewSystem
                 return;
             }
             runtimeOverride.ApplyOverride(overrideDatas);
+        }
+        public void RevertOverrides()
+        {
+            runtimeOverride.ClearAllEvent();
+            runtimeOverride.ResetToDefaultValues();
+            runtimeOverride.RevertToLastNavigation();
         }
         [Flags]
         public enum RectTransformFlag

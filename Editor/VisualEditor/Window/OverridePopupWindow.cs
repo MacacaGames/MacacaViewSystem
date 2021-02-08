@@ -112,12 +112,13 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             else if (target != null)
             {
-                header.text = target.gameObject.name;
-                header.image = Drawer.prefabIcon;
+                header.text = "Nothing is selected";
+                header.image = null;
             }
             else
             {
                 header.text = "Nothing is selected";
+                header.image = null;
             }
             using (var horizon = new GUILayout.HorizontalScope())
             {
@@ -135,7 +136,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 }
                 var r = GUILayoutUtility.GetLastRect();
                 r.width = 20;
-                GUI.Label(r, new GUIContent(EditorGUIUtility.FindTexture("tab_prev")));
+                r.y -= 2;
+                if (currentSelectGameObject != null) GUI.Label(r, EditorGUIUtility.FindTexture("d_Profiler.PrevFrame"));
             }
         }
         [SerializeField] TreeViewState m_HierachyTreeViewState;
@@ -225,6 +227,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     viewPageItem.overrideDatas.RemoveAll(m => m == item.viewElementPropertyOverrideData);
                     RebuildModifyReorderableList();
                 }
+                
+                if (string.IsNullOrEmpty(item.viewElementPropertyOverrideData.targetTransformPath))
+                {
+                    GUI.Label(rect, new GUIContent($"Target GameObject is missing", Drawer.miniErrorIcon));
+                    return;
+                }
                 var targetObject = viewPageItem.viewElement.transform.Find(item.viewElementPropertyOverrideData.targetTransformPath);
 
                 if (targetObject == null)
@@ -243,6 +251,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         item.viewElementPropertyOverrideData.targetTransformPath = EditorGUI.TextField(rect, item.viewElementPropertyOverrideData.targetTransformPath);
                     }
 
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(item.viewElementPropertyOverrideData.targetComponentType))
+                {
+                    GUI.Label(rect, new GUIContent($"Target Component is Missing ", Drawer.miniErrorIcon));
                     return;
                 }
 

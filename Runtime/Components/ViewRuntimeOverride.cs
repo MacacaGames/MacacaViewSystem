@@ -14,7 +14,7 @@ namespace MacacaGames.ViewSystem
     {
         #region NavigationOverride
         // ViewElementNavigationData[] navigationDatas;
-        public void ApplyNavigation(IEnumerable<ViewElementNavigationData> navigationDatas)
+        internal void ApplyNavigation(IEnumerable<ViewElementNavigationData> navigationDatas)
         {
             //this.navigationDatas = navigationDatas.ToArray();
             foreach (var item in navigationDatas)
@@ -31,7 +31,7 @@ namespace MacacaGames.ViewSystem
             }
         }
         Dictionary<int, UnityEngine.UI.Navigation.Mode> lastNavigationDatas = new Dictionary<int, Navigation.Mode>();
-        public void DisableNavigation()
+        internal void DisableNavigation()
         {
             lastNavigationDatas.Clear();
             var selectables = GetComponentsInChildren<Selectable>();
@@ -89,7 +89,7 @@ namespace MacacaGames.ViewSystem
             // }
         }
 
-        public void SetEvent(IEnumerable<ViewElementEventData> eventDatas)
+        internal void SetEvent(IEnumerable<ViewElementEventData> eventDatas)
         {
             currentEventDatas = eventDatas.ToArray();
 
@@ -221,7 +221,7 @@ namespace MacacaGames.ViewSystem
             BindingFlags.Instance |
             BindingFlags.Static;
         Dictionary<string, UnityEngine.Object> cachedComponent = new Dictionary<string, UnityEngine.Object>();
-        public void ApplyOverride(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
+        internal void ApplyOverride(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
             foreach (var item in overrideDatas)
             {
