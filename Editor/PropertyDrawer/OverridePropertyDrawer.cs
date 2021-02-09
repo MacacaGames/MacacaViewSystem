@@ -22,12 +22,14 @@ namespace MacacaGames.ViewSystem
         ReorderableList reorderableList;
         SerializedProperty propertySource;
         ViewElement viewElement = null;
+        ViewElement original = null;
         public override void OnGUI(Rect oriRect, SerializedProperty property, GUIContent label)
         {
             GUILayout.Label(property.displayName, EditorStyles.boldLabel);
             try
             {
                 viewElement = (property.serializedObject.targetObject as Component).GetComponentInParent<ViewElement>();
+                original = PrefabUtility.GetCorrespondingObjectFromSource(viewElement);
             }
             catch { }
             if (reorderableList == null)
@@ -35,9 +37,16 @@ namespace MacacaGames.ViewSystem
                 List<ViewElementPropertyOverrideData> list = ((ViewElemenOverride)fieldInfo.GetValue(property.serializedObject.targetObject));
                 BuildReorderlist(list, property.displayName);
             }
+            if (viewElement == null || original == null)
+            {
+                Color c = GUI.color;
+                GUI.color = Color.red;
+                GUILayout.Label(new GUIContent("No ViewElement Prefab found", Drawer.miniErrorIcon));
+                GUI.color = c;
+            }
             using (var horizon = new GUILayout.HorizontalScope())
             {
-                using (var disable = new EditorGUI.DisabledGroupScope(viewElement == null))
+                using (var disable = new EditorGUI.DisabledGroupScope(viewElement == null || original == null))
                 {
                     if (GUILayout.Button("Preview"))
                     {
@@ -64,8 +73,6 @@ namespace MacacaGames.ViewSystem
 
         void PickCurrent()
         {
-            ViewElement original;
-            original = PrefabUtility.GetCorrespondingObjectFromSource(viewElement);
 
             var overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
             overrideChecker.SetData(viewElement.transform, original.transform,
@@ -119,7 +126,7 @@ namespace MacacaGames.ViewSystem
             if (string.IsNullOrEmpty(filePath)) return;
 
             var result = ScriptableObject.CreateInstance<ViewElementOverrideAsset>();
-            result.targetViewElement = PrefabUtility.GetCorrespondingObjectFromSource(viewElement);
+            result.targetViewElement = original;
             result.viewElementOverride = viewElementOverride;
             AssetDatabase.CreateAsset(result, filePath);
             AssetImporter.GetAtPath(filePath);

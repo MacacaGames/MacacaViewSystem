@@ -6,7 +6,7 @@ using System.Linq;
 namespace MacacaGames.ViewSystem
 {
 
-    public class Test : MonoBehaviour
+    public class ViewElementOverrideHelper : MonoBehaviour
     {
         public ViewElemenOverride overrideData;
     }
