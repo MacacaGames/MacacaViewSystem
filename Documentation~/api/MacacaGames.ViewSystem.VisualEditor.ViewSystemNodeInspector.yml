@@ -260,7 +260,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: DrawViewElementTransformDetail
     path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
-    startLine: 611
+    startLine: 615
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -301,7 +301,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: scrollerPos
     path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
-    startLine: 861
+    startLine: 865
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -332,7 +332,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Draw
     path: ../Editor/VisualEditor/ViewSystemNodeInspector.cs
-    startLine: 864
+    startLine: 868
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor

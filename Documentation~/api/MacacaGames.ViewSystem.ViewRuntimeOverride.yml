@@ -5,15 +5,11 @@ items:
   id: ViewRuntimeOverride
   parent: MacacaGames.ViewSystem
   children:
-  - MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementNavigationData})
-  - MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData})
   - MacacaGames.ViewSystem.ViewRuntimeOverride.ClearAllEvent
-  - MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation
   - MacacaGames.ViewSystem.ViewRuntimeOverride.GetCachedComponent(UnityEngine.Transform,System.String,System.String)
   - MacacaGames.ViewSystem.ViewRuntimeOverride.GetTransform(System.String)
   - MacacaGames.ViewSystem.ViewRuntimeOverride.ResetToDefaultValues
   - MacacaGames.ViewSystem.ViewRuntimeOverride.RevertToLastNavigation
-  - MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementEventData})
   - MacacaGames.ViewSystem.ViewRuntimeOverride.SetPropertyValue(System.Object,System.String,System.Object)
   langs:
   - csharp
@@ -155,72 +151,6 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementNavigationData})
-  commentId: M:MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementNavigationData})
-  id: ApplyNavigation(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementNavigationData})
-  parent: MacacaGames.ViewSystem.ViewRuntimeOverride
-  langs:
-  - csharp
-  - vb
-  name: ApplyNavigation(IEnumerable<ViewElementNavigationData>)
-  nameWithType: ViewRuntimeOverride.ApplyNavigation(IEnumerable<ViewElementNavigationData>)
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation(System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementNavigationData>)
-  type: Method
-  source:
-    remote:
-      path: Runtime/Components/ViewRuntimeOverride.cs
-      branch: master
-      repo: https://github.com/MacacaGames/MacacaViewSystem.git
-    id: ApplyNavigation
-    path: ../Runtime/Components/ViewRuntimeOverride.cs
-    startLine: 16
-  assemblies:
-  - Macaca.ViewSystem
-  namespace: MacacaGames.ViewSystem
-  syntax:
-    content: public void ApplyNavigation(IEnumerable<ViewElementNavigationData> navigationDatas)
-    parameters:
-    - id: navigationDatas
-      type: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementNavigationData}
-    content.vb: Public Sub ApplyNavigation(navigationDatas As IEnumerable(Of ViewElementNavigationData))
-  overload: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation*
-  nameWithType.vb: ViewRuntimeOverride.ApplyNavigation(IEnumerable(Of ViewElementNavigationData))
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-  fullName.vb: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation(System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementNavigationData))
-  name.vb: ApplyNavigation(IEnumerable(Of ViewElementNavigationData))
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation
-  commentId: M:MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation
-  id: DisableNavigation
-  parent: MacacaGames.ViewSystem.ViewRuntimeOverride
-  langs:
-  - csharp
-  - vb
-  name: DisableNavigation()
-  nameWithType: ViewRuntimeOverride.DisableNavigation()
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation()
-  type: Method
-  source:
-    remote:
-      path: Runtime/Components/ViewRuntimeOverride.cs
-      branch: master
-      repo: https://github.com/MacacaGames/MacacaViewSystem.git
-    id: DisableNavigation
-    path: ../Runtime/Components/ViewRuntimeOverride.cs
-    startLine: 33
-  assemblies:
-  - Macaca.ViewSystem
-  namespace: MacacaGames.ViewSystem
-  syntax:
-    content: public void DisableNavigation()
-    content.vb: Public Sub DisableNavigation
-  overload: MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
 - uid: MacacaGames.ViewSystem.ViewRuntimeOverride.RevertToLastNavigation
   commentId: M:MacacaGames.ViewSystem.ViewRuntimeOverride.RevertToLastNavigation
   id: RevertToLastNavigation
@@ -281,42 +211,6 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementEventData})
-  commentId: M:MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementEventData})
-  id: SetEvent(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementEventData})
-  parent: MacacaGames.ViewSystem.ViewRuntimeOverride
-  langs:
-  - csharp
-  - vb
-  name: SetEvent(IEnumerable<ViewElementEventData>)
-  nameWithType: ViewRuntimeOverride.SetEvent(IEnumerable<ViewElementEventData>)
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent(System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementEventData>)
-  type: Method
-  source:
-    remote:
-      path: Runtime/Components/ViewRuntimeOverride.cs
-      branch: master
-      repo: https://github.com/MacacaGames/MacacaViewSystem.git
-    id: SetEvent
-    path: ../Runtime/Components/ViewRuntimeOverride.cs
-    startLine: 90
-  assemblies:
-  - Macaca.ViewSystem
-  namespace: MacacaGames.ViewSystem
-  syntax:
-    content: public void SetEvent(IEnumerable<ViewElementEventData> eventDatas)
-    parameters:
-    - id: eventDatas
-      type: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementEventData}
-    content.vb: Public Sub SetEvent(eventDatas As IEnumerable(Of ViewElementEventData))
-  overload: MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent*
-  nameWithType.vb: ViewRuntimeOverride.SetEvent(IEnumerable(Of ViewElementEventData))
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-  fullName.vb: MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent(System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementEventData))
-  name.vb: SetEvent(IEnumerable(Of ViewElementEventData))
 - uid: MacacaGames.ViewSystem.ViewRuntimeOverride.ResetToDefaultValues
   commentId: M:MacacaGames.ViewSystem.ViewRuntimeOverride.ResetToDefaultValues
   id: ResetToDefaultValues
@@ -335,7 +229,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ResetToDefaultValues
     path: ../Runtime/Components/ViewRuntimeOverride.cs
-    startLine: 197
+    startLine: 205
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -347,42 +241,6 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData})
-  commentId: M:MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData})
-  id: ApplyOverride(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData})
-  parent: MacacaGames.ViewSystem.ViewRuntimeOverride
-  langs:
-  - csharp
-  - vb
-  name: ApplyOverride(IEnumerable<ViewElementPropertyOverrideData>)
-  nameWithType: ViewRuntimeOverride.ApplyOverride(IEnumerable<ViewElementPropertyOverrideData>)
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride(System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementPropertyOverrideData>)
-  type: Method
-  source:
-    remote:
-      path: Runtime/Components/ViewRuntimeOverride.cs
-      branch: master
-      repo: https://github.com/MacacaGames/MacacaViewSystem.git
-    id: ApplyOverride
-    path: ../Runtime/Components/ViewRuntimeOverride.cs
-    startLine: 215
-  assemblies:
-  - Macaca.ViewSystem
-  namespace: MacacaGames.ViewSystem
-  syntax:
-    content: public void ApplyOverride(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
-    parameters:
-    - id: overrideDatas
-      type: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}
-    content.vb: Public Sub ApplyOverride(overrideDatas As IEnumerable(Of ViewElementPropertyOverrideData))
-  overload: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride*
-  nameWithType.vb: ViewRuntimeOverride.ApplyOverride(IEnumerable(Of ViewElementPropertyOverrideData))
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-  fullName.vb: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride(System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementPropertyOverrideData))
-  name.vb: ApplyOverride(IEnumerable(Of ViewElementPropertyOverrideData))
 - uid: MacacaGames.ViewSystem.ViewRuntimeOverride.GetTransform(System.String)
   commentId: M:MacacaGames.ViewSystem.ViewRuntimeOverride.GetTransform(System.String)
   id: GetTransform(System.String)
@@ -401,7 +259,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetTransform
     path: ../Runtime/Components/ViewRuntimeOverride.cs
-    startLine: 237
+    startLine: 245
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -436,7 +294,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetCachedComponent
     path: ../Runtime/Components/ViewRuntimeOverride.cs
-    startLine: 248
+    startLine: 256
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -475,7 +333,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetPropertyValue
     path: ../Runtime/Components/ViewRuntimeOverride.cs
-    startLine: 271
+    startLine: 279
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -5454,103 +5312,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation*
-  commentId: Overload:MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation
-  name: ApplyNavigation
-  nameWithType: ViewRuntimeOverride.ApplyNavigation
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation
-- uid: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementNavigationData}
-  commentId: T:System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementNavigationData}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  name: IEnumerable<ViewElementNavigationData>
-  nameWithType: IEnumerable<ViewElementNavigationData>
-  fullName: System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementNavigationData>
-  nameWithType.vb: IEnumerable(Of ViewElementNavigationData)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementNavigationData)
-  name.vb: IEnumerable(Of ViewElementNavigationData)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: MacacaGames.ViewSystem.ViewElementNavigationData
-    name: ViewElementNavigationData
-    nameWithType: ViewElementNavigationData
-    fullName: MacacaGames.ViewSystem.ViewElementNavigationData
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: MacacaGames.ViewSystem.ViewElementNavigationData
-    name: ViewElementNavigationData
-    nameWithType: ViewElementNavigationData
-    fullName: MacacaGames.ViewSystem.ViewElementNavigationData
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Collections.Generic.IEnumerable`1
-  commentId: T:System.Collections.Generic.IEnumerable`1
-  isExternal: true
-  name: IEnumerable<T>
-  nameWithType: IEnumerable<T>
-  fullName: System.Collections.Generic.IEnumerable<T>
-  nameWithType.vb: IEnumerable(Of T)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
-  name.vb: IEnumerable(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation*
-  commentId: Overload:MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation
-  name: DisableNavigation
-  nameWithType: ViewRuntimeOverride.DisableNavigation
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation
 - uid: MacacaGames.ViewSystem.ViewRuntimeOverride.RevertToLastNavigation*
   commentId: Overload:MacacaGames.ViewSystem.ViewRuntimeOverride.RevertToLastNavigation
   name: RevertToLastNavigation
@@ -5561,105 +5322,11 @@ references:
   name: ClearAllEvent
   nameWithType: ViewRuntimeOverride.ClearAllEvent
   fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.ClearAllEvent
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent*
-  commentId: Overload:MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent
-  name: SetEvent
-  nameWithType: ViewRuntimeOverride.SetEvent
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent
-- uid: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementEventData}
-  commentId: T:System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementEventData}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  name: IEnumerable<ViewElementEventData>
-  nameWithType: IEnumerable<ViewElementEventData>
-  fullName: System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementEventData>
-  nameWithType.vb: IEnumerable(Of ViewElementEventData)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementEventData)
-  name.vb: IEnumerable(Of ViewElementEventData)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: MacacaGames.ViewSystem.ViewElementEventData
-    name: ViewElementEventData
-    nameWithType: ViewElementEventData
-    fullName: MacacaGames.ViewSystem.ViewElementEventData
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: MacacaGames.ViewSystem.ViewElementEventData
-    name: ViewElementEventData
-    nameWithType: ViewElementEventData
-    fullName: MacacaGames.ViewSystem.ViewElementEventData
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: MacacaGames.ViewSystem.ViewRuntimeOverride.ResetToDefaultValues*
   commentId: Overload:MacacaGames.ViewSystem.ViewRuntimeOverride.ResetToDefaultValues
   name: ResetToDefaultValues
   nameWithType: ViewRuntimeOverride.ResetToDefaultValues
   fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.ResetToDefaultValues
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride*
-  commentId: Overload:MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride
-  name: ApplyOverride
-  nameWithType: ViewRuntimeOverride.ApplyOverride
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride
-- uid: System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}
-  commentId: T:System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  name: IEnumerable<ViewElementPropertyOverrideData>
-  nameWithType: IEnumerable<ViewElementPropertyOverrideData>
-  fullName: System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementPropertyOverrideData>
-  nameWithType.vb: IEnumerable(Of ViewElementPropertyOverrideData)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementPropertyOverrideData)
-  name.vb: IEnumerable(Of ViewElementPropertyOverrideData)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
-    name: ViewElementPropertyOverrideData
-    nameWithType: ViewElementPropertyOverrideData
-    fullName: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
-    name: ViewElementPropertyOverrideData
-    nameWithType: ViewElementPropertyOverrideData
-    fullName: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: MacacaGames.ViewSystem.ViewRuntimeOverride.GetTransform*
   commentId: Overload:MacacaGames.ViewSystem.ViewRuntimeOverride.GetTransform
   name: GetTransform

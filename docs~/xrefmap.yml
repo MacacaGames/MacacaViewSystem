@@ -43,12 +43,15 @@ references:
   commentId: T:MacacaGames.ViewSystem.ComponentTreeView
   fullName: MacacaGames.ViewSystem.ComponentTreeView
   nameWithType: ComponentTreeView
-- uid: MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)
-  name: ComponentTreeView(GameObject, ViewPageItem, TreeViewState, Boolean)
-  href: api/MacacaGames.ViewSystem.ComponentTreeView.html#MacacaGames_ViewSystem_ComponentTreeView__ctor_UnityEngine_GameObject_MacacaGames_ViewSystem_ViewPageItem_UnityEditor_IMGUI_Controls_TreeViewState_System_Boolean_
-  commentId: M:MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)
-  fullName: MacacaGames.ViewSystem.ComponentTreeView.ComponentTreeView(UnityEngine.GameObject, MacacaGames.ViewSystem.ViewPageItem, UnityEditor.IMGUI.Controls.TreeViewState, System.Boolean)
-  nameWithType: ComponentTreeView.ComponentTreeView(GameObject, ViewPageItem, TreeViewState, Boolean)
+- uid: MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewElement,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean,System.Func{UnityEditor.SerializedProperty,System.String,System.Boolean},System.Action)
+  name: ComponentTreeView(GameObject, ViewElement, TreeViewState, Boolean, Func<SerializedProperty, String, Boolean>, Action)
+  href: api/MacacaGames.ViewSystem.ComponentTreeView.html#MacacaGames_ViewSystem_ComponentTreeView__ctor_UnityEngine_GameObject_MacacaGames_ViewSystem_ViewElement_UnityEditor_IMGUI_Controls_TreeViewState_System_Boolean_System_Func_UnityEditor_SerializedProperty_System_String_System_Boolean__System_Action_
+  commentId: M:MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewElement,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean,System.Func{UnityEditor.SerializedProperty,System.String,System.Boolean},System.Action)
+  name.vb: ComponentTreeView(GameObject, ViewElement, TreeViewState, Boolean, Func(Of SerializedProperty, String, Boolean), Action)
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.ComponentTreeView(UnityEngine.GameObject, MacacaGames.ViewSystem.ViewElement, UnityEditor.IMGUI.Controls.TreeViewState, System.Boolean, System.Func<UnityEditor.SerializedProperty, System.String, System.Boolean>, System.Action)
+  fullName.vb: MacacaGames.ViewSystem.ComponentTreeView.ComponentTreeView(UnityEngine.GameObject, MacacaGames.ViewSystem.ViewElement, UnityEditor.IMGUI.Controls.TreeViewState, System.Boolean, System.Func(Of UnityEditor.SerializedProperty, System.String, System.Boolean), System.Action)
+  nameWithType: ComponentTreeView.ComponentTreeView(GameObject, ViewElement, TreeViewState, Boolean, Func<SerializedProperty, String, Boolean>, Action)
+  nameWithType.vb: ComponentTreeView.ComponentTreeView(GameObject, ViewElement, TreeViewState, Boolean, Func(Of SerializedProperty, String, Boolean), Action)
 - uid: MacacaGames.ViewSystem.ComponentTreeView.#ctor*
   name: ComponentTreeView
   href: api/MacacaGames.ViewSystem.ComponentTreeView.html#MacacaGames_ViewSystem_ComponentTreeView__ctor_
@@ -906,6 +909,109 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.OverlayPageChangerExtension.SetWaitPreviousPageFinish
   nameWithType: OverlayPageChangerExtension.SetWaitPreviousPageFinish
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer
+  name: OverridePropertyDrawer
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.html
+  commentId: T:MacacaGames.ViewSystem.OverridePropertyDrawer
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer
+  nameWithType: OverridePropertyDrawer
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.#ctor
+  name: OverridePropertyDrawer()
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.html#MacacaGames_ViewSystem_OverridePropertyDrawer__ctor
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.#ctor
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePropertyDrawer()
+  nameWithType: OverridePropertyDrawer.OverridePropertyDrawer()
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.#ctor*
+  name: OverridePropertyDrawer
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.html#MacacaGames_ViewSystem_OverridePropertyDrawer__ctor_
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.#ctor
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePropertyDrawer
+  nameWithType: OverridePropertyDrawer.OverridePropertyDrawer
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  name: OnGUI(Rect, SerializedProperty, GUIContent)
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OnGUI_UnityEngine_Rect_UnityEditor_SerializedProperty_UnityEngine_GUIContent_
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI(UnityEngine.Rect, UnityEditor.SerializedProperty, UnityEngine.GUIContent)
+  nameWithType: OverridePropertyDrawer.OnGUI(Rect, SerializedProperty, GUIContent)
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI*
+  name: OnGUI
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OnGUI_
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI
+  nameWithType: OverridePropertyDrawer.OnGUI
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  name: OverridePropertyDrawer.OverridePopup
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.html
+  commentId: T:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  nameWithType: OverridePropertyDrawer.OverridePopup
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.#ctor(MacacaGames.ViewSystem.ViewElementPropertyOverrideData,MacacaGames.ViewSystem.ViewElement)
+  name: OverridePopup(ViewElementPropertyOverrideData, ViewElement)
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OverridePopup__ctor_MacacaGames_ViewSystem_ViewElementPropertyOverrideData_MacacaGames_ViewSystem_ViewElement_
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.#ctor(MacacaGames.ViewSystem.ViewElementPropertyOverrideData,MacacaGames.ViewSystem.ViewElement)
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OverridePopup(MacacaGames.ViewSystem.ViewElementPropertyOverrideData, MacacaGames.ViewSystem.ViewElement)
+  nameWithType: OverridePropertyDrawer.OverridePopup.OverridePopup(ViewElementPropertyOverrideData, ViewElement)
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.#ctor*
+  name: OverridePopup
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OverridePopup__ctor_
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.#ctor
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OverridePopup
+  nameWithType: OverridePropertyDrawer.OverridePopup.OverridePopup
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize
+  name: GetWindowSize()
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OverridePopup_GetWindowSize
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize()
+  nameWithType: OverridePropertyDrawer.OverridePopup.GetWindowSize()
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize*
+  name: GetWindowSize
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OverridePopup_GetWindowSize_
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize
+  nameWithType: OverridePropertyDrawer.OverridePopup.GetWindowSize
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose
+  name: OnClose()
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OverridePopup_OnClose
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose()
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnClose()
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose*
+  name: OnClose
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OverridePopup_OnClose_
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnClose
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI(UnityEngine.Rect)
+  name: OnGUI(Rect)
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OverridePopup_OnGUI_UnityEngine_Rect_
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI(UnityEngine.Rect)
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI(UnityEngine.Rect)
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnGUI(Rect)
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI*
+  name: OnGUI
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OverridePopup_OnGUI_
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnGUI
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen
+  name: OnOpen()
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OverridePopup_OnOpen
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen()
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnOpen()
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen*
+  name: OnOpen
+  href: api/MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.html#MacacaGames_ViewSystem_OverridePropertyDrawer_OverridePopup_OnOpen_
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnOpen
 - uid: MacacaGames.ViewSystem.PageChanger
   name: PageChanger
   href: api/MacacaGames.ViewSystem.PageChanger.html
@@ -1060,6 +1166,32 @@ references:
   commentId: T:MacacaGames.ViewSystem.PropertyOverride
   fullName: MacacaGames.ViewSystem.PropertyOverride
   nameWithType: PropertyOverride
+- uid: MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue(MacacaGames.ViewSystem.PropertyOverride.S_Type,System.String)
+  name: ConvertFromStringValue(PropertyOverride.S_Type, String)
+  href: api/MacacaGames.ViewSystem.PropertyOverride.html#MacacaGames_ViewSystem_PropertyOverride_ConvertFromStringValue_MacacaGames_ViewSystem_PropertyOverride_S_Type_System_String_
+  commentId: M:MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue(MacacaGames.ViewSystem.PropertyOverride.S_Type,System.String)
+  fullName: MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue(MacacaGames.ViewSystem.PropertyOverride.S_Type, System.String)
+  nameWithType: PropertyOverride.ConvertFromStringValue(PropertyOverride.S_Type, String)
+- uid: MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue*
+  name: ConvertFromStringValue
+  href: api/MacacaGames.ViewSystem.PropertyOverride.html#MacacaGames_ViewSystem_PropertyOverride_ConvertFromStringValue_
+  commentId: Overload:MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue
+  nameWithType: PropertyOverride.ConvertFromStringValue
+- uid: MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue(System.Object)
+  name: ConvertToStringValue(Object)
+  href: api/MacacaGames.ViewSystem.PropertyOverride.html#MacacaGames_ViewSystem_PropertyOverride_ConvertToStringValue_System_Object_
+  commentId: M:MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue(System.Object)
+  fullName: MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue(System.Object)
+  nameWithType: PropertyOverride.ConvertToStringValue(Object)
+- uid: MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue*
+  name: ConvertToStringValue
+  href: api/MacacaGames.ViewSystem.PropertyOverride.html#MacacaGames_ViewSystem_PropertyOverride_ConvertToStringValue_
+  commentId: Overload:MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue
+  nameWithType: PropertyOverride.ConvertToStringValue
 - uid: MacacaGames.ViewSystem.PropertyOverride.GetValue
   name: GetValue()
   href: api/MacacaGames.ViewSystem.PropertyOverride.html#MacacaGames_ViewSystem_PropertyOverride_GetValue
@@ -1407,6 +1539,32 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VectorConvert.StringToVector3
   nameWithType: VectorConvert.StringToVector3
+- uid: MacacaGames.ViewSystem.VectorConvert.Vector2ToString(UnityEngine.Vector2)
+  name: Vector2ToString(Vector2)
+  href: api/MacacaGames.ViewSystem.VectorConvert.html#MacacaGames_ViewSystem_VectorConvert_Vector2ToString_UnityEngine_Vector2_
+  commentId: M:MacacaGames.ViewSystem.VectorConvert.Vector2ToString(UnityEngine.Vector2)
+  fullName: MacacaGames.ViewSystem.VectorConvert.Vector2ToString(UnityEngine.Vector2)
+  nameWithType: VectorConvert.Vector2ToString(Vector2)
+- uid: MacacaGames.ViewSystem.VectorConvert.Vector2ToString*
+  name: Vector2ToString
+  href: api/MacacaGames.ViewSystem.VectorConvert.html#MacacaGames_ViewSystem_VectorConvert_Vector2ToString_
+  commentId: Overload:MacacaGames.ViewSystem.VectorConvert.Vector2ToString
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VectorConvert.Vector2ToString
+  nameWithType: VectorConvert.Vector2ToString
+- uid: MacacaGames.ViewSystem.VectorConvert.Vector3ToString(UnityEngine.Vector3)
+  name: Vector3ToString(Vector3)
+  href: api/MacacaGames.ViewSystem.VectorConvert.html#MacacaGames_ViewSystem_VectorConvert_Vector3ToString_UnityEngine_Vector3_
+  commentId: M:MacacaGames.ViewSystem.VectorConvert.Vector3ToString(UnityEngine.Vector3)
+  fullName: MacacaGames.ViewSystem.VectorConvert.Vector3ToString(UnityEngine.Vector3)
+  nameWithType: VectorConvert.Vector3ToString(Vector3)
+- uid: MacacaGames.ViewSystem.VectorConvert.Vector3ToString*
+  name: Vector3ToString
+  href: api/MacacaGames.ViewSystem.VectorConvert.html#MacacaGames_ViewSystem_VectorConvert_Vector3ToString_
+  commentId: Overload:MacacaGames.ViewSystem.VectorConvert.Vector3ToString
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VectorConvert.Vector3ToString
+  nameWithType: VectorConvert.Vector3ToString
 - uid: MacacaGames.ViewSystem.View
   name: View
   href: api/MacacaGames.ViewSystem.View.html
@@ -2513,6 +2671,12 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewControllerEditor.OnInspectorGUI
   nameWithType: ViewControllerEditor.OnInspectorGUI
+- uid: MacacaGames.ViewSystem.ViewElemenOverride
+  name: ViewElemenOverride
+  href: api/MacacaGames.ViewSystem.ViewElemenOverride.html
+  commentId: T:MacacaGames.ViewSystem.ViewElemenOverride
+  fullName: MacacaGames.ViewSystem.ViewElemenOverride
+  nameWithType: ViewElemenOverride
 - uid: MacacaGames.ViewSystem.ViewElement
   name: ViewElement
   href: api/MacacaGames.ViewSystem.ViewElement.html
@@ -2987,6 +3151,19 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewElement.Reshow
   nameWithType: ViewElement.Reshow
+- uid: MacacaGames.ViewSystem.ViewElement.RevertOverrides
+  name: RevertOverrides()
+  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_RevertOverrides
+  commentId: M:MacacaGames.ViewSystem.ViewElement.RevertOverrides
+  fullName: MacacaGames.ViewSystem.ViewElement.RevertOverrides()
+  nameWithType: ViewElement.RevertOverrides()
+- uid: MacacaGames.ViewSystem.ViewElement.RevertOverrides*
+  name: RevertOverrides
+  href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_RevertOverrides_
+  commentId: Overload:MacacaGames.ViewSystem.ViewElement.RevertOverrides
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewElement.RevertOverrides
+  nameWithType: ViewElement.RevertOverrides
 - uid: MacacaGames.ViewSystem.ViewElement.runtimeOverride
   name: runtimeOverride
   href: api/MacacaGames.ViewSystem.ViewElement.html#MacacaGames_ViewSystem_ViewElement_runtimeOverride
@@ -3452,6 +3629,36 @@ references:
   commentId: F:MacacaGames.ViewSystem.ViewElementNavigationTarget.viewPageItemId
   fullName: MacacaGames.ViewSystem.ViewElementNavigationTarget.viewPageItemId
   nameWithType: ViewElementNavigationTarget.viewPageItemId
+- uid: MacacaGames.ViewSystem.ViewElementOverrideAsset
+  name: ViewElementOverrideAsset
+  href: api/MacacaGames.ViewSystem.ViewElementOverrideAsset.html
+  commentId: T:MacacaGames.ViewSystem.ViewElementOverrideAsset
+  fullName: MacacaGames.ViewSystem.ViewElementOverrideAsset
+  nameWithType: ViewElementOverrideAsset
+- uid: MacacaGames.ViewSystem.ViewElementOverrideAsset.targetViewElement
+  name: targetViewElement
+  href: api/MacacaGames.ViewSystem.ViewElementOverrideAsset.html#MacacaGames_ViewSystem_ViewElementOverrideAsset_targetViewElement
+  commentId: F:MacacaGames.ViewSystem.ViewElementOverrideAsset.targetViewElement
+  fullName: MacacaGames.ViewSystem.ViewElementOverrideAsset.targetViewElement
+  nameWithType: ViewElementOverrideAsset.targetViewElement
+- uid: MacacaGames.ViewSystem.ViewElementOverrideAsset.viewElementOverride
+  name: viewElementOverride
+  href: api/MacacaGames.ViewSystem.ViewElementOverrideAsset.html#MacacaGames_ViewSystem_ViewElementOverrideAsset_viewElementOverride
+  commentId: F:MacacaGames.ViewSystem.ViewElementOverrideAsset.viewElementOverride
+  fullName: MacacaGames.ViewSystem.ViewElementOverrideAsset.viewElementOverride
+  nameWithType: ViewElementOverrideAsset.viewElementOverride
+- uid: MacacaGames.ViewSystem.ViewElementOverrideHelper
+  name: ViewElementOverrideHelper
+  href: api/MacacaGames.ViewSystem.ViewElementOverrideHelper.html
+  commentId: T:MacacaGames.ViewSystem.ViewElementOverrideHelper
+  fullName: MacacaGames.ViewSystem.ViewElementOverrideHelper
+  nameWithType: ViewElementOverrideHelper
+- uid: MacacaGames.ViewSystem.ViewElementOverrideHelper.overrideData
+  name: overrideData
+  href: api/MacacaGames.ViewSystem.ViewElementOverrideHelper.html#MacacaGames_ViewSystem_ViewElementOverrideHelper_overrideData
+  commentId: F:MacacaGames.ViewSystem.ViewElementOverrideHelper.overrideData
+  fullName: MacacaGames.ViewSystem.ViewElementOverrideHelper.overrideData
+  nameWithType: ViewElementOverrideHelper.overrideData
 - uid: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
   name: ViewElementPropertyOverrideData
   href: api/MacacaGames.ViewSystem.ViewElementPropertyOverrideData.html
@@ -3518,6 +3725,19 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.GetCurrentInUseViewElementCount
   nameWithType: ViewElementRequestedPool.GetCurrentInUseViewElementCount
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool(MacacaGames.ViewSystem.ViewElement)
+  name: GetPool(ViewElement)
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_GetPool_MacacaGames_ViewSystem_ViewElement_
+  commentId: M:MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool(MacacaGames.ViewSystem.ViewElement)
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool(MacacaGames.ViewSystem.ViewElement)
+  nameWithType: ViewElementRequestedPool.GetPool(ViewElement)
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool*
+  name: GetPool
+  href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_GetPool_
+  commentId: Overload:MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool
+  nameWithType: ViewElementRequestedPool.GetPool
 - uid: MacacaGames.ViewSystem.ViewElementRequestedPool.Recovery(MacacaGames.ViewSystem.ViewElement,System.Boolean)
   name: Recovery(ViewElement, Boolean)
   href: api/MacacaGames.ViewSystem.ViewElementRequestedPool.html#MacacaGames_ViewSystem_ViewElementRequestedPool_Recovery_MacacaGames_ViewSystem_ViewElement_System_Boolean_
@@ -4269,38 +4489,6 @@ references:
   commentId: T:MacacaGames.ViewSystem.ViewRuntimeOverride
   fullName: MacacaGames.ViewSystem.ViewRuntimeOverride
   nameWithType: ViewRuntimeOverride
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementNavigationData})
-  name: ApplyNavigation(IEnumerable<ViewElementNavigationData>)
-  href: api/MacacaGames.ViewSystem.ViewRuntimeOverride.html#MacacaGames_ViewSystem_ViewRuntimeOverride_ApplyNavigation_System_Collections_Generic_IEnumerable_MacacaGames_ViewSystem_ViewElementNavigationData__
-  commentId: M:MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementNavigationData})
-  name.vb: ApplyNavigation(IEnumerable(Of ViewElementNavigationData))
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation(System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementNavigationData>)
-  fullName.vb: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation(System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementNavigationData))
-  nameWithType: ViewRuntimeOverride.ApplyNavigation(IEnumerable<ViewElementNavigationData>)
-  nameWithType.vb: ViewRuntimeOverride.ApplyNavigation(IEnumerable(Of ViewElementNavigationData))
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation*
-  name: ApplyNavigation
-  href: api/MacacaGames.ViewSystem.ViewRuntimeOverride.html#MacacaGames_ViewSystem_ViewRuntimeOverride_ApplyNavigation_
-  commentId: Overload:MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyNavigation
-  nameWithType: ViewRuntimeOverride.ApplyNavigation
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData})
-  name: ApplyOverride(IEnumerable<ViewElementPropertyOverrideData>)
-  href: api/MacacaGames.ViewSystem.ViewRuntimeOverride.html#MacacaGames_ViewSystem_ViewRuntimeOverride_ApplyOverride_System_Collections_Generic_IEnumerable_MacacaGames_ViewSystem_ViewElementPropertyOverrideData__
-  commentId: M:MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData})
-  name.vb: ApplyOverride(IEnumerable(Of ViewElementPropertyOverrideData))
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride(System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementPropertyOverrideData>)
-  fullName.vb: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride(System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementPropertyOverrideData))
-  nameWithType: ViewRuntimeOverride.ApplyOverride(IEnumerable<ViewElementPropertyOverrideData>)
-  nameWithType.vb: ViewRuntimeOverride.ApplyOverride(IEnumerable(Of ViewElementPropertyOverrideData))
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride*
-  name: ApplyOverride
-  href: api/MacacaGames.ViewSystem.ViewRuntimeOverride.html#MacacaGames_ViewSystem_ViewRuntimeOverride_ApplyOverride_
-  commentId: Overload:MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.ApplyOverride
-  nameWithType: ViewRuntimeOverride.ApplyOverride
 - uid: MacacaGames.ViewSystem.ViewRuntimeOverride.ClearAllEvent
   name: ClearAllEvent()
   href: api/MacacaGames.ViewSystem.ViewRuntimeOverride.html#MacacaGames_ViewSystem_ViewRuntimeOverride_ClearAllEvent
@@ -4314,19 +4502,6 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.ClearAllEvent
   nameWithType: ViewRuntimeOverride.ClearAllEvent
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation
-  name: DisableNavigation()
-  href: api/MacacaGames.ViewSystem.ViewRuntimeOverride.html#MacacaGames_ViewSystem_ViewRuntimeOverride_DisableNavigation
-  commentId: M:MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation()
-  nameWithType: ViewRuntimeOverride.DisableNavigation()
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation*
-  name: DisableNavigation
-  href: api/MacacaGames.ViewSystem.ViewRuntimeOverride.html#MacacaGames_ViewSystem_ViewRuntimeOverride_DisableNavigation_
-  commentId: Overload:MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.DisableNavigation
-  nameWithType: ViewRuntimeOverride.DisableNavigation
 - uid: MacacaGames.ViewSystem.ViewRuntimeOverride.GetCachedComponent(UnityEngine.Transform,System.String,System.String)
   name: GetCachedComponent(Transform, String, String)
   href: api/MacacaGames.ViewSystem.ViewRuntimeOverride.html#MacacaGames_ViewSystem_ViewRuntimeOverride_GetCachedComponent_UnityEngine_Transform_System_String_System_String_
@@ -4379,22 +4554,6 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.RevertToLastNavigation
   nameWithType: ViewRuntimeOverride.RevertToLastNavigation
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementEventData})
-  name: SetEvent(IEnumerable<ViewElementEventData>)
-  href: api/MacacaGames.ViewSystem.ViewRuntimeOverride.html#MacacaGames_ViewSystem_ViewRuntimeOverride_SetEvent_System_Collections_Generic_IEnumerable_MacacaGames_ViewSystem_ViewElementEventData__
-  commentId: M:MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent(System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementEventData})
-  name.vb: SetEvent(IEnumerable(Of ViewElementEventData))
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent(System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementEventData>)
-  fullName.vb: MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent(System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementEventData))
-  nameWithType: ViewRuntimeOverride.SetEvent(IEnumerable<ViewElementEventData>)
-  nameWithType.vb: ViewRuntimeOverride.SetEvent(IEnumerable(Of ViewElementEventData))
-- uid: MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent*
-  name: SetEvent
-  href: api/MacacaGames.ViewSystem.ViewRuntimeOverride.html#MacacaGames_ViewSystem_ViewRuntimeOverride_SetEvent_
-  commentId: Overload:MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.ViewRuntimeOverride.SetEvent
-  nameWithType: ViewRuntimeOverride.SetEvent
 - uid: MacacaGames.ViewSystem.ViewRuntimeOverride.SetPropertyValue(System.Object,System.String,System.Object)
   name: SetPropertyValue(Object, String, Object)
   href: api/MacacaGames.ViewSystem.ViewRuntimeOverride.html#MacacaGames_ViewSystem_ViewRuntimeOverride_SetPropertyValue_System_Object_System_String_System_Object_
@@ -5579,12 +5738,15 @@ references:
   commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow
   nameWithType: ViewElementOverridesImporterWindow
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform,UnityEngine.Transform,MacacaGames.ViewSystem.ViewPageItem,MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
-  name: SetData(Transform, Transform, ViewPageItem, ViewSystemNode)
-  href: api/MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewElementOverridesImporterWindow_SetData_UnityEngine_Transform_UnityEngine_Transform_MacacaGames_ViewSystem_ViewPageItem_MacacaGames_ViewSystem_VisualEditor_ViewSystemNode_
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform,UnityEngine.Transform,MacacaGames.ViewSystem.ViewPageItem,MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform, UnityEngine.Transform, MacacaGames.ViewSystem.ViewPageItem, MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
-  nameWithType: ViewElementOverridesImporterWindow.SetData(Transform, Transform, ViewPageItem, ViewSystemNode)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform,UnityEngine.Transform,System.Action{System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}},MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  name: SetData(Transform, Transform, Action<IEnumerable<ViewElementPropertyOverrideData>>, ViewSystemNode)
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewElementOverridesImporterWindow_SetData_UnityEngine_Transform_UnityEngine_Transform_System_Action_System_Collections_Generic_IEnumerable_MacacaGames_ViewSystem_ViewElementPropertyOverrideData___MacacaGames_ViewSystem_VisualEditor_ViewSystemNode_
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform,UnityEngine.Transform,System.Action{System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}},MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  name.vb: SetData(Transform, Transform, Action(Of IEnumerable(Of ViewElementPropertyOverrideData)), ViewSystemNode)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform, UnityEngine.Transform, System.Action<System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementPropertyOverrideData>>, MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  fullName.vb: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform, UnityEngine.Transform, System.Action(Of System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementPropertyOverrideData)), MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  nameWithType: ViewElementOverridesImporterWindow.SetData(Transform, Transform, Action<IEnumerable<ViewElementPropertyOverrideData>>, ViewSystemNode)
+  nameWithType.vb: ViewElementOverridesImporterWindow.SetData(Transform, Transform, Action(Of IEnumerable(Of ViewElementPropertyOverrideData)), ViewSystemNode)
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData*
   name: SetData
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.html#MacacaGames_ViewSystem_VisualEditor_ViewElementOverridesImporterWindow_SetData_
@@ -7162,22 +7324,6 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VS_EditorUtility.CalculateBoundsRectFromRects
   nameWithType: VS_EditorUtility.CalculateBoundsRectFromRects
-- uid: MacacaGames.ViewSystem.VS_EditorUtility.EditorableField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
-  name: EditorableField(Rect, SerializedProperty, PropertyOverride, out Single)
-  href: api/MacacaGames.ViewSystem.VS_EditorUtility.html#MacacaGames_ViewSystem_VS_EditorUtility_EditorableField_UnityEngine_Rect_UnityEditor_SerializedProperty_MacacaGames_ViewSystem_PropertyOverride_System_Single__
-  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.EditorableField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
-  name.vb: EditorableField(Rect, SerializedProperty, PropertyOverride, ByRef Single)
-  fullName: MacacaGames.ViewSystem.VS_EditorUtility.EditorableField(UnityEngine.Rect, UnityEditor.SerializedProperty, MacacaGames.ViewSystem.PropertyOverride, out System.Single)
-  fullName.vb: MacacaGames.ViewSystem.VS_EditorUtility.EditorableField(UnityEngine.Rect, UnityEditor.SerializedProperty, MacacaGames.ViewSystem.PropertyOverride, ByRef System.Single)
-  nameWithType: VS_EditorUtility.EditorableField(Rect, SerializedProperty, PropertyOverride, out Single)
-  nameWithType.vb: VS_EditorUtility.EditorableField(Rect, SerializedProperty, PropertyOverride, ByRef Single)
-- uid: MacacaGames.ViewSystem.VS_EditorUtility.EditorableField*
-  name: EditorableField
-  href: api/MacacaGames.ViewSystem.VS_EditorUtility.html#MacacaGames_ViewSystem_VS_EditorUtility_EditorableField_
-  commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.EditorableField
-  isSpec: "True"
-  fullName: MacacaGames.ViewSystem.VS_EditorUtility.EditorableField
-  nameWithType: VS_EditorUtility.EditorableField
 - uid: MacacaGames.ViewSystem.VS_EditorUtility.GetPropertyType(UnityEditor.SerializedProperty)
   name: GetPropertyType(SerializedProperty)
   href: api/MacacaGames.ViewSystem.VS_EditorUtility.html#MacacaGames_ViewSystem_VS_EditorUtility_GetPropertyType_UnityEditor_SerializedProperty_
@@ -7229,6 +7375,31 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart
   nameWithType: VS_EditorUtility.SetAnchorSmart
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
+  name: SmartOverrideField(Rect, SerializedProperty, PropertyOverride, out Single)
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.html#MacacaGames_ViewSystem_VS_EditorUtility_SmartOverrideField_UnityEngine_Rect_UnityEditor_SerializedProperty_MacacaGames_ViewSystem_PropertyOverride_System_Single__
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
+  name.vb: SmartOverrideField(Rect, SerializedProperty, PropertyOverride, ByRef Single)
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect, UnityEditor.SerializedProperty, MacacaGames.ViewSystem.PropertyOverride, out System.Single)
+  fullName.vb: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect, UnityEditor.SerializedProperty, MacacaGames.ViewSystem.PropertyOverride, ByRef System.Single)
+  nameWithType: VS_EditorUtility.SmartOverrideField(Rect, SerializedProperty, PropertyOverride, out Single)
+  nameWithType.vb: VS_EditorUtility.SmartOverrideField(Rect, SerializedProperty, PropertyOverride, ByRef Single)
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect,UnityEngine.GUIContent,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
+  name: SmartOverrideField(Rect, GUIContent, PropertyOverride, out Single)
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.html#MacacaGames_ViewSystem_VS_EditorUtility_SmartOverrideField_UnityEngine_Rect_UnityEngine_GUIContent_MacacaGames_ViewSystem_PropertyOverride_System_Single__
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect,UnityEngine.GUIContent,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
+  name.vb: SmartOverrideField(Rect, GUIContent, PropertyOverride, ByRef Single)
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect, UnityEngine.GUIContent, MacacaGames.ViewSystem.PropertyOverride, out System.Single)
+  fullName.vb: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect, UnityEngine.GUIContent, MacacaGames.ViewSystem.PropertyOverride, ByRef System.Single)
+  nameWithType: VS_EditorUtility.SmartOverrideField(Rect, GUIContent, PropertyOverride, out Single)
+  nameWithType.vb: VS_EditorUtility.SmartOverrideField(Rect, GUIContent, PropertyOverride, ByRef Single)
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField*
+  name: SmartOverrideField
+  href: api/MacacaGames.ViewSystem.VS_EditorUtility.html#MacacaGames_ViewSystem_VS_EditorUtility_SmartOverrideField_
+  commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField
+  nameWithType: VS_EditorUtility.SmartOverrideField
 - uid: MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemDetailPopup
   name: VS_EditorUtility.ViewPageItemDetailPopup
   href: api/MacacaGames.ViewSystem.VS_EditorUtility.ViewPageItemDetailPopup.html

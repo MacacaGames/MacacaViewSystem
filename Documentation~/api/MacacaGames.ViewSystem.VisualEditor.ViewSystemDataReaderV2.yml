@@ -267,7 +267,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: RefeshEdit
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 93
+    startLine: 95
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -297,7 +297,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnViewPageAdd
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 99
+    startLine: 101
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -330,7 +330,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnViewStateAdd
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 105
+    startLine: 107
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -363,7 +363,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnViewPageDelete
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 111
+    startLine: 113
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -396,7 +396,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnViewStateDelete
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 119
+    startLine: 121
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -429,7 +429,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ApplySafeArea
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 207
+    startLine: 209
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -462,7 +462,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnViewPagePreview
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 215
+    startLine: 217
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -500,7 +500,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Normalized
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 322
+    startLine: 325
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -530,7 +530,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ClearAllViewElementInScene
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 341
+    startLine: 344
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -560,7 +560,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Save
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 364
+    startLine: 367
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -590,7 +590,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Save
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 369
+    startLine: 372
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -628,7 +628,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetSaveData
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 410
+    startLine: 413
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -660,7 +660,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetUIRootObject
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 415
+    startLine: 418
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -693,7 +693,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: CheckAndCreateResourceFolder
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 426
+    startLine: 429
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor

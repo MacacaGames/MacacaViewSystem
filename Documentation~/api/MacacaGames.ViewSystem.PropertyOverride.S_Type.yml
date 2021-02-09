@@ -29,7 +29,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: S_Type
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 312
+    startLine: 306
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -60,7 +60,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _bool
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 314
+    startLine: 308
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -92,7 +92,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _float
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 314
+    startLine: 308
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -124,7 +124,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _int
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 314
+    startLine: 308
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -156,7 +156,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _color
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 314
+    startLine: 308
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -188,7 +188,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _objcetReferenct
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 314
+    startLine: 308
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -220,7 +220,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _string
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 314
+    startLine: 308
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -252,7 +252,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _enum
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 314
+    startLine: 308
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -284,7 +284,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _vector3
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 314
+    startLine: 308
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -316,7 +316,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _vector2
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 314
+    startLine: 308
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -348,7 +348,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _enumFlag
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 314
+    startLine: 308
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem

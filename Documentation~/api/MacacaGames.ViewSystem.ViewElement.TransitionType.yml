@@ -23,7 +23,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: TransitionType
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 171
+    startLine: 175
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -54,7 +54,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Animator
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 173
+    startLine: 177
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -86,7 +86,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: CanvasGroupAlpha
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 174
+    startLine: 178
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -118,7 +118,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ActiveSwitch
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 175
+    startLine: 179
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -150,7 +150,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Custom
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 176
+    startLine: 180
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem

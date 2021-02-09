@@ -50,7 +50,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ViewSystemVisualEditor
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 10
+    startLine: 11
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -185,7 +185,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Instance
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 12
+    startLine: 13
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -218,7 +218,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: inspector
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 14
+    startLine: 15
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -251,7 +251,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: globalSettingWindow
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 15
+    startLine: 16
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -284,7 +284,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: overridePopupWindow
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 17
+    startLine: 18
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -315,7 +315,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: navigationWindow
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 18
+    startLine: 19
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -346,7 +346,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: breakpointWindow
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 19
+    startLine: 20
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -377,7 +377,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: saveData
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 21
+    startLine: 22
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -410,7 +410,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: allowPreviewWhenPlaying
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -443,7 +443,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: overrideFromOrginal
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -476,7 +476,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: removeConnectWithoutAsk
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 25
+    startLine: 26
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -509,7 +509,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ViewControllerRoot
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 26
+    startLine: 27
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -698,7 +698,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ApplySafeArea
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 89
+    startLine: 84
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -733,7 +733,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: RefreshData
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 94
+    startLine: 89
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -766,7 +766,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ClearEditor
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 120
+    startLine: 115
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -796,7 +796,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: zoomScale
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 135
+    startLine: 141
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -829,7 +829,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: viewPortScroll
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 137
+    startLine: 143
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -862,7 +862,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: DoZoom
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 139
+    startLine: 145
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -899,7 +899,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: CheckRepaint
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 214
+    startLine: 220
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -929,7 +929,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: AddViewStateNode
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 286
+    startLine: 292
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -966,7 +966,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: AddViewPageNode
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 309
+    startLine: 315
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1005,7 +1005,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: CreateConnection
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 566
+    startLine: 572
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1038,7 +1038,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: DrawGrid
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 660
+    startLine: 666
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1068,7 +1068,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: EditMode
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 697
+    startLine: 703
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1099,7 +1099,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: MigrateToSplitTransformData
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 843
+    startLine: 849
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1129,7 +1129,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: IsNodeInactivable
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 931
+    startLine: 937
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1164,7 +1164,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnOpenAsset
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 1016
+    startLine: 1022
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor

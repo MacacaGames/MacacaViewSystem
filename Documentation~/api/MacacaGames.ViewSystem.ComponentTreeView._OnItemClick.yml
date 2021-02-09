@@ -19,7 +19,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _OnItemClick
     path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
-    startLine: 315
+    startLine: 320
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem

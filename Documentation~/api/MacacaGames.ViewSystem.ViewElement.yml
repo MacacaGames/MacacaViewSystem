@@ -45,6 +45,7 @@ items:
   - MacacaGames.ViewSystem.ViewElement.rectTransform
   - MacacaGames.ViewSystem.ViewElement.RegisterLifeCycleObject(MacacaGames.ViewSystem.IViewElementLifeCycle)
   - MacacaGames.ViewSystem.ViewElement.Reshow
+  - MacacaGames.ViewSystem.ViewElement.RevertOverrides
   - MacacaGames.ViewSystem.ViewElement.runtimeOverride
   - MacacaGames.ViewSystem.ViewElement.runtimePool
   - MacacaGames.ViewSystem.ViewElement.selfViewElementGroup
@@ -572,6 +573,36 @@ items:
   - Public
   fullName.vb: MacacaGames.ViewSystem.ViewElement.ApplyOverrides(System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementPropertyOverrideData))
   name.vb: ApplyOverrides(IEnumerable(Of ViewElementPropertyOverrideData))
+- uid: MacacaGames.ViewSystem.ViewElement.RevertOverrides
+  commentId: M:MacacaGames.ViewSystem.ViewElement.RevertOverrides
+  id: RevertOverrides
+  parent: MacacaGames.ViewSystem.ViewElement
+  langs:
+  - csharp
+  - vb
+  name: RevertOverrides()
+  nameWithType: ViewElement.RevertOverrides()
+  fullName: MacacaGames.ViewSystem.ViewElement.RevertOverrides()
+  type: Method
+  source:
+    remote:
+      path: Runtime/Components/ViewElement.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: RevertOverrides
+    path: ../Runtime/Components/ViewElement.cs
+    startLine: 102
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public void RevertOverrides()
+    content.vb: Public Sub RevertOverrides
+  overload: MacacaGames.ViewSystem.ViewElement.RevertOverrides*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: MacacaGames.ViewSystem.ViewElement.ApplyRectTransform(MacacaGames.ViewSystem.ViewElementTransform)
   commentId: M:MacacaGames.ViewSystem.ViewElement.ApplyRectTransform(MacacaGames.ViewSystem.ViewElementTransform)
   id: ApplyRectTransform(MacacaGames.ViewSystem.ViewElementTransform)
@@ -590,7 +621,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ApplyRectTransform
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 116
+    startLine: 120
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -623,7 +654,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetSelectables
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 147
+    startLine: 151
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -657,7 +688,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: viewController
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 154
+    startLine: 158
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -690,7 +721,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: lifeCyclesObjects
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 157
+    startLine: 161
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -721,7 +752,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: RegisterLifeCycleObject
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 158
+    startLine: 162
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -754,7 +785,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: UnRegisterLifeCycleObject
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 166
+    startLine: 170
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -787,7 +818,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: transition
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 178
+    startLine: 182
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -818,7 +849,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: animatorTransitionType
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 185
+    startLine: 189
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -849,7 +880,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: AnimationStateName_In
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 186
+    startLine: 190
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -880,7 +911,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: AnimationStateName_Out
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 187
+    startLine: 191
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -911,7 +942,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: AnimationStateName_Loop
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 188
+    startLine: 192
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -942,7 +973,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: isSkipOutAnimation
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 189
+    startLine: 193
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -973,7 +1004,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: canvasInTime
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 194
+    startLine: 198
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1004,7 +1035,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: canvasOutTime
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 195
+    startLine: 199
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1035,7 +1066,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: canvasInEase
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 196
+    startLine: 200
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1066,7 +1097,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: canvasOutEase
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 197
+    startLine: 201
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1097,7 +1128,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: canvasGroup
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 199
+    startLine: 203
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1132,7 +1163,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnShowHandle
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 213
+    startLine: 217
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1163,7 +1194,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnLeaveHandle
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 214
+    startLine: 218
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1194,7 +1225,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: rectTransform
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 217
+    startLine: 221
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1229,7 +1260,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: animator
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 230
+    startLine: 234
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1264,7 +1295,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Setup
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 255
+    startLine: 259
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1296,7 +1327,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Reshow
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 282
+    startLine: 286
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1326,7 +1357,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ChangePage
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 306
+    startLine: 310
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1375,7 +1406,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnChangePageRunner
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 312
+    startLine: 316
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1422,7 +1453,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnShow
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 503
+    startLine: 507
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1457,7 +1488,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnShowRunner
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 518
+    startLine: 522
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1492,7 +1523,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnLeave
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 622
+    startLine: 626
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1529,7 +1560,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnLeaveRunner
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 632
+    startLine: 636
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1566,7 +1597,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnChangedPage
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 766
+    startLine: 770
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1596,7 +1627,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: IsShowed
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 782
+    startLine: 786
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1631,7 +1662,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnBeforeRecoveryToPool
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 791
+    startLine: 795
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1664,7 +1695,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: needPool
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 792
+    startLine: 796
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1695,7 +1726,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: DisableGameObjectOnComplete
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 793
+    startLine: 797
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1726,7 +1757,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: DestroyIfNoPool
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 795
+    startLine: 799
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1767,7 +1798,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnLeaveAnimationFinish
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 796
+    startLine: 800
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1797,7 +1828,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetOutDuration
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 840
+    startLine: 844
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1831,7 +1862,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetInDuration
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 864
+    startLine: 868
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -7040,6 +7071,11 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: MacacaGames.ViewSystem.ViewElement.RevertOverrides*
+  commentId: Overload:MacacaGames.ViewSystem.ViewElement.RevertOverrides
+  name: RevertOverrides
+  nameWithType: ViewElement.RevertOverrides
+  fullName: MacacaGames.ViewSystem.ViewElement.RevertOverrides
 - uid: MacacaGames.ViewSystem.ViewElement.ApplyRectTransform*
   commentId: Overload:MacacaGames.ViewSystem.ViewElement.ApplyRectTransform
   name: ApplyRectTransform

@@ -7,6 +7,8 @@ items:
   children:
   - MacacaGames.ViewSystem.VectorConvert.StringToVector2(System.String)
   - MacacaGames.ViewSystem.VectorConvert.StringToVector3(System.String)
+  - MacacaGames.ViewSystem.VectorConvert.Vector2ToString(UnityEngine.Vector2)
+  - MacacaGames.ViewSystem.VectorConvert.Vector3ToString(UnityEngine.Vector3)
   langs:
   - csharp
   - vb
@@ -44,6 +46,80 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: MacacaGames.ViewSystem.VectorConvert.Vector3ToString(UnityEngine.Vector3)
+  commentId: M:MacacaGames.ViewSystem.VectorConvert.Vector3ToString(UnityEngine.Vector3)
+  id: Vector3ToString(UnityEngine.Vector3)
+  parent: MacacaGames.ViewSystem.VectorConvert
+  langs:
+  - csharp
+  - vb
+  name: Vector3ToString(Vector3)
+  nameWithType: VectorConvert.Vector3ToString(Vector3)
+  fullName: MacacaGames.ViewSystem.VectorConvert.Vector3ToString(UnityEngine.Vector3)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Vector3ToString
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 87
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static string Vector3ToString(Vector3 vector)
+    parameters:
+    - id: vector
+      type: UnityEngine.Vector3
+    return:
+      type: System.String
+    content.vb: Public Shared Function Vector3ToString(vector As Vector3) As String
+  overload: MacacaGames.ViewSystem.VectorConvert.Vector3ToString*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: MacacaGames.ViewSystem.VectorConvert.Vector2ToString(UnityEngine.Vector2)
+  commentId: M:MacacaGames.ViewSystem.VectorConvert.Vector2ToString(UnityEngine.Vector2)
+  id: Vector2ToString(UnityEngine.Vector2)
+  parent: MacacaGames.ViewSystem.VectorConvert
+  langs:
+  - csharp
+  - vb
+  name: Vector2ToString(Vector2)
+  nameWithType: VectorConvert.Vector2ToString(Vector2)
+  fullName: MacacaGames.ViewSystem.VectorConvert.Vector2ToString(UnityEngine.Vector2)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: Vector2ToString
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 91
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static string Vector2ToString(Vector2 vector)
+    parameters:
+    - id: vector
+      type: UnityEngine.Vector2
+    return:
+      type: System.String
+    content.vb: Public Shared Function Vector2ToString(vector As Vector2) As String
+  overload: MacacaGames.ViewSystem.VectorConvert.Vector2ToString*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
 - uid: MacacaGames.ViewSystem.VectorConvert.StringToVector3(System.String)
   commentId: M:MacacaGames.ViewSystem.VectorConvert.StringToVector3(System.String)
   id: StringToVector3(System.String)
@@ -62,7 +138,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: StringToVector3
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 87
+    startLine: 95
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -99,7 +175,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: StringToVector2
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 106
+    startLine: 114
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -416,18 +492,11 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: MacacaGames.ViewSystem.VectorConvert.StringToVector3*
-  commentId: Overload:MacacaGames.ViewSystem.VectorConvert.StringToVector3
-  name: StringToVector3
-  nameWithType: VectorConvert.StringToVector3
-  fullName: MacacaGames.ViewSystem.VectorConvert.StringToVector3
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  name: String
-  nameWithType: String
-  fullName: System.String
+- uid: MacacaGames.ViewSystem.VectorConvert.Vector3ToString*
+  commentId: Overload:MacacaGames.ViewSystem.VectorConvert.Vector3ToString
+  name: Vector3ToString
+  nameWithType: VectorConvert.Vector3ToString
+  fullName: MacacaGames.ViewSystem.VectorConvert.Vector3ToString
 - uid: UnityEngine.Vector3
   commentId: T:UnityEngine.Vector3
   parent: UnityEngine
@@ -435,17 +504,24 @@ references:
   name: Vector3
   nameWithType: Vector3
   fullName: UnityEngine.Vector3
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
 - uid: UnityEngine
   commentId: N:UnityEngine
   isExternal: true
   name: UnityEngine
   nameWithType: UnityEngine
   fullName: UnityEngine
-- uid: MacacaGames.ViewSystem.VectorConvert.StringToVector2*
-  commentId: Overload:MacacaGames.ViewSystem.VectorConvert.StringToVector2
-  name: StringToVector2
-  nameWithType: VectorConvert.StringToVector2
-  fullName: MacacaGames.ViewSystem.VectorConvert.StringToVector2
+- uid: MacacaGames.ViewSystem.VectorConvert.Vector2ToString*
+  commentId: Overload:MacacaGames.ViewSystem.VectorConvert.Vector2ToString
+  name: Vector2ToString
+  nameWithType: VectorConvert.Vector2ToString
+  fullName: MacacaGames.ViewSystem.VectorConvert.Vector2ToString
 - uid: UnityEngine.Vector2
   commentId: T:UnityEngine.Vector2
   parent: UnityEngine
@@ -453,3 +529,13 @@ references:
   name: Vector2
   nameWithType: Vector2
   fullName: UnityEngine.Vector2
+- uid: MacacaGames.ViewSystem.VectorConvert.StringToVector3*
+  commentId: Overload:MacacaGames.ViewSystem.VectorConvert.StringToVector3
+  name: StringToVector3
+  nameWithType: VectorConvert.StringToVector3
+  fullName: MacacaGames.ViewSystem.VectorConvert.StringToVector3
+- uid: MacacaGames.ViewSystem.VectorConvert.StringToVector2*
+  commentId: Overload:MacacaGames.ViewSystem.VectorConvert.StringToVector2
+  name: StringToVector2
+  nameWithType: VectorConvert.StringToVector2
+  fullName: MacacaGames.ViewSystem.VectorConvert.StringToVector2

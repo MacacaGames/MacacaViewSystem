@@ -1,0 +1,734 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  commentId: T:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  id: OverridePropertyDrawer.OverridePopup
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.#ctor(MacacaGames.ViewSystem.ViewElementPropertyOverrideData,MacacaGames.ViewSystem.ViewElement)
+  - MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize
+  - MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose
+  - MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI(UnityEngine.Rect)
+  - MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen
+  langs:
+  - csharp
+  - vb
+  name: OverridePropertyDrawer.OverridePopup
+  nameWithType: OverridePropertyDrawer.OverridePopup
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  type: Class
+  source:
+    remote:
+      path: Editor/PropertyDrawer/OverridePropertyDrawer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OverridePopup
+    path: ../Editor/PropertyDrawer/OverridePropertyDrawer.cs
+    startLine: 253
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: 'public class OverridePopup : PopupWindowContent'
+    content.vb: >-
+      Public Class OverridePopup
+          Inherits PopupWindowContent
+  inheritance:
+  - System.Object
+  - UnityEditor.PopupWindowContent
+  inheritedMembers:
+  - UnityEditor.PopupWindowContent.editorWindow
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.#ctor(MacacaGames.ViewSystem.ViewElementPropertyOverrideData,MacacaGames.ViewSystem.ViewElement)
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.#ctor(MacacaGames.ViewSystem.ViewElementPropertyOverrideData,MacacaGames.ViewSystem.ViewElement)
+  id: '#ctor(MacacaGames.ViewSystem.ViewElementPropertyOverrideData,MacacaGames.ViewSystem.ViewElement)'
+  parent: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  langs:
+  - csharp
+  - vb
+  name: OverridePopup(ViewElementPropertyOverrideData, ViewElement)
+  nameWithType: OverridePropertyDrawer.OverridePopup.OverridePopup(ViewElementPropertyOverrideData, ViewElement)
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OverridePopup(MacacaGames.ViewSystem.ViewElementPropertyOverrideData, MacacaGames.ViewSystem.ViewElement)
+  type: Constructor
+  source:
+    remote:
+      path: Editor/PropertyDrawer/OverridePropertyDrawer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Editor/PropertyDrawer/OverridePropertyDrawer.cs
+    startLine: 257
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public OverridePopup(ViewElementPropertyOverrideData data, ViewElement target)
+    parameters:
+    - id: data
+      type: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+    - id: target
+      type: MacacaGames.ViewSystem.ViewElement
+    content.vb: Public Sub New(data As ViewElementPropertyOverrideData, target As ViewElement)
+  overload: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize
+  id: GetWindowSize
+  parent: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  langs:
+  - csharp
+  - vb
+  name: GetWindowSize()
+  nameWithType: OverridePropertyDrawer.OverridePopup.GetWindowSize()
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize()
+  type: Method
+  source:
+    remote:
+      path: Editor/PropertyDrawer/OverridePropertyDrawer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: GetWindowSize
+    path: ../Editor/PropertyDrawer/OverridePropertyDrawer.cs
+    startLine: 270
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public override Vector2 GetWindowSize()
+    return:
+      type: UnityEngine.Vector2
+    content.vb: Public Overrides Function GetWindowSize As Vector2
+  overridden: UnityEditor.PopupWindowContent.GetWindowSize
+  overload: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI(UnityEngine.Rect)
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI(UnityEngine.Rect)
+  id: OnGUI(UnityEngine.Rect)
+  parent: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  langs:
+  - csharp
+  - vb
+  name: OnGUI(Rect)
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnGUI(Rect)
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI(UnityEngine.Rect)
+  type: Method
+  source:
+    remote:
+      path: Editor/PropertyDrawer/OverridePropertyDrawer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnGUI
+    path: ../Editor/PropertyDrawer/OverridePropertyDrawer.cs
+    startLine: 275
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public override void OnGUI(Rect rect)
+    parameters:
+    - id: rect
+      type: UnityEngine.Rect
+    content.vb: Public Overrides Sub OnGUI(rect As Rect)
+  overridden: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  overload: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen
+  id: OnOpen
+  parent: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  langs:
+  - csharp
+  - vb
+  name: OnOpen()
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnOpen()
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen()
+  type: Method
+  source:
+    remote:
+      path: Editor/PropertyDrawer/OverridePropertyDrawer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnOpen
+    path: ../Editor/PropertyDrawer/OverridePropertyDrawer.cs
+    startLine: 340
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public override void OnOpen()
+    content.vb: Public Overrides Sub OnOpen
+  overridden: UnityEditor.PopupWindowContent.OnOpen
+  overload: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose
+  id: OnClose
+  parent: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  langs:
+  - csharp
+  - vb
+  name: OnClose()
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnClose()
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose()
+  type: Method
+  source:
+    remote:
+      path: Editor/PropertyDrawer/OverridePropertyDrawer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnClose
+    path: ../Editor/PropertyDrawer/OverridePropertyDrawer.cs
+    startLine: 343
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public override void OnClose()
+    content.vb: Public Overrides Sub OnClose
+  overridden: UnityEditor.PopupWindowContent.OnClose
+  overload: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: UnityEditor.PopupWindowContent
+  commentId: T:UnityEditor.PopupWindowContent
+  parent: UnityEditor
+  isExternal: true
+  name: PopupWindowContent
+  nameWithType: PopupWindowContent
+  fullName: UnityEditor.PopupWindowContent
+- uid: UnityEditor.PopupWindowContent.editorWindow
+  commentId: P:UnityEditor.PopupWindowContent.editorWindow
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: editorWindow
+  nameWithType: PopupWindowContent.editorWindow
+  fullName: UnityEditor.PopupWindowContent.editorWindow
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEditor
+  commentId: N:UnityEditor
+  isExternal: true
+  name: UnityEditor
+  nameWithType: UnityEditor
+  fullName: UnityEditor
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.#ctor
+  name: OverridePopup
+  nameWithType: OverridePropertyDrawer.OverridePopup.OverridePopup
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OverridePopup
+- uid: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+  commentId: T:MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+  parent: MacacaGames.ViewSystem
+  name: ViewElementPropertyOverrideData
+  nameWithType: ViewElementPropertyOverrideData
+  fullName: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+- uid: MacacaGames.ViewSystem.ViewElement
+  commentId: T:MacacaGames.ViewSystem.ViewElement
+  parent: MacacaGames.ViewSystem
+  name: ViewElement
+  nameWithType: ViewElement
+  fullName: MacacaGames.ViewSystem.ViewElement
+- uid: UnityEditor.PopupWindowContent.GetWindowSize
+  commentId: M:UnityEditor.PopupWindowContent.GetWindowSize
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: GetWindowSize()
+  nameWithType: PopupWindowContent.GetWindowSize()
+  fullName: UnityEditor.PopupWindowContent.GetWindowSize()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.GetWindowSize
+    name: GetWindowSize
+    nameWithType: PopupWindowContent.GetWindowSize
+    fullName: UnityEditor.PopupWindowContent.GetWindowSize
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.GetWindowSize
+    name: GetWindowSize
+    nameWithType: PopupWindowContent.GetWindowSize
+    fullName: UnityEditor.PopupWindowContent.GetWindowSize
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize*
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize
+  name: GetWindowSize
+  nameWithType: OverridePropertyDrawer.OverridePopup.GetWindowSize
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.GetWindowSize
+- uid: UnityEngine.Vector2
+  commentId: T:UnityEngine.Vector2
+  parent: UnityEngine
+  isExternal: true
+  name: Vector2
+  nameWithType: Vector2
+  fullName: UnityEngine.Vector2
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
+- uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  commentId: M:UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnGUI(Rect)
+  nameWithType: PopupWindowContent.OnGUI(Rect)
+  fullName: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+    name: OnGUI
+    nameWithType: PopupWindowContent.OnGUI
+    fullName: UnityEditor.PopupWindowContent.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnGUI(UnityEngine.Rect)
+    name: OnGUI
+    nameWithType: PopupWindowContent.OnGUI
+    fullName: UnityEditor.PopupWindowContent.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI*
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI
+  name: OnGUI
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnGUI
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnGUI
+- uid: UnityEngine.Rect
+  commentId: T:UnityEngine.Rect
+  parent: UnityEngine
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: UnityEngine.Rect
+- uid: UnityEditor.PopupWindowContent.OnOpen
+  commentId: M:UnityEditor.PopupWindowContent.OnOpen
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnOpen()
+  nameWithType: PopupWindowContent.OnOpen()
+  fullName: UnityEditor.PopupWindowContent.OnOpen()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnOpen
+    name: OnOpen
+    nameWithType: PopupWindowContent.OnOpen
+    fullName: UnityEditor.PopupWindowContent.OnOpen
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnOpen
+    name: OnOpen
+    nameWithType: PopupWindowContent.OnOpen
+    fullName: UnityEditor.PopupWindowContent.OnOpen
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen*
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen
+  name: OnOpen
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnOpen
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnOpen
+- uid: UnityEditor.PopupWindowContent.OnClose
+  commentId: M:UnityEditor.PopupWindowContent.OnClose
+  parent: UnityEditor.PopupWindowContent
+  isExternal: true
+  name: OnClose()
+  nameWithType: PopupWindowContent.OnClose()
+  fullName: UnityEditor.PopupWindowContent.OnClose()
+  spec.csharp:
+  - uid: UnityEditor.PopupWindowContent.OnClose
+    name: OnClose
+    nameWithType: PopupWindowContent.OnClose
+    fullName: UnityEditor.PopupWindowContent.OnClose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PopupWindowContent.OnClose
+    name: OnClose
+    nameWithType: PopupWindowContent.OnClose
+    fullName: UnityEditor.PopupWindowContent.OnClose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose*
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose
+  name: OnClose
+  nameWithType: OverridePropertyDrawer.OverridePopup.OnClose
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup.OnClose

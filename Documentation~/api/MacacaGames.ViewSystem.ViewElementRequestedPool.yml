@@ -8,6 +8,7 @@ items:
   - MacacaGames.ViewSystem.ViewElementRequestedPool.#ctor(MacacaGames.ViewSystem.ViewElement)
   - MacacaGames.ViewSystem.ViewElementRequestedPool.#ctor(MacacaGames.ViewSystem.ViewElement,System.Action{MacacaGames.ViewSystem.ViewElement})
   - MacacaGames.ViewSystem.ViewElementRequestedPool.GetCurrentInUseViewElementCount
+  - MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool(MacacaGames.ViewSystem.ViewElement)
   - MacacaGames.ViewSystem.ViewElementRequestedPool.Recovery(MacacaGames.ViewSystem.ViewElement,System.Boolean)
   - MacacaGames.ViewSystem.ViewElementRequestedPool.recoveryAction
   - MacacaGames.ViewSystem.ViewElementRequestedPool.RecoveryAll(System.Boolean)
@@ -51,6 +52,47 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool(MacacaGames.ViewSystem.ViewElement)
+  commentId: M:MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool(MacacaGames.ViewSystem.ViewElement)
+  id: GetPool(MacacaGames.ViewSystem.ViewElement)
+  parent: MacacaGames.ViewSystem.ViewElementRequestedPool
+  langs:
+  - csharp
+  - vb
+  name: GetPool(ViewElement)
+  nameWithType: ViewElementRequestedPool.GetPool(ViewElement)
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool(MacacaGames.ViewSystem.ViewElement)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Utilities/ViewElementRequestedPool.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: GetPool
+    path: ../Runtime/Utilities/ViewElementRequestedPool.cs
+    startLine: 16
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  summary: "\nGet the cached pool\n"
+  example: []
+  syntax:
+    content: public static ViewElementRequestedPool GetPool(ViewElement template)
+    parameters:
+    - id: template
+      type: MacacaGames.ViewSystem.ViewElement
+      description: The source ViewElement
+    return:
+      type: MacacaGames.ViewSystem.ViewElementRequestedPool
+      description: the pool
+    content.vb: Public Shared Function GetPool(template As ViewElement) As ViewElementRequestedPool
+  overload: MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
 - uid: MacacaGames.ViewSystem.ViewElementRequestedPool.recoveryAction
   commentId: F:MacacaGames.ViewSystem.ViewElementRequestedPool.recoveryAction
   id: recoveryAction
@@ -69,7 +111,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: recoveryAction
     path: ../Runtime/Utilities/ViewElementRequestedPool.cs
-    startLine: 15
+    startLine: 32
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -100,7 +142,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: .ctor
     path: ../Runtime/Utilities/ViewElementRequestedPool.cs
-    startLine: 17
+    startLine: 38
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -133,7 +175,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: .ctor
     path: ../Runtime/Utilities/ViewElementRequestedPool.cs
-    startLine: 22
+    startLine: 48
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -171,7 +213,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Request
     path: ../Runtime/Utilities/ViewElementRequestedPool.cs
-    startLine: 28
+    startLine: 54
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -206,7 +248,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Request
     path: ../Runtime/Utilities/ViewElementRequestedPool.cs
-    startLine: 38
+    startLine: 64
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -248,7 +290,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: RecoveryAll
     path: ../Runtime/Utilities/ViewElementRequestedPool.cs
-    startLine: 43
+    startLine: 69
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -281,7 +323,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Recovery
     path: ../Runtime/Utilities/ViewElementRequestedPool.cs
-    startLine: 55
+    startLine: 81
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -316,7 +358,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: RecoveryQueuedItems
     path: ../Runtime/Utilities/ViewElementRequestedPool.cs
-    startLine: 66
+    startLine: 92
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -348,7 +390,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetCurrentInUseViewElementCount
     path: ../Runtime/Utilities/ViewElementRequestedPool.cs
-    startLine: 70
+    startLine: 96
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -660,6 +702,23 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool*
+  commentId: Overload:MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool
+  name: GetPool
+  nameWithType: ViewElementRequestedPool.GetPool
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.GetPool
+- uid: MacacaGames.ViewSystem.ViewElement
+  commentId: T:MacacaGames.ViewSystem.ViewElement
+  parent: MacacaGames.ViewSystem
+  name: ViewElement
+  nameWithType: ViewElement
+  fullName: MacacaGames.ViewSystem.ViewElement
+- uid: MacacaGames.ViewSystem.ViewElementRequestedPool
+  commentId: T:MacacaGames.ViewSystem.ViewElementRequestedPool
+  parent: MacacaGames.ViewSystem
+  name: ViewElementRequestedPool
+  nameWithType: ViewElementRequestedPool
+  fullName: MacacaGames.ViewSystem.ViewElementRequestedPool
 - uid: System.Action{MacacaGames.ViewSystem.ViewElement}
   commentId: T:System.Action{MacacaGames.ViewSystem.ViewElement}
   parent: System
@@ -746,12 +805,6 @@ references:
   name: ViewElementRequestedPool
   nameWithType: ViewElementRequestedPool.ViewElementRequestedPool
   fullName: MacacaGames.ViewSystem.ViewElementRequestedPool.ViewElementRequestedPool
-- uid: MacacaGames.ViewSystem.ViewElement
-  commentId: T:MacacaGames.ViewSystem.ViewElement
-  parent: MacacaGames.ViewSystem
-  name: ViewElement
-  nameWithType: ViewElement
-  fullName: MacacaGames.ViewSystem.ViewElement
 - uid: MacacaGames.ViewSystem.ViewElementRequestedPool.Request*
   commentId: Overload:MacacaGames.ViewSystem.ViewElementRequestedPool.Request
   name: Request

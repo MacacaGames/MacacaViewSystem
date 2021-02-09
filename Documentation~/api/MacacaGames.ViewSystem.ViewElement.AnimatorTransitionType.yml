@@ -21,7 +21,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: AnimatorTransitionType
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 179
+    startLine: 183
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -52,7 +52,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Direct
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 181
+    startLine: 185
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -84,7 +84,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Trigger
     path: ../Runtime/Components/ViewElement.cs
-    startLine: 182
+    startLine: 186
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem

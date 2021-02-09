@@ -382,18 +382,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView__ctor_UnityEngine_GameObject_MacacaGames_ViewSystem_ViewPageItem_UnityEditor_IMGUI_Controls_TreeViewState_System_Boolean_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.%23ctor(UnityEngine.GameObject%2CMacacaGames.ViewSystem.ViewPageItem%2CUnityEditor.IMGUI.Controls.TreeViewState%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView__ctor_UnityEngine_GameObject_MacacaGames_ViewSystem_ViewElement_UnityEditor_IMGUI_Controls_TreeViewState_System_Boolean_System_Func_UnityEditor_SerializedProperty_System_String_System_Boolean__System_Action_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.%23ctor(UnityEngine.GameObject%2CMacacaGames.ViewSystem.ViewElement%2CUnityEditor.IMGUI.Controls.TreeViewState%2CSystem.Boolean%2CSystem.Func%7BUnityEditor.SerializedProperty%2CSystem.String%2CSystem.Boolean%7D%2CSystem.Action)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L13">View Source</a>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L16">View Source</a>
   </span>
   <a id="MacacaGames_ViewSystem_ComponentTreeView__ctor_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.#ctor*"></a>
-  <h4 id="MacacaGames_ViewSystem_ComponentTreeView__ctor_UnityEngine_GameObject_MacacaGames_ViewSystem_ViewPageItem_UnityEditor_IMGUI_Controls_TreeViewState_System_Boolean_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)">ComponentTreeView(GameObject, ViewPageItem, TreeViewState, Boolean)</h4>
+  <h4 id="MacacaGames_ViewSystem_ComponentTreeView__ctor_UnityEngine_GameObject_MacacaGames_ViewSystem_ViewElement_UnityEditor_IMGUI_Controls_TreeViewState_System_Boolean_System_Func_UnityEditor_SerializedProperty_System_String_System_Boolean__System_Action_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewElement,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean,System.Func{UnityEditor.SerializedProperty,System.String,System.Boolean},System.Action)">ComponentTreeView(GameObject, ViewElement, TreeViewState, Boolean, Func&lt;SerializedProperty, String, Boolean&gt;, Action)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ComponentTreeView(GameObject go, ViewPageItem viewPageItem, TreeViewState treeViewState, bool isPrefabRoot)</code></pre>
+    <pre><code class="lang-csharp hljs">public ComponentTreeView(GameObject go, ViewElement viewElement, TreeViewState treeViewState, bool isPrefabRoot, Func&lt;SerializedProperty, string, bool&gt; IsModify, Action OnDelete)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -411,8 +411,8 @@
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="MacacaGames.ViewSystem.ViewPageItem.html">ViewPageItem</a></td>
-        <td><span class="parametername">viewPageItem</span></td>
+        <td><a class="xref" href="MacacaGames.ViewSystem.ViewElement.html">ViewElement</a></td>
+        <td><span class="parametername">viewElement</span></td>
         <td></td>
       </tr>
       <tr>
@@ -425,6 +425,16 @@
         <td><span class="parametername">isPrefabRoot</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><span class="xref">System.Func</span>&lt;<span class="xref">UnityEditor.SerializedProperty</span>, <span class="xref">System.String</span>, <span class="xref">System.Boolean</span>&gt;</td>
+        <td><span class="parametername">IsModify</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span></td>
+        <td><span class="parametername">OnDelete</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h3 id="methods">Methods
@@ -434,7 +444,7 @@
     <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView_BuildRoot.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.BuildRoot%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L127">View Source</a>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L132">View Source</a>
   </span>
   <a id="MacacaGames_ViewSystem_ComponentTreeView_BuildRoot_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.BuildRoot*"></a>
   <h4 id="MacacaGames_ViewSystem_ComponentTreeView_BuildRoot" data-uid="MacacaGames.ViewSystem.ComponentTreeView.BuildRoot">BuildRoot()</h4>
@@ -466,7 +476,7 @@
     <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView_DoubleClickedItem_System_Int32_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L299">View Source</a>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L306">View Source</a>
   </span>
   <a id="MacacaGames_ViewSystem_ComponentTreeView_DoubleClickedItem_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem*"></a>
   <h4 id="MacacaGames_ViewSystem_ComponentTreeView_DoubleClickedItem_System_Int32_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem(System.Int32)">DoubleClickedItem(Int32)</h4>
@@ -500,7 +510,7 @@
     <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView_DrawValue_UnityEngine_Rect_UnityEditor_SerializedProperty_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.DrawValue(UnityEngine.Rect%2CUnityEditor.SerializedProperty)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L232">View Source</a>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L238">View Source</a>
   </span>
   <a id="MacacaGames_ViewSystem_ComponentTreeView_DrawValue_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.DrawValue*"></a>
   <h4 id="MacacaGames_ViewSystem_ComponentTreeView_DrawValue_UnityEngine_Rect_UnityEditor_SerializedProperty_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.DrawValue(UnityEngine.Rect,UnityEditor.SerializedProperty)">DrawValue(Rect, SerializedProperty)</h4>
@@ -537,7 +547,7 @@
     <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView_RowGUI_UnityEditor_IMGUI_Controls_TreeView_RowGUIArgs_.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L164">View Source</a>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L169">View Source</a>
   </span>
   <a id="MacacaGames_ViewSystem_ComponentTreeView_RowGUI_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.RowGUI*"></a>
   <h4 id="MacacaGames_ViewSystem_ComponentTreeView_RowGUI_UnityEditor_IMGUI_Controls_TreeView_RowGUIArgs_" data-uid="MacacaGames.ViewSystem.ComponentTreeView.RowGUI(UnityEditor.IMGUI.Controls.TreeView.RowGUIArgs)">RowGUI(TreeView.RowGUIArgs)</h4>
@@ -573,7 +583,7 @@
     <a href="https://github.com/MacacaGames/MacacaViewSystem/new/master/apiSpec/new?filename=MacacaGames_ViewSystem_ComponentTreeView_OnItemClick.md&amp;value=---%0Auid%3A%20MacacaGames.ViewSystem.ComponentTreeView.OnItemClick%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L317">View Source</a>
+    <a href="https://github.com/MacacaGames/MacacaViewSystem/blob/master/Editor/VisualEditor/Overrides/ComponentTreeView.cs/#L322">View Source</a>
   </span>
   <h4 id="MacacaGames_ViewSystem_ComponentTreeView_OnItemClick" data-uid="MacacaGames.ViewSystem.ComponentTreeView.OnItemClick">OnItemClick</h4>
   <div class="markdown level1 summary"></div>

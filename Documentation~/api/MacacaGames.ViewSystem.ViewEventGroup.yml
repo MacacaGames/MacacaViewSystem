@@ -21,7 +21,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ViewEventGroup
     path: ../Runtime/Models/ViewPageModel.cs
-    startLine: 317
+    startLine: 322
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -115,7 +115,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: .ctor
     path: ../Runtime/Models/ViewPageModel.cs
-    startLine: 321
+    startLine: 326
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -148,7 +148,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetGroupName
     path: ../Runtime/Models/ViewPageModel.cs
-    startLine: 326
+    startLine: 331
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem

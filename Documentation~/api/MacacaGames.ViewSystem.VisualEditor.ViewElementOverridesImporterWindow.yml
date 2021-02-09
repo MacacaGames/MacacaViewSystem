@@ -5,7 +5,7 @@ items:
   id: ViewElementOverridesImporterWindow
   parent: MacacaGames.ViewSystem.VisualEditor
   children:
-  - MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform,UnityEngine.Transform,MacacaGames.ViewSystem.ViewPageItem,MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  - MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform,UnityEngine.Transform,System.Action{System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}},MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
   langs:
   - csharp
   - vb
@@ -15,11 +15,11 @@ items:
   type: Class
   source:
     remote:
-      path: Editor/VisualEditor/Overrides/OverrideCheckerPopup.cs
+      path: Editor/VisualEditor/Overrides/ViewElementOverridesImporterWindow.cs
       branch: master
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ViewElementOverridesImporterWindow
-    path: ../Editor/VisualEditor/Overrides/OverrideCheckerPopup.cs
+    path: ../Editor/VisualEditor/Overrides/ViewElementOverridesImporterWindow.cs
     startLine: 9
   assemblies:
   - Macaca.ViewSystem.Editor
@@ -137,45 +137,48 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform,UnityEngine.Transform,MacacaGames.ViewSystem.ViewPageItem,MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform,UnityEngine.Transform,MacacaGames.ViewSystem.ViewPageItem,MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
-  id: SetData(UnityEngine.Transform,UnityEngine.Transform,MacacaGames.ViewSystem.ViewPageItem,MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform,UnityEngine.Transform,System.Action{System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}},MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform,UnityEngine.Transform,System.Action{System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}},MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  id: SetData(UnityEngine.Transform,UnityEngine.Transform,System.Action{System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}},MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
   parent: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow
   langs:
   - csharp
   - vb
-  name: SetData(Transform, Transform, ViewPageItem, ViewSystemNode)
-  nameWithType: ViewElementOverridesImporterWindow.SetData(Transform, Transform, ViewPageItem, ViewSystemNode)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform, UnityEngine.Transform, MacacaGames.ViewSystem.ViewPageItem, MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  name: SetData(Transform, Transform, Action<IEnumerable<ViewElementPropertyOverrideData>>, ViewSystemNode)
+  nameWithType: ViewElementOverridesImporterWindow.SetData(Transform, Transform, Action<IEnumerable<ViewElementPropertyOverrideData>>, ViewSystemNode)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform, UnityEngine.Transform, System.Action<System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementPropertyOverrideData>>, MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
   type: Method
   source:
     remote:
-      path: Editor/VisualEditor/Overrides/OverrideCheckerPopup.cs
+      path: Editor/VisualEditor/Overrides/ViewElementOverridesImporterWindow.cs
       branch: master
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetData
-    path: ../Editor/VisualEditor/Overrides/OverrideCheckerPopup.cs
+    path: ../Editor/VisualEditor/Overrides/ViewElementOverridesImporterWindow.cs
     startLine: 18
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
   syntax:
-    content: public void SetData(Transform root, Transform root_prefab, ViewPageItem viewPageItem, ViewSystemNode node)
+    content: public void SetData(Transform root, Transform root_prefab, Action<IEnumerable<ViewElementPropertyOverrideData>> OnImport, ViewSystemNode node)
     parameters:
     - id: root
       type: UnityEngine.Transform
     - id: root_prefab
       type: UnityEngine.Transform
-    - id: viewPageItem
-      type: MacacaGames.ViewSystem.ViewPageItem
+    - id: OnImport
+      type: System.Action{System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}}
     - id: node
       type: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode
-    content.vb: Public Sub SetData(root As Transform, root_prefab As Transform, viewPageItem As ViewPageItem, node As ViewSystemNode)
+    content.vb: Public Sub SetData(root As Transform, root_prefab As Transform, OnImport As Action(Of IEnumerable(Of ViewElementPropertyOverrideData)), node As ViewSystemNode)
   overload: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData*
+  nameWithType.vb: ViewElementOverridesImporterWindow.SetData(Transform, Transform, Action(Of IEnumerable(Of ViewElementPropertyOverrideData)), ViewSystemNode)
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
+  fullName.vb: MacacaGames.ViewSystem.VisualEditor.ViewElementOverridesImporterWindow.SetData(UnityEngine.Transform, UnityEngine.Transform, System.Action(Of System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementPropertyOverrideData)), MacacaGames.ViewSystem.VisualEditor.ViewSystemNode)
+  name.vb: SetData(Transform, Transform, Action(Of IEnumerable(Of ViewElementPropertyOverrideData)), ViewSystemNode)
 references:
 - uid: MacacaGames.ViewSystem.VisualEditor
   commentId: N:MacacaGames.ViewSystem.VisualEditor
@@ -4564,20 +4567,112 @@ references:
   name: Transform
   nameWithType: Transform
   fullName: UnityEngine.Transform
-- uid: MacacaGames.ViewSystem.ViewPageItem
-  commentId: T:MacacaGames.ViewSystem.ViewPageItem
-  parent: MacacaGames.ViewSystem
-  name: ViewPageItem
-  nameWithType: ViewPageItem
-  fullName: MacacaGames.ViewSystem.ViewPageItem
+- uid: System.Action{System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}}
+  commentId: T:System.Action{System.Collections.Generic.IEnumerable{MacacaGames.ViewSystem.ViewElementPropertyOverrideData}}
+  parent: System
+  definition: System.Action`1
+  name: Action<IEnumerable<ViewElementPropertyOverrideData>>
+  nameWithType: Action<IEnumerable<ViewElementPropertyOverrideData>>
+  fullName: System.Action<System.Collections.Generic.IEnumerable<MacacaGames.ViewSystem.ViewElementPropertyOverrideData>>
+  nameWithType.vb: Action(Of IEnumerable(Of ViewElementPropertyOverrideData))
+  fullName.vb: System.Action(Of System.Collections.Generic.IEnumerable(Of MacacaGames.ViewSystem.ViewElementPropertyOverrideData))
+  name.vb: Action(Of IEnumerable(Of ViewElementPropertyOverrideData))
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+    name: ViewElementPropertyOverrideData
+    nameWithType: ViewElementPropertyOverrideData
+    fullName: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+    name: ViewElementPropertyOverrideData
+    nameWithType: ViewElementPropertyOverrideData
+    fullName: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode
   commentId: T:MacacaGames.ViewSystem.VisualEditor.ViewSystemNode
   parent: MacacaGames.ViewSystem.VisualEditor
   name: ViewSystemNode
   nameWithType: ViewSystemNode
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemNode
-- uid: MacacaGames.ViewSystem
-  commentId: N:MacacaGames.ViewSystem
-  name: MacacaGames.ViewSystem
-  nameWithType: MacacaGames.ViewSystem
-  fullName: MacacaGames.ViewSystem
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )

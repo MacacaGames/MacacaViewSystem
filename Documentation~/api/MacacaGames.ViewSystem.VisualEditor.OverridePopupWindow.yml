@@ -110,7 +110,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: .ctor
     path: ../Editor/VisualEditor/Window/OverridePopupWindow.cs
-    startLine: 30
+    startLine: 26
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -147,7 +147,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetViewPageItem
     path: ../Editor/VisualEditor/Window/OverridePopupWindow.cs
-    startLine: 53
+    startLine: 43
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -180,7 +180,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Show
     path: ../Editor/VisualEditor/Window/OverridePopupWindow.cs
-    startLine: 65
+    startLine: 55
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -213,7 +213,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnGUI
     path: ../Editor/VisualEditor/Window/OverridePopupWindow.cs
-    startLine: 74
+    startLine: 62
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -246,7 +246,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Draw
     path: ../Editor/VisualEditor/Window/OverridePopupWindow.cs
-    startLine: 90
+    startLine: 69
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor

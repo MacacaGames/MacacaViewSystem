@@ -1,37 +1,5 @@
 See [Document](https://macacagames.github.io/MacacaViewSystem/) for more detail.
 
-- [Overview](#overview)
-  - [Feature](#feature)
-- [Concept](#concept)
-  - [ViewElement](#viewelement)
-  - [ViewPage](#viewpage)
-    - [FullPage](#fullpage)
-    - [OverlayPage](#overlaypage)
-  - [ViewState](#viewstate)
-  - [ViewController](#viewcontroller)
-- [Installation](#installation)
-  - [Option 1: Git SubModule](#option-1-git-submodule)
-  - [Option 2: Unity Package file](#option-2-unity-package-file)
-  - [Option 3: Unity Package manager](#option-3-unity-package-manager)
-- [Setup](#setup)
-  - [1. Editor](#1-editor)
-  - [2. Create ViewController](#2-create-viewcontroller)
-  - [3. Create UGUI Canvas](#3-create-ugui-canvas)
-  - [4. Setup GlobalSetting](#4-setup-globalsetting)
-  - [5. Ready to go!](#5-ready-to-go)
-- [Components](#components)
-  - [ViewMarginFixer](#viewmarginfixer)
-  - [ViewElementGroup](#viewelementgroup)
-- [LifeCycle Hook and Injection](#lifecycle-hook-and-injection)
-  - [IViewElementLifeCycle](#iviewelementlifecycle)
-  - [IViewElementInjectable](#iviewelementinjectable)
-- [System LifeCycle](#system-lifecycle)
-  - [ViewController Initialization](#viewcontroller-initialization)
-  - [FullPage ChangePage](#fullpage-changepage)
-- [How to...](#how-to)
-  - [Get an runtime ViewElement reference in ViewPage/ViewState](#get-an-runtime-viewelement-reference-in-viewpageviewstate)
-
-
 
 
 # Overview
@@ -46,7 +14,7 @@ UI management in Unity3D is always a hard work, the goal of **ViewSystem** is to
   
 # Concept
 ## ViewElement
-ViewElement is the basic unit in ViewSystem, any item shows on an UI page can be a ViewElement, such as a button, a icon or anything else.
+ViewElement is the base unit in ViewSystem, any item shows on an UI page can be a ViewElement, such as a button, a icon or anything else.
 
 For example, the red square part in the screenshot is a ViewElement.
 <img src="./Img~/viewelement.png" alt="Screenshot2" height="400"/>
@@ -82,7 +50,18 @@ And also the ViewElements define in ViewState will not be update until the ViewS
 ViewController is the core component of ViewSystem, all control of the UI is base on this component.
 
 # Installation
-## Option 1: Git SubModule
+## Option 1: Unity Package file (Recommend)
+Add it to your editor's manifest.json file like this:
+```json
+{
+    "dependencies": {
+        "com.macacagames.utility": "https://github.com/MacacaGames/MacacaUtility.git#1.0.0",
+        "com.macacagames.viewsystem": "https://github.com/MacacaGames/MacacaViewSystem.git#1.0.2"
+    }
+}
+```
+
+## Option 2: Git SubModule
 ```bash
 git submodule add https://github.com/MacacaGames/MacacaViewSystem.git Assets/MacacaViewSystem
 ```
@@ -90,11 +69,6 @@ Note: ViewSystem is dependency with MacacaUtility, so also add MacacaUtility in 
 ```bash
 git submodule add hhttps://github.com/MacacaGames/MacacaUtility.git Assets/MacacaUtility
 ```
-## Option 2: Unity Package file
-> Work in progress
-
-## Option 3: Unity Package manager
-> Work in progress
 
 # Setup
 ## 1. Editor
@@ -120,14 +94,26 @@ Click "GlobalSetting" button on toolbar and follow the steps
 ## 5. Ready to go!
 Now, all setup step is done, use Example Project to learn how to edit your UI.
 
+# Usage
+Use the Visual Editor to edit your UI page.
+
+Menu Path : MacacaGames > ViewSystem > Visual Editor
+## Make a ViewPage
+You can define the ViewElement and and its RectTransform info by Visual Editor.
+<img src="./Img~/add_viewelement.gif" />
+
+## Override property in ViewElement
+You can override any property on ViewElement, use preview to take effect the override.
+
+With the override system, you can simply create the ViewElement variant in different ViewPage.
+<img src="./Img~/override_demo.gif" />
+
+### Why using ViewSystem's override but not Unity Prefab variant?
+ViewSystem override is a runtime function, it means all modify only exsit during the Game is runing, use the ViewSystem override helps you to avoid to make a lot of Prefab variant assets.
+
+Limitation, the ViewSystem override has no ability to add/remove Component, GameObject etc. In this case use Unity Prefab variant.
+
 # Components
-## ViewMarginFixer
-ViewElement manage by the ViewSystem will be pooled if is not in use, that means the RectTransfrom's anchor stretch value may be wrong while it is taken out from pool. (cause by the Transfrom.SetParent(true);)
-
-ViewMarginFixer is a helper to solve this issue, which override the anchor stretch value base on the ViewElement life cycle.
-
-<img src="./Img~/viewmarginfixer.png" width="400"/>
-<img src="./Img~/transform_anchor.png" width="400"/>
 
 ## ViewElementGroup
 Something we me may wish to use already exsited ViewElement inside another ViewElement, in this way the ViewElementGroup can helps.
@@ -149,6 +135,14 @@ someViewelement.OnShow(true);
 someViewelement.OnLeave(false, true);
 ```
 <img src="./Img~/viewelementgroup_manual.png" width="400"/>
+
+## ViewMarginFixer (Deprecated, only using in Custom Parent Mode)
+ViewElement manage by the ViewSystem will be pooled if is not in use, that means the RectTransfrom's anchor stretch value may be wrong while it is taken out from pool. (cause by the Transfrom.SetParent(true);)
+
+ViewMarginFixer is a helper to solve this issue, which override the anchor stretch value base on the ViewElement life cycle.
+
+<img src="./Img~/viewmarginfixer.png" width="400"/>
+<img src="./Img~/transform_anchor.png" width="400"/>
 
 # LifeCycle Hook and Injection
 

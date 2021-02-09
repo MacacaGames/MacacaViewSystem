@@ -5,6 +5,8 @@ items:
   id: PropertyOverride
   parent: MacacaGames.ViewSystem
   children:
+  - MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue(MacacaGames.ViewSystem.PropertyOverride.S_Type,System.String)
+  - MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue(System.Object)
   - MacacaGames.ViewSystem.PropertyOverride.GetValue
   - MacacaGames.ViewSystem.PropertyOverride.ObjectReferenceValue
   - MacacaGames.ViewSystem.PropertyOverride.s_Type
@@ -25,7 +27,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: PropertyOverride
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 126
+    startLine: 134
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -76,7 +78,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetValue
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 131
+    startLine: 139
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -108,7 +110,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetValue
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 235
+    startLine: 243
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -141,7 +143,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetType
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 307
+    startLine: 301
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -174,7 +176,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: s_Type
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 316
+    startLine: 310
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -205,7 +207,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ObjectReferenceValue
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 317
+    startLine: 311
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -236,7 +238,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: StringValue
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 318
+    startLine: 312
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -249,6 +251,82 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue(MacacaGames.ViewSystem.PropertyOverride.S_Type,System.String)
+  commentId: M:MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue(MacacaGames.ViewSystem.PropertyOverride.S_Type,System.String)
+  id: ConvertFromStringValue(MacacaGames.ViewSystem.PropertyOverride.S_Type,System.String)
+  parent: MacacaGames.ViewSystem.PropertyOverride
+  langs:
+  - csharp
+  - vb
+  name: ConvertFromStringValue(PropertyOverride.S_Type, String)
+  nameWithType: PropertyOverride.ConvertFromStringValue(PropertyOverride.S_Type, String)
+  fullName: MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue(MacacaGames.ViewSystem.PropertyOverride.S_Type, System.String)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ConvertFromStringValue
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 315
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static object ConvertFromStringValue(PropertyOverride.S_Type sType, string StringValue)
+    parameters:
+    - id: sType
+      type: MacacaGames.ViewSystem.PropertyOverride.S_Type
+    - id: StringValue
+      type: System.String
+    return:
+      type: System.Object
+    content.vb: Public Shared Function ConvertFromStringValue(sType As PropertyOverride.S_Type, StringValue As String) As Object
+  overload: MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue(System.Object)
+  commentId: M:MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue(System.Object)
+  id: ConvertToStringValue(System.Object)
+  parent: MacacaGames.ViewSystem.PropertyOverride
+  langs:
+  - csharp
+  - vb
+  name: ConvertToStringValue(Object)
+  nameWithType: PropertyOverride.ConvertToStringValue(Object)
+  fullName: MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue(System.Object)
+  type: Method
+  source:
+    remote:
+      path: Runtime/Models/ViewSystemSaveData.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: ConvertToStringValue
+    path: ../Runtime/Models/ViewSystemSaveData.cs
+    startLine: 352
+  assemblies:
+  - Macaca.ViewSystem
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static string ConvertToStringValue(object value)
+    parameters:
+    - id: value
+      type: System.Object
+    return:
+      type: System.String
+    content.vb: Public Shared Function ConvertToStringValue(value As Object) As String
+  overload: MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
 references:
 - uid: MacacaGames.ViewSystem
   commentId: N:MacacaGames.ViewSystem
@@ -588,3 +666,13 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue*
+  commentId: Overload:MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue
+  name: ConvertFromStringValue
+  nameWithType: PropertyOverride.ConvertFromStringValue
+  fullName: MacacaGames.ViewSystem.PropertyOverride.ConvertFromStringValue
+- uid: MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue*
+  commentId: Overload:MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue
+  name: ConvertToStringValue
+  nameWithType: PropertyOverride.ConvertToStringValue
+  fullName: MacacaGames.ViewSystem.PropertyOverride.ConvertToStringValue

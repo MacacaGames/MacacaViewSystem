@@ -20,6 +20,8 @@ items:
   - MacacaGames.ViewSystem.NestedViewElementEditor
   - MacacaGames.ViewSystem.OverlayPageChanger
   - MacacaGames.ViewSystem.OverlayPageChangerExtension
+  - MacacaGames.ViewSystem.OverridePropertyDrawer
+  - MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
   - MacacaGames.ViewSystem.PageChanger
   - MacacaGames.ViewSystem.PageChangerExtension
   - MacacaGames.ViewSystem.PropertyOverride
@@ -36,6 +38,7 @@ items:
   - MacacaGames.ViewSystem.ViewControllerBase.ViewPageTrisitionEventArgs
   - MacacaGames.ViewSystem.ViewControllerBase.ViewStateEventArgs
   - MacacaGames.ViewSystem.ViewControllerEditor
+  - MacacaGames.ViewSystem.ViewElemenOverride
   - MacacaGames.ViewSystem.ViewElement
   - MacacaGames.ViewSystem.ViewElement.AnimatorTransitionType
   - MacacaGames.ViewSystem.ViewElement.RectTransformFlag
@@ -48,6 +51,8 @@ items:
   - MacacaGames.ViewSystem.ViewElementNavigationData
   - MacacaGames.ViewSystem.ViewElementNavigationDataViewState
   - MacacaGames.ViewSystem.ViewElementNavigationTarget
+  - MacacaGames.ViewSystem.ViewElementOverrideAsset
+  - MacacaGames.ViewSystem.ViewElementOverrideHelper
   - MacacaGames.ViewSystem.ViewElementPropertyOverrideData
   - MacacaGames.ViewSystem.ViewElementRequestedPool
   - MacacaGames.ViewSystem.ViewElementRuntimePool
@@ -158,6 +163,11 @@ references:
   name: ViewElementLifeCycle.BoolEvent
   nameWithType: ViewElementLifeCycle.BoolEvent
   fullName: MacacaGames.ViewSystem.ViewElementLifeCycle.BoolEvent
+- uid: MacacaGames.ViewSystem.ViewElementOverrideHelper
+  commentId: T:MacacaGames.ViewSystem.ViewElementOverrideHelper
+  name: ViewElementOverrideHelper
+  nameWithType: ViewElementOverrideHelper
+  fullName: MacacaGames.ViewSystem.ViewElementOverrideHelper
 - uid: MacacaGames.ViewSystem.ViewElementRuntimePool
   commentId: T:MacacaGames.ViewSystem.ViewElementRuntimePool
   parent: MacacaGames.ViewSystem
@@ -214,6 +224,11 @@ references:
   name: MicroCoroutine.Coroutine
   nameWithType: MicroCoroutine.Coroutine
   fullName: MacacaGames.ViewSystem.MicroCoroutine.Coroutine
+- uid: MacacaGames.ViewSystem.ViewElementOverrideAsset
+  commentId: T:MacacaGames.ViewSystem.ViewElementOverrideAsset
+  name: ViewElementOverrideAsset
+  nameWithType: ViewElementOverrideAsset
+  fullName: MacacaGames.ViewSystem.ViewElementOverrideAsset
 - uid: MacacaGames.ViewSystem.View
   commentId: T:MacacaGames.ViewSystem.View
   parent: MacacaGames.ViewSystem
@@ -288,8 +303,15 @@ references:
   name: ViewElementEventData
   nameWithType: ViewElementEventData
   fullName: MacacaGames.ViewSystem.ViewElementEventData
+- uid: MacacaGames.ViewSystem.ViewElemenOverride
+  commentId: T:MacacaGames.ViewSystem.ViewElemenOverride
+  parent: MacacaGames.ViewSystem
+  name: ViewElemenOverride
+  nameWithType: ViewElemenOverride
+  fullName: MacacaGames.ViewSystem.ViewElemenOverride
 - uid: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
   commentId: T:MacacaGames.ViewSystem.ViewElementPropertyOverrideData
+  parent: MacacaGames.ViewSystem
   name: ViewElementPropertyOverrideData
   nameWithType: ViewElementPropertyOverrideData
   fullName: MacacaGames.ViewSystem.ViewElementPropertyOverrideData
@@ -387,6 +409,7 @@ references:
   fullName: MacacaGames.ViewSystem.PageChangerExtension
 - uid: MacacaGames.ViewSystem.ViewElementRequestedPool
   commentId: T:MacacaGames.ViewSystem.ViewElementRequestedPool
+  parent: MacacaGames.ViewSystem
   name: ViewElementRequestedPool
   nameWithType: ViewElementRequestedPool
   fullName: MacacaGames.ViewSystem.ViewElementRequestedPool
@@ -473,6 +496,16 @@ references:
   name: ViewMarginFixerEditor
   nameWithType: ViewMarginFixerEditor
   fullName: MacacaGames.ViewSystem.ViewMarginFixerEditor
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer
+  commentId: T:MacacaGames.ViewSystem.OverridePropertyDrawer
+  name: OverridePropertyDrawer
+  nameWithType: OverridePropertyDrawer
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  commentId: T:MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
+  name: OverridePropertyDrawer.OverridePopup
+  nameWithType: OverridePropertyDrawer.OverridePopup
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePopup
 - uid: MacacaGames.ViewSystem.VS_EditorUtility
   commentId: T:MacacaGames.ViewSystem.VS_EditorUtility
   name: VS_EditorUtility

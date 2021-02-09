@@ -62,65 +62,6 @@
             <article class="content wrap" id="_content" data-uid="">
 
 <p>See <a href="https://macacagames.github.io/MacacaViewSystem/">Document</a> for more detail.</p>
-<ul>
-<li><a href="#overview">Overview</a>
-<ul>
-<li><a href="#feature">Feature</a></li>
-</ul>
-</li>
-<li><a href="#concept">Concept</a>
-<ul>
-<li><a href="#viewelement">ViewElement</a></li>
-<li><a href="#viewpage">ViewPage</a>
-<ul>
-<li><a href="#fullpage">FullPage</a></li>
-<li><a href="#overlaypage">OverlayPage</a></li>
-</ul>
-</li>
-<li><a href="#viewstate">ViewState</a></li>
-<li><a href="#viewcontroller">ViewController</a></li>
-</ul>
-</li>
-<li><a href="#installation">Installation</a>
-<ul>
-<li><a href="#option-1-git-submodule">Option 1: Git SubModule</a></li>
-<li><a href="#option-2-unity-package-file">Option 2: Unity Package file</a></li>
-<li><a href="#option-3-unity-package-manager">Option 3: Unity Package manager</a></li>
-</ul>
-</li>
-<li><a href="#setup">Setup</a>
-<ul>
-<li><a href="#1-editor">1. Editor</a></li>
-<li><a href="#2-create-viewcontroller">2. Create ViewController</a></li>
-<li><a href="#3-create-ugui-canvas">3. Create UGUI Canvas</a></li>
-<li><a href="#4-setup-globalsetting">4. Setup GlobalSetting</a></li>
-<li><a href="#5-ready-to-go">5. Ready to go!</a></li>
-</ul>
-</li>
-<li><a href="#components">Components</a>
-<ul>
-<li><a href="#viewmarginfixer">ViewMarginFixer</a></li>
-<li><a href="#viewelementgroup">ViewElementGroup</a></li>
-</ul>
-</li>
-<li><a href="#lifecycle-hook-and-injection">LifeCycle Hook and Injection</a>
-<ul>
-<li><a href="#iviewelementlifecycle">IViewElementLifeCycle</a></li>
-<li><a href="#iviewelementinjectable">IViewElementInjectable</a></li>
-</ul>
-</li>
-<li><a href="#system-lifecycle">System LifeCycle</a>
-<ul>
-<li><a href="#viewcontroller-initialization">ViewController Initialization</a></li>
-<li><a href="#fullpage-changepage">FullPage ChangePage</a></li>
-</ul>
-</li>
-<li><a href="#how-to">How to...</a>
-<ul>
-<li><a href="#get-an-runtime-viewelement-reference-in-viewpageviewstate">Get an runtime ViewElement reference in ViewPage/ViewState</a></li>
-</ul>
-</li>
-</ul>
 <h1 id="overview">Overview</h1>
 <p><strong>ViewSystem</strong> is a element based UI management system based on Unity GUI. It is developed and used by Macaca Games.
 UI management in Unity3D is always a hard work, the goal of <strong>ViewSystem</strong> is to make UI management more easier and flexable.</p>
@@ -133,7 +74,7 @@ UI management in Unity3D is always a hard work, the goal of <strong>ViewSystem</
 </ul>
 <h1 id="concept">Concept</h1>
 <h2 id="viewelement">ViewElement</h2>
-<p>ViewElement is the basic unit in ViewSystem, any item shows on an UI page can be a ViewElement, such as a button, a icon or anything else.</p>
+<p>ViewElement is the base unit in ViewSystem, any item shows on an UI page can be a ViewElement, such as a button, a icon or anything else.</p>
 <p>For example, the red square part in the screenshot is a ViewElement.
 <img src="./Img~/viewelement.png" alt="Screenshot2" height="400"></p>
 <p>And the most important thing, ViewElement only focus how it will show or leave and <strong>doesn't</strong> care where it will be placed.</p>
@@ -157,20 +98,21 @@ When the ChangePage action is fire, system will leave all ViewElements defined i
 <h2 id="viewcontroller">ViewController</h2>
 <p>ViewController is the core component of ViewSystem, all control of the UI is base on this component.</p>
 <h1 id="installation">Installation</h1>
-<h2 id="option-1-git-submodule">Option 1: Git SubModule</h2>
+<h2 id="option-1-unity-package-file-recommend">Option 1: Unity Package file (Recommend)</h2>
+<p>Add it to your editor's manifest.json file like this:</p>
+<pre><code class="lang-json">{
+    &quot;dependencies&quot;: {
+        &quot;com.macacagames.utility&quot;: &quot;https://github.com/MacacaGames/MacacaUtility.git#1.0.0&quot;,
+        &quot;com.macacagames.viewsystem&quot;: &quot;https://github.com/MacacaGames/MacacaViewSystem.git#1.0.2&quot;
+    }
+}
+</code></pre>
+<h2 id="option-2-git-submodule">Option 2: Git SubModule</h2>
 <pre><code class="lang-bash">git submodule add https://github.com/MacacaGames/MacacaViewSystem.git Assets/MacacaViewSystem
 </code></pre>
 <p>Note: ViewSystem is dependency with MacacaUtility, so also add MacacaUtility in git submodule.</p>
 <pre><code class="lang-bash">git submodule add hhttps://github.com/MacacaGames/MacacaUtility.git Assets/MacacaUtility
 </code></pre>
-<h2 id="option-2-unity-package-file">Option 2: Unity Package file</h2>
-<blockquote>
-<p>Work in progress</p>
-</blockquote>
-<h2 id="option-3-unity-package-manager">Option 3: Unity Package manager</h2>
-<blockquote>
-<p>Work in progress</p>
-</blockquote>
 <h1 id="setup">Setup</h1>
 <h2 id="1-editor">1. Editor</h2>
 <p>Menu Path : MacacaGames &gt; ViewSystem &gt; Visual Editor</p>
@@ -191,12 +133,20 @@ When the ChangePage action is fire, system will leave all ViewElements defined i
 </ul>
 <h2 id="5-ready-to-go">5. Ready to go!</h2>
 <p>Now, all setup step is done, use Example Project to learn how to edit your UI.</p>
+<h1 id="usage">Usage</h1>
+<p>Use the Visual Editor to edit your UI page.</p>
+<p>Menu Path : MacacaGames &gt; ViewSystem &gt; Visual Editor</p>
+<h2 id="make-a-viewpage">Make a ViewPage</h2>
+<p>You can define the ViewElement and and its RectTransform info by Visual Editor.
+<img src="./Img~/add_viewelement.gif"></p>
+<h2 id="override-property-in-viewelement">Override property in ViewElement</h2>
+<p>You can override any property on ViewElement, use preview to take effect the override.</p>
+<p>With the override system, you can simply create the ViewElement variant in different ViewPage.
+<img src="./Img~/override_demo.gif"></p>
+<h3 id="why-using-viewsystems-override-but-not-unity-prefab-variant">Why using ViewSystem's override but not Unity Prefab variant?</h3>
+<p>ViewSystem override is a runtime function, it means all modify only exsit during the Game is runing, use the ViewSystem override helps you to avoid to make a lot of Prefab variant assets.</p>
+<p>Limitation, the ViewSystem override has no ability to add/remove Component, GameObject etc. In this case use Unity Prefab variant.</p>
 <h1 id="components">Components</h1>
-<h2 id="viewmarginfixer">ViewMarginFixer</h2>
-<p>ViewElement manage by the ViewSystem will be pooled if is not in use, that means the RectTransfrom's anchor stretch value may be wrong while it is taken out from pool. (cause by the Transfrom.SetParent(true);)</p>
-<p>ViewMarginFixer is a helper to solve this issue, which override the anchor stretch value base on the ViewElement life cycle.</p>
-<img src="./Img~/viewmarginfixer.png" width="400">
-<img src="./Img~/transform_anchor.png" width="400">
 <h2 id="viewelementgroup">ViewElementGroup</h2>
 <p>Something we me may wish to use already exsited ViewElement inside another ViewElement, in this way the ViewElementGroup can helps.
 ViewElementGroup works a little like CanvasGroup, if the ViewElement has ViewElementGroup attached,the OnShow/OnLeave intent will also send into the children ViewElement, therefore the whole ViewElement will show/leave correctlly.</p>
@@ -214,6 +164,11 @@ someViewelement.OnShow(true);
 someViewelement.OnLeave(false, true);
 </code></pre>
 <img src="./Img~/viewelementgroup_manual.png" width="400">
+<h2 id="viewmarginfixer-deprecated-only-using-in-custom-parent-mode">ViewMarginFixer (Deprecated, only using in Custom Parent Mode)</h2>
+<p>ViewElement manage by the ViewSystem will be pooled if is not in use, that means the RectTransfrom's anchor stretch value may be wrong while it is taken out from pool. (cause by the Transfrom.SetParent(true);)</p>
+<p>ViewMarginFixer is a helper to solve this issue, which override the anchor stretch value base on the ViewElement life cycle.</p>
+<img src="./Img~/viewmarginfixer.png" width="400">
+<img src="./Img~/transform_anchor.png" width="400">
 <h1 id="lifecycle-hook-and-injection">LifeCycle Hook and Injection</h1>
 <h2 id="iviewelementlifecycle">IViewElementLifeCycle</h2>
 <p>We can hooks the lifecycle on ViewElement by <strong>IViewElementLifeCycle</strong> interface, implemented the interface to get lifecycle callback on ViewElement.</p>

@@ -20,7 +20,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: QueueExtension
     path: ../Runtime/Utilities/ViewElementRequestedPool.cs
-    startLine: 76
+    startLine: 102
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -63,7 +63,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Remove
     path: ../Runtime/Utilities/ViewElementRequestedPool.cs
-    startLine: 78
+    startLine: 104
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem

@@ -5,7 +5,7 @@ items:
   id: ComponentTreeView
   parent: MacacaGames.ViewSystem
   children:
-  - MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)
+  - MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewElement,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean,System.Func{UnityEditor.SerializedProperty,System.String,System.Boolean},System.Action)
   - MacacaGames.ViewSystem.ComponentTreeView.BuildRoot
   - MacacaGames.ViewSystem.ComponentTreeView.DoubleClickedItem(System.Int32)
   - MacacaGames.ViewSystem.ComponentTreeView.DrawValue(UnityEngine.Rect,UnityEditor.SerializedProperty)
@@ -140,16 +140,16 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)
-  commentId: M:MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)
-  id: '#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewPageItem,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean)'
+- uid: MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewElement,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean,System.Func{UnityEditor.SerializedProperty,System.String,System.Boolean},System.Action)
+  commentId: M:MacacaGames.ViewSystem.ComponentTreeView.#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewElement,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean,System.Func{UnityEditor.SerializedProperty,System.String,System.Boolean},System.Action)
+  id: '#ctor(UnityEngine.GameObject,MacacaGames.ViewSystem.ViewElement,UnityEditor.IMGUI.Controls.TreeViewState,System.Boolean,System.Func{UnityEditor.SerializedProperty,System.String,System.Boolean},System.Action)'
   parent: MacacaGames.ViewSystem.ComponentTreeView
   langs:
   - csharp
   - vb
-  name: ComponentTreeView(GameObject, ViewPageItem, TreeViewState, Boolean)
-  nameWithType: ComponentTreeView.ComponentTreeView(GameObject, ViewPageItem, TreeViewState, Boolean)
-  fullName: MacacaGames.ViewSystem.ComponentTreeView.ComponentTreeView(UnityEngine.GameObject, MacacaGames.ViewSystem.ViewPageItem, UnityEditor.IMGUI.Controls.TreeViewState, System.Boolean)
+  name: ComponentTreeView(GameObject, ViewElement, TreeViewState, Boolean, Func<SerializedProperty, String, Boolean>, Action)
+  nameWithType: ComponentTreeView.ComponentTreeView(GameObject, ViewElement, TreeViewState, Boolean, Func<SerializedProperty, String, Boolean>, Action)
+  fullName: MacacaGames.ViewSystem.ComponentTreeView.ComponentTreeView(UnityEngine.GameObject, MacacaGames.ViewSystem.ViewElement, UnityEditor.IMGUI.Controls.TreeViewState, System.Boolean, System.Func<UnityEditor.SerializedProperty, System.String, System.Boolean>, System.Action)
   type: Constructor
   source:
     remote:
@@ -158,27 +158,34 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: .ctor
     path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
-    startLine: 12
+    startLine: 15
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
   syntax:
-    content: public ComponentTreeView(GameObject go, ViewPageItem viewPageItem, TreeViewState treeViewState, bool isPrefabRoot)
+    content: public ComponentTreeView(GameObject go, ViewElement viewElement, TreeViewState treeViewState, bool isPrefabRoot, Func<SerializedProperty, string, bool> IsModify, Action OnDelete)
     parameters:
     - id: go
       type: UnityEngine.GameObject
-    - id: viewPageItem
-      type: MacacaGames.ViewSystem.ViewPageItem
+    - id: viewElement
+      type: MacacaGames.ViewSystem.ViewElement
     - id: treeViewState
       type: UnityEditor.IMGUI.Controls.TreeViewState
     - id: isPrefabRoot
       type: System.Boolean
-    content.vb: Public Sub New(go As GameObject, viewPageItem As ViewPageItem, treeViewState As TreeViewState, isPrefabRoot As Boolean)
+    - id: IsModify
+      type: System.Func{UnityEditor.SerializedProperty,System.String,System.Boolean}
+    - id: OnDelete
+      type: System.Action
+    content.vb: Public Sub New(go As GameObject, viewElement As ViewElement, treeViewState As TreeViewState, isPrefabRoot As Boolean, IsModify As Func(Of SerializedProperty, String, Boolean), OnDelete As Action)
   overload: MacacaGames.ViewSystem.ComponentTreeView.#ctor*
+  nameWithType.vb: ComponentTreeView.ComponentTreeView(GameObject, ViewElement, TreeViewState, Boolean, Func(Of SerializedProperty, String, Boolean), Action)
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
+  fullName.vb: MacacaGames.ViewSystem.ComponentTreeView.ComponentTreeView(UnityEngine.GameObject, MacacaGames.ViewSystem.ViewElement, UnityEditor.IMGUI.Controls.TreeViewState, System.Boolean, System.Func(Of UnityEditor.SerializedProperty, System.String, System.Boolean), System.Action)
+  name.vb: ComponentTreeView(GameObject, ViewElement, TreeViewState, Boolean, Func(Of SerializedProperty, String, Boolean), Action)
 - uid: MacacaGames.ViewSystem.ComponentTreeView.BuildRoot
   commentId: M:MacacaGames.ViewSystem.ComponentTreeView.BuildRoot
   id: BuildRoot
@@ -197,7 +204,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: BuildRoot
     path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
-    startLine: 126
+    startLine: 131
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -232,7 +239,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: RowGUI
     path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
-    startLine: 163
+    startLine: 168
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -268,7 +275,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: DrawValue
     path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
-    startLine: 231
+    startLine: 237
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -303,7 +310,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: DoubleClickedItem
     path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
-    startLine: 298
+    startLine: 305
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -339,7 +346,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnItemClick
     path: ../Editor/VisualEditor/Overrides/ComponentTreeView.cs
-    startLine: 316
+    startLine: 321
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -3697,12 +3704,12 @@ references:
   name: GameObject
   nameWithType: GameObject
   fullName: UnityEngine.GameObject
-- uid: MacacaGames.ViewSystem.ViewPageItem
-  commentId: T:MacacaGames.ViewSystem.ViewPageItem
+- uid: MacacaGames.ViewSystem.ViewElement
+  commentId: T:MacacaGames.ViewSystem.ViewElement
   parent: MacacaGames.ViewSystem
-  name: ViewPageItem
-  nameWithType: ViewPageItem
-  fullName: MacacaGames.ViewSystem.ViewPageItem
+  name: ViewElement
+  nameWithType: ViewElement
+  fullName: MacacaGames.ViewSystem.ViewElement
 - uid: UnityEditor.IMGUI.Controls.TreeViewState
   commentId: T:UnityEditor.IMGUI.Controls.TreeViewState
   parent: UnityEditor.IMGUI.Controls
@@ -3717,12 +3724,158 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Func{UnityEditor.SerializedProperty,System.String,System.Boolean}
+  commentId: T:System.Func{UnityEditor.SerializedProperty,System.String,System.Boolean}
+  parent: System
+  definition: System.Func`3
+  name: Func<SerializedProperty, String, Boolean>
+  nameWithType: Func<SerializedProperty, String, Boolean>
+  fullName: System.Func<UnityEditor.SerializedProperty, System.String, System.Boolean>
+  nameWithType.vb: Func(Of SerializedProperty, String, Boolean)
+  fullName.vb: System.Func(Of UnityEditor.SerializedProperty, System.String, System.Boolean)
+  name.vb: Func(Of SerializedProperty, String, Boolean)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: UnityEditor.SerializedProperty
+    name: SerializedProperty
+    nameWithType: SerializedProperty
+    fullName: UnityEditor.SerializedProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: UnityEditor.SerializedProperty
+    name: SerializedProperty
+    nameWithType: SerializedProperty
+    fullName: UnityEditor.SerializedProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action
+  commentId: T:System.Action
+  parent: System
+  isExternal: true
+  name: Action
+  nameWithType: Action
+  fullName: System.Action
 - uid: UnityEngine
   commentId: N:UnityEngine
   isExternal: true
   name: UnityEngine
   nameWithType: UnityEngine
   fullName: UnityEngine
+- uid: System.Func`3
+  commentId: T:System.Func`3
+  isExternal: true
+  name: Func<T1, T2, TResult>
+  nameWithType: Func<T1, T2, TResult>
+  fullName: System.Func<T1, T2, TResult>
+  nameWithType.vb: Func(Of T1, T2, TResult)
+  fullName.vb: System.Func(Of T1, T2, TResult)
+  name.vb: Func(Of T1, T2, TResult)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T1
+    nameWithType: T1
+    fullName: T1
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T2
+    nameWithType: T2
+    fullName: T2
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T1
+    nameWithType: T1
+    fullName: T1
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T2
+    nameWithType: T2
+    fullName: T2
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: UnityEditor.IMGUI.Controls.TreeView.BuildRoot
   commentId: M:UnityEditor.IMGUI.Controls.TreeView.BuildRoot
   parent: UnityEditor.IMGUI.Controls.TreeView

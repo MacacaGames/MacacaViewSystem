@@ -6,12 +6,13 @@ items:
   parent: MacacaGames.ViewSystem
   children:
   - MacacaGames.ViewSystem.VS_EditorUtility.CalculateBoundsRectFromRects(System.Collections.Generic.IEnumerable{UnityEngine.Rect},UnityEngine.Vector2)
-  - MacacaGames.ViewSystem.VS_EditorUtility.EditorableField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
   - MacacaGames.ViewSystem.VS_EditorUtility.GetPropertyType(UnityEditor.SerializedProperty)
   - MacacaGames.ViewSystem.VS_EditorUtility.IsPropertyNeedIgnore(UnityEditor.SerializedProperty)
   - MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean)
   - MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean)
   - MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  - MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
+  - MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect,UnityEngine.GUIContent,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
   langs:
   - csharp
   - vb
@@ -26,7 +27,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: VS_EditorUtility
     path: ../Editor/Utinity/EditorUtility.cs
-    startLine: 9
+    startLine: 11
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -67,7 +68,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: CalculateBoundsRectFromRects
     path: ../Editor/Utinity/EditorUtility.cs
-    startLine: 11
+    startLine: 13
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -109,7 +110,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: IsPropertyNeedIgnore
     path: ../Editor/Utinity/EditorUtility.cs
-    startLine: 25
+    startLine: 27
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -146,7 +147,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetPropertyType
     path: ../Editor/Utinity/EditorUtility.cs
-    startLine: 46
+    startLine: 48
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -165,30 +166,30 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: MacacaGames.ViewSystem.VS_EditorUtility.EditorableField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
-  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.EditorableField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
-  id: EditorableField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
+  id: SmartOverrideField(UnityEngine.Rect,UnityEditor.SerializedProperty,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
   parent: MacacaGames.ViewSystem.VS_EditorUtility
   langs:
   - csharp
   - vb
-  name: EditorableField(Rect, SerializedProperty, PropertyOverride, out Single)
-  nameWithType: VS_EditorUtility.EditorableField(Rect, SerializedProperty, PropertyOverride, out Single)
-  fullName: MacacaGames.ViewSystem.VS_EditorUtility.EditorableField(UnityEngine.Rect, UnityEditor.SerializedProperty, MacacaGames.ViewSystem.PropertyOverride, out System.Single)
+  name: SmartOverrideField(Rect, SerializedProperty, PropertyOverride, out Single)
+  nameWithType: VS_EditorUtility.SmartOverrideField(Rect, SerializedProperty, PropertyOverride, out Single)
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect, UnityEditor.SerializedProperty, MacacaGames.ViewSystem.PropertyOverride, out System.Single)
   type: Method
   source:
     remote:
       path: Editor/Utinity/EditorUtility.cs
       branch: master
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
-    id: EditorableField
+    id: SmartOverrideField
     path: ../Editor/Utinity/EditorUtility.cs
-    startLine: 69
+    startLine: 71
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
   syntax:
-    content: public static bool EditorableField(Rect rect, SerializedProperty Target, PropertyOverride overProperty, out float lineHeight)
+    content: public static bool SmartOverrideField(Rect rect, SerializedProperty Target, PropertyOverride overProperty, out float lineHeight)
     parameters:
     - id: rect
       type: UnityEngine.Rect
@@ -200,17 +201,63 @@ items:
       type: System.Single
     return:
       type: System.Boolean
-    content.vb: Public Shared Function EditorableField(rect As Rect, Target As SerializedProperty, overProperty As PropertyOverride, ByRef lineHeight As Single) As Boolean
-  overload: MacacaGames.ViewSystem.VS_EditorUtility.EditorableField*
-  nameWithType.vb: VS_EditorUtility.EditorableField(Rect, SerializedProperty, PropertyOverride, ByRef Single)
+    content.vb: Public Shared Function SmartOverrideField(rect As Rect, Target As SerializedProperty, overProperty As PropertyOverride, ByRef lineHeight As Single) As Boolean
+  overload: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField*
+  nameWithType.vb: VS_EditorUtility.SmartOverrideField(Rect, SerializedProperty, PropertyOverride, ByRef Single)
   modifiers.csharp:
   - public
   - static
   modifiers.vb:
   - Public
   - Shared
-  fullName.vb: MacacaGames.ViewSystem.VS_EditorUtility.EditorableField(UnityEngine.Rect, UnityEditor.SerializedProperty, MacacaGames.ViewSystem.PropertyOverride, ByRef System.Single)
-  name.vb: EditorableField(Rect, SerializedProperty, PropertyOverride, ByRef Single)
+  fullName.vb: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect, UnityEditor.SerializedProperty, MacacaGames.ViewSystem.PropertyOverride, ByRef System.Single)
+  name.vb: SmartOverrideField(Rect, SerializedProperty, PropertyOverride, ByRef Single)
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect,UnityEngine.GUIContent,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
+  commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect,UnityEngine.GUIContent,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
+  id: SmartOverrideField(UnityEngine.Rect,UnityEngine.GUIContent,MacacaGames.ViewSystem.PropertyOverride,System.Single@)
+  parent: MacacaGames.ViewSystem.VS_EditorUtility
+  langs:
+  - csharp
+  - vb
+  name: SmartOverrideField(Rect, GUIContent, PropertyOverride, out Single)
+  nameWithType: VS_EditorUtility.SmartOverrideField(Rect, GUIContent, PropertyOverride, out Single)
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect, UnityEngine.GUIContent, MacacaGames.ViewSystem.PropertyOverride, out System.Single)
+  type: Method
+  source:
+    remote:
+      path: Editor/Utinity/EditorUtility.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: SmartOverrideField
+    path: ../Editor/Utinity/EditorUtility.cs
+    startLine: 123
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public static bool SmartOverrideField(Rect rect, GUIContent content, PropertyOverride overProperty, out float lineHeight)
+    parameters:
+    - id: rect
+      type: UnityEngine.Rect
+    - id: content
+      type: UnityEngine.GUIContent
+    - id: overProperty
+      type: MacacaGames.ViewSystem.PropertyOverride
+    - id: lineHeight
+      type: System.Single
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function SmartOverrideField(rect As Rect, content As GUIContent, overProperty As PropertyOverride, ByRef lineHeight As Single) As Boolean
+  overload: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField*
+  nameWithType.vb: VS_EditorUtility.SmartOverrideField(Rect, GUIContent, PropertyOverride, ByRef Single)
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField(UnityEngine.Rect, UnityEngine.GUIContent, MacacaGames.ViewSystem.PropertyOverride, ByRef System.Single)
+  name.vb: SmartOverrideField(Rect, GUIContent, PropertyOverride, ByRef Single)
 - uid: MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean)
   commentId: M:MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean)
   id: SetAnchorSmart(MacacaGames.ViewSystem.ViewSystemRectTransformData,UnityEngine.RectTransform,System.Single,System.Int32,System.Boolean,System.Boolean)
@@ -229,7 +276,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetAnchorSmart
     path: ../Editor/Utinity/EditorUtility.cs
-    startLine: 261
+    startLine: 391
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -274,7 +321,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetAnchorSmart
     path: ../Editor/Utinity/EditorUtility.cs
-    startLine: 266
+    startLine: 396
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -321,7 +368,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetAnchorSmart
     path: ../Editor/Utinity/EditorUtility.cs
-    startLine: 271
+    startLine: 401
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem
@@ -803,11 +850,11 @@ references:
   name: Type
   nameWithType: Type
   fullName: System.Type
-- uid: MacacaGames.ViewSystem.VS_EditorUtility.EditorableField*
-  commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.EditorableField
-  name: EditorableField
-  nameWithType: VS_EditorUtility.EditorableField
-  fullName: MacacaGames.ViewSystem.VS_EditorUtility.EditorableField
+- uid: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField*
+  commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField
+  name: SmartOverrideField
+  nameWithType: VS_EditorUtility.SmartOverrideField
+  fullName: MacacaGames.ViewSystem.VS_EditorUtility.SmartOverrideField
 - uid: MacacaGames.ViewSystem.PropertyOverride
   commentId: T:MacacaGames.ViewSystem.PropertyOverride
   parent: MacacaGames.ViewSystem
@@ -821,6 +868,13 @@ references:
   name: Single
   nameWithType: Single
   fullName: System.Single
+- uid: UnityEngine.GUIContent
+  commentId: T:UnityEngine.GUIContent
+  parent: UnityEngine
+  isExternal: true
+  name: GUIContent
+  nameWithType: GUIContent
+  fullName: UnityEngine.GUIContent
 - uid: MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart*
   commentId: Overload:MacacaGames.ViewSystem.VS_EditorUtility.SetAnchorSmart
   name: SetAnchorSmart

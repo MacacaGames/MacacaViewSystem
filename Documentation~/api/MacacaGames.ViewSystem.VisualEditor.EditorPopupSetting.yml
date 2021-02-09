@@ -21,7 +21,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: EditorPopupSetting
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 1029
+    startLine: 1035
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -68,7 +68,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetWindowSize
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 1031
+    startLine: 1037
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -103,7 +103,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnGUI
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 1036
+    startLine: 1042
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor

@@ -1,0 +1,717 @@
+### YamlMime:ManagedReference
+items:
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer
+  commentId: T:MacacaGames.ViewSystem.OverridePropertyDrawer
+  id: OverridePropertyDrawer
+  parent: MacacaGames.ViewSystem
+  children:
+  - MacacaGames.ViewSystem.OverridePropertyDrawer.#ctor
+  - MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  langs:
+  - csharp
+  - vb
+  name: OverridePropertyDrawer
+  nameWithType: OverridePropertyDrawer
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer
+  type: Class
+  source:
+    remote:
+      path: Editor/PropertyDrawer/OverridePropertyDrawer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OverridePropertyDrawer
+    path: ../Editor/PropertyDrawer/OverridePropertyDrawer.cs
+    startLine: 14
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: >-
+      [CustomPropertyDrawer(typeof(ViewElemenOverride))]
+
+      public class OverridePropertyDrawer : PropertyDrawer
+    content.vb: >-
+      <CustomPropertyDrawer(GetType(ViewElemenOverride))>
+
+      Public Class OverridePropertyDrawer
+          Inherits PropertyDrawer
+  inheritance:
+  - System.Object
+  - UnityEditor.GUIDrawer
+  - UnityEditor.PropertyDrawer
+  inheritedMembers:
+  - UnityEditor.PropertyDrawer.CreatePropertyGUI(UnityEditor.SerializedProperty)
+  - UnityEditor.PropertyDrawer.GetPropertyHeight(UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  - UnityEditor.PropertyDrawer.CanCacheInspectorGUI(UnityEditor.SerializedProperty)
+  - UnityEditor.PropertyDrawer.attribute
+  - UnityEditor.PropertyDrawer.fieldInfo
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  attributes:
+  - type: UnityEditor.CustomPropertyDrawer
+    ctor: UnityEditor.CustomPropertyDrawer.#ctor(System.Type)
+    arguments:
+    - type: System.Type
+      value: MacacaGames.ViewSystem.ViewElemenOverride
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.#ctor
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.#ctor
+  id: '#ctor'
+  parent: MacacaGames.ViewSystem.OverridePropertyDrawer
+  langs:
+  - csharp
+  - vb
+  name: OverridePropertyDrawer()
+  nameWithType: OverridePropertyDrawer.OverridePropertyDrawer()
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePropertyDrawer()
+  type: Constructor
+  source:
+    remote:
+      path: Editor/PropertyDrawer/OverridePropertyDrawer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: .ctor
+    path: ../Editor/PropertyDrawer/OverridePropertyDrawer.cs
+    startLine: 17
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public OverridePropertyDrawer()
+    content.vb: Public Sub New
+  overload: MacacaGames.ViewSystem.OverridePropertyDrawer.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  commentId: M:MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  id: OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  parent: MacacaGames.ViewSystem.OverridePropertyDrawer
+  langs:
+  - csharp
+  - vb
+  name: OnGUI(Rect, SerializedProperty, GUIContent)
+  nameWithType: OverridePropertyDrawer.OnGUI(Rect, SerializedProperty, GUIContent)
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI(UnityEngine.Rect, UnityEditor.SerializedProperty, UnityEngine.GUIContent)
+  type: Method
+  source:
+    remote:
+      path: Editor/PropertyDrawer/OverridePropertyDrawer.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: OnGUI
+    path: ../Editor/PropertyDrawer/OverridePropertyDrawer.cs
+    startLine: 25
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem
+  syntax:
+    content: public override void OnGUI(Rect oriRect, SerializedProperty property, GUIContent label)
+    parameters:
+    - id: oriRect
+      type: UnityEngine.Rect
+    - id: property
+      type: UnityEditor.SerializedProperty
+    - id: label
+      type: UnityEngine.GUIContent
+    content.vb: Public Overrides Sub OnGUI(oriRect As Rect, property As SerializedProperty, label As GUIContent)
+  overridden: UnityEditor.PropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  overload: MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: MacacaGames.ViewSystem
+  commentId: N:MacacaGames.ViewSystem
+  name: MacacaGames.ViewSystem
+  nameWithType: MacacaGames.ViewSystem
+  fullName: MacacaGames.ViewSystem
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: UnityEditor.GUIDrawer
+  commentId: T:UnityEditor.GUIDrawer
+  parent: UnityEditor
+  isExternal: true
+  name: GUIDrawer
+  nameWithType: GUIDrawer
+  fullName: UnityEditor.GUIDrawer
+- uid: UnityEditor.PropertyDrawer
+  commentId: T:UnityEditor.PropertyDrawer
+  parent: UnityEditor
+  isExternal: true
+  name: PropertyDrawer
+  nameWithType: PropertyDrawer
+  fullName: UnityEditor.PropertyDrawer
+- uid: UnityEditor.PropertyDrawer.CreatePropertyGUI(UnityEditor.SerializedProperty)
+  commentId: M:UnityEditor.PropertyDrawer.CreatePropertyGUI(UnityEditor.SerializedProperty)
+  parent: UnityEditor.PropertyDrawer
+  isExternal: true
+  name: CreatePropertyGUI(SerializedProperty)
+  nameWithType: PropertyDrawer.CreatePropertyGUI(SerializedProperty)
+  fullName: UnityEditor.PropertyDrawer.CreatePropertyGUI(UnityEditor.SerializedProperty)
+  spec.csharp:
+  - uid: UnityEditor.PropertyDrawer.CreatePropertyGUI(UnityEditor.SerializedProperty)
+    name: CreatePropertyGUI
+    nameWithType: PropertyDrawer.CreatePropertyGUI
+    fullName: UnityEditor.PropertyDrawer.CreatePropertyGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.SerializedProperty
+    name: SerializedProperty
+    nameWithType: SerializedProperty
+    fullName: UnityEditor.SerializedProperty
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PropertyDrawer.CreatePropertyGUI(UnityEditor.SerializedProperty)
+    name: CreatePropertyGUI
+    nameWithType: PropertyDrawer.CreatePropertyGUI
+    fullName: UnityEditor.PropertyDrawer.CreatePropertyGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.SerializedProperty
+    name: SerializedProperty
+    nameWithType: SerializedProperty
+    fullName: UnityEditor.SerializedProperty
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.PropertyDrawer.GetPropertyHeight(UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  commentId: M:UnityEditor.PropertyDrawer.GetPropertyHeight(UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  parent: UnityEditor.PropertyDrawer
+  isExternal: true
+  name: GetPropertyHeight(SerializedProperty, GUIContent)
+  nameWithType: PropertyDrawer.GetPropertyHeight(SerializedProperty, GUIContent)
+  fullName: UnityEditor.PropertyDrawer.GetPropertyHeight(UnityEditor.SerializedProperty, UnityEngine.GUIContent)
+  spec.csharp:
+  - uid: UnityEditor.PropertyDrawer.GetPropertyHeight(UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+    name: GetPropertyHeight
+    nameWithType: PropertyDrawer.GetPropertyHeight
+    fullName: UnityEditor.PropertyDrawer.GetPropertyHeight
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.SerializedProperty
+    name: SerializedProperty
+    nameWithType: SerializedProperty
+    fullName: UnityEditor.SerializedProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.GUIContent
+    name: GUIContent
+    nameWithType: GUIContent
+    fullName: UnityEngine.GUIContent
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PropertyDrawer.GetPropertyHeight(UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+    name: GetPropertyHeight
+    nameWithType: PropertyDrawer.GetPropertyHeight
+    fullName: UnityEditor.PropertyDrawer.GetPropertyHeight
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.SerializedProperty
+    name: SerializedProperty
+    nameWithType: SerializedProperty
+    fullName: UnityEditor.SerializedProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.GUIContent
+    name: GUIContent
+    nameWithType: GUIContent
+    fullName: UnityEngine.GUIContent
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.PropertyDrawer.CanCacheInspectorGUI(UnityEditor.SerializedProperty)
+  commentId: M:UnityEditor.PropertyDrawer.CanCacheInspectorGUI(UnityEditor.SerializedProperty)
+  parent: UnityEditor.PropertyDrawer
+  isExternal: true
+  name: CanCacheInspectorGUI(SerializedProperty)
+  nameWithType: PropertyDrawer.CanCacheInspectorGUI(SerializedProperty)
+  fullName: UnityEditor.PropertyDrawer.CanCacheInspectorGUI(UnityEditor.SerializedProperty)
+  spec.csharp:
+  - uid: UnityEditor.PropertyDrawer.CanCacheInspectorGUI(UnityEditor.SerializedProperty)
+    name: CanCacheInspectorGUI
+    nameWithType: PropertyDrawer.CanCacheInspectorGUI
+    fullName: UnityEditor.PropertyDrawer.CanCacheInspectorGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.SerializedProperty
+    name: SerializedProperty
+    nameWithType: SerializedProperty
+    fullName: UnityEditor.SerializedProperty
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PropertyDrawer.CanCacheInspectorGUI(UnityEditor.SerializedProperty)
+    name: CanCacheInspectorGUI
+    nameWithType: PropertyDrawer.CanCacheInspectorGUI
+    fullName: UnityEditor.PropertyDrawer.CanCacheInspectorGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEditor.SerializedProperty
+    name: SerializedProperty
+    nameWithType: SerializedProperty
+    fullName: UnityEditor.SerializedProperty
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: UnityEditor.PropertyDrawer.attribute
+  commentId: P:UnityEditor.PropertyDrawer.attribute
+  parent: UnityEditor.PropertyDrawer
+  isExternal: true
+  name: attribute
+  nameWithType: PropertyDrawer.attribute
+  fullName: UnityEditor.PropertyDrawer.attribute
+- uid: UnityEditor.PropertyDrawer.fieldInfo
+  commentId: P:UnityEditor.PropertyDrawer.fieldInfo
+  parent: UnityEditor.PropertyDrawer
+  isExternal: true
+  name: fieldInfo
+  nameWithType: PropertyDrawer.fieldInfo
+  fullName: UnityEditor.PropertyDrawer.fieldInfo
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: UnityEditor
+  commentId: N:UnityEditor
+  isExternal: true
+  name: UnityEditor
+  nameWithType: UnityEditor
+  fullName: UnityEditor
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.#ctor*
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.#ctor
+  name: OverridePropertyDrawer
+  nameWithType: OverridePropertyDrawer.OverridePropertyDrawer
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OverridePropertyDrawer
+- uid: UnityEditor.PropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  commentId: M:UnityEditor.PropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+  parent: UnityEditor.PropertyDrawer
+  isExternal: true
+  name: OnGUI(Rect, SerializedProperty, GUIContent)
+  nameWithType: PropertyDrawer.OnGUI(Rect, SerializedProperty, GUIContent)
+  fullName: UnityEditor.PropertyDrawer.OnGUI(UnityEngine.Rect, UnityEditor.SerializedProperty, UnityEngine.GUIContent)
+  spec.csharp:
+  - uid: UnityEditor.PropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+    name: OnGUI
+    nameWithType: PropertyDrawer.OnGUI
+    fullName: UnityEditor.PropertyDrawer.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.SerializedProperty
+    name: SerializedProperty
+    nameWithType: SerializedProperty
+    fullName: UnityEditor.SerializedProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.GUIContent
+    name: GUIContent
+    nameWithType: GUIContent
+    fullName: UnityEngine.GUIContent
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: UnityEditor.PropertyDrawer.OnGUI(UnityEngine.Rect,UnityEditor.SerializedProperty,UnityEngine.GUIContent)
+    name: OnGUI
+    nameWithType: PropertyDrawer.OnGUI
+    fullName: UnityEditor.PropertyDrawer.OnGUI
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: UnityEngine.Rect
+    name: Rect
+    nameWithType: Rect
+    fullName: UnityEngine.Rect
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEditor.SerializedProperty
+    name: SerializedProperty
+    nameWithType: SerializedProperty
+    fullName: UnityEditor.SerializedProperty
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UnityEngine.GUIContent
+    name: GUIContent
+    nameWithType: GUIContent
+    fullName: UnityEngine.GUIContent
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI*
+  commentId: Overload:MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI
+  name: OnGUI
+  nameWithType: OverridePropertyDrawer.OnGUI
+  fullName: MacacaGames.ViewSystem.OverridePropertyDrawer.OnGUI
+- uid: UnityEngine.Rect
+  commentId: T:UnityEngine.Rect
+  parent: UnityEngine
+  isExternal: true
+  name: Rect
+  nameWithType: Rect
+  fullName: UnityEngine.Rect
+- uid: UnityEditor.SerializedProperty
+  commentId: T:UnityEditor.SerializedProperty
+  parent: UnityEditor
+  isExternal: true
+  name: SerializedProperty
+  nameWithType: SerializedProperty
+  fullName: UnityEditor.SerializedProperty
+- uid: UnityEngine.GUIContent
+  commentId: T:UnityEngine.GUIContent
+  parent: UnityEngine
+  isExternal: true
+  name: GUIContent
+  nameWithType: GUIContent
+  fullName: UnityEngine.GUIContent
+- uid: UnityEngine
+  commentId: N:UnityEngine
+  isExternal: true
+  name: UnityEngine
+  nameWithType: UnityEngine
+  fullName: UnityEngine
