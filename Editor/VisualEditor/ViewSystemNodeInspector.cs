@@ -570,7 +570,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     }
 
                     overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
-                    overrideChecker.SetData(cache.transform, original.transform, viewPageItemList[index], currentSelectNode);
+                    overrideChecker.SetData(cache.transform, original.transform, (import) =>
+                    {
+                        viewPageItemList[index].overrideDatas?.Clear();
+                        viewPageItemList[index].overrideDatas = import.ToList();
+                    }, currentSelectNode);
                     overrideChecker.ShowUtility();
                     viewPageItemList[index].viewElement = original;
                     viewPageItemList[index].previewViewElement = cache;

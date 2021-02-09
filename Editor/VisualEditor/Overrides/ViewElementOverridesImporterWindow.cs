@@ -12,16 +12,16 @@ namespace MacacaGames.ViewSystem.VisualEditor
         Transform root;
         Transform root_prefab;
         ViewSystemNode node;
-        ViewPageItem viewPageItem;
+        System.Action<IEnumerable<ViewElementPropertyOverrideData>> OnImport;
         PropertyModification[] propertyModification;
         List<OverridesPropertiesCheckerData> overridesPropertiesCheckerDatas = new List<OverridesPropertiesCheckerData>();
 
-        public void SetData(Transform root, Transform root_prefab, ViewPageItem viewPageItem, ViewSystemNode node)
+        public void SetData(Transform root, Transform root_prefab, System.Action<IEnumerable<ViewElementPropertyOverrideData>> OnImport, ViewSystemNode node)
         {
             this.root = root;
             this.root_prefab = root_prefab;
-            this.viewPageItem = viewPageItem;
             this.node = node;
+            this.OnImport = OnImport;
             titleContent = new GUIContent("ViewElement Overrides Importer");
 
             propertyModification = PrefabUtility.GetPropertyModifications(root.gameObject)
@@ -91,14 +91,14 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             maxSize = new Vector2(800, 800);
         }
-       
+
 
         Vector2 scrollPos;
         void OnGUI()
         {
             using (var horizon = new GUILayout.HorizontalScope(new GUIStyle("AnimationKeyframeBackground"), GUILayout.Height(36)))
             {
-                string lable = (root == null ? "" : root.name) + (node == null ? "" : " Modified Property in " + node.name + " " + (node is ViewStateNode ? "State" : "Page"));
+                string lable = (root == null ? "" : root.name) + (node == null ? " Modified Property" : " Modified Property in " + node.name + " " + (node is ViewStateNode ? "State" : "Page"));
                 GUILayout.Label(new GUIContent(lable, Drawer.prefabIcon), new GUIStyle("AM MixerHeader2"));
             }
 
@@ -119,9 +119,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             item.import = EditorGUILayout.ToggleLeft("", item.import, GUILayout.Width(25));
                             using (var vertical2 = new GUILayout.VerticalScope())
                             {
-                                // GUIContent l = new GUIContent(root.name + (string.IsNullOrEmpty(item.overrideData.targetTransformPath) ? "" : ("/" + item.overrideData.targetTransformPath)));
-                                // GUILayout.Label(l);
-
                                 using (var horizon2 = new GUILayout.HorizontalScope())
                                 {
                                     GUIContent l = new GUIContent(root.name + (string.IsNullOrEmpty(item.overrideData.targetTransformPath) ? "" : ("/" + item.overrideData.targetTransformPath)), EditorGUIUtility.FindTexture("Prefab Icon"));
@@ -146,13 +143,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                     {
                                         targetComponent = targetObject.GetComponent(item.overrideData.targetComponentType);
                                     }
-                                    // var type = CloudMacaca.Utility.GetType(item.overrideData.targetComponentType);
-                                    // UnityEngine.Object targetComponent = targetObject.GetComponent(type);
+                               
                                     if (targetComponent == null)
                                     {
                                         var type = MacacaGames.Utility.GetType(item.overrideData.targetComponentType);
                                         targetComponent = targetObject.GetComponent(type);
-                                        //targetComponent = targetObject.GetComponent(item.overrideData.targetComponentType.Replace("UnityEngine.", ""));
                                     }
                                     GUIContent _cachedContent;
                                     if (targetComponent == null)
@@ -201,9 +196,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 }
                 if (GUILayout.Button("Import"))
                 {
-                    viewPageItem.overrideDatas?.Clear();
+                    // viewPageItem.overrideDatas?.Clear();
                     var import = overridesPropertiesCheckerDatas.Where(m => m.import == true).Select(x => x.overrideData);
-                    viewPageItem.overrideDatas = import.ToList();
+                    // viewPageItem.overrideDatas = import.ToList();
+                    OnImport?.Invoke(import);
                     Close();
                 }
             }
@@ -245,7 +241,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         GUILayout.Box(overrideData.Value.GetValue().ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                         break;
                     case SerializedPropertyType.ObjectReference:
-                        if (overrideData.Value.ObjectReferenceValue == null) {
+                        if (overrideData.Value.ObjectReferenceValue == null)
+                        {
                             GUILayout.Box("Null", Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                         }
                         else
@@ -255,7 +252,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                 EditorGUILayout.ObjectField(overrideData.Value.ObjectReferenceValue, overrideData.Value.ObjectReferenceValue.GetType(), false, GUILayout.Height(16), GUILayout.Width(vauleBoxWidth));
                             }
                         }
-                       
+
                         //GUILayout.Box(overrideData.Value.IntValue.ToString(), Drawer.valueBoxStyle, GUILayout.Height(16), GUILayout.Width(150));
                         break;
                     default:

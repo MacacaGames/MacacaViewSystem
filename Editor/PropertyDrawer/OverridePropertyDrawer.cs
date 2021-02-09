@@ -8,6 +8,7 @@ using System.Reflection;
 using UnityEditorInternal;
 using System;
 using System.IO;
+using MacacaGames.ViewSystem.VisualEditor;
 
 namespace MacacaGames.ViewSystem
 {
@@ -23,6 +24,7 @@ namespace MacacaGames.ViewSystem
         ViewElement viewElement = null;
         public override void OnGUI(Rect oriRect, SerializedProperty property, GUIContent label)
         {
+            GUILayout.Label(property.displayName, EditorStyles.boldLabel);
             try
             {
                 viewElement = (property.serializedObject.targetObject as Component).GetComponentInParent<ViewElement>();
@@ -41,11 +43,15 @@ namespace MacacaGames.ViewSystem
                     {
                         DoPreview();
                     }
-                    if (GUILayout.Button("Save"))
+                    if (GUILayout.Button("Pick"))
+                    {
+                        PickCurrent();
+                    }
+                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_SaveAs@2x"), "Save"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
                     {
                         SaveAsset((List<ViewElementPropertyOverrideData>)reorderableList.list);
                     }
-                    if (GUILayout.Button("Load"))
+                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_Profiler.Open@2x"), "Load"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
                     {
                         LoadAsset();
                     }
@@ -55,11 +61,33 @@ namespace MacacaGames.ViewSystem
             this.propertySource = property;
             reorderableList.DoLayoutList();
         }
+
+        void PickCurrent()
+        {
+            ViewElement original;
+            original = PrefabUtility.GetCorrespondingObjectFromSource(viewElement);
+
+            var overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
+            overrideChecker.SetData(viewElement.transform, original.transform,
+            (import) =>
+            {
+                var data = new ViewElemenOverride();
+                foreach (var item in import)
+                {
+                    data.Add(item);
+                }
+                fieldInfo.SetValue(propertySource.serializedObject.targetObject, data);
+                Refrersh();
+            },
+            null);
+            overrideChecker.ShowUtility();
+        }
+
         void BuildReorderlist(List<ViewElementPropertyOverrideData> list, string displayName)
         {
             reorderableList = new ReorderableList(list, typeof(List<ViewElementPropertyOverrideData>));
             reorderableList.drawElementCallback += DrawElement;
-            reorderableList.elementHeight = EditorGUIUtility.singleLineHeight * 3;
+            reorderableList.elementHeight = EditorGUIUtility.singleLineHeight * 4;
             reorderableList.drawHeaderCallback += (rect) =>
             {
                 GUI.Label(rect, displayName);
@@ -115,12 +143,15 @@ namespace MacacaGames.ViewSystem
             }
 
             fieldInfo.SetValue(propertySource.serializedObject.targetObject, data);
+            Refrersh();
+        }
+        void Refrersh()
+        {
             Rebuild(viewElement);
             EditorUtility.SetDirty(propertySource.serializedObject.targetObject);
             List<ViewElementPropertyOverrideData> list = ((ViewElemenOverride)fieldInfo.GetValue(propertySource.serializedObject.targetObject));
             BuildReorderlist(list, propertySource.displayName);
         }
-
         void DoPreview()
         {
             // Debug.Log(property.propertyPath);
@@ -155,6 +186,7 @@ namespace MacacaGames.ViewSystem
             }
 
             var rect = oriRect;
+            rect.y += EditorGUIUtility.singleLineHeight * 0.5f;
             rect.height = EditorGUIUtility.singleLineHeight;
             if (viewElement == null)
             {
