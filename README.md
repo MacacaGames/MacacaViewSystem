@@ -55,8 +55,8 @@ Add it to your editor's manifest.json file like this:
 ```json
 {
     "dependencies": {
-        "com.macacagames.utility": "https://github.com/MacacaGames/MacacaUtility.git#1.0.0",
-        "com.macacagames.viewsystem": "https://github.com/MacacaGames/MacacaViewSystem.git#1.0.2"
+        "com.macacagames.utility": "https://github.com/MacacaGames/MacacaUtility.git#1.0.5",
+        "com.macacagames.viewsystem": "https://github.com/MacacaGames/MacacaViewSystem.git#1.0.3"
     }
 }
 ```
