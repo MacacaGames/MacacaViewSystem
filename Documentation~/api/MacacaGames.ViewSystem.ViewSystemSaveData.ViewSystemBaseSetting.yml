@@ -204,7 +204,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: MaxWaitingTime
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 50
+    startLine: 48
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -239,7 +239,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: _maxWaitingTime
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 57
+    startLine: 55
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -270,7 +270,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: minimumTimeInterval
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 62
+    startLine: 60
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -303,7 +303,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: builtInBreakPoints
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 64
+    startLine: 62
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -334,7 +334,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: userBreakPoints
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 68
+    startLine: 66
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -365,7 +365,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: breakPoints
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 70
+    startLine: 68
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem

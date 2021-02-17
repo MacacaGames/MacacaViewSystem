@@ -23,7 +23,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: VectorConvert
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 85
+    startLine: 83
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -64,7 +64,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Vector3ToString
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 87
+    startLine: 85
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -101,7 +101,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Vector2ToString
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 91
+    startLine: 89
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -138,7 +138,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: StringToVector3
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 95
+    startLine: 93
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -175,7 +175,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: StringToVector2
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 114
+    startLine: 112
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem

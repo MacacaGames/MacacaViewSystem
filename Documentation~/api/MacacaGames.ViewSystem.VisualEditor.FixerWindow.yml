@@ -29,7 +29,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: FixerWindow
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 988
+    startLine: 949
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -169,7 +169,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnComplete
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 990
+    startLine: 951
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -200,7 +200,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: icon
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 992
+    startLine: 953
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -231,7 +231,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: lable
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 993
+    startLine: 954
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -262,7 +262,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnDrawScrollArea
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 994
+    startLine: 955
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -294,7 +294,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnAllClick
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 995
+    startLine: 956
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -325,7 +325,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnNoneClick
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 996
+    startLine: 957
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -356,7 +356,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnCancelClick
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 997
+    startLine: 958
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -387,7 +387,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnApplyClick
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 998
+    startLine: 959
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -418,7 +418,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: CheckBeforeApply
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 1000
+    startLine: 961
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -452,7 +452,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnGUI
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 1004
+    startLine: 965
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor

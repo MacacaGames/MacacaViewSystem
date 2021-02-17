@@ -11,6 +11,7 @@ items:
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ClearAllViewElementInScene
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditEnd
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditStart
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GetSaveData
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.Init
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.isDirty
@@ -411,6 +412,69 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot
+  id: GenerateDefaultUIRoot
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: GenerateDefaultUIRoot()
+  nameWithType: ViewSystemDataReaderV2.GenerateDefaultUIRoot()
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot()
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: GenerateDefaultUIRoot
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 136
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void GenerateDefaultUIRoot()
+    content.vb: Public Sub GenerateDefaultUIRoot
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject(UnityEngine.GameObject)
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject(UnityEngine.GameObject)
+  id: SetUIRootObject(UnityEngine.GameObject)
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
+  langs:
+  - csharp
+  - vb
+  name: SetUIRootObject(GameObject)
+  nameWithType: ViewSystemDataReaderV2.SetUIRootObject(GameObject)
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject(UnityEngine.GameObject)
+  type: Method
+  source:
+    remote:
+      path: Editor/DataReader/ViewSystemDataReaderV2.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: SetUIRootObject
+    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
+    startLine: 162
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public void SetUIRootObject(GameObject obj)
+    parameters:
+    - id: obj
+      type: UnityEngine.GameObject
+    content.vb: Public Sub SetUIRootObject(obj As GameObject)
+  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
   commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
   id: ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
@@ -429,7 +493,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ApplySafeArea
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 209
+    startLine: 174
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -462,7 +526,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnViewPagePreview
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 217
+    startLine: 182
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -500,7 +564,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Normalized
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 325
+    startLine: 290
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -530,7 +594,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ClearAllViewElementInScene
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 344
+    startLine: 309
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -560,7 +624,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Save
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 367
+    startLine: 332
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -590,7 +654,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Save
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 372
+    startLine: 337
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -628,7 +692,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetSaveData
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 413
+    startLine: 378
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -638,39 +702,6 @@ items:
       type: MacacaGames.ViewSystem.ViewSystemSaveData
     content.vb: Public Function GetSaveData As ViewSystemSaveData
   overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GetSaveData*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject(UnityEngine.GameObject)
-  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject(UnityEngine.GameObject)
-  id: SetUIRootObject(UnityEngine.GameObject)
-  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2
-  langs:
-  - csharp
-  - vb
-  name: SetUIRootObject(GameObject)
-  nameWithType: ViewSystemDataReaderV2.SetUIRootObject(GameObject)
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject(UnityEngine.GameObject)
-  type: Method
-  source:
-    remote:
-      path: Editor/DataReader/ViewSystemDataReaderV2.cs
-      branch: master
-      repo: https://github.com/MacacaGames/MacacaViewSystem.git
-    id: SetUIRootObject
-    path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 418
-  assemblies:
-  - Macaca.ViewSystem.Editor
-  namespace: MacacaGames.ViewSystem.VisualEditor
-  syntax:
-    content: public void SetUIRootObject(GameObject obj)
-    parameters:
-    - id: obj
-      type: UnityEngine.GameObject
-    content.vb: Public Sub SetUIRootObject(obj As GameObject)
-  overload: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -693,7 +724,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: CheckAndCreateResourceFolder
     path: ../Editor/DataReader/ViewSystemDataReaderV2.cs
-    startLine: 429
+    startLine: 385
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1088,6 +1119,23 @@ references:
   name: OnViewStateDelete
   nameWithType: ViewSystemDataReaderV2.OnViewStateDelete
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.OnViewStateDelete
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot
+  name: GenerateDefaultUIRoot
+  nameWithType: ViewSystemDataReaderV2.GenerateDefaultUIRoot
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject*
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject
+  name: SetUIRootObject
+  nameWithType: ViewSystemDataReaderV2.SetUIRootObject
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject
+- uid: UnityEngine.GameObject
+  commentId: T:UnityEngine.GameObject
+  parent: UnityEngine
+  isExternal: true
+  name: GameObject
+  nameWithType: GameObject
+  fullName: UnityEngine.GameObject
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea*
   commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.ApplySafeArea
   name: ApplySafeArea
@@ -1296,18 +1344,6 @@ references:
   name: ViewSystemSaveData
   nameWithType: ViewSystemSaveData
   fullName: MacacaGames.ViewSystem.ViewSystemSaveData
-- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject*
-  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject
-  name: SetUIRootObject
-  nameWithType: ViewSystemDataReaderV2.SetUIRootObject
-  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.SetUIRootObject
-- uid: UnityEngine.GameObject
-  commentId: T:UnityEngine.GameObject
-  parent: UnityEngine
-  isExternal: true
-  name: GameObject
-  nameWithType: GameObject
-  fullName: UnityEngine.GameObject
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.CheckAndCreateResourceFolder*
   commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.CheckAndCreateResourceFolder
   name: CheckAndCreateResourceFolder

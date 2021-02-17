@@ -27,7 +27,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: PropertyOverride
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 134
+    startLine: 132
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -78,7 +78,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetValue
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 139
+    startLine: 137
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -110,7 +110,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetValue
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 243
+    startLine: 241
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -143,7 +143,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetType
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 301
+    startLine: 299
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -176,7 +176,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: s_Type
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 310
+    startLine: 308
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -207,7 +207,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ObjectReferenceValue
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 311
+    startLine: 309
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -238,7 +238,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: StringValue
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 312
+    startLine: 310
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -269,7 +269,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ConvertFromStringValue
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 315
+    startLine: 313
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -308,7 +308,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ConvertToStringValue
     path: ../Runtime/Models/ViewSystemSaveData.cs
-    startLine: 352
+    startLine: 350
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem

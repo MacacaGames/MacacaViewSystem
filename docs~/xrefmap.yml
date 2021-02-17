@@ -1,18 +1,6 @@
 ### YamlMime:XRefMap
 sorted: true
 references:
-- uid: MacacaGames
-  name: MacacaGames
-  href: api/MacacaGames.html
-  commentId: N:MacacaGames
-  fullName: MacacaGames
-  nameWithType: MacacaGames
-- uid: MacacaGames.ReadOnlyAttribute
-  name: ReadOnlyAttribute
-  href: api/MacacaGames.ReadOnlyAttribute.html
-  commentId: T:MacacaGames.ReadOnlyAttribute
-  fullName: MacacaGames.ReadOnlyAttribute
-  nameWithType: ReadOnlyAttribute
 - uid: MacacaGames.ViewSystem
   name: MacacaGames.ViewSystem
   href: api/MacacaGames.ViewSystem.html
@@ -1337,6 +1325,12 @@ references:
   fullName.vb: MacacaGames.ViewSystem.QueueExtension.Remove(Of T)(System.Collections.Generic.Queue(Of T), T)
   nameWithType: QueueExtension.Remove<T>(Queue<T>, T)
   nameWithType.vb: QueueExtension.Remove(Of T)(Queue(Of T), T)
+- uid: MacacaGames.ViewSystem.ReadOnlyAttribute
+  name: ReadOnlyAttribute
+  href: api/MacacaGames.ViewSystem.ReadOnlyAttribute.html
+  commentId: T:MacacaGames.ViewSystem.ReadOnlyAttribute
+  fullName: MacacaGames.ViewSystem.ReadOnlyAttribute
+  nameWithType: ReadOnlyAttribute
 - uid: MacacaGames.ViewSystem.SafePadding
   name: SafePadding
   href: api/MacacaGames.ViewSystem.SafePadding.html
@@ -4603,6 +4597,44 @@ references:
   commentId: F:MacacaGames.ViewSystem.ViewSystemComponentData.targetTransformPath
   fullName: MacacaGames.ViewSystem.ViewSystemComponentData.targetTransformPath
   nameWithType: ViewSystemComponentData.targetTransformPath
+- uid: MacacaGames.ViewSystem.ViewSystemEventAttribute
+  name: ViewSystemEventAttribute
+  href: api/MacacaGames.ViewSystem.ViewSystemEventAttribute.html
+  commentId: T:MacacaGames.ViewSystem.ViewSystemEventAttribute
+  fullName: MacacaGames.ViewSystem.ViewSystemEventAttribute
+  nameWithType: ViewSystemEventAttribute
+- uid: MacacaGames.ViewSystem.ViewSystemEventAttribute.#ctor
+  name: ViewSystemEventAttribute()
+  href: api/MacacaGames.ViewSystem.ViewSystemEventAttribute.html#MacacaGames_ViewSystem_ViewSystemEventAttribute__ctor
+  commentId: M:MacacaGames.ViewSystem.ViewSystemEventAttribute.#ctor
+  fullName: MacacaGames.ViewSystem.ViewSystemEventAttribute.ViewSystemEventAttribute()
+  nameWithType: ViewSystemEventAttribute.ViewSystemEventAttribute()
+- uid: MacacaGames.ViewSystem.ViewSystemEventAttribute.#ctor(System.String)
+  name: ViewSystemEventAttribute(String)
+  href: api/MacacaGames.ViewSystem.ViewSystemEventAttribute.html#MacacaGames_ViewSystem_ViewSystemEventAttribute__ctor_System_String_
+  commentId: M:MacacaGames.ViewSystem.ViewSystemEventAttribute.#ctor(System.String)
+  fullName: MacacaGames.ViewSystem.ViewSystemEventAttribute.ViewSystemEventAttribute(System.String)
+  nameWithType: ViewSystemEventAttribute.ViewSystemEventAttribute(String)
+- uid: MacacaGames.ViewSystem.ViewSystemEventAttribute.#ctor*
+  name: ViewSystemEventAttribute
+  href: api/MacacaGames.ViewSystem.ViewSystemEventAttribute.html#MacacaGames_ViewSystem_ViewSystemEventAttribute__ctor_
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemEventAttribute.#ctor
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewSystemEventAttribute.ViewSystemEventAttribute
+  nameWithType: ViewSystemEventAttribute.ViewSystemEventAttribute
+- uid: MacacaGames.ViewSystem.ViewSystemEventAttribute.GetGroupName
+  name: GetGroupName()
+  href: api/MacacaGames.ViewSystem.ViewSystemEventAttribute.html#MacacaGames_ViewSystem_ViewSystemEventAttribute_GetGroupName
+  commentId: M:MacacaGames.ViewSystem.ViewSystemEventAttribute.GetGroupName
+  fullName: MacacaGames.ViewSystem.ViewSystemEventAttribute.GetGroupName()
+  nameWithType: ViewSystemEventAttribute.GetGroupName()
+- uid: MacacaGames.ViewSystem.ViewSystemEventAttribute.GetGroupName*
+  name: GetGroupName
+  href: api/MacacaGames.ViewSystem.ViewSystemEventAttribute.html#MacacaGames_ViewSystem_ViewSystemEventAttribute_GetGroupName_
+  commentId: Overload:MacacaGames.ViewSystem.ViewSystemEventAttribute.GetGroupName
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.ViewSystemEventAttribute.GetGroupName
+  nameWithType: ViewSystemEventAttribute.GetGroupName
 - uid: MacacaGames.ViewSystem.ViewSystemLayoutRebuilder
   name: ViewSystemLayoutRebuilder
   href: api/MacacaGames.ViewSystem.ViewSystemLayoutRebuilder.html
@@ -6105,6 +6137,19 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.EditStart
   nameWithType: ViewSystemDataReaderV2.EditStart
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot
+  name: GenerateDefaultUIRoot()
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2_GenerateDefaultUIRoot
+  commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot()
+  nameWithType: ViewSystemDataReaderV2.GenerateDefaultUIRoot()
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot*
+  name: GenerateDefaultUIRoot
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2_GenerateDefaultUIRoot_
+  commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot
+  isSpec: "True"
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GenerateDefaultUIRoot
+  nameWithType: ViewSystemDataReaderV2.GenerateDefaultUIRoot
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.GetSaveData
   name: GetSaveData()
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemDataReaderV2_GetSaveData
@@ -7082,6 +7127,12 @@ references:
   isSpec: "True"
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CheckRepaint
   nameWithType: ViewSystemVisualEditor.CheckRepaint
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.classMethodInfo
+  name: classMethodInfo
+  href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_classMethodInfo
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.classMethodInfo
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.classMethodInfo
+  nameWithType: ViewSystemVisualEditor.classMethodInfo
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ClearEditor
   name: ClearEditor()
   href: api/MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.html#MacacaGames_ViewSystem_VisualEditor_ViewSystemVisualEditor_ClearEditor

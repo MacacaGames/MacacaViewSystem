@@ -474,7 +474,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: currentLiveElements
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 191
+    startLine: 186
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -519,7 +519,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: currentLiveElementsInViewPage
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 206
+    startLine: 200
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -560,7 +560,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: currentLiveElementsInViewState
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 208
+    startLine: 202
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -601,7 +601,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ChangePageBase
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 210
+    startLine: 204
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -647,7 +647,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ShowOverlayViewPageBase
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 398
+    startLine: 384
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -695,7 +695,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: LeaveOverlayViewPageBase
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 588
+    startLine: 528
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -743,7 +743,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: IsOverPageStateLive
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 687
+    startLine: 627
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -785,7 +785,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: IsOverPageLive
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 702
+    startLine: 642
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -822,7 +822,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: IsOverPageLive
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 715
+    startLine: 655
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -859,7 +859,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: TryLeaveAllOverlayPage
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 748
+    startLine: 674
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -892,7 +892,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetUpNavigationOnViewPage
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 807
+    startLine: 733
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -928,7 +928,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: DisableCurrentPageNavigation
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 832
+    startLine: 758
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -958,7 +958,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: DisableAllOverlayPageNavigation
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 852
+    startLine: 778
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -988,7 +988,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: IsViewPageExsit
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 872
+    startLine: 798
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1026,7 +1026,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetBreakPoint
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 887
+    startLine: 809
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1059,7 +1059,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: RemoveBreakPoint
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 892
+    startLine: 814
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1092,7 +1092,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetViewPageElementByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 901
+    startLine: 823
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1129,7 +1129,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetViewPageElementComponentByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 905
+    startLine: 827
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1173,7 +1173,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetViewPageElementByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 910
+    startLine: 832
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1210,7 +1210,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetViewPageElementComponentByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 914
+    startLine: 836
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1254,7 +1254,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetCurrentViewPageElementByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 919
+    startLine: 841
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1289,7 +1289,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetCurrentViewPageElementComponentByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 923
+    startLine: 845
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1331,7 +1331,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetViewStateElementByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 930
+    startLine: 852
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1368,7 +1368,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetViewStateElementComponentByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 934
+    startLine: 856
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1412,7 +1412,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetViewStateElementByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 939
+    startLine: 861
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1449,7 +1449,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetViewStateElementComponentByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 943
+    startLine: 865
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1493,7 +1493,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetCurrentViewStateElementByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 948
+    startLine: 870
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -1528,7 +1528,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetCurrentViewStateElementComponentByName
     path: ../Runtime/ViewController/ViewController.cs
-    startLine: 952
+    startLine: 874
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem

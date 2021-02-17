@@ -11,6 +11,7 @@ items:
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ApplySafeArea(MacacaGames.ViewSystem.SafePadding.PerEdgeValues)
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.breakpointWindow
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CheckRepaint
+  - MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.classMethodInfo
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.ClearEditor
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.CreateConnection(MacacaGames.ViewSystem.VisualEditor.ViewStateNode)
   - MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.DoZoom(System.Single,UnityEngine.Vector2)
@@ -50,7 +51,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ViewSystemVisualEditor
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 11
+    startLine: 13
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -185,7 +186,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: Instance
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 13
+    startLine: 15
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -218,7 +219,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: inspector
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 15
+    startLine: 17
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -251,7 +252,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: globalSettingWindow
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 16
+    startLine: 18
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -284,7 +285,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: overridePopupWindow
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 18
+    startLine: 20
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -315,7 +316,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: navigationWindow
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 19
+    startLine: 21
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -346,7 +347,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: breakpointWindow
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 20
+    startLine: 22
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -377,7 +378,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: saveData
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 22
+    startLine: 24
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -410,7 +411,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: allowPreviewWhenPlaying
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 24
+    startLine: 26
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -443,7 +444,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: overrideFromOrginal
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 25
+    startLine: 27
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -476,7 +477,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: removeConnectWithoutAsk
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 26
+    startLine: 28
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -509,7 +510,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ViewControllerRoot
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 27
+    startLine: 29
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -544,7 +545,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: nodeViewContianer
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 38
+    startLine: 40
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -575,7 +576,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: toolbarContianer
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 39
+    startLine: 41
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -606,7 +607,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: inspectorContianer
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 40
+    startLine: 42
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -637,7 +638,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: floatWindowContianer
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 41
+    startLine: 43
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -668,7 +669,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnEnable
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 44
+    startLine: 46
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -698,7 +699,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ApplySafeArea
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 84
+    startLine: 86
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -733,7 +734,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: RefreshData
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 89
+    startLine: 91
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -766,7 +767,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ClearEditor
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 115
+    startLine: 117
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -796,7 +797,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: zoomScale
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 141
+    startLine: 143
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -829,7 +830,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: viewPortScroll
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 143
+    startLine: 145
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -862,7 +863,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: DoZoom
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 145
+    startLine: 147
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -899,7 +900,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: CheckRepaint
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 220
+    startLine: 222
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -929,7 +930,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: AddViewStateNode
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 292
+    startLine: 294
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -966,7 +967,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: AddViewPageNode
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 315
+    startLine: 317
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1005,7 +1006,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: CreateConnection
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 572
+    startLine: 574
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1038,7 +1039,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: DrawGrid
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 666
+    startLine: 668
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1068,7 +1069,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: EditMode
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 703
+    startLine: 705
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1099,7 +1100,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: MigrateToSplitTransformData
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 849
+    startLine: 851
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1129,7 +1130,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: IsNodeInactivable
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 937
+    startLine: 885
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -1146,6 +1147,39 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.classMethodInfo
+  commentId: F:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.classMethodInfo
+  id: classMethodInfo
+  parent: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor
+  langs:
+  - csharp
+  - vb
+  name: classMethodInfo
+  nameWithType: ViewSystemVisualEditor.classMethodInfo
+  fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.classMethodInfo
+  type: Field
+  source:
+    remote:
+      path: Editor/VisualEditor/ViewSystemVisualEditor.cs
+      branch: master
+      repo: https://github.com/MacacaGames/MacacaViewSystem.git
+    id: classMethodInfo
+    path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
+    startLine: 901
+  assemblies:
+  - Macaca.ViewSystem.Editor
+  namespace: MacacaGames.ViewSystem.VisualEditor
+  syntax:
+    content: public static Dictionary<string, CMEditorLayout.GroupedPopupData[]> classMethodInfo
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,MacacaGames.CMEditorLayout.GroupedPopupData[]}
+    content.vb: Public Shared classMethodInfo As Dictionary(Of String, CMEditorLayout.GroupedPopupData())
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnOpenAsset(System.Int32,System.Int32)
   commentId: M:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnOpenAsset(System.Int32,System.Int32)
   id: OnOpenAsset(System.Int32,System.Int32)
@@ -1164,7 +1198,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnOpenAsset
     path: ../Editor/VisualEditor/ViewSystemVisualEditor.cs
-    startLine: 1022
+    startLine: 1036
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -5756,6 +5790,127 @@ references:
   name: IsNodeInactivable
   nameWithType: ViewSystemVisualEditor.IsNodeInactivable
   fullName: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.IsNodeInactivable
+- uid: System.Collections.Generic.Dictionary{System.String,MacacaGames.CMEditorLayout.GroupedPopupData[]}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,MacacaGames.CMEditorLayout.GroupedPopupData[]}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  name: Dictionary<String, CMEditorLayout.GroupedPopupData[]>
+  nameWithType: Dictionary<String, CMEditorLayout.GroupedPopupData[]>
+  fullName: System.Collections.Generic.Dictionary<System.String, MacacaGames.CMEditorLayout.GroupedPopupData[]>
+  nameWithType.vb: Dictionary(Of String, CMEditorLayout.GroupedPopupData())
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, MacacaGames.CMEditorLayout.GroupedPopupData())
+  name.vb: Dictionary(Of String, CMEditorLayout.GroupedPopupData())
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MacacaGames.CMEditorLayout.GroupedPopupData
+    name: CMEditorLayout.GroupedPopupData
+    nameWithType: CMEditorLayout.GroupedPopupData
+    fullName: MacacaGames.CMEditorLayout.GroupedPopupData
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MacacaGames.CMEditorLayout.GroupedPopupData
+    name: CMEditorLayout.GroupedPopupData
+    nameWithType: CMEditorLayout.GroupedPopupData
+    fullName: MacacaGames.CMEditorLayout.GroupedPopupData
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnOpenAsset*
   commentId: Overload:MacacaGames.ViewSystem.VisualEditor.ViewSystemVisualEditor.OnOpenAsset
   name: OnOpenAsset

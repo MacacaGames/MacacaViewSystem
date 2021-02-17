@@ -27,6 +27,7 @@ items:
   - MacacaGames.ViewSystem.PropertyOverride
   - MacacaGames.ViewSystem.PropertyOverride.S_Type
   - MacacaGames.ViewSystem.QueueExtension
+  - MacacaGames.ViewSystem.ReadOnlyAttribute
   - MacacaGames.ViewSystem.SafePadding
   - MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
   - MacacaGames.ViewSystem.SafePadding.PerEdgeValues
@@ -70,6 +71,7 @@ items:
   - MacacaGames.ViewSystem.ViewRuntimeOverride
   - MacacaGames.ViewSystem.ViewState
   - MacacaGames.ViewSystem.ViewSystemComponentData
+  - MacacaGames.ViewSystem.ViewSystemEventAttribute
   - MacacaGames.ViewSystem.ViewSystemLayoutRebuilder
   - MacacaGames.ViewSystem.ViewSystemNodeConsole
   - MacacaGames.ViewSystem.ViewSystemNodeConsole.ConsoleMsg
@@ -97,6 +99,21 @@ items:
   assemblies:
   - Macaca.ViewSystem
 references:
+- uid: MacacaGames.ViewSystem.ReadOnlyAttribute
+  commentId: T:MacacaGames.ViewSystem.ReadOnlyAttribute
+  name: ReadOnlyAttribute
+  nameWithType: ReadOnlyAttribute
+  fullName: MacacaGames.ViewSystem.ReadOnlyAttribute
+- uid: MacacaGames.ViewSystem.ViewEventGroup
+  commentId: T:MacacaGames.ViewSystem.ViewEventGroup
+  name: ViewEventGroup
+  nameWithType: ViewEventGroup
+  fullName: MacacaGames.ViewSystem.ViewEventGroup
+- uid: MacacaGames.ViewSystem.ViewSystemEventAttribute
+  commentId: T:MacacaGames.ViewSystem.ViewSystemEventAttribute
+  name: ViewSystemEventAttribute
+  nameWithType: ViewSystemEventAttribute
+  fullName: MacacaGames.ViewSystem.ViewSystemEventAttribute
 - uid: MacacaGames.ViewSystem.NestedViewElement
   commentId: T:MacacaGames.ViewSystem.NestedViewElement
   parent: MacacaGames.ViewSystem
@@ -327,11 +344,6 @@ references:
   name: ViewSystemRectTransformData
   nameWithType: ViewSystemRectTransformData
   fullName: MacacaGames.ViewSystem.ViewSystemRectTransformData
-- uid: MacacaGames.ViewSystem.ViewEventGroup
-  commentId: T:MacacaGames.ViewSystem.ViewEventGroup
-  name: ViewEventGroup
-  nameWithType: ViewEventGroup
-  fullName: MacacaGames.ViewSystem.ViewEventGroup
 - uid: MacacaGames.ViewSystem.ViewSystemSaveData
   commentId: T:MacacaGames.ViewSystem.ViewSystemSaveData
   parent: MacacaGames.ViewSystem

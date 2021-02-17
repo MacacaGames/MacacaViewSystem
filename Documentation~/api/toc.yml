@@ -1,9 +1,4 @@
 ### YamlMime:TableOfContent
-- uid: MacacaGames
-  name: MacacaGames
-  items:
-  - uid: MacacaGames.ReadOnlyAttribute
-    name: ReadOnlyAttribute
 - uid: MacacaGames.ViewSystem
   name: MacacaGames.ViewSystem
   items:
@@ -53,6 +48,8 @@
     name: PropertyOverride.S_Type
   - uid: MacacaGames.ViewSystem.QueueExtension
     name: QueueExtension
+  - uid: MacacaGames.ViewSystem.ReadOnlyAttribute
+    name: ReadOnlyAttribute
   - uid: MacacaGames.ViewSystem.SafePadding
     name: SafePadding
   - uid: MacacaGames.ViewSystem.SafePadding.EdgeEvaluationMode
@@ -139,6 +136,8 @@
     name: ViewState
   - uid: MacacaGames.ViewSystem.ViewSystemComponentData
     name: ViewSystemComponentData
+  - uid: MacacaGames.ViewSystem.ViewSystemEventAttribute
+    name: ViewSystemEventAttribute
   - uid: MacacaGames.ViewSystem.ViewSystemLayoutRebuilder
     name: ViewSystemLayoutRebuilder
   - uid: MacacaGames.ViewSystem.ViewSystemNodeConsole

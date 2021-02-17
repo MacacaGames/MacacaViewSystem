@@ -22,7 +22,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GameObjectFixerWindow
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 591
+    startLine: 552
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -166,7 +166,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: SetData
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 601
+    startLine: 562
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -206,7 +206,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: CheckBeforeApply
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 682
+    startLine: 643
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor
@@ -241,7 +241,7 @@ items:
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: OnDrawScrollArea
     path: ../Editor/VisualEditor/Overrides/ViewSystemVerifier.cs
-    startLine: 687
+    startLine: 648
   assemblies:
   - Macaca.ViewSystem.Editor
   namespace: MacacaGames.ViewSystem.VisualEditor

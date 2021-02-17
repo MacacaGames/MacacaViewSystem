@@ -56,7 +56,7 @@ Add it to your editor's manifest.json file like this:
 {
     "dependencies": {
         "com.macacagames.utility": "https://github.com/MacacaGames/MacacaUtility.git#1.0.5",
-        "com.macacagames.viewsystem": "https://github.com/MacacaGames/MacacaViewSystem.git#1.0.3"
+        "com.macacagames.viewsystem": "https://github.com/MacacaGames/MacacaViewSystem.git#1.0.4"
     }
 }
 ```
@@ -74,24 +74,21 @@ git submodule add hhttps://github.com/MacacaGames/MacacaUtility.git Assets/Macac
 ## 1. Editor
 Menu Path : MacacaGames > ViewSystem > Visual Editor
 
-ViewSystem will create required data and save in Assets/ViewSystemResources folder automatically.
+ViewSystem will create required data and save under Assets/ViewSystemResources folder.
 
 ## 2. Create ViewController
 In the Scene which you wish to add UI, create a new GameObject and attach ViewControll Component, then drag ViewSystemData to component.
 <img src="./Img~/how_to_1.png" width="600"/>
 
 ## 3. Create UGUI Canvas
-Create a UGUI canvas and set as a child to ViewController gameobject. We strongly suggest also set "EventSystem" gameobject as a child to Canvas.
+Click ``GlobalSetting`` button on toolbar.
 
-## 4. Setup GlobalSetting
-Click "GlobalSetting" button on toolbar and follow the steps
-- Drag Canvas object in scene to "UI Root Object(In Scene)" field.
-- Set ViewController gameObject name to "View Controller GameObject" field. (As screenshot is "UI")
-- Now delete all child under View Controller GameObject
-- Remember click "Save" button on toolbar after all step is done
+- Click the ``Generate default UI Root Object`` button to automatically generate your first UI root.
+- Set ViewController gameObject name to ``View Controller GameObject`` field. (As the screenshot is ``UI``)
+- Remember click ``Save`` button on toolbar after all step is done
 <img src="./Img~/how_to_2.png" width="600"/>
 
-## 5. Ready to go!
+## 4. Ready to go!
 Now, all setup step is done, use Example Project to learn how to edit your UI.
 
 # Usage
@@ -102,7 +99,7 @@ Menu Path : MacacaGames > ViewSystem > Visual Editor
 You can define the ViewElement and and its RectTransform info by Visual Editor.
 <img src="./Img~/add_viewelement.gif" />
 
-## Override property in ViewElement
+## Override property on a ViewElement
 You can override any property on ViewElement, use preview to take effect the override.
 
 With the override system, you can simply create the ViewElement variant in different ViewPage.
@@ -112,6 +109,23 @@ With the override system, you can simply create the ViewElement variant in diffe
 ViewSystem override is a runtime function, it means all modify only exsit during the Game is runing, use the ViewSystem override helps you to avoid to make a lot of Prefab variant assets.
 
 Limitation, the ViewSystem override has no ability to add/remove Component, GameObject etc. In this case use Unity Prefab variant.
+
+## Override UnityEvent on a ViewElement
+The override system also support to bind UnityEvent on an UGUI selectable.
+
+Make a method with Component parameter and attact ``ViewSystemEvent`` attribute on it, the method will show on up the override window.
+
+Example: (In UIManager.cs)
+```csharp
+[MacacaGames.ViewSystem.ViewSystemEvent]
+public void MyEvent(Component selectable)
+{
+    //Do something
+}
+```
+
+<img src="./Img~/event_demo.gif" />
+
 
 # Components
 

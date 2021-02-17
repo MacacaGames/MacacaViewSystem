@@ -16,12 +16,12 @@ items:
   type: Class
   source:
     remote:
-      path: Runtime/Models/ViewPageModel.cs
+      path: Runtime/Attribute/ReadOnlyAttribute.cs
       branch: master
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: ViewEventGroup
-    path: ../Runtime/Models/ViewPageModel.cs
-    startLine: 322
+    path: ../Runtime/Attribute/ReadOnlyAttribute.cs
+    startLine: 25
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -29,9 +29,13 @@ items:
     content: >-
       [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 
+      [Obsolete("ViewEventGroup is change to ViewSystemEvent", true)]
+
       public class ViewEventGroup : Attribute
     content.vb: >-
       <AttributeUsage(AttributeTargets.Method, AllowMultiple:=True)>
+
+      <Obsolete("ViewEventGroup is change to ViewSystemEvent", True)>
 
       Public Class ViewEventGroup
           Inherits Attribute
@@ -91,6 +95,13 @@ items:
     - name: AllowMultiple
       type: System.Boolean
       value: true
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String,System.Boolean)
+    arguments:
+    - type: System.String
+      value: ViewEventGroup is change to ViewSystemEvent
+    - type: System.Boolean
+      value: true
   modifiers.csharp:
   - public
   - class
@@ -110,12 +121,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: Runtime/Models/ViewPageModel.cs
+      path: Runtime/Attribute/ReadOnlyAttribute.cs
       branch: master
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: .ctor
-    path: ../Runtime/Models/ViewPageModel.cs
-    startLine: 326
+    path: ../Runtime/Attribute/ReadOnlyAttribute.cs
+    startLine: 30
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
@@ -143,12 +154,12 @@ items:
   type: Method
   source:
     remote:
-      path: Runtime/Models/ViewPageModel.cs
+      path: Runtime/Attribute/ReadOnlyAttribute.cs
       branch: master
       repo: https://github.com/MacacaGames/MacacaViewSystem.git
     id: GetGroupName
-    path: ../Runtime/Models/ViewPageModel.cs
-    startLine: 331
+    path: ../Runtime/Attribute/ReadOnlyAttribute.cs
+    startLine: 35
   assemblies:
   - Macaca.ViewSystem
   namespace: MacacaGames.ViewSystem
