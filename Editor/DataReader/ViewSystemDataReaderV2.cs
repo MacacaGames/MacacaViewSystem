@@ -132,79 +132,44 @@ namespace MacacaGames.ViewSystem.VisualEditor
             );
             data.viewStates.Remove(s);
             isDirty = true;
-
         }
 
-        // public void OnViewPagePreview(ViewPage viewPage)
-        // {
-        //     if (data.globalSetting.UIRootScene == null)
-        //     {
-        //         ViewSystemLog.ShowNotification(editor, new GUIContent($"There is no canvas in your scene, do you enter EditMode?"), 2);
-        //         ViewSystemLog.LogError($"There is no canvas in your scene, do you enter EditMode?");
-        //         return;
-        //     }
-        //     //throw new System.NotImplementedException();
-        //     ClearAllViewElementInScene();
-        //     // 打開所有相關 ViewElements
-        //     ViewState viewPagePresetTemp;
-        //     List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
+        public void GenerateDefaultUIRoot()
+        {
+            if (string.IsNullOrEmpty(data.globalSetting.ViewControllerObjectPath))
+            {
+                ViewSystemLog.LogError("Please set ViewController Object Path first");
+                return;
+            }
+            GameObject canvasObject = new GameObject("Canvas");
+            var viewControllerObject = GameObject.Find(data.globalSetting.ViewControllerObjectPath);
+            canvasObject.transform.SetParent(viewControllerObject.transform);
 
-        //     //從 ViewPagePreset 尋找 (ViewState)
-        //     if (!string.IsNullOrEmpty(viewPage.viewState))
-        //     {
-        //         viewPagePresetTemp = data.viewStates.Select(m => m.viewState).SingleOrDefault(m => m.name == viewPage.viewState);
-        //         if (viewPagePresetTemp != null)
-        //         {
-        //             viewItemForNextPage.AddRange(viewPagePresetTemp.viewPageItems);
-        //         }
-        //     }
+            var canvas = canvasObject.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
+            var canvasScaler = canvasObject.AddComponent<UnityEngine.UI.CanvasScaler>();
+            canvasScaler.referenceResolution = new Vector2(1080,1920);
+            canvasScaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasScaler.screenMatchMode = UnityEngine.UI.CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+            canvasScaler.matchWidthOrHeight = 1;
+            var graphicRaycaster = canvasObject.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+            var eventSystem = canvasObject.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            var inputModule = canvasObject.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+            SetUIRootObject(canvasObject);
+            UnityEngine.Object.DestroyImmediate(canvasObject);
+        }
 
-        //     //從 ViewPage 尋找
-        //     viewItemForNextPage.AddRange(viewPage.viewPageItems);
+        public void SetUIRootObject(GameObject obj)
+        {
+            if (!Directory.Exists(ViewSystemResourceFolder))
+            {
+                CheckAndCreateResourceFolder();
+            }
 
-        //     Transform root = ViewControllerTransform;
-
-        //     //打開相對應物件
-        //     foreach (ViewPageItem item in viewItemForNextPage)
-        //     {
-        //         if (item.viewElement == null)
-        //         {
-        //             ViewSystemLog.LogWarning($"There are some ViewElement didn't setup correctly in this page or state");
-        //             continue;
-        //         }
-        //         var temp = PrefabUtility.InstantiatePrefab(item.viewElement.gameObject);
-        //         ViewElement tempViewElement = ((GameObject)temp).GetComponent<ViewElement>();
-
-        //         tempViewElement.gameObject.SetActive(true);
-        //         var rectTransform = tempViewElement.GetComponent<RectTransform>();
-        //         Transform tempParent = root.Find(item.parentPath);
-        //         rectTransform.SetParent(tempParent, true);
-        //         rectTransform.anchoredPosition3D = Vector3.zero;
-        //         rectTransform.localScale = Vector3.one;
-
-        //         var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
-        //         if (mFix != null) mFix.ApplyModifyValue();
-
-        //         tempViewElement.ApplyOverrides(item.overrideDatas);
-        //         tempViewElement.ApplyNavigation(item.navigationDatas);
-
-        //         item.previewViewElement = tempViewElement;
-
-        //         //item.viewElement.SampleToLoopState();
-        //         if (tempViewElement.transition != ViewElement.TransitionType.Animator)
-        //             continue;
-
-        //         Animator animator = tempViewElement.animator;
-        //         AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
-        //         foreach (AnimationClip clip in clips)
-        //         {
-        //             if (clip.name.ToLower().Contains(tempViewElement.AnimationStateName_Loop.ToLower()))
-        //             {
-        //                 clip.SampleAnimation(animator.gameObject, 0);
-        //             }
-        //         }
-        //     }
-        // }
+            var saveObject = PrefabUtility.SaveAsPrefabAsset(obj, ViewSystemResourceFolder + obj.name + ".prefab");
+            data.globalSetting.UIRoot = saveObject;
+        }
 
         ViewSystemUtilitys.PageRootWrapper previewUIRootWrapper;
         public void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)
@@ -416,16 +381,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             return data;
         }
 
-        public void SetUIRootObject(GameObject obj)
-        {
-            if (!Directory.Exists(ViewSystemResourceFolder))
-            {
-                CheckAndCreateResourceFolder();
-            }
 
-            var saveObject = PrefabUtility.SaveAsPrefabAsset(obj, ViewSystemResourceFolder + obj.name + ".prefab");
-            data.globalSetting.UIRoot = saveObject;
-        }
 
         public static void CheckAndCreateResourceFolder()
         {

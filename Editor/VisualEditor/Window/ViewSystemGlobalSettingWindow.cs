@@ -34,27 +34,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 scrollPosition = scroll.scrollPosition;
                 saveData.globalSetting.ViewControllerObjectPath = EditorGUILayout.TextField("View Controller GameObject", saveData.globalSetting.ViewControllerObjectPath);
                 EditorGUILayout.HelpBox("View Controller GameObject is the GameObject name in scene which has ViewController attach on.", MessageType.Info);
-
-                using (var check = new EditorGUI.ChangeCheckScope())
+                saveData.globalSetting.UIRoot = (GameObject)EditorGUILayout.ObjectField("UI Root Object (In Assets)", saveData.globalSetting.UIRoot, typeof(GameObject), true);
+                if (saveData.globalSetting.UIRoot == null)
                 {
-                    saveData.globalSetting.UIRootScene = (GameObject)EditorGUILayout.ObjectField("UI Root Object (In Scene)", saveData.globalSetting.UIRootScene, typeof(GameObject), true);
-                    if (check.changed)
+                    if (GUILayout.Button("Generate default UI Root Object"))
                     {
-                        if (saveData.globalSetting.UIRootScene == null)
-                        {
-                            saveData.globalSetting.UIRoot = null;
-                        }
-                        else
-                        {
-                            dataReader.SetUIRootObject(saveData.globalSetting.UIRootScene);
-                        }
+                        dataReader.GenerateDefaultUIRoot();
                     }
                 }
-                using (var disable = new EditorGUI.DisabledGroupScope(true))
-                {
-                    EditorGUILayout.ObjectField("UI Root Object (In Assets)", saveData.globalSetting.UIRoot, typeof(GameObject), true);
-                }
-                EditorGUILayout.HelpBox("UI Root Object will generate and set as a child of 'View Controller GameObject' after View System init.", MessageType.Info);
+                EditorGUILayout.HelpBox("The Override UI Root Object will generate and set as a child of 'View Controller GameObject' after View System init.", MessageType.Info);
 
                 saveData.globalSetting._maxWaitingTime = EditorGUILayout.Slider(new GUIContent("Change Page Max Waiting", "The max waiting for change page, if previous page need time more than this value ,ViewController wiil force transition to next page."), saveData.globalSetting._maxWaitingTime, 0.5f, 2.5f);
                 //EditorGUILayout.HelpBox("The max waiting for change page, if previous page need time more than this value ,ViewController wiil force transition to next page.", MessageType.Info);
@@ -132,5 +120,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             base.Draw(id);
         }
+
     }
 }

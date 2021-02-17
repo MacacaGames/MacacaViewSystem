@@ -168,11 +168,7 @@ namespace MacacaGames.ViewSystem
         {
             foreach (var item in viewPageItems)
             {
-                // if (item.runtimeParent == null)
-                // {
-                //     item.runtimeParent = transformCache.Find(item.parentPath);
-                // }
-
+               
                 if (item.viewElement != null)
                 {
                     item.runtimeViewElement = runtimePool.RequestViewElement(item.viewElement);
@@ -186,8 +182,7 @@ namespace MacacaGames.ViewSystem
         }
 
         private float nextViewPageWaitTime = 0;
-        // private Dictionary<string, float> lastPageItemDelayOutTimes = new Dictionary<string, float>();
-        // private Dictionary<string, float> lastOverlayPageItemDelayOutTimes = new Dictionary<string, float>();
+  
 
         [SerializeField]
         protected new List<ViewElement> currentLiveElements
@@ -201,7 +196,6 @@ namespace MacacaGames.ViewSystem
             }
         }
 
-        // Dictionary<string, RectTransform> runtimePageRoot = new Dictionary<string, RectTransform>();
 
         [ReadOnly, SerializeField]
         protected List<ViewElement> currentLiveElementsInViewPage = new List<ViewElement>();
@@ -336,14 +330,6 @@ namespace MacacaGames.ViewSystem
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvent(item.eventDatas);
 
-                //Delay 時間 2020/12/09 delay out is remove
-                // if (!lastPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))
-                //     lastPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
-                // else
-                //     lastPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
-
-                // if (item.runtimeParent == null)
-                // {
                 var transformData = item.GetCurrentViewElementTransform(currentBreakPoints);
 
                 if (!string.IsNullOrEmpty(transformData.parentPath))
@@ -354,7 +340,7 @@ namespace MacacaGames.ViewSystem
                 {
                     item.runtimeParent = vp.runtimePageRoot;
                 }
-                // }
+     
 
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, transformData, item.sortingOrder, item.TweenTime, item.delayIn);
             }
@@ -490,8 +476,7 @@ namespace MacacaGames.ViewSystem
             foreach (var item in viewElementDoesExitsInNextPage)
             {
                 Debug.LogWarning($"{item.name} not exsit in next page");
-                // float delayOut = 0;
-                // lastOverlayPageItemDelayOutTimes.TryGetValue(item.name, out delayOut);
+            
                 item.ChangePage(false, null, null, 0, 0, 0);
             }
 
@@ -509,15 +494,6 @@ namespace MacacaGames.ViewSystem
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvent(item.eventDatas);
 
-                //Delay 時間 2020/12/09 delay out is remove
-                // if (!lastOverlayPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))
-                //     lastOverlayPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
-                // else
-                //     lastOverlayPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
-
-
-                // if (item.runtimeParent == null)
-                // {
                 var transformData = item.GetCurrentViewElementTransform(currentBreakPoints);
 
                 if (!string.IsNullOrEmpty(transformData.parentPath))
@@ -528,46 +504,10 @@ namespace MacacaGames.ViewSystem
                 {
                     item.runtimeParent = vp.runtimePageRoot;
                 }
-                // }
+               
 
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, transformData, item.sortingOrder, item.TweenTime, item.delayIn, reshowIfSamePage: RePlayOnShowWhileSamePage);
             }
-
-
-            // if (viewItemNextState != null)
-            // {
-            //     foreach (var item in viewItemNextState)
-            //     {
-            //         if (RePlayOnShowWhileSamePage)
-            //         {
-            //             item.runtimeViewElement.OnShow();
-            //             continue;
-            //         }
-            //         //套用複寫值
-            //         item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
-            //         item.runtimeViewElement.ApplyEvent(item.eventDatas);
-
-            //         //Delay 時間
-            //         if (!lastOverlayPageItemDelayOutTimes.ContainsKey(item.runtimeViewElement.name))
-            //             lastOverlayPageItemDelayOutTimes.Add(item.runtimeViewElement.name, item.delayOut);
-            //         else
-            //             lastOverlayPageItemDelayOutTimes[item.runtimeViewElement.name] = item.delayOut;
-
-            //         // if (item.runtimeParent == null)
-            //         // {
-            //         if (!string.IsNullOrEmpty(item.parentPath))
-            //         {
-            //             item.runtimeParent = transformCache.Find(item.parentPath);
-            //         }
-            //         else
-            //         {
-            //             item.runtimeParent = vp.runtimePageRoot;
-            //         }
-            //         // }
-
-            //         item.runtimeViewElement.ChangePage(true, item.runtimeParent, GetViewSystemRectTransformDataByViewPageItem(item), item.TweenTime, item.delayIn, item.delayOut, reshowIfSamePage: RePlayOnShowWhileSamePage);
-            //     }
-            // }
 
             SetNavigationTarget(vp);
 
@@ -731,20 +671,6 @@ namespace MacacaGames.ViewSystem
             }
 
             return false;
-            // IEnumerable<ViewSystemUtilitys.OverlayPageStatus> overlayPage = overlayPageStatusDict.Select(m => m.Value);
-            // if (!includeLeavingPage)
-            // {
-            //     overlayPage = overlayPage.Where(m => m.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Leave);
-            // }
-
-            // foreach (var item in overlayPage)
-            // {
-            //     if (item.viewPage.name == viewPageName)
-            //     {
-            //         result = true;
-            //         break;
-            //     }
-            // }
         }
         public override void TryLeaveAllOverlayPage()
         {
@@ -879,10 +805,6 @@ namespace MacacaGames.ViewSystem
             return false;
         }
 
-        // ViewElementTransform GetViewSystemRectTransformDataByViewPageItem(ViewPageItem item)
-        // {
-        //     return !string.IsNullOrEmpty(item.GetCurrentViewElementTransform(currentBreakPoints).parentPath) ? null : item.GetCurrentViewElementTransform(currentBreakPoints);
-        // }
 
         List<string> currentBreakPoints = new List<string>();
         public void SetBreakPoint(string breakPoint)
