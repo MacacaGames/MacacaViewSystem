@@ -103,7 +103,7 @@ When the ChangePage action is fire, system will leave all ViewElements defined i
 <pre><code class="lang-json">{
     &quot;dependencies&quot;: {
         &quot;com.macacagames.utility&quot;: &quot;https://github.com/MacacaGames/MacacaUtility.git#1.0.5&quot;,
-        &quot;com.macacagames.viewsystem&quot;: &quot;https://github.com/MacacaGames/MacacaViewSystem.git#1.0.3&quot;
+        &quot;com.macacagames.viewsystem&quot;: &quot;https://github.com/MacacaGames/MacacaViewSystem.git#1.0.4&quot;
     }
 }
 </code></pre>
@@ -116,22 +116,19 @@ When the ChangePage action is fire, system will leave all ViewElements defined i
 <h1 id="setup">Setup</h1>
 <h2 id="1-editor">1. Editor</h2>
 <p>Menu Path : MacacaGames &gt; ViewSystem &gt; Visual Editor</p>
-<p>ViewSystem will create required data and save in Assets/ViewSystemResources folder automatically.</p>
+<p>ViewSystem will create required data and save under Assets/ViewSystemResources folder.</p>
 <h2 id="2-create-viewcontroller">2. Create ViewController</h2>
 <p>In the Scene which you wish to add UI, create a new GameObject and attach ViewControll Component, then drag ViewSystemData to component.
 <img src="./Img~/how_to_1.png" width="600"></p>
 <h2 id="3-create-ugui-canvas">3. Create UGUI Canvas</h2>
-<p>Create a UGUI canvas and set as a child to ViewController gameobject. We strongly suggest also set &quot;EventSystem&quot; gameobject as a child to Canvas.</p>
-<h2 id="4-setup-globalsetting">4. Setup GlobalSetting</h2>
-<p>Click &quot;GlobalSetting&quot; button on toolbar and follow the steps</p>
+<p>Click <code>GlobalSetting</code> button on toolbar.</p>
 <ul>
-<li>Drag Canvas object in scene to &quot;UI Root Object(In Scene)&quot; field.</li>
-<li>Set ViewController gameObject name to &quot;View Controller GameObject&quot; field. (As screenshot is &quot;UI&quot;)</li>
-<li>Now delete all child under View Controller GameObject</li>
-<li>Remember click &quot;Save&quot; button on toolbar after all step is done
+<li>Click the <code>Generate default UI Root Object</code> button to automatically generate your first UI root.</li>
+<li>Set ViewController gameObject name to <code>View Controller GameObject</code> field. (As the screenshot is <code>UI</code>)</li>
+<li>Remember click <code>Save</code> button on toolbar after all step is done
 <img src="./Img~/how_to_2.png" width="600"></li>
 </ul>
-<h2 id="5-ready-to-go">5. Ready to go!</h2>
+<h2 id="4-ready-to-go">4. Ready to go!</h2>
 <p>Now, all setup step is done, use Example Project to learn how to edit your UI.</p>
 <h1 id="usage">Usage</h1>
 <p>Use the Visual Editor to edit your UI page.</p>
@@ -139,13 +136,24 @@ When the ChangePage action is fire, system will leave all ViewElements defined i
 <h2 id="make-a-viewpage">Make a ViewPage</h2>
 <p>You can define the ViewElement and and its RectTransform info by Visual Editor.
 <img src="./Img~/add_viewelement.gif"></p>
-<h2 id="override-property-in-viewelement">Override property in ViewElement</h2>
+<h2 id="override-property-on-a-viewelement">Override property on a ViewElement</h2>
 <p>You can override any property on ViewElement, use preview to take effect the override.</p>
 <p>With the override system, you can simply create the ViewElement variant in different ViewPage.
 <img src="./Img~/override_demo.gif"></p>
 <h3 id="why-using-viewsystems-override-but-not-unity-prefab-variant">Why using ViewSystem's override but not Unity Prefab variant?</h3>
 <p>ViewSystem override is a runtime function, it means all modify only exsit during the Game is runing, use the ViewSystem override helps you to avoid to make a lot of Prefab variant assets.</p>
 <p>Limitation, the ViewSystem override has no ability to add/remove Component, GameObject etc. In this case use Unity Prefab variant.</p>
+<h2 id="override-unityevent-on-a-viewelement">Override UnityEvent on a ViewElement</h2>
+<p>The override system also support to bind UnityEvent on an UGUI selectable.</p>
+<p>Make a method with Component parameter and attact <code>ViewSystemEvent</code> attribute on it, the method will show on up the override window.</p>
+<p>Example: (In UIManager.cs)</p>
+<pre><code class="lang-csharp">[MacacaGames.ViewSystem.ViewSystemEvent]
+public void MyEvent(Component selectable)
+{
+    //Do something
+}
+</code></pre>
+<img src="./Img~/event_demo.gif">
 <h1 id="components">Components</h1>
 <h2 id="viewelementgroup">ViewElementGroup</h2>
 <p>Something we me may wish to use already exsited ViewElement inside another ViewElement, in this way the ViewElementGroup can helps.
