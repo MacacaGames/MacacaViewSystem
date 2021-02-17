@@ -320,18 +320,5 @@ namespace MacacaGames.ViewSystem
             }
         }
     }
-    [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
-    public class ViewEventGroup : System.Attribute
-    {
-        string groupName;
-        public ViewEventGroup(string groupName)
-        {
-            this.groupName = groupName;
-        }
-
-        public string GetGroupName()
-        {
-            return groupName;
-        }
-    }
+    
 }

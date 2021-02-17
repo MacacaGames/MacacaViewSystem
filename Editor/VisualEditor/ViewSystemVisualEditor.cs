@@ -6,6 +6,8 @@ using System;
 using MacacaGames.ViewSystem;
 using UnityEngine.UIElements;
 using UnityEditor.SceneManagement;
+using System.Reflection;
+
 namespace MacacaGames.ViewSystem.VisualEditor
 {
 
@@ -880,61 +882,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             dataReader.Save(viewPageList, viewStateList);
         }
-        // public void UpdateRectTransformValue(ViewElement viewElement)
-        // {
-        //     ViewPageItem vpi = null;
-        //     if (viewElement == null)
-        //     {
-        //         ViewSystemLog.LogError("Error while try to copy RectTransform value to save data, Target item is null.");
-        //         return;
-        //     }
-        //     foreach (var item in viewPageList)
-        //     {
-        //         foreach (var vpis in item.viewPage.viewPageItems)
-        //         {
-        //             if (vpis.previewViewElement == null)
-        //             {
-        //                 continue;
-        //             }
-        //             if (vpis.previewViewElement.GetInstanceID() == viewElement.GetInstanceID())
-        //             {
-        //                 vpi = vpis;
-        //                 break;
-        //             }
-        //         }
-        //     }
 
-        //     foreach (var item in viewStateList)
-        //     {
-        //         foreach (var vpis in item.viewState.viewPageItems)
-        //         {
-        //             if (vpis.previewViewElement == null)
-        //             {
-        //                 continue;
-        //             }
-        //             if (vpis.previewViewElement.GetInstanceID() == viewElement.GetInstanceID())
-        //             {
-        //                 vpi = vpis;
-        //                 break;
-        //             }
-        //         }
-        //     }
-
-        //     if (vpi == null)
-        //     {
-        //         ViewSystemLog.LogError("No match item found");
-        //         return;
-        //     }
-        //     var parent = viewElement.GetComponent<RectTransform>();
-        //     vpi.transformData.anchoredPosition = parent.anchoredPosition3D;
-        //     vpi.transformData.anchorMax = parent.anchorMax;
-        //     vpi.transformData.anchorMin = parent.anchorMin;
-        //     vpi.transformData.pivot = parent.pivot;
-        //     vpi.transformData.localScale = parent.localScale;
-        //     vpi.transformData.localEulerAngles = parent.localEulerAngles;
-        //     vpi.transformData.sizeDelta = parent.sizeDelta;
-        //     Repaint();
-        // }
         public bool IsNodeInactivable
         {
             get
@@ -947,6 +895,72 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     breakpointWindow.show ||
                     ViewSystemNodeInspector.isMouseInSideBar());
             }
+        }
+
+        //對應 方法名稱與 pop index 的字典
+        //第 n 個腳本的參照
+        public static Dictionary<string, CMEditorLayout.GroupedPopupData[]> classMethodInfo = new Dictionary<string, CMEditorLayout.GroupedPopupData[]>();
+        internal static BindingFlags BindFlagsForScript = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+        internal static bool RequireAutoRefreshMethodDatabase()
+        {
+            return ViewSystemVisualEditor.classMethodInfo == null || ViewSystemVisualEditor.classMethodInfo.Count == 0;
+        }
+        internal static void RefreshMethodDatabase()
+        {
+            classMethodInfo.Clear();
+            classMethodInfo.Add("Nothing Select", null);
+            List<CMEditorLayout.GroupedPopupData> VerifiedMethod = new List<CMEditorLayout.GroupedPopupData>();
+            var types = GetAllTypeWithMethodHasViewSystemEventAttribute();
+            foreach (var type in types)
+            {
+                MethodInfo[] methodInfos = type.GetMethods(BindFlagsForScript);
+                VerifiedMethod.Clear();
+                foreach (var item in methodInfos)
+                {
+                    var para = item.GetParameters();
+                    if (para.Where(m => m.ParameterType.IsAssignableFrom(typeof(Component))).Count() == 0)
+                    {
+                        continue;
+                    }
+
+                    var eventMethodInfo = new CMEditorLayout.GroupedPopupData { name = item.Name, group = "" };
+                    var attr = System.Attribute.GetCustomAttribute(item, typeof(ViewSystemEventAttribute));
+
+                    if (attr == null)
+                    {
+                        continue;
+                    }
+                    ViewSystemEventAttribute a = (ViewSystemEventAttribute)attr;
+                    eventMethodInfo.group = a.GetGroupName();
+                    VerifiedMethod.Add(eventMethodInfo);
+                }
+                classMethodInfo.Add(type.ToString(), VerifiedMethod.ToArray());
+            }
+        }
+
+        internal static IEnumerable<Type> GetAllTypeWithMethodHasViewSystemEventAttribute()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName.Contains("Assembly-CSharp"));
+
+            return assemblies
+                    .SelectMany(s => s.GetTypes())
+                    .Where(p =>
+                    {
+                        var methods = p.GetMethods();
+                        foreach (var method in methods)
+                        {
+                            try
+                            {
+                                var attr = System.Attribute.GetCustomAttribute(method, typeof(ViewSystemEventAttribute));
+                                if (attr != null)
+                                {
+                                    return true;
+                                }
+                            }
+                            catch { }
+                        }
+                        return false;
+                    });
         }
 
 

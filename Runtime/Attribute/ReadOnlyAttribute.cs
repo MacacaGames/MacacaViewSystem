@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace MacacaGames
+namespace MacacaGames.ViewSystem
 {
     public class ReadOnlyAttribute : PropertyAttribute { }
 #if UNITY_EDITOR
@@ -23,4 +23,36 @@ namespace MacacaGames
         }
     }
 #endif
+    [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
+    [System.Obsolete("ViewEventGroup is change to ViewSystemEvent",true)]
+    public class ViewEventGroup : System.Attribute
+    {
+        string groupName;
+        public ViewEventGroup(string groupName)
+        {
+            this.groupName = groupName;
+        }
+
+        public string GetGroupName()
+        {
+            return groupName;
+        }
+    }
+    [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
+    public class ViewSystemEventAttribute : System.Attribute
+    {
+        string groupName;
+        public ViewSystemEventAttribute()
+        {
+            this.groupName = "Default";
+        }
+        public ViewSystemEventAttribute(string groupName)
+        {
+            this.groupName = groupName;
+        }
+        public string GetGroupName()
+        {
+            return groupName;
+        }
+    }
 }

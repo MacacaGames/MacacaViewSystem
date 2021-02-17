@@ -95,33 +95,33 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         }
                     }
                 }
-                GUILayout.Space(20);
+                // GUILayout.Space(20);
 
-                using (var horizon = new GUILayout.HorizontalScope())
-                {
-                    m_ShowEventScript.target = EditorGUILayout.Foldout(m_ShowEventScript.target, "Event Scripts");
-                    if (GUILayout.Button("Add", GUILayout.Width(60)))
-                    {
-                        saveData.globalSetting.EventHandleBehaviour.Add(null);
-                    }
-                }
-                using (var fade = new EditorGUILayout.FadeGroupScope(m_ShowEventScript.faded))
-                {
-                    if (fade.visible)
-                    {
-                        for (int i = 0; i < saveData.globalSetting.EventHandleBehaviour.Count; i++)
-                        {
-                            using (var horizon = new GUILayout.HorizontalScope())
-                            {
-                                saveData.globalSetting.EventHandleBehaviour[i] = (MonoScript)EditorGUILayout.ObjectField(saveData.globalSetting.EventHandleBehaviour[i], typeof(MonoScript), false);
-                                if (GUILayout.Button(GUIContent.none, new GUIStyle("OL Minus"), GUILayout.Height(EditorGUIUtility.singleLineHeight), GUILayout.Width(20)))
-                                {
-                                    saveData.globalSetting.EventHandleBehaviour.Remove(saveData.globalSetting.EventHandleBehaviour[i]);
-                                }
-                            }
-                        }
-                    }
-                }
+                // using (var horizon = new GUILayout.HorizontalScope())
+                // {
+                //     m_ShowEventScript.target = EditorGUILayout.Foldout(m_ShowEventScript.target, "Event Scripts");
+                //     if (GUILayout.Button("Add", GUILayout.Width(60)))
+                //     {
+                //         saveData.globalSetting.EventHandleBehaviour.Add(null);
+                //     }
+                // }
+                // using (var fade = new EditorGUILayout.FadeGroupScope(m_ShowEventScript.faded))
+                // {
+                //     if (fade.visible)
+                //     {
+                //         for (int i = 0; i < saveData.globalSetting.EventHandleBehaviour.Count; i++)
+                //         {
+                //             using (var horizon = new GUILayout.HorizontalScope())
+                //             {
+                //                 saveData.globalSetting.EventHandleBehaviour[i] = (MonoScript)EditorGUILayout.ObjectField(saveData.globalSetting.EventHandleBehaviour[i], typeof(MonoScript), false);
+                //                 if (GUILayout.Button(GUIContent.none, new GUIStyle("OL Minus"), GUILayout.Height(EditorGUIUtility.singleLineHeight), GUILayout.Width(20)))
+                //                 {
+                //                     saveData.globalSetting.EventHandleBehaviour.Remove(saveData.globalSetting.EventHandleBehaviour[i]);
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
                 GUILayout.Space(20);
 
 

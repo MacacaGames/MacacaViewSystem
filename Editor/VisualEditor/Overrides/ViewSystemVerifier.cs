@@ -295,12 +295,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
             if (verifyTarget == VerifyTarget.Override)
             {
                 RefreshOverrideDatas();
-                targetVerifyDatas = allOverrideDatas.SelectMany(m=>m.overrideDatas).Cast<ViewSystemComponentData>();
+                targetVerifyDatas = allOverrideDatas.SelectMany(m => m.overrideDatas).Cast<ViewSystemComponentData>();
             }
             if (verifyTarget == VerifyTarget.Event)
             {
                 RefreshEventDatas();
-                targetVerifyDatas = allEventDatas.SelectMany(m=>m.eventDatas).Cast<ViewSystemComponentData>();
+                targetVerifyDatas = allEventDatas.SelectMany(m => m.eventDatas).Cast<ViewSystemComponentData>();
             }
 
             foreach (var item in targetVerifyDatas)
@@ -353,7 +353,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         public void VerifyEvents()
         {
-            RefreshMethodDatabase();
+            ViewSystemVisualEditor.RefreshMethodDatabase();
             RefreshEventDatas();
             eventDataNeedToFix.Clear();
             foreach (var vpi in allEventDatas)
@@ -385,7 +385,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     "Not now"))
                 {
                     var window = ScriptableObject.CreateInstance<EventFixerWindow>();
-                    window.SetData(eventDataNeedToFix, classMethodInfo, () =>
+                    window.SetData(eventDataNeedToFix, ViewSystemVisualEditor.classMethodInfo, () =>
                     {
                         //Make sure SetDirty
                         EditorUtility.SetDirty(saveData);
@@ -396,45 +396,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
             else
             {
                 ViewSystemLog.Log("Great, all events looks good!");
-            }
-        }
-
-        //對應 方法名稱與 pop index 的字典
-        //第 n 個腳本的參照
-        Dictionary<string, CMEditorLayout.GroupedPopupData[]> classMethodInfo = new Dictionary<string, CMEditorLayout.GroupedPopupData[]>();
-        BindingFlags BindFlagsForScript = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-        void RefreshMethodDatabase()
-        {
-            classMethodInfo.Clear();
-            classMethodInfo.Add("Nothing Select", null);
-            List<CMEditorLayout.GroupedPopupData> VerifiedMethod = new List<CMEditorLayout.GroupedPopupData>();
-            for (int i = 0; i < saveData.globalSetting.EventHandleBehaviour.Count; i++)
-            {
-                var type = Utility.GetType(saveData.globalSetting.EventHandleBehaviour[i].name);
-                if (saveData.globalSetting.EventHandleBehaviour[i] == null) return;
-                MethodInfo[] methodInfos = type.GetMethods(BindFlagsForScript);
-                VerifiedMethod.Clear();
-                foreach (var item in methodInfos)
-                {
-                    var para = item.GetParameters();
-                    if (para.Where(m => m.ParameterType.IsAssignableFrom(typeof(UnityEngine.EventSystems.UIBehaviour))).Count() == 0)
-                    {
-                        continue;
-                    }
-                    var eventMethodInfo = new CMEditorLayout.GroupedPopupData { name = item.Name, group = "" };
-                    var arrts = System.Attribute.GetCustomAttributes(item);
-                    foreach (System.Attribute attr in arrts)
-                    {
-                        if (attr is ViewEventGroup)
-                        {
-                            ViewEventGroup a = (ViewEventGroup)attr;
-                            eventMethodInfo.group = a.GetGroupName();
-                            break;
-                        }
-                    }
-                    VerifiedMethod.Add(eventMethodInfo);
-                }
-                classMethodInfo.Add(type.ToString(), VerifiedMethod.ToArray());
             }
         }
 

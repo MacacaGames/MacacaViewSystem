@@ -48,8 +48,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
             if (viewPageItem == null) return;
             target = viewPageItem.viewElement.gameObject;
             CacheHierarchy();
-            RefreshMethodDatabase();
             RebuildModifyReorderableList();
+            if (ViewSystemVisualEditor.RequireAutoRefreshMethodDatabase())
+            {
+                ViewSystemVisualEditor.RefreshMethodDatabase();
+            }
         }
 
         Rect itemRect;
@@ -227,7 +230,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     viewPageItem.overrideDatas.RemoveAll(m => m == item.viewElementPropertyOverrideData);
                     RebuildModifyReorderableList();
                 }
-                
+
                 if (string.IsNullOrEmpty(item.viewElementPropertyOverrideData.targetTransformPath))
                 {
                     GUI.Label(rect, new GUIContent($"Target GameObject is missing", Drawer.miniErrorIcon));
@@ -323,58 +326,25 @@ namespace MacacaGames.ViewSystem.VisualEditor
             };
         }
 
-        //對應 方法名稱與 pop index 的字典
-        //第 n 個腳本的參照
-        // List<string[]> methodListOfScriptObject = new List<string[]>();
-        // List<string> scriptObjectName = new List<string>();
-        Dictionary<string, CMEditorLayout.GroupedPopupData[]> classMethodInfo = new Dictionary<string, CMEditorLayout.GroupedPopupData[]>();
-        BindingFlags BindFlagsForScript = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-        void RefreshMethodDatabase()
-        {
-            classMethodInfo.Clear();
-            classMethodInfo.Add("Nothing Select", null);
-            List<CMEditorLayout.GroupedPopupData> VerifiedMethod = new List<CMEditorLayout.GroupedPopupData>();
-            for (int i = 0; i < saveData.globalSetting.EventHandleBehaviour.Count; i++)
-            {
-                var type = Utility.GetType(saveData.globalSetting.EventHandleBehaviour[i].name);
-                if (saveData.globalSetting.EventHandleBehaviour[i] == null) return;
-                MethodInfo[] methodInfos = type.GetMethods(BindFlagsForScript);
-                VerifiedMethod.Clear();
-                foreach (var item in methodInfos)
-                {
-                    var para = item.GetParameters();
-                    if (para.Where(m => m.ParameterType.IsAssignableFrom(typeof(Component))).Count() == 0)
-                    {
-                        continue;
-                    }
-
-                    var eventMethodInfo = new CMEditorLayout.GroupedPopupData { name = item.Name, group = "" };
-                    var arrts = System.Attribute.GetCustomAttributes(item);
-                    foreach (System.Attribute attr in arrts)
-                    {
-                        if (attr is ViewEventGroup)
-                        {
-                            ViewEventGroup a = (ViewEventGroup)attr;
-                            eventMethodInfo.group = a.GetGroupName();
-                            break;
-                        }
-                    }
-                    VerifiedMethod.Add(eventMethodInfo);
-                }
-                classMethodInfo.Add(type.ToString(), VerifiedMethod.ToArray());
-            }
-        }
-
 
         Vector2 scrollPositionEvent;
         void DrawEvent()
         {
-            EditorGUILayout.HelpBox("Only the method which has \"Component\" parameters will be shown also the target MonoBahaviour required to assign in GlobalSetting", MessageType.Info);
-            if (GUILayout.Button("Setting"))
+            // EditorGUILayout.HelpBox(" also the target MonoBahaviour required to assign in GlobalSetting", MessageType.Info);
+            // if (GUILayout.Button("Setting"))
+            // {
+            //     ViewSystemVisualEditor.globalSettingWindow.show = true;
+            // }
+            using (var horizon = new GUILayout.HorizontalScope(GUILayout.Height(40)))
             {
-                ViewSystemVisualEditor.globalSettingWindow.show = true;
+                EditorGUILayout.HelpBox("Only the method which has \"Component\" parameters will be shown. If you don't see your method in dropdown list, you can try 'Refresh'. (Very slow)", MessageType.Info);
+                if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_Refresh@2x"), "Refresh"), Drawer.removeButtonStyle, GUILayout.Width(40)))
+                {
+                    ViewSystemVisualEditor.RefreshMethodDatabase();
+                }
             }
-            if (classMethodInfo.Count == 0)
+
+            if (ViewSystemVisualEditor.classMethodInfo.Count == 0)
             {
                 return;
             }
@@ -431,49 +401,64 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                     }
                                     continue;
                                 }
-
-                                GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)), EditorGUIUtility.FindTexture("Prefab Icon"));
-                                GUILayout.Label(l, GUILayout.Height(20));
-                                GUILayout.Label(Drawer.arrowIcon, GUILayout.Height(20));
-                                var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
-                                GUILayout.Label(_cachedContent, GUILayout.Height(20));
-                            }
-
-                            int currentSelectClass = string.IsNullOrEmpty(item.scriptName) ? 0 : classMethodInfo.Values.ToList().IndexOf(classMethodInfo[item.scriptName]);
-
-                            using (var check = new EditorGUI.ChangeCheckScope())
-                            {
-                                currentSelectClass = EditorGUILayout.Popup("Event Script", currentSelectClass, classMethodInfo.Select(m => m.Key).ToArray());
-                                if (check.changed)
+                                using (var vertical2 = new GUILayout.VerticalScope())
                                 {
-                                    if (currentSelectClass != 0)
+                                    GUIContent l = new GUIContent(target.name + (string.IsNullOrEmpty(item.targetTransformPath) ? "" : ("/" + item.targetTransformPath)), EditorGUIUtility.FindTexture("Prefab Icon"));
+                                    GUILayout.Label(l, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                                    // GUILayout.Label(Drawer.arrowIcon, GUILayout.Height(20));
+                                    using (var horizon3 = new GUILayout.HorizontalScope())
                                     {
-                                        var c = classMethodInfo.ElementAt(currentSelectClass);
-                                        item.scriptName = c.Key;
-                                        item.methodName = "";
-                                    }
-                                    else
-                                    {
-                                        item.scriptName = "";
-                                        item.methodName = "";
+                                        GUILayout.Space(20);
+                                        var _cachedContent = new GUIContent(EditorGUIUtility.ObjectContent(targetComponent, targetComponent.GetType()));
+                                        GUILayout.Label(_cachedContent, GUILayout.Height(EditorGUIUtility.singleLineHeight));
                                     }
                                 }
+
                             }
-                            if (currentSelectClass != 0)
+                            int currentSelectClass = 0;
+                            CMEditorLayout.GroupedPopupData[] groupDatas = null;
+                            if (!string.IsNullOrEmpty(item.scriptName) && !ViewSystemVisualEditor.classMethodInfo.TryGetValue(item.scriptName, out groupDatas))
                             {
+                                GUILayout.Label("Target class name not found");
+                            }
+                            else
+                            {
+                                currentSelectClass = string.IsNullOrEmpty(item.scriptName) ? 0 : ViewSystemVisualEditor.classMethodInfo.Values.ToList().IndexOf(groupDatas);
+
                                 using (var check = new EditorGUI.ChangeCheckScope())
                                 {
-                                    using (var horizon2 = new EditorGUILayout.HorizontalScope())
+                                    currentSelectClass = EditorGUILayout.Popup("Event Script", currentSelectClass, ViewSystemVisualEditor.classMethodInfo.Select(m => m.Key).ToArray());
+                                    if (check.changed)
                                     {
-                                        var c = classMethodInfo.ElementAt(currentSelectClass).Value;
-                                        var current = c.SingleOrDefault(m => m.name == item.methodName);
+                                        if (currentSelectClass != 0)
+                                        {
+                                            var c = ViewSystemVisualEditor.classMethodInfo.ElementAt(currentSelectClass);
+                                            item.scriptName = c.Key;
+                                            item.methodName = "";
+                                        }
+                                        else
+                                        {
+                                            item.scriptName = "";
+                                            item.methodName = "";
+                                        }
+                                    }
+                                }
+                                if (currentSelectClass != 0)
+                                {
+                                    using (var check = new EditorGUI.ChangeCheckScope())
+                                    {
+                                        using (var horizon2 = new EditorGUILayout.HorizontalScope())
+                                        {
+                                            var c = ViewSystemVisualEditor.classMethodInfo.ElementAt(currentSelectClass).Value;
+                                            var current = c.SingleOrDefault(m => m.name == item.methodName);
 
-                                        CMEditorLayout.GroupedPopupField(item.GetHashCode(), new GUIContent("Event Method"), c, current,
-                                            (select) =>
-                                            {
-                                                item.methodName = select.name;
-                                            }
-                                        );
+                                            CMEditorLayout.GroupedPopupField(item.GetHashCode(), new GUIContent("Event Method"), c, current,
+                                                (select) =>
+                                                {
+                                                    item.methodName = select.name;
+                                                }
+                                            );
+                                        }
                                     }
                                 }
                             }
