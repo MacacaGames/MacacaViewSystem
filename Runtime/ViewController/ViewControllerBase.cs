@@ -9,7 +9,7 @@ namespace MacacaGames.ViewSystem
 {
     public abstract class ViewControllerBase : MonoBehaviour, IViewController
     {
-    
+
         protected static float minimumTimeInterval = 0.2f;
 
         public virtual Canvas GetCanvas()
@@ -23,6 +23,12 @@ namespace MacacaGames.ViewSystem
             return result;
         }
         protected static ViewControllerBase _incance;
+
+        /// <summary>
+        /// Check a viewpage is exsit in setting data
+        /// </summary>
+        /// <param name="viewPageName"></param>
+        /// <returns></returns>
         public abstract bool IsViewPageExsit(string viewPageName);
 
         #region Interface Impletetment
@@ -45,32 +51,36 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogWarning($"Method call return due to TimeProtect.");
                 return null;
             }
-            var vp = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
-            if (vp == null)
+
+            if (!viewPages.TryGetValue(viewPageName, out nextViewPage))
             {
                 ViewSystemLog.LogError("No overlay viewPage match the name: " + viewPageName + "  found");
                 return null;
             }
+            // var nextViewPage = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
+            // if (nextViewPage == null)
+            // {
+            // }
 
-            string OverlayPageStateKey = GetOverlayStateKey(vp);
+            string OverlayPageStateKey = GetOverlayStateKey(nextViewPage);
             if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
                 if (overlayPageStatus.IsTransition == true)
                 {
-                    ViewSystemLog.LogError($"The Overlay page with same state {vp.name} is in Transition, ignore the ShowOverlayViewPage call.");
+                    ViewSystemLog.LogError($"The Overlay page with same state {nextViewPage.name} is in Transition, ignore the ShowOverlayViewPage call.");
                     return null;
                 }
                 if (overlayPageStatus.viewPage.name == viewPageName)
                 {
                     if (RePlayOnShowWhileSamePage == false)
                     {
-                        ViewSystemLog.LogError($"The Overlay page {vp.name} is in already exsit, ignore the ShowOverlayViewPage call.");
+                        ViewSystemLog.LogError($"The Overlay page {nextViewPage.name} is in already exsit, ignore the ShowOverlayViewPage call.");
                         return null;
                     }
                 }
 
             }
-            return StartCoroutine(ShowOverlayViewPageBase(vp, RePlayOnShowWhileSamePage, OnStart, OnChanged, OnComplete, ignoreTimeScale));
+            return StartCoroutine(ShowOverlayViewPageBase(nextViewPage, RePlayOnShowWhileSamePage, OnStart, OnChanged, OnComplete, ignoreTimeScale));
         }
 
         public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
@@ -80,30 +90,34 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogWarning($"Method call return due to TimeProtect.");
                 return null;
             }
-            var vp = viewPages.SingleOrDefault(m => m.name == viewPageName);
-            string OverlayPageStateKey = GetOverlayStateKey(vp);
+            // var nextViewPage = viewPages.SingleOrDefault(m => m.name == viewPageName);
+            if (!viewPages.TryGetValue(viewPageName, out nextViewPage))
+            {
+                ViewSystemLog.LogError("No overlay viewPage match the name: " + viewPageName + "  found");
+                return null;
+            }
+
+            string OverlayPageStateKey = GetOverlayStateKey(nextViewPage);
 
             if (!overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
                 ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + " found, try to fix.");
                 overlayPageStatus = new ViewSystemUtilitys.OverlayPageStatus();
-                overlayPageStatus.viewPage = vp;
+                overlayPageStatus.viewPage = nextViewPage;
 
-                ViewState vs = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-
-                if (vs != null) { overlayPageStatus.viewState = vs; }
-                //return null;
+                viewStates.TryGetValue(nextViewPage.viewState, out nextViewState);
+                if (nextViewState != null) { overlayPageStatus.viewState = nextViewState; }
             }
             else
             {
                 if (overlayPageStatus.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Show && waitForShowFinish == false)
                 {
-                    ViewSystemLog.LogError($"The Overlay page {vp.name} is in Transition, ignore the LeaveOverlayViewPage call.");
+                    ViewSystemLog.LogError($"The Overlay page {nextViewPage.name} is in Transition, ignore the LeaveOverlayViewPage call.");
                     return null;
                 }
                 if (overlayPageStatus.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Leave)
                 {
-                    ViewSystemLog.LogError($"The Overlay page {vp.name} is in Leaving, ignore the LeaveOverlayViewPage call.");
+                    ViewSystemLog.LogError($"The Overlay page {nextViewPage.name} is in Leaving, ignore the LeaveOverlayViewPage call.");
                     return null;
                 }
             }
@@ -165,6 +179,7 @@ namespace MacacaGames.ViewSystem
                 StartCoroutine(LeaveOverlayViewPageBase(item.Value, 0.4f, null, true));
             }
         }
+
         public virtual bool HasOverlayPageLive()
         {
             return overlayPageStatusDict.Count > 0;
@@ -243,8 +258,8 @@ namespace MacacaGames.ViewSystem
         #endregion
 
 
-        public List<ViewPage> viewPages = new List<ViewPage>();
-        public List<ViewState> viewStates = new List<ViewState>();
+        public Dictionary<string, ViewPage> viewPages = new Dictionary<string, ViewPage>();
+        public Dictionary<string, ViewState> viewStates = new Dictionary<string, ViewState>();
         protected static IEnumerable<string> viewStatesNames;
 
         [ReadOnly, SerializeField]
@@ -297,41 +312,6 @@ namespace MacacaGames.ViewSystem
         {
             return vp.viewPageItems.Where(m => !m.excludePlatform.IsSet(platform));
         }
-
-        // protected List<AutoLeaveData> autoLeaveQueue = new List<AutoLeaveData>();
-        // protected class AutoLeaveData
-        // {
-        //     public string name;
-        //     public float times;
-        //     public AutoLeaveData(string _name, float _times)
-        //     {
-        //         name = _name;
-        //         times = _times;
-        //     }
-        // }
-
-        // protected IEnumerator AutoLeaveOverlayPage()
-        // {
-        //     float deltaTime = 0;
-        //     while (true)
-        //     {
-        //         //ViewSystemLog.LogError("Find auto leave count " + autoLeaveQueue.Count);
-        //         deltaTime = Time.deltaTime;
-        //         ///更新每個 倒數值
-        //         for (int i = 0; i < autoLeaveQueue.Count; i++)
-        //         {
-        //             //ViewSystemLog.LogError("Update auto leave value " + autoLeaveQueue[i].name);
-
-        //             autoLeaveQueue[i].times -= deltaTime;
-        //             if (autoLeaveQueue[i].times <= 0)
-        //             {
-        //                 LeaveOverlayViewPage(autoLeaveQueue[i].name);
-        //                 autoLeaveQueue.Remove(autoLeaveQueue[i]);
-        //             }
-        //         }
-        //         yield return null;
-        //     }
-        // }
 
         public bool IsPageTransition
         {
