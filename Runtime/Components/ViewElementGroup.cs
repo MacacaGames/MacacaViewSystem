@@ -25,8 +25,7 @@ namespace MacacaGames.ViewSystem
             viewElement = GetComponent<ViewElement>();
 
             var childViewElementGroups = GetComponentsInChildren<ViewElementGroup>()
-                .Where(m => m != this)
-                .ToList();
+                .Where(m => m != this);
 
             foreach (var item in childViewElementGroups)
             {
