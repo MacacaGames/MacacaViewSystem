@@ -338,8 +338,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     {
                         menu.AddItem(new GUIContent($"Preview with {item} BreakPoint  "), false, () =>
                         {
-                            dataReader.OnViewPagePreview(m, new string[]{
-                                item
+                            dataReader.OnViewPagePreview(m, new Dictionary<string, bool>
+                            {
+                                {item,true}
                             });
                         });
                     }

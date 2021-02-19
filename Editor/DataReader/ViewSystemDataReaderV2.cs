@@ -149,7 +149,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
             var canvasScaler = canvasObject.AddComponent<UnityEngine.UI.CanvasScaler>();
-            canvasScaler.referenceResolution = new Vector2(1080,1920);
+            canvasScaler.referenceResolution = new Vector2(1080, 1920);
             canvasScaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             canvasScaler.screenMatchMode = UnityEngine.UI.CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
             canvasScaler.matchWidthOrHeight = 1;
@@ -180,7 +180,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
         }
 
-        public void OnViewPagePreview(ViewPage viewPage, string[] breakPoints)
+        public void OnViewPagePreview(ViewPage viewPage, Dictionary<string, bool> breakPoints)
         {
 
             string UIRootName = "";

@@ -60,26 +60,21 @@ namespace MacacaGames.ViewSystem
             /// </summary>
             public float minimumTimeInterval = 0.2f;
 
-            public string[] builtInBreakPoints = new string[]{
-                "Horizon",
-                "Vertical"
-            };
+            // public string[] builtInBreakPoints = new string[]{
+            //     "Horizon",
+            //     "Vertical"
+            // };
             public List<string> userBreakPoints = new List<string>();
-            private string[] _breakPoints;
-            public string[] breakPoints
+            public IEnumerable<string> breakPoints
             {
                 get
                 {
-                    if (userBreakPoints.Count + builtInBreakPoints.Length != _breakPoints.Length)
-                    {
-                        _breakPoints = userBreakPoints.Union(builtInBreakPoints).ToArray();
-                    }
-                    return _breakPoints;
+                    return userBreakPoints;
                 }
             }
         }
     }
-    
+
 
     public class VectorConvert
     {

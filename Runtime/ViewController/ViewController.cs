@@ -55,8 +55,14 @@ namespace MacacaGames.ViewSystem
             InjectionDictionary = new Dictionary<System.Type, Component>();
             maxClampTime = viewSystemSaveData.globalSetting.MaxWaitingTime;
             minimumTimeInterval = viewSystemSaveData.globalSetting.minimumTimeInterval;
-
-
+            try
+            {
+                breakPointsStatus = viewSystemSaveData.globalSetting.breakPoints.ToDictionary(m => m, m => false);
+            }
+            catch (Exception ex)
+            {
+                ViewSystemLog.LogError($"Error occur while proccess breakpoint {ex.Message}");
+            }
         }
 
         IEnumerator FixedTimeRecovery()
@@ -182,16 +188,16 @@ namespace MacacaGames.ViewSystem
 
         private float nextViewPageWaitTime = 0;
 
-
+        List<ViewElement> tempCurrentLiveElements = new List<ViewElement>();
         [SerializeField]
         protected new List<ViewElement> currentLiveElements
         {
             get
             {
-                List<ViewElement> result = new List<ViewElement>();
-                result.AddRange(currentLiveElementsInViewPage);
-                result.AddRange(currentLiveElementsInViewState);
-                return result;
+                tempCurrentLiveElements.Clear();
+                tempCurrentLiveElements.AddRange(currentLiveElementsInViewPage);
+                tempCurrentLiveElements.AddRange(currentLiveElementsInViewState);
+                return tempCurrentLiveElements;
             }
         }
 
@@ -327,7 +333,7 @@ namespace MacacaGames.ViewSystem
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvent(item.eventDatas);
 
-                var transformData = item.GetCurrentViewElementTransform(currentBreakPoints);
+                var transformData = item.GetCurrentViewElementTransform(breakPointsStatus);
 
                 if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
@@ -493,7 +499,7 @@ namespace MacacaGames.ViewSystem
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvent(item.eventDatas);
 
-                var transformData = item.GetCurrentViewElementTransform(currentBreakPoints);
+                var transformData = item.GetCurrentViewElementTransform(breakPointsStatus);
 
                 if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
@@ -562,7 +568,7 @@ namespace MacacaGames.ViewSystem
                         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
                         try
                         {
-                            var transformData = item.GetCurrentViewElementTransform(currentBreakPoints);
+                            var transformData = item.GetCurrentViewElementTransform(breakPointsStatus);
                             if (!string.IsNullOrEmpty(transformData.parentPath))
                             {
                                 item.runtimeParent = transformCache.Find(transformData.parentPath);
@@ -584,7 +590,7 @@ namespace MacacaGames.ViewSystem
                         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
                         try
                         {
-                            var transformData = item.GetCurrentViewElementTransform(currentBreakPoints);
+                            var transformData = item.GetCurrentViewElementTransform(breakPointsStatus);
                             if (!string.IsNullOrEmpty(transformData.parentPath))
                             {
                                 item.runtimeParent = transformCache.Find(transformData.parentPath);
@@ -800,22 +806,19 @@ namespace MacacaGames.ViewSystem
         public override bool IsViewPageExsit(string viewPageName)
         {
             return viewPages.ContainsKey(viewPageName);
-            // foreach (var item in viewPages.Keys)
-            // {
-            //     if (item == viewPageName) return true;
-            // }
-            // return false;
         }
+        Dictionary<string, bool> breakPointsStatus = new Dictionary<string, bool>();
 
-        List<string> currentBreakPoints = new List<string>();
         public void SetBreakPoint(string breakPoint)
         {
-            if (!currentBreakPoints.Contains(breakPoint)) currentBreakPoints.Add(breakPoint);
+            breakPointsStatus[breakPoint] = true;
+            // if (!currentCustomBreakPoints.Contains(breakPoint)) currentCustomBreakPoints.Add(breakPoint);
         }
 
         public void RemoveBreakPoint(string breakPoint)
         {
-            currentBreakPoints.Remove(breakPoint);
+            breakPointsStatus[breakPoint] = false;
+            // currentCustomBreakPoints.Remove(breakPoint);
         }
 
         #endregion
@@ -826,7 +829,7 @@ namespace MacacaGames.ViewSystem
         {
             return viewPage.viewPageItems.SingleOrDefault((_) => _.displayName == viewPageItemName).runtimeViewElement;
         }
-        
+
         public T GetViewPageElementComponentByName<T>(ViewPage viewPage, string viewPageItemName) where T : Component
         {
             return GetViewPageElementByName(viewPage, viewPageItemName).GetComponent<T>();

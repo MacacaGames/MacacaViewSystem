@@ -172,7 +172,7 @@ namespace MacacaGames.ViewSystem
             if (string.IsNullOrEmpty(Id))
                 Id = System.Guid.NewGuid().ToString().Substring(0, 8);
         }
-        public ViewElementTransform GetCurrentViewElementTransform(IEnumerable<string> currentBreakPoints)
+        public ViewElementTransform GetCurrentViewElementTransform(Dictionary<string, bool> currentBreakPoints)
         {
             if (breakPointViewElementTransforms != null &&
                 breakPointViewElementTransforms.Count > 0 &&
@@ -180,7 +180,7 @@ namespace MacacaGames.ViewSystem
             {
                 foreach (var item in breakPointViewElementTransforms)
                 {
-                    if (currentBreakPoints.Contains(item.breakPointName))
+                    if (currentBreakPoints[item.breakPointName])
                     {
                         return item.transformData;
                     }
@@ -246,7 +246,7 @@ namespace MacacaGames.ViewSystem
     [System.Serializable]
     public class ViewElemenOverride : List<ViewElementPropertyOverrideData>
     {
-       
+
     }
 
     [System.Serializable]
@@ -320,5 +320,5 @@ namespace MacacaGames.ViewSystem
             }
         }
     }
-    
+
 }

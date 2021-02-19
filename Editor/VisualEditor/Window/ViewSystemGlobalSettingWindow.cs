@@ -52,12 +52,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
                 GUILayout.Space(20);
 
-                GUILayout.Label("Built-In Break Points", EditorStyles.boldLabel);
-                foreach (var item in saveData.globalSetting.builtInBreakPoints)
-                {
-                    GUILayout.TextField(item);
-                }
-
                 using (var horizon = new GUILayout.HorizontalScope())
                 {
                     m_ShowUserBreakPoints.target = EditorGUILayout.Foldout(m_ShowUserBreakPoints.target, "User Break Points");
