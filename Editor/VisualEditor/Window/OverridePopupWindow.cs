@@ -231,11 +231,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     RebuildModifyReorderableList();
                 }
 
-                if (string.IsNullOrEmpty(item.viewElementPropertyOverrideData.targetTransformPath))
-                {
-                    GUI.Label(rect, new GUIContent($"Target GameObject is missing", Drawer.miniErrorIcon));
-                    return;
-                }
+                
                 var targetObject = viewPageItem.viewElement.transform.Find(item.viewElementPropertyOverrideData.targetTransformPath);
 
                 if (targetObject == null)
