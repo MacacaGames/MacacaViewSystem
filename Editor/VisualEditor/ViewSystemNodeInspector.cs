@@ -8,7 +8,6 @@ using UnityEditorInternal;
 using System.Reflection;
 using UnityEditor.IMGUI.Controls;
 using MacacaGames;
-using UnityEditor.Experimental.SceneManagement;
 
 namespace MacacaGames.ViewSystem.VisualEditor
 {
@@ -547,8 +546,35 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         viewPageItemList[index].viewElementObject = null;
                         return;
                     }
+                    PrefabInstanceStatus prefabInstanceStatus = PrefabUtility.GetPrefabInstanceStatus(viewPageItemList[index].viewElementObject);
+                    // PrefabAssetType prefabAssetType = PrefabUtility.GetPrefabAssetType(viewPageItemList[index].viewElementObject);
+                    if (prefabInstanceStatus == PrefabInstanceStatus.Connected)
+                    {
+                        var cache = viewPageItemList[index].viewElement;
+                        ViewElement original;
+                        if (ViewSystemVisualEditor.overrideFromOrginal)
+                        {
+                            original = PrefabUtility.GetCorrespondingObjectFromOriginalSource(cache);
+                        }
+                        else
+                        {
+                            original = PrefabUtility.GetCorrespondingObjectFromSource(cache);
+                        }
 
-                    if (string.IsNullOrEmpty(viewPageItemList[index].viewElement.gameObject.scene.name))
+                        overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
+                        overrideChecker.SetData(cache.transform, original.transform, (import) =>
+                        {
+                            viewPageItemList[index].overrideDatas?.Clear();
+                            viewPageItemList[index].overrideDatas = import.ToList();
+                        }, currentSelectNode);
+                        overrideChecker.ShowUtility();
+                        viewPageItemList[index].viewElement = original;
+                        viewPageItemList[index].previewViewElement = cache;
+
+                        viewPageItemList[index].defaultTransformDatas.rectTransformData = new ViewSystemRectTransformData();
+                        PickRectTransformValue(viewPageItemList[index].defaultTransformDatas, viewPageItemList[index].previewViewElement.GetComponent<RectTransform>());
+                    }
+                    else
                     {
                         //is prefabs
                         if (viewPageItemList[index].viewElement.gameObject.name != oriViewElement)
@@ -556,32 +582,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             viewPageItemList[index].overrideDatas?.Clear();
                             viewPageItemList[index].eventDatas?.Clear();
                         }
-                        return;
                     }
-
-                    var cache = viewPageItemList[index].viewElement;
-                    ViewElement original;
-                    if (ViewSystemVisualEditor.overrideFromOrginal)
-                    {
-                        original = PrefabUtility.GetCorrespondingObjectFromOriginalSource(cache);
-                    }
-                    else
-                    {
-                        original = PrefabUtility.GetCorrespondingObjectFromSource(cache);
-                    }
-
-                    overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
-                    overrideChecker.SetData(cache.transform, original.transform, (import) =>
-                    {
-                        viewPageItemList[index].overrideDatas?.Clear();
-                        viewPageItemList[index].overrideDatas = import.ToList();
-                    }, currentSelectNode);
-                    overrideChecker.ShowUtility();
-                    viewPageItemList[index].viewElement = original;
-                    viewPageItemList[index].previewViewElement = cache;
-
-                    viewPageItemList[index].defaultTransformDatas.rectTransformData = new ViewSystemRectTransformData();
-                    PickRectTransformValue(viewPageItemList[index].defaultTransformDatas, viewPageItemList[index].previewViewElement.GetComponent<RectTransform>());
                 }
             }
 
@@ -1356,8 +1357,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             foreach (var item in viewPageItemList)
             {
-                PrefabInstanceStatus v = PrefabUtility.GetPrefabInstanceStatus(item.viewElementObject);
-                if (v == PrefabInstanceStatus.Connected)
+                PrefabInstanceStatus prefabInstanceStatus = PrefabUtility.GetPrefabInstanceStatus(item.viewElementObject);
+                PrefabAssetType prefabAssetType = PrefabUtility.GetPrefabAssetType(item.viewElementObject);
+                if (prefabInstanceStatus == PrefabInstanceStatus.Connected)
                 {
                     ViewSystemLog.LogWarning($"Auto fix reference : {item.viewElementObject.name}");
                     var temp = item.viewElementObject;
