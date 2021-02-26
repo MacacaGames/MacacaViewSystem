@@ -8,6 +8,7 @@ using UnityEditorInternal;
 using System.Reflection;
 using UnityEditor.IMGUI.Controls;
 using MacacaGames;
+using UnityEditor.Experimental.SceneManagement;
 
 namespace MacacaGames.ViewSystem.VisualEditor
 {
@@ -25,6 +26,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         GUIStyle nameEditStyle;
         static ViewSystemSaveData saveData => ViewSystemVisualEditor.saveData;
         static GUIContent EditoModifyButton = new GUIContent(Drawer.overridePopupIcon, "Show/Hide Modified Properties and Events");
+
 
         public ViewSystemNodeInspector(ViewSystemVisualEditor editor)
         {
@@ -91,7 +93,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
             {
                 excludePlatformOptions.Add(item.ToString());
             }
-
         }
         public static bool isMouseInSideBar()
         {
@@ -1342,6 +1343,27 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             }
                         }
                     }
+                }
+            }
+        }
+
+        public void RepairPrefabReference()
+        {
+            if (viewPageItemList == null || viewPageItemList.Count == 0)
+            {
+                Debug.LogError("No viewPageItemList");
+                return;
+            }
+            foreach (var item in viewPageItemList)
+            {
+                PrefabInstanceStatus v = PrefabUtility.GetPrefabInstanceStatus(item.viewElementObject);
+                if (v == PrefabInstanceStatus.Connected)
+                {
+                    ViewSystemLog.LogWarning($"Auto fix reference : {item.viewElementObject.name}");
+                    var temp = item.viewElementObject;
+
+                    item.viewElementObject = PrefabUtility.GetCorrespondingObjectFromSource(temp);
+                    ViewSystemLog.LogWarning($"Auto fix reference done: {item.viewElementObject.name}");
                 }
             }
         }

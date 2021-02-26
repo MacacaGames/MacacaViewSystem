@@ -7,9 +7,25 @@ using MacacaGames.ViewSystem;
 using UnityEngine.UIElements;
 using UnityEditor.SceneManagement;
 using System.Reflection;
+using UnityEditor.Experimental.SceneManagement;
 
 namespace MacacaGames.ViewSystem.VisualEditor
 {
+
+    [InitializeOnLoad]
+    internal class PrefabExtension
+    {
+        static PrefabExtension()
+        {
+            UnityEditor.PrefabUtility.prefabInstanceUpdated += OnPrefabInstanceUpdate;
+        }
+
+        static void OnPrefabInstanceUpdate(GameObject instance)
+        {
+            UnityEngine.Debug.Log("[Callback] Prefab.Apply on instance id:" + instance.GetInstanceID() + ", name:" + instance.name);
+            ViewSystemVisualEditor.inspector.RepairPrefabReference();
+        }
+    }
 
     public class ViewSystemVisualEditor : EditorWindow
     {
@@ -81,8 +97,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             root.Add(visulaElementFromUXML);
         }
-
-
 
         public static void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)
         {
