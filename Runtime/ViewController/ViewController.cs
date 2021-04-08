@@ -647,7 +647,10 @@ namespace MacacaGames.ViewSystem
 
         public bool IsOverPageLive(string viewPageName, bool includeLeavingPage = false)
         {
-            if (viewPageName == null) return false;
+            if (string.IsNullOrEmpty(viewPageName))
+            {
+                return false;
+            }
             if (viewPages == null)
             {
                 return false;
