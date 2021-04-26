@@ -184,7 +184,7 @@ namespace MacacaGames.ViewSystem
                 }
                 catch (Exception ex)
                 {
-                    ViewSystemLog.LogError($"Error Occure while invoke event: {ex.Message}");
+                    ViewSystemLog.LogError($"Error Occure while invoke event: {ex.ToString()}");
                 }
             }
         }
