@@ -21,7 +21,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         static void OnPrefabInstanceUpdate(GameObject instance)
         {
-            UnityEngine.Debug.Log("[Callback] Prefab.Apply on instance id:" + instance.GetInstanceID() + ", name:" + instance.name);
+            //UnityEngine.Debug.Log("[Callback] Prefab.Apply on instance id:" + instance.GetInstanceID() + ", name:" + instance.name);
             ViewSystemVisualEditor.inspector.RepairPrefabReference();
         }
     }

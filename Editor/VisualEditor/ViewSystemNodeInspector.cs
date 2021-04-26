@@ -1352,7 +1352,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             if (viewPageItemList == null || viewPageItemList.Count == 0)
             {
-                Debug.LogError("No viewPageItemList");
+                //Debug.LogError("No viewPageItemList");
                 return;
             }
             foreach (var item in viewPageItemList)
