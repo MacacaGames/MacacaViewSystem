@@ -118,36 +118,18 @@ namespace MacacaGames.ViewSystem
             Pivot = 1 << 6,
             All = ~0,
         }
-        public void ApplyRectTransform(ViewElementTransform viewElementTransform)
+        public void ApplyRectTransform(ViewElementTransform viewElementTransform, RectTransformFlag? overrideFlag = null)
         {
-            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.SizeDelta)) rectTransform.sizeDelta = viewElementTransform.rectTransformData.sizeDelta;
+            var currentFlag = overrideFlag.HasValue ? overrideFlag.Value : viewElementTransform.rectTransformFlag;
 
-
-            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.AnchoredPosition)) rectTransform.anchoredPosition3D = viewElementTransform.rectTransformData.anchoredPosition;
-            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.AnchorMax)) rectTransform.anchorMax = viewElementTransform.rectTransformData.anchorMax;
-            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.AnchorMin)) rectTransform.anchorMin = viewElementTransform.rectTransformData.anchorMin;
-            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.LocalEulerAngles)) rectTransform.localEulerAngles = viewElementTransform.rectTransformData.localEulerAngles;
-            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.LocalScale)) rectTransform.localScale = viewElementTransform.rectTransformData.localScale;
-            if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.Pivot)) rectTransform.pivot = viewElementTransform.rectTransformData.pivot;
-            // if (FlagsHelper.IsSet(viewElementTransform.rectTransformFlag, RectTransformFlag.SizeDelta))
-            // {
-            //     if (viewElementTransform.rectTransformData.anchorMin.x != viewElementTransform.rectTransformData.anchorMax.x ||
-            //         viewElementTransform.rectTransformData.anchorMin.y != viewElementTransform.rectTransformData.anchorMax.y)
-            //     {
-            //         ApplyOffectMax(viewElementTransform);
-            //         ApplyOffectMin(viewElementTransform);
-            //     }
-            // }
+            if (FlagsHelper.IsSet(currentFlag, RectTransformFlag.SizeDelta)) rectTransform.sizeDelta = viewElementTransform.rectTransformData.sizeDelta;
+            if (FlagsHelper.IsSet(currentFlag, RectTransformFlag.AnchoredPosition)) rectTransform.anchoredPosition3D = viewElementTransform.rectTransformData.anchoredPosition;
+            if (FlagsHelper.IsSet(currentFlag, RectTransformFlag.AnchorMax)) rectTransform.anchorMax = viewElementTransform.rectTransformData.anchorMax;
+            if (FlagsHelper.IsSet(currentFlag, RectTransformFlag.AnchorMin)) rectTransform.anchorMin = viewElementTransform.rectTransformData.anchorMin;
+            if (FlagsHelper.IsSet(currentFlag, RectTransformFlag.LocalEulerAngles)) rectTransform.localEulerAngles = viewElementTransform.rectTransformData.localEulerAngles;
+            if (FlagsHelper.IsSet(currentFlag, RectTransformFlag.LocalScale)) rectTransform.localScale = viewElementTransform.rectTransformData.localScale;
+            if (FlagsHelper.IsSet(currentFlag, RectTransformFlag.Pivot)) rectTransform.pivot = viewElementTransform.rectTransformData.pivot;
         }
-
-        // public void ApplyOffectMax(ViewElementTransform viewElementTransform)
-        // {
-        //     rectTransform.offsetMax = viewElementTransform.rectTransformData.offsetMax;
-        // }
-        // public void ApplyOffectMin(ViewElementTransform viewElementTransform)
-        // {
-        //     rectTransform.offsetMin = viewElementTransform.rectTransformData.offsetMin;
-        // }
 
         public virtual Selectable[] GetSelectables()
         {
@@ -417,7 +399,7 @@ namespace MacacaGames.ViewSystem
                             FlagsHelper.Unset(ref flag, RectTransformFlag.AnchoredPosition);
                             FlagsHelper.Unset(ref flag, RectTransformFlag.LocalScale);
 
-                            ApplyRectTransform(rectTransformData);
+                            ApplyRectTransform(rectTransformData, flag);
 
                             viewController.StartMicroCoroutine(EaseUtility.To(
                                 rectTransform.anchoredPosition3D,
