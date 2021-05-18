@@ -264,6 +264,18 @@ namespace MacacaGames.ViewSystem
             {
                 s_Type = S_Type._color;
             }
+            else if (value == null)
+            {
+                // Only UnityEngine.Object may be null
+                s_Type = S_Type._objcetReferenct;
+                ObjectReferenceValue = null;
+            }
+            else if (value.GetType().IsSubclassOf(typeof(UnityEngine.Object)) ||
+                    value.GetType().IsAssignableFrom(typeof(UnityEngine.Object)))
+            {
+                s_Type = S_Type._objcetReferenct;
+                ObjectReferenceValue = (UnityEngine.Object)value;
+            }
             else if (value.GetType().IsEnum)
             {
                 bool isFlag = false;
@@ -276,18 +288,6 @@ namespace MacacaGames.ViewSystem
                 {
                     s_Type = S_Type._enum;
                 }
-            }
-            else if (value.GetType().IsSubclassOf(typeof(UnityEngine.Object)) ||
-                    value.GetType().IsAssignableFrom(typeof(UnityEngine.Object)))
-            {
-                s_Type = S_Type._objcetReferenct;
-                ObjectReferenceValue = (UnityEngine.Object)value;
-            }
-            else if (value == null)
-            {
-                // Only UnityEngine.Object may be null
-                s_Type = S_Type._objcetReferenct;
-                ObjectReferenceValue = null;
             }
             StringValue = ConvertToStringValue(value);
         }
@@ -345,7 +345,11 @@ namespace MacacaGames.ViewSystem
 
         public static string ConvertToStringValue(object value)
         {
-            if (value is Vector3)
+            if (value == null)
+            {
+                return "";
+            }
+            else if (value is Vector3)
             {
                 return VectorConvert.Vector3ToString((Vector3)value);
             }
