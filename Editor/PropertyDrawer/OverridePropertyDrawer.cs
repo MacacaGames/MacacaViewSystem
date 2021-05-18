@@ -75,7 +75,7 @@ namespace MacacaGames.ViewSystem
         {
 
             var overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
-            overrideChecker.SetData(viewElement.transform, original.transform,
+            var result = overrideChecker.SetData(viewElement.transform, original.transform,
             (import) =>
             {
                 var data = new ViewElemenOverride();
@@ -87,7 +87,7 @@ namespace MacacaGames.ViewSystem
                 Refrersh();
             },
             null);
-            overrideChecker.ShowUtility();
+            if (result) overrideChecker.ShowUtility();
         }
 
         void BuildReorderlist(List<ViewElementPropertyOverrideData> list, string displayName)

@@ -562,12 +562,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         }
 
                         overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
-                        overrideChecker.SetData(cache.transform, original.transform, (import) =>
+                        var result = overrideChecker.SetData(cache.transform, original.transform, (import) =>
                         {
                             viewPageItemList[index].overrideDatas?.Clear();
                             viewPageItemList[index].overrideDatas = import.ToList();
                         }, currentSelectNode);
-                        overrideChecker.ShowUtility();
+                        if (result) overrideChecker.ShowUtility();
                         viewPageItemList[index].viewElement = original;
                         viewPageItemList[index].previewViewElement = cache;
 
@@ -1352,7 +1352,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             if (viewPageItemList == null || viewPageItemList.Count == 0)
             {
-                //Debug.LogError("No viewPageItemList");
+                Debug.LogError("No viewPageItemList");
                 return;
             }
             foreach (var item in viewPageItemList)

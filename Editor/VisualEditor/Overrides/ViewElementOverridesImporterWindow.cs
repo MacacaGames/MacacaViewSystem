@@ -16,7 +16,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         PropertyModification[] propertyModification;
         List<OverridesPropertiesCheckerData> overridesPropertiesCheckerDatas = new List<OverridesPropertiesCheckerData>();
 
-        public void SetData(Transform root, Transform root_prefab, System.Action<IEnumerable<ViewElementPropertyOverrideData>> OnImport, ViewSystemNode node)
+        public bool SetData(Transform root, Transform root_prefab, System.Action<IEnumerable<ViewElementPropertyOverrideData>> OnImport, ViewSystemNode node)
         {
             this.root = root;
             this.root_prefab = root_prefab;
@@ -27,7 +27,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
             propertyModification = PrefabUtility.GetPropertyModifications(root.gameObject)
                 .ToArray();
 
-            var groupedByTarget = propertyModification.GroupBy(x => x.target).ToDictionary(o => o.Key, o => o.ToList());
+            var group = propertyModification.GroupBy(x => x.target);
+
+            var groupedByTarget = group.Where(m => m.Key != null).ToDictionary(o => o.Key, o => o.ToList());
             foreach (var target in groupedByTarget.Keys)
             {
                 var groupedByProperty = groupedByTarget[target].GroupBy(x => x.propertyPath.Split('.')[0]).ToDictionary(o => o.Key, o => o.ToList());
@@ -66,7 +68,14 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     temp.displayName = $"{sp.displayName}  ({property})";
 
                     //Find the prefab instance SerializedObject
+
                     var overrideGameObject = root.Find(path);
+                    if (overrideGameObject == null)
+                    {
+                        ViewSystemLog.LogError("Target GameObject is not found, this feature only works on a root prefab instance, make sure which is not a child of other prefab instance.");
+                        return false;
+                    }
+
                     UnityEngine.Object obj;
                     if (target is GameObject)
                     {
@@ -90,6 +99,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 }
             }
             maxSize = new Vector2(800, 800);
+            return true;
+
         }
 
 
@@ -143,7 +154,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                     {
                                         targetComponent = targetObject.GetComponent(item.overrideData.targetComponentType);
                                     }
-                               
+
                                     if (targetComponent == null)
                                     {
                                         var type = MacacaGames.Utility.GetType(item.overrideData.targetComponentType);
