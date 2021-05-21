@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
+using System.Linq;
 namespace MacacaGames.ViewSystem
 {
 
@@ -13,6 +14,9 @@ namespace MacacaGames.ViewSystem
     public class ViewElementEditor : Editor
     {
         private ViewElement viewElement = null;
+        private ViewElementGroup viewElementGroup = null;
+        private ViewElement parentViewElement = null;
+        private ViewElementGroup parentViewElementGroup = null;
         private SerializedProperty m_AnimTriggerProperty;
         private SerializedProperty m_Injection;
         private SerializedProperty onShowHandle;
@@ -22,6 +26,9 @@ namespace MacacaGames.ViewSystem
         void OnEnable()
         {
             viewElement = (ViewElement)target;
+            viewElementGroup = viewElement.GetComponent<ViewElementGroup>();
+            parentViewElement = viewElement?.GetComponentsInParent<ViewElement>().Where(m => m != viewElement).FirstOrDefault();
+            parentViewElementGroup = parentViewElement?.GetComponent<ViewElementGroup>();
             onShowHandle = serializedObject.FindProperty("OnShowHandle");
             onLeaveHandle = serializedObject.FindProperty("OnLeaveHandle");
             showV2Setting.valueChanged.AddListener(Repaint);
@@ -32,6 +39,17 @@ namespace MacacaGames.ViewSystem
         }
         public override void OnInspectorGUI()
         {
+            if ((parentViewElement != null && viewElement != parentViewElement) &&
+                (parentViewElementGroup == null && viewElementGroup != parentViewElementGroup))
+            {
+                EditorGUILayout.HelpBox("ViewElement may not work property while it is a child of other ViewElement, please add ViewElementGroup on the root ViewElement", MessageType.Warning);
+            }
+
+            if (parentViewElementGroup || viewElementGroup)
+            {
+                string msg = viewElementGroup == null ? parentViewElementGroup.name : viewElementGroup.name;
+                EditorGUILayout.HelpBox($"This ViewElement is managed by ViewElementGroup {msg}", MessageType.Info);
+            }
             using (var change = new EditorGUI.ChangeCheckScope())
             {
 
