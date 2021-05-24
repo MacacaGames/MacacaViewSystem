@@ -52,35 +52,31 @@ namespace MacacaGames.ViewSystem
                 return null;
             }
 
-            if (!viewPages.TryGetValue(viewPageName, out nextViewPage))
+            if (!viewPages.TryGetValue(viewPageName, out nextOverlayViewPage))
             {
                 ViewSystemLog.LogError("No overlay viewPage match the name: " + viewPageName + "  found");
                 return null;
             }
-            // var nextViewPage = viewPages.Where(m => m.name == viewPageName).SingleOrDefault();
-            // if (nextViewPage == null)
-            // {
-            // }
 
-            string OverlayPageStateKey = GetOverlayStateKey(nextViewPage);
+            string OverlayPageStateKey = GetOverlayStateKey(nextOverlayViewPage);
             if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
                 if (overlayPageStatus.IsTransition == true)
                 {
-                    ViewSystemLog.LogError($"The Overlay page with same state {nextViewPage.name} is in Transition, ignore the ShowOverlayViewPage call.");
+                    ViewSystemLog.LogError($"The Overlay page with same state {nextOverlayViewPage.name} is in Transition, ignore the ShowOverlayViewPage call.");
                     return null;
                 }
                 if (overlayPageStatus.viewPage.name == viewPageName)
                 {
                     if (RePlayOnShowWhileSamePage == false)
                     {
-                        ViewSystemLog.LogError($"The Overlay page {nextViewPage.name} is in already exsit, ignore the ShowOverlayViewPage call.");
+                        ViewSystemLog.LogError($"The Overlay page {nextOverlayViewPage.name} is in already exsit, ignore the ShowOverlayViewPage call.");
                         return null;
                     }
                 }
 
             }
-            return StartCoroutine(ShowOverlayViewPageBase(nextViewPage, RePlayOnShowWhileSamePage, OnStart, OnChanged, OnComplete, ignoreTimeScale));
+            return StartCoroutine(ShowOverlayViewPageBase(nextOverlayViewPage, RePlayOnShowWhileSamePage, OnStart, OnChanged, OnComplete, ignoreTimeScale));
         }
 
         public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
@@ -91,33 +87,33 @@ namespace MacacaGames.ViewSystem
                 return null;
             }
             // var nextViewPage = viewPages.SingleOrDefault(m => m.name == viewPageName);
-            if (!viewPages.TryGetValue(viewPageName, out nextViewPage))
+            if (!viewPages.TryGetValue(viewPageName, out nextOverlayViewPage))
             {
                 ViewSystemLog.LogError("No overlay viewPage match the name: " + viewPageName + "  found");
                 return null;
             }
 
-            string OverlayPageStateKey = GetOverlayStateKey(nextViewPage);
+            string OverlayPageStateKey = GetOverlayStateKey(nextOverlayViewPage);
 
             if (!overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
                 ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + " found, try to fix.");
                 overlayPageStatus = new ViewSystemUtilitys.OverlayPageStatus();
-                overlayPageStatus.viewPage = nextViewPage;
+                overlayPageStatus.viewPage = nextOverlayViewPage;
 
-                viewStates.TryGetValue(nextViewPage.viewState, out nextViewState);
+                viewStates.TryGetValue(nextOverlayViewPage.viewState, out nextViewState);
                 if (nextViewState != null) { overlayPageStatus.viewState = nextViewState; }
             }
             else
             {
                 if (overlayPageStatus.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Show && waitForShowFinish == false)
                 {
-                    ViewSystemLog.LogError($"The Overlay page {nextViewPage.name} is in Transition, ignore the LeaveOverlayViewPage call.");
+                    ViewSystemLog.LogError($"The Overlay page {nextOverlayViewPage.name} is in Transition, ignore the LeaveOverlayViewPage call.");
                     return null;
                 }
                 if (overlayPageStatus.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Leave)
                 {
-                    ViewSystemLog.LogError($"The Overlay page {nextViewPage.name} is in Leaving, ignore the LeaveOverlayViewPage call.");
+                    ViewSystemLog.LogError($"The Overlay page {nextOverlayViewPage.name} is in Leaving, ignore the LeaveOverlayViewPage call.");
                     return null;
                 }
             }
@@ -279,6 +275,8 @@ namespace MacacaGames.ViewSystem
 
         [HideInInspector]
         public ViewPage nextViewPage;
+        [HideInInspector]
+        public ViewPage nextOverlayViewPage;
 
         [HideInInspector]
         public ViewState nextViewState;
