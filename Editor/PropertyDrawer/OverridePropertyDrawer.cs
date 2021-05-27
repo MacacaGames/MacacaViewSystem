@@ -12,7 +12,7 @@ using MacacaGames.ViewSystem.VisualEditor;
 
 namespace MacacaGames.ViewSystem
 {
-    [CustomPropertyDrawer(typeof(ViewElemenOverride))]
+    [CustomPropertyDrawer(typeof(ViewElementOverride))]
     public class OverridePropertyDrawer : PropertyDrawer
     {
         public OverridePropertyDrawer()
@@ -23,52 +23,86 @@ namespace MacacaGames.ViewSystem
         SerializedProperty propertySource;
         ViewElement viewElement = null;
         ViewElement original = null;
+        bool fold = false;
+
         public override void OnGUI(Rect oriRect, SerializedProperty property, GUIContent label)
         {
+
+
             GUILayout.Label(property.displayName, EditorStyles.boldLabel);
-            try
+            using (var vertical = new EditorGUILayout.VerticalScope("box"))
             {
-                viewElement = (property.serializedObject.targetObject as Component).GetComponentInParent<ViewElement>();
-                original = PrefabUtility.GetCorrespondingObjectFromSource(viewElement);
-            }
-            catch { }
-            if (reorderableList == null)
-            {
-                List<ViewElementPropertyOverrideData> list = ((ViewElemenOverride)fieldInfo.GetValue(property.serializedObject.targetObject));
-                BuildReorderlist(list, property.displayName);
-            }
-            if (viewElement == null || original == null)
-            {
-                Color c = GUI.color;
-                GUI.color = Color.red;
-                GUILayout.Label(new GUIContent("No ViewElement Prefab found", Drawer.miniErrorIcon));
-                GUI.color = c;
-            }
-            using (var horizon = new GUILayout.HorizontalScope())
-            {
-                using (var disable = new EditorGUI.DisabledGroupScope(viewElement == null || original == null))
+                try
                 {
-                    if (GUILayout.Button("Preview"))
+                    viewElement = (property.serializedObject.targetObject as Component).GetComponentInParent<ViewElement>();
+                    original = PrefabUtility.GetCorrespondingObjectFromSource(viewElement);
+                }
+                catch { }
+                Event e = Event.current;
+                if (e.type == EventType.ValidateCommand)
+                {
+                    RebuildList(property);
+                    Debug.Log("Rebuid due to paste");
+                }
+
+                if (reorderableList == null)
+                {
+                    RebuildList(property);
+                }
+
+                if (viewElement == null || original == null)
+                {
+                    Color c = GUI.color;
+                    GUI.color = Color.red;
+                    GUILayout.Label(new GUIContent("No ViewElement Prefab found", Drawer.miniErrorIcon));
+                    GUI.color = c;
+                }
+                using (var horizon = new GUILayout.HorizontalScope())
+                {
+                    using (var disable = new EditorGUI.DisabledGroupScope(viewElement == null || original == null))
                     {
-                        DoPreview();
-                    }
-                    if (GUILayout.Button("Pick"))
-                    {
-                        PickCurrent();
-                    }
-                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_SaveAs@2x"), "Save"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
-                    {
-                        SaveAsset((List<ViewElementPropertyOverrideData>)reorderableList.list);
-                    }
-                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_Profiler.Open@2x"), "Load"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
-                    {
-                        LoadAsset();
+                        if (GUILayout.Button("Preview"))
+                        {
+                            DoPreview();
+                        }
+                        if (GUILayout.Button("Pick"))
+                        {
+                            PickCurrent();
+                        }
+                        if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_SaveAs@2x"), "Save"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
+                        {
+                            SaveAsset((List<ViewElementPropertyOverrideData>)reorderableList.list);
+                        }
+                        if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_Profiler.Open@2x"), "Load"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
+                        {
+                            LoadAsset();
+                        }
                     }
                 }
-            }
+                this.propertySource = property;
+                GUIStyle myStyle = new GUIStyle("Foldout");
+                myStyle.margin = new RectOffset(10, 0, 0, 0);
+                using (var horizon = new EditorGUILayout.HorizontalScope())
+                {
+                    fold = EditorGUILayout.Foldout(fold, "Override datas", myStyle);
+                    EditorGUILayout.Space();
+                    if (GUILayout.Button(EditorGUIUtility.FindTexture( "d_Refresh" )))
+                    {
+                        RebuildList(property);
+                    }
+                }
 
-            this.propertySource = property;
-            reorderableList.DoLayoutList();
+                if (fold)
+                {
+                    reorderableList.DoLayoutList();
+                }
+            }
+        }
+
+        void RebuildList(SerializedProperty property)
+        {
+            List<ViewElementPropertyOverrideData> list = ((ViewElementOverride)fieldInfo.GetValue(property.serializedObject.targetObject)).GetValues();
+            BuildReorderlist(list, property.displayName);
         }
 
         void PickCurrent()
@@ -78,7 +112,7 @@ namespace MacacaGames.ViewSystem
             var result = overrideChecker.SetData(viewElement.transform, original.transform,
             (import) =>
             {
-                var data = new ViewElemenOverride();
+                var data = new ViewElementOverride();
                 foreach (var item in import)
                 {
                     data.Add(item);
@@ -97,11 +131,19 @@ namespace MacacaGames.ViewSystem
             reorderableList.elementHeight = EditorGUIUtility.singleLineHeight * 4;
             reorderableList.drawHeaderCallback += (rect) =>
             {
-                GUI.Label(rect, displayName);
+                // GUI.Label(rect, displayName);
             };
             reorderableList.onAddCallback += (ReorderableList l) =>
             {
                 l.list.Add(new ViewElementPropertyOverrideData());
+                propertySource.serializedObject.ApplyModifiedProperties();
+                EditorUtility.SetDirty(viewElement);
+            };
+            reorderableList.onRemoveCallback += (ReorderableList l) =>
+            {
+                ReorderableList.defaultBehaviours.DoRemoveButton(l);
+                propertySource.serializedObject.ApplyModifiedProperties();
+                EditorUtility.SetDirty(viewElement);
             };
             reorderableList.drawElementBackgroundCallback += (Rect rect, int index, bool isActive, bool isFocused) =>
             {
@@ -142,7 +184,7 @@ namespace MacacaGames.ViewSystem
                 return;
             }
             var result = AssetDatabase.LoadAssetAtPath<ViewElementOverrideAsset>(path);
-            var data = new ViewElemenOverride();
+            var data = new ViewElementOverride();
 
             foreach (var item in result.viewElementOverride)
             {
@@ -156,7 +198,7 @@ namespace MacacaGames.ViewSystem
         {
             Rebuild(viewElement);
             EditorUtility.SetDirty(propertySource.serializedObject.targetObject);
-            List<ViewElementPropertyOverrideData> list = ((ViewElemenOverride)fieldInfo.GetValue(propertySource.serializedObject.targetObject));
+            List<ViewElementPropertyOverrideData> list = ((ViewElementOverride)fieldInfo.GetValue(propertySource.serializedObject.targetObject)).GetValues();
             BuildReorderlist(list, propertySource.displayName);
         }
         void DoPreview()
@@ -224,7 +266,13 @@ namespace MacacaGames.ViewSystem
                 var componentContent = new GUIContent(EditorGUIUtility.ObjectContent(null, Utility.GetType(targetComponentType)));
                 GUI.Label(rectComponent, new GUIContent($"{targetTransformPath.Split('/').LastOrDefault()} ({targetComponentType.Split('.').LastOrDefault()})", componentContent.image));
                 rect.y += EditorGUIUtility.singleLineHeight;
-                VS_EditorUtility.SmartOverrideField(rect, new GUIContent(targetPropertyName), item.Value, out float lh);
+
+                if (VS_EditorUtility.SmartOverrideField(rect, new GUIContent(targetPropertyName), item.Value, out float lh))
+                {
+                    propertySource.serializedObject.ApplyModifiedProperties();
+                    EditorUtility.SetDirty(viewElement);
+                }
+
             }
         }
         void Rebuild(ViewElement viewElement)
@@ -422,107 +470,18 @@ namespace MacacaGames.ViewSystem
                         {
                             propertyType = pi.PropertyType;
                         }
-
-                        //                         if (!propertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEvent)) &&
-                        //                             !propertyType.IsAssignableFrom(typeof(UnityEngine.Events.UnityEvent)))
-                        //                         {
-                        //                             var content = new GUIContent("Currently only support UnityEvent without parameters");
-                        //                             ViewSystemLog.LogError(content.text);
-                        // #if UNITY_2019_1_OR_NEWER
-                        //                             editorWindow.ShowNotification(content, toastMessageFadeOutTimt);
-                        // #else
-                        //                                                     editorWindow.ShowNotification(content);
-                        // #endif
-                        //                             return;
-                        //                         }
-
-                        //                         var eventData = new ViewElementEventData();
-                        //                         eventData.targetTransformPath = AnimationUtility.CalculateTransformPath(c.transform, target.transform);
-                        //                         eventData.targetPropertyName = sp.name;
-                        //                         eventData.targetComponentType = sp.serializedObject.targetObject.GetType().ToString();
-                        //                         //eventData.targetPropertyType = sp.propertyType.ToString();
-                        //                         //eventData.targetPropertyPath = propertyName;
-
-                        //                         if (eventDatas == null)
-                        //                         {
-                        //                             eventDatas = new List<ViewElementEventData>();
-                        //                         }
-
-                        //                         var current = eventDatas
-                        //                             .Where(x =>
-                        //                                 x.targetTransformPath == eventData.targetTransformPath &&
-                        //                                 x.targetComponentType == eventData.targetComponentType &&
-                        //                                 x.targetPropertyName == eventData.targetPropertyName
-                        //                             );
-
-                        //                         if (current.Count() > 0)
-                        //                         {
-                        //                             if (current.Where(m => string.IsNullOrEmpty(m.scriptName) && string.IsNullOrEmpty(m.methodName)).Count() > 0)
-                        //                             {
-                        //                                 ViewSystemLog.LogError("You Have 1 event doesn't setup yet");
-                        //                                 var errorContent = new GUIContent("You Have 1 event doesn't setup yet");
-                        // #if UNITY_2019_1_OR_NEWER
-                        //                                 editorWindow.ShowNotification(errorContent, toastMessageFadeOutTimt);
-                        // #else
-                        //                                                             editorWindow.ShowNotification(errorContent);
-                        // #endif
-                        //                                 return;
-                        //                             }
-                        //                         }
-
-                        //                         var error = new GUIContent("Event Add Success");
-                        //                         viewPageItem.eventDatas.Add(eventData);
-                        // #if UNITY_2019_1_OR_NEWER
-                        //                         editorWindow.ShowNotification(error, toastMessageFadeOutTimt);
-                        // #else
-                        //                                             editorWindow.ShowNotification(error);
-                        // #endif
                     }
                     else
                     {
-                        // var overrideData = new ViewElementPropertyOverrideData();
                         data.targetTransformPath = AnimationUtility.CalculateTransformPath(c.transform, target.transform);
                         data.targetPropertyName = sp.name;
                         data.targetComponentType = sp.serializedObject.targetObject.GetType().ToString();
                         data.Value.SetValue(sp);
-                        // data = overrideData;
                         editorWindow.Close();
-                        // var t = overrideDataSerializedProperty.FindPropertyRelative("targetTransformPath");
-                        // t.stringValue = overrideData.targetTransformPath;
-
-                        // var s = overrideDataSerializedProperty.FindPropertyRelative("targetComponentType");
-                        // s.stringValue = sp.serializedObject.targetObject.GetType().ToString();
-
-                        // var valueProperty = overrideDataSerializedProperty.FindPropertyRelative("Value");
-                        // valueProperty.FindPropertyRelative("s_Type").enumValueIndex = (int)overrideData.Value.s_Type;
-                        // valueProperty.FindPropertyRelative("ObjectReferenceValue").objectReferenceValue = overrideData.Value.ObjectReferenceValue;
-                        // valueProperty.FindPropertyRelative("StringValue").stringValue = overrideData.Value.StringValue;
-                        //                         var current = overrideDatas
-                        //                             .SingleOrDefault(x =>
-                        //                                 x.targetTransformPath == overrideData.targetTransformPath &&
-                        //                                 x.targetComponentType == overrideData.targetComponentType &&
-                        //                                 x.targetPropertyName == overrideData.targetPropertyName
-                        //                             );
-
-                        //                         if (current != null)
-                        //                         {
-                        //                             current = overrideData;
-                        // #if UNITY_2019_1_OR_NEWER
-                        //                             editorWindow.ShowNotification(new GUIContent("This property is already in override list."), toastMessageFadeOutTimt);
-                        // #else
-                        //                             editorWindow.ShowNotification(new GUIContent("This property is already in override list."));
-                        // #endif
-                        //                         }
-                        //                         else
-                        //                         {
-                        //                             overrideDatas.Add(overrideData);
-                        // #if UNITY_2019_1_OR_NEWER
-                        //                             editorWindow.ShowNotification(new GUIContent("Property override add success"), toastMessageFadeOutTimt);
-                        // #else
-                        //                                                     editorWindow.ShowNotification(new GUIContent("Property override add success"));
-                        // #endif
-                        //                         }
                     }
+                    sp.serializedObject.ApplyModifiedProperties();
+                    EditorUtility.SetDirty(currentSelectGameObject);
+
                 };
             }
         }

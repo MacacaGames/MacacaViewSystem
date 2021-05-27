@@ -243,10 +243,26 @@ namespace MacacaGames.ViewSystem
         public string scriptName;
         public string methodName;
     }
-    [System.Serializable]
-    public class ViewElemenOverride : List<ViewElementPropertyOverrideData>
-    {
 
+    [System.Serializable, SerializeField]
+    public class ViewElementOverride 
+    {
+        [SerializeField]
+        List<ViewElementPropertyOverrideData> values;
+        public ViewElementOverride()
+        {
+            values = new List<ViewElementPropertyOverrideData>();
+        }
+
+        public List<ViewElementPropertyOverrideData> GetValues()
+        {
+            return values;
+        }
+
+        public void Add(ViewElementPropertyOverrideData item)
+        {
+            values.Add(item);
+        }
     }
 
     [System.Serializable]

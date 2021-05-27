@@ -8,7 +8,7 @@ namespace MacacaGames.ViewSystem
 
     public class ViewElementOverrideHelper : MonoBehaviour
     {
-        public ViewElemenOverride overrideData;
+        public ViewElementOverride overrideData;
     }
 
 }

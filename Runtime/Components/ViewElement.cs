@@ -87,6 +87,10 @@ namespace MacacaGames.ViewSystem
             }
             runtimeOverride.SetEvent(eventDatas);
         }
+        public void ApplyOverrides(ViewElementOverride overrideDatas)
+        {
+            ApplyOverrides(overrideDatas.GetValues());
+        }
         public void ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
             RevertOverrides();
