@@ -233,6 +233,11 @@ namespace MacacaGames.ViewSystem
                 }
 
                 var result = GetCachedComponent(targetTansform, item.targetTransformPath, item.targetComponentType);
+                if (result.Component == null)
+                {
+                    ViewSystemLog.LogError($"Target Component cannot be found [{item.targetComponentType}]");
+                    continue;
+                }
 
                 var idForProperty = result.Id + "#" + item.targetPropertyName;
                 if (!prefabDefaultFields.ContainsKey(idForProperty))
