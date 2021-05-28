@@ -69,6 +69,7 @@ namespace MacacaGames.ViewSystem
 
         public void RecoveryAll(bool ignoreTransition = true)
         {
+            runtimePool.RecoveryQueuedViewElement(true);
             while (viewElementQueue.Count > 0)
             {
                 var ve = viewElementQueue.Dequeue();
@@ -78,6 +79,7 @@ namespace MacacaGames.ViewSystem
             }
             //runtimePool.RecoveryQueuedViewElement(true);
         }
+        
 
         public void Recovery(ViewElement ve, bool ignoreTransition = true)
         {

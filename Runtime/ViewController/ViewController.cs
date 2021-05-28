@@ -385,6 +385,7 @@ namespace MacacaGames.ViewSystem
 
         public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale)
         {
+            // Debug.Log("ShowOverlayViewPageBase " + vp.name);
             if (vp == null)
             {
                 ViewSystemLog.Log("ViewPage is null");
@@ -395,7 +396,6 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogError("ViewPage " + vp.name + " is not an Overlay page");
                 yield break;
             }
-
             //Prepare runtime page root
             string viewPageRootName = ViewSystemUtilitys.GetPageRootName(vp);
             var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, vp.canvasSortOrder);
@@ -404,9 +404,6 @@ namespace MacacaGames.ViewSystem
                 vp.runtimePageRoot = pageWrapper.rectTransform;
             }
             pageWrapper.safePadding.SetPaddingValue(vp.edgeValues);
-
-            //在下一個頁面開始之前 先確保所有 ViewElement 已經被回收到池子
-            yield return runtimePool.RecoveryQueuedViewElement();
 
             ViewState viewState = null;
             viewStates.TryGetValue(vp.viewState, out viewState);
@@ -515,7 +512,7 @@ namespace MacacaGames.ViewSystem
             }
 
             SetNavigationTarget(vp);
-
+            yield return runtimePool.RecoveryQueuedViewElement();
             //Fire the event
             OnChanged?.Invoke();
             InvokeOnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
@@ -611,6 +608,8 @@ namespace MacacaGames.ViewSystem
                 // lastOverlayPageItemDelayOutTimes.TryGetValue(item.runtimeViewElement.name, out float delayOut);
                 item.runtimeViewElement.ChangePage(false, null, null, item.sortingOrder, 0, 0, ignoreTransition);
             }
+
+            yield return runtimePool.RecoveryQueuedViewElement();
 
             //Get Back the Navigation to CurrentPage
             SetNavigationTarget(currentViewPage);

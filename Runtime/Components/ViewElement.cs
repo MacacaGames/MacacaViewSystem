@@ -475,12 +475,6 @@ namespace MacacaGames.ViewSystem
             }
             else
             {
-                float time = 0;
-                while (time < delayIn)
-                {
-                    time += GlobalTimer.deltaTime;
-                    yield return null;
-                }
                 OnLeave(ignoreTransition: ignoreTransition);
                 goto END;
             }
