@@ -27,8 +27,6 @@ namespace MacacaGames.ViewSystem
 
         public override void OnGUI(Rect oriRect, SerializedProperty property, GUIContent label)
         {
-
-
             GUILayout.Label(property.displayName, EditorStyles.boldLabel);
             using (var vertical = new EditorGUILayout.VerticalScope("box"))
             {
@@ -54,7 +52,7 @@ namespace MacacaGames.ViewSystem
                 {
                     Color c = GUI.color;
                     GUI.color = Color.red;
-                    GUILayout.Label(new GUIContent("No ViewElement Prefab found", Drawer.miniErrorIcon));
+                    GUILayout.Label(new GUIContent("No ViewElement Prefab found, or you are under Prefab Mode.", Drawer.miniErrorIcon, "Due to the limitation of PrefabUtility API these feature cannot work under Prefab Mode"));
                     GUI.color = c;
                 }
                 using (var horizon = new GUILayout.HorizontalScope())
@@ -69,14 +67,14 @@ namespace MacacaGames.ViewSystem
                         {
                             PickCurrent();
                         }
-                        if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_SaveAs@2x"), "Save"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
-                        {
-                            SaveAsset((List<ViewElementPropertyOverrideData>)reorderableList.list);
-                        }
-                        if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_Profiler.Open@2x"), "Load"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
-                        {
-                            LoadAsset();
-                        }
+                    }
+                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_SaveAs@2x"), "Save"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
+                    {
+                        SaveAsset((List<ViewElementPropertyOverrideData>)reorderableList.list);
+                    }
+                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_Profiler.Open@2x"), "Load"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
+                    {
+                        LoadAsset();
                     }
                 }
                 this.propertySource = property;
@@ -86,7 +84,7 @@ namespace MacacaGames.ViewSystem
                 {
                     fold = EditorGUILayout.Foldout(fold, "Override datas", myStyle);
                     EditorGUILayout.Space();
-                    if (GUILayout.Button(EditorGUIUtility.FindTexture( "d_Refresh" )))
+                    if (GUILayout.Button(EditorGUIUtility.FindTexture("d_Refresh")))
                     {
                         RebuildList(property);
                     }
@@ -166,12 +164,22 @@ namespace MacacaGames.ViewSystem
                  $"{viewElement.name}_Override.{extension}",
                 extension, "", "Assets");
             if (string.IsNullOrEmpty(filePath)) return;
+            if (!File.Exists(filePath))
+            {
+                var result = ScriptableObject.CreateInstance<ViewElementOverrideAsset>();
+                result.targetViewElement = original;
+                result.viewElementOverride = viewElementOverride;
+                AssetDatabase.CreateAsset(result, filePath);
+            }
+            else
+            {
+                var currentAsset = AssetDatabase.LoadAssetAtPath<ViewElementOverrideAsset>(filePath);
+                currentAsset.viewElementOverride = viewElementOverride;
+                currentAsset.targetViewElement = original;
+                EditorUtility.SetDirty(currentAsset);
+                AssetDatabase.SaveAssets();
+            }
 
-            var result = ScriptableObject.CreateInstance<ViewElementOverrideAsset>();
-            result.targetViewElement = original;
-            result.viewElementOverride = viewElementOverride;
-            AssetDatabase.CreateAsset(result, filePath);
-            AssetImporter.GetAtPath(filePath);
             AssetDatabase.Refresh();
         }
 
