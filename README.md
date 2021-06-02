@@ -97,13 +97,11 @@ Use the Visual Editor to edit your UI page.
 Menu Path : MacacaGames > ViewSystem > Visual Editor
 ## Make a ViewPage
 You can define the ViewElement and and its RectTransform info by Visual Editor.
-<img src="./Img~/add_viewelement.gif" />
 
 ## Override property on a ViewElement
 You can override any property on ViewElement, use preview to take effect the override.
 
 With the override system, you can simply create the ViewElement variant in different ViewPage.
-<img src="./Img~/override_demo.gif" />
 
 ### Why using ViewSystem's override but not Unity Prefab variant?
 ViewSystem override is a runtime function, it means all modify only exsit during the Game is runing, use the ViewSystem override helps you to avoid to make a lot of Prefab variant assets.
@@ -124,7 +122,6 @@ public void MyEvent(Component selectable)
 }
 ```
 
-<img src="./Img~/event_demo.gif" />
 
 
 # Components
