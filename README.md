@@ -50,18 +50,25 @@ And also the ViewElements define in ViewState will not be update until the ViewS
 ViewController is the core component of ViewSystem, all control of the UI is base on this component.
 
 # Installation
-## Option 1: Unity Package file (Recommend)
+
+### Option 1: Installation via OpenUPM (Recommend)
+
+```sh
+openupm add com.macacagames.viewsystem
+```
+
+## Option 2: Unity Package file
 Add it to your editor's manifest.json file like this:
 ```json
 {
     "dependencies": {
-        "com.macacagames.utility": "https://github.com/MacacaGames/MacacaUtility.git#1.0.5",
-        "com.macacagames.viewsystem": "https://github.com/MacacaGames/MacacaViewSystem.git#1.0.4"
+        "com.macacagames.utility": "https://github.com/MacacaGames/MacacaUtility.git",
+        "com.macacagames.viewsystem": "https://github.com/MacacaGames/MacacaViewSystem.git"
     }
 }
 ```
 
-## Option 2: Git SubModule
+## Option 3: Git SubModule
 ```bash
 git submodule add https://github.com/MacacaGames/MacacaViewSystem.git Assets/MacacaViewSystem
 ```
