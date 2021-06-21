@@ -90,6 +90,10 @@ namespace MacacaGames.ViewSystem
 
             base.Start();
         }
+        void OnDestroy()
+        {
+            ViewSystemUtilitys. ClearRectTransformCache();
+        }
         #region Injection
         private Dictionary<System.Type, Component> InjectionDictionary;
         public T GetInjectionInstance<T>() where T : Component, IViewElementInjectable

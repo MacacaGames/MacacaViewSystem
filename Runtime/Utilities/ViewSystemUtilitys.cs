@@ -61,15 +61,22 @@ namespace MacacaGames.ViewSystem
                 _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.UWP;
             }
 #else
-            if (Application.platform == RuntimePlatform.IPhonePlayer) {
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
                 _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.iOS;
-            } else if (Application.platform == RuntimePlatform.tvOS) {
+            }
+            else if (Application.platform == RuntimePlatform.tvOS)
+            {
                 _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.tvOS;
-            } else if (Application.platform == RuntimePlatform.Android) {
+            }
+            else if (Application.platform == RuntimePlatform.Android)
+            {
                 _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.Android;
-            } else if (Application.platform == RuntimePlatform.WSAPlayerARM ||
-                Application.platform == RuntimePlatform.WSAPlayerX64 ||
-                Application.platform == RuntimePlatform.WSAPlayerX86) {
+            }
+            else if (Application.platform == RuntimePlatform.WSAPlayerARM ||
+              Application.platform == RuntimePlatform.WSAPlayerX64 ||
+              Application.platform == RuntimePlatform.WSAPlayerX86)
+            {
                 _platform = MacacaGames.ViewSystem.ViewPageItem.PlatformOption.UWP;
             }
 #endif
@@ -189,6 +196,10 @@ namespace MacacaGames.ViewSystem
             public UnityEngine.UI.GraphicRaycaster raycaster;
             public SafePadding safePadding;
 
+        }
+        public static void ClearRectTransformCache()
+        {
+            runtimeRectTransformCache.Clear();
         }
         static Dictionary<string, PageRootWrapper> runtimeRectTransformCache = new Dictionary<string, PageRootWrapper>();
         public static PageRootWrapper CreatePageTransform(string name, Transform canvasRoot, int sortingOrder)
