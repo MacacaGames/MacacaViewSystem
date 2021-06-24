@@ -92,7 +92,7 @@ namespace MacacaGames.ViewSystem
         }
         void OnDestroy()
         {
-            ViewSystemUtilitys. ClearRectTransformCache();
+            ViewSystemUtilitys.ClearRectTransformCache();
         }
         #region Injection
         private Dictionary<System.Type, Component> InjectionDictionary;
@@ -569,17 +569,18 @@ namespace MacacaGames.ViewSystem
                         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
                         try
                         {
-                            var transformData = item.GetCurrentViewElementTransform(breakPointsStatus);
+                            var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
+
+                            var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
                             if (!string.IsNullOrEmpty(transformData.parentPath))
                             {
-                                item.runtimeParent = transformCache.Find(transformData.parentPath);
+                                vpi.runtimeParent = transformCache.Find(transformData.parentPath);
                             }
                             else
                             {
-                                item.runtimeParent = currentViewPage.runtimePageRoot;
+                                vpi.runtimeParent = currentViewPage.runtimePageRoot;
                             }
 
-                            var vpi = currentViewPage.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
                             item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData, item.sortingOrder, tweenTimeIfNeed, 0);
                             ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.runtimeParent.name);
                         }
@@ -591,16 +592,17 @@ namespace MacacaGames.ViewSystem
                         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
                         try
                         {
-                            var transformData = item.GetCurrentViewElementTransform(breakPointsStatus);
+                            var vpi = currentViewState.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
+
+                            var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
                             if (!string.IsNullOrEmpty(transformData.parentPath))
                             {
-                                item.runtimeParent = transformCache.Find(transformData.parentPath);
+                                vpi.runtimeParent = transformCache.Find(transformData.parentPath);
                             }
                             else
                             {
-                                item.runtimeParent = currentViewPage.runtimePageRoot;
+                                vpi.runtimeParent = currentViewPage.runtimePageRoot;
                             }
-                            var vpi = currentViewState.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
                             item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData, item.sortingOrder, tweenTimeIfNeed, 0);
                             ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name + "Try to back to origin Transfrom parent : " + vpi.runtimeParent.name);
                         }
