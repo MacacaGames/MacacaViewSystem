@@ -379,9 +379,9 @@ namespace MacacaGames.ViewSystem
             {
                 viewPageItem.easeType = (EaseStyle)EditorGUILayout.EnumPopup(new GUIContent("Ease", "The EaseType when needs to tween."), viewPageItem.easeType);
 
-                viewPageItem.TweenTime = EditorGUILayout.Slider(new GUIContent("Tween Time", "Tween Time use to control when ViewElement needs change parent."), viewPageItem.TweenTime, -1, 1);
+                viewPageItem.TweenTime = EditorGUILayout.Slider(new GUIContent("Tween Time", "Tween Time use to control when ViewElement needs change parent."), viewPageItem.TweenTime, -1, 2);
 
-                viewPageItem.delayIn = EditorGUILayout.Slider("Delay In", viewPageItem.delayIn, 0, 1);
+                viewPageItem.delayIn = EditorGUILayout.Slider("Delay In", viewPageItem.delayIn, 0, 5);
 
                 // viewPageItem.delayOut = EditorGUILayout.Slider("Delay Out", viewPageItem.delayOut, 0, 1);
                 //viewPageItem.excludePlatform = (ViewPageItem.PlatformOption)EditorGUILayout.EnumFlagsField(new GUIContent("Excude Platform", "Excude Platform define the platform which wish to show the ViewPageItem or not"), viewPageItem.excludePlatform);
