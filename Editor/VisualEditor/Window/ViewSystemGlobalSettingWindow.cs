@@ -50,17 +50,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 saveData.globalSetting.minimumTimeInterval = EditorGUILayout.Slider(new GUIContent("Minimum Interval", "The minimum effective interval Show/Leave OverlayPage or ChangePage on FullPage call. If user the method call time interval less than this value, the call will be ignore!"), saveData.globalSetting.minimumTimeInterval, 0.05f, 1f);
                 //EditorGUILayout.HelpBox("The minimum effective interval Show/Leave OverlayPage or ChangePage on FullPage call. If user the method call time interval less than this value, the call will be ignore!", MessageType.Info);
 
-                GUILayout.Space(20);
 
-                using (var horizon = new GUILayout.HorizontalScope())
-                {
-                    m_ShowUserBreakPoints.target = EditorGUILayout.Foldout(m_ShowUserBreakPoints.target, "User Break Points");
-                    if (GUILayout.Button("Add", GUILayout.Width(60)))
-                    {
-                        saveData.globalSetting.userBreakPoints.Add("");
-                    }
-                }
-                GUILayout.Space(20);
 
                 //SafePadding
                 GUILayout.Label("Global Safe Padding", new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
@@ -101,6 +91,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     {
                         ViewSystemVisualEditor.ApplySafeArea(saveData.globalSetting.edgeValues);
                         Undo.RecordObject(saveData, "ViewSystem_Inspector");
+                    }
+                }
+                GUILayout.Space(20);
+                using (var horizon = new GUILayout.HorizontalScope())
+                {
+                    m_ShowUserBreakPoints.target = EditorGUILayout.Foldout(m_ShowUserBreakPoints.target, "User Break Points");
+                    if (GUILayout.Button("Add", GUILayout.Width(60)))
+                    {
+                        saveData.globalSetting.userBreakPoints.Add("");
                     }
                 }
 
