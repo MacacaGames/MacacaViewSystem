@@ -39,9 +39,19 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 return;
             }
 
+            if (ViewSystemVisualEditor.Instance == null)
+            {
+                EditorGUILayout.HelpBox(
+                $"Please open MacacaGames > ViewSystem > Visual Editor to see more info about ViewSystem",
+                    MessageType.Error);
+                return;
+            }
+
             EditorGUILayout.HelpBox(
                 $"ViewSystem Info: \n ViewPage: {viewElement.currentViewPage.name} \n ViewPageItem: {viewElement.currentViewPageItem.Id}",
                 MessageType.Info);
+
+
 
             using (var disable = new EditorGUI.DisabledGroupScope(!ViewSystemVisualEditor.Instance.EditMode))
             {
