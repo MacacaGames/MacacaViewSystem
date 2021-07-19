@@ -97,7 +97,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             root.Add(visulaElementFromUXML);
         }
 
-        public static void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)
+        public static void ApplySafeArea( SafePadding.PerEdgeValues edgeValues)
         {
             dataReader.ApplySafeArea(edgeValues);
         }

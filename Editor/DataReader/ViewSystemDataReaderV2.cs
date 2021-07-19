@@ -215,7 +215,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
             var canvas = root.Find($"{UIRootName}");
             string viewPageName = ViewSystemUtilitys.GetPageRootName(viewPage);
             previewUIRootWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas, viewPage.canvasSortOrder);
-            ApplySafeArea(viewPage.edgeValues);
+
+            ApplySafeArea(viewPage.useGlobalSafePadding ? data.globalSetting.edgeValues : viewPage.edgeValues);
             Transform fullPageRoot = root.Find($"{UIRootName}/{viewPageName}");
             //TO do apply viewPage component on fullPageRoot
 

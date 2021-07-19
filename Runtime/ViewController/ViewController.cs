@@ -239,7 +239,10 @@ namespace MacacaGames.ViewSystem
             {
                 nextViewPage.runtimePageRoot = pageWrapper.rectTransform;
             }
-            pageWrapper.safePadding.SetPaddingValue(nextViewPage.edgeValues);
+
+            pageWrapper.safePadding.SetPaddingValue(GetSafePaddingSetting(nextViewPage));
+            
+            // pageWrapper.safePadding.SetPaddingValue(nextViewPage.edgeValues);
 
             //所有檢查都通過開始換頁
             //IsPageTransition = true;
@@ -407,7 +410,8 @@ namespace MacacaGames.ViewSystem
             {
                 vp.runtimePageRoot = pageWrapper.rectTransform;
             }
-            pageWrapper.safePadding.SetPaddingValue(vp.edgeValues);
+            // pageWrapper.safePadding.SetPaddingValue(vp.edgeValues);
+            pageWrapper.safePadding.SetPaddingValue(GetSafePaddingSetting(vp));
 
             ViewState viewState = null;
             viewStates.TryGetValue(vp.viewState, out viewState);
@@ -832,6 +836,14 @@ namespace MacacaGames.ViewSystem
         {
             breakPointsStatus[breakPoint] = false;
             // currentCustomBreakPoints.Remove(breakPoint);
+        }
+        public SafePadding.PerEdgeValues GetSafePaddingSetting(ViewPage vp)
+        {
+            if (vp.useGlobalSafePadding)
+            {
+                return viewSystemSaveData.globalSetting.edgeValues;
+            }
+            return vp.edgeValues;
         }
 
         #endregion

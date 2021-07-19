@@ -45,7 +45,8 @@ namespace MacacaGames.ViewSystem
             public string ViewControllerObjectPath;
             public GameObject UIRoot;
             public GameObject UIRootScene;
-
+            public SafePadding.PerEdgeValues edgeValues = new SafePadding.PerEdgeValues();
+            public bool flipPadding = false;
             public float MaxWaitingTime
             {
                 get

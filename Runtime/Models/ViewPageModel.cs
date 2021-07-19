@@ -33,8 +33,12 @@ namespace MacacaGames.ViewSystem
         public ViewPageType viewPageType = ViewPageType.FullPage;
         public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.WithPervious;
         public int canvasSortOrder = 0;
+        #region SafeArea
         public SafePadding.PerEdgeValues edgeValues = new SafePadding.PerEdgeValues();
         public bool flipPadding = false;
+        public bool useGlobalSafePadding = true;
+      
+        #endregion
         #region Navigation
         public bool IsNavigation = false;
         public ViewElementNavigationTarget _firstSelectSetting;
@@ -245,7 +249,7 @@ namespace MacacaGames.ViewSystem
     }
 
     [System.Serializable, SerializeField]
-    public class ViewElementOverride 
+    public class ViewElementOverride
     {
         [SerializeField]
         List<ViewElementPropertyOverrideData> values;

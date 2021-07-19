@@ -60,6 +60,50 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         saveData.globalSetting.userBreakPoints.Add("");
                     }
                 }
+                GUILayout.Space(20);
+
+                //SafePadding
+                GUILayout.Label("Global Safe Padding", new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+
+                var contents = new string[] { "Off", "On", };
+                using (var change = new EditorGUI.ChangeCheckScope())
+                {
+
+                    using (var horizon = new GUILayout.HorizontalScope())
+                    {
+                        EditorGUILayout.PrefixLabel("Left");
+                        saveData.globalSetting.edgeValues.left = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)saveData.globalSetting.edgeValues.left, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                    }
+
+                    using (var horizon = new GUILayout.HorizontalScope())
+                    {
+                        EditorGUILayout.PrefixLabel("Bottom");
+                        saveData.globalSetting.edgeValues.bottom = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)saveData.globalSetting.edgeValues.bottom, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                    }
+                    using (var horizon = new GUILayout.HorizontalScope())
+                    {
+                        EditorGUILayout.PrefixLabel("Top");
+                        saveData.globalSetting.edgeValues.top = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)saveData.globalSetting.edgeValues.top, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                    }
+                    using (var horizon = new GUILayout.HorizontalScope())
+                    {
+                        EditorGUILayout.PrefixLabel("Right");
+                        saveData.globalSetting.edgeValues.right = (SafePadding.EdgeEvaluationMode)GUILayout.Toolbar((int)saveData.globalSetting.edgeValues.right, contents, EditorStyles.miniButton, GUI.ToolbarButtonSize.Fixed);
+                    }
+
+                    saveData.globalSetting.edgeValues.influence = EditorGUILayout.Slider("Influence", saveData.globalSetting.edgeValues.influence, 0, 1);
+                    saveData.globalSetting.edgeValues.influenceLeft = EditorGUILayout.Slider("Influence Left", saveData.globalSetting.edgeValues.influenceLeft, 0, 1);
+                    saveData.globalSetting.edgeValues.influenceBottom = EditorGUILayout.Slider("Influence Bottom", saveData.globalSetting.edgeValues.influenceBottom, 0, 1);
+                    saveData.globalSetting.edgeValues.influenceTop = EditorGUILayout.Slider("Influence Top", saveData.globalSetting.edgeValues.influenceTop, 0, 1);
+                    saveData.globalSetting.edgeValues.influenceRight = EditorGUILayout.Slider("Influence Right", saveData.globalSetting.edgeValues.influenceRight, 0, 1);
+                    saveData.globalSetting.flipPadding = EditorGUILayout.Toggle("Flip Padding", saveData.globalSetting.flipPadding);
+                    if (change.changed && ViewSystemVisualEditor.Instance.EditMode)
+                    {
+                        ViewSystemVisualEditor.ApplySafeArea(saveData.globalSetting.edgeValues);
+                        Undo.RecordObject(saveData, "ViewSystem_Inspector");
+                    }
+                }
+
                 using (var fade = new EditorGUILayout.FadeGroupScope(m_ShowUserBreakPoints.faded))
                 {
                     if (fade.visible)
@@ -77,35 +121,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         }
                     }
                 }
-                // GUILayout.Space(20);
-
-                // using (var horizon = new GUILayout.HorizontalScope())
-                // {
-                //     m_ShowEventScript.target = EditorGUILayout.Foldout(m_ShowEventScript.target, "Event Scripts");
-                //     if (GUILayout.Button("Add", GUILayout.Width(60)))
-                //     {
-                //         saveData.globalSetting.EventHandleBehaviour.Add(null);
-                //     }
-                // }
-                // using (var fade = new EditorGUILayout.FadeGroupScope(m_ShowEventScript.faded))
-                // {
-                //     if (fade.visible)
-                //     {
-                //         for (int i = 0; i < saveData.globalSetting.EventHandleBehaviour.Count; i++)
-                //         {
-                //             using (var horizon = new GUILayout.HorizontalScope())
-                //             {
-                //                 saveData.globalSetting.EventHandleBehaviour[i] = (MonoScript)EditorGUILayout.ObjectField(saveData.globalSetting.EventHandleBehaviour[i], typeof(MonoScript), false);
-                //                 if (GUILayout.Button(GUIContent.none, new GUIStyle("OL Minus"), GUILayout.Height(EditorGUIUtility.singleLineHeight), GUILayout.Width(20)))
-                //                 {
-                //                     saveData.globalSetting.EventHandleBehaviour.Remove(saveData.globalSetting.EventHandleBehaviour[i]);
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
                 GUILayout.Space(20);
-
 
             }
             if (GUILayout.Button("Close"))
