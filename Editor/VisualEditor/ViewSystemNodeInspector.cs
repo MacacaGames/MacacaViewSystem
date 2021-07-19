@@ -1352,7 +1352,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             if (viewPageItemList == null || viewPageItemList.Count == 0)
             {
-                Debug.LogError("No viewPageItemList");
+                // Debug.LogError("No viewPageItemList");
                 return;
             }
             foreach (var item in viewPageItemList)
@@ -1361,7 +1361,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 PrefabAssetType prefabAssetType = PrefabUtility.GetPrefabAssetType(item.viewElementObject);
                 if (prefabInstanceStatus == PrefabInstanceStatus.Connected)
                 {
-                    ViewSystemLog.LogWarning($"Auto fix reference : {item.viewElementObject.name}");
+                    ViewSystemLog.LogWarning($"Auto fixing reference : {item.viewElementObject.name}");
                     var temp = item.viewElementObject;
 
                     item.viewElementObject = PrefabUtility.GetCorrespondingObjectFromSource(temp);

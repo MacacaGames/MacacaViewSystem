@@ -385,6 +385,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (isOverlay)
                 {
                     this.viewPage.viewPageType = ViewPage.ViewPageType.Overlay;
+
+                    // at least greater than 1 to avoid conflict with FullPage
+                    this.viewPage.canvasSortOrder = 1;
                 }
             }
             else
