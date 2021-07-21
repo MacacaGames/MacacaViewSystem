@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -221,8 +221,10 @@ namespace MacacaGames.ViewSystem
             BindingFlags.Instance |
             BindingFlags.Static;
         Dictionary<string, UnityEngine.Object> cachedComponent = new Dictionary<string, UnityEngine.Object>();
+        List<UnityEngine.UI.Graphic> requireSetDirtyTarget = new List<UnityEngine.UI.Graphic>();
         internal void ApplyOverride(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
+            requireSetDirtyTarget.Clear();
             foreach (var item in overrideDatas)
             {
                 Transform targetTansform = GetTransform(item.targetTransformPath);
@@ -244,8 +246,20 @@ namespace MacacaGames.ViewSystem
                 {
                     prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetPropertyValue(result.Component, item.targetPropertyName), result.Id, item.targetPropertyName));
                 }
+
                 currentModifiedField.Add(idForProperty);
                 SetPropertyValue(result.Component, item.targetPropertyName, item.Value.GetValue());
+                if (item.Value.s_Type == PropertyOverride.S_Type._color)
+                {
+                    if (result.Component.GetType().IsSubclassOf(typeof(Graphic)))
+                        requireSetDirtyTarget.Add(result.Component as Graphic);
+                    if (result.Component.GetType().IsSubclassOf(typeof(BaseMeshEffect)))
+                        requireSetDirtyTarget.Add((result.Component as Component).GetComponent<Graphic>());
+                }
+            }
+            foreach (var item in requireSetDirtyTarget)
+            {
+                item?.SetAllDirty();
             }
         }
         public Transform GetTransform(string targetTransformPath)
