@@ -924,7 +924,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
                                 //SafePadding
                                 GUILayout.Label("Safe Padding", new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
-                                vp.useGlobalSafePadding = EditorGUILayout.Toggle("Use Global Safe Padding?",vp.useGlobalSafePadding);
+                                vp.useGlobalSafePadding = EditorGUILayout.Toggle("Use Global Safe Padding?", vp.useGlobalSafePadding);
                                 using (var disable = new EditorGUI.DisabledGroupScope(vp.useGlobalSafePadding))
                                 {
                                     var contents = new string[] { "Off", "On", };
@@ -1349,26 +1349,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
         }
 
-        public void RepairPrefabReference()
-        {
-            if (viewPageItemList == null || viewPageItemList.Count == 0)
-            {
-                // Debug.LogError("No viewPageItemList");
-                return;
-            }
-            foreach (var item in viewPageItemList)
-            {
-                PrefabInstanceStatus prefabInstanceStatus = PrefabUtility.GetPrefabInstanceStatus(item.viewElementObject);
-                PrefabAssetType prefabAssetType = PrefabUtility.GetPrefabAssetType(item.viewElementObject);
-                if (prefabInstanceStatus == PrefabInstanceStatus.Connected)
-                {
-                    ViewSystemLog.LogWarning($"Auto fixing reference : {item.viewElementObject.name}");
-                    var temp = item.viewElementObject;
-
-                    item.viewElementObject = PrefabUtility.GetCorrespondingObjectFromSource(temp);
-                    ViewSystemLog.LogWarning($"Auto fix reference done: {item.viewElementObject.name}");
-                }
-            }
-        }
+       
     }
 }

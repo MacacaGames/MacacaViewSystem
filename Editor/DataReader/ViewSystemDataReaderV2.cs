@@ -291,6 +291,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         public void Normalized()
         {
+            RepairPrefabReference();
             //Clear UI Root Object
             try
             {
@@ -310,6 +311,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         public void ClearAllViewElementInScene()
         {
+            // Unity Issue, prefab reference in scene will be modify after you apply/revert a prefab
+            // A hack to fix it
+            // https://issuetracker.unity3d.com/issues/prefabs-references-are-lost-when-modifying-prefab
+            RepairPrefabReference();
+
             if (previewUIRootWrapper != null && previewUIRootWrapper.rectTransform)
             {
                 UnityEngine.Object.DestroyImmediate(previewUIRootWrapper.rectTransform.gameObject);
@@ -383,7 +389,37 @@ namespace MacacaGames.ViewSystem.VisualEditor
             return data;
         }
 
+        public void RepairPrefabReference()
+        {
+            IEnumerable<ViewPageItem> allViewPageItems = data.viewPages.Select(m => m.viewPage).SelectMany(m => m.viewPageItems);
+            IEnumerable<ViewPageItem> allViewStateItems = data.viewStates.Select(m => m.viewState).SelectMany(m => m.viewPageItems);
+            foreach (var item in allViewPageItems)
+            {
+                PrefabInstanceStatus prefabInstanceStatus = PrefabUtility.GetPrefabInstanceStatus(item.viewElementObject);
+                PrefabAssetType prefabAssetType = PrefabUtility.GetPrefabAssetType(item.viewElementObject);
+                if (prefabInstanceStatus == PrefabInstanceStatus.Connected)
+                {
+                    ViewSystemLog.LogWarning($"Auto fixing reference : {item.viewElementObject.name}");
+                    var temp = item.viewElementObject;
 
+                    item.viewElementObject = PrefabUtility.GetCorrespondingObjectFromSource(temp);
+                    ViewSystemLog.LogWarning($"Auto fix reference done: {item.viewElementObject.name}");
+                }
+            }
+            foreach (var item in allViewStateItems)
+            {
+                PrefabInstanceStatus prefabInstanceStatus = PrefabUtility.GetPrefabInstanceStatus(item.viewElementObject);
+                PrefabAssetType prefabAssetType = PrefabUtility.GetPrefabAssetType(item.viewElementObject);
+                if (prefabInstanceStatus == PrefabInstanceStatus.Connected)
+                {
+                    ViewSystemLog.LogWarning($"Auto fixing reference : {item.viewElementObject.name}");
+                    var temp = item.viewElementObject;
+
+                    item.viewElementObject = PrefabUtility.GetCorrespondingObjectFromSource(temp);
+                    ViewSystemLog.LogWarning($"Auto fix reference done: {item.viewElementObject.name}");
+                }
+            }
+        }
 
         public static void CheckAndCreateResourceFolder()
         {

@@ -13,23 +13,26 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
     [InitializeOnLoad]
     internal class PrefabExtension
-    {
+    {  // Unity Issue, prefab reference in scene will be modify after you apply/revert a prefab
+       // A hack to fix it
+       // https://issuetracker.unity3d.com/issues/prefabs-references-are-lost-when-modifying-prefab
         static PrefabExtension()
         {
             UnityEditor.PrefabUtility.prefabInstanceUpdated += OnPrefabInstanceUpdate;
+
         }
 
         static void OnPrefabInstanceUpdate(GameObject instance)
         {
-            //UnityEngine.Debug.Log("[Callback] Prefab.Apply on instance id:" + instance.GetInstanceID() + ", name:" + instance.name);
-            ViewSystemVisualEditor.inspector.RepairPrefabReference();
+            // UnityEngine.Debug.Log("[Callback] Prefab.Apply on instance id:" + instance.GetInstanceID() + ", name:" + instance.name);
+            ViewSystemVisualEditor.dataReader.RepairPrefabReference();
         }
     }
 
     public class ViewSystemVisualEditor : EditorWindow
     {
         public static ViewSystemVisualEditor Instance;
-        static ViewSystemDataReaderV2 dataReader;
+        public static ViewSystemDataReaderV2 dataReader;
         public static ViewSystemNodeInspector inspector;
         public static ViewSystemGlobalSettingWindow globalSettingWindow;
         static ViewPageOrderWindow viewPageOrderWindow;
@@ -97,7 +100,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             root.Add(visulaElementFromUXML);
         }
 
-        public static void ApplySafeArea( SafePadding.PerEdgeValues edgeValues)
+        public static void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)
         {
             dataReader.ApplySafeArea(edgeValues);
         }
@@ -910,6 +913,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     ViewSystemNodeInspector.isMouseInSideBar());
             }
         }
+
+
 
         //對應 方法名稱與 pop index 的字典
         //第 n 個腳本的參照
