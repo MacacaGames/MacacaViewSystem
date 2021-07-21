@@ -389,6 +389,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
             return data;
         }
 
+        // Unity Issue, prefab reference in scene will be changed after apply/revert a prefab which cause reference missing on ViewSystem editor
+        // A hack to fix it
+        // https://issuetracker.unity3d.com/issues/prefabs-references-are-lost-when-modifying-prefab
         public void RepairPrefabReference()
         {
             IEnumerable<ViewPageItem> allViewPageItems = data.viewPages.Select(m => m.viewPage).SelectMany(m => m.viewPageItems);
