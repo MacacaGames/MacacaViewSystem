@@ -347,7 +347,7 @@ namespace MacacaGames.ViewSystem
 
                 if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
-                    item.runtimeParent = nextViewPage.runtimePageRoot.Find(transformData.parentPath);
+                    item.runtimeParent = transformCache.Find(transformData.parentPath);
                 }
                 else
                 {
@@ -511,7 +511,7 @@ namespace MacacaGames.ViewSystem
 
                 if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
-                    item.runtimeParent = nextViewPage.runtimePageRoot.Find(transformData.parentPath);
+                    item.runtimeParent = transformCache.Find(transformData.parentPath);
                 }
                 else
                 {
@@ -581,7 +581,7 @@ namespace MacacaGames.ViewSystem
                             var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
                             if (!string.IsNullOrEmpty(transformData.parentPath))
                             {
-                                vpi.runtimeParent = nextViewPage.runtimePageRoot.Find(transformData.parentPath);
+                                vpi.runtimeParent = transformCache.Find(transformData.parentPath);
                             }
                             else
                             {
@@ -604,7 +604,7 @@ namespace MacacaGames.ViewSystem
                             var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
                             if (!string.IsNullOrEmpty(transformData.parentPath))
                             {
-                                vpi.runtimeParent = nextViewPage.runtimePageRoot.Find(transformData.parentPath);
+                                vpi.runtimeParent = transformCache.Find(transformData.parentPath);
                             }
                             else
                             {

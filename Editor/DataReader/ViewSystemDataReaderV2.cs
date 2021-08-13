@@ -244,7 +244,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
                     //Custom Parent implement
-                    tempParent = fullPageRoot.Find(transformData.parentPath);
+                    tempParent = root.Find(transformData.parentPath);
                 }
                 else
                 {
