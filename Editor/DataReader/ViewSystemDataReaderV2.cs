@@ -212,12 +212,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             Transform root = ViewControllerTransform;
 
-            var canvas = root.Find($"{UIRootName}");
+            var canvas = root.Find($"{UIRootName}").GetComponentInChildren<Canvas>().transform;
             string viewPageName = ViewSystemUtilitys.GetPageRootName(viewPage);
-            previewUIRootWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas, viewPage.canvasSortOrder);
+            previewUIRootWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas, viewPage.canvasSortOrder, data.globalSetting.UIPageTransformLayerName);
 
             ApplySafeArea(viewPage.useGlobalSafePadding ? data.globalSetting.edgeValues : viewPage.edgeValues);
-            Transform fullPageRoot = root.Find($"{UIRootName}/{viewPageName}");
+            Transform fullPageRoot = previewUIRootWrapper.rectTransform;
             //TO do apply viewPage component on fullPageRoot
 
             //打開相對應物件
@@ -244,7 +244,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
                     //Custom Parent implement
-                    tempParent = root.Find(transformData.parentPath);
+                    tempParent = fullPageRoot.Find(transformData.parentPath);
                 }
                 else
                 {

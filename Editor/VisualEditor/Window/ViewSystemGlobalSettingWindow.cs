@@ -32,6 +32,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             using (var scroll = new GUILayout.ScrollViewScope(scrollPosition))
             {
                 scrollPosition = scroll.scrollPosition;
+                saveData.globalSetting.UIPageTransformLayerName = EditorGUILayout.TextField("Layer name for the page root", saveData.globalSetting.UIPageTransformLayerName);
                 saveData.globalSetting.ViewControllerObjectPath = EditorGUILayout.TextField("View Controller GameObject", saveData.globalSetting.ViewControllerObjectPath);
                 EditorGUILayout.HelpBox("View Controller GameObject is the GameObject name in scene which has ViewController attach on.", MessageType.Info);
                 saveData.globalSetting.UIRoot = (GameObject)EditorGUILayout.ObjectField("UI Root Object (In Assets)", saveData.globalSetting.UIRoot, typeof(GameObject), true);

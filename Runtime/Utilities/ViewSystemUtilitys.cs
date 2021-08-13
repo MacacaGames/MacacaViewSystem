@@ -202,7 +202,7 @@ namespace MacacaGames.ViewSystem
             runtimeRectTransformCache.Clear();
         }
         static Dictionary<string, PageRootWrapper> runtimeRectTransformCache = new Dictionary<string, PageRootWrapper>();
-        public static PageRootWrapper CreatePageTransform(string name, Transform canvasRoot, int sortingOrder)
+        public static PageRootWrapper CreatePageTransform(string name, Transform canvasRoot, int sortingOrder,string layerName)
         {
             PageRootWrapper wrapper;
             RectTransform previewUIRootRectTransform;
@@ -219,7 +219,7 @@ namespace MacacaGames.ViewSystem
             }
             var previewUIRoot = new GameObject(name);
 
-
+            previewUIRoot.layer = LayerMask.NameToLayer(layerName);
             previewUIRootRectTransform = previewUIRoot.AddComponent<RectTransform>();
             previewUIRootRectTransform.SetParent(canvasRoot, false);
             previewUIRootRectTransform.localScale = Vector3.one;

@@ -37,10 +37,13 @@ namespace MacacaGames.ViewSystem
             }
 
             //Create UIRoot
-            rootCanvasTransform = Instantiate(viewSystemSaveData.globalSetting.UIRoot).transform;
-            rootCanvasTransform.SetParent(transformCache);
-            rootCanvasTransform.localPosition = viewSystemSaveData.globalSetting.UIRoot.transform.localPosition;
-            rootCanvasTransform.gameObject.name = viewSystemSaveData.globalSetting.UIRoot.name;
+            var uiRoot = Instantiate(viewSystemSaveData.globalSetting.UIRoot).transform;
+            uiRoot.SetParent(transformCache);
+            uiRoot.localPosition = viewSystemSaveData.globalSetting.UIRoot.transform.localPosition;
+            uiRoot.gameObject.name = viewSystemSaveData.globalSetting.UIRoot.name;
+
+            rootCanvasTransform = uiRoot.GetComponentInChildren<Canvas>().transform;
+
 
             var go = new GameObject("ViewElementPool");
             go.transform.SetParent(transformCache);
@@ -234,14 +237,14 @@ namespace MacacaGames.ViewSystem
 
             //Prepare runtime page root
             string viewPageRootName = ViewSystemUtilitys.GetPageRootName(nextViewPage);
-            var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, nextViewPage.canvasSortOrder);
+            var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, nextViewPage.canvasSortOrder, viewSystemSaveData.globalSetting.UIPageTransformLayerName);
             if (nextViewPage.runtimePageRoot == null)
             {
                 nextViewPage.runtimePageRoot = pageWrapper.rectTransform;
             }
 
             pageWrapper.safePadding.SetPaddingValue(GetSafePaddingSetting(nextViewPage));
-            
+
             // pageWrapper.safePadding.SetPaddingValue(nextViewPage.edgeValues);
 
             //所有檢查都通過開始換頁
@@ -344,7 +347,7 @@ namespace MacacaGames.ViewSystem
 
                 if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
-                    item.runtimeParent = transformCache.Find(transformData.parentPath);
+                    item.runtimeParent = nextViewPage.runtimePageRoot.Find(transformData.parentPath);
                 }
                 else
                 {
@@ -405,7 +408,7 @@ namespace MacacaGames.ViewSystem
             }
             //Prepare runtime page root
             string viewPageRootName = ViewSystemUtilitys.GetPageRootName(vp);
-            var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, vp.canvasSortOrder);
+            var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, vp.canvasSortOrder, viewSystemSaveData.globalSetting.UIPageTransformLayerName);
             if (vp.runtimePageRoot == null)
             {
                 vp.runtimePageRoot = pageWrapper.rectTransform;
@@ -508,7 +511,7 @@ namespace MacacaGames.ViewSystem
 
                 if (!string.IsNullOrEmpty(transformData.parentPath))
                 {
-                    item.runtimeParent = transformCache.Find(transformData.parentPath);
+                    item.runtimeParent = nextViewPage.runtimePageRoot.Find(transformData.parentPath);
                 }
                 else
                 {
@@ -578,7 +581,7 @@ namespace MacacaGames.ViewSystem
                             var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
                             if (!string.IsNullOrEmpty(transformData.parentPath))
                             {
-                                vpi.runtimeParent = transformCache.Find(transformData.parentPath);
+                                vpi.runtimeParent = nextViewPage.runtimePageRoot.Find(transformData.parentPath);
                             }
                             else
                             {
@@ -601,7 +604,7 @@ namespace MacacaGames.ViewSystem
                             var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
                             if (!string.IsNullOrEmpty(transformData.parentPath))
                             {
-                                vpi.runtimeParent = transformCache.Find(transformData.parentPath);
+                                vpi.runtimeParent = nextViewPage.runtimePageRoot.Find(transformData.parentPath);
                             }
                             else
                             {
