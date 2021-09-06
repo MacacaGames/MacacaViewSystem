@@ -64,8 +64,8 @@ namespace MacacaGames.ViewSystem
                     if (fade.visible)
                     {
 
-                        EditorGUILayout.PropertyField(s_vs, true);
-                        EditorGUILayout.PropertyField(s_vp, true);
+                        // EditorGUILayout.PropertyField(s_vs, true);
+                        // EditorGUILayout.PropertyField(s_vp, true);
                         EditorGUILayout.PropertyField(s_current_element_vs, true);
                         EditorGUILayout.PropertyField(s_current_element_vp, true);
                     }
