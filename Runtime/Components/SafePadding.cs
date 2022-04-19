@@ -322,7 +322,7 @@ namespace MacacaGames.ViewSystem
             Dual,
         }
         internal static ScreenOrientation GetCurrentOrientation()
-           => Screen.width > Screen.height ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
+           => Screen.width > Screen.height ? ScreenOrientation.LandscapeLeft : ScreenOrientation.Portrait;
         [System.NonSerialized]
         private RectTransform m_Rect;
         private protected RectTransform rectTransform
