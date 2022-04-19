@@ -1,6 +1,6 @@
 {
     "name": "com.macacagames.viewsystem",
-    "version": "1.0.17",
+    "version": "1.0.18",
     "displayName": "Macaca View System",
     "description": "ViewSystem is a element based UI management system based on Unity GUI. It is developed and used by Macaca Games. UI management in Unity3D is always a hard work, the goal of ViewSystem is to make UI management more easier and flexable.",
     "unity": "2019.4",
