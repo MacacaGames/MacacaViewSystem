@@ -108,8 +108,9 @@ namespace MacacaGames.ViewSystem
                 }
 
                 EventRuntimeDatas eventRuntimeDatas;
-                var key = item.targetTransformPath + ";" + item.targetComponentType + ";" + item.targetPropertyName;
                 var id_delegate = item.scriptName + ";" + item.methodName;
+
+                var key = item.targetTransformPath + ";" + item.targetComponentType + ";" + item.targetPropertyName + ";" + id_delegate;
 
                 // Get UnityEvent property instance
                 if (!cachedUnityEvent.TryGetValue(key, out eventRuntimeDatas))
