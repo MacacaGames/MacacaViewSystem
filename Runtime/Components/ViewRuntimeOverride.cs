@@ -171,7 +171,7 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogWarning("The page is in transition, event will not fire!");
                 return;
             }
-            Debug.Log($"EventHandler {key}");
+            // Debug.Log($"EventHandler {key}");
             if (currentEventDelegates.TryGetValue(key, out EventDelegate<Component> e))
                 e.Invoke(currentComponent);
         }
