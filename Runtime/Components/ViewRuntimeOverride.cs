@@ -109,12 +109,12 @@ namespace MacacaGames.ViewSystem
 
                 EventRuntimeDatas eventRuntimeDatas;
                 var key = item.targetTransformPath + ";" + item.targetComponentType + ";" + item.targetPropertyName;
+                var id_delegate = item.scriptName + ";" + item.methodName;
+
                 // Get UnityEvent property instance
                 if (!cachedUnityEvent.TryGetValue(key, out eventRuntimeDatas))
                 {
-                    //p[1] is targetComponentType
                     var result = GetCachedComponent(targetTansform, item.targetTransformPath, item.targetComponentType);
-                    //p[2] is targetPropertyPath
                     string property = item.targetPropertyName;
                     if (item.targetTransformPath.Contains("UnityEngine."))
                     {
@@ -124,58 +124,44 @@ namespace MacacaGames.ViewSystem
                     eventRuntimeDatas = new EventRuntimeDatas(unityEvent, (Component)result.Component);
                     cachedUnityEvent.Add(key, eventRuntimeDatas);
 
-                    var id_delegate = item.scriptName + ";" + item.methodName;
-
                     if (eventRuntimeDatas.unityEvent is UnityEvent events)
                     {
-                        events.AddListener(()=>
+                        events.AddListener(() =>
                         {
                             EventHandler(id_delegate);
                         });
                     }
-
-                    if (!cachedDelegate.TryGetValue(id_delegate, out EventDelegate<Component> openDelegate))
-                    {
-                        // Get Method
-                        Type type = Utility.GetType(item.scriptName);
-                        //MethodInfo method = type.GetMethod(item2.methodName);
-
-                        //The method impletmented Object
-                        Component scriptInstance = (Component)FindObjectOfType(type);
-
-                        if (scriptInstance == null)
-                        {
-                            scriptInstance = GenerateScriptInstance(type);
-                        }
-
-                        //Create Open Delegate
-                        try
-                        {
-                            openDelegate = CreateOpenDelegate(item.methodName, scriptInstance);
-                        }
-                        catch (Exception ex)
-                        {
-                            ViewSystemLog.LogError($"Create event delegate faild, make sure the method or the instance is exinst. Exception:{ex.ToString()}", this);
-                        }
-                        cachedDelegate.Add(id_delegate, openDelegate);
-                    }
-                    currentEventDelegates.Add(id_delegate, openDelegate);
                 }
+
+                if (!cachedDelegate.TryGetValue(id_delegate, out EventDelegate<Component> openDelegate))
+                {
+                    // Get Method
+                    Type type = Utility.GetType(item.scriptName);
+
+                    //The method impletmented Object
+                    Component scriptInstance = (Component)FindObjectOfType(type);
+
+                    if (scriptInstance == null)
+                    {
+                        scriptInstance = GenerateScriptInstance(type);
+                    }
+
+                    //Create Open Delegate
+                    try
+                    {
+                        openDelegate = CreateOpenDelegate(item.methodName, scriptInstance);
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewSystemLog.LogError($"Create event delegate faild, make sure the method or the instance is exinst. Exception:{ex.ToString()}", this);
+                    }
+                    cachedDelegate.Add(id_delegate, openDelegate);
+                }
+                currentEventDelegates.Add(id_delegate, openDelegate);
                 currentComponent = eventRuntimeDatas.component;
-
-                // Usually there is only one event on one Selectable
-                // But the system allow mutil event on one Selectable
-                //foreach (var item2 in item)
-                //{
-                //    var id_delegate = item2.scriptName + ";" + item2.methodName;
-
-                //    //Try to get the cached openDelegate object first
-                //    //Or create a new openDelegate
-                   
-                //}
             }
         }
-        Dictionary<string ,EventDelegate<Component>> currentEventDelegates = new Dictionary<string, EventDelegate<Component>>();
+        Dictionary<string, EventDelegate<Component>> currentEventDelegates = new Dictionary<string, EventDelegate<Component>>();
         UnityEngine.Component currentComponent;
         void EventHandler(string key)
         {
@@ -184,18 +170,7 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogWarning("The page is in transition, event will not fire!");
                 return;
             }
-            //foreach (var item in currentEventDelegates)
-            //{
-            //    try
-            //    {
-            //        item?.Invoke(currentComponent);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        ViewSystemLog.LogError($"Error Occure while invoke event: {ex.ToString()}");
-            //    }
-            //}
-
+            Debug.Log($"EventHandler {key}");
             if (currentEventDelegates.TryGetValue(key, out EventDelegate<Component> e))
                 e.Invoke(currentComponent);
         }
@@ -300,7 +275,7 @@ namespace MacacaGames.ViewSystem
                 }
                 if (c == null)
                 {
-                    ViewSystemLog.LogError($"Target Component cannot be found [{targetComponentType}] on GameObject [{transform.name } / {targetTransformPath}]");
+                    ViewSystemLog.LogError($"Target Component cannot be found [{targetComponentType}] on GameObject [{transform.name} / {targetTransformPath}]");
                 }
                 cachedComponent.Add(id, c);
             }
