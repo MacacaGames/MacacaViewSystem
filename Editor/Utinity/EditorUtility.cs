@@ -154,7 +154,12 @@ namespace MacacaGames.ViewSystem
                     overProperty.SetValue(EditorGUI.ColorField(rect, content, (Color)overProperty.GetValue()));
                     break;
                 case PropertyOverride.S_Type._objcetReferenct:
-                    overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, overProperty.ObjectReferenceValue.GetType(), false);
+                    Type type = typeof(UnityEngine.Object);
+                    if (overProperty.ObjectReferenceValue != null)
+                    {
+                        type = overProperty.ObjectReferenceValue.GetType();
+                    }
+                    overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, type, false);
                     break;
                 case PropertyOverride.S_Type._enum:
                     overProperty.SetValue(EditorGUI.EnumPopup(rect, content, (Enum)overProperty.GetValue()));

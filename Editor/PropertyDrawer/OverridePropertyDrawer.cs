@@ -12,6 +12,10 @@ using MacacaGames.ViewSystem.VisualEditor;
 
 namespace MacacaGames.ViewSystem
 {
+    public static class ClipBoard
+    {
+        public static object value;
+    }
     [CustomPropertyDrawer(typeof(ViewElementOverride))]
     public class OverridePropertyDrawer : PropertyDrawer
     {
@@ -24,6 +28,8 @@ namespace MacacaGames.ViewSystem
         ViewElement viewElement = null;
         ViewElement original = null;
         bool fold = false;
+        private Vector2 contextClick;
+
 
         public override void OnGUI(Rect oriRect, SerializedProperty property, GUIContent label)
         {
@@ -105,7 +111,6 @@ namespace MacacaGames.ViewSystem
 
         void PickCurrent()
         {
-
             var overrideChecker = ScriptableObject.CreateInstance<ViewElementOverridesImporterWindow>();
             var result = overrideChecker.SetData(viewElement.transform, original.transform,
             (import) =>
@@ -185,7 +190,7 @@ namespace MacacaGames.ViewSystem
 
         void LoadAsset()
         {
-            string path = EditorUtility.OpenFilePanel("Overwrite with png", "Assets", extension);
+            string path = EditorUtility.OpenFilePanel("Select override asset", "Assets", extension);
             path = path.Replace(Application.dataPath, "Assets");
             if (string.IsNullOrEmpty(path))
             {
@@ -211,14 +216,7 @@ namespace MacacaGames.ViewSystem
         }
         void DoPreview()
         {
-            // Debug.Log(property.propertyPath);
-            // Debug.Log(property.serializedObject);
-            // Debug.Log(property.serializedObject.targetObject);
-            // Debug.Log(property.serializedObject.targetObject.GetType());
-            // var t = property.serializedObject.targetObject.GetType().GetField(property.propertyPath.Split('.').FirstOrDefault());
-            // var array = (IEnumerable<ViewElementPropertyOverrideData>)t.GetValue(property.serializedObject.targetObject);
             var list = (IEnumerable<ViewElementPropertyOverrideData>)reorderableList.list;
-            // Debug.Log(list);
             if (viewElement != null)
             {
                 viewElement.ApplyOverrides(list);
@@ -226,8 +224,61 @@ namespace MacacaGames.ViewSystem
             }
         }
 
+
+        private void CopyItem(int index)
+        {
+            if (reorderableList.list.Count <= index)
+            {
+                // Debug.Log("Return due to out ov range");
+                return;
+            }
+
+            ViewElementPropertyOverrideData data = reorderableList.list[index] as ViewElementPropertyOverrideData;
+
+            if (data == null)
+            {
+                // Debug.Log("Return due to null");
+                return;
+            }
+
+            ClipBoard.value = data;
+        }
+
+        private void PasteItem(int index)
+        {
+            ViewElementPropertyOverrideData data = ClipBoard.value as ViewElementPropertyOverrideData;
+            if (reorderableList.list.Count <= index)
+            {
+                // Debug.Log("Return due to out ov range");
+                return;
+            }
+            reorderableList.list[index] = data;
+            propertySource.serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(viewElement);
+            RebuildList(propertySource);
+        }
+
+
         void DrawElement(Rect oriRect, int index, bool isActive, bool isFocused)
         {
+            var e = Event.current;
+            if (e.isMouse && e.type == EventType.MouseDown && e.button == 1 && oriRect.Contains(e.mousePosition))
+            {
+                // Debug.Log(index);
+                Event.current.Use();
+                GenericMenu menu = new GenericMenu();
+                menu.AddItem(new GUIContent("Copy %c"), false, () => CopyItem(index));
+                if (ClipBoard.value == null)
+                {
+                    menu.AddDisabledItem(new GUIContent("Paste %v"), false);
+                }
+                else
+                {
+                    menu.AddItem(new GUIContent("Paste %v"), false, () => PasteItem(index));
+                }
+                menu.ShowAsContext();
+            }
+
             var item = (ViewElementPropertyOverrideData)reorderableList.list[index];
             var rootObjectName = viewElement != null ? viewElement.name : "{RootObject}";
             var btnRect = oriRect;
@@ -287,25 +338,8 @@ namespace MacacaGames.ViewSystem
         {
             viewElement.gameObject.SetActive(false);
             viewElement.gameObject.SetActive(true);
-            // foreach (var rectTransform in viewElement.GetComponents<RectTransform>())
-            // {
-            //     rectTransform.ForceUpdateRectTransforms();
-            // }
-            // foreach (var graphic in viewElement.GetComponents<UnityEngine.UI.Graphic>())
-            // {
-            //     graphic.SetAllDirty();
-            //     graphic.SetVerticesDirty();
-            //     UnityEngine.UI.CanvasUpdateRegistry.RegisterCanvasElementForGraphicRebuild(graphic);
-            // }
-            // Canvas.ForceUpdateCanvases();
 
-            // UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
-            // UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(viewElement.rectTransform);
         }
-        // public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        // {
-        //     return EditorGUIUtility.singleLineHeight * 3;
-        // }
 
         public class OverridePopup : PopupWindowContent
         {
