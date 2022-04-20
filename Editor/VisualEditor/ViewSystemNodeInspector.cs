@@ -167,6 +167,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         private float ElementHight(int index)
         {
+            if (index >= viewPageItemList.Count)
+            {
+                return EditorGUIUtility.singleLineHeight * 7f;
+            }
             var item = viewPageItemList[index];
             string key = $"{item.Id}_default";
             if (!transformEditStatus.ContainsKey(key))
@@ -1349,6 +1353,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
         }
 
-       
+
     }
 }
