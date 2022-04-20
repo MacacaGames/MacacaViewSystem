@@ -15,6 +15,14 @@ namespace MacacaGames.ViewSystem
     public static class ClipBoard
     {
         public static object value;
+        public static string json;
+        public static bool HasValue
+        {
+            get
+            {
+                return value != null || !string.IsNullOrEmpty(json);
+            }
+        }
     }
     [CustomPropertyDrawer(typeof(ViewElementOverride))]
     public class OverridePropertyDrawer : PropertyDrawer
@@ -241,12 +249,13 @@ namespace MacacaGames.ViewSystem
                 return;
             }
 
-            ClipBoard.value = data;
+            // ClipBoard.value = data;
+            ClipBoard.json = JsonUtility.ToJson(data);
         }
 
         private void PasteItem(int index)
         {
-            ViewElementPropertyOverrideData data = ClipBoard.value as ViewElementPropertyOverrideData;
+            ViewElementPropertyOverrideData data = JsonUtility.FromJson<ViewElementPropertyOverrideData>(ClipBoard.json);
             if (reorderableList.list.Count <= index)
             {
                 // Debug.Log("Return due to out ov range");
@@ -268,7 +277,7 @@ namespace MacacaGames.ViewSystem
                 Event.current.Use();
                 GenericMenu menu = new GenericMenu();
                 menu.AddItem(new GUIContent("Copy %c"), false, () => CopyItem(index));
-                if (ClipBoard.value == null)
+                if (!ClipBoard.HasValue)
                 {
                     menu.AddDisabledItem(new GUIContent("Paste %v"), false);
                 }
