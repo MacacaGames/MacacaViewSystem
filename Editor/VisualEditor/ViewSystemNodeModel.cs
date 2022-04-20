@@ -205,8 +205,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             this.name = _name;
             drawRect = rect;
+            SnapToGrid_DrawRect();
+
             drawRect.x += editorViewPortScroll.x;
             drawRect.y += editorViewPortScroll.y;
+
 
             if (nodeType == ViewStateNode.NodeType.ViewState)
             {
@@ -267,6 +270,20 @@ namespace MacacaGames.ViewSystem.VisualEditor
         public void Drag(Vector2 delta)
         {
             rect = new Rect(rect.x + delta.x, rect.y + delta.y, rect.width, rect.height);
+        }
+
+        public void SnapToGrid_Rect()
+        {
+            float gridSize = 16;
+            rect.x = Mathf.FloorToInt(rect.x / gridSize) * gridSize;
+            rect.y = Mathf.FloorToInt(rect.y / gridSize) * gridSize;
+        }
+
+        public void SnapToGrid_DrawRect()
+        {
+            float gridSize = 16;
+            drawRect.x = Mathf.FloorToInt(drawRect.x / gridSize) * gridSize;
+            drawRect.y = Mathf.FloorToInt(drawRect.y / gridSize) * gridSize;
         }
 
         public bool isSelect = false;
@@ -338,6 +355,28 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     }
                     break;
                 case EventType.MouseUp:
+                    if (e.button == 0 && isSelect)
+                    {
+                        if (rightBtn)
+                        {
+                            rightBtn = false;
+                            break;
+                        }
+
+                        SnapToGrid_Rect();
+                        if (this is ViewStateNode)
+                        {
+                            if (e.alt)
+                            {
+                                return true;
+                            }
+                            foreach (var item in ((ViewStateNode)this).currentLinkedViewPageNode)
+                            {
+                                item.SnapToGrid_Rect();
+                            }
+                        }
+                        return true;
+                    }
                     break;
                 case EventType.MouseDrag:
                     if (e.button == 0 && isSelect)
@@ -407,6 +446,13 @@ namespace MacacaGames.ViewSystem.VisualEditor
             currentLinkedViewStateNode = null;
             var isOverlay = nodeType == NodeType.Overlay;
             this.viewPage.viewPageType = isOverlay ? ViewPage.ViewPageType.Overlay : ViewPage.ViewPageType.FullPage;
+        }
+
+        void SnapToGrid_DrawRect()
+        {
+            float gridSize = 16;
+            drawRect.x = Mathf.FloorToInt(drawRect.x / gridSize) * gridSize;
+            drawRect.y = Mathf.FloorToInt(drawRect.y / gridSize) * gridSize;
         }
         public override void Draw(bool highlight)
         {
