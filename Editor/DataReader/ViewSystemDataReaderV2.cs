@@ -354,6 +354,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         continue;
                     }
                     var vp = data.viewPages.SingleOrDefault(m => m.viewPage.name == item.viewPage.name);
+                    item.SnapToGrid_Rect();
                     vp.nodePosition = new Vector2(item.rect.x, item.rect.y);
                 }
             }
@@ -367,6 +368,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         continue;
                     }
                     var vs = data.viewStates.SingleOrDefault(m => m.viewState.name == item.viewState.name);
+                    item.SnapToGrid_Rect();
                     vs.nodePosition = new Vector2(item.rect.x, item.rect.y);
                 }
             }
