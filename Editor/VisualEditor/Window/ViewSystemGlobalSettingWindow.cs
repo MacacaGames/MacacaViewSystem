@@ -90,8 +90,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     saveData.globalSetting.flipPadding = EditorGUILayout.Toggle("Flip Padding", saveData.globalSetting.flipPadding);
                     if (change.changed && ViewSystemVisualEditor.Instance.EditMode)
                     {
-                        ViewSystemVisualEditor.ApplySafeArea(saveData.globalSetting.edgeValues);
                         Undo.RecordObject(saveData, "ViewSystem_Inspector");
+                        ViewSystemVisualEditor.ApplySafeArea(saveData.globalSetting.edgeValues);
                     }
                 }
                 GUILayout.Space(20);
