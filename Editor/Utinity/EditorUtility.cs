@@ -121,7 +121,7 @@ namespace MacacaGames.ViewSystem
             }
             return EditorGUI.EndChangeCheck();
         }
-        public static bool SmartOverrideField(Rect rect, GUIContent content, PropertyOverride overProperty, out float lineHeight)
+        public static bool SmartOverrideField(Rect rect, GUIContent content, PropertyOverride overProperty, UnityEngine.Object target, out float lineHeight)
         {
             lineHeight = EditorGUIUtility.singleLineHeight * 2.5f;
             if (overProperty == null)
@@ -129,29 +129,79 @@ namespace MacacaGames.ViewSystem
                 GUI.Label(rect, "There is some property wrong on the override");
                 return false;
             }
-            EditorGUI.BeginChangeCheck();
+            bool isChange = false;
+            // EditorGUI.BeginChangeCheck();
             switch (overProperty.s_Type)
             {
                 case PropertyOverride.S_Type._vector3:
-                    overProperty.SetValue(EditorGUI.Vector3Field(rect, content, (Vector3)overProperty.GetValue()));
+                    EditorGUI.BeginChangeCheck();
+                    var v3 = EditorGUI.Vector3Field(rect, content, (Vector3)overProperty.GetValue());
+                    isChange = EditorGUI.EndChangeCheck();
+                    if (isChange)
+                    {
+                        Undo.RecordObject(target, "SmartPropertyField");
+                        overProperty.SetValue(v3);
+                    }
                     break;
                 case PropertyOverride.S_Type._vector2:
-                    overProperty.SetValue(EditorGUI.Vector2Field(rect, content, (Vector2)overProperty.GetValue()));
+                    EditorGUI.BeginChangeCheck();
+                    var v2 = EditorGUI.Vector2Field(rect, content, (Vector2)overProperty.GetValue());
+                    isChange = EditorGUI.EndChangeCheck();
+                    if (isChange)
+                    {
+                        Undo.RecordObject(target, "SmartPropertyField");
+                        overProperty.SetValue(v2);
+                    }
                     break;
                 case PropertyOverride.S_Type._float:
-                    overProperty.SetValue(EditorGUI.FloatField(rect, content, (float)overProperty.GetValue()));
+                    EditorGUI.BeginChangeCheck();
+                    var f = EditorGUI.FloatField(rect, content, (float)overProperty.GetValue());
+                    isChange = EditorGUI.EndChangeCheck();
+                    if (isChange)
+                    {
+                        Undo.RecordObject(target, "SmartPropertyField");
+                        overProperty.SetValue(f);
+                    }
                     break;
                 case PropertyOverride.S_Type._int:
-                    overProperty.SetValue(EditorGUI.IntField(rect, content, (int)overProperty.GetValue()));
+                    EditorGUI.BeginChangeCheck();
+                    var i = EditorGUI.IntField(rect, content, (int)overProperty.GetValue());
+                    isChange = EditorGUI.EndChangeCheck();
+                    if (isChange)
+                    {
+                        Undo.RecordObject(target, "SmartPropertyField");
+                        overProperty.SetValue(i);
+                    }
                     break;
                 case PropertyOverride.S_Type._string:
-                    overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
+                    EditorGUI.BeginChangeCheck();
+                    var s = EditorGUI.TextField(rect, content, overProperty.StringValue);
+                    isChange = EditorGUI.EndChangeCheck();
+                    if (isChange)
+                    {
+                        Undo.RecordObject(target, "SmartPropertyField");
+                        overProperty.StringValue = s;
+                    }
                     break;
                 case PropertyOverride.S_Type._bool:
-                    overProperty.SetValue(EditorGUI.Toggle(rect, content, (bool)overProperty.GetValue()));
+                    EditorGUI.BeginChangeCheck();
+                    var b = EditorGUI.Toggle(rect, content, (bool)overProperty.GetValue());
+                    isChange = EditorGUI.EndChangeCheck();
+                    if (isChange)
+                    {
+                        Undo.RecordObject(target, "SmartPropertyField");
+                        overProperty.SetValue(b);
+                    }
                     break;
                 case PropertyOverride.S_Type._color:
-                    overProperty.SetValue(EditorGUI.ColorField(rect, content, (Color)overProperty.GetValue()));
+                    EditorGUI.BeginChangeCheck();
+                    var c = EditorGUI.ColorField(rect, content, (Color)overProperty.GetValue());
+                    isChange = EditorGUI.EndChangeCheck();
+                    if (isChange)
+                    {
+                        Undo.RecordObject(target, "SmartPropertyField");
+                        overProperty.SetValue(c);
+                    }
                     break;
                 case PropertyOverride.S_Type._objcetReferenct:
                     Type type = typeof(UnityEngine.Object);
@@ -159,16 +209,41 @@ namespace MacacaGames.ViewSystem
                     {
                         type = overProperty.ObjectReferenceValue.GetType();
                     }
-                    overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, type, false);
+                    EditorGUI.BeginChangeCheck();
+                    var or = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, type, false);
+                    isChange = EditorGUI.EndChangeCheck();
+                    if (isChange)
+                    {
+                        Undo.RecordObject(target, "SmartPropertyField");
+                        overProperty.ObjectReferenceValue = or;
+                    }
                     break;
                 case PropertyOverride.S_Type._enum:
-                    overProperty.SetValue(EditorGUI.EnumPopup(rect, content, (Enum)overProperty.GetValue()));
+                    // overProperty.SetValue();
+                    EditorGUI.BeginChangeCheck();
+                    var e = EditorGUI.EnumPopup(rect, content, (Enum)overProperty.GetValue());
+                    isChange = EditorGUI.EndChangeCheck();
+                    if (isChange)
+                    {
+                        Undo.RecordObject(target, "SmartPropertyField");
+                        overProperty.SetValue(e);
+                    }
                     break;
                 case PropertyOverride.S_Type._enumFlag:
-                    overProperty.SetValue(EditorGUI.EnumFlagsField(rect, content, (Enum)overProperty.GetValue()));
+                    // overProperty.SetValue(EditorGUI.EnumFlagsField(rect, content, (Enum)overProperty.GetValue()));
+
+                    EditorGUI.BeginChangeCheck();
+                    var ef = EditorGUI.EnumFlagsField(rect, content, (Enum)overProperty.GetValue());
+                    isChange = EditorGUI.EndChangeCheck();
+                    if (isChange)
+                    {
+                        Undo.RecordObject(target, "SmartPropertyField");
+                        overProperty.SetValue(ef);
+                    }
                     break;
             }
-            return EditorGUI.EndChangeCheck();
+            // return EditorGUI.EndChangeCheck();
+            return isChange;
         }
         // public static bool SmartOverrideField(Rect rect, GUIContent content, SerializedProperty Target, out float lineHeight)
         // {

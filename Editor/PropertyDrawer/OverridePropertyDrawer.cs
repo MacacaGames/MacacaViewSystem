@@ -38,14 +38,13 @@ namespace MacacaGames.ViewSystem
         bool fold = false;
         private Vector2 contextClick;
 
-        private bool instanceUpdate = false;
+        private bool instanceUpdate = true;
         bool isPreviewing = false;
         void SetDirty()
         {
             PrefabUtility.RecordPrefabInstancePropertyModifications(propertySource.serializedObject.targetObject);
             propertySource.serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(viewElement);
-            Undo.RecordObject(propertySource.serializedObject.targetObject, "ViewElementOverride");
 
         }
         public override void OnGUI(Rect oriRect, SerializedProperty property, GUIContent label)
@@ -63,7 +62,7 @@ namespace MacacaGames.ViewSystem
                 if (e.type == EventType.ValidateCommand)
                 {
                     RebuildList(property);
-                    Debug.Log("Rebuid due to paste");
+                    // Debug.Log("Rebuid due to paste");
                 }
 
                 if (reorderableList == null)
@@ -374,7 +373,7 @@ namespace MacacaGames.ViewSystem
                 GUI.Label(rectComponent, new GUIContent($"{targetTransformPath.Split('/').LastOrDefault()} ({targetComponentType.Split('.').LastOrDefault()})", componentContent.image));
                 rect.y += EditorGUIUtility.singleLineHeight;
 
-                if (VS_EditorUtility.SmartOverrideField(rect, new GUIContent(targetPropertyName), item.Value, out float lh))
+                if (VS_EditorUtility.SmartOverrideField(rect, new GUIContent(targetPropertyName), item.Value, propertySource.serializedObject.targetObject, out float lh))
                 {
                     SetDirty();
                     if (isPreviewing && instanceUpdate)
