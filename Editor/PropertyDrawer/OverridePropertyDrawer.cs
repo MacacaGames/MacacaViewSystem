@@ -30,10 +30,21 @@ namespace MacacaGames.ViewSystem
         public OverridePropertyDrawer()
         {
             UnityEditor.SceneManagement.PrefabStage.prefabSaving += OnPrefabSaving;
+            Undo.undoRedoPerformed += OnUndo;
         }
+
+        private void OnUndo()
+        {
+            if (isPreviewing)
+            {
+                DoPreview();
+            }
+        }
+
         ~OverridePropertyDrawer()
         {
             UnityEditor.SceneManagement.PrefabStage.prefabSaving -= OnPrefabSaving;
+            Undo.undoRedoPerformed -= OnUndo;
         }
         private void OnPrefabSaving(GameObject obj)
         {
@@ -91,7 +102,7 @@ namespace MacacaGames.ViewSystem
                 {
                     using (var disable = new EditorGUI.DisabledGroupScope(viewElement == null))
                     {
-                        if (GUILayout.Button("Revert"))
+                        if (GUILayout.Button("Revert Preview"))
                         {
                             DoRevert();
                         }
