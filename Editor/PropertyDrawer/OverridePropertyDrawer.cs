@@ -38,11 +38,15 @@ namespace MacacaGames.ViewSystem
         bool fold = false;
         private Vector2 contextClick;
 
+        private bool instanceUpdate = false;
+        bool isPreviewing = false;
         void SetDirty()
         {
             PrefabUtility.RecordPrefabInstancePropertyModifications(propertySource.serializedObject.targetObject);
             propertySource.serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(viewElement);
+            Undo.RecordObject(propertySource.serializedObject.targetObject, "ViewElementOverride");
+
         }
         public override void OnGUI(Rect oriRect, SerializedProperty property, GUIContent label)
         {
@@ -76,12 +80,23 @@ namespace MacacaGames.ViewSystem
                 }
                 using (var horizon = new GUILayout.HorizontalScope())
                 {
-                    using (var disable = new EditorGUI.DisabledGroupScope(viewElement == null || original == null))
+                    using (var disable = new EditorGUI.DisabledGroupScope(viewElement == null))
                     {
+                        if (GUILayout.Button("Revert"))
+                        {
+                            DoRevert();
+                        }
                         if (GUILayout.Button("Preview"))
                         {
                             DoPreview();
                         }
+                    }
+                    using (var disable = new EditorGUI.DisabledGroupScope(!isPreviewing))
+                    {
+                        instanceUpdate = GUILayout.Toggle(instanceUpdate, "Realtime Update");
+                    }
+                    using (var disable = new EditorGUI.DisabledGroupScope(viewElement == null || original == null))
+                    {
                         if (GUILayout.Button("Pick"))
                         {
                             PickCurrent();
@@ -232,12 +247,21 @@ namespace MacacaGames.ViewSystem
             var list = (IEnumerable<ViewElementPropertyOverrideData>)reorderableList.list;
             if (viewElement != null)
             {
+                isPreviewing = true;
                 viewElement.ApplyOverrides(list);
                 Rebuild(viewElement);
             }
         }
 
-
+        void DoRevert()
+        {
+            if (viewElement != null)
+            {
+                isPreviewing = false;
+                viewElement.RevertOverrides();
+                Rebuild(viewElement);
+            }
+        }
         private void CopyItem(int index)
         {
             if (reorderableList.list.Count <= index)
@@ -353,6 +377,10 @@ namespace MacacaGames.ViewSystem
                 if (VS_EditorUtility.SmartOverrideField(rect, new GUIContent(targetPropertyName), item.Value, out float lh))
                 {
                     SetDirty();
+                    if (isPreviewing && instanceUpdate)
+                    {
+                        DoPreview();
+                    }
                 }
 
             }
