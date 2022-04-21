@@ -38,7 +38,12 @@ namespace MacacaGames.ViewSystem
         bool fold = false;
         private Vector2 contextClick;
 
-
+        void SetDirty()
+        {
+            PrefabUtility.RecordPrefabInstancePropertyModifications(propertySource.serializedObject.targetObject);
+            propertySource.serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(viewElement);
+        }
         public override void OnGUI(Rect oriRect, SerializedProperty property, GUIContent label)
         {
             GUILayout.Label(property.displayName, EditorStyles.boldLabel);
@@ -98,10 +103,12 @@ namespace MacacaGames.ViewSystem
                 {
                     fold = EditorGUILayout.Foldout(fold, "Override datas", myStyle);
                     EditorGUILayout.Space();
+
                     if (GUILayout.Button(EditorGUIUtility.FindTexture("d_Refresh")))
                     {
                         RebuildList(property);
                     }
+
                 }
 
                 if (fold)
@@ -147,14 +154,12 @@ namespace MacacaGames.ViewSystem
             reorderableList.onAddCallback += (ReorderableList l) =>
             {
                 l.list.Add(new ViewElementPropertyOverrideData());
-                propertySource.serializedObject.ApplyModifiedProperties();
-                EditorUtility.SetDirty(viewElement);
+                SetDirty();
             };
             reorderableList.onRemoveCallback += (ReorderableList l) =>
             {
                 ReorderableList.defaultBehaviours.DoRemoveButton(l);
-                propertySource.serializedObject.ApplyModifiedProperties();
-                EditorUtility.SetDirty(viewElement);
+                SetDirty();
             };
             reorderableList.drawElementBackgroundCallback += (Rect rect, int index, bool isActive, bool isFocused) =>
             {
@@ -347,8 +352,7 @@ namespace MacacaGames.ViewSystem
 
                 if (VS_EditorUtility.SmartOverrideField(rect, new GUIContent(targetPropertyName), item.Value, out float lh))
                 {
-                    propertySource.serializedObject.ApplyModifiedProperties();
-                    EditorUtility.SetDirty(viewElement);
+                    SetDirty();
                 }
 
             }
