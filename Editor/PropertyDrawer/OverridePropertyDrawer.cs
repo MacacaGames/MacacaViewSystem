@@ -29,8 +29,18 @@ namespace MacacaGames.ViewSystem
     {
         public OverridePropertyDrawer()
         {
-
+            UnityEditor.SceneManagement.PrefabStage.prefabSaving += OnPrefabSaving;
         }
+        ~OverridePropertyDrawer()
+        {
+            UnityEditor.SceneManagement.PrefabStage.prefabSaving -= OnPrefabSaving;
+        }
+        private void OnPrefabSaving(GameObject obj)
+        {
+            // Debug.Log("Do revert");
+            DoRevert();
+        }
+
         ReorderableList reorderableList;
         SerializedProperty propertySource;
         ViewElement viewElement = null;
