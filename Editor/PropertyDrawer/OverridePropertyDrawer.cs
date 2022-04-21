@@ -320,6 +320,16 @@ namespace MacacaGames.ViewSystem
             }
             else
             {
+                if (!string.IsNullOrEmpty(targetTransformPath))
+                {
+                    var target = viewElement.transform.Find(targetTransformPath);
+                    if (target == null)
+                    {
+                        GUI.Label(rect, new GUIContent("Target GameObject not found", Drawer.miniInfoIcon, "Target GameObject not found"));
+                        return;
+                    }
+                }
+
                 float paddind = 20;
                 GUI.Label(rect, new GUIContent((string.IsNullOrEmpty(targetTransformPath) ? rootObjectName : rootObjectName + "/") + targetTransformPath, Drawer.prefabIcon, targetTransformPath));
                 rect.y += EditorGUIUtility.singleLineHeight;
