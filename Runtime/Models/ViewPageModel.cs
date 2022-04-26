@@ -184,7 +184,7 @@ namespace MacacaGames.ViewSystem
             {
                 foreach (var item in breakPointViewElementTransforms)
                 {
-                    if (currentBreakPoints[item.breakPointName])
+                    if (currentBreakPoints.ContainsKey(item.breakPointName)  && currentBreakPoints[item.breakPointName])
                     {
                         return item.transformData;
                     }
