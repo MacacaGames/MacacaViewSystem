@@ -446,7 +446,7 @@ namespace MacacaGames.ViewSystem
                             time += GlobalTimer.deltaTime;
                             yield return null;
                         }
-                        OnLeave(ignoreTransition: ignoreTransition);
+                        OnLeave(false, ignoreTransition: ignoreTransition);
                         while (OnLeaveWorking == true)
                         {
                             yield return null;
