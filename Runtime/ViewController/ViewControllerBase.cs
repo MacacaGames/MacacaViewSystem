@@ -373,7 +373,7 @@ namespace MacacaGames.ViewSystem
         /// <summary>
         /// OnViewStateChange Calls on the ViewPage is changed and has different ViewState.
         /// </summary>
-        public event EventHandler<ViewStateEventArgs> OnViewStateChange;
+        public static event EventHandler<ViewStateEventArgs> OnViewStateChange;
         protected virtual void InvokeOnViewStateChange(object obj, ViewStateEventArgs args)
         {
             OnViewStateChange?.Invoke(obj, args);
@@ -382,7 +382,7 @@ namespace MacacaGames.ViewSystem
         /// <summary>
         /// OnViewPageChange Calls on last page has leave finished, next page is ready to show.
         /// </summary>
-        public event EventHandler<ViewPageEventArgs> OnViewPageChange;
+        public static event EventHandler<ViewPageEventArgs> OnViewPageChange;
         protected virtual void InvokeOnViewPageChange(object obj, ViewPageEventArgs args)
         {
             OnViewPageChange?.Invoke(obj, args);
@@ -391,7 +391,7 @@ namespace MacacaGames.ViewSystem
         /// <summary>
         /// OnViewPageChangeStart Calls on page is ready to change with no error(eg. no page fonud etc.), and in this moment last page is still in view. 
         /// </summary>
-        public event EventHandler<ViewPageTrisitionEventArgs> OnViewPageChangeStart;
+        public static event EventHandler<ViewPageTrisitionEventArgs> OnViewPageChangeStart;
         protected virtual void InvokeOnViewPageChangeStart(object obj, ViewPageTrisitionEventArgs args)
         {
             OnViewPageChangeStart?.Invoke(obj, args);
@@ -400,7 +400,7 @@ namespace MacacaGames.ViewSystem
         /// <summary>
         /// OnViewPageChangeEnd Calls on page is changed finish, all animation include in OnShow or OnLeave is finished. (Note. the sometimes the Event fire early due to the animation time is longer than "Change Page Max Waiting" time)
         /// </summary>
-        public event EventHandler<ViewPageEventArgs> OnViewPageChangeEnd;
+        public static event EventHandler<ViewPageEventArgs> OnViewPageChangeEnd;
         protected virtual void InvokeOnViewPageChangeEnd(object obj, ViewPageEventArgs args)
         {
             OnViewPageChangeEnd?.Invoke(obj, args);
@@ -409,7 +409,7 @@ namespace MacacaGames.ViewSystem
         /// <summary>
         /// OnOverlayPageShow Calls on an overlay page is show.(the transition may still working)
         /// </summary>
-        public event EventHandler<ViewPageEventArgs> OnOverlayPageShow;
+        public static event EventHandler<ViewPageEventArgs> OnOverlayPageShow;
         protected virtual void InvokeOnOverlayPageShow(object obj, ViewPageEventArgs args)
         {
             OnOverlayPageShow?.Invoke(obj, args);
@@ -418,7 +418,7 @@ namespace MacacaGames.ViewSystem
         /// <summary>
         /// OnOverlayPageLeave Calls on an overlay page is leave.(the transition may still working)
         /// </summary>
-        public event EventHandler<ViewPageEventArgs> OnOverlayPageLeave;
+        public static event EventHandler<ViewPageEventArgs> OnOverlayPageLeave;
         protected virtual void InvokeOnOverlayPageLeave(object obj, ViewPageEventArgs args)
         {
             OnOverlayPageLeave?.Invoke(obj, args);
