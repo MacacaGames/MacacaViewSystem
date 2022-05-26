@@ -322,20 +322,20 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 previewUIRootWrapper = null;
             }
 
-            // var allViewElement = ViewControllerTransform.GetComponentsInChildren<ViewElement>();
-            // //NestedViewElement is obslote do nothing with NestedViewElement.
-            // //var allNestedViewElement = UnityEngine.Object.FindObjectsOfType<NestedViewElement>();
-            // foreach (var item in allViewElement)
-            // {
-            //     try
-            //     {
-            //         UnityEngine.Object.DestroyImmediate(item.gameObject);
-            //     }
-            //     catch
-            //     {
-            //         //ViewSystemLog.LogWarning($"ignore");
-            //     }
-            // }
+            var allViewElement = ViewControllerTransform.GetComponentsInChildren<ViewElement>();
+            //NestedViewElement is obslote do nothing with NestedViewElement.
+            //var allNestedViewElement = UnityEngine.Object.FindObjectsOfType<NestedViewElement>();
+            foreach (var item in allViewElement)
+            {
+                try
+                {
+                    UnityEngine.Object.DestroyImmediate(item.gameObject);
+                }
+                catch
+                {
+                    //ViewSystemLog.LogWarning($"ignore");
+                }
+            }
         }
 
         public void Save()
@@ -400,6 +400,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
             IEnumerable<ViewPageItem> allViewStateItems = data.viewStates.Select(m => m.viewState).SelectMany(m => m.viewPageItems);
             foreach (var item in allViewPageItems)
             {
+                if (item == null || item.viewElementObject == null)
+                {
+                    ViewSystemLog.LogError("One or more item in ViewPage is null, use verifier to find out and fix.");
+                    continue;
+                }
                 PrefabInstanceStatus prefabInstanceStatus = PrefabUtility.GetPrefabInstanceStatus(item.viewElementObject);
                 PrefabAssetType prefabAssetType = PrefabUtility.GetPrefabAssetType(item.viewElementObject);
                 if (prefabInstanceStatus == PrefabInstanceStatus.Connected)
@@ -413,6 +418,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             foreach (var item in allViewStateItems)
             {
+                if (item == null || item.viewElementObject == null)
+                {
+                    ViewSystemLog.LogError("One or more item in ViewPage is null, use verifier to find out and fix.");
+
+                    continue;
+                }
                 PrefabInstanceStatus prefabInstanceStatus = PrefabUtility.GetPrefabInstanceStatus(item.viewElementObject);
                 PrefabAssetType prefabAssetType = PrefabUtility.GetPrefabAssetType(item.viewElementObject);
                 if (prefabInstanceStatus == PrefabInstanceStatus.Connected)
