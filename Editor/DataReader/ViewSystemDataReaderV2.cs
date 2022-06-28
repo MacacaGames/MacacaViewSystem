@@ -322,6 +322,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 previewUIRootWrapper = null;
             }
 
+            if (ViewControllerTransform == null)
+            {
+                return;
+            }
             var allViewElement = ViewControllerTransform.GetComponentsInChildren<ViewElement>();
             //NestedViewElement is obslote do nothing with NestedViewElement.
             //var allNestedViewElement = UnityEngine.Object.FindObjectsOfType<NestedViewElement>();
