@@ -107,7 +107,6 @@ You can define the ViewElement and and its RectTransform info by Visual Editor.
 
 ## Override property on a ViewElement
 You can override any property on ViewElement, use preview to take effect the override.
-
 With the override system, you can simply create the ViewElement variant in different ViewPage.
 
 ### Why using ViewSystem's override but not Unity Prefab variant?
@@ -129,6 +128,21 @@ public void MyEvent(Component selectable)
 }
 ```
 
+## Override Property or Button.onClick on a ViewElement via script
+You can override a property via Attribute in a script, take this example, this means override the `sprite` property on `UnityEngine.UI.Image` component on a child GameObject which name is `Frame` by the value of `someSprite` variable.
+
+```csharp
+[OverrideProperty("Frame", typeof(UnityEngine.UI.Image), nameof(UnityEngine.UI.Image.sprite)) ]
+[SerializeField]
+Sprite someSprite;
+
+
+[OverrideButtonEvent("TopRect/Button")]
+void Test(Component component)
+{
+    Debug.Log("success");
+}
+```
 
 
 # Components
