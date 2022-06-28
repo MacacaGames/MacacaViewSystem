@@ -131,6 +131,7 @@ namespace MacacaGames.ViewSystem
     public class PropertyOverride
     {
         BindingFlags defaultBindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
+       
 
         public object GetValue()
         {

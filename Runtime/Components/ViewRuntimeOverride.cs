@@ -83,84 +83,84 @@ namespace MacacaGames.ViewSystem
         public void ClearAllEvent()
         {
             currentEventDelegates.Clear();
-            // foreach (var item in cachedUnityEvent)
-            // {
-            //     item.Value.unityEvent.RemoveAllListeners();
-            // }
         }
 
-        internal void SetEvent(IEnumerable<ViewElementEventData> eventDatas)
+        internal void SetEvents(IEnumerable<ViewElementEventData> eventDatas)
         {
-            currentEventDatas = eventDatas.ToArray();
-
-            //Group by Component transform_component_property
-            //var groupedEventData = eventDatas.GroupBy(item => item.targetTransformPath + ";" + item.targetComponentType + ";" + item.targetPropertyName);
-
             foreach (var item in eventDatas)
             {
-                //string[] p = item.Key.Split(';');
-                //p[0] is targetTransformPath
-                Transform targetTansform = GetTransform(item.targetTransformPath);
-                if (targetTansform == null)
+                SetEvent(item);
+            }
+        }
+
+        internal void SetEvent(ViewElementEventData item, Component scriptInstance = null)
+        {
+            //string[] p = item.Key.Split(';');
+            //p[0] is targetTransformPath
+            Transform targetTansform = GetTransform(item.targetTransformPath);
+            if (targetTansform == null)
+            {
+                ViewSystemLog.LogError($"Target GameObject cannot be found [{transform.name} / {item.targetTransformPath}]");
+                return;
+            }
+
+            EventRuntimeDatas eventRuntimeDatas;
+            var id_delegate = item.scriptName + ";" + item.methodName;
+
+            var key = item.targetTransformPath + ";" + item.targetComponentType + ";" + item.targetPropertyName + ";" + id_delegate;
+
+            // Get UnityEvent property instance
+            if (!cachedUnityEvent.TryGetValue(key, out eventRuntimeDatas))
+            {
+                var result = GetCachedComponent(targetTansform, item.targetTransformPath, item.targetComponentType);
+                string property = item.targetPropertyName;
+                if (item.targetTransformPath.Contains("UnityEngine."))
                 {
-                    ViewSystemLog.LogError($"Target GameObject cannot be found [{transform.name} / {item.targetTransformPath}]");
-                    continue;
+                    property = ViewSystemUtilitys.ParseUnityEngineProperty(item.targetPropertyName);
                 }
+                var unityEvent = (UnityEventBase)GetPropertyValue(result.Component, property);
+                eventRuntimeDatas = new EventRuntimeDatas(unityEvent, (Component)result.Component);
+                cachedUnityEvent.Add(key, eventRuntimeDatas);
 
-                EventRuntimeDatas eventRuntimeDatas;
-                var id_delegate = item.scriptName + ";" + item.methodName;
-
-                var key = item.targetTransformPath + ";" + item.targetComponentType + ";" + item.targetPropertyName + ";" + id_delegate;
-
-                // Get UnityEvent property instance
-                if (!cachedUnityEvent.TryGetValue(key, out eventRuntimeDatas))
+                if (eventRuntimeDatas.unityEvent is UnityEvent events)
                 {
-                    var result = GetCachedComponent(targetTansform, item.targetTransformPath, item.targetComponentType);
-                    string property = item.targetPropertyName;
-                    if (item.targetTransformPath.Contains("UnityEngine."))
+                    events.AddListener(() =>
                     {
-                        property = ViewSystemUtilitys.ParseUnityEngineProperty(item.targetPropertyName);
-                    }
-                    var unityEvent = (UnityEventBase)GetPropertyValue(result.Component, property);
-                    eventRuntimeDatas = new EventRuntimeDatas(unityEvent, (Component)result.Component);
-                    cachedUnityEvent.Add(key, eventRuntimeDatas);
-
-                    if (eventRuntimeDatas.unityEvent is UnityEvent events)
-                    {
-                        events.AddListener(() =>
-                        {
-                            EventHandler(id_delegate);
-                        });
-                    }
+                        EventHandler(id_delegate);
+                    });
                 }
+            }
 
-                if (!cachedDelegate.TryGetValue(id_delegate, out EventDelegate<Component> openDelegate))
+            if (!cachedDelegate.TryGetValue(id_delegate, out EventDelegate<Component> openDelegate))
+            {
+                // Get Method
+                Type type = Utility.GetType(item.scriptName);
+
+                //The method impletmented Object
+                if (scriptInstance == null)
                 {
-                    // Get Method
-                    Type type = Utility.GetType(item.scriptName);
+                    scriptInstance = (Component)FindObjectOfType(type);
 
-                    //The method impletmented Object
-                    Component scriptInstance = (Component)FindObjectOfType(type);
-
+                    //Still null, generate new one
                     if (scriptInstance == null)
                     {
                         scriptInstance = GenerateScriptInstance(type);
                     }
-
-                    //Create Open Delegate
-                    try
-                    {
-                        openDelegate = CreateOpenDelegate(item.methodName, scriptInstance);
-                    }
-                    catch (Exception ex)
-                    {
-                        ViewSystemLog.LogError($"Create event delegate faild, make sure the method or the instance is exinst. Exception:{ex.ToString()}", this);
-                    }
-                    cachedDelegate.Add(id_delegate, openDelegate);
                 }
-                currentEventDelegates.Add(id_delegate, openDelegate);
-                currentComponent = eventRuntimeDatas.component;
+
+                //Create Open Delegate
+                try
+                {
+                    openDelegate = CreateOpenDelegate(item.methodName, scriptInstance);
+                }
+                catch (Exception ex)
+                {
+                    ViewSystemLog.LogError($"Create event delegate faild, make sure the method or the instance is exinst. Exception:{ex.ToString()}", this);
+                }
+                cachedDelegate.Add(id_delegate, openDelegate);
             }
+            currentEventDelegates.Add(id_delegate, openDelegate);
+            currentComponent = eventRuntimeDatas.component;
         }
         Dictionary<string, EventDelegate<Component>> currentEventDelegates = new Dictionary<string, EventDelegate<Component>>();
         UnityEngine.Component currentComponent;
@@ -201,53 +201,69 @@ namespace MacacaGames.ViewSystem
                 }
             }
             currentModifiedField.Clear();
+            requireSetDirtyTarget.Clear();
         }
-        static BindingFlags bindingFlags =
+        static
+            BindingFlags bindingFlags =
             BindingFlags.NonPublic |
             BindingFlags.Public |
             BindingFlags.Instance |
             BindingFlags.Static;
         Dictionary<string, UnityEngine.Object> cachedComponent = new Dictionary<string, UnityEngine.Object>();
         List<UnityEngine.UI.Graphic> requireSetDirtyTarget = new List<UnityEngine.UI.Graphic>();
-        internal void ApplyOverride(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
+        internal void ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
-            requireSetDirtyTarget.Clear();
             foreach (var item in overrideDatas)
             {
-                Transform targetTansform = GetTransform(item.targetTransformPath);
-                if (targetTansform == null)
-                {
-                    ViewSystemLog.LogError($"Target GameObject cannot be found [{transform.name} / {item.targetTransformPath}]");
-                    continue;
-                }
-
-                var result = GetCachedComponent(targetTansform, item.targetTransformPath, item.targetComponentType);
-                if (result.Component == null)
-                {
-                    ViewSystemLog.LogError($"Target Component cannot be found [{item.targetComponentType}]");
-                    continue;
-                }
-
-                var idForProperty = result.Id + "#" + item.targetPropertyName;
-                if (!prefabDefaultFields.ContainsKey(idForProperty))
-                {
-                    prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetPropertyValue(result.Component, item.targetPropertyName), result.Id, item.targetPropertyName));
-                }
-
-                currentModifiedField.Add(idForProperty);
-                SetPropertyValue(result.Component, item.targetPropertyName, item.Value.GetValue());
-                if (item.Value.s_Type == PropertyOverride.S_Type._color)
-                {
-                    if (result.Component.GetType().IsSubclassOf(typeof(Graphic)))
-                        requireSetDirtyTarget.Add(result.Component as Graphic);
-                    if (result.Component.GetType().IsSubclassOf(typeof(BaseMeshEffect)))
-                        requireSetDirtyTarget.Add((result.Component as Component).GetComponent<Graphic>());
-                }
+                ApplyOverride(item);
             }
-            foreach (var item in requireSetDirtyTarget)
+        }
+
+        internal void ApplyOverride(ViewElementPropertyOverrideData overrideData)
+        {
+            Transform targetTansform = GetTransform(overrideData.targetTransformPath);
+            if (targetTansform == null)
             {
-                item?.SetAllDirty();
+                ViewSystemLog.LogError($"Target GameObject cannot be found [{transform.name} / {overrideData.targetTransformPath}]");
+                return;
             }
+
+            var result = GetCachedComponent(targetTansform, overrideData.targetTransformPath, overrideData.targetComponentType);
+            if (result.Component == null)
+            {
+                ViewSystemLog.LogError($"Target Component cannot be found [{overrideData.targetComponentType}]");
+                return;
+            }
+
+            var idForProperty = result.Id + "#" + overrideData.targetPropertyName;
+            if (!prefabDefaultFields.ContainsKey(idForProperty))
+            {
+                prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetPropertyValue(result.Component, overrideData.targetPropertyName), result.Id, overrideData.targetPropertyName));
+            }
+
+            currentModifiedField.Add(idForProperty);
+            SetPropertyValue(result.Component, overrideData.targetPropertyName, overrideData.Value.GetValue());
+            Graphic targetGraphic = null;
+            if (overrideData.Value.s_Type == PropertyOverride.S_Type._color)
+            {
+                if (result.Component.GetType().IsSubclassOf(typeof(Graphic)))
+                {
+                    targetGraphic = result.Component as Graphic;
+                    // requireSetDirtyTarget.Add();
+                }
+                if (result.Component.GetType().IsSubclassOf(typeof(BaseMeshEffect)))
+                {
+                    targetGraphic = (result.Component as Component).GetComponent<Graphic>();
+                    // requireSetDirtyTarget.Add((result.Component as Component).GetComponent<Graphic>());
+                }
+
+            }
+            if (targetGraphic != null)
+            {
+                targetGraphic.SetAllDirty();
+                requireSetDirtyTarget.Add(targetGraphic);
+            }
+
         }
         public Transform GetTransform(string targetTransformPath)
         {

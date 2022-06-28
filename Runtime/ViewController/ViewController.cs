@@ -341,7 +341,7 @@ namespace MacacaGames.ViewSystem
                 }
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
-                item.runtimeViewElement.ApplyEvent(item.eventDatas);
+                item.runtimeViewElement.ApplyEvents(item.eventDatas);
 
                 var transformData = item.GetCurrentViewElementTransform(breakPointsStatus);
 
@@ -505,7 +505,7 @@ namespace MacacaGames.ViewSystem
                 }
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
-                item.runtimeViewElement.ApplyEvent(item.eventDatas);
+                item.runtimeViewElement.ApplyEvents(item.eventDatas);
 
                 var transformData = item.GetCurrentViewElementTransform(breakPointsStatus);
 

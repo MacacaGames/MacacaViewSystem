@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ namespace MacacaGames.ViewSystem
     [DisallowMultipleComponent]
     public class ViewElement : MonoBehaviour
     {
+        const BindingFlags defaultBindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
 
 #if UNITY_EDITOR
         public ViewPageItem currentViewPageItem;
@@ -75,7 +77,15 @@ namespace MacacaGames.ViewSystem
             }
             runtimeOverride.ApplyNavigation(navigationDatas);
         }
-        public void ApplyEvent(IEnumerable<ViewElementEventData> eventDatas)
+        public void AddEvent(ViewElementEventData eventData, Component scriptInstance = null)
+        {
+            if (eventData == null)
+            {
+                return;
+            }
+            runtimeOverride.SetEvent(eventData, scriptInstance);
+        }
+        public void ApplyEvents(IEnumerable<ViewElementEventData> eventDatas)
         {
             if (eventDatas == null)
             {
@@ -85,7 +95,11 @@ namespace MacacaGames.ViewSystem
             {
                 return;
             }
-            runtimeOverride.SetEvent(eventDatas);
+            runtimeOverride.SetEvents(eventDatas);
+        }
+        public void AddOverride(ViewElementPropertyOverrideData overrideDatas)
+        {
+            runtimeOverride.ApplyOverride(overrideDatas);
         }
         public void ApplyOverrides(ViewElementOverride overrideDatas)
         {
@@ -102,7 +116,7 @@ namespace MacacaGames.ViewSystem
             {
                 return;
             }
-            runtimeOverride.ApplyOverride(overrideDatas);
+            runtimeOverride.ApplyOverrides(overrideDatas);
         }
         public void RevertOverrides()
         {
@@ -541,20 +555,7 @@ namespace MacacaGames.ViewSystem
                 {
                     viewController.StopMicroCoroutine(canvasGroupCoroutine);
                 }
-                // canvasGroupCoroutine = viewController.StartMicroCoroutine(EaseMethods.EaseValue(
-                //     canvasGroup.alpha,
-                //     1,
-                //     canvasInTime,
-                //     EaseMethods.GetEase(canvasInEase),
-                //     (v) =>
-                //     {
-                //         canvasGroup.alpha = v;
-                //     },
-                //     () =>
-                //     {
-                //         canvasGroupCoroutine = null;
-                //     }
-                //  ));
+
                 canvasGroupCoroutine = viewController.StartMicroCoroutine(
                     EaseUtility.To(
                         canvasGroup.alpha,
@@ -586,6 +587,11 @@ namespace MacacaGames.ViewSystem
                         item.OnStartShow();
                     }
                     catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
+                    try
+                    {
+                        ApplyAutoOverrideAttribute(item);
+                    }
+                    catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
 
                 }
             if (_allGraphics != null)
@@ -601,6 +607,19 @@ namespace MacacaGames.ViewSystem
             showCoroutine = null;
             yield break;
         }
+
+        private void ApplyAutoOverrideAttribute(object source)
+        {
+            foreach (var item in source.GetType().GetMembers(defaultBindingFlags))
+            {
+                var attr = item.GetCustomAttribute<OverrideAttribute>();
+                if (attr != null)
+                {
+                    attr.OnMemberApply(this, source, item);
+                }
+            }
+        }
+
         bool OnLeaveWorking = false;
         //IDisposable OnLeaveDisposable;
         Coroutine leaveCoroutine;
@@ -676,20 +695,7 @@ namespace MacacaGames.ViewSystem
                 {
                     viewController.StopMicroCoroutine(canvasGroupCoroutine);
                 }
-                // canvasGroupCoroutine = viewController.StartMicroCoroutine(EaseMethods.EaseValue(
-                //     canvasGroup.alpha,
-                //     0,
-                //     canvasOutTime,
-                //     EaseMethods.GetEase(canvasOutEase),
-                //     (v) =>
-                //     {
-                //         canvasGroup.alpha = v;
-                //     },
-                //     () =>
-                //     {
-                //         canvasGroupCoroutine = null;
-                //     }
-                //     ));
+
 
                 canvasGroupCoroutine = viewController.StartMicroCoroutine(
                    EaseUtility.To(
