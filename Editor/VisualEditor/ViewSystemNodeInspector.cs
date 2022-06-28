@@ -279,6 +279,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             copyResult.delayIn = copyPasteBuffer.delayIn;
             copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
             copyResult.name = copyPasteBuffer.name;
+            copyResult.sortingOrder = copyPasteBuffer.sortingOrder;
 
             if (copyRectTransform == true)
             {
