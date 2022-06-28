@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace MacacaGames.ViewSystem.VisualEditor
 {
@@ -257,6 +258,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
             {
                 GUI.Label(new Rect(drawRect.x + drawRect.width - 20, drawRect.y + 15f, 20, 20), new GUIContent(Drawer.breakPointIcon, "This page or state has override."));
             }
+            if (HasTransformOverride())
+            {
+                GUI.Label(new Rect(drawRect.x, drawRect.y, 20, 20), new GUIContent(Drawer.transformIcon, "The root Transform of this page or state  override, please notice this override may conflic with RectTransform setting on ViewPage."));
+            }
         }
 
         public virtual bool HasOverride()
@@ -267,6 +272,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             return false;
         }
+        public virtual bool HasTransformOverride()
+        {
+            return false;
+        }
+
         public void Drag(Vector2 delta)
         {
             rect = new Rect(rect.x + delta.x, rect.y + delta.y, rect.width, rect.height);
@@ -503,6 +513,21 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             return false;
         }
+        public override bool HasTransformOverride()
+        {
+            if (viewPage == null)
+            {
+                return false;
+            }
+            foreach (var item in viewPage.viewPageItems)
+            {
+                if (item.overrideDatas.Where(m => string.IsNullOrEmpty(m.targetTransformPath) && m.targetComponentType.ToLower().Contains("transform")).Count() > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public ViewPage viewPage;
     }
 
@@ -556,6 +581,21 @@ namespace MacacaGames.ViewSystem.VisualEditor
             {
                 if (item.breakPointViewElementTransforms != null &&
                     item.breakPointViewElementTransforms?.Count > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public override bool HasTransformOverride()
+        {
+            if (viewState == null)
+            {
+                return false;
+            }
+            foreach (var item in viewState.viewPageItems)
+            {
+                if (item.overrideDatas.Where(m => string.IsNullOrEmpty(m.targetTransformPath) && m.targetComponentType.ToLower().Contains("transform")).Count() > 0)
                 {
                     return true;
                 }

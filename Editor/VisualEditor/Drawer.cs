@@ -63,6 +63,19 @@ public class Drawer
         }
     }
 
+
+    static Texture2D _transformIcon;
+    public static Texture2D transformIcon
+    {
+        get
+        {
+            if (_transformIcon == null)
+            {
+                _transformIcon = EditorGUIUtility.FindTexture( "d_console.warnicon" );
+            }
+            return _transformIcon;
+        }
+    }
     static Texture2D _breakPointIcon;
     public static Texture2D breakPointIcon
     {
@@ -109,7 +122,7 @@ public class Drawer
         {
             if (_inspectorIcon == null)
             {
-                _inspectorIcon = EditorGUIUtility.FindTexture( "d_Profiler.UIDetails@2x" );
+                _inspectorIcon = EditorGUIUtility.FindTexture("d_Profiler.UIDetails@2x");
             }
             return _inspectorIcon;
         }
