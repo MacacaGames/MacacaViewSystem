@@ -107,6 +107,23 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     }
                 );
             }
+            if (this is ViewPageNode)
+            {
+                var vpn = this as ViewPageNode;
+                genericMenu.AddItem(new GUIContent("Duplicate"), false,
+                    () =>
+                    {
+                        if (ViewSystemVisualEditor.Instance != null)
+                        {
+                            var newPageNode = ViewSystemVisualEditor.Instance.AddViewPageNode(new Vector2(vpn.rect.x + 5, vpn.rect.y + 5), vpn.nodeType == NodeType.Overlay);
+                            var json = JsonUtility.ToJson(vpn.viewPage);
+                            JsonUtility.FromJsonOverwrite(json, newPageNode.viewPage);
+                            newPageNode.viewPage.name = newPageNode.viewPage.name + "(Clone)";
+                            newPageNode.rect = new Rect(newPageNode.rect.x + 50, newPageNode.rect.y + 50, newPageNode.rect.width, newPageNode.rect.height);
+                        }
+                    }
+                );
+            }
             genericMenu.ShowAsContext();
         }
         public virtual void OnNodeConnect(ViewSystemNode node)
