@@ -315,7 +315,17 @@ namespace MacacaGames.ViewSystem
             System.Reflection.FieldInfo fieldInfo = t.GetField(fieldName, bindingFlags);
             if (fieldInfo != null)
             {
-                fieldInfo.SetValue(inObj, newValue);
+                // Since we canoot detect null value of an unassign object on object field, so use try-catch to fallback to set null value
+                try 
+                {
+                    fieldInfo.SetValue(inObj, newValue);
+                }
+                catch
+                {
+                    
+                    fieldInfo.SetValue(inObj, null);
+                }
+
                 return;
             }
             if (t.ToString().Contains("UnityEngine."))
@@ -324,7 +334,18 @@ namespace MacacaGames.ViewSystem
             }
             System.Reflection.PropertyInfo info = t.GetProperty(fieldName, bindingFlags);
             if (info != null)
-                info.SetValue(inObj, newValue);
+            {                
+                // Since we canoot detect null value of an unassign object on object field, so use try-catch to fallback to set null value
+
+                try 
+                {
+                    info.SetValue(inObj, newValue);
+                }
+                catch
+                {
+                    info.SetValue(inObj, null);
+                }
+            }
         }
 
         private object GetPropertyValue(object inObj, string fieldName)
