@@ -27,6 +27,11 @@ namespace MacacaGames.ViewSystem
         }
         public static bool IsPropertyNeedIgnore(SerializedProperty prop)
         {
+            if (prop == null)
+            {
+                return true;
+            }
+
             return prop.name == "m_Script" ||
                 prop.name == "m_Name" ||
                 prop.propertyType == SerializedPropertyType.LayerMask ||

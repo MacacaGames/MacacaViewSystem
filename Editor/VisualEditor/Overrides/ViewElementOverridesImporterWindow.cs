@@ -41,6 +41,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     var sp = so.FindProperty(property);
                     if (VS_EditorUtility.IsPropertyNeedIgnore(sp))
                     {
+                        Debug.Log($"{property}");
                         continue;
                     }
                     var temp = new OverridesPropertiesCheckerData();
