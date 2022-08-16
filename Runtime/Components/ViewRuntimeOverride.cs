@@ -217,6 +217,7 @@ namespace MacacaGames.ViewSystem
             {
                 ApplyOverride(item);
             }
+           
         }
 
         internal void ApplyOverride(ViewElementPropertyOverrideData overrideData)
@@ -244,19 +245,15 @@ namespace MacacaGames.ViewSystem
             currentModifiedField.Add(idForProperty);
             SetPropertyValue(result.Component, overrideData.targetPropertyName, overrideData.Value.GetValue());
             Graphic targetGraphic = null;
-            if (overrideData.Value.s_Type == PropertyOverride.S_Type._color)
+            if (result.Component.GetType().IsSubclassOf(typeof(Graphic)))
             {
-                if (result.Component.GetType().IsSubclassOf(typeof(Graphic)))
-                {
-                    targetGraphic = result.Component as Graphic;
-                    // requireSetDirtyTarget.Add();
-                }
-                if (result.Component.GetType().IsSubclassOf(typeof(BaseMeshEffect)))
-                {
-                    targetGraphic = (result.Component as Component).GetComponent<Graphic>();
-                    // requireSetDirtyTarget.Add((result.Component as Component).GetComponent<Graphic>());
-                }
-
+                targetGraphic = result.Component as Graphic;
+                // requireSetDirtyTarget.Add();
+            }
+            if (result.Component.GetType().IsSubclassOf(typeof(BaseMeshEffect)))
+            {
+                targetGraphic = (result.Component as Component).GetComponent<Graphic>();
+                // requireSetDirtyTarget.Add((result.Component as Component).GetComponent<Graphic>());
             }
             if (targetGraphic != null)
             {
@@ -316,13 +313,13 @@ namespace MacacaGames.ViewSystem
             if (fieldInfo != null)
             {
                 // Since we canoot detect null value of an unassign object on object field, so use try-catch to fallback to set null value
-                try 
+                try
                 {
                     fieldInfo.SetValue(inObj, newValue);
                 }
                 catch
                 {
-                    
+
                     fieldInfo.SetValue(inObj, null);
                 }
 
@@ -334,10 +331,10 @@ namespace MacacaGames.ViewSystem
             }
             System.Reflection.PropertyInfo info = t.GetProperty(fieldName, bindingFlags);
             if (info != null)
-            {                
+            {
                 // Since we canoot detect null value of an unassign object on object field, so use try-catch to fallback to set null value
 
-                try 
+                try
                 {
                     info.SetValue(inObj, newValue);
                 }
