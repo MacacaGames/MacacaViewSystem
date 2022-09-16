@@ -230,7 +230,23 @@ namespace MacacaGames.ViewSystem
             overlayPageChangerPool = new Queue<OverlayPageChanger>();
 
             microCoroutine = new MicroCoroutine(ex => unhandledExceptionCallback(ex));
+
+            RemoveEventSub();
         }
+
+        void RemoveEventSub()
+        {
+            OnViewPageChangeStart = null;
+            OnViewPageChange = null;
+            OnViewPageChangeEnd = null;
+            OnOverlayPageLeave = null;
+            OnOverlayPageShow = null;
+            OnOverlayPageLeave = null;
+            OnViewStateChange = null;
+        }
+
+        public void ResetSubscriptions(System.EventHandler<MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs> e) => e = null; 
+
         protected virtual void Start()
         {
 
