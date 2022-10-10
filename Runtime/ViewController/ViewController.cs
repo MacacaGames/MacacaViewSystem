@@ -9,11 +9,12 @@ namespace MacacaGames.ViewSystem
     public class ViewController : ViewControllerBase
     {
         public static ViewController Instance;
-
+        public bool IsReady = false;
         public static ViewElementRuntimePool runtimePool;
         public ViewElementPool viewElementPool;
         static float maxClampTime = 1;
-
+        [SerializeField]
+        public bool initOnAwake = true;
         [SerializeField]
         private ViewSystemSaveData viewSystemSaveData;
 
@@ -30,12 +31,24 @@ namespace MacacaGames.ViewSystem
             transformCache = transform;
             base.Awake();
             _incance = Instance = this;
+            if (initOnAwake)
+            {
+                Init();
+            }
+        }
+
+        public void Init()
+        {
+            // Return if is already init
+            if (IsReady)
+            {
+                return;
+            }
             //Create ViewElementPool
             if (gameObject.name != viewSystemSaveData.globalSetting.ViewControllerObjectPath)
             {
                 ViewSystemLog.LogWarning("The GameObject which attached ViewController is not match the setting in Base Setting.");
             }
-
             //Create UIRoot
             var uiRoot = Instantiate(viewSystemSaveData.globalSetting.UIRoot).transform;
             uiRoot.SetParent(transformCache);
@@ -43,7 +56,6 @@ namespace MacacaGames.ViewSystem
             uiRoot.gameObject.name = viewSystemSaveData.globalSetting.UIRoot.name;
 
             rootCanvasTransform = uiRoot.GetComponentInChildren<Canvas>().transform;
-
 
             var go = new GameObject("ViewElementPool");
             go.transform.SetParent(transformCache);
@@ -66,6 +78,15 @@ namespace MacacaGames.ViewSystem
             {
                 ViewSystemLog.LogError($"Error occur while proccess breakpoint {ex.Message}");
             }
+
+            
+            viewStates = viewSystemSaveData.viewStates.Select(m => m.viewState).ToDictionary(m => m.name, m => m);
+            viewPages = viewSystemSaveData.viewPages.Select(m => m.viewPage).ToDictionary(m => m.name, m => m);
+            viewStatesNames = viewStates.Values.Select(m => m.name);
+
+            PrewarmInjection();
+
+            IsReady = true;
         }
 
         IEnumerator FixedTimeRecovery()
@@ -84,12 +105,6 @@ namespace MacacaGames.ViewSystem
         protected override void Start()
         {
             //Load ViewPages and ViewStates from ViewSystemSaveData
-
-            viewStates = viewSystemSaveData.viewStates.Select(m => m.viewState).ToDictionary(m => m.name, m => m);
-            viewPages = viewSystemSaveData.viewPages.Select(m => m.viewPage).ToDictionary(m => m.name, m => m);
-            viewStatesNames = viewStates.Values.Select(m => m.name);
-
-            PrewarmInjection();
 
             base.Start();
         }
