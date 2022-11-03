@@ -79,7 +79,7 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogError($"Error occur while proccess breakpoint {ex.Message}");
             }
 
-            
+
             viewStates = viewSystemSaveData.viewStates.Select(m => m.viewState).ToDictionary(m => m.name, m => m);
             viewPages = viewSystemSaveData.viewPages.Select(m => m.viewPage).ToDictionary(m => m.name, m => m);
             viewStatesNames = viewStates.Values.Select(m => m.name);
@@ -680,6 +680,11 @@ namespace MacacaGames.ViewSystem
             }
             if (viewPages == null)
             {
+                return false;
+            }
+            if (!IsReady)
+            {
+                ViewSystemLog.LogWarning("ViewController is not ready ignore the call and will always return false until ready.");
                 return false;
             }
             //沒有找到 

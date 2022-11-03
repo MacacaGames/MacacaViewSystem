@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using UnityEngine.EventSystems;
 
 namespace MacacaGames.ViewSystem
 {
@@ -11,7 +11,7 @@ namespace MacacaGames.ViewSystem
     {
 
         protected static float minimumTimeInterval = 0.2f;
-
+        public EventSystem eventSystem;
         public virtual Canvas GetCanvas()
         {
             Canvas result = gameObject.GetComponent<Canvas>();
@@ -232,6 +232,17 @@ namespace MacacaGames.ViewSystem
             microCoroutine = new MicroCoroutine(ex => unhandledExceptionCallback(ex));
 
             RemoveEventSub();
+
+
+        }
+        
+        void CheckEventSystem()
+        {
+            if (FindObjectOfType<EventSystem>() == null)
+            {
+                ViewSystemLog.Log("Create EventSystem due to no instance found on Scene");
+                var eventSystem = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+            }
         }
 
         void RemoveEventSub()
@@ -245,11 +256,11 @@ namespace MacacaGames.ViewSystem
             OnViewStateChange = null;
         }
 
-        public void ResetSubscriptions(System.EventHandler<MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs> e) => e = null; 
+        public void ResetSubscriptions(System.EventHandler<MacacaGames.ViewSystem.ViewControllerBase.ViewPageEventArgs> e) => e = null;
 
         protected virtual void Start()
         {
-
+            CheckEventSystem();
         }
 
         void LateUpdate()
