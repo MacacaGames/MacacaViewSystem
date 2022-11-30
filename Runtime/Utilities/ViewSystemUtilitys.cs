@@ -186,7 +186,23 @@ namespace MacacaGames.ViewSystem
         }
         public static string GetPageRootName(ViewPage viewPage)
         {
-            return "Page_" + (viewPage.viewPageType == ViewPage.ViewPageType.FullPage ? "FullPage" : viewPage.name);
+            string result = "Page_";
+            if (viewPage.viewPageType == ViewPage.ViewPageType.FullPage)
+            {
+                result += "FullPage";
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(viewPage.viewState))
+                {
+                    result += viewPage.name;
+                }
+                else
+                {
+                    result += viewPage.viewState;
+                }
+            }
+            return result;
         }
 
         public class PageRootWrapper
@@ -202,7 +218,7 @@ namespace MacacaGames.ViewSystem
             runtimeRectTransformCache.Clear();
         }
         static Dictionary<string, PageRootWrapper> runtimeRectTransformCache = new Dictionary<string, PageRootWrapper>();
-        public static PageRootWrapper CreatePageTransform(string name, Transform canvasRoot, int sortingOrder,string layerName)
+        public static PageRootWrapper CreatePageTransform(string name, Transform canvasRoot, int sortingOrder, string layerName)
         {
             PageRootWrapper wrapper;
             RectTransform previewUIRootRectTransform;

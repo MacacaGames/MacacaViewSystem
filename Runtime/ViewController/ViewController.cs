@@ -434,6 +434,7 @@ namespace MacacaGames.ViewSystem
             ViewState viewState = null;
             viewStates.TryGetValue(vp.viewState, out viewState);
 
+
             List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
             IEnumerable<ViewPageItem> viewItemNextPage = null;
             IEnumerable<ViewPageItem> viewItemNextState = null;
@@ -459,6 +460,7 @@ namespace MacacaGames.ViewSystem
                         }
                         overlayPageStatus.viewPage = vp;
                     }
+
                 }
                 else
                 {
@@ -497,6 +499,11 @@ namespace MacacaGames.ViewSystem
             }
 
             OnStart?.Invoke();
+
+            if (viewItemNextState != null) viewItemForNextPage.AddRange(viewItemNextState);
+            viewItemForNextPage.AddRange(viewItemNextPage);
+
+
             float onShowTime = ViewSystemUtilitys.CalculateOnShowDuration(viewItemNextPage.Select(m => m.runtimeViewElement));
             float onShowDelay = ViewSystemUtilitys.CalculateDelayInTime(viewItemNextPage);
 
@@ -508,10 +515,8 @@ namespace MacacaGames.ViewSystem
                 item.ChangePage(false, null, null, 0, 0, 0);
             }
 
-            viewItemForNextPage.AddRange(viewItemNextPage);
-            if (viewItemNextState != null) viewItemForNextPage.AddRange(viewItemNextState);
             //對進場的呼叫改變狀態
-            foreach (var item in viewItemNextPage)
+            foreach (var item in viewItemForNextPage)
             {
                 if (RePlayOnShowWhileSamePage && samePage)
                 {
@@ -536,7 +541,10 @@ namespace MacacaGames.ViewSystem
 
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, transformData, item.sortingOrder, item.TweenTime, item.delayIn, reshowIfSamePage: RePlayOnShowWhileSamePage);
             }
-
+            foreach (var item in viewItemForNextPage.OrderBy(m => m.sortingOrder))
+            {
+                item.runtimeViewElement.rectTransform.SetAsLastSibling();
+            }
             SetNavigationTarget(vp);
             yield return runtimePool.RecoveryQueuedViewElement();
             //Fire the event
@@ -636,6 +644,7 @@ namespace MacacaGames.ViewSystem
                 // lastOverlayPageItemDelayOutTimes.TryGetValue(item.runtimeViewElement.name, out float delayOut);
                 item.runtimeViewElement.ChangePage(false, null, null, item.sortingOrder, 0, 0, ignoreTransition);
             }
+
 
             yield return runtimePool.RecoveryQueuedViewElement();
 
