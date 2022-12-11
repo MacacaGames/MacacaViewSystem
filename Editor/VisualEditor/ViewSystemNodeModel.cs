@@ -486,12 +486,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
             DrawNode(viewPage.name, highlight);
             var btnRect = new Rect(drawRect.x, drawRect.y + drawRect.height - 40, drawRect.width, 18);
 
-            bool btnInteractiable = IsInactivable;
-            if (Application.isPlaying)
-            {
-                btnInteractiable = ViewSystemVisualEditor.allowPreviewWhenPlaying && IsInactivable;
-            }
-            if (CustomElement.Button(id, btnRect, new GUIContent("Preview"), new GUIStyle("ObjectPickerResultsEven"), btnInteractiable))
+            // bool btnInteractiable = IsInactivable;
+            // if (Application.isPlaying)
+            // {
+            //     btnInteractiable = ViewSystemVisualEditor.allowPreviewWhenPlaying && IsInactivable;
+            // }
+            if (CustomElement.Button(id, btnRect, new GUIContent("Preview"), new GUIStyle("ObjectPickerResultsEven"), true))
             {
                 OnPreviewBtnClick?.Invoke(viewPage);
                 isSelect = false;

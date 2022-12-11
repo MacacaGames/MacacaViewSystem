@@ -342,6 +342,30 @@ namespace MacacaGames.ViewSystem.VisualEditor
             );
             node.OnPreviewBtnClick += (m) =>
             {
+                if (Application.isPlaying)
+                {
+                    if (EditorUtility.DisplayDialog(
+                                "Warring",
+                                "During play mode, the preview function will try to show/changePage to the target view page, do you want to continue?",
+                                "Go Ahead",
+                                "No, thanks"))
+                    {
+                        PageChanger pageChanger = null;
+                        if (node.nodeType == ViewSystemNode.NodeType.Overlay)
+                        {
+                            pageChanger = ViewController.OverlayPageChanger();
+                        }
+                        else
+                        {
+                            pageChanger = ViewController.FullPageChanger();
+                        }
+                        pageChanger.SetPage(node.viewPage.name)
+                        .Show();
+                    }
+                    return;
+                }
+
+
                 var bps = HasBreakPoint(m);
                 if (bps.Length > 0)
                 {
