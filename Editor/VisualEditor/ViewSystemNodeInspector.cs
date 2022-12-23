@@ -271,15 +271,18 @@ namespace MacacaGames.ViewSystem.VisualEditor
         const int rightBtnWidth = 0;
         ViewPageItem copyPasteBuffer;
         ViewElementOverridesImporterWindow overrideChecker;
-        ViewPageItem CopyItem(bool copyOverride = true, bool copyEvent = true, bool copyRectTransform = true)
+        ViewPageItem CopyItem(bool copyDefault = true, bool copyOverride = true, bool copyEvent = true, bool copyRectTransform = true)
         {
             var copyResult = new ViewPageItem(copyPasteBuffer.viewElement);
-            copyResult.TweenTime = copyPasteBuffer.TweenTime;
-            copyResult.delayOut = copyPasteBuffer.delayOut;
-            copyResult.delayIn = copyPasteBuffer.delayIn;
-            copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
-            copyResult.name = copyPasteBuffer.name;
-            copyResult.sortingOrder = copyPasteBuffer.sortingOrder;
+            if (copyDefault == true)
+            {
+                copyResult.TweenTime = copyPasteBuffer.TweenTime;
+                copyResult.delayOut = copyPasteBuffer.delayOut;
+                copyResult.delayIn = copyPasteBuffer.delayIn;
+                copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
+                copyResult.name = copyPasteBuffer.name;
+                copyResult.sortingOrder = copyPasteBuffer.sortingOrder;
+            }
 
             if (copyRectTransform == true)
             {
@@ -360,28 +363,35 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         genericMenu.AddItem(new GUIContent("Paste (Default)"), false,
                             () =>
                             {
-                                viewPageItemList[index] = CopyItem(false, false, true);
+                                viewPageItemList[index] = CopyItem(true, false, false, true);
+                                GUI.changed = true;
+                            }
+                        );
+                        genericMenu.AddItem(new GUIContent("Paste (Transform Only)"), false,
+                            () =>
+                            {
+                                viewPageItemList[index] = CopyItem(false, false, false, true);
                                 GUI.changed = true;
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Paste (with Property Data)"), false,
                             () =>
                             {
-                                viewPageItemList[index] = CopyItem(true, false, true);
+                                viewPageItemList[index] = CopyItem(true, true, false, true);
                                 GUI.changed = true;
                             }
                         );
                         genericMenu.AddItem(new GUIContent("Paste (with Events Data)"), false,
                            () =>
                            {
-                               viewPageItemList[index] = CopyItem(false, true, true);
+                               viewPageItemList[index] = CopyItem(true, false, true, true);
                                GUI.changed = true;
                            }
                         );
                         genericMenu.AddItem(new GUIContent("Paste (with All Data)"), false,
                            () =>
                            {
-                               viewPageItemList[index] = CopyItem(true, true, true);
+                               viewPageItemList[index] = CopyItem(true, true, true, true);
                                GUI.changed = true;
                            }
                        );
@@ -609,6 +619,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             rect.x -= 20;
             rect.y = oriRect.y += 26;
             viewPageItemList[index].sortingOrder = EditorGUI.IntField(rect, viewPageItemList[index].sortingOrder);
+
 
             rect.width = 24;
             rect.height = 24;
@@ -924,6 +935,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                         Undo.RecordObject(saveData, "ViewSystem_Inspector");
                                     }
                                     vp.canvasSortOrder = temp;
+                                }
+                                using (var change = new EditorGUI.ChangeCheckScope())
+                                {
+                                    var temp = EditorGUILayout.ToggleLeft("Ignore Auto Sorting", vp.ignoreAutoSorting);
+                                    if (change.changed)
+                                    {
+                                        Undo.RecordObject(saveData, "ViewSystem_Inspector");
+                                    }
+                                    vp.ignoreAutoSorting = temp;
                                 }
                                 GUILayout.Label("", new GUIStyle("ToolbarSlider"));
 

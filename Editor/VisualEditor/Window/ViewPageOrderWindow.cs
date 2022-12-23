@@ -49,7 +49,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             foreach (var item in overlayPageNames)
             {
                 var viewPage = saveData.viewPages.FirstOrDefault(m => m.viewPage.name == item);
-                if (viewPage == null)
+                if (viewPage == null || viewPage.viewPage.ignoreAutoSorting)
                 {
                     continue;
                 }
@@ -64,7 +64,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         void RebuildList()
         {
             var overlayPages = dataReader.GetSaveData().viewPages.Where(m => m.viewPage.viewPageType == ViewPage.ViewPageType.Overlay);
-            overlayPageNames = overlayPages.OrderByDescending(m => m.viewPage.canvasSortOrder).Select(m => m.viewPage.name).ToList();
+            overlayPageNames = overlayPages.Where(m => !m.viewPage.ignoreAutoSorting).OrderByDescending(m => m.viewPage.canvasSortOrder).Select(m => m.viewPage.name).ToList();
             viewPageOrderList = null;
             viewPageOrderList = new ReorderableList(overlayPageNames, typeof(List<string>), true, true, false, false);
             viewPageOrderList.drawElementCallback += DrawViewItemElement;

@@ -510,7 +510,7 @@ namespace MacacaGames.ViewSystem
             //對離場的呼叫改變狀態
             foreach (var item in viewElementDoesExitsInNextPage)
             {
-                Debug.LogWarning($"{item.name} not exsit in next page");
+                // Debug.LogWarning($"{item.name} not exsit in next page");
 
                 item.ChangePage(false, null, null, 0, 0, 0);
             }
