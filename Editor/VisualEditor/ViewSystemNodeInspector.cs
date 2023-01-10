@@ -868,15 +868,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             if (sourceRectTransform)
             {
+                targetData.rectTransformData.pivot = sourceRectTransform.pivot;
                 targetData.rectTransformData.anchoredPosition = sourceRectTransform.anchoredPosition3D;
                 targetData.rectTransformData.anchorMax = sourceRectTransform.anchorMax;
                 targetData.rectTransformData.anchorMin = sourceRectTransform.anchorMin;
+                targetData.rectTransformData.localScale = sourceRectTransform.localScale;
+                targetData.rectTransformData.localEulerAngles = sourceRectTransform.localEulerAngles;
+                targetData.rectTransformData.sizeDelta = sourceRectTransform.sizeDelta;
                 targetData.rectTransformData.offsetMax = sourceRectTransform.offsetMax;
                 targetData.rectTransformData.offsetMin = sourceRectTransform.offsetMin;
-                targetData.rectTransformData.pivot = sourceRectTransform.pivot;
-                targetData.rectTransformData.localScale = sourceRectTransform.localScale;
-                targetData.rectTransformData.sizeDelta = sourceRectTransform.sizeDelta;
-                targetData.rectTransformData.localEulerAngles = sourceRectTransform.localEulerAngles;
             }
         }
         static float InspectorWidth = 350;
