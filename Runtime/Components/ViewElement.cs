@@ -108,15 +108,14 @@ namespace MacacaGames.ViewSystem
         public void ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
             RevertOverrides();
-            if (overrideDatas == null)
-            {
-                return;
-            }
-            if (overrideDatas.Count() == 0)
-            {
-                return;
-            }
             runtimeOverride.ApplyOverrides(overrideDatas);
+            if (lifeCyclesObjects != null)
+            {
+                foreach (var item in lifeCyclesObjects.ToArray())
+                {
+                    ApplyAutoOverrideAttribute(item);
+                }
+            }
         }
         public void RevertOverrides()
         {
@@ -585,11 +584,6 @@ namespace MacacaGames.ViewSystem
                     try
                     {
                         item.OnStartShow();
-                    }
-                    catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
-                    try
-                    {
-                        ApplyAutoOverrideAttribute(item);
                     }
                     catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
 

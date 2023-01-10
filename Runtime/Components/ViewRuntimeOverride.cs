@@ -12,6 +12,17 @@ namespace MacacaGames.ViewSystem
     [DisallowMultipleComponent]
     public class ViewRuntimeOverride : MonoBehaviour
     {
+        #region  AutoOverrideAttribute
+        const BindingFlags bindingFlags =
+                BindingFlags.NonPublic |
+                BindingFlags.Public |
+                BindingFlags.Instance |
+                BindingFlags.Static;
+
+
+
+        #endregion
+
         #region NavigationOverride
         // ViewElementNavigationData[] navigationDatas;
         internal void ApplyNavigation(IEnumerable<ViewElementNavigationData> navigationDatas)
@@ -212,21 +223,23 @@ namespace MacacaGames.ViewSystem
             currentModifiedField.Clear();
             requireSetDirtyTarget.Clear();
         }
-        static
-            BindingFlags bindingFlags =
-            BindingFlags.NonPublic |
-            BindingFlags.Public |
-            BindingFlags.Instance |
-            BindingFlags.Static;
+
         Dictionary<string, UnityEngine.Object> cachedComponent = new Dictionary<string, UnityEngine.Object>();
         List<UnityEngine.UI.Graphic> requireSetDirtyTarget = new List<UnityEngine.UI.Graphic>();
         internal void ApplyOverrides(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
         {
+            if (overrideDatas == null)
+            {
+                return;
+            }
+            if (overrideDatas.Count() == 0)
+            {
+                return;
+            }
             foreach (var item in overrideDatas)
             {
                 ApplyOverride(item);
             }
-
         }
 
         internal void ApplyOverride(ViewElementPropertyOverrideData overrideData)
@@ -413,4 +426,7 @@ namespace MacacaGames.ViewSystem
         }
     }
     #endregion
+
+
+
 }
