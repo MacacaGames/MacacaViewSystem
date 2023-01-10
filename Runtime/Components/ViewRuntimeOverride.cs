@@ -131,6 +131,12 @@ namespace MacacaGames.ViewSystem
                 }
             }
 
+            if (item == null || string.IsNullOrEmpty(item.scriptName) || string.IsNullOrEmpty(item.methodName))
+            {
+                ViewSystemLog.LogError($"ViewElementEventData of {gameObject.name} trying to override is incorrect, please check your event override setting", this);
+                return;
+            }
+
             if (!cachedDelegate.TryGetValue(id_delegate, out EventDelegate<Component> openDelegate))
             {
                 // Get Method
@@ -161,6 +167,7 @@ namespace MacacaGames.ViewSystem
             }
             currentEventDelegates.Add(id_delegate, openDelegate);
             currentComponent = eventRuntimeDatas.component;
+
         }
         Dictionary<string, EventDelegate<Component>> currentEventDelegates = new Dictionary<string, EventDelegate<Component>>();
         UnityEngine.Component currentComponent;
