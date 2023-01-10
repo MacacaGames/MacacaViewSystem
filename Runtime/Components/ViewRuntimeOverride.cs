@@ -190,6 +190,8 @@ namespace MacacaGames.ViewSystem
         #endregion
 
         #region  Property Override
+
+        public Action OnApplyOverride;
         public void ResetToDefaultValues()
         {
             foreach (var item in currentModifiedField)
@@ -217,7 +219,7 @@ namespace MacacaGames.ViewSystem
             {
                 ApplyOverride(item);
             }
-           
+
         }
 
         internal void ApplyOverride(ViewElementPropertyOverrideData overrideData)
@@ -260,6 +262,16 @@ namespace MacacaGames.ViewSystem
                 targetGraphic.SetAllDirty();
                 requireSetDirtyTarget.Add(targetGraphic);
             }
+
+            try
+            {
+                OnApplyOverride?.Invoke();
+                if (typeof(IViewElementOverrideListener).IsAssignableFrom(result.Component.GetType()))
+                {
+                    (result.Component as IViewElementOverrideListener).OnApplyOverride();
+                }
+            }
+            catch { }
 
         }
         public Transform GetTransform(string targetTransformPath)
