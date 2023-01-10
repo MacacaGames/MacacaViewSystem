@@ -487,7 +487,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
             var btnRect = new Rect(drawRect.x, drawRect.y + drawRect.height - 40, drawRect.width, 18);
 
             bool btnInteractiable = IsInactivable;
-            if (CustomElement.Button(id, btnRect, new GUIContent("Preview"), new GUIStyle("ObjectPickerResultsEven"), btnInteractiable))
+            var btnText = "Preview";
+            if (Application.isPlaying)
+            {
+                btnText = "Force Show Page";
+            }
+            if (CustomElement.Button(id, btnRect, new GUIContent(btnText), new GUIStyle("ObjectPickerResultsEven"), btnInteractiable))
             {
                 OnPreviewBtnClick?.Invoke(viewPage);
                 isSelect = false;
