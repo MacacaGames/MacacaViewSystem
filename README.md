@@ -237,7 +237,7 @@ public class SomeClass : ViewElementLifeCycle
 > Note : Component implemented **IViewElementLifeCycle** needs to attach on ViewElement or its children.
 
 ## IViewElementInjectable
-System provide a way to get global ViewElement reference from ViewController, component which inherit **IViewElementInjectable** interface will be created as singleton instance, that means the ViewElement will only one instance hole lifecycle.
+System provide a way to get global ViewElement reference from ViewController, component which inherit **IViewElementInjectable** interface will be created as singleton instance, that means the ViewElement will only have one instance in its whole lifecycle.
 
 ```csharp
 public class SomeInjectableClass : MonoBehaviour, IViewElementInjectable
