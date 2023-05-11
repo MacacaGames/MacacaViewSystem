@@ -42,7 +42,18 @@ namespace MacacaGames.ViewSystem
 #pragma warning restore 0649
         public void SetPaddingValue(PerEdgeValues _edgeValues)
         {
+
+
             portraitOrDefaultPaddings = _edgeValues;
+#if UNITY_WEBGL
+
+        // safe padding on webgl get bad result right now, so ignore this setting on webgl platform and take a look on this issue later
+        portraitOrDefaultPaddings.left = EdgeEvaluationMode.Off;
+        portraitOrDefaultPaddings.bottom = EdgeEvaluationMode.Off;
+        portraitOrDefaultPaddings.top = EdgeEvaluationMode.Off;
+        portraitOrDefaultPaddings.right = EdgeEvaluationMode.Off;
+#endif  
+
             UpdateRectBase();
         }
         private DrivenRectTransformTracker m_Tracker;
@@ -263,13 +274,13 @@ namespace MacacaGames.ViewSystem
         {
             // int w = Screen.width;
             // int h = Screen.height;
-            #if UNITY_EDITOR
-                        int w = Screen.width;
-                        int h = Screen.height;
-            #else
+#if UNITY_EDITOR
+            int w = Screen.width;
+            int h = Screen.height;
+#else
                         int w = Screen.currentResolution.width;
                         int h = Screen.currentResolution.height;
-            #endif
+#endif
             //Debug.Log($"{w} {h} {Screen.currentResolution} {absoluteRect}");
             return new Rect(
                 absoluteRect.x / w,
