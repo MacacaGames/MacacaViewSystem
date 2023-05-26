@@ -184,6 +184,10 @@ public class ViewSystemEditHelper : EditorWindow
                 File.WriteAllText(animationControllerAsset, content);
                 AssetDatabase.StopAssetEditing();
                 AssetDatabase.Refresh();
+
+                // 置換 mainName
+                RefrashAnimFilesMainName("Assets/" + ViewSystemEditHelperAnimationFilePath + newAnimationFileName + "/", newAnimationFileName);
+
                 ViewSystemLog.Log("Replace 「" + newAnimationFileName + "」 Animation Controller Motion Clip Completed");
 
                 // Highlight Animator
@@ -191,8 +195,21 @@ public class ViewSystemEditHelper : EditorWindow
                 UnityEditor.EditorGUIUtility.PingObject((Object)AssetDatabase.LoadAssetAtPath(animatorPath, typeof(AnimatorController)));
             }
         }
+    }
 
+    void RefrashAnimFilesMainName(string targetFolder, string newAnimationFileName)
+    {
+        AssetDatabase.Refresh();
+        string[] targetFolders = { targetFolder };
+        var assetGUIDs = AssetDatabase.FindAssets(newAnimationFileName, targetFolders);
 
-
+        foreach (var assetGUID in assetGUIDs)
+        {
+            var assetPath = AssetDatabase.GUIDToAssetPath(assetGUID);
+            AnimatorController controller = (AnimatorController)AssetDatabase.LoadAssetAtPath(assetPath, typeof(AnimatorController));
+            AnimationClip clip = (AnimationClip)AssetDatabase.LoadAssetAtPath(assetPath, typeof(AnimationClip));
+            if (controller != null) controller.name = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(assetGUID));
+            if (clip != null) clip.name = Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(assetGUID));
+        }
     }
 }
