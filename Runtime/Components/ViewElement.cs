@@ -177,6 +177,7 @@ namespace MacacaGames.ViewSystem
             Animator,
             CanvasGroupAlpha,
             ActiveSwitch,
+            ViewElementAnimation,
             Custom
         }
         public TransitionType transition = TransitionType.Animator;
@@ -212,6 +213,7 @@ namespace MacacaGames.ViewSystem
             }
         }
         Coroutine canvasGroupCoroutine = null;
+        Coroutine viewElementAnimationCoroutine = null;
 
         //Custom
         public ViewElementEvent OnShowHandle;
@@ -240,6 +242,19 @@ namespace MacacaGames.ViewSystem
                 if (_animator) return _animator;
                 _animator = GetComponentInChildren<Animator>();
                 return _animator;
+            }
+        }
+
+        private ViewElementAnimation _viewElementAnimation;
+        public ViewElementAnimation viewElementAnimation
+        {
+            get
+            {
+                if (_viewElementAnimation) return _viewElementAnimation;
+                _viewElementAnimation = GetComponent<ViewElementAnimation>();
+                if (_viewElementAnimation) return _viewElementAnimation;
+                _viewElementAnimation = GetComponentInChildren<ViewElementAnimation>();
+                return _viewElementAnimation;
             }
         }
 
@@ -572,6 +587,23 @@ namespace MacacaGames.ViewSystem
                     )
                 );
             }
+            else if (transition == TransitionType.ViewElementAnimation)
+            {
+                if (viewElementAnimationCoroutine != null)
+                {
+                    viewController.StopMicroCoroutine(viewElementAnimationCoroutine);
+                }
+
+                viewElementAnimationCoroutine = viewController.StartMicroCoroutine(
+                    viewElementAnimation.PlayIn(
+                        () =>
+                        {
+                            viewElementAnimationCoroutine = null;
+                        }
+                    )
+                );
+
+            }
             else if (transition == TransitionType.Custom)
             {
                 OnShowHandle.Invoke(null);
@@ -690,7 +722,6 @@ namespace MacacaGames.ViewSystem
                     viewController.StopMicroCoroutine(canvasGroupCoroutine);
                 }
 
-
                 canvasGroupCoroutine = viewController.StartMicroCoroutine(
                    EaseUtility.To(
                        canvasGroup.alpha,
@@ -709,6 +740,22 @@ namespace MacacaGames.ViewSystem
                 );
 
                 goto END;
+            }
+            else if (transition == TransitionType.ViewElementAnimation)
+            {
+                if (viewElementAnimationCoroutine != null)
+                {
+                    viewController.StopMicroCoroutine(viewElementAnimationCoroutine);
+                }
+
+                viewElementAnimationCoroutine = viewController.StartMicroCoroutine(
+                    viewElementAnimation.PlayOut(
+                        () =>
+                        {
+                            viewElementAnimationCoroutine = null;
+                        }
+                    )
+                );
             }
             else if (transition == TransitionType.Custom)
             {
@@ -843,7 +890,10 @@ namespace MacacaGames.ViewSystem
             {
                 result = Mathf.Max(result, canvasOutTime);
             }
-
+            else if (transition == ViewElement.TransitionType.ViewElementAnimation)
+            {
+                result = Mathf.Max(result, viewElementAnimation.GetOutDuration());
+            }
             return Mathf.Clamp(result, 0, 2);
         }
         public virtual float GetInDuration()
@@ -866,7 +916,10 @@ namespace MacacaGames.ViewSystem
             {
                 result = Mathf.Max(result, canvasInTime);
             }
-
+            else if (transition == ViewElement.TransitionType.ViewElementAnimation)
+            {
+                result = Mathf.Max(result, viewElementAnimation.GetInDuration());
+            }
             return result;
         }
 
