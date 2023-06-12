@@ -9,7 +9,7 @@ namespace MacacaGames.ViewSystem
     {
         [SerializeField]
         [Header("By defalut the system use the ViewElement itself as the target, but you can override here.")]
-        public RectTransform overrideTarget;
+        RectTransform overrideTarget;
 
         [SerializeField]
         ViewElementAnimationGroup inAnimation;
@@ -34,11 +34,19 @@ namespace MacacaGames.ViewSystem
         {
             get
             {
-                if (_viewElement != null)
+                if (_viewElement == null)
                 {
                     _viewElement = GetComponent<ViewElement>();
                 }
                 return _viewElement;
+            }
+        }
+
+        public bool IsOverrideTarget
+        {
+            get
+            {
+                return overrideTarget != null && overrideTarget != viewElement.rectTransform;
             }
         }
 
@@ -61,5 +69,16 @@ namespace MacacaGames.ViewSystem
         {
             return outAnimation.Play(targetObject, value);
         }
+
+#if UNITY_EDITOR
+        // void OnValidate()
+        // {
+        //     if (overrideTarget == viewElement.rectTransform)
+        //     {
+        //         overrideTarget = null;
+        //     }
+
+        // }
+#endif
     }
 }

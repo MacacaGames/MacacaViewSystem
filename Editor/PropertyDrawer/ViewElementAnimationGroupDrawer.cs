@@ -42,8 +42,7 @@ namespace MacacaGames.ViewSystem
 
         ReorderableList reorderableList;
         SerializedProperty propertySource;
-        ViewElement viewElement = null;
-        ViewElement original = null;
+     
         bool fold = false;
         private Vector2 contextClick;
 
@@ -53,8 +52,7 @@ namespace MacacaGames.ViewSystem
         {
             PrefabUtility.RecordPrefabInstancePropertyModifications(propertySource.serializedObject.targetObject);
             propertySource.serializedObject.ApplyModifiedProperties();
-            EditorUtility.SetDirty(viewElement);
-
+            EditorUtility.SetDirty(propertySource.serializedObject.targetObject);
         }
         private UnityEditor.AnimatedValues.AnimBool onHideMoveAnimBool;
         private UnityEditor.AnimatedValues.AnimBool onHideRotateAnimBool;
@@ -69,72 +67,90 @@ namespace MacacaGames.ViewSystem
             {
                 return;
             }
-            ViewElementAnimation Target = (ViewElementAnimation)property.serializedObject.targetObject;
-            ViewElementAnimationGroup animation = (ViewElementAnimationGroup)fieldInfo.GetValue(Target);
+            ViewElementAnimationGroup animation = (ViewElementAnimationGroup)fieldInfo.GetValue(property.serializedObject.targetObject);
 
             onHideMoveAnimBool = new AnimBool(animation.moveToggle);
             onHideRotateAnimBool = new AnimBool(animation.rotateToggle);
             onHideScaleAnimBool = new AnimBool(animation.scaleToggle);
             onHideFadeAnimBool = new AnimBool(animation.fadeToggle);
-            viewElement = ((ViewElementAnimation)property.serializedObject.targetObject).GetComponent<ViewElement>();
+            propertySource = property;
             init = true;
         }
         public override void OnGUI(Rect oriRect, SerializedProperty property, GUIContent label)
         {
-            ViewElementAnimation Target = (ViewElementAnimation)property.serializedObject.targetObject;
-            ViewElementAnimationGroup animation = (ViewElementAnimationGroup)fieldInfo.GetValue(Target);
+            UnityEngine.Object Target = property.serializedObject.targetObject;
+            ViewElementAnimationGroup animation = (ViewElementAnimationGroup)fieldInfo.GetValue(property.serializedObject.targetObject);
 
             bool isOverrideTargetTransform = false;
-
-            isOverrideTargetTransform = Target.overrideTarget != null;
+            if (Target is ViewElementAnimation)
+            {
+                isOverrideTargetTransform = (Target as ViewElementAnimation).IsOverrideTarget;
+            }
 
             Init(property);
             Color color = GUI.color;
 
             GUILayout.Label(property.displayName);
-
-
             using (var horizon = new EditorGUILayout.HorizontalScope())
             {
-                GUI.color = animation.moveToggle ? color : Color.gray;
-                if (GUILayout.Button(EditorGUIUtility.IconContent("MoveTool"), "ButtonLeft", GUILayout.Width(25f)))
+                using (var horizon2 = new EditorGUILayout.HorizontalScope())
                 {
-                    Undo.RecordObject(Target, "On Hide Animation Move Toggle");
-                    animation.moveToggle = !animation.moveToggle;
-                    onHideMoveAnimBool.target = animation.moveToggle;
-                    EditorUtility.SetDirty(Target);
+                    GUI.color = animation.moveToggle ? color : Color.gray;
+                    if (GUILayout.Button(EditorGUIUtility.IconContent("MoveTool"), "ButtonLeft", GUILayout.Width(25f)))
+                    {
+                        Undo.RecordObject(Target, "On Hide Animation Move Toggle");
+                        animation.moveToggle = !animation.moveToggle;
+                        onHideMoveAnimBool.target = animation.moveToggle;
+                        EditorUtility.SetDirty(Target);
+                    }
+                    GUI.color = animation.rotateToggle ? color : Color.gray;
+                    if (GUILayout.Button(EditorGUIUtility.IconContent("RotateTool"), "ButtonMid", GUILayout.Width(25f)))
+                    {
+                        Undo.RecordObject(Target, "On Hide Animation Rotate Toggle");
+                        animation.rotateToggle = !animation.rotateToggle;
+                        onHideRotateAnimBool.target = animation.rotateToggle;
+                        EditorUtility.SetDirty(Target);
+                    }
+                    GUI.color = animation.scaleToggle ? color : Color.gray;
+                    if (GUILayout.Button(EditorGUIUtility.IconContent("ScaleTool"), "ButtonMid", GUILayout.Width(25f)))
+                    {
+                        Undo.RecordObject(Target, "On Hide Animation Scale Toggle");
+                        animation.scaleToggle = !animation.scaleToggle;
+                        onHideScaleAnimBool.target = animation.scaleToggle;
+                        EditorUtility.SetDirty(Target);
+                    }
+                    GUI.color = animation.fadeToggle ? color : Color.gray;
+                    if (GUILayout.Button(EditorGUIUtility.IconContent("ViewToolOrbit"), "ButtonRight", GUILayout.Width(25f)))
+                    {
+                        Undo.RecordObject(Target, "On Hide Animation Fade Toggle");
+                        animation.fadeToggle = !animation.fadeToggle;
+                        onHideFadeAnimBool.target = animation.fadeToggle;
+                        EditorUtility.SetDirty(Target);
+                    }
+                    GUI.color = color;
                 }
-                GUI.color = animation.rotateToggle ? color : Color.gray;
-                if (GUILayout.Button(EditorGUIUtility.IconContent("RotateTool"), "ButtonMid", GUILayout.Width(25f)))
+                GUILayout.FlexibleSpace();
+                using (var horizon2 = new EditorGUILayout.HorizontalScope())
                 {
-                    Undo.RecordObject(Target, "On Hide Animation Rotate Toggle");
-                    animation.rotateToggle = !animation.rotateToggle;
-                    onHideRotateAnimBool.target = animation.rotateToggle;
-                    EditorUtility.SetDirty(Target);
+                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_SaveAs@2x"), "Save"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
+                    {
+                        SaveAsset(animation);
+                    }
+                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_Profiler.Open@2x"), "Load"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
+                    {
+                        LoadAsset();
+                    }
                 }
-                GUI.color = animation.scaleToggle ? color : Color.gray;
-                if (GUILayout.Button(EditorGUIUtility.IconContent("ScaleTool"), "ButtonMid", GUILayout.Width(25f)))
-                {
-                    Undo.RecordObject(Target, "On Hide Animation Scale Toggle");
-                    animation.scaleToggle = !animation.scaleToggle;
-                    onHideScaleAnimBool.target = animation.scaleToggle;
-                    EditorUtility.SetDirty(Target);
-                }
-                GUI.color = animation.fadeToggle ? color : Color.gray;
-                if (GUILayout.Button(EditorGUIUtility.IconContent("ViewToolOrbit"), "ButtonRight", GUILayout.Width(25f)))
-                {
-                    Undo.RecordObject(Target, "On Hide Animation Fade Toggle");
-                    animation.fadeToggle = !animation.fadeToggle;
-                    onHideFadeAnimBool.target = animation.fadeToggle;
-                    EditorUtility.SetDirty(Target);
-                }
-                GUI.color = color;
             }
+
+            GUILayout.Space(2);
 
             if (!animation.HasTweenAnimation)
             {
                 EditorGUILayout.HelpBox("Please at lease toggle one animation on the toggle", MessageType.Warning);
             }
+            EditorGUIUtility.labelWidth = labelWidth;
+
             //Move
             var moveAnimation = animation.moveAnimation;
             if (EditorGUILayout.BeginFadeGroup(onHideMoveAnimBool.faded))
@@ -143,7 +159,7 @@ namespace MacacaGames.ViewSystem
                 {
                     GUILayout.BeginVertical();
                     {
-                        GUILayout.Space(40f);
+                        GUILayout.Space(moveAnimation.isCustom ? 50f : 40f);
                         GUILayout.Label(EditorGUIUtility.IconContent("MoveTool"));
                     }
                     GUILayout.EndVertical();
@@ -152,33 +168,18 @@ namespace MacacaGames.ViewSystem
                         //Duration、Delay
                         GUILayout.BeginHorizontal();
                         {
-                            GUILayout.Label("Duration", GUILayout.Width(labelWidth));
-                            var newDuration = EditorGUILayout.FloatField(moveAnimation.duration);
+                            var newDuration = EditorGUILayout.FloatField("Duration", moveAnimation.duration);
                             if (newDuration != moveAnimation.duration)
                             {
                                 Undo.RecordObject(Target, "On Hide Animation Move Duration");
-                                moveAnimation.duration = newDuration;
+                                moveAnimation.duration = Mathf.Clamp(newDuration, 0, 1f);
                                 EditorUtility.SetDirty(Target);
                             }
-                            // GUILayout.Label("Delay", GUILayout.Width(labelWidth - 20f));
-                            // var newDelay = EditorGUILayout.FloatField(moveAnimation.delay);
-                            // if (newDelay != moveAnimation.delay)
-                            // {
-                            //     Undo.RecordObject(Target, "On Hide Animation Move Delay");
-                            //     moveAnimation.delay = newDelay;
-                            //     EditorUtility.SetDirty(Target);
-                            // }
-                        }
-                        GUILayout.EndHorizontal();
-                        //From
-                        GUILayout.BeginHorizontal();
-                        {
-                            GUILayout.Label("From", GUILayout.Width(labelWidth));
-                            Vector3 newStartValue = EditorGUILayout.Vector3Field(GUIContent.none, moveAnimation.startValue);
-                            if (newStartValue != moveAnimation.startValue)
+                            var newDelay = EditorGUILayout.FloatField("Delay", moveAnimation.delay);
+                            if (newDelay != moveAnimation.delay)
                             {
-                                Undo.RecordObject(Target, "On Hide Animation Move From");
-                                moveAnimation.startValue = newStartValue;
+                                Undo.RecordObject(Target, "On Hide Animation Move Delay");
+                                moveAnimation.delay = Mathf.Clamp(newDelay, 0, 1f);
                                 EditorUtility.SetDirty(Target);
                             }
                         }
@@ -186,49 +187,53 @@ namespace MacacaGames.ViewSystem
                         //Is Custom
                         GUILayout.BeginHorizontal();
                         {
-                            using (var disable = new EditorGUI.DisabledGroupScope(!isOverrideTargetTransform))
+                            GUILayout.Label("From", GUILayout.Width(labelWidth - 2f));
+                            if (GUILayout.Button(moveAnimation.isCustom ? "Fixed Position" : "Current Position", "DropDownButton"))
                             {
-                                GUILayout.Label("To", GUILayout.Width(labelWidth - 2f));
-                                if (GUILayout.Button(moveAnimation.isCustom ? "Custom Position" : "Direction", "DropDownButton"))
-                                {
-                                    GenericMenu gm = new GenericMenu();
-                                    gm.AddItem(new GUIContent("Direction"), !moveAnimation.isCustom, () => { moveAnimation.isCustom = false; EditorUtility.SetDirty(Target); });
-                                    gm.AddItem(new GUIContent("Custom Position"), moveAnimation.isCustom, () => { moveAnimation.isCustom = true; EditorUtility.SetDirty(Target); });
-                                    gm.ShowAsContext();
-                                }
-                            }
-                            if (!isOverrideTargetTransform)
-                            {
-                                moveAnimation.isCustom = false;
+                                GenericMenu gm = new GenericMenu();
+                                gm.AddItem(new GUIContent("Current Position"), !moveAnimation.isCustom, () => { moveAnimation.isCustom = false; EditorUtility.SetDirty(Target); });
+                                gm.AddItem(new GUIContent("Fixed Position"), moveAnimation.isCustom, () => { moveAnimation.isCustom = true; EditorUtility.SetDirty(Target); });
+                                gm.ShowAsContext();
                             }
                         }
                         GUILayout.EndHorizontal();
+                        if (moveAnimation.isCustom)
+                        {
+                            //From
+                            GUILayout.BeginHorizontal();
+                            {
+                                GUILayout.Label(GUIContent.none, GUILayout.Width(labelWidth));
+                                Vector3 newStartValue = EditorGUILayout.Vector3Field(GUIContent.none, moveAnimation.startValue);
+                                if (newStartValue != moveAnimation.startValue)
+                                {
+                                    Undo.RecordObject(Target, "On Hide Animation Move From");
+                                    moveAnimation.startValue = newStartValue;
+                                    EditorUtility.SetDirty(Target);
+                                }
+                            }
+                            GUILayout.EndHorizontal();
+                        }
                         //To
                         GUILayout.BeginHorizontal();
                         {
-                            GUILayout.Label(GUIContent.none, GUILayout.Width(labelWidth));
-                            if (moveAnimation.isCustom)
+                            using (var disable = new EditorGUI.DisabledGroupScope(!isOverrideTargetTransform))
                             {
+                                GUILayout.Label("To", GUILayout.Width(labelWidth));
                                 Vector3 newEndValue = EditorGUILayout.Vector3Field(GUIContent.none, moveAnimation.endValue);
                                 if (newEndValue != moveAnimation.endValue)
                                 {
-                                    Undo.RecordObject(Target, "On Hide Animation Move End");
+                                    Undo.RecordObject(Target, "On Hide Animation Move To");
                                     moveAnimation.endValue = newEndValue;
                                     EditorUtility.SetDirty(Target);
                                 }
                             }
-                            else
-                            {
-                                var newMoveDirection = (UIMoveAnimation.UIMoveAnimationDirection)EditorGUILayout.EnumPopup(moveAnimation.direction);
-                                if (newMoveDirection != moveAnimation.direction)
-                                {
-                                    Undo.RecordObject(Target, "On Hide Animation Move Direction");
-                                    moveAnimation.direction = newMoveDirection;
-                                    EditorUtility.SetDirty(Target);
-                                }
-                            }
+
                         }
                         GUILayout.EndHorizontal();
+                        if (!isOverrideTargetTransform)
+                        {
+                            GUILayout.Label("Current target is root ViewElement, the 'To' value is setting on the ViewSystem Editor");
+                        }
                         //Ease
                         GUILayout.BeginHorizontal();
                         {
@@ -236,7 +241,7 @@ namespace MacacaGames.ViewSystem
                             var newEase = (EaseStyle)EditorGUILayout.EnumPopup(moveAnimation.EaseStyle);
                             if (newEase != moveAnimation.EaseStyle)
                             {
-                                Undo.RecordObject(Target, "On Hide Animation Move Ease");
+                                Undo.RecordObject(Target, "On Hide Animation Rotate Ease");
                                 moveAnimation.EaseStyle = newEase;
                                 EditorUtility.SetDirty(Target);
                             }
@@ -248,7 +253,6 @@ namespace MacacaGames.ViewSystem
                 GUILayout.EndHorizontal();
             }
             EditorGUILayout.EndFadeGroup();
-
 
             //RotateAnimation
             var rotateAnimation = animation.rotateAnimation;
@@ -267,22 +271,20 @@ namespace MacacaGames.ViewSystem
                         //Duration、Delay
                         GUILayout.BeginHorizontal();
                         {
-                            GUILayout.Label("Duration", GUILayout.Width(labelWidth));
-                            var newDuration = EditorGUILayout.FloatField(rotateAnimation.duration);
+                            var newDuration = EditorGUILayout.FloatField("Duration", rotateAnimation.duration);
                             if (newDuration != rotateAnimation.duration)
                             {
                                 Undo.RecordObject(Target, "On Hide Animation Rotate Duration");
-                                rotateAnimation.duration = newDuration;
+                                rotateAnimation.duration = Mathf.Clamp(newDuration, 0, 1f);
                                 EditorUtility.SetDirty(Target);
                             }
-                            // GUILayout.Label("Delay", GUILayout.Width(labelWidth - 20f));
-                            // var newDelay = EditorGUILayout.FloatField(rotateAnimation.delay);
-                            // if (newDelay != rotateAnimation.delay)
-                            // {
-                            //     Undo.RecordObject(Target, "On Hide Animation Rotate Delay");
-                            //     rotateAnimation.delay = newDelay;
-                            //     EditorUtility.SetDirty(Target);
-                            // }
+                            var newDelay = EditorGUILayout.FloatField("Delay", rotateAnimation.delay);
+                            if (newDelay != rotateAnimation.delay)
+                            {
+                                Undo.RecordObject(Target, "On Hide Animation Rotate Delay");
+                                rotateAnimation.delay = Mathf.Clamp(newDelay, 0, 1f);
+                                EditorUtility.SetDirty(Target);
+                            }
                         }
                         GUILayout.EndHorizontal();
                         //Is Custom
@@ -328,8 +330,13 @@ namespace MacacaGames.ViewSystem
                                     EditorUtility.SetDirty(Target);
                                 }
                             }
+
                         }
                         GUILayout.EndHorizontal();
+                        if (!isOverrideTargetTransform)
+                        {
+                            GUILayout.Label("Current target is root ViewElement, the 'To' value is setting on the ViewSystem Editor");
+                        }
                         //Rotate Mode
                         // GUILayout.BeginHorizontal();
                         // {
@@ -382,22 +389,20 @@ namespace MacacaGames.ViewSystem
                         //Duration、Delay
                         GUILayout.BeginHorizontal();
                         {
-                            GUILayout.Label("Duration", GUILayout.Width(labelWidth));
-                            var newDuration = EditorGUILayout.FloatField(scaleAnimation.duration);
+                            var newDuration = EditorGUILayout.FloatField("Duration", scaleAnimation.duration);
                             if (newDuration != scaleAnimation.duration)
                             {
                                 Undo.RecordObject(Target, "On Hide Animation Scale Duration");
-                                scaleAnimation.duration = newDuration;
+                                scaleAnimation.duration = Mathf.Clamp(newDuration, 0, 1f);
                                 EditorUtility.SetDirty(Target);
                             }
-                            // GUILayout.Label("Delay", GUILayout.Width(labelWidth - 20f));
-                            // var newDelay = EditorGUILayout.FloatField(scaleAnimation.delay);
-                            // if (newDelay != scaleAnimation.delay)
-                            // {
-                            //     Undo.RecordObject(Target, "On Hide Animation Scale Delay");
-                            //     scaleAnimation.delay = newDelay;
-                            //     EditorUtility.SetDirty(Target);
-                            // }
+                            var newDelay = EditorGUILayout.FloatField("Delay", scaleAnimation.delay);
+                            if (newDelay != scaleAnimation.delay)
+                            {
+                                Undo.RecordObject(Target, "On Hide Animation Scale Delay");
+                                scaleAnimation.delay = Mathf.Clamp(newDelay, 0, 1f);
+                                EditorUtility.SetDirty(Target);
+                            }
                         }
                         GUILayout.EndHorizontal();
                         //Is Custom
@@ -443,8 +448,13 @@ namespace MacacaGames.ViewSystem
                                     EditorUtility.SetDirty(Target);
                                 }
                             }
+
                         }
                         GUILayout.EndHorizontal();
+                        if (!isOverrideTargetTransform)
+                        {
+                            GUILayout.Label("Current target is root ViewElement, the 'To' value is setting on the ViewSystem Editor");
+                        }
                         //Ease
                         GUILayout.BeginHorizontal();
                         {
@@ -484,22 +494,20 @@ namespace MacacaGames.ViewSystem
                         //Duration、Delay
                         GUILayout.BeginHorizontal();
                         {
-                            GUILayout.Label("Duration", GUILayout.Width(labelWidth));
-                            var newDuration = EditorGUILayout.FloatField(fadeAnimation.duration);
+                            var newDuration = EditorGUILayout.FloatField("Duration", fadeAnimation.duration);
                             if (newDuration != fadeAnimation.duration)
                             {
                                 Undo.RecordObject(Target, "On Hide Animation Fade Duration");
-                                fadeAnimation.duration = newDuration;
+                                fadeAnimation.duration = Mathf.Clamp(newDuration, 0, 1f);
                                 EditorUtility.SetDirty(Target);
                             }
-                            // GUILayout.Label("Delay", GUILayout.Width(labelWidth - 20f));
-                            // var newDelay = EditorGUILayout.FloatField(fadeAnimation.delay);
-                            // if (newDelay != fadeAnimation.delay)
-                            // {
-                            //     Undo.RecordObject(Target, "On Hide Animation Fade Delay");
-                            //     fadeAnimation.delay = newDelay;
-                            //     EditorUtility.SetDirty(Target);
-                            // }
+                            var newDelay = EditorGUILayout.FloatField("Delay", fadeAnimation.delay);
+                            if (newDelay != fadeAnimation.delay)
+                            {
+                                Undo.RecordObject(Target, "On Hide Animation Fade Delay");
+                                fadeAnimation.delay = Mathf.Clamp(newDelay, 0, 1f);
+                                EditorUtility.SetDirty(Target);
+                            }
                         }
                         GUILayout.EndHorizontal();
                         //Is Custom
@@ -565,6 +573,42 @@ namespace MacacaGames.ViewSystem
             EditorGUILayout.EndFadeGroup();
 
         }
+        string extension = "asset";
+        void SaveAsset(ViewElementAnimationGroup group)
+        {
+            var filePath = EditorUtility.SaveFilePanelInProject(
+                "Save current data",
+                 $"NewViewElementAnimationGroup.{extension}",
+                extension, "", "Assets");
+            if (string.IsNullOrEmpty(filePath)) return;
+            if (!File.Exists(filePath))
+            {
+                var result = ScriptableObject.CreateInstance<ViewElementAnimationGroupAsset>();
+                result.viewElementAnimationGroup = group;
+                AssetDatabase.CreateAsset(result, filePath);
+            }
+            else
+            {
+                var currentAsset = AssetDatabase.LoadAssetAtPath<ViewElementAnimationGroupAsset>(filePath);
+                currentAsset.viewElementAnimationGroup = group;
+                EditorUtility.SetDirty(currentAsset);
+                AssetDatabase.SaveAssets();
+            }
 
+            AssetDatabase.Refresh();
+        }
+
+        void LoadAsset()
+        {
+            string path = EditorUtility.OpenFilePanel("Select asset", "Assets", extension);
+            path = path.Replace(Application.dataPath, "Assets");
+            if (string.IsNullOrEmpty(path))
+            {
+                Debug.Log(path);
+                return;
+            }
+            var result = AssetDatabase.LoadAssetAtPath<ViewElementAnimationGroupAsset>(path);
+            fieldInfo.SetValue(propertySource.serializedObject.targetObject, result.viewElementAnimationGroup);
+        }
     }
 }

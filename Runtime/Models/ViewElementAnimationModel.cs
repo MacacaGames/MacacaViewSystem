@@ -64,18 +64,22 @@ namespace MacacaGames.ViewSystem
             if (moveToggle)
             {
                 result += moveAnimation.duration;
+                result += moveAnimation.delay;
             }
             if (rotateToggle)
             {
                 result += rotateAnimation.duration;
+                result += rotateAnimation.delay;
             }
             if (scaleToggle)
             {
                 result += scaleAnimation.duration;
+                result += scaleAnimation.delay;
             }
             if (fadeToggle)
             {
                 result += fadeAnimation.duration;
+                result += fadeAnimation.delay;
             }
             return result;
         }
@@ -87,9 +91,24 @@ namespace MacacaGames.ViewSystem
     public class UIAnimation
     {
         public float duration = .4f;
-        // public float delay;
+        public float delay = 0;
         public EaseStyle EaseStyle = EaseStyle.Linear;
         public bool isCustom;
+
+        protected IEnumerator DoDelay()
+        {
+            // float tiem = 0;
+            // if (delay <= 0)
+            // {
+            //     yield break;
+            // }
+            // while (tiem < delay)
+            // {
+            //     tiem += GlobalTimer.deltaTime;
+            //     yield return null;
+            // }
+            yield return null;
+        }
 
     }
     /// <summary>
@@ -119,38 +138,22 @@ namespace MacacaGames.ViewSystem
             BottomRight,
         }
 
-        public UIMoveAnimationDirection direction = UIMoveAnimationDirection.Left;
         public Vector3 startValue;
         public Vector3 endValue;
         public MoveMode moveMode = MoveMode.MoveIn;
         public IEnumerator Play(RectTransform target)
         {
             Vector3 pos = Vector3.zero;
-            float xOffset = target.rect.width / 2 + target.rect.width * target.pivot.x;
-            float yOffset = target.rect.height / 2 + target.rect.height * target.pivot.y;
-            switch (direction)
-            {
-                case UIMoveAnimationDirection.Left: pos = new Vector3(-xOffset, 0f, 0f); break;
-                case UIMoveAnimationDirection.Right: pos = new Vector3(xOffset, 0f, 0f); break;
-                case UIMoveAnimationDirection.Top: pos = new Vector3(0f, yOffset, 0f); break;
-                case UIMoveAnimationDirection.Bottom: pos = new Vector3(0f, -yOffset, 0f); break;
-                case UIMoveAnimationDirection.TopLeft: pos = new Vector3(-xOffset, yOffset, 0f); break;
-                case UIMoveAnimationDirection.TopRight: pos = new Vector3(xOffset, yOffset, 0f); break;
-                case UIMoveAnimationDirection.MiddleCenter: pos = Vector3.zero; break;
-                case UIMoveAnimationDirection.BottomLeft: pos = new Vector3(-xOffset, -yOffset, 0f); break;
-                case UIMoveAnimationDirection.BottomRight: pos = new Vector3(xOffset, -yOffset, 0f); break;
-            }
-            switch (moveMode)
-            {
-                case MoveMode.MoveIn:
-                    target.anchoredPosition3D = isCustom ? startValue : pos;
-                    return EaseUtility.To(target.anchoredPosition3D, endValue, duration, EaseStyle, OnAnimated, null);
+          
+            var _endValue = endValue;
 
-                case MoveMode.MoveOut:
-                    target.anchoredPosition3D = startValue;
-                    return EaseUtility.To(target.anchoredPosition3D, endValue, duration, EaseStyle, OnAnimated, null);
-                default: return null;
+            if (!isCustom)
+            {
+                _endValue = target.anchoredPosition3D;
             }
+
+            return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
+
             void OnAnimated(Vector3 currentValue)
             {
                 target.anchoredPosition3D = currentValue;
@@ -170,12 +173,18 @@ namespace MacacaGames.ViewSystem
         // public RotateMode rotateMode = RotateMode.Fast;
         public IEnumerator Play(RectTransform target)
         {
-            if (isCustom)
+            Vector3 _endValue = endValue;
+
+            if (!isCustom)
             {
+                _endValue = target.localEulerAngles;
+            }
+            else
+            {
+                _endValue = endValue;
                 target.localEulerAngles = startValue;
             }
-            // return target.DORotate(endValue, instant ? 0f : duration, rotateMode).SetDelay(instant ? 0f : delay).SetEaseStyle(EaseStyle);
-            return EaseUtility.To(target.localEulerAngles, endValue, duration, EaseStyle, OnAnimated, null);
+            return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
             void OnAnimated(Vector3 currentValue)
             {
                 target.localEulerAngles = currentValue;
@@ -193,14 +202,22 @@ namespace MacacaGames.ViewSystem
 
         public Vector3 startValue = Vector3.zero;
         public Vector3 endValue = Vector3.one;
-        public IEnumerator Play(RectTransform target, bool instant = false)
+        public IEnumerator Play(RectTransform target)
         {
+            Vector3 _endValue = endValue;
             if (isCustom)
             {
+                _endValue = target.localScale;
                 target.localScale = startValue;
             }
-            // return CoroutineManager.Instance.ProgressionTask(endValue, instant ? 0f : duration).SetDelay(instant ? 0f : delay).SetEaseStyle(EaseStyle);
-            return EaseUtility.To(target.localScale, endValue, duration, EaseStyle, OnAnimated, null);
+            else
+            {
+                _endValue = endValue;
+                target.localScale = startValue;
+            }
+
+            // yield return DoDelay();
+            return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
             void OnAnimated(Vector3 currentValue)
             {
                 target.localScale = currentValue;
@@ -225,14 +242,20 @@ namespace MacacaGames.ViewSystem
                 _cg = target.GetComponent<CanvasGroup>();
                 if (_cg == null)
                 {
-                    throw new Exception("UIFadeAnimation is set but no CanvasGroup found on target object");
+                    Debug.LogError("UIFadeAnimation is set but no CanvasGroup found on target object", target);
                 }
             }
+            float _endValue = endValue;
             if (isCustom)
             {
                 _cg.alpha = startValue;
             }
-            return EaseUtility.To(_cg.alpha, endValue, duration, EaseStyle, OnAnimated, null);
+            else
+            {
+                _endValue = endValue;
+                _cg.alpha = startValue;
+            }
+            return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
             void OnAnimated(float currentValue)
             {
                 _cg.alpha = currentValue;
