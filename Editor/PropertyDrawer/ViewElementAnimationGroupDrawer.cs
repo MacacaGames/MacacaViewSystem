@@ -42,7 +42,7 @@ namespace MacacaGames.ViewSystem
 
         ReorderableList reorderableList;
         SerializedProperty propertySource;
-     
+
         bool fold = false;
         private Vector2 contextClick;
 
@@ -608,7 +608,10 @@ namespace MacacaGames.ViewSystem
                 return;
             }
             var result = AssetDatabase.LoadAssetAtPath<ViewElementAnimationGroupAsset>(path);
-            fieldInfo.SetValue(propertySource.serializedObject.targetObject, result.viewElementAnimationGroup);
+            var json = JsonUtility.ToJson(result.viewElementAnimationGroup);
+            var temp = JsonUtility.FromJson<ViewElementAnimationGroup>(json);
+            fieldInfo.SetValue(propertySource.serializedObject.targetObject, temp);
+            HandleUtility.Repaint();
         }
     }
 }
