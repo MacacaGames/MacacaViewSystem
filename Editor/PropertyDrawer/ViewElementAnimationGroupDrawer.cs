@@ -283,7 +283,7 @@ namespace MacacaGames.ViewSystem
                                     EditorUtility.SetDirty(Target);
                                 }
                             }
-                            moveAnimation.useViewSystemFrom = GUILayout.Toggle(moveAnimation.useViewSystemFrom, "FromViewSystem", new GUIStyle("ButtonMid"));
+                            moveAnimation.useViewSystemFrom = GUILayout.Toggle(moveAnimation.useViewSystemFrom, "Current Position", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))
@@ -309,7 +309,7 @@ namespace MacacaGames.ViewSystem
                                     EditorUtility.SetDirty(Target);
                                 }
                             }
-                            moveAnimation.useViewSystemTo = GUILayout.Toggle(moveAnimation.useViewSystemTo, "FromViewSystem", new GUIStyle("ButtonMid"));
+                            moveAnimation.useViewSystemTo = GUILayout.Toggle(moveAnimation.useViewSystemTo, "Current Position", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))
@@ -389,7 +389,7 @@ namespace MacacaGames.ViewSystem
                                     EditorUtility.SetDirty(Target);
                                 }
                             }
-                            rotateAnimation.useViewSystemFrom = GUILayout.Toggle(rotateAnimation.useViewSystemFrom, "FromViewSystem", new GUIStyle("ButtonMid"));
+                            rotateAnimation.useViewSystemFrom = GUILayout.Toggle(rotateAnimation.useViewSystemFrom, "Current Rotation", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))
@@ -417,7 +417,7 @@ namespace MacacaGames.ViewSystem
                                     EditorUtility.SetDirty(Target);
                                 }
                             }
-                            rotateAnimation.useViewSystemTo = GUILayout.Toggle(rotateAnimation.useViewSystemTo, "FromViewSystem", new GUIStyle("ButtonMid"));
+                            rotateAnimation.useViewSystemTo = GUILayout.Toggle(rotateAnimation.useViewSystemTo, "Current Rotation", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))
@@ -526,7 +526,7 @@ namespace MacacaGames.ViewSystem
                                     EditorUtility.SetDirty(Target);
                                 }
                             }
-                            scaleAnimation.useViewSystemFrom = GUILayout.Toggle(scaleAnimation.useViewSystemFrom, "FromViewSystem", new GUIStyle("ButtonMid"));
+                            scaleAnimation.useViewSystemFrom = GUILayout.Toggle(scaleAnimation.useViewSystemFrom, "Current Scale", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))
@@ -553,7 +553,7 @@ namespace MacacaGames.ViewSystem
                                     EditorUtility.SetDirty(Target);
                                 }
                             }
-                            scaleAnimation.useViewSystemTo = GUILayout.Toggle(scaleAnimation.useViewSystemTo, "FromViewSystem", new GUIStyle("ButtonMid"));
+                            scaleAnimation.useViewSystemTo = GUILayout.Toggle(scaleAnimation.useViewSystemTo, "Current Scale", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))

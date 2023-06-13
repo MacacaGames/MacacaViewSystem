@@ -131,13 +131,19 @@ namespace MacacaGames.ViewSystem
             Vector3 pos = Vector3.zero;
 
             var _endValue = endValue;
+            var _startValue = startValue;
 
-            // if (!isCustom)
-            // {
-            //     _endValue = target.anchoredPosition3D;
-            // }
+            if (useViewSystemFrom)
+            {
+                _startValue = target.anchoredPosition3D;
+            }
 
-            return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
+            if (useViewSystemTo)
+            {
+                _endValue = target.anchoredPosition3D;
+            }
+
+            return EaseUtility.To(_startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
 
             void OnAnimated(Vector3 currentValue)
             {
@@ -152,24 +158,25 @@ namespace MacacaGames.ViewSystem
     [Serializable]
     public class UIRotateAnimation : UIAnimation
     {
-
         public Vector3 startValue;
         public Vector3 endValue;
         // public RotateMode rotateMode = RotateMode.Fast;
         public IEnumerator Play(RectTransform target)
         {
             Vector3 _endValue = endValue;
+            Vector3 _startValue = startValue;
 
-            // if (!isCustom)
-            // {
-            //     _endValue = target.localEulerAngles;
-            // }
-            // else
-            // {
-            _endValue = endValue;
-            target.localEulerAngles = startValue;
-            // }
-            return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
+            if (useViewSystemFrom)
+            {
+                _startValue = target.localEulerAngles;
+            }
+
+            if (useViewSystemTo)
+            {
+                _endValue = target.localEulerAngles;
+            }
+
+            return EaseUtility.To(_startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
             void OnAnimated(Vector3 currentValue)
             {
                 target.localEulerAngles = currentValue;
@@ -190,19 +197,18 @@ namespace MacacaGames.ViewSystem
         public IEnumerator Play(RectTransform target)
         {
             Vector3 _endValue = endValue;
-            // if (isCustom)
-            // {
-            //     _endValue = target.localScale;
-            //     target.localScale = startValue;
-            // }
-            // else
-            // {
-            _endValue = endValue;
-            target.localScale = startValue;
-            // }
+            Vector3 _startValue = startValue;
 
-            // yield return DoDelay();
-            return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
+            if (useViewSystemFrom)
+            {
+                _startValue = target.localScale;
+            }
+
+            if (useViewSystemTo)
+            {
+                _endValue = target.localScale;
+            }
+            return EaseUtility.To(_startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
             void OnAnimated(Vector3 currentValue)
             {
                 target.localScale = currentValue;
@@ -231,15 +237,9 @@ namespace MacacaGames.ViewSystem
                 }
             }
             float _endValue = endValue;
-            // if (isCustom)
-            // {
-            //     _cg.alpha = startValue;
-            // }
-            // else
-            // {
+
             _endValue = endValue;
             _cg.alpha = startValue;
-            // }
             return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
             void OnAnimated(float currentValue)
             {
