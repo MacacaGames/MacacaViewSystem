@@ -93,23 +93,6 @@ namespace MacacaGames.ViewSystem
         public float duration = .4f;
         public float delay = 0;
         public EaseStyle EaseStyle = EaseStyle.Linear;
-        public bool isCustom;
-
-        protected IEnumerator DoDelay()
-        {
-            // float tiem = 0;
-            // if (delay <= 0)
-            // {
-            //     yield break;
-            // }
-            // while (tiem < delay)
-            // {
-            //     tiem += GlobalTimer.deltaTime;
-            //     yield return null;
-            // }
-            yield return null;
-        }
-
     }
     /// <summary>
     /// UI移动动画
@@ -144,13 +127,13 @@ namespace MacacaGames.ViewSystem
         public IEnumerator Play(RectTransform target)
         {
             Vector3 pos = Vector3.zero;
-          
+
             var _endValue = endValue;
 
-            if (!isCustom)
-            {
-                _endValue = target.anchoredPosition3D;
-            }
+            // if (!isCustom)
+            // {
+            //     _endValue = target.anchoredPosition3D;
+            // }
 
             return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
 
@@ -175,15 +158,15 @@ namespace MacacaGames.ViewSystem
         {
             Vector3 _endValue = endValue;
 
-            if (!isCustom)
-            {
-                _endValue = target.localEulerAngles;
-            }
-            else
-            {
-                _endValue = endValue;
-                target.localEulerAngles = startValue;
-            }
+            // if (!isCustom)
+            // {
+            //     _endValue = target.localEulerAngles;
+            // }
+            // else
+            // {
+            _endValue = endValue;
+            target.localEulerAngles = startValue;
+            // }
             return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
             void OnAnimated(Vector3 currentValue)
             {
@@ -205,16 +188,16 @@ namespace MacacaGames.ViewSystem
         public IEnumerator Play(RectTransform target)
         {
             Vector3 _endValue = endValue;
-            if (isCustom)
-            {
-                _endValue = target.localScale;
-                target.localScale = startValue;
-            }
-            else
-            {
-                _endValue = endValue;
-                target.localScale = startValue;
-            }
+            // if (isCustom)
+            // {
+            //     _endValue = target.localScale;
+            //     target.localScale = startValue;
+            // }
+            // else
+            // {
+            _endValue = endValue;
+            target.localScale = startValue;
+            // }
 
             // yield return DoDelay();
             return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
@@ -246,15 +229,15 @@ namespace MacacaGames.ViewSystem
                 }
             }
             float _endValue = endValue;
-            if (isCustom)
-            {
-                _cg.alpha = startValue;
-            }
-            else
-            {
-                _endValue = endValue;
-                _cg.alpha = startValue;
-            }
+            // if (isCustom)
+            // {
+            //     _cg.alpha = startValue;
+            // }
+            // else
+            // {
+            _endValue = endValue;
+            _cg.alpha = startValue;
+            // }
             return EaseUtility.To(startValue, _endValue, duration, EaseStyle, OnAnimated, null, delay);
             void OnAnimated(float currentValue)
             {
