@@ -121,8 +121,6 @@ namespace MacacaGames.ViewSystem
                     MessageType.Info);
             }
 
-
-
             UnityEngine.Object Target = property.serializedObject.targetObject;
             ViewElementAnimationGroup animationGroup = (ViewElementAnimationGroup)fieldInfo.GetValue(property.serializedObject.targetObject);
 
@@ -757,6 +755,16 @@ namespace MacacaGames.ViewSystem
                     GUILayout.EndVertical();
                 }
                 GUILayout.EndHorizontal();
+
+                if (Target is ViewElementAnimation && (Target as ViewElementAnimation).targetObject.GetComponent<CanvasGroup>() == null)
+                {
+                    EditorGUILayout.HelpBox("No CanvasGroup found on TargetObject", MessageType.Error);
+                    if (GUILayout.Button("Add one", EditorStyles.miniButton))
+                    {
+                        (Target as ViewElementAnimation).targetObject.gameObject.AddComponent<CanvasGroup>();
+                        EditorUtility.SetDirty(viewElement.gameObject);
+                    }
+                }
             }
             EditorGUILayout.EndFadeGroup();
 
