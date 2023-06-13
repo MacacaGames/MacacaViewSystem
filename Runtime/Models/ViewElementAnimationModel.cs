@@ -92,6 +92,8 @@ namespace MacacaGames.ViewSystem
     {
         public float duration = .4f;
         public float delay = 0;
+        public bool useViewSystemFrom;
+        public bool useViewSystemTo;
         public EaseStyle EaseStyle = EaseStyle.Linear;
     }
     /// <summary>

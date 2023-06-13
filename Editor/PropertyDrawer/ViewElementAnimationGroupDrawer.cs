@@ -192,8 +192,6 @@ namespace MacacaGames.ViewSystem
                     {
                         if (GUILayout.Button("Preview Animation", "ButtonLeft", GUILayout.Width(120)))
                         {
-
-
                             var target = (Target as ViewElementAnimation).targetObject;
                             var targetCanvasGroup = (Target as ViewElementAnimation).targetObject.GetComponent<CanvasGroup>(); ;
 
@@ -269,33 +267,23 @@ namespace MacacaGames.ViewSystem
                             }
                         }
                         GUILayout.EndHorizontal();
-                        //Is Custom
-                        // GUILayout.BeginHorizontal();
-                        // {
-                        // GUILayout.Label("From", GUILayout.Width(labelWidth - 2f));
-                        // if (GUILayout.Button(moveAnimation.isCustom ? "Fixed Position" : "Current Position", "DropDownButton"))
-                        // {
-                        //     GenericMenu gm = new GenericMenu();
-                        //     gm.AddItem(new GUIContent("Current Position"), !moveAnimation.isCustom, () => { moveAnimation.isCustom = false; EditorUtility.SetDirty(Target); });
-                        //     gm.AddItem(new GUIContent("Fixed Position"), moveAnimation.isCustom, () => { moveAnimation.isCustom = true; EditorUtility.SetDirty(Target); });
-                        //     gm.ShowAsContext();
-                        // }
-                        // }
-                        // GUILayout.EndHorizontal();
-                        // if (moveAnimation.isCustom)
-                        // {
+
                         //From
+
                         GUILayout.BeginHorizontal();
                         {
                             GUILayout.Label("From", GUILayout.Width(labelWidth - 2f));
-
-                            Vector3 newStartValue = EditorGUILayout.Vector3Field(GUIContent.none, moveAnimation.startValue);
-                            if (newStartValue != moveAnimation.startValue)
+                            using (var disable = new EditorGUI.DisabledGroupScope(moveAnimation.useViewSystemFrom))
                             {
-                                Undo.RecordObject(Target, "On Hide Animation Move From");
-                                moveAnimation.startValue = newStartValue;
-                                EditorUtility.SetDirty(Target);
+                                Vector3 newStartValue = EditorGUILayout.Vector3Field(GUIContent.none, moveAnimation.startValue);
+                                if (newStartValue != moveAnimation.startValue)
+                                {
+                                    Undo.RecordObject(Target, "On Hide Animation Move From");
+                                    moveAnimation.startValue = newStartValue;
+                                    EditorUtility.SetDirty(Target);
+                                }
                             }
+                            moveAnimation.useViewSystemFrom = GUILayout.Toggle(moveAnimation.useViewSystemFrom, "FromViewSystem", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))
@@ -304,50 +292,30 @@ namespace MacacaGames.ViewSystem
                                     moveAnimation.startValue = a.GetComponent<RectTransform>().anchoredPosition3D;
                                 }
                             }
-                            using (var disable = new EditorGUI.DisabledGroupScope(!ViewSystemVisualEditor.Instance.EditMode))
-                            {
-                                if (GUILayout.Button("FromViewSystem", "ButtonLeft", GUILayout.Width(120)))
-                                {
-                                    FromViewSystem(
-                                        (t) =>
-                                        {
-                                            moveAnimation.startValue = t.rectTransformData.anchoredPosition;
-                                        }
-                                    );
-                                }
-                            }
                         }
                         GUILayout.EndHorizontal();
-                        // }
+
                         //To
                         GUILayout.BeginHorizontal();
                         {
                             GUILayout.Label("To", GUILayout.Width(labelWidth));
-                            Vector3 newEndValue = EditorGUILayout.Vector3Field(GUIContent.none, moveAnimation.endValue);
-                            if (newEndValue != moveAnimation.endValue)
+                            using (var disable = new EditorGUI.DisabledGroupScope(moveAnimation.useViewSystemTo))
                             {
-                                Undo.RecordObject(Target, "On Hide Animation Move To");
-                                moveAnimation.endValue = newEndValue;
-                                EditorUtility.SetDirty(Target);
+                                Vector3 newEndValue = EditorGUILayout.Vector3Field(GUIContent.none, moveAnimation.endValue);
+                                if (newEndValue != moveAnimation.endValue)
+                                {
+                                    Undo.RecordObject(Target, "On Hide Animation Move To");
+                                    moveAnimation.endValue = newEndValue;
+                                    EditorUtility.SetDirty(Target);
+                                }
                             }
+                            moveAnimation.useViewSystemTo = GUILayout.Toggle(moveAnimation.useViewSystemTo, "FromViewSystem", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))
                                 {
                                     var a = (Target as ViewElementAnimation);
                                     moveAnimation.endValue = a.GetComponent<RectTransform>().anchoredPosition3D;
-                                }
-                            }
-                            using (var disable = new EditorGUI.DisabledGroupScope(!ViewSystemVisualEditor.Instance.EditMode))
-                            {
-                                if (GUILayout.Button("FromViewSystem", "ButtonLeft", GUILayout.Width(120)))
-                                {
-                                    FromViewSystem(
-                                        (t) =>
-                                        {
-                                            moveAnimation.endValue = t.rectTransformData.anchoredPosition;
-                                        }
-                                    );
                                 }
                             }
                         }
@@ -406,32 +374,22 @@ namespace MacacaGames.ViewSystem
                             }
                         }
                         GUILayout.EndHorizontal();
-                        //Is Custom
-                        // GUILayout.BeginHorizontal();
-                        // {
-                        //     GUILayout.Label("From", GUILayout.Width(labelWidth - 2f));
-                        //     if (GUILayout.Button(rotateAnimation.isCustom ? "Fixed Rotation" : "Current Rotation", "DropDownButton"))
-                        //     {
-                        //         GenericMenu gm = new GenericMenu();
-                        //         gm.AddItem(new GUIContent("Current Rotation"), !rotateAnimation.isCustom, () => { rotateAnimation.isCustom = false; EditorUtility.SetDirty(Target); });
-                        //         gm.AddItem(new GUIContent("Fixed Rotation"), rotateAnimation.isCustom, () => { rotateAnimation.isCustom = true; EditorUtility.SetDirty(Target); });
-                        //         gm.ShowAsContext();
-                        //     }
-                        // }
-                        // GUILayout.EndHorizontal();
-                        // if (rotateAnimation.isCustom)
-                        // {
+
                         //From
                         GUILayout.BeginHorizontal();
                         {
                             GUILayout.Label("From", GUILayout.Width(labelWidth - 2f));
-                            Vector3 newStartValue = EditorGUILayout.Vector3Field(GUIContent.none, rotateAnimation.startValue);
-                            if (newStartValue != rotateAnimation.startValue)
+                            using (var disable = new EditorGUI.DisabledGroupScope(rotateAnimation.useViewSystemFrom))
                             {
-                                Undo.RecordObject(Target, "On Hide Animation Rotate From");
-                                rotateAnimation.startValue = newStartValue;
-                                EditorUtility.SetDirty(Target);
+                                Vector3 newStartValue = EditorGUILayout.Vector3Field(GUIContent.none, rotateAnimation.startValue);
+                                if (newStartValue != rotateAnimation.startValue)
+                                {
+                                    Undo.RecordObject(Target, "On Hide Animation Rotate From");
+                                    rotateAnimation.startValue = newStartValue;
+                                    EditorUtility.SetDirty(Target);
+                                }
                             }
+                            rotateAnimation.useViewSystemFrom = GUILayout.Toggle(rotateAnimation.useViewSystemFrom, "FromViewSystem", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))
@@ -440,18 +398,7 @@ namespace MacacaGames.ViewSystem
                                     rotateAnimation.startValue = a.GetComponent<RectTransform>().localEulerAngles;
                                 }
                             }
-                            using (var disable = new EditorGUI.DisabledGroupScope(!ViewSystemVisualEditor.Instance.EditMode))
-                            {
-                                if (GUILayout.Button("FromViewSystem", "ButtonLeft", GUILayout.Width(120)))
-                                {
-                                    FromViewSystem(
-                                        (t) =>
-                                        {
-                                            rotateAnimation.startValue = t.rectTransformData.localEulerAngles;
-                                        }
-                                    );
-                                }
-                            }
+
                         }
                         GUILayout.EndHorizontal();
                         // }
@@ -460,31 +407,23 @@ namespace MacacaGames.ViewSystem
                         {
 
                             GUILayout.Label("To", GUILayout.Width(labelWidth));
-                            Vector3 newEndValue = EditorGUILayout.Vector3Field(GUIContent.none, rotateAnimation.endValue);
-                            if (newEndValue != rotateAnimation.endValue)
+                            using (var disable = new EditorGUI.DisabledGroupScope(rotateAnimation.useViewSystemTo))
                             {
-                                Undo.RecordObject(Target, "On Hide Animation Rotate To");
-                                rotateAnimation.endValue = newEndValue;
-                                EditorUtility.SetDirty(Target);
+                                Vector3 newEndValue = EditorGUILayout.Vector3Field(GUIContent.none, rotateAnimation.endValue);
+                                if (newEndValue != rotateAnimation.endValue)
+                                {
+                                    Undo.RecordObject(Target, "On Hide Animation Rotate To");
+                                    rotateAnimation.endValue = newEndValue;
+                                    EditorUtility.SetDirty(Target);
+                                }
                             }
+                            rotateAnimation.useViewSystemTo = GUILayout.Toggle(rotateAnimation.useViewSystemTo, "FromViewSystem", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))
                                 {
                                     var a = (Target as ViewElementAnimation);
                                     rotateAnimation.endValue = a.GetComponent<RectTransform>().localEulerAngles;
-                                }
-                            }
-                            using (var disable = new EditorGUI.DisabledGroupScope(!ViewSystemVisualEditor.Instance.EditMode))
-                            {
-                                if (GUILayout.Button("FromViewSystem", "ButtonLeft", GUILayout.Width(120)))
-                                {
-                                    FromViewSystem(
-                                        (t) =>
-                                        {
-                                            rotateAnimation.endValue = t.rectTransformData.localEulerAngles;
-                                        }
-                                    );
                                 }
                             }
                         }
@@ -577,13 +516,17 @@ namespace MacacaGames.ViewSystem
                         GUILayout.BeginHorizontal();
                         {
                             GUILayout.Label("From", GUILayout.Width(labelWidth - 2f));
-                            Vector3 newStartValue = EditorGUILayout.Vector3Field(GUIContent.none, scaleAnimation.startValue);
-                            if (newStartValue != scaleAnimation.startValue)
+                            using (var disable = new EditorGUI.DisabledGroupScope(scaleAnimation.useViewSystemFrom))
                             {
-                                Undo.RecordObject(Target, "On Hide Animation Scale From");
-                                scaleAnimation.startValue = newStartValue;
-                                EditorUtility.SetDirty(Target);
+                                Vector3 newStartValue = EditorGUILayout.Vector3Field(GUIContent.none, scaleAnimation.startValue);
+                                if (newStartValue != scaleAnimation.startValue)
+                                {
+                                    Undo.RecordObject(Target, "On Hide Animation Scale From");
+                                    scaleAnimation.startValue = newStartValue;
+                                    EditorUtility.SetDirty(Target);
+                                }
                             }
+                            scaleAnimation.useViewSystemFrom = GUILayout.Toggle(scaleAnimation.useViewSystemFrom, "FromViewSystem", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))
@@ -592,18 +535,7 @@ namespace MacacaGames.ViewSystem
                                     scaleAnimation.startValue = a.GetComponent<RectTransform>().localScale;
                                 }
                             }
-                            using (var disable = new EditorGUI.DisabledGroupScope(!ViewSystemVisualEditor.Instance.EditMode))
-                            {
-                                if (GUILayout.Button("FromViewSystem", "ButtonLeft", GUILayout.Width(120)))
-                                {
-                                    FromViewSystem(
-                                        (t) =>
-                                        {
-                                            scaleAnimation.startValue = t.rectTransformData.localScale;
-                                        }
-                                    );
-                                }
-                            }
+
                         }
                         GUILayout.EndHorizontal();
                         // }
@@ -611,13 +543,17 @@ namespace MacacaGames.ViewSystem
                         GUILayout.BeginHorizontal();
                         {
                             GUILayout.Label("To", GUILayout.Width(labelWidth));
-                            Vector3 newEndValue = EditorGUILayout.Vector3Field(GUIContent.none, scaleAnimation.endValue);
-                            if (newEndValue != scaleAnimation.endValue)
+                            using (var disable = new EditorGUI.DisabledGroupScope(scaleAnimation.useViewSystemTo))
                             {
-                                Undo.RecordObject(Target, "On Hide Animation Scale To");
-                                scaleAnimation.endValue = newEndValue;
-                                EditorUtility.SetDirty(Target);
+                                Vector3 newEndValue = EditorGUILayout.Vector3Field(GUIContent.none, scaleAnimation.endValue);
+                                if (newEndValue != scaleAnimation.endValue)
+                                {
+                                    Undo.RecordObject(Target, "On Hide Animation Scale To");
+                                    scaleAnimation.endValue = newEndValue;
+                                    EditorUtility.SetDirty(Target);
+                                }
                             }
+                            scaleAnimation.useViewSystemTo = GUILayout.Toggle(scaleAnimation.useViewSystemTo, "FromViewSystem", new GUIStyle("ButtonMid"));
                             using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                             {
                                 if (GUILayout.Button("FromTransform", "ButtonLeft", GUILayout.Width(120)))
@@ -626,18 +562,7 @@ namespace MacacaGames.ViewSystem
                                     scaleAnimation.endValue = a.GetComponent<RectTransform>().localScale;
                                 }
                             }
-                            using (var disable = new EditorGUI.DisabledGroupScope(!ViewSystemVisualEditor.Instance.EditMode))
-                            {
-                                if (GUILayout.Button("FromViewSystem", "ButtonLeft", GUILayout.Width(120)))
-                                {
-                                    FromViewSystem(
-                                        (t) =>
-                                        {
-                                            scaleAnimation.endValue = t.rectTransformData.localScale;
-                                        }
-                                    );
-                                }
-                            }
+
                         }
                         GUILayout.EndHorizontal();
 
