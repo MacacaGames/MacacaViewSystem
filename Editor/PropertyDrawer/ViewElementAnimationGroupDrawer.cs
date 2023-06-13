@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using MacacaGames.ViewSystem.VisualEditor;
 using UnityEditor.AnimatedValues;
+using Coroutine = MacacaGames.ViewSystem.MicroCoroutine.Coroutine;
 
 namespace MacacaGames.ViewSystem
 {
@@ -21,18 +22,38 @@ namespace MacacaGames.ViewSystem
         {
             UnityEditor.SceneManagement.PrefabStage.prefabSaving += OnPrefabSaving;
             Undo.undoRedoPerformed += OnUndo;
-
+            EditorApplication.update += Update;
         }
-
         private void OnUndo()
         {
 
+        }
+        bool IsPreviewing
+        {
+            get
+            {
+                return microCoroutine != null && !microCoroutine.IsEmpty && coroutine != null;
+            }
+        }
+
+        MicroCoroutine microCoroutine;
+        Coroutine coroutine;
+        float canvasAlpha = 0;
+        ViewSystemRectTransformData cacheTransformData;
+        private void Update()
+        {
+            if (microCoroutine != null && !microCoroutine.IsEmpty)
+            {
+                microCoroutine.Update();
+            }
         }
 
         ~ViewElementAnimationGroupDrawer()
         {
             UnityEditor.SceneManagement.PrefabStage.prefabSaving -= OnPrefabSaving;
             Undo.undoRedoPerformed -= OnUndo;
+            EditorApplication.update -= Update;
+
         }
         private void OnPrefabSaving(GameObject obj)
         {
@@ -47,7 +68,6 @@ namespace MacacaGames.ViewSystem
         private Vector2 contextClick;
 
         private bool instanceUpdate = true;
-        bool isPreviewing = false;
         void SetDirty()
         {
             PrefabUtility.RecordPrefabInstancePropertyModifications(propertySource.serializedObject.targetObject);
@@ -75,6 +95,7 @@ namespace MacacaGames.ViewSystem
             onHideScaleAnimBool = new AnimBool(animation.scaleToggle);
             onHideFadeAnimBool = new AnimBool(animation.fadeToggle);
             propertySource = property;
+            microCoroutine = new MicroCoroutine((e) => Debug.LogError(e.ToString()));
 
             UnityEngine.Object Target = property.serializedObject.targetObject;
             if (Target as Component)
@@ -148,6 +169,53 @@ namespace MacacaGames.ViewSystem
                     animationGroup.fadeToggle = !animationGroup.fadeToggle;
                     onHideFadeAnimBool.target = animationGroup.fadeToggle;
                     EditorUtility.SetDirty(Target);
+                }
+                GUILayout.Space(10);
+                using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
+                {
+                    if (IsPreviewing)
+                    {
+                        if (GUILayout.Button("Stop Animation", "ButtonLeft", GUILayout.Width(120)))
+                        {
+                            var target = (Target as ViewElementAnimation).targetObject;
+                            var targetCanvasGroup = (Target as ViewElementAnimation).targetObject.GetComponent<CanvasGroup>(); ;
+
+                            if (targetCanvasGroup != null)
+                            {
+                                targetCanvasGroup.alpha = canvasAlpha;
+                            }
+                            if (coroutine != null)
+                                microCoroutine.RemoveCoroutine(coroutine);
+                            if (cacheTransformData != null)
+                                cacheTransformData.SetRectTransform(target);
+                        }
+                    }
+                    else
+                    {
+                        if (GUILayout.Button("Preview Animation", "ButtonLeft", GUILayout.Width(120)))
+                        {
+
+
+                            var target = (Target as ViewElementAnimation).targetObject;
+                            var targetCanvasGroup = (Target as ViewElementAnimation).targetObject.GetComponent<CanvasGroup>(); ;
+
+                            if (targetCanvasGroup != null)
+                            {
+                                canvasAlpha = targetCanvasGroup.alpha;
+                            }
+                            cacheTransformData = new ViewSystemRectTransformData(target);
+                            coroutine = microCoroutine.AddCoroutine(
+                                animationGroup.Play(
+                                    target,
+                                    () =>
+                                    {
+                                        coroutine = null;
+                                    }
+                                )
+                            );
+                        }
+
+                    }
                 }
                 GUI.color = color;
                 GUILayout.FlexibleSpace();

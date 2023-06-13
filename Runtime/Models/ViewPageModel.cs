@@ -38,7 +38,7 @@ namespace MacacaGames.ViewSystem
         public SafePadding.PerEdgeValues edgeValues = new SafePadding.PerEdgeValues();
         public bool flipPadding = false;
         public bool useGlobalSafePadding = true;
-      
+
         #endregion
         #region Navigation
         public bool IsNavigation = false;
@@ -185,7 +185,7 @@ namespace MacacaGames.ViewSystem
             {
                 foreach (var item in breakPointViewElementTransforms)
                 {
-                    if (currentBreakPoints.ContainsKey(item.breakPointName)  && currentBreakPoints[item.breakPointName])
+                    if (currentBreakPoints.ContainsKey(item.breakPointName) && currentBreakPoints[item.breakPointName])
                     {
                         return item.transformData;
                     }
@@ -202,6 +202,7 @@ namespace MacacaGames.ViewSystem
         public string parentPath;
         public ViewSystemRectTransformData rectTransformData = new ViewSystemRectTransformData();
         public ViewElement.RectTransformFlag rectTransformFlag = ViewElement.RectTransformFlag.All;
+
     }
     [System.Serializable]
     public class BreakPointViewElementTransform
@@ -299,6 +300,30 @@ namespace MacacaGames.ViewSystem
         public Vector2 anchorMin = new Vector2(0.5f, 0.5f);
         public Vector2 anchorMax = new Vector2(0.5f, 0.5f);
 
+        public ViewSystemRectTransformData()
+        {
+
+        }
+        public ViewSystemRectTransformData(RectTransform rectTransform)
+        {
+            localScale = rectTransform.localScale;
+            localEulerAngles = rectTransform.localEulerAngles;
+            anchoredPosition = rectTransform.anchoredPosition3D;
+            pivot = rectTransform.pivot;
+            sizeDelta = rectTransform.sizeDelta;
+            anchorMin = rectTransform.anchorMin;
+            anchorMax = rectTransform.anchorMax;
+        }
+        public void SetRectTransform(RectTransform rectTransform)
+        {
+            rectTransform.localScale = localScale;
+            rectTransform.localEulerAngles = localEulerAngles;
+            rectTransform.anchoredPosition3D = anchoredPosition;
+            rectTransform.pivot = pivot;
+            rectTransform.sizeDelta = sizeDelta;
+            rectTransform.anchorMin = anchorMin;
+            rectTransform.anchorMax = anchorMax;
+        }
 
         Vector2 anchoredPosition2D
         {

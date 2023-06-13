@@ -16,7 +16,7 @@ namespace MacacaGames.ViewSystem
         [SerializeField]
         ViewElementAnimationGroup outAnimation;
 
-        RectTransform targetObject
+        public RectTransform targetObject
         {
             get
             {
