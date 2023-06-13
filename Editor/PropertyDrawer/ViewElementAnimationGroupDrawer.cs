@@ -93,53 +93,49 @@ namespace MacacaGames.ViewSystem
             GUILayout.Label(property.displayName);
             using (var horizon = new EditorGUILayout.HorizontalScope())
             {
-                using (var horizon2 = new EditorGUILayout.HorizontalScope())
+
+                GUI.color = animation.moveToggle ? color : Color.gray;
+                if (GUILayout.Button(EditorGUIUtility.IconContent("MoveTool"), "ButtonLeft", GUILayout.Width(25f)))
                 {
-                    GUI.color = animation.moveToggle ? color : Color.gray;
-                    if (GUILayout.Button(EditorGUIUtility.IconContent("MoveTool"), "ButtonLeft", GUILayout.Width(25f)))
-                    {
-                        Undo.RecordObject(Target, "On Hide Animation Move Toggle");
-                        animation.moveToggle = !animation.moveToggle;
-                        onHideMoveAnimBool.target = animation.moveToggle;
-                        EditorUtility.SetDirty(Target);
-                    }
-                    GUI.color = animation.rotateToggle ? color : Color.gray;
-                    if (GUILayout.Button(EditorGUIUtility.IconContent("RotateTool"), "ButtonMid", GUILayout.Width(25f)))
-                    {
-                        Undo.RecordObject(Target, "On Hide Animation Rotate Toggle");
-                        animation.rotateToggle = !animation.rotateToggle;
-                        onHideRotateAnimBool.target = animation.rotateToggle;
-                        EditorUtility.SetDirty(Target);
-                    }
-                    GUI.color = animation.scaleToggle ? color : Color.gray;
-                    if (GUILayout.Button(EditorGUIUtility.IconContent("ScaleTool"), "ButtonMid", GUILayout.Width(25f)))
-                    {
-                        Undo.RecordObject(Target, "On Hide Animation Scale Toggle");
-                        animation.scaleToggle = !animation.scaleToggle;
-                        onHideScaleAnimBool.target = animation.scaleToggle;
-                        EditorUtility.SetDirty(Target);
-                    }
-                    GUI.color = animation.fadeToggle ? color : Color.gray;
-                    if (GUILayout.Button(EditorGUIUtility.IconContent("ViewToolOrbit"), "ButtonRight", GUILayout.Width(25f)))
-                    {
-                        Undo.RecordObject(Target, "On Hide Animation Fade Toggle");
-                        animation.fadeToggle = !animation.fadeToggle;
-                        onHideFadeAnimBool.target = animation.fadeToggle;
-                        EditorUtility.SetDirty(Target);
-                    }
-                    GUI.color = color;
+                    Undo.RecordObject(Target, "On Hide Animation Move Toggle");
+                    animation.moveToggle = !animation.moveToggle;
+                    onHideMoveAnimBool.target = animation.moveToggle;
+                    EditorUtility.SetDirty(Target);
                 }
-                GUILayout.FlexibleSpace();
-                using (var horizon2 = new EditorGUILayout.HorizontalScope())
+                GUI.color = animation.rotateToggle ? color : Color.gray;
+                if (GUILayout.Button(EditorGUIUtility.IconContent("RotateTool"), "ButtonMid", GUILayout.Width(25f)))
                 {
-                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_SaveAs@2x"), "Save"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
-                    {
-                        SaveAsset(animation);
-                    }
-                    if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_Profiler.Open@2x"), "Load"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
-                    {
-                        LoadAsset();
-                    }
+                    Undo.RecordObject(Target, "On Hide Animation Rotate Toggle");
+                    animation.rotateToggle = !animation.rotateToggle;
+                    onHideRotateAnimBool.target = animation.rotateToggle;
+                    EditorUtility.SetDirty(Target);
+                }
+                GUI.color = animation.scaleToggle ? color : Color.gray;
+                if (GUILayout.Button(EditorGUIUtility.IconContent("ScaleTool"), "ButtonMid", GUILayout.Width(25f)))
+                {
+                    Undo.RecordObject(Target, "On Hide Animation Scale Toggle");
+                    animation.scaleToggle = !animation.scaleToggle;
+                    onHideScaleAnimBool.target = animation.scaleToggle;
+                    EditorUtility.SetDirty(Target);
+                }
+                GUI.color = animation.fadeToggle ? color : Color.gray;
+                if (GUILayout.Button(EditorGUIUtility.IconContent("ViewToolOrbit"), "ButtonRight", GUILayout.Width(25f)))
+                {
+                    Undo.RecordObject(Target, "On Hide Animation Fade Toggle");
+                    animation.fadeToggle = !animation.fadeToggle;
+                    onHideFadeAnimBool.target = animation.fadeToggle;
+                    EditorUtility.SetDirty(Target);
+                }
+                GUI.color = color;
+                GUILayout.FlexibleSpace();
+
+                if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_SaveAs@2x"), "Save"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
+                {
+                    SaveAsset(animation);
+                }
+                if (GUILayout.Button(new GUIContent(EditorGUIUtility.FindTexture("d_Profiler.Open@2x"), "Load"), Drawer.removeButtonStyle, GUILayout.Width(EditorGUIUtility.singleLineHeight)))
+                {
+                    LoadAsset();
                 }
             }
 
