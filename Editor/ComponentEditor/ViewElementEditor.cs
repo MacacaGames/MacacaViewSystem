@@ -97,6 +97,17 @@ namespace MacacaGames.ViewSystem
                         }
 
                         break;
+                    case ViewElement.TransitionType.ViewElementAnimation:
+                        if (viewElement.viewElementAnimation == null)
+                        {
+                            EditorGUILayout.HelpBox("No ViewElementAnimation found on this GameObject", MessageType.Error);
+                            if (GUILayout.Button("Add one", EditorStyles.miniButton))
+                            {
+                                viewElement.gameObject.AddComponent<ViewElementAnimation>();
+                                EditorUtility.SetDirty(viewElement.gameObject);
+                            }
+                        }
+                        break;
                     case ViewElement.TransitionType.ActiveSwitch:
                         break;
                     case ViewElement.TransitionType.Custom:

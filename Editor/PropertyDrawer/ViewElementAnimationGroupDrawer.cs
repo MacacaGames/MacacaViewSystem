@@ -169,11 +169,13 @@ namespace MacacaGames.ViewSystem
                     EditorUtility.SetDirty(Target);
                 }
                 GUILayout.Space(10);
+                GUI.color = color;
+
                 using (var disable = new EditorGUI.DisabledGroupScope(!(Target is ViewElementAnimation)))
                 {
                     if (IsPreviewing)
                     {
-                        if (GUILayout.Button("Stop Animation", "ButtonLeft", GUILayout.Width(120)))
+                        if (GUILayout.Button("Stop Animation", GUILayout.Width(120)))
                         {
                             var target = (Target as ViewElementAnimation).targetObject;
                             var targetCanvasGroup = (Target as ViewElementAnimation).targetObject.GetComponent<CanvasGroup>(); ;
@@ -190,7 +192,7 @@ namespace MacacaGames.ViewSystem
                     }
                     else
                     {
-                        if (GUILayout.Button("Preview Animation", "ButtonLeft", GUILayout.Width(120)))
+                        if (GUILayout.Button("Preview Animation", GUILayout.Width(120)))
                         {
                             var target = (Target as ViewElementAnimation).targetObject;
                             var targetCanvasGroup = (Target as ViewElementAnimation).targetObject.GetComponent<CanvasGroup>(); ;
