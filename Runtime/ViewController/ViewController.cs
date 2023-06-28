@@ -229,7 +229,7 @@ namespace MacacaGames.ViewSystem
         [ReadOnly, SerializeField]
         protected List<ViewElement> currentLiveElementsInViewState = new List<ViewElement>();
 
-        public override IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale)
+        public override IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale, params object[] models)
         {
             //取得 ViewPage 物件
             // ViewPage nextViewPage;
@@ -354,6 +354,10 @@ namespace MacacaGames.ViewSystem
                     ViewSystemLog.LogError($"The runtimeViewElement is null for some reason, ignore this item.");
                     continue;
                 }
+
+                //Apply models
+                item.runtimeViewElement.ApplyModelInject(models);
+                
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvents(item.eventDatas);
@@ -408,7 +412,7 @@ namespace MacacaGames.ViewSystem
             OnComplete?.Invoke();
         }
 
-        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale)
+        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale, params object[] models)
         {
             // Debug.Log("ShowOverlayViewPageBase " + vp.name);
             if (vp == null)
@@ -523,6 +527,10 @@ namespace MacacaGames.ViewSystem
                     item.runtimeViewElement.OnShow();
                     continue;
                 }
+
+                //Apply models
+                item.runtimeViewElement.ApplyModelInject(models);
+
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvents(item.eventDatas);

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
+using System.Reflection;
+
 namespace MacacaGames.ViewSystem
 {
     public class ViewSystemUtilitys
@@ -270,5 +273,57 @@ namespace MacacaGames.ViewSystem
             return wrapper;
         }
 
+
+        internal static void InjectModels(object targetObject, object[] models)
+        {
+            Type contract = targetObject.GetType();
+
+            IEnumerable<MemberInfo> members =
+            contract.FindMembers(
+                MemberTypes.Property | MemberTypes.Field | MemberTypes.NestedType,
+                BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static,
+                (m, i) => m.GetCustomAttribute(typeof(ViewElementInjectAttribute), true) != null,
+                null);
+
+            IEnumerable<FieldInfo> fieldInfos =
+                members
+                .Where(m => m.MemberType == MemberTypes.Field)
+                .Cast<FieldInfo>();
+
+            IEnumerable<PropertyInfo> propertyInfos =
+                members
+                .Where(m => m.MemberType == MemberTypes.Property)
+                .Cast<PropertyInfo>();
+
+            foreach (FieldInfo fieldInfo in fieldInfos)
+            {
+                var target = GetInstanceValue(fieldInfo.FieldType);
+                if (target != null)
+                {
+                    fieldInfo.SetValue(targetObject, target);
+                }
+            }
+
+            foreach (PropertyInfo info in propertyInfos)
+            {
+                var target = GetInstanceValue(info.PropertyType);
+                if (target != null)
+                {
+                    info.SetValue(targetObject, target);
+                }
+            }
+
+            object GetInstanceValue(Type t)
+            {
+                try
+                {
+                    return models.SingleOrDefault(m => m.GetType() == t);
+                }
+                catch
+                {
+                    throw new ArgumentException("When using ViewSystem model biding, each Type only available for one instance, if you would like to bind multiple instance of a Type use CollectionType(List, Array) or a CustomWrapper instead.");
+                }
+            }
+        }
     }
 }

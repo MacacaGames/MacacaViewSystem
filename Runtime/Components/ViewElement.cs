@@ -123,6 +123,17 @@ namespace MacacaGames.ViewSystem
             runtimeOverride.ResetToDefaultValues();
             runtimeOverride.RevertToLastNavigation();
         }
+        public void ApplyModelInject(object[] models)
+        {
+            if (models == null || models.Length == 0)
+            {
+                return;
+            }
+            foreach (var item in lifeCyclesObjects.ToArray())
+            {
+                ViewSystemUtilitys.InjectModels(item, models);
+            }
+        }
         [Flags]
         public enum RectTransformFlag
         {

@@ -24,7 +24,7 @@ namespace MacacaGames.ViewSystem
     }
 #endif
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
-    [System.Obsolete("ViewEventGroup is change to ViewSystemEvent",true)]
+    [System.Obsolete("ViewEventGroup is change to ViewSystemEvent", true)]
     public class ViewEventGroup : System.Attribute
     {
         string groupName;
@@ -55,4 +55,11 @@ namespace MacacaGames.ViewSystem
             return groupName;
         }
     }
+
+
+    [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Field, AllowMultiple = true)]
+    public class ViewElementInjectAttribute : System.Attribute
+    {
+    }
+
 }

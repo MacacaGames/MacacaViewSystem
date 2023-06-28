@@ -18,7 +18,7 @@ namespace MacacaGames.ViewSystem
         }
         public override YieldInstruction _Show()
         {
-            return _viewController.ChangePage(_targetPage, _OnStart, _OnChanged, _OnComplete, _waitPreviousPageFinish, _ignoreTimeScale);
+            return _viewController.ChangePage(_targetPage, _OnStart, _OnChanged, _OnComplete, _waitPreviousPageFinish, _ignoreTimeScale, _models);
         }
     }
 
@@ -43,7 +43,7 @@ namespace MacacaGames.ViewSystem
         }
         public override YieldInstruction _Show()
         {
-            return _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnChanged, _OnComplete, _ignoreTimeScale);
+            return _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnChanged, _OnComplete, _ignoreTimeScale, _models);
         }
         public YieldInstruction _Leave()
         {
@@ -59,6 +59,7 @@ namespace MacacaGames.ViewSystem
         internal string _targetPage;
         internal bool _ignoreTimeScale = false;
         internal bool _waitPreviousPageFinish = false;
+        internal object[] _models = null;
 
         public PageChanger(ViewControllerBase viewController)
         {
@@ -75,6 +76,7 @@ namespace MacacaGames.ViewSystem
             _targetPage = string.Empty;
             _waitPreviousPageFinish = false;
             _ignoreTimeScale = true;
+            _models = null;
             return this;
         }
         void RecoveryToPool()
@@ -128,20 +130,13 @@ namespace MacacaGames.ViewSystem
         public static OverlayPageChanger _OnChanged(this OverlayPageChanger selfObj, Action OnStart)
         {
             throw new System.InvalidOperationException("Overpage doesn't have callback of OnChanged.");
-            //return (OverlayPageChanger)PageChangerExtension.OnStart(selfObj, OnStart);
         }
+
         public static OverlayPageChanger OnComplete(this OverlayPageChanger selfObj, Action OnComplete)
         {
             return (OverlayPageChanger)PageChangerExtension.OnComplete(selfObj, OnComplete);
         }
-        // public static YieldInstruction Show(this OverlayPageChanger selfObj)
-        // {
-        //     return PageChangerExtension.Show(selfObj);
-        // }
-        // public static CustomYieldInstruction Show(this PageChanger selfObj, bool customYieldInstruction)
-        // {
-        //     return new ViewCYInstruction.WaitForStandardYieldInstruction(PageChanger._viewController, selfObj._Show());
-        // }
+
         public static YieldInstruction Leave(this OverlayPageChanger selfObj)
         {
             return selfObj._Leave();
@@ -227,6 +222,13 @@ namespace MacacaGames.ViewSystem
         {
             return new WaitForStandardYieldInstruction(PageChanger._viewController, selfObj._Show());
         }
+
+        public static PageChanger SetData(this PageChanger selfObj, params object[] models)
+        {
+            selfObj._models = models;
+            return selfObj;
+        }
+
         // public static YieldInstruction GetYieldInstruction(this PageChanger selfObj)
         // {
         //     if (selfObj._pageChangerRunner != null)
