@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using System.Reflection;
+
 namespace MacacaGames.ViewSystem
 {
 
@@ -67,7 +69,8 @@ namespace MacacaGames.ViewSystem
 
             ViewElement.runtimePool = runtimePool;
             ViewElement.viewElementPool = viewElementPool;
-            InjectionDictionary = new Dictionary<System.Type, Component>();
+            SingletonViewElementDictionary = new Dictionary<System.Type, Component>();
+            sharedViewElementModel = new Dictionary<Type, object>();
             maxClampTime = viewSystemSaveData.globalSetting.MaxWaitingTime;
             minimumTimeInterval = viewSystemSaveData.globalSetting.minimumTimeInterval;
             try
@@ -84,7 +87,7 @@ namespace MacacaGames.ViewSystem
             viewPages = viewSystemSaveData.viewPages.Select(m => m.viewPage).ToDictionary(m => m.name, m => m);
             viewStatesNames = viewStates.Values.Select(m => m.name);
 
-            PrewarmInjection();
+            PrewarmSingletonViewElement();
 
             IsReady = true;
         }
@@ -105,18 +108,24 @@ namespace MacacaGames.ViewSystem
         protected override void Start()
         {
             //Load ViewPages and ViewStates from ViewSystemSaveData
-
             base.Start();
         }
         void OnDestroy()
         {
             ViewSystemUtilitys.ClearRectTransformCache();
         }
-        #region Injection
-        private Dictionary<System.Type, Component> InjectionDictionary;
-        public T GetInjectionInstance<T>() where T : Component, IViewElementInjectable
+
+        #region Injection and ViewElementSingleton
+        static Dictionary<System.Type, Component> SingletonViewElementDictionary;
+        [System.Obsolete("GetInjectionInstance is obsolete, use GetSingletonViewElement instead")]
+        public T GetInjectionInstance<T>() where T : Component, IViewElementSingleton
         {
-            if (InjectionDictionary.TryGetValue(typeof(T), out Component result))
+            return GetSingletonViewElement<T>();
+        }
+
+        public T GetSingletonViewElement<T>() where T : Component, IViewElementSingleton
+        {
+            if (SingletonViewElementDictionary.TryGetValue(typeof(T), out Component result))
             {
                 return (T)result;
             }
@@ -126,7 +135,8 @@ namespace MacacaGames.ViewSystem
             }
             return null;
         }
-        void PrewarmInjection()
+
+        void PrewarmSingletonViewElement()
         {
             var viewElementsInStates = viewStates.Values.Select(m => m.viewPageItems).SelectMany(ma => ma).Select(m => m.viewElement);
             var viewElementsInPages = viewPages.Values.Select(m => m.viewPageItems).SelectMany(ma => ma).Select(m => m.viewElement);
@@ -145,12 +155,12 @@ namespace MacacaGames.ViewSystem
                 var r = runtimePool.PrewarmUniqueViewElement(item);
                 if (r != null)
                 {
-                    foreach (var i in r.GetComponents<IViewElementInjectable>())
+                    foreach (var i in r.GetComponents<IViewElementSingleton>())
                     {
                         var c = (Component)i;
                         var t = c.GetType();
-                        if (!InjectionDictionary.ContainsKey(t))
-                            InjectionDictionary.Add(t, c);
+                        if (!SingletonViewElementDictionary.ContainsKey(t))
+                            SingletonViewElementDictionary.Add(t, c);
                         else
                         {
                             ViewSystemLog.LogWarning("Type " + t + " has been injected");
@@ -175,12 +185,12 @@ namespace MacacaGames.ViewSystem
                 var r = runtimePool.PrewarmUniqueViewElement(item);
                 if (r != null)
                 {
-                    foreach (var i in r.GetComponents<IViewElementInjectable>())
+                    foreach (var i in r.GetComponents<IViewElementSingleton>())
                     {
                         var c = (Component)i;
                         var t = c.GetType();
-                        if (!InjectionDictionary.ContainsKey(t))
-                            InjectionDictionary.Add(t, c);
+                        if (!SingletonViewElementDictionary.ContainsKey(t))
+                            SingletonViewElementDictionary.Add(t, c);
                         else
                         {
                             ViewSystemLog.LogWarning("Type " + t + " has been injected");
@@ -190,6 +200,107 @@ namespace MacacaGames.ViewSystem
                 }
             }
         }
+
+        static Dictionary<Type, object> sharedViewElementModel = new Dictionary<Type, object>();
+
+        public void RegisteSharedViewElementModel(object instance)
+        {
+            var type = instance.GetType();
+            if (SingletonViewElementDictionary.ContainsKey(type))
+            {
+                ViewSystemLog.LogWarning($"{type.ToString()} is SingletonViewElement no require to registe");
+                return;
+            }
+            if (sharedViewElementModel.ContainsKey(type))
+            {
+                ViewSystemLog.LogWarning($"{type.ToString()} is already in registe before, will replace to new value");
+                sharedViewElementModel[type] = instance;
+                return;
+            }
+            sharedViewElementModel.TryAdd(type, instance);
+        }
+
+        internal static void InjectModels(object targetObject, object[] models)
+        {
+            Type contract = targetObject.GetType();
+
+            IEnumerable<MemberInfo> members =
+            contract.FindMembers(
+                MemberTypes.Property | MemberTypes.Field | MemberTypes.NestedType,
+                BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static,
+                (m, i) => m.GetCustomAttribute(typeof(ViewElementInjectAttribute), true) != null,
+                null);
+
+            IEnumerable<FieldInfo> fieldInfos =
+                members
+                .Where(m => m.MemberType == MemberTypes.Field)
+                .Cast<FieldInfo>();
+
+            IEnumerable<PropertyInfo> propertyInfos =
+                members
+                .Where(m => m.MemberType == MemberTypes.Property)
+                .Cast<PropertyInfo>();
+
+            foreach (FieldInfo info in fieldInfos)
+            {
+                var target = GetModelInstance(info.FieldType, info.GetCustomAttribute<ViewElementInjectAttribute>().injectScope, models);
+                if (target != null)
+                {
+                    info.SetValue(targetObject, target);
+                }
+            }
+
+            foreach (PropertyInfo info in propertyInfos)
+            {
+                var target = GetModelInstance(info.PropertyType, info.GetCustomAttribute<ViewElementInjectAttribute>().injectScope, models);
+                if (target != null)
+                {
+                    info.SetValue(targetObject, target);
+                }
+            }
+        }
+
+        static object GetModelInstance(Type typeToSearch, ViewElementInjectAttribute.InjectScope injectScope, object[] models)
+        {
+            switch (injectScope)
+            {
+                case ViewElementInjectAttribute.InjectScope.PageOnly:
+                    return SearchInModels(typeToSearch);
+                case ViewElementInjectAttribute.InjectScope.SharedOnly:
+                    return SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch);
+                case ViewElementInjectAttribute.InjectScope.PageFirst:
+                    return SearchInModels(typeToSearch) ?? SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch);
+                case ViewElementInjectAttribute.InjectScope.SharedFirst:
+                    return SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch) ?? SearchInModels(typeToSearch);
+                default:
+                    throw new ArgumentException("Invalid scope");
+            }
+
+            object SearchInModels(Type typeToSearch)
+            {
+                try
+                {
+                    return models.SingleOrDefault(model => model.GetType() == typeToSearch);
+                }
+                catch (InvalidOperationException)
+                {
+                    throw new InvalidOperationException("When using ViewSystem model biding, each Type only available for one instance, if you would like to bind multiple instance of a Type use CollectionType(List, Array) or a CustomWrapper instead.s");
+                }
+
+            }
+
+            object SearchInSharedModels(Type typeToSearch)
+            {
+                return sharedViewElementModel.TryGetValue(typeToSearch, out object value) ? value : null;
+            }
+
+            object SearchInSingletonModels(Type typeToSearch)
+            {
+                return SingletonViewElementDictionary.TryGetValue(typeToSearch, out Component value) ? value : null;
+            }
+        }
+
+
         #endregion
         IEnumerable<ViewPageItem> PrepareRuntimeReference(IEnumerable<ViewPageItem> viewPageItems)
         {
@@ -357,7 +468,7 @@ namespace MacacaGames.ViewSystem
 
                 //Apply models
                 item.runtimeViewElement.ApplyModelInject(models);
-                
+
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvents(item.eventDatas);

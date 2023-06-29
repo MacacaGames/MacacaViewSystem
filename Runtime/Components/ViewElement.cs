@@ -131,7 +131,7 @@ namespace MacacaGames.ViewSystem
             }
             foreach (var item in lifeCyclesObjects.ToArray())
             {
-                ViewSystemUtilitys.InjectModels(item, models);
+                ViewController.InjectModels(item, models);
             }
         }
         [Flags]

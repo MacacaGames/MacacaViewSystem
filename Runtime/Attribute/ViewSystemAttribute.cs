@@ -38,6 +38,7 @@ namespace MacacaGames.ViewSystem
             return groupName;
         }
     }
+
     [System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple = true)]
     public class ViewSystemEventAttribute : System.Attribute
     {
@@ -57,9 +58,42 @@ namespace MacacaGames.ViewSystem
     }
 
 
+    /// <summary>
+    /// Mark a property or field in ViewElementBehaviour that can be inject value which is managed by ViewSystem.
+    /// 
+    /// Use the injectScope the control where the value will be search
+    /// 
+    ///  PageModel, the page model is send when you call the ChangePage API.
+    ///  SharedModel, the system shareed model, use the ViewController.Instance.RegisteSharedViewElementModel() the registe the system model.
+    /// 
+    /// InjectScope.PageFirst : Search the value from the PageModel first and then SharedModel
+    /// InjectScope.PageOnly : Search the value from the PageModel only.
+    /// InjectScope.SharedFirst : Search the value from the SharedModel first, and then PageModel, 
+    /// InjectScope.PageFirst : Search the value from the SharedModel only.
+    /// 
+    /// Default is InjectScope.PageFirst
+    /// 
+    /// </summary>
     [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Field, AllowMultiple = true)]
     public class ViewElementInjectAttribute : System.Attribute
     {
-    }
+        internal InjectScope injectScope = InjectScope.PageFirst;
+        public ViewElementInjectAttribute(InjectScope injectScope)
+        {
+            this.injectScope = injectScope;
+        }
 
+        public ViewElementInjectAttribute()
+        {
+            injectScope = InjectScope.PageFirst;
+        }
+
+        public enum InjectScope
+        {
+            PageFirst,
+            SharedFirst,
+            PageOnly,
+            SharedOnly,
+        }
+    }
 }
