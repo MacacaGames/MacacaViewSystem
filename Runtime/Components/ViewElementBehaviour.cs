@@ -74,11 +74,12 @@ namespace MacacaGames.ViewSystem
                 }
             }
         }
-        
+
         protected virtual void OnDestroy()
         {
             if (viewElement)
                 viewElement.UnRegisterLifeCycleObject(this);
         }
+
     }
 }

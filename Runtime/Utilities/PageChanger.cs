@@ -223,7 +223,14 @@ namespace MacacaGames.ViewSystem
             return new WaitForStandardYieldInstruction(PageChanger._viewController, selfObj._Show());
         }
 
-        public static PageChanger SetData(this PageChanger selfObj, params object[] models)
+
+        /// <summary>
+        /// Set the page Model obejct instances, so you can use those data in the ViewElementBehaviour with [ViewElementInject] attribute
+        /// </summary>
+        /// <param name="selfObj"></param>
+        /// <param name="models">The model instance</param>
+        /// <returns></returns>
+        public static PageChanger SetPageModel(this PageChanger selfObj, params object[] models)
         {
             selfObj._models = models;
             return selfObj;

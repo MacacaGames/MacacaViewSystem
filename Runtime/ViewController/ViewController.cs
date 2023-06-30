@@ -203,21 +203,24 @@ namespace MacacaGames.ViewSystem
 
         static Dictionary<Type, object> sharedViewElementModel = new Dictionary<Type, object>();
 
-        public void RegisteSharedViewElementModel(object instance)
+        public void SetSharedModels(params object[] models)
         {
-            var type = instance.GetType();
-            if (SingletonViewElementDictionary.ContainsKey(type))
+            foreach (var item in models)
             {
-                ViewSystemLog.LogWarning($"{type.ToString()} is SingletonViewElement no require to registe");
-                return;
+                var type = item.GetType();
+                if (SingletonViewElementDictionary.ContainsKey(type))
+                {
+                    ViewSystemLog.LogWarning($"{type.ToString()} is SingletonViewElement no require to set from this API");
+                    continue;
+                }
+                if (sharedViewElementModel.ContainsKey(type))
+                {
+                    ViewSystemLog.LogWarning($"{type.ToString()} is already in set before, will replace to new value");
+                    sharedViewElementModel[type] = item;
+                    continue;
+                }
+                sharedViewElementModel.TryAdd(type, item);
             }
-            if (sharedViewElementModel.ContainsKey(type))
-            {
-                ViewSystemLog.LogWarning($"{type.ToString()} is already in registe before, will replace to new value");
-                sharedViewElementModel[type] = instance;
-                return;
-            }
-            sharedViewElementModel.TryAdd(type, instance);
         }
 
         internal static void InjectModels(object targetObject, object[] models)
@@ -226,67 +229,75 @@ namespace MacacaGames.ViewSystem
 
             IEnumerable<MemberInfo> members =
             contract.FindMembers(
-                MemberTypes.Property | MemberTypes.Field | MemberTypes.NestedType,
+                MemberTypes.Property | MemberTypes.Field,
                 BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static,
                 (m, i) => m.GetCustomAttribute(typeof(ViewElementInjectAttribute), true) != null,
                 null);
 
-            IEnumerable<FieldInfo> fieldInfos =
-                members
-                .Where(m => m.MemberType == MemberTypes.Field)
-                .Cast<FieldInfo>();
-
-            IEnumerable<PropertyInfo> propertyInfos =
-                members
-                .Where(m => m.MemberType == MemberTypes.Property)
-                .Cast<PropertyInfo>();
-
-            foreach (FieldInfo info in fieldInfos)
+            var groupedMember = members.GroupBy(m => m.GetMemberType());
+            foreach (var gp in groupedMember)
             {
-                var target = GetModelInstance(info.FieldType, info.GetCustomAttribute<ViewElementInjectAttribute>().injectScope, models);
-                if (target != null)
+                var isMultiple = gp.Count() > 1;
+                foreach (var info in gp)
                 {
-                    info.SetValue(targetObject, target);
-                }
-            }
-
-            foreach (PropertyInfo info in propertyInfos)
-            {
-                var target = GetModelInstance(info.PropertyType, info.GetCustomAttribute<ViewElementInjectAttribute>().injectScope, models);
-                if (target != null)
-                {
-                    info.SetValue(targetObject, target);
+                    var target = GetModelInstance(info, info.GetCustomAttribute<ViewElementInjectAttribute>().injectScope, models, isMultiple);
+                    if (target != null)
+                    {
+                        info.SetValue(targetObject, target);
+                    }
                 }
             }
         }
 
-        static object GetModelInstance(Type typeToSearch, ViewElementInjectAttribute.InjectScope injectScope, object[] models)
+        static object GetModelInstance(MemberInfo memberInfo, ViewElementInjectAttribute.InjectScope injectScope, object[] models, bool isMultiple = false)
         {
+            Type typeToSearch = memberInfo.GetMemberType();
+
             switch (injectScope)
             {
                 case ViewElementInjectAttribute.InjectScope.PageOnly:
-                    return SearchInModels(typeToSearch);
+                    return SearchInModels(typeToSearch, memberInfo, isMultiple);
                 case ViewElementInjectAttribute.InjectScope.SharedOnly:
                     return SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch);
                 case ViewElementInjectAttribute.InjectScope.PageFirst:
-                    return SearchInModels(typeToSearch) ?? SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch);
+                    return SearchInModels(typeToSearch, memberInfo, isMultiple) ?? SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch);
                 case ViewElementInjectAttribute.InjectScope.SharedFirst:
-                    return SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch) ?? SearchInModels(typeToSearch);
+                    return SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch) ?? SearchInModels(typeToSearch, memberInfo, isMultiple);
                 default:
                     throw new ArgumentException("Invalid scope");
             }
 
-            object SearchInModels(Type typeToSearch)
+            object SearchInModels(Type typeToSearch, MemberInfo memberInfo, bool tryDictionary = false)
             {
+                if (tryDictionary)
+                {
+                    Type genericClass = typeof(ViewInjectDictionary<>);
+                    Type constructedClass = genericClass.MakeGenericType(typeToSearch);
+
+                    var obj = models.SingleOrDefault(m => m.GetType() == constructedClass);
+
+                    if (obj == null)
+                    {
+                        goto DefaultSearch;
+                    }
+
+                    var dictionary = obj as ViewInjectDictionary;
+                    if (dictionary.ContainsKey(memberInfo.Name))
+                    {
+                        return dictionary.GetValue(memberInfo.Name);
+                    }
+                    goto DefaultSearch;
+                }
+
+            DefaultSearch:
                 try
                 {
                     return models.SingleOrDefault(model => model.GetType() == typeToSearch);
                 }
                 catch (InvalidOperationException)
                 {
-                    throw new InvalidOperationException("When using ViewSystem model biding, each Type only available for one instance, if you would like to bind multiple instance of a Type use CollectionType(List, Array) or a CustomWrapper instead.s");
+                    throw new InvalidOperationException("When using ViewSystem model biding, each Type only available for one instance, if you would like to bind multiple instance of a Type use Collections(List, Array) or ViewInjectDictionary<T> instead.");
                 }
-
             }
 
             object SearchInSharedModels(Type typeToSearch)
