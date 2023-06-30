@@ -21,7 +21,13 @@ For example, the red square part in the screenshot is a ViewElement.
 
 And the most important thing, ViewElement only focus how it will show or leave and **doesn't** care where it will be placed.
 
-Currently there is four method to transition while we try to showing or leaving a ViewElement: **Animator**, **CanvasGroup Fade**, **Active Switch**, **Custom**.
+Currently there is 5 method to transition while we try to showing or leaving a ViewElement: **Animator**, **CanvasGroup Fade**, **Active Switch**, **ViewElement Animation**, **Custom**.
+
+### ViewElement Animation
+
+ViewElementAnimation is a simple tool helps to making a Animation on a ViewElement, it can control the Transfomr(pos, rot, scale) and the CanvasGroup(alpha) with Tween animation.
+
+<img src="./Img~/viewelement_animation.png" height="700"/>
 
 ## ViewPage
 ViewPage compose with one or more ViewElements and define where the ViewElements should be placed. Base on it's default behaviour there is two kind of ViewPage : FullPage, OverlayPage.
@@ -146,19 +152,21 @@ public void MyEvent(Component selectable)
 }
 ```
 
-## Override Property or Button.onClick on a ViewElement via script
+## Override Property or Button.onClick on a ViewElement via script in a ViewElementBehaviour
 You can override a property via Attribute in a script, take this example, this means override the `sprite` property on `UnityEngine.UI.Image` component on a child GameObject which name is `Frame` by the value of `someSprite` variable.
 
 ```csharp
-[OverrideProperty("Frame", typeof(UnityEngine.UI.Image), nameof(UnityEngine.UI.Image.sprite)) ]
-[SerializeField]
-Sprite someSprite;
+// Is require a child class of ViewElementBehaviour
+public class MyUILogic : ViewElementBehaviour{
+    [OverrideProperty("Frame", typeof(UnityEngine.UI.Image), nameof(UnityEngine.UI.Image.sprite)) ]
+    [SerializeField]
+    Sprite someSprite;
 
-
-[OverrideButtonEvent("TopRect/Button")]
-void Test(Component component)
-{
-    Debug.Log("success");
+    [OverrideButtonEvent("TopRect/Button")]
+    void Test(Component component)
+    {
+        Debug.Log("success");
+    }
 }
 ```
 
@@ -200,6 +208,9 @@ someViewelement.OnLeave(false, true);
 <img src="./Img~/viewelementgroup_manual.png" width="400"/>
 
 ## ViewMarginFixer (Deprecated, only using in Custom Parent Mode)
+
+> This component is Deprecated, for most of the case you should use the RectTransform mode directly.
+
 ViewElement manage by the ViewSystem will be pooled if is not in use, that means the RectTransfrom's anchor stretch value may be wrong while it is taken out from pool. (cause by the Transfrom.SetParent(true);)
 
 ViewMarginFixer is a helper to solve this issue, which override the anchor stretch value base on the ViewElement life cycle.
@@ -209,6 +220,21 @@ ViewMarginFixer is a helper to solve this issue, which override the anchor stret
 
 # LifeCycle Hook and Injection
 
+## IViewElementSingleton
+The component which inherit **IViewElementSingleton** interface will be created as singleton instance, we call it a ViewElementSingleton.
+
+**ViewElementSingleton** instance is managed by the ViewController and will have only one instance during the runtime, use the **ViewController.Instance.GetInjectionInstance<T>()** API to the runtime instance directlly.
+
+```csharp
+public class MyViewElementSingletonSample : MonoBehaviour, IViewElementSingleton
+{}
+
+// Use GetInjectionInstance method on ViewController to get the singleton instance of ViewElement.
+MyViewElementSingletonSample someInjectableClass = ViewController.Instance.GetInjectionInstance<MyViewElementSingletonSample>();
+```
+
+> Note : The ViewElement also needs to swtich the **IsUnique** boolean on to makes IViewElementSingleton works.
+
 ## IViewElementLifeCycle
 We can hooks the lifecycle on ViewElement by **IViewElementLifeCycle** interface, implemented the interface to get lifecycle callback on ViewElement.
 ```csharp
@@ -217,15 +243,17 @@ void OnBeforeLeave();
 void OnStartShow();
 void OnStartLeave();
 void OnChangePage(bool show);
+void OnChangedPage();
+void RefreshView();
 ```
-System provide a component has implemented IViewElementLifeCycle which is called ViewElementLifeCycle.
 
+### ViewElementBehaviour
+
+The **ViewElementBehaviour** implemented IViewElementLifeCycle and provide more useful feature.
 It is useful if we wish to setup callback via inspector with UnityEvents, or inherit the component to overrid the method.
 
-<img src="./Img~/viewelementlifecycle.png" width="400"/>
-
 ```csharp
-public class SomeClass : ViewElementLifeCycle
+public class SomeClass : ViewElementBehaviour
 {
     public override void OnBeforeShow()
     {
@@ -234,20 +262,143 @@ public class SomeClass : ViewElementLifeCycle
 }
 ```
 
-> Note : Component implemented **IViewElementLifeCycle** needs to attach on ViewElement or its children.
+> Note : Component implemented **ViewElementBehaviour** needs to attach on ViewElement or its children.
 
-## IViewElementInjectable
-System provide a way to get global ViewElement reference from ViewController, component which inherit **IViewElementInjectable** interface will be created as singleton instance, that means the ViewElement will only have one instance in its whole lifecycle.
+Use the ViewController.Instance.RefreshAll(); to refresh all ViewElement on the screen.
 
+### ViewElementInject (Model Inject)
+
+With ViewElementBehaviour Componment, we can use a powerful feature that help us to sending the data to a Runtime ViewElement we call it **Model Inject**.
+
+See follow example:
 ```csharp
-public class SomeInjectableClass : MonoBehaviour, IViewElementInjectable
-{}
+// The MyUILogic.cs is attach on a ViewElement and this ViewElement is setting on the ViewPage "MyPage"
+public class MyUILogic : ViewElementBehaviour
+{
+    [ViewElementInject]
+    int testIntInject;
 
-// Use GetInjectionInstance method on ViewController to get the singleton instance of ViewElement.
-SomeInjectableClass someInjectableClass = ViewController.Instance.GetInjectionInstance<SomeInjectableClass>();
+    [ViewElementInject]
+    string testStringInject{get;set;} // also support using property
+}
+
+// Call the change page API and use SetPageModel() to set the Model data instance
+ViewController.FullPageChanger()
+    .SetPage("MyPage")
+    .SetPageModel(23456, "my string value")
+    .Show();
+```
+As the result, the value **23456** and **"my string value"** will automatically set into the MyUILogic.cs field(testIntInject in this case) or property(testStringInject in this case) after the ViewElement is showed!
+
+
+
+In theory it supports all Types including custom Type
+```csharp
+
+public class MyClass{
+    public int intValue;
+    public bool boolValue;
+}
+// The MyUILogic.cs is attach on a ViewElement and this ViewElement is setting on the ViewPage "MyPage"
+public class MyUILogic : ViewElementBehaviour
+{
+    [ViewElementInject]
+    MyClass testMyClass;
+
+    [ViewElementInject]
+    List<string> testStringList{get;set;} // also support using property
+}
+
+// Call the change page API and use SetPageModel() to set the Model data instance
+ViewController.FullPageChanger()
+    .SetPage("MyPage")
+    .SetPageModel(
+        new MyClass{ intValue = 123, boolValue = false},
+        new List<string>{
+            "item 1",
+            "item 2"
+        }
+    )
+    .Show();
 ```
 
-> Note : The ViewElement also needs to swtich the **IsUnique** boolean on to makes IViewElementInjectable works.
+### Use with OverrideProperty Attribute
+
+The model inject will complete before the ViewSystem runtime override, so you can combine the usage with the RuntimeOverride!
+```csharp
+
+public class MyUILogic : ViewElementBehaviour{
+    [ViewElementInject]
+    [OverrideProperty("Text", typeof(TextMeshProUGUI), nameof(TextMeshProUGUI.text))]
+    string someString; // the value will set into the TextMeshProUGUI.text on the GameObject "Text"
+}
+```
+
+### Page Model and Shared Model
+Until now, all sample use the SetPageModel() API to set the model data, by this way we call it **Page Model**, means those model data only works during the ViewPage lifecycle.
+
+There is another model scope which is call **Shared Model**, the Shared Model is manage by the ViewSystem, by default all **IViewElementSingleton** will become Shared Moedl automatically, which means you can use  [ViewElementInject] to inject them in a ViewElementBehaviour.
+
+See the example:
+```csharp
+// Define a IViewElementSingleton sample
+public class MyViewElementSingletonSample : MonoBehaviour, IViewElementSingleton{}
+
+// The MyUILogic.cs is attach on a ViewElement and this ViewElement is setting on the ViewPage "MyPage"
+public class MyUILogic : ViewElementBehaviour
+{
+    [ViewElementInject]
+    MyViewElementSingletonSample myViewElementSingletonSample; // Since MyViewElementSingletonSample is a IViewElementSingleton, we don't need to use SetPageModel(), the system still can complete the value inject;
+}
+```
+
+Or you can Set the Shared Model to the System use the API, ViewController.Instance.SetSharedMoedl();
+See the example:
+```csharp
+
+public class MyClass{
+    public int intValue;
+    public bool boolValue;
+}
+
+// The MyUILogic.cs is attach on a ViewElement and this ViewElement is setting on the ViewPage "MyPage"
+public class MyUILogic : ViewElementBehaviour
+{
+    [ViewElementInject]
+    MyClass myClass;
+}
+
+// Call the ViewController.Instance.SetSharedMoedl(); somewhere before the ChangePage API is called.
+/// Set the model data to the System, it will become a Shared Model
+/// Each type can only have one value/instance, the system will automatically override the new value if duplicate type is trying to Set
+ViewController.Instance.SetSharedMoedl(new MyClass{intValue = 123, boolValue = false});
+
+// Call the change page API this time don't use SetPageModel()
+ViewController.FullPageChanger()
+    .SetPage("MyPage")
+    .Show();
+```
+
+As the result, though we don't use SetPageModel() API, the value still injected! Due to the system will automatically fallback to search the **Shared Model**
+
+#### Model Search Scope
+There are 4 ways to control the model searching scope, we can use the enum **InjectScope** to control.
+
+The default scope is PageFirst
+
+    InjectScope.PageFirst : Search the value from the PageModel first and then SharedModel
+    InjectScope.PageOnly : Search the value from the PageModel only.
+    InjectScope.SharedFirst : Search the value from the SharedModel first, and then PageModel, 
+    InjectScope.SharedOnly : Search the value from the SharedModel only.
+
+```csharp
+// The MyUILogic.cs is attach on a ViewElement and this ViewElement is setting on the ViewPage "MyPage"
+public class MyUILogic : ViewElementBehaviour
+{
+    [ViewElementInject(InjectScope.PageOnly)] // change the search scope
+    MyClass myClass;
+}
+```
 
 
 # System LifeCycle

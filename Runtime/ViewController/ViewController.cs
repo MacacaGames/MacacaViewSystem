@@ -203,6 +203,12 @@ namespace MacacaGames.ViewSystem
 
         static Dictionary<Type, object> sharedViewElementModel = new Dictionary<Type, object>();
 
+
+        /// <summary>
+        /// Set the model data to the System, it will become a Shared Model
+        /// Each type can only have one value/instance, the system will automatically override the new value if duplicate type is trying to Set
+        /// </summary>
+        /// <param name="models"></param>
         public void SetSharedModels(params object[] models)
         {
             foreach (var item in models)

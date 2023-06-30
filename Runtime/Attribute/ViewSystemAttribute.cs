@@ -69,7 +69,7 @@ namespace MacacaGames.ViewSystem
     /// InjectScope.PageFirst : Search the value from the PageModel first and then SharedModel
     /// InjectScope.PageOnly : Search the value from the PageModel only.
     /// InjectScope.SharedFirst : Search the value from the SharedModel first, and then PageModel, 
-    /// InjectScope.PageFirst : Search the value from the SharedModel only.
+    /// InjectScope.SharedOnly : Search the value from the SharedModel only.
     /// 
     /// Default is InjectScope.PageFirst
     /// 
@@ -87,13 +87,12 @@ namespace MacacaGames.ViewSystem
         {
             injectScope = InjectScope.PageFirst;
         }
-
-        public enum InjectScope
-        {
-            PageFirst,
-            SharedFirst,
-            PageOnly,
-            SharedOnly,
-        }
+    }
+    public enum InjectScope
+    {
+        PageFirst,
+        SharedFirst,
+        PageOnly,
+        SharedOnly,
     }
 }
