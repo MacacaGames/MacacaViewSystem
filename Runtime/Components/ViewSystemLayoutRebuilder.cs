@@ -54,5 +54,6 @@ namespace MacacaGames.ViewSystem
         public void OnChangedPage()
         {
         }
+        public void RefreshView() { }
     }
 }

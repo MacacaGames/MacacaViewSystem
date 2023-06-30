@@ -334,6 +334,53 @@ public class MyUILogic : ViewElementBehaviour{
 }
 ```
 
+### Inject Mutilple Model Value in with same Type
+By default, the Model Inject only support each a only one value/instance in runtime.
+
+See this example, 
+```csharp
+// We're going to try to set 2 string values into Model
+ViewController.FullPageChanger()
+    .SetPage("MyPage")
+    .SetPageModel(
+        "item 1",
+        "item 2"
+    )
+    .Show();
+
+// Will get Exception message
+// "When using ViewSystem model biding, each Type only available for one instance, if you would like to bind multiple instance of a Type use Collections(List, Array) or ViewInjectDictionary<T> instead."
+```
+To solve this situtation, here're some advice
+
+- Use a collection type such as **List\<T\>**
+- Create a custom object type as a wrapper
+- Use **ViewInjectDictionary\<T\>**
+
+#### ViewInjectDictionary\<T\>
+
+ViewInjectDictionary\<T\> is the predefine dictionary to solve the problems, the T is the the target Property/Field Type.
+
+```csharp
+// For instance, the ViewElementBehaviour is defined like this
+public class MyViewBehaviour: ViewElementBehaviour{
+    
+    [ViewElementInject]
+    string testStringInject1;
+    [ViewElementInject]
+    string testStringInject2;
+
+}
+
+var datas = new ViewInjectDictionary<string>();
+datas.TryAdd("testStringInject1", "value1"); // The Key is the field/property name, the value is the value to set
+datas.TryAdd("testStringInject2", "value2"); // The Key is the field/property name, the value is the value to set
+ViewController.FullPageChanger()
+    .SetPage("MyPage")
+    .SetPageModel(datas)
+    .Show();
+```
+
 ### Page Model and Shared Model
 Until now, all sample use the SetPageModel() API to set the model data, by this way we call it **Page Model**, means those model data only works during the ViewPage lifecycle.
 

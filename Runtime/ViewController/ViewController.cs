@@ -255,19 +255,19 @@ namespace MacacaGames.ViewSystem
             }
         }
 
-        static object GetModelInstance(MemberInfo memberInfo, ViewElementInjectAttribute.InjectScope injectScope, object[] models, bool isMultiple = false)
+        static object GetModelInstance(MemberInfo memberInfo, InjectScope injectScope, object[] models, bool isMultiple = false)
         {
             Type typeToSearch = memberInfo.GetMemberType();
 
             switch (injectScope)
             {
-                case ViewElementInjectAttribute.InjectScope.PageOnly:
+                case InjectScope.PageOnly:
                     return SearchInModels(typeToSearch, memberInfo, isMultiple);
-                case ViewElementInjectAttribute.InjectScope.SharedOnly:
+                case InjectScope.SharedOnly:
                     return SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch);
-                case ViewElementInjectAttribute.InjectScope.PageFirst:
+                case InjectScope.PageFirst:
                     return SearchInModels(typeToSearch, memberInfo, isMultiple) ?? SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch);
-                case ViewElementInjectAttribute.InjectScope.SharedFirst:
+                case InjectScope.SharedFirst:
                     return SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch) ?? SearchInModels(typeToSearch, memberInfo, isMultiple);
                 default:
                     throw new ArgumentException("Invalid scope");
