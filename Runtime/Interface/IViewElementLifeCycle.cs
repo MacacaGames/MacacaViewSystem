@@ -29,5 +29,7 @@ namespace MacacaGames.ViewSystem
         /// While the ViewPage is Changed on ViewController.
         /// </summary>
         void OnChangedPage();
+
+        void RefreshView();
     }
 }

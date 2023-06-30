@@ -41,6 +41,20 @@ namespace MacacaGames.ViewSystem
                 Show,
                 Leave
             }
+            public IEnumerable<ViewElement> currentViewElements
+            {
+                get
+                {
+                    var tempCurrentLiveElements = new List<ViewElement>();
+                    tempCurrentLiveElements.Clear();
+                    tempCurrentLiveElements.AddRange(viewPage.viewPageItems.Select(m => m.runtimeViewElement));
+                    if (viewState != null)
+                    {
+                        tempCurrentLiveElements.AddRange(viewState.viewPageItems.Select(m => m.runtimeViewElement));
+                    }
+                    return tempCurrentLiveElements;
+                }
+            }
         }
 
         static MacacaGames.ViewSystem.ViewPageItem.PlatformOption _platform;
@@ -274,6 +288,6 @@ namespace MacacaGames.ViewSystem
         }
 
 
-      
+
     }
 }

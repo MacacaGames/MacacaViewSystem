@@ -821,6 +821,19 @@ namespace MacacaGames.ViewSystem
                 }
             }
         }
+        
+        public void RefreshView()
+        {
+            foreach (var item in lifeCyclesObjects.ToArray())
+            {
+                try
+                {
+                    item.RefreshView();
+                }
+                catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
+
+            }
+        }
 
         public bool IsShowed
         {
@@ -933,6 +946,7 @@ namespace MacacaGames.ViewSystem
             }
             return result;
         }
+
 
     }
 

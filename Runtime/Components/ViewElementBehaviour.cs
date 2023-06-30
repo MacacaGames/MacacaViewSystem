@@ -61,6 +61,14 @@ namespace MacacaGames.ViewSystem
             OnChangedPageHandler?.Invoke();
         }
 
+        /// <summary>
+        /// Invoke while the ViewController.Instance.RefreshAll(); is call;
+        /// </summary>
+        public virtual void RefreshView()
+        {
+
+        }
+
         ViewElement viewElement;
         protected virtual void Awake()
         {

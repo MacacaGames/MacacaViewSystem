@@ -793,7 +793,35 @@ namespace MacacaGames.ViewSystem
             overlayPageStatusDict.Remove(OverlayPageStateKey);
 
             OnComplete?.Invoke();
+        }
 
+        /// <summary>
+        /// Force refresh current FullPage, will call the method on each ViewElementBehaviour.RefreshView(); 
+        /// </summary>
+        public void RefreshAll()
+        {
+            RefreshFullPage();
+            RefreshOverlayPage();
+        }
+
+        public void RefreshFullPage()
+        {
+            foreach (var item in currentLiveElements)
+            {
+                item.RefreshView();
+            }
+        }
+
+        public void RefreshOverlayPage()
+        {
+            for (int i = 0; i < overlayPageStatusDict.Count; i++)
+            {
+                var item = overlayPageStatusDict.ElementAt(i);
+                foreach (var element in item.Value.currentViewElements)
+                {
+                    element.RefreshView();
+                }
+            }
         }
 
         public bool IsOverPageStateLive(string viewStateName, out string viewPageName, bool includeLeavingPage = false)
@@ -851,9 +879,9 @@ namespace MacacaGames.ViewSystem
                 }
                 return true;
             }
-
             return false;
         }
+
         public override void TryLeaveAllOverlayPage()
         {
             //清空自動離場
@@ -864,6 +892,7 @@ namespace MacacaGames.ViewSystem
                 StartCoroutine(LeaveOverlayViewPageBase(item.Value, 0.4f, null, true));
             }
         }
+
         int lastFrameRate;
         void UpdateCurrentViewStateAndNotifyEvent(ViewPage vp)
         {

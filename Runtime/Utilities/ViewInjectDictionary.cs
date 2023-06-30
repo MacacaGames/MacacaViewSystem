@@ -23,17 +23,16 @@ public abstract class ViewInjectDictionary
 /// 
 /// }
 /// 
-/// This cause runtime error!
-/// ViewController.Instance.FullPageChanger()
+/// This cause runtime error! Due you set one kind type (stirng) twice
+/// ViewController.FullPageChanger()
 ///     .SetPage("MyPage")
 ///     .SetPageModel("value1", "value2");
 ///  
 /// Use this way instead!
-/// 
 /// var datas = new ViewInjectDictionary<string>();
-/// datas.TryAdd("testStringInject1", "value1"); // The Key is the field/property name, the value is the value
-/// datas.TryAdd("testStringInject2", "value2"); // The Key is the field/property name, the value is the value
-/// ViewController.Instance.FullPageChanger()
+/// datas.TryAdd("testStringInject1", "value1"); // The Key is the field/property name, the value is the value to set
+/// datas.TryAdd("testStringInject2", "value2"); // The Key is the field/property name, the value is the value to set
+/// ViewController.FullPageChanger()
 ///     .SetPage("MyPage")
 ///     .SetPageModel(datas);
 /// 
