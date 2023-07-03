@@ -170,6 +170,33 @@ public class MyUILogic : ViewElementBehaviour{
 }
 ```
 
+## Override Property via script with Unity Inspector
+The ViewElementOverride can let you setting the ViewElement override on any MonoBehaviour by using Unity's Inspector
+
+
+See the example: 
+```csharp
+
+public class MyScript: MonoBehaviour{
+    [SerializeField]
+    ViewElementOverride viewElementOverride;
+
+    void ApplyOverride()
+    {
+        GetComponent<ViewElement>().ApplyOverrides(viewElementOverride);
+    }
+}
+```
+
+By adding a ViewElementOverride Object field in your script, you will see the Override Editor in your Inspector, just use in like using the Overide Window in ViewSystem Editor.
+<img src="./Img~/viewelementoverride.png" />
+
+
+Then use the ViewElement.ApplyOverrides() API to apply the override.
+```csharp
+GetComponent<ViewElement>().ApplyOverrides(viewElementOverride);
+```
+
 ## Safe Area
 ViewSystem support Safe Area adjustment on the screen.
 Each can setup its owned Safe Area setting, or using the Safe Area global setting, the Safe Area support is modified from [5argon/NotchSolution](https://github.com/5argon/NotchSolution) and with deep intergation with ViewSystem, thanks for his/her great works!
@@ -447,6 +474,52 @@ public class MyUILogic : ViewElementBehaviour
 }
 ```
 
+### Use Model Inject with OverrideWindow
+The ViewSystem Editor provide a very convient way to let developer setting the override value. 
+
+See [Override property on a ViewElement](#override-property-on-a-viewelement) to learn how to use it.
+
+By default, the Override Window let you set the **Edit Time** value, but we can use some special syntax to use the **Model Inject** value.
+
+#### Syntax
+```
+{InjectScope.TypeName[key]}  
+```
+
+| Syntax           | Describ                                                                                              | Example                                 |
+| ---------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| ModelInjectScope | The model inject scope, use the InjectScope enum value in 'String' or just use 'Model'               | Model <br>PageFirst <br> Page Only <br> |
+| TypeName         | The full type name of the object you would like to use, the system will not check the type mismatch. | int, string, UnityEngine.Color          |
+| key              | If using the ViewInjectDictionary, set the key here.                                                 |                                         |
+
+
+See the Example:
+```csharp
+var datas = new ViewInjectDictionary<string>();
+datas.TryAdd("testStringInject1", "value1"); // The Key is the field/property name, the value is the value to set
+datas.TryAdd("testStringInject2", "value2"); // The Key is the field/property name, the value is the value to set
+ViewController.FullPageChanger()
+    .SetPage("MyPage")
+    .SetPageModel(
+        datas,
+        34234,
+        Color.red
+    )
+    .Show();
+
+// Set the syntax likes below to use the Model value in runtime
+// {Model.string["testStringInject1"]}  --> this apply the value "value1" in runtime  
+// {Model.int}  --> this apply the value 34234 in runtime  
+// {Model.UnityEngine.Color}  --> this apply the value Color.red in runtime
+
+// Also work, more solid
+// {PageFirst.string["testStringInject1"]} --> Same as {Model.string["testStringInject1"]} 
+// {PageOnly.string["testStringInject1"]} --> will only search value from PageModel
+```
+
+<img src="./Img~/overridewindow_model.png" />
+
+> To Set the model inject syntax string on a non string field e.g. Color, you can click the **Eye** Icon on the left of the item to switch the editor display method
 
 # System LifeCycle
 ## ViewController Initialization
