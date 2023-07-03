@@ -41,6 +41,14 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             resizeable = true;
         }
+        public override Vector2 GetWindowSize
+        {
+            get
+            {
+                return new Vector2(550, 500);
+            }
+        }
+
         public void SetViewPageItem(ViewPageItem viewPageItem)
         {
             this.viewPageItem = viewPageItem;
@@ -231,7 +239,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     RebuildModifyReorderableList();
                 }
 
-                
+
                 var targetObject = viewPageItem.viewElement.transform.Find(item.viewElementPropertyOverrideData.targetTransformPath);
 
                 if (targetObject == null)
@@ -239,7 +247,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     if (!lockerDict.ContainsKey(index)) lockerDict.Add(index, true);
 
                     float lineWidth = rect.width;
-                    GUI.Label(rect, new GUIContent($"Target GameObject is Missing : [{viewPageItem.viewElement.name }/{item.viewElementPropertyOverrideData.targetTransformPath }", Drawer.miniErrorIcon));
+                    GUI.Label(rect, new GUIContent($"Target GameObject is Missing : [{viewPageItem.viewElement.name}/{item.viewElementPropertyOverrideData.targetTransformPath}", Drawer.miniErrorIcon));
                     rect.y += EditorGUIUtility.singleLineHeight;
                     rect.width = 16;
                     lockerDict[index] = EditorGUI.Toggle(rect, lockerDict[index], new GUIStyle("IN LockButton"));

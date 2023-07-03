@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEditorInternal;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace MacacaGames.ViewSystem
 {
@@ -73,6 +74,7 @@ namespace MacacaGames.ViewSystem
 
             return MacacaGames.Utility.GetType(property.type) ?? typeof(UnityEngine.Object);
         }
+        const string regexPattern = "\\{(\\w+\\.\\w+\\[\\w+\\]|\\w+\\.\\w+\\[\"?\\w+\"?\\]|\\w+\\.\\w+)\\}";
 
         public static bool SmartOverrideField(Rect rect, SerializedProperty Target, PropertyOverride overProperty, out float lineHeight)
         {
@@ -83,46 +85,67 @@ namespace MacacaGames.ViewSystem
                 return false;
             }
             GUIContent content = new GUIContent(Target?.displayName);
-            EditorGUI.BeginChangeCheck();
-            switch (Target.propertyType)
+            var toggleRect = rect;
+            toggleRect.x -= 20;
+            toggleRect.width = 20;
+            var color = GUI.color;
+
+
+            using (var disable = new EditorGUI.DisabledGroupScope(overProperty.IsSpecialPattern))
             {
-                case SerializedPropertyType.Vector3:
-                    overProperty.SetValue(EditorGUI.Vector3Field(rect, content, (Vector3)overProperty.GetValue()));
-                    break;
-                case SerializedPropertyType.Vector2:
-                    overProperty.SetValue(EditorGUI.Vector2Field(rect, content, (Vector2)overProperty.GetValue()));
-                    break;
-                case SerializedPropertyType.Float:
-                    overProperty.SetValue(EditorGUI.FloatField(rect, content, (float)overProperty.GetValue()));
-                    break;
-                case SerializedPropertyType.Integer:
-                    overProperty.SetValue(EditorGUI.IntField(rect, content, (int)overProperty.GetValue()));
-                    break;
-                case SerializedPropertyType.String:
-                    overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
-                    break;
-                case SerializedPropertyType.Boolean:
-                    overProperty.SetValue(EditorGUI.Toggle(rect, content, (bool)overProperty.GetValue()));
-                    break;
-                case SerializedPropertyType.Color:
-                    overProperty.SetValue(EditorGUI.ColorField(rect, content, (Color)overProperty.GetValue()));
-                    break;
-                case SerializedPropertyType.ObjectReference:
-                    overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, GetPropertyType(Target), false);
-                    break;
-                case SerializedPropertyType.Enum:
-                    bool isFlag = false;
-                    var _enumValue = (Enum)overProperty.GetValue();
-                    isFlag = _enumValue.GetType().GetCustomAttribute(typeof(System.FlagsAttribute)) != null;
-                    if (isFlag)
-                    {
-                        overProperty.SetValue(EditorGUI.EnumFlagsField(rect, content, (Enum)overProperty.GetValue()));
-                    }
-                    else
-                    {
-                        overProperty.SetValue(EditorGUI.EnumPopup(rect, content, (Enum)overProperty.GetValue()));
-                    }
-                    break;
+                if (GUI.Button(toggleRect, new GUIContent(EditorGUIUtility.FindTexture( "d_animationvisibilitytoggleon@2x" ), "Show Raw Value"), Drawer.removeButtonStyle))
+                {
+                    overProperty.IsShowRawContent = !overProperty.IsShowRawContent;
+                }
+                // overProperty.IsShowOriginContent = EditorGUI.Toggle(toggleRect, new GUIContent(Drawer.canvasGroupIcon), overProperty.IsShowOriginContent, EditorStyles.toolbarButton, GUILayout.Width(20f));
+            }
+            EditorGUI.BeginChangeCheck();
+            if (!overProperty.IsShowRawContent)
+            {
+                switch (Target.propertyType)
+                {
+                    case SerializedPropertyType.Vector3:
+                        overProperty.SetValue(EditorGUI.Vector3Field(rect, content, (Vector3)overProperty.GetValue()));
+                        break;
+                    case SerializedPropertyType.Vector2:
+                        overProperty.SetValue(EditorGUI.Vector2Field(rect, content, (Vector2)overProperty.GetValue()));
+                        break;
+                    case SerializedPropertyType.Float:
+                        overProperty.SetValue(EditorGUI.FloatField(rect, content, (float)overProperty.GetValue()));
+                        break;
+                    case SerializedPropertyType.Integer:
+                        overProperty.SetValue(EditorGUI.IntField(rect, content, (int)overProperty.GetValue()));
+                        break;
+                    case SerializedPropertyType.String:
+                        overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
+                        break;
+                    case SerializedPropertyType.Boolean:
+                        overProperty.SetValue(EditorGUI.Toggle(rect, content, (bool)overProperty.GetValue()));
+                        break;
+                    case SerializedPropertyType.Color:
+                        overProperty.SetValue(EditorGUI.ColorField(rect, content, (Color)overProperty.GetValue()));
+                        break;
+                    case SerializedPropertyType.ObjectReference:
+                        overProperty.ObjectReferenceValue = EditorGUI.ObjectField(rect, content, overProperty.ObjectReferenceValue, GetPropertyType(Target), false);
+                        break;
+                    case SerializedPropertyType.Enum:
+                        bool isFlag = false;
+                        var _enumValue = (Enum)overProperty.GetValue();
+                        isFlag = _enumValue.GetType().GetCustomAttribute(typeof(System.FlagsAttribute)) != null;
+                        if (isFlag)
+                        {
+                            overProperty.SetValue(EditorGUI.EnumFlagsField(rect, content, (Enum)overProperty.GetValue()));
+                        }
+                        else
+                        {
+                            overProperty.SetValue(EditorGUI.EnumPopup(rect, content, (Enum)overProperty.GetValue()));
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                overProperty.StringValue = EditorGUI.TextField(rect, content, overProperty.StringValue);
             }
             return EditorGUI.EndChangeCheck();
         }

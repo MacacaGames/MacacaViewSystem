@@ -88,40 +88,53 @@ namespace MacacaGames.ViewSystem
         }
         public static Vector3 StringToVector3(string sVector)
         {
-            // Remove the parentheses
-            if (sVector.StartsWith("(") && sVector.EndsWith(")"))
+            try
             {
-                sVector = sVector.Substring(1, sVector.Length - 2);
+                // Remove the parentheses
+                if (sVector.StartsWith("(") && sVector.EndsWith(")"))
+                {
+                    sVector = sVector.Substring(1, sVector.Length - 2);
+                }
+                // split the items
+                string[] sArray = sVector.Split(',');
+
+                // store as a Vector3
+                Vector3 result = new Vector3(
+                    float.Parse(sArray[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
+                    float.Parse(sArray[1], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
+                    float.Parse(sArray[2], System.Globalization.CultureInfo.InvariantCulture.NumberFormat));
+
+                return result;
+            }
+            catch
+            {
+                return default(Vector3);
             }
 
-            // split the items
-            string[] sArray = sVector.Split(',');
-
-            // store as a Vector3
-            Vector3 result = new Vector3(
-                float.Parse(sArray[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
-                float.Parse(sArray[1], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
-                float.Parse(sArray[2], System.Globalization.CultureInfo.InvariantCulture.NumberFormat));
-
-            return result;
         }
         public static Vector2 StringToVector2(string sVector)
         {
-            // Remove the parentheses
-            if (sVector.StartsWith("(") && sVector.EndsWith(")"))
-            {
-                sVector = sVector.Substring(1, sVector.Length - 2);
+            try
+            { // Remove the parentheses
+                if (sVector.StartsWith("(") && sVector.EndsWith(")"))
+                {
+                    sVector = sVector.Substring(1, sVector.Length - 2);
+                }
+
+                // split the items
+                string[] sArray = sVector.Split(',');
+
+                // store as a Vector2
+                Vector2 result = new Vector2(
+                    float.Parse(sArray[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
+                    float.Parse(sArray[1], System.Globalization.CultureInfo.InvariantCulture.NumberFormat));
+
+                return result;
             }
-
-            // split the items
-            string[] sArray = sVector.Split(',');
-
-            // store as a Vector2
-            Vector2 result = new Vector2(
-                float.Parse(sArray[0], System.Globalization.CultureInfo.InvariantCulture.NumberFormat),
-                float.Parse(sArray[1], System.Globalization.CultureInfo.InvariantCulture.NumberFormat));
-
-            return result;
+            catch
+            {
+                return default(Vector2);
+            }
         }
     }
 

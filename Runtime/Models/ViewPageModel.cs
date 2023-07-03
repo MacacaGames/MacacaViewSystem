@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace MacacaGames.ViewSystem
 {
@@ -374,17 +375,40 @@ namespace MacacaGames.ViewSystem
     {
         BindingFlags defaultBindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
 
+        public bool IsShowRawContent = false;
 
+        public bool IsSpecialPattern
+        {
+            get
+            {
+                return StringValue.Contains("{");
+            }
+        }
         public object GetValue()
         {
+            object result = null;
+            if (IsSpecialPattern)
+            {
+                result = ConvertFromModelRefectString(StringValue);
+                if (result == null)
+                {
+                    ViewSystemLog.LogError("Try to get value from ViewSystem Model Binding faild, fallback to default value");
+                }
+                else
+                {
+                    return result;
+                }
+            }
+
             if (s_Type == S_Type._objcetReferenct)
             {
-                return ObjectReferenceValue;
+                result = ObjectReferenceValue;
             }
             else
             {
-                return ConvertFromStringValue(s_Type, StringValue);
+                result = ConvertFromStringValue(s_Type, StringValue);
             }
+            return result;
         }
 #if UNITY_EDITOR
 
@@ -527,12 +551,83 @@ namespace MacacaGames.ViewSystem
 
         public static object ConvertFromModelRefectString(string StringValue)
         {
-            // [PageModel.TypeName]
-            // [SharedModel.TypeName]
-
-            throw new System.NotImplementedException();
+            var data = ParseString(StringValue);
+            if (data == null)
+            {
+                return null;
+            }
+            // {PageModel.TypeName[key]} format 
+            // {PageModel.string} direct usage
+            // {PageModel.string[0]} use index
+            // {PageModel.string["key"]} use key
+            return ViewController.GetModelInstance(data.type, data.key, data.injectScope, data.isMultiple);
         }
 
+        static ReflectData ParseString(string input)
+        {
+            string pattern = @"\{(.+?)\.([^\[]+?)(?:\[(.+?)\])?\}";
+            var match = System.Text.RegularExpressions.Regex.Match(input, pattern);
+            bool isKeyInt = false;
+            if (match.Success)
+            {
+                string[] myData = new string[3];
+                myData[0] = match.Groups[1].Value; // PageModel
+                myData[1] = match.Groups[2].Value; // Property
+
+                if (match.Groups[3].Success)
+                {
+                    isKeyInt = match.Groups[3].Value.Contains('"');
+                    myData[2] = match.Groups[3].Value.Trim('\"'); // Key or Index (if it exists)
+                }
+                return new ReflectData(myData[0], myData[1], myData[2], isKeyInt);
+            }
+            return null;
+        }
+
+        class ReflectData
+        {
+            public ReflectData(string source, string type, string key, bool isKeyInt)
+            {
+                if (!System.Enum.TryParse<InjectScope>(source, out injectScope))
+                {
+                    // Simple hack to match other available keyword
+                    if (source.ToLower() == "model" || source.ToLower() == "pagemodel")
+                    {
+                        this.injectScope = InjectScope.PageFirst;
+                    }
+                    else if (source.ToLower() == "sharedmodel")
+                    {
+                        this.injectScope = InjectScope.SharedFirst;
+                    }
+                }
+                else
+                {
+                    throw new InvalidEnumArgumentException($"{source} doesn't match any member in Enum InjectScope");
+                }
+
+                this.type = Utility.GetType(type);
+
+                if (isKeyInt)
+                {
+                    ViewSystemLog.LogError("Setting Model in Override Window with array index is not support yet! Will automatically fallback to ViewInjectDictionary's key");
+                }
+
+                this.key = key;
+            }
+
+            public InjectScope injectScope;
+            public System.Type type;
+            public string key = null;
+            public int? index = null;
+
+            public bool isMultiple
+            {
+                get
+                {
+                    return !string.IsNullOrEmpty(key) || index.HasValue;
+                }
+            }
+        }
 
         public static object ConvertFromStringValue(S_Type sType, string StringValue)
         {
@@ -543,28 +638,69 @@ namespace MacacaGames.ViewSystem
                 case S_Type._vector2:
                     return VectorConvert.StringToVector2(StringValue);
                 case S_Type._bool:
-                    return System.Convert.ToBoolean(StringValue);
+                    {
+                        try
+                        {
+                            return System.Convert.ToBoolean(StringValue);
+                        }
+                        catch
+                        {
+                            return default(bool);
+                        }
+                    }
                 case S_Type._float:
-                    return float.Parse(StringValue, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                    {
+                        try
+                        {
+                            return float.Parse(StringValue, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                        }
+                        catch
+                        {
+                            return default(float);
+                        }
+                    }
                 case S_Type._int:
-                    return int.Parse(StringValue, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                    {
+                        try
+                        {
+                            return int.Parse(StringValue, System.Globalization.CultureInfo.InvariantCulture.NumberFormat);
+                        }
+                        catch
+                        {
+                            return default(int);
+                        }
+                    }
                 case S_Type._color:
                     return ColorUtility.TryParseHtmlString("#" + StringValue, out Color c) ? c : Color.black;
                 case S_Type._string:
                     return StringValue;
                 case S_Type._enum:
                     {
-                        var s = StringValue.Split(',');
-                        var enumType = MacacaGames.Utility.GetType(s[0]);
-                        return System.Enum.Parse(enumType, s[1], false);
+                        try
+                        {
+                            var s = StringValue.Split(',');
+                            var enumType = MacacaGames.Utility.GetType(s[0]);
+                            return System.Enum.Parse(enumType, s[1], false);
+                        }
+                        catch
+                        {
+                            return 0;
+                        }
                     }
                 case S_Type._enumFlag:
                     {
-                        var s = StringValue.Split(',');
-                        var enumType = MacacaGames.Utility.GetType(s[0]);
-                        int v = 0;
-                        int.TryParse(s[1], out v);
-                        return System.Enum.ToObject(enumType, v);
+                        try
+                        {
+                            var s = StringValue.Split(',');
+                            var enumType = MacacaGames.Utility.GetType(s[0]);
+                            int v = 0;
+                            int.TryParse(s[1], out v);
+                            return System.Enum.ToObject(enumType, v);
+                        }
+                        catch
+                        {
+                            return 0;
+                        }
                     }
                 default:
                     return null;

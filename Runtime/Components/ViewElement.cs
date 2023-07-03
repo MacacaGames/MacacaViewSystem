@@ -123,15 +123,11 @@ namespace MacacaGames.ViewSystem
             runtimeOverride.ResetToDefaultValues();
             runtimeOverride.RevertToLastNavigation();
         }
-        public void ApplyModelInject(object[] models)
+        public void ApplyModelInject()
         {
-            if (models == null || models.Length == 0)
-            {
-                return;
-            }
             foreach (var item in lifeCyclesObjects.ToArray())
             {
-                ViewController.InjectModels(item, models);
+                ViewController.InjectModels(item);
             }
         }
         [Flags]
@@ -821,7 +817,7 @@ namespace MacacaGames.ViewSystem
                 }
             }
         }
-        
+
         public void RefreshView()
         {
             foreach (var item in lifeCyclesObjects.ToArray())

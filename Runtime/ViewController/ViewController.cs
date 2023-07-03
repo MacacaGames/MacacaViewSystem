@@ -202,7 +202,7 @@ namespace MacacaGames.ViewSystem
         }
 
         static Dictionary<Type, object> sharedViewElementModel = new Dictionary<Type, object>();
-
+        static object[] pageModelsCache = null;
 
         /// <summary>
         /// Set the model data to the System, it will become a Shared Model
@@ -229,7 +229,7 @@ namespace MacacaGames.ViewSystem
             }
         }
 
-        internal static void InjectModels(object targetObject, object[] models)
+        internal static void InjectModels(object targetObject)
         {
             Type contract = targetObject.GetType();
 
@@ -246,7 +246,7 @@ namespace MacacaGames.ViewSystem
                 var isMultiple = gp.Count() > 1;
                 foreach (var info in gp)
                 {
-                    var target = GetModelInstance(info, info.GetCustomAttribute<ViewElementInjectAttribute>().injectScope, models, isMultiple);
+                    var target = GetModelInstance(info, info.GetCustomAttribute<ViewElementInjectAttribute>().injectScope, isMultiple);
                     if (target != null)
                     {
                         info.SetValue(targetObject, target);
@@ -255,66 +255,79 @@ namespace MacacaGames.ViewSystem
             }
         }
 
-        static object GetModelInstance(MemberInfo memberInfo, InjectScope injectScope, object[] models, bool isMultiple = false)
+        internal static object GetModelInstance(MemberInfo memberInfo, InjectScope injectScope, bool isMultiple = false)
         {
             Type typeToSearch = memberInfo.GetMemberType();
+            return GetModelInstance(typeToSearch, memberInfo.Name, injectScope, isMultiple);
+        }
 
+        internal static object GetModelInstance(Type typeToSearch, string memberNameKey, InjectScope injectScope, bool isMultiple = false)
+        {
             switch (injectScope)
             {
                 case InjectScope.PageOnly:
-                    return SearchInModels(typeToSearch, memberInfo, isMultiple);
+                    return SearchInModels(typeToSearch, memberNameKey, isMultiple);
                 case InjectScope.SharedOnly:
                     return SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch);
                 case InjectScope.PageFirst:
-                    return SearchInModels(typeToSearch, memberInfo, isMultiple) ?? SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch);
+                    return SearchInModels(typeToSearch, memberNameKey, isMultiple) ?? SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch);
                 case InjectScope.SharedFirst:
-                    return SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch) ?? SearchInModels(typeToSearch, memberInfo, isMultiple);
+                    return SearchInSharedModels(typeToSearch) ?? SearchInSingletonModels(typeToSearch) ?? SearchInModels(typeToSearch, memberNameKey, isMultiple);
                 default:
                     throw new ArgumentException("Invalid scope");
             }
+        }
 
-            object SearchInModels(Type typeToSearch, MemberInfo memberInfo, bool tryDictionary = false)
+        static object SearchInModels(Type typeToSearch, string memberNameKey, bool tryDictionary = false)
+        {
+            var models = pageModelsCache;
+            if (models == null || models.Length == 0)
             {
-                if (tryDictionary)
+                return null;
+            }
+            if (tryDictionary)
+            {
+                if (string.IsNullOrEmpty(memberNameKey))
                 {
-                    Type genericClass = typeof(ViewInjectDictionary<>);
-                    Type constructedClass = genericClass.MakeGenericType(typeToSearch);
+                    throw new InvalidOperationException("If try search ViewInjectDictionary, the memberNameKey is required");
+                }
+                Type genericClass = typeof(ViewInjectDictionary<>);
+                Type constructedClass = genericClass.MakeGenericType(typeToSearch);
 
-                    var obj = models.SingleOrDefault(m => m.GetType() == constructedClass);
+                var obj = models.SingleOrDefault(m => m.GetType() == constructedClass);
 
-                    if (obj == null)
-                    {
-                        goto DefaultSearch;
-                    }
-
-                    var dictionary = obj as ViewInjectDictionary;
-                    if (dictionary.ContainsKey(memberInfo.Name))
-                    {
-                        return dictionary.GetValue(memberInfo.Name);
-                    }
+                if (obj == null)
+                {
                     goto DefaultSearch;
                 }
 
-            DefaultSearch:
-                try
+                var dictionary = obj as ViewInjectDictionary;
+                if (dictionary.ContainsKey(memberNameKey))
                 {
-                    return models.SingleOrDefault(model => model.GetType() == typeToSearch);
+                    return dictionary.GetValue(memberNameKey);
                 }
-                catch (InvalidOperationException)
-                {
-                    throw new InvalidOperationException("When using ViewSystem model biding, each Type only available for one instance, if you would like to bind multiple instance of a Type use Collections(List, Array) or ViewInjectDictionary<T> instead.");
-                }
+                goto DefaultSearch;
             }
 
-            object SearchInSharedModels(Type typeToSearch)
+        DefaultSearch:
+            try
             {
-                return sharedViewElementModel.TryGetValue(typeToSearch, out object value) ? value : null;
+                return models.SingleOrDefault(model => model.GetType() == typeToSearch);
             }
+            catch (InvalidOperationException)
+            {
+                throw new InvalidOperationException("When using ViewSystem model biding, each Type only available for one instance, if you would like to bind multiple instance of a Type use Collections(List, Array) or ViewInjectDictionary<T> instead.");
+            }
+        }
 
-            object SearchInSingletonModels(Type typeToSearch)
-            {
-                return SingletonViewElementDictionary.TryGetValue(typeToSearch, out Component value) ? value : null;
-            }
+        static object SearchInSharedModels(Type typeToSearch)
+        {
+            return sharedViewElementModel.TryGetValue(typeToSearch, out object value) ? value : null;
+        }
+
+        static object SearchInSingletonModels(Type typeToSearch)
+        {
+            return SingletonViewElementDictionary.TryGetValue(typeToSearch, out Component value) ? value : null;
         }
 
 
@@ -484,7 +497,8 @@ namespace MacacaGames.ViewSystem
                 }
 
                 //Apply models
-                item.runtimeViewElement.ApplyModelInject(models);
+                pageModelsCache = models;
+                item.runtimeViewElement.ApplyModelInject();
 
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
@@ -657,7 +671,8 @@ namespace MacacaGames.ViewSystem
                 }
 
                 //Apply models
-                item.runtimeViewElement.ApplyModelInject(models);
+                pageModelsCache = models;
+                item.runtimeViewElement.ApplyModelInject();
 
                 //套用複寫值
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);

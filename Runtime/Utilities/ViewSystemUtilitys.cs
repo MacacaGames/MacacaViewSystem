@@ -286,8 +286,5 @@ namespace MacacaGames.ViewSystem
             }
             return wrapper;
         }
-
-
-
     }
 }

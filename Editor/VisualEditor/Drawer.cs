@@ -24,6 +24,20 @@ public class Drawer
             return _miniErrorIcon;
         }
     }
+    static Texture2D _canvasGroupIcon;
+    public static Texture2D canvasGroupIcon
+    {
+        get
+        {
+            if (_canvasGroupIcon == null)
+            {
+                _canvasGroupIcon = EditorGUIUtility.FindTexture("CanvasRenderer Icon");
+            }
+            return _canvasGroupIcon;
+        }
+    }
+
+
 
     //EditorGUIUtility.FindTexture( "SavePassive" )
     static Texture2D _savePassiveIcon;
@@ -71,7 +85,7 @@ public class Drawer
         {
             if (_transformIcon == null)
             {
-                _transformIcon = EditorGUIUtility.FindTexture( "d_console.warnicon" );
+                _transformIcon = EditorGUIUtility.FindTexture("d_console.warnicon");
             }
             return _transformIcon;
         }
