@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -900,7 +900,7 @@ namespace MacacaGames.ViewSystem
 
             if (transition == ViewElement.TransitionType.Animator)
             {
-                var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_Out));
+                var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Split("_").LastOrDefault().Contains( AnimationStateName_Out));
                 if (clip != null)
                 {
                     result = Mathf.Max(result, clip.length - 0.05f);
@@ -926,7 +926,7 @@ namespace MacacaGames.ViewSystem
 
             if (transition == ViewElement.TransitionType.Animator)
             {
-                var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Contains("_" + AnimationStateName_In));
+                var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Split("_").LastOrDefault().Contains(AnimationStateName_In));
                 if (clip != null)
                 {
                     result = Mathf.Max(result, clip.length);
