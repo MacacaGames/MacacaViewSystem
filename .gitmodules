@@ -1,0 +1,3 @@
+[submodule "MacacaUtility"]
+	path = MacacaUtility
+	url = https://github.com/MacacaGames/MacacaUtility.git

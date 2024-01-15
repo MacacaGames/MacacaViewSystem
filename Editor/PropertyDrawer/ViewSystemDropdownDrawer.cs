@@ -48,7 +48,10 @@ namespace MacacaGames.ViewSystem
             
             FieldInfo[] fields =
                 viewSystemScriptableType.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            string[] options = fields.Select(field => field.GetValue(null).ToString()).ToArray();
+            
+            string[] options = fields.Select(field => field.GetValue(null).ToString())
+                .OrderBy(str => str, StringComparer.OrdinalIgnoreCase)
+                .ToArray();
             return options;
         }
     }
