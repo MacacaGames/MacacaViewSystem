@@ -45,7 +45,7 @@ namespace MacacaGames.ViewSystem
 
 
             portraitOrDefaultPaddings = _edgeValues;
-#if UNITY_WEBGL
+#if (UNITY_WEBGL || UNITY_STANDALONE) && !UNITY_EDITOR
 
         // safe padding on webgl get bad result right now, so ignore this setting on webgl platform and take a look on this issue later
         portraitOrDefaultPaddings.left = EdgeEvaluationMode.Off;
