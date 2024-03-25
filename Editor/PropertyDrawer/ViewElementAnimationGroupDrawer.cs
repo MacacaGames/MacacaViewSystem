@@ -136,7 +136,7 @@ namespace MacacaGames.ViewSystem
             using (var horizon = new EditorGUILayout.HorizontalScope())
             {
 
-                GUI.color = animationGroup.moveToggle ? color : Color.gray;
+                GUI.color = !animationGroup.moveToggle ? color : Color.gray;
                 if (GUILayout.Button(EditorGUIUtility.IconContent("MoveTool"), "ButtonLeft", GUILayout.Width(25f)))
                 {
                     Undo.RecordObject(Target, "On Hide Animation Move Toggle");
@@ -144,7 +144,7 @@ namespace MacacaGames.ViewSystem
                     onHideMoveAnimBool.target = animationGroup.moveToggle;
                     EditorUtility.SetDirty(Target);
                 }
-                GUI.color = animationGroup.rotateToggle ? color : Color.gray;
+                GUI.color = !animationGroup.rotateToggle ? color : Color.gray;
                 if (GUILayout.Button(EditorGUIUtility.IconContent("RotateTool"), "ButtonMid", GUILayout.Width(25f)))
                 {
                     Undo.RecordObject(Target, "On Hide Animation Rotate Toggle");
@@ -152,7 +152,7 @@ namespace MacacaGames.ViewSystem
                     onHideRotateAnimBool.target = animationGroup.rotateToggle;
                     EditorUtility.SetDirty(Target);
                 }
-                GUI.color = animationGroup.scaleToggle ? color : Color.gray;
+                GUI.color = !animationGroup.scaleToggle ? color : Color.gray;
                 if (GUILayout.Button(EditorGUIUtility.IconContent("ScaleTool"), "ButtonMid", GUILayout.Width(25f)))
                 {
                     Undo.RecordObject(Target, "On Hide Animation Scale Toggle");
@@ -160,7 +160,7 @@ namespace MacacaGames.ViewSystem
                     onHideScaleAnimBool.target = animationGroup.scaleToggle;
                     EditorUtility.SetDirty(Target);
                 }
-                GUI.color = animationGroup.fadeToggle ? color : Color.gray;
+                GUI.color = !animationGroup.fadeToggle ? color : Color.gray;
                 if (GUILayout.Button(EditorGUIUtility.IconContent("ViewToolOrbit"), "ButtonRight", GUILayout.Width(25f)))
                 {
                     Undo.RecordObject(Target, "On Hide Animation Fade Toggle");
