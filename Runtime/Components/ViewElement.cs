@@ -562,53 +562,73 @@ namespace MacacaGames.ViewSystem
 
             if (transition == TransitionType.Animator)
             {
-                animator.Play(AnimationStateName_In);
-
-                if (transition == TransitionType.Animator && hasLoopBool)
+                if (animator != null)
                 {
-                    animator.SetBool(ButtonAnimationBoolKey, true);
+                    animator.Play(AnimationStateName_In);
+                    if (transition == TransitionType.Animator && hasLoopBool)
+                    {
+                        animator.SetBool(ButtonAnimationBoolKey, true);
+                    }
+                }
+                else
+                {
+                    ViewSystemLog.LogError("The ViewElement doesn't have a animator but the transition is set to Animator, fallback to activeswitch transition", this);
                 }
             }
             else if (transition == TransitionType.CanvasGroupAlpha)
             {
-                canvasGroup.alpha = 0;
-                if (canvasGroupCoroutine != null)
+                if (canvasGroup != null)
                 {
-                    viewController.StopMicroCoroutine(canvasGroupCoroutine);
-                }
+                    canvasGroup.alpha = 0;
+                    if (canvasGroupCoroutine != null)
+                    {
+                        viewController.StopMicroCoroutine(canvasGroupCoroutine);
+                    }
 
-                canvasGroupCoroutine = viewController.StartMicroCoroutine(
-                    EaseUtility.To(
-                        canvasGroup.alpha,
-                        1,
-                        canvasInTime,
-                        canvasInEase,
-                        (v) =>
-                        {
-                            canvasGroup.alpha = v;
-                        },
-                        () =>
-                        {
-                            canvasGroupCoroutine = null;
-                        }
-                    )
-                );
+                    canvasGroupCoroutine = viewController.StartMicroCoroutine(
+                        EaseUtility.To(
+                            canvasGroup.alpha,
+                            1,
+                            canvasInTime,
+                            canvasInEase,
+                            (v) =>
+                            {
+                                canvasGroup.alpha = v;
+                            },
+                            () =>
+                            {
+                                canvasGroupCoroutine = null;
+                            }
+                        )
+                    );
+                }
+                else
+                {
+                    ViewSystemLog.LogError("The ViewElement doesn't have a CanvasGroup but the transition is set to CanvasGroupAlpha, fallback to activeswitch transition", this);
+                }
             }
             else if (transition == TransitionType.ViewElementAnimation)
             {
-                if (viewElementAnimationCoroutine != null)
+                if (viewElementAnimation != null)
                 {
-                    viewController.StopMicroCoroutine(viewElementAnimationCoroutine);
-                }
+                    if (viewElementAnimationCoroutine != null)
+                    {
+                        viewController.StopMicroCoroutine(viewElementAnimationCoroutine);
+                    }
 
-                viewElementAnimationCoroutine = viewController.StartMicroCoroutine(
-                    viewElementAnimation.PlayIn(
-                        () =>
-                        {
-                            viewElementAnimationCoroutine = null;
-                        }
-                    )
-                );
+                    viewElementAnimationCoroutine = viewController.StartMicroCoroutine(
+                        viewElementAnimation.PlayIn(
+                            () =>
+                            {
+                                viewElementAnimationCoroutine = null;
+                            }
+                        )
+                    );
+                }
+                else
+                {
+                    ViewSystemLog.LogError("The ViewElement doesn't have a ViewElementAnimation but the transition is set to ViewElementAnimation, fallback to activeswitch transition", this);
+                }
 
             }
             else if (transition == TransitionType.Custom)
@@ -900,7 +920,7 @@ namespace MacacaGames.ViewSystem
 
             if (transition == ViewElement.TransitionType.Animator)
             {
-                var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Split("_").LastOrDefault().Contains( AnimationStateName_Out));
+                var clip = animator?.runtimeAnimatorController.animationClips.SingleOrDefault(m => m.name.Split("_").LastOrDefault().Contains(AnimationStateName_Out));
                 if (clip != null)
                 {
                     result = Mathf.Max(result, clip.length - 0.05f);
