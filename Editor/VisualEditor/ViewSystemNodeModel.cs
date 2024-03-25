@@ -491,6 +491,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
             if (Application.isPlaying)
             {
                 btnText = "Force Show Page";
+
+                if (ViewController.Instance != null && ViewController.Instance.IsOverPageLive(viewPage.name))
+                {
+                    btnText = "Force Leave Page";
+                }
             }
             if (CustomElement.Button(id, btnRect, new GUIContent(btnText), new GUIStyle("ObjectPickerResultsEven"), btnInteractiable))
             {

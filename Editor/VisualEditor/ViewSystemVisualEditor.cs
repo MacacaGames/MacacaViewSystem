@@ -354,6 +354,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         if (node.nodeType == ViewSystemNode.NodeType.Overlay)
                         {
                             pageChanger = ViewController.OverlayPageChanger();
+
+                            if (ViewController.Instance != null && ViewController.Instance.IsOverPageLive(node.viewPage.name))
+                            {
+                                (pageChanger.SetPage(node.viewPage.name) as OverlayPageChanger).Leave();
+                                return;
+                            }
                         }
                         else
                         {
