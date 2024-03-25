@@ -8,22 +8,12 @@ using System.Reflection;
 using UnityEditorInternal;
 using System;
 using System.IO;
+using MacacaGames;
 using MacacaGames.ViewSystem.VisualEditor;
 
 namespace MacacaGames.ViewSystem
 {
-    public static class ClipBoard
-    {
-        public static object value;
-        public static string json;
-        public static bool HasValue
-        {
-            get
-            {
-                return value != null || !string.IsNullOrEmpty(json);
-            }
-        }
-    }
+
     [CustomPropertyDrawer(typeof(ViewElementOverride))]
     public class OverridePropertyDrawer : PropertyDrawer
     {
@@ -282,6 +272,7 @@ namespace MacacaGames.ViewSystem
                 Rebuild(viewElement);
             }
         }
+        ClipBoard clipBoard = null;
         private void CopyItem(int index)
         {
             if (reorderableList.list.Count <= index)
@@ -299,12 +290,17 @@ namespace MacacaGames.ViewSystem
             }
 
             // ClipBoard.value = data;
-            ClipBoard.json = JsonUtility.ToJson(data);
+            clipBoard = new ClipBoard(data);
         }
 
         private void PasteItem(int index)
         {
-            ViewElementPropertyOverrideData data = JsonUtility.FromJson<ViewElementPropertyOverrideData>(ClipBoard.json);
+            if (clipBoard == null || !clipBoard.HasValue)
+            {
+                Debug.LogError("The copyboard is empty");
+                return;
+            }
+            ViewElementPropertyOverrideData data = clipBoard.Paste<ViewElementPropertyOverrideData>();
             if (reorderableList.list.Count <= index)
             {
                 // Debug.Log("Return due to out ov range");
@@ -326,7 +322,7 @@ namespace MacacaGames.ViewSystem
                 Event.current.Use();
                 GenericMenu menu = new GenericMenu();
                 menu.AddItem(new GUIContent("Copy %c"), false, () => CopyItem(index));
-                if (!ClipBoard.HasValue)
+                if (clipBoard != null && !clipBoard.HasValue)
                 {
                     menu.AddDisabledItem(new GUIContent("Paste %v"), false);
                 }

@@ -8,6 +8,7 @@ using UnityEditorInternal;
 using System.Reflection;
 using UnityEditor.IMGUI.Controls;
 using MacacaGames;
+using Sirenix.Utilities.Editor;
 
 namespace MacacaGames.ViewSystem.VisualEditor
 {
@@ -271,73 +272,74 @@ namespace MacacaGames.ViewSystem.VisualEditor
         const int rightBtnWidth = 0;
         ViewPageItem copyPasteBuffer;
         ViewElementOverridesImporterWindow overrideChecker;
-        ViewPageItem CopyItem(bool copyDefault = true, bool copyOverride = true, bool copyEvent = true, bool copyRectTransform = true)
+        ViewPageItem CopyItem(ClipBoard clipBoard, bool copyDefault = true, bool copyOverride = true, bool copyEvent = true, bool copyRectTransform = true)
         {
-            var copyResult = new ViewPageItem(copyPasteBuffer.viewElement);
-            if (copyDefault == true)
-            {
-                copyResult.TweenTime = copyPasteBuffer.TweenTime;
-                copyResult.delayOut = copyPasteBuffer.delayOut;
-                copyResult.delayIn = copyPasteBuffer.delayIn;
-                copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
-                copyResult.name = copyPasteBuffer.name;
-                copyResult.sortingOrder = copyPasteBuffer.sortingOrder;
-            }
+            var copyResult = clipBoard.Paste<ViewPageItem>();
+            // var copyResult = new ViewPageItem(copyPasteBuffer.viewElement);
+            // if (copyDefault == true)
+            // {
+            //     copyResult.TweenTime = copyPasteBuffer.TweenTime;
+            //     copyResult.delayOut = copyPasteBuffer.delayOut;
+            //     copyResult.delayIn = copyPasteBuffer.delayIn;
+            //     copyResult.excludePlatform = copyPasteBuffer.excludePlatform;
+            //     copyResult.name = copyPasteBuffer.name;
+            //     copyResult.sortingOrder = copyPasteBuffer.sortingOrder;
+            // }
 
-            if (copyRectTransform == true)
-            {
-                copyResult.defaultTransformDatas.rectTransformData = new ViewSystemRectTransformData();
-                copyResult.defaultTransformDatas.rectTransformData.anchoredPosition = copyPasteBuffer.defaultTransformDatas.rectTransformData.anchoredPosition;
-                copyResult.defaultTransformDatas.rectTransformData.anchorMax = copyPasteBuffer.defaultTransformDatas.rectTransformData.anchorMax;
-                copyResult.defaultTransformDatas.rectTransformData.anchorMin = copyPasteBuffer.defaultTransformDatas.rectTransformData.anchorMin;
-                copyResult.defaultTransformDatas.rectTransformData.pivot = copyPasteBuffer.defaultTransformDatas.rectTransformData.pivot;
-                copyResult.defaultTransformDatas.rectTransformData.localEulerAngles = copyPasteBuffer.defaultTransformDatas.rectTransformData.localEulerAngles;
-                copyResult.defaultTransformDatas.rectTransformData.localScale = copyPasteBuffer.defaultTransformDatas.rectTransformData.localScale;
-                copyResult.defaultTransformDatas.rectTransformData.offsetMax = copyPasteBuffer.defaultTransformDatas.rectTransformData.offsetMax;
-                copyResult.defaultTransformDatas.rectTransformData.offsetMin = copyPasteBuffer.defaultTransformDatas.rectTransformData.offsetMin;
-                copyResult.defaultTransformDatas.rectTransformData.sizeDelta = copyPasteBuffer.defaultTransformDatas.rectTransformData.sizeDelta;
-                copyResult.defaultTransformDatas.parentPath = copyPasteBuffer.defaultTransformDatas.parentPath;
-            }
+            // if (copyRectTransform == true)
+            // {
+            //     copyResult.defaultTransformDatas.rectTransformData = new ViewSystemRectTransformData();
+            //     copyResult.defaultTransformDatas.rectTransformData.anchoredPosition = copyPasteBuffer.defaultTransformDatas.rectTransformData.anchoredPosition;
+            //     copyResult.defaultTransformDatas.rectTransformData.anchorMax = copyPasteBuffer.defaultTransformDatas.rectTransformData.anchorMax;
+            //     copyResult.defaultTransformDatas.rectTransformData.anchorMin = copyPasteBuffer.defaultTransformDatas.rectTransformData.anchorMin;
+            //     copyResult.defaultTransformDatas.rectTransformData.pivot = copyPasteBuffer.defaultTransformDatas.rectTransformData.pivot;
+            //     copyResult.defaultTransformDatas.rectTransformData.localEulerAngles = copyPasteBuffer.defaultTransformDatas.rectTransformData.localEulerAngles;
+            //     copyResult.defaultTransformDatas.rectTransformData.localScale = copyPasteBuffer.defaultTransformDatas.rectTransformData.localScale;
+            //     copyResult.defaultTransformDatas.rectTransformData.offsetMax = copyPasteBuffer.defaultTransformDatas.rectTransformData.offsetMax;
+            //     copyResult.defaultTransformDatas.rectTransformData.offsetMin = copyPasteBuffer.defaultTransformDatas.rectTransformData.offsetMin;
+            //     copyResult.defaultTransformDatas.rectTransformData.sizeDelta = copyPasteBuffer.defaultTransformDatas.rectTransformData.sizeDelta;
+            //     copyResult.defaultTransformDatas.parentPath = copyPasteBuffer.defaultTransformDatas.parentPath;
+            // }
 
-            if (copyOverride == true)
-            {
-                var originalOverrideDatas = copyPasteBuffer.overrideDatas.Select(x => x).ToList();
-                var copiedOverrideDatas = originalOverrideDatas.Select(x => new ViewElementPropertyOverrideData
-                {
-                    targetComponentType = x.targetComponentType,
-                    targetPropertyName = x.targetPropertyName,
+            // if (copyOverride == true)
+            // {
+            //     var originalOverrideDatas = copyPasteBuffer.overrideDatas.Select(x => x).ToList();
+            //     var copiedOverrideDatas = originalOverrideDatas.Select(x => new ViewElementPropertyOverrideData
+            //     {
+            //         targetComponentType = x.targetComponentType,
+            //         targetPropertyName = x.targetPropertyName,
 
-                    targetTransformPath = x.targetTransformPath,
-                    Value = new PropertyOverride
-                    {
-                        ObjectReferenceValue = x.Value.ObjectReferenceValue,
-                        s_Type = x.Value.s_Type,
-                        StringValue = x.Value.StringValue,
-                    }
-                }).ToList();
-                copyResult.overrideDatas = copiedOverrideDatas;
-            }
+            //         targetTransformPath = x.targetTransformPath,
+            //         Value = new PropertyOverride
+            //         {
+            //             ObjectReferenceValue = x.Value.ObjectReferenceValue,
+            //             s_Type = x.Value.s_Type,
+            //             StringValue = x.Value.StringValue,
+            //         }
+            //     }).ToList();
+            //     copyResult.overrideDatas = copiedOverrideDatas;
+            // }
 
-            if (copyEvent == true)
-            {
-                var originalEventDatas = copyPasteBuffer.eventDatas.Select(x => x).ToList();
-                var copyEventDatas = originalEventDatas.Select(
-                    x => new ViewElementEventData
-                    {
-                        targetComponentType = x.targetComponentType,
-                        targetPropertyName = x.targetPropertyName,
-                        targetTransformPath = x.targetTransformPath,
-                        methodName = x.methodName,
-                        scriptName = x.scriptName
-                    })
-                .ToList();
+            // if (copyEvent == true)
+            // {
+            //     var originalEventDatas = copyPasteBuffer.eventDatas.Select(x => x).ToList();
+            //     var copyEventDatas = originalEventDatas.Select(
+            //         x => new ViewElementEventData
+            //         {
+            //             targetComponentType = x.targetComponentType,
+            //             targetPropertyName = x.targetPropertyName,
+            //             targetTransformPath = x.targetTransformPath,
+            //             methodName = x.methodName,
+            //             scriptName = x.scriptName
+            //         })
+            //     .ToList();
 
-                copyResult.eventDatas = copyEventDatas;
-            }
+            //     copyResult.eventDatas = copyEventDatas;
+            // }
 
             return copyResult;
         }
-
+        MacacaGames.ClipBoard clipBoard;
         private void DrawViewItemElement(Rect rect, int index, bool isActive, bool isFocused)
         {
 
@@ -355,46 +357,46 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     genericMenu.AddItem(new GUIContent("Copy"), false,
                         () =>
                         {
-                            copyPasteBuffer = viewPageItemList[index];
+                            clipBoard = new ClipBoard(viewPageItemList[index]);
                         }
                     );
-                    if (copyPasteBuffer != null)
+                    if (clipBoard != null && clipBoard.HasValue)
                     {
-                        genericMenu.AddItem(new GUIContent("Paste (Default)"), false,
+                        genericMenu.AddItem(new GUIContent("Paste"), false,
                             () =>
                             {
-                                viewPageItemList[index] = CopyItem(true, false, false, true);
+                                viewPageItemList[index] = CopyItem(clipBoard, true, false, false, true);
                                 GUI.changed = true;
                             }
                         );
-                        genericMenu.AddItem(new GUIContent("Paste (Transform Only)"), false,
-                            () =>
-                            {
-                                viewPageItemList[index] = CopyItem(false, false, false, true);
-                                GUI.changed = true;
-                            }
-                        );
-                        genericMenu.AddItem(new GUIContent("Paste (with Property Data)"), false,
-                            () =>
-                            {
-                                viewPageItemList[index] = CopyItem(true, true, false, true);
-                                GUI.changed = true;
-                            }
-                        );
-                        genericMenu.AddItem(new GUIContent("Paste (with Events Data)"), false,
-                           () =>
-                           {
-                               viewPageItemList[index] = CopyItem(true, false, true, true);
-                               GUI.changed = true;
-                           }
-                        );
-                        genericMenu.AddItem(new GUIContent("Paste (with All Data)"), false,
-                           () =>
-                           {
-                               viewPageItemList[index] = CopyItem(true, true, true, true);
-                               GUI.changed = true;
-                           }
-                       );
+                    //     genericMenu.AddItem(new GUIContent("Paste (Transform Only)"), false,
+                    //         () =>
+                    //         {
+                    //             viewPageItemList[index] = CopyItem(clipBoard, false, false, false, true);
+                    //             GUI.changed = true;
+                    //         }
+                    //     );
+                    //     genericMenu.AddItem(new GUIContent("Paste (with Property Data)"), false,
+                    //         () =>
+                    //         {
+                    //             viewPageItemList[index] = CopyItem(clipBoard, true, true, false, true);
+                    //             GUI.changed = true;
+                    //         }
+                    //     );
+                    //     genericMenu.AddItem(new GUIContent("Paste (with Events Data)"), false,
+                    //        () =>
+                    //        {
+                    //            viewPageItemList[index] = CopyItem(clipBoard, true, false, true, true);
+                    //            GUI.changed = true;
+                    //        }
+                    //     );
+                    //     genericMenu.AddItem(new GUIContent("Paste (with All Data)"), false,
+                    //        () =>
+                    //        {
+                    //            viewPageItemList[index] = CopyItem(clipBoard, true, true, true, true);
+                    //            GUI.changed = true;
+                    //        }
+                    //    );
                     }
                     genericMenu.ShowAsContext();
                 }
