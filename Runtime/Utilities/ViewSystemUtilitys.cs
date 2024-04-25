@@ -167,6 +167,40 @@ namespace MacacaGames.ViewSystem
             }
             return Mathf.Clamp(maxOutAnitionTime, 0, maxClampTime);
         }
+
+        public static bool IsUnityEngineTypeOrInheritFromUnityEngineType(System.Type t)
+        {
+            if (Check(t))
+            {
+                return true;
+            }
+            var bt = t.BaseType;
+            int count = 0;
+            while (bt != null && count < 5)
+            {
+                count++;
+                if (Check(bt))
+                {
+                    return true;
+                }
+            }
+
+            if (count >= 5)
+            {
+                ViewSystemLog.LogWarning($"Try to find a type is Inherit from UnityEngine Type spent more than 5 times. {t.ToString()}");
+            }
+
+            return false;
+            bool Check(System.Type t)
+            {
+                if (t.ToString().Contains("UnityEngine."))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         public static string ParseUnityEngineProperty(string ori)
         {
             if (ori.ToLower().Contains("material"))

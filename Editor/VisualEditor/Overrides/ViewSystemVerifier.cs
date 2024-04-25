@@ -312,7 +312,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     continue;
                 }
                 var propertyName = item.targetPropertyName;
-                if (t.ToString().Contains("UnityEngine."))
+                if (ViewSystemUtilitys.IsUnityEngineTypeOrInheritFromUnityEngineType(t))
                 {
                     propertyName = ViewSystemUtilitys.ParseUnityEngineProperty(item.targetPropertyName);
                 }

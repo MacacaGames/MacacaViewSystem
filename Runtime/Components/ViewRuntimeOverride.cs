@@ -357,7 +357,7 @@ namespace MacacaGames.ViewSystem
 
                 return;
             }
-            if (t.ToString().Contains("UnityEngine."))
+            if (ViewSystemUtilitys.IsUnityEngineTypeOrInheritFromUnityEngineType(t))
             {
                 fieldName = ViewSystemUtilitys.ParseUnityEngineProperty(fieldName);
             }
@@ -395,7 +395,7 @@ namespace MacacaGames.ViewSystem
                 ret = fieldInfo.GetValue(inObj);
                 return ret;
             }
-            if (t.ToString().Contains("UnityEngine."))
+            if (ViewSystemUtilitys.IsUnityEngineTypeOrInheritFromUnityEngineType(t))
             {
                 fieldName = ViewSystemUtilitys.ParseUnityEngineProperty(fieldName);
             }
