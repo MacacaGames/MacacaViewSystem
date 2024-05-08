@@ -90,6 +90,12 @@ namespace MacacaGames.ViewSystem
                 Delegate.CreateDelegate(type: typeof(EventDelegate<Component>), target, method, true, true);
         }
         static Dictionary<string, EventDelegate<Component>> cachedDelegate = new Dictionary<string, EventDelegate<Component>>();
+
+        public static void ClearCachedEventDelegate()
+        {
+            cachedDelegate.Clear();
+        }
+
         Dictionary<string, EventRuntimeDatas> cachedUnityEvent = new Dictionary<string, EventRuntimeDatas>();
         public void ClearAllEvent()
         {

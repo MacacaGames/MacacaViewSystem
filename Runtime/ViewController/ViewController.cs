@@ -33,6 +33,7 @@ namespace MacacaGames.ViewSystem
             transformCache = transform;
             base.Awake();
             _incance = Instance = this;
+            ViewRuntimeOverride.ClearCachedEventDelegate();
             if (initOnAwake)
             {
                 Init();
