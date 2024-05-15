@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace MacacaGames.ViewSystem
 {
-    public abstract class ViewControllerBase : MonoBehaviour, IViewController
+    public abstract class ViewControllerBase : MonoBehaviour
     {
 
         protected static float minimumTimeInterval = 0.2f;
@@ -45,7 +45,7 @@ namespace MacacaGames.ViewSystem
             }
         }
 
-        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnStart = null, Action OnChanged = null, Action OnComplete = null, bool ignoreTimeScale = false, params object[] models)
+        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnStart = null, Action OnChanged = null, Action OnComplete = null, bool ignoreTimeScale = false, bool ignoreClickProtection = false, params object[] models)
         {
             if (!CheckTimeProtect())
             {
@@ -77,10 +77,10 @@ namespace MacacaGames.ViewSystem
                 }
 
             }
-            return StartCoroutine(ShowOverlayViewPageBase(nextOverlayViewPage, RePlayOnShowWhileSamePage, OnStart, OnChanged, OnComplete, ignoreTimeScale, models));
+            return StartCoroutine(ShowOverlayViewPageBase(nextOverlayViewPage, RePlayOnShowWhileSamePage, OnStart, OnChanged, OnComplete, ignoreTimeScale, ignoreClickProtection, models));
         }
 
-        public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
+        public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool ignoreClickProtection = false, bool waitForShowFinish = false)
         {
             if (!CheckTimeProtect())
             {
@@ -118,11 +118,11 @@ namespace MacacaGames.ViewSystem
                     return null;
                 }
             }
-            overlayPageStatus.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageStatus, tweenTimeIfNeed, OnComplete, ignoreTransition, ignoreTimeScale, waitForShowFinish));
+            overlayPageStatus.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageStatus, tweenTimeIfNeed, OnComplete, ignoreTransition, ignoreTimeScale, ignoreClickProtection, waitForShowFinish));
             return overlayPageStatus.pageChangeCoroutine;
         }
 
-        public Coroutine ChangePage(string targetViewPageName, Action OnStart = null, Action OnChanged = null, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false, params object[] models)
+        public Coroutine ChangePage(string targetViewPageName, Action OnStart = null, Action OnChanged = null, Action OnComplete = null, bool AutoWaitPreviousPageFinish = false, bool ignoreTimeScale = false, bool ignoreClickProtection = false, params object[] models)
         {
             if (!CheckTimeProtect())
             {
@@ -148,23 +148,23 @@ namespace MacacaGames.ViewSystem
                     return ChangePageToCoroutine;
                 }
             }
-            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnStart, OnChanged, OnComplete, ignoreTimeScale, models));
+            ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnStart, OnChanged, OnComplete, ignoreTimeScale, ignoreClickProtection, models));
             return ChangePageToCoroutine;
         }
 
-        public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale = false, params object[] models)
+        public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale = false, bool ignoreClickProtection = false, params object[] models)
         {
             //Empty implement will override in child class
             yield return null;
         }
 
-        public virtual IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageStatus overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
+        public virtual IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageStatus overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool ignoreClickProtection = false, bool waitForShowFinish = false)
         {
             //Empty implement will override in child class
             yield return null;
         }
 
-        public virtual IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnCheaged, Action OnComplete, bool ignoreTimeScale, params object[] models)
+        public virtual IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnCheaged, Action OnComplete, bool ignoreTimeScale, bool ignoreClickProtection, params object[] models)
         {
             //Empty implement will override in child class
             yield return null;

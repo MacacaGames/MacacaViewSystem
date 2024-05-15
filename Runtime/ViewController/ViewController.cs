@@ -372,7 +372,7 @@ namespace MacacaGames.ViewSystem
         [ReadOnly, SerializeField]
         protected List<ViewElement> currentLiveElementsInViewState = new List<ViewElement>();
 
-        public override IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale, params object[] models)
+        public override IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale, bool ignoreClickProtection, params object[] models)
         {
             //取得 ViewPage 物件
             // ViewPage nextViewPage;
@@ -388,7 +388,7 @@ namespace MacacaGames.ViewSystem
             if (nextViewPage.viewPageType == ViewPage.ViewPageType.Overlay)
             {
                 ViewSystemLog.LogWarning("To shown Page is an Overlay ViewPage use ShowOverlayViewPage() instead method \n current version will redirect to this method automatically, but this behaviour may be changed in future release.");
-                ShowOverlayViewPageBase(nextViewPage, true, OnStart, OnChanged, OnComplete, ignoreTimeScale);
+                ShowOverlayViewPageBase(nextViewPage, true, OnStart, OnChanged, OnComplete, ignoreTimeScale, ignoreClickProtection);
                 ChangePageToCoroutine = null;
                 yield break;
             }
@@ -556,7 +556,7 @@ namespace MacacaGames.ViewSystem
             OnComplete?.Invoke();
         }
 
-        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale, params object[] models)
+        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale, bool ignoreClickProtection, params object[] models)
         {
             // Debug.Log("ShowOverlayViewPageBase " + vp.name);
             if (vp == null)
@@ -715,7 +715,7 @@ namespace MacacaGames.ViewSystem
             OnComplete?.Invoke();
         }
 
-        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageStatus overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
+        public override IEnumerator LeaveOverlayViewPageBase(ViewSystemUtilitys.OverlayPageStatus overlayPageState, float tweenTimeIfNeed, Action OnComplete, bool ignoreTransition = false, bool ignoreClickProtection = false, bool ignoreTimeScale = false, bool waitForShowFinish = false)
         {
             if (waitForShowFinish && overlayPageState.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Show)
             {

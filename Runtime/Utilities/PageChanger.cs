@@ -18,7 +18,7 @@ namespace MacacaGames.ViewSystem
         }
         public override YieldInstruction _Show()
         {
-            return _viewController.ChangePage(_targetPage, _OnStart, _OnChanged, _OnComplete, _waitPreviousPageFinish, _ignoreTimeScale, _models);
+            return _viewController.ChangePage(_targetPage, _OnStart, _OnChanged, _OnComplete, _waitPreviousPageFinish, _ignoreTimeScale, _ignoreClickProtection, _models);
         }
     }
 
@@ -43,11 +43,11 @@ namespace MacacaGames.ViewSystem
         }
         public override YieldInstruction _Show()
         {
-            return _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnChanged, _OnComplete, _ignoreTimeScale, _models);
+            return _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnChanged, _OnComplete, _ignoreTimeScale, _ignoreClickProtection, _models);
         }
         public YieldInstruction _Leave()
         {
-            return _viewController.LeaveOverlayViewPage(_targetPage, _tweenTime, _OnComplete, _ignoreTransition, _ignoreTimeScale, _waitPreviousPageFinish);
+            return _viewController.LeaveOverlayViewPage(_targetPage, _tweenTime, _OnComplete, _ignoreTransition, _ignoreTimeScale, _ignoreClickProtection, _waitPreviousPageFinish);
         }
     }
     public class PageChanger
@@ -59,6 +59,7 @@ namespace MacacaGames.ViewSystem
         internal string _targetPage;
         internal bool _ignoreTimeScale = false;
         internal bool _waitPreviousPageFinish = false;
+        internal bool _ignoreClickProtection = false;
         internal object[] _models = null;
 
         public PageChanger(ViewControllerBase viewController)
@@ -76,6 +77,7 @@ namespace MacacaGames.ViewSystem
             _targetPage = string.Empty;
             _waitPreviousPageFinish = false;
             _ignoreTimeScale = true;
+            _ignoreClickProtection = false;
             _models = null;
             return this;
         }
@@ -210,6 +212,11 @@ namespace MacacaGames.ViewSystem
         public static PageChanger SetIgnoreTimeScale(this PageChanger selfObj, bool ignoreTimeScale)
         {
             selfObj._ignoreTimeScale = ignoreTimeScale;
+            return selfObj;
+        }
+        public static PageChanger SetIgnoreClickProtection(this PageChanger selfObj, bool ignoreClickProtection)
+        {
+            selfObj._ignoreClickProtection = ignoreClickProtection;
             return selfObj;
         }
 
