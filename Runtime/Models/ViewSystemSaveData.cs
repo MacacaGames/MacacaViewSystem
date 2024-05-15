@@ -60,6 +60,11 @@ namespace MacacaGames.ViewSystem
             /// </summary>
             public float minimumTimeInterval = 0.2f;
 
+            /// <summary>
+            /// Enable the builtIn click protection or not, if true, the system will ignore the show page call if any page is transition
+            /// </summary> 
+            public bool builtInClickProtection = true;
+
             // public string[] builtInBreakPoints = new string[]{
             //     "Horizon",
             //     "Vertical"

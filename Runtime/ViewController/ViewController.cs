@@ -74,6 +74,7 @@ namespace MacacaGames.ViewSystem
             sharedViewElementModel = new Dictionary<Type, object>();
             maxClampTime = viewSystemSaveData.globalSetting.MaxWaitingTime;
             minimumTimeInterval = viewSystemSaveData.globalSetting.minimumTimeInterval;
+            builtInClickProtection = viewSystemSaveData.globalSetting.builtInClickProtection;
             try
             {
                 breakPointsStatus = viewSystemSaveData.globalSetting.breakPoints.ToDictionary(m => m, m => false);

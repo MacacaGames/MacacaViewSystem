@@ -51,8 +51,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 saveData.globalSetting.minimumTimeInterval = EditorGUILayout.Slider(new GUIContent("Minimum Interval", "The minimum effective interval Show/Leave OverlayPage or ChangePage on FullPage call. If user the method call time interval less than this value, the call will be ignore!"), saveData.globalSetting.minimumTimeInterval, 0.05f, 1f);
                 //EditorGUILayout.HelpBox("The minimum effective interval Show/Leave OverlayPage or ChangePage on FullPage call. If user the method call time interval less than this value, the call will be ignore!", MessageType.Info);
 
-
-
+                saveData.globalSetting.builtInClickProtection = EditorGUILayout.Toggle(new GUIContent("Enable Click Protection", "Enable the builtIn click protection or not, if true, the system will ignore the show page call if any page is transition"), saveData.globalSetting.builtInClickProtection);
+                
                 //SafePadding
                 GUILayout.Label("Global Safe Padding", new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
 

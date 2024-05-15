@@ -11,6 +11,7 @@ namespace MacacaGames.ViewSystem
     {
 
         protected static float minimumTimeInterval = 0.2f;
+        protected static bool builtInClickProtection = true;
         public EventSystem eventSystem;
         public virtual Canvas GetCanvas()
         {
@@ -61,7 +62,7 @@ namespace MacacaGames.ViewSystem
             string OverlayPageStateKey = GetOverlayStateKey(nextOverlayViewPage);
             if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                if (overlayPageStatus.IsTransition == true)
+                if (overlayPageStatus.IsTransition == true && builtInClickProtection == true)
                 {
                     ViewSystemLog.LogError($"The Overlay page with same state {nextOverlayViewPage.name} is in Transition, ignore the ShowOverlayViewPage call.");
                     return null;
@@ -104,7 +105,7 @@ namespace MacacaGames.ViewSystem
                 viewStates.TryGetValue(nextOverlayViewPage.viewState, out nextViewState);
                 if (nextViewState != null) { overlayPageStatus.viewState = nextViewState; }
             }
-            else
+            else if (builtInClickProtection == true)
             {
                 if (overlayPageStatus.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Show && waitForShowFinish == false)
                 {
@@ -133,16 +134,19 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogWarning("The ViewPage request to change is same as current ViewPage, nothing will happen!");
                 return null;
             }
-            if (IsPageTransition && AutoWaitPreviousPageFinish == false)
+            if (builtInClickProtection == true)
             {
-                ViewSystemLog.LogWarning("Page is in Transition. You can set AutoWaitPreviousPageFinish to 'True' then page will auto transition to next page while previous page transition finished.");
-                return null;
-            }
-            else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
-            {
-                ViewSystemLog.LogWarning($"Page is in Transition but AutoWaitPreviousPageFinish Leaving page is [{currentViewPage?.name}] Entering page is [{nextViewPage?.name}] next page is [{targetViewPageName}]");
-                ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnStart, OnChanged, OnComplete, ignoreTimeScale));
-                return ChangePageToCoroutine;
+                if (IsPageTransition && AutoWaitPreviousPageFinish == false)
+                {
+                    ViewSystemLog.LogWarning("Page is in Transition. You can set AutoWaitPreviousPageFinish to 'True' then page will auto transition to next page while previous page transition finished.");
+                    return null;
+                }
+                else if (IsPageTransition && AutoWaitPreviousPageFinish == true)
+                {
+                    ViewSystemLog.LogWarning($"Page is in Transition but AutoWaitPreviousPageFinish Leaving page is [{currentViewPage?.name}] Entering page is [{nextViewPage?.name}] next page is [{targetViewPageName}]");
+                    ChangePageToCoroutine = StartCoroutine(WaitPrevious(targetViewPageName, OnStart, OnChanged, OnComplete, ignoreTimeScale));
+                    return ChangePageToCoroutine;
+                }
             }
             ChangePageToCoroutine = StartCoroutine(ChangePageBase(targetViewPageName, OnStart, OnChanged, OnComplete, ignoreTimeScale, models));
             return ChangePageToCoroutine;
