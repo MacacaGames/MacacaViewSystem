@@ -62,7 +62,7 @@ namespace MacacaGames.ViewSystem
             string OverlayPageStateKey = GetOverlayStateKey(nextOverlayViewPage);
             if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                if (overlayPageStatus.IsTransition == true && builtInClickProtection == true)
+                if (overlayPageStatus.IsTransition == true && (builtInClickProtection == true || ignoreClickProtection == false))
                 {
                     ViewSystemLog.LogError($"The Overlay page with same state {nextOverlayViewPage.name} is in Transition, ignore the ShowOverlayViewPage call.");
                     return null;
@@ -105,7 +105,7 @@ namespace MacacaGames.ViewSystem
                 viewStates.TryGetValue(nextOverlayViewPage.viewState, out nextViewState);
                 if (nextViewState != null) { overlayPageStatus.viewState = nextViewState; }
             }
-            else if (builtInClickProtection == true)
+            else if (builtInClickProtection == true || ignoreClickProtection == false)
             {
                 if (overlayPageStatus.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Show && waitForShowFinish == false)
                 {
@@ -134,7 +134,7 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogWarning("The ViewPage request to change is same as current ViewPage, nothing will happen!");
                 return null;
             }
-            if (builtInClickProtection == true)
+            if (builtInClickProtection == true || ignoreClickProtection == false)
             {
                 if (IsPageTransition && AutoWaitPreviousPageFinish == false)
                 {
