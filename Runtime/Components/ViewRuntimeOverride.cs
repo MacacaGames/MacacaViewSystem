@@ -190,9 +190,9 @@ namespace MacacaGames.ViewSystem
         UnityEngine.Component currentComponent;
         void EventHandler(string key)
         {
-            if (ViewController.Instance.IsPageTransition)
+            if (ViewController.Instance.IsPageTransition && ViewController.builtInClickProtection == true)
             {
-                ViewSystemLog.LogWarning("The page is in transition, event will not fire!");
+                ViewSystemLog.LogWarning("The page is in transition, event will not fire! or disable the click protection in the global setting");
                 return;
             }
             // Debug.Log($"EventHandler {key}");

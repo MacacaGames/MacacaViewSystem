@@ -11,7 +11,7 @@ namespace MacacaGames.ViewSystem
     {
 
         protected static float minimumTimeInterval = 0.2f;
-        protected static bool builtInClickProtection = true;
+        internal static bool builtInClickProtection = true;
         public EventSystem eventSystem;
         public virtual Canvas GetCanvas()
         {
