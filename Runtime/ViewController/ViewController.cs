@@ -925,6 +925,23 @@ namespace MacacaGames.ViewSystem
             }
         }
 
+        /// <summary>
+        /// Try leave all overay except the specified viewpage in array
+        /// </summary>
+        /// <param name="ignoreOverlayPage"></param>
+        public void TryLeaveAllOverlayPage(string[] ignoreOverlayPage)
+        {
+            for (int i = 0; i < overlayPageStatusDict.Count; i++)
+            {
+                var item = overlayPageStatusDict.ElementAt(i);
+                if (ignoreOverlayPage.Contains(item.Value.viewPage.name))
+                {
+                    continue;
+                }
+                StartCoroutine(LeaveOverlayViewPageBase(item.Value, 0.4f, null, true));
+            }
+        }
+
         int lastFrameRate;
         void UpdateCurrentViewStateAndNotifyEvent(ViewPage vp)
         {
