@@ -326,7 +326,15 @@ namespace MacacaGames.ViewSystem
                 viewController.StopMicroCoroutine(leaveCoroutine);
                 leaveCoroutine = null;
             }
+
+            foreach (var item in tweeningCoroutine)
+            {
+                viewController.StopMicroCoroutine(item);
+            }
+
+            tweeningCoroutine.Clear();
         }
+        List<Coroutine> tweeningCoroutine = new List<Coroutine>();
         Coroutine changePageCoroutine = null;
 
         public virtual void ChangePage(bool show, Transform parent, ViewElementTransform rectTransformData, int sortingOrder = 0, float TweenTime = 0, float delayIn = 0, bool ignoreTransition = false, bool reshowIfSamePage = false)
@@ -353,7 +361,6 @@ namespace MacacaGames.ViewSystem
                 {
                     ViewSystemLog.LogError($"{gameObject.name} does not set the parent for next viewpage.", this);
                     goto END;
-                    //throw new NullReferenceException(gameObject.name + " does not set the parent for next viewpage.");
                 }
                 //停掉正在播放的 Leave 動畫
                 if (leaveCoroutine != null)
@@ -405,7 +412,7 @@ namespace MacacaGames.ViewSystem
                         if (rectTransformData == null || !string.IsNullOrEmpty(rectTransformData.parentPath))
                         {
                             var marginFixer = GetComponent<ViewMarginFixer>();
-                            viewController.StartMicroCoroutine(EaseUtility.To(
+                            var c1 = viewController.StartMicroCoroutine(EaseUtility.To(
                                 rectTransform.anchoredPosition3D,
                                 Vector3.zero,
                                 TweenTime,
@@ -420,7 +427,7 @@ namespace MacacaGames.ViewSystem
                                 }
                             ));
 
-                            viewController.StartMicroCoroutine(EaseUtility.To(
+                            var c2 = viewController.StartMicroCoroutine(EaseUtility.To(
                                 rectTransform.localScale,
                                 Vector3.one,
                                 TweenTime,
@@ -430,6 +437,9 @@ namespace MacacaGames.ViewSystem
                                     rectTransform.localScale = v;
                                 }
                             ));
+
+                            tweeningCoroutine.Add(c1);
+                            tweeningCoroutine.Add(c2);
                         }
                         else
                         {
@@ -440,21 +450,21 @@ namespace MacacaGames.ViewSystem
 
                             ApplyRectTransform(rectTransformData, flag);
 
-                            viewController.StartMicroCoroutine(EaseUtility.To(
-                                rectTransform.anchoredPosition3D,
-                                rectTransformData.rectTransformData.anchoredPosition,
-                                TweenTime,
-                                EaseStyle.QuadEaseOut,
-                                (v) =>
-                                {
-                                    rectTransform.anchoredPosition3D = v;
-                                },
-                                () =>
-                                {
+                            var c1 = viewController.StartMicroCoroutine(EaseUtility.To(
+                                    rectTransform.anchoredPosition3D,
+                                    rectTransformData.rectTransformData.anchoredPosition,
+                                    TweenTime,
+                                    EaseStyle.QuadEaseOut,
+                                    (v) =>
+                                    {
+                                        rectTransform.anchoredPosition3D = v;
+                                    },
+                                    () =>
+                                    {
 
-                                }
-                            ));
-                            viewController.StartMicroCoroutine(EaseUtility.To(
+                                    }
+                                ));
+                            var c2 = viewController.StartMicroCoroutine(EaseUtility.To(
                                 rectTransform.localScale,
                                 rectTransformData.rectTransformData.localScale,
                                 TweenTime,
@@ -468,6 +478,8 @@ namespace MacacaGames.ViewSystem
 
                                 }
                             ));
+                            tweeningCoroutine.Add(c1);
+                            tweeningCoroutine.Add(c2);
                         }
 
                         goto END;
