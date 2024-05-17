@@ -375,43 +375,47 @@ namespace MacacaGames.ViewSystem
         public override IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale, bool ignoreClickProtection, params object[] models)
         {
             //取得 ViewPage 物件
-            // ViewPage nextViewPage;
+            ViewPage nextViewPageForCurrentChangePage = null;
 
             //沒有找到 
-            if (!viewPages.TryGetValue(viewPageName, out nextViewPage))
+            if (!viewPages.TryGetValue(viewPageName, out ViewPage _nextViewPage))
             {
                 ViewSystemLog.LogError("No view page match " + viewPageName + " Found");
                 ChangePageToCoroutine = null;
                 yield break;
             }
 
-            if (nextViewPage.viewPageType == ViewPage.ViewPageType.Overlay)
+            nextViewPage = _nextViewPage;
+            nextViewPageForCurrentChangePage = nextViewPage;
+
+            if (nextViewPageForCurrentChangePage.viewPageType == ViewPage.ViewPageType.Overlay)
             {
                 ViewSystemLog.LogWarning("To shown Page is an Overlay ViewPage use ShowOverlayViewPage() instead method \n current version will redirect to this method automatically, but this behaviour may be changed in future release.");
-                ShowOverlayViewPageBase(nextViewPage, true, OnStart, OnChanged, OnComplete, ignoreTimeScale, ignoreClickProtection);
+                ShowOverlayViewPageBase(nextViewPageForCurrentChangePage, true, OnStart, OnChanged, OnComplete, ignoreTimeScale, ignoreClickProtection);
                 ChangePageToCoroutine = null;
                 yield break;
             }
 
             //Prepare runtime page root
-            string viewPageRootName = ViewSystemUtilitys.GetPageRootName(nextViewPage);
-            var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, nextViewPage.canvasSortOrder, viewSystemSaveData.globalSetting.UIPageTransformLayerName);
-            if (nextViewPage.runtimePageRoot == null)
+            string viewPageRootName = ViewSystemUtilitys.GetPageRootName(nextViewPageForCurrentChangePage);
+            var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, nextViewPageForCurrentChangePage.canvasSortOrder, viewSystemSaveData.globalSetting.UIPageTransformLayerName);
+            if (nextViewPageForCurrentChangePage.runtimePageRoot == null)
             {
-                nextViewPage.runtimePageRoot = pageWrapper.rectTransform;
+                nextViewPageForCurrentChangePage.runtimePageRoot = pageWrapper.rectTransform;
             }
 
-            pageWrapper.safePadding.SetPaddingValue(GetSafePaddingSetting(nextViewPage));
+            pageWrapper.safePadding.SetPaddingValue(GetSafePaddingSetting(nextViewPageForCurrentChangePage));
 
-            // pageWrapper.safePadding.SetPaddingValue(nextViewPage.edgeValues);
+            // pageWrapper.safePadding.SetPaddingValue(nextViewPageForCurrentChangePage.edgeValues);
 
             //所有檢查都通過開始換頁
             //IsPageTransition = true;
 
             nextViewState = null;
-            viewStates.TryGetValue(nextViewPage.viewState, out nextViewState);
+            viewStates.TryGetValue(nextViewPageForCurrentChangePage.viewState, out ViewState _nextViewState);
+            nextViewState = _nextViewState;
 
-            IEnumerable<ViewPageItem> viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(nextViewPage));
+            IEnumerable<ViewPageItem> viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(nextViewPageForCurrentChangePage));
             IEnumerable<ViewPageItem> viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
             List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
             // 如果兩個頁面之間的 ViewState 不同的話 才需要更新 ViewState 部分的 RuntimeViewElement
@@ -421,7 +425,7 @@ namespace MacacaGames.ViewSystem
             }
 
             // All reference preparing is done start do the stuff for change page
-            InvokeOnViewPageChangeStart(this, new ViewPageTrisitionEventArgs(currentViewPage, nextViewPage));
+            InvokeOnViewPageChangeStart(this, new ViewPageTrisitionEventArgs(currentViewPage, nextViewPageForCurrentChangePage));
             OnStart?.Invoke();
 
             List<ViewElement> viewElementDoesExitsInNextPage = new List<ViewElement>();
@@ -465,7 +469,7 @@ namespace MacacaGames.ViewSystem
             }
 
             float TimeForPerviousPageOnLeave = 0;
-            switch (nextViewPage.viewPageTransitionTimingType)
+            switch (nextViewPageForCurrentChangePage.viewPageTransitionTimingType)
             {
                 case ViewPage.ViewPageTransitionTimingType.AfterPervious:
                     //TimeForPerviousPageOnLeave = ViewSystemUtilitys.CalculateOnLeaveDuration(viewItemNextPage.Select(m => m.viewElement), maxClampTime);
@@ -475,10 +479,10 @@ namespace MacacaGames.ViewSystem
                     TimeForPerviousPageOnLeave = 0;
                     break;
                 case ViewPage.ViewPageTransitionTimingType.Custom:
-                    TimeForPerviousPageOnLeave = nextViewPage.customPageTransitionWaitTime;
+                    TimeForPerviousPageOnLeave = nextViewPageForCurrentChangePage.customPageTransitionWaitTime;
                     break;
             }
-            //  nextViewPageWaitTime = ViewSystemUtilitys.CalculateDelayOutTime(viewItemNextPage);
+            //  nextViewPageForCurrentChangePageWaitTime = ViewSystemUtilitys.CalculateDelayOutTime(viewItemNextPage);
             nextViewPageWaitTime = ViewSystemUtilitys.CalculateOnLeaveDuration(viewItemNextPage.Select(m => m.viewElement), maxClampTime);
 
             //等上一個頁面的 OnLeave 結束，注意，如果頁面中有大量的 Animator 這裡只能算出預估的結果 並且會限制最長時間為一秒鐘
@@ -514,11 +518,8 @@ namespace MacacaGames.ViewSystem
                 }
                 else
                 {
-                    Debug.LogError($"item {item}");
-                    Debug.LogError($"item.runtimeParent {item.runtimeParent}");
-                    Debug.LogError($"nextViewPage {nextViewPage}");
-                    Debug.LogError($"item {nextViewPage.runtimePageRoot}");
-                    item.runtimeParent = nextViewPage.runtimePageRoot;
+                 
+                    item.runtimeParent = nextViewPageForCurrentChangePage.runtimePageRoot;
                 }
 
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, transformData, item.sortingOrder, item.TweenTime, item.delayIn);
@@ -532,7 +533,7 @@ namespace MacacaGames.ViewSystem
             float OnShowAnimationFinish = ViewSystemUtilitys.CalculateOnShowDuration(viewItemNextPage.Select(m => m.runtimeViewElement), maxClampTime);
 
             //更新狀態
-            UpdateCurrentViewStateAndNotifyEvent(nextViewPage);
+            UpdateCurrentViewStateAndNotifyEvent(nextViewPageForCurrentChangePage);
             foreach (var item in currentLiveElements)
             {
                 item.OnChangedPage();
@@ -553,7 +554,7 @@ namespace MacacaGames.ViewSystem
             //Callback
             InvokeOnViewPageChangeEnd(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
 
-            nextViewPage = null;
+            nextViewPageForCurrentChangePage = null;
             nextViewState = null;
 
             //2019.12.18 due to there may be new Callback be add, change the  OnComplete to all is done.
@@ -640,8 +641,9 @@ namespace MacacaGames.ViewSystem
                 if (!string.IsNullOrEmpty(vp.viewState))
                 {
                     // nextViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-                    if (viewStates.TryGetValue(vp.viewState, out nextViewState))
+                    if (viewStates.TryGetValue(vp.viewState, out ViewState _nextViewState))
                     {
+                        nextViewState = _nextViewState;
                         viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
                         viewItemNextState = PrepareRuntimeReference(viewItemNextState);
                     }
@@ -959,12 +961,12 @@ namespace MacacaGames.ViewSystem
             UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
 #endif
 
-            if (!string.IsNullOrEmpty(vp.viewState) && viewStatesNames.Contains(vp.viewState) && currentViewState.name != vp.viewState)
+            if (!string.IsNullOrEmpty(vp.viewState) && viewStatesNames.Contains(vp.viewState) && currentViewState?.name != vp.viewState)
             {
                 lastViewState = currentViewState;
                 // currentViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
-                viewStates.TryGetValue(vp.viewState, out currentViewState);
-
+                viewStates.TryGetValue(vp.viewState, out ViewState _currentViewState);
+                currentViewState = _currentViewState;
 #if UNITY_EDITOR
                 if (currentViewState.targetFrameRate != -1 &&
                     Application.targetFrameRate > currentViewState.targetFrameRate)

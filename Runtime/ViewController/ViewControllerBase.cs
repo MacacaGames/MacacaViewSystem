@@ -53,11 +53,13 @@ namespace MacacaGames.ViewSystem
                 return null;
             }
 
-            if (!viewPages.TryGetValue(viewPageName, out nextOverlayViewPage))
+            if (!viewPages.TryGetValue(viewPageName, out ViewPage _nextOverlayViewPage))
             {
                 ViewSystemLog.LogError("No overlay viewPage match the name: " + viewPageName + "  found");
                 return null;
             }
+
+            nextOverlayViewPage = _nextOverlayViewPage;
 
             string OverlayPageStateKey = GetOverlayStateKey(nextOverlayViewPage);
             if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
@@ -88,11 +90,13 @@ namespace MacacaGames.ViewSystem
                 return null;
             }
             // var nextViewPage = viewPages.SingleOrDefault(m => m.name == viewPageName);
-            if (!viewPages.TryGetValue(viewPageName, out nextOverlayViewPage))
+            if (!viewPages.TryGetValue(viewPageName, out ViewPage _nextOverlayViewPage))
             {
                 ViewSystemLog.LogError("No overlay viewPage match the name: " + viewPageName + "  found");
                 return null;
             }
+
+            nextOverlayViewPage = _nextOverlayViewPage;
 
             string OverlayPageStateKey = GetOverlayStateKey(nextOverlayViewPage);
 
@@ -102,7 +106,8 @@ namespace MacacaGames.ViewSystem
                 overlayPageStatus = new ViewSystemUtilitys.OverlayPageStatus();
                 overlayPageStatus.viewPage = nextOverlayViewPage;
 
-                viewStates.TryGetValue(nextOverlayViewPage.viewState, out nextViewState);
+                viewStates.TryGetValue(nextOverlayViewPage.viewState, out ViewState _nextViewState);
+                nextViewState = _nextViewState;
                 if (nextViewState != null) { overlayPageStatus.viewState = nextViewState; }
             }
             else if (builtInClickProtection == true && ignoreClickProtection != false)
@@ -129,7 +134,7 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogWarning($"Method call return due to TimeProtect.");
                 return null;
             }
-            if (currentViewPage.name == targetViewPageName)
+            if (currentViewPage?.name == targetViewPageName)
             {
                 ViewSystemLog.LogWarning("The ViewPage request to change is same as current ViewPage, nothing will happen!");
                 return null;
@@ -294,24 +299,23 @@ namespace MacacaGames.ViewSystem
         protected List<ViewElement> currentLiveElements = new List<ViewElement>();
 
         [HideInInspector]
-        public ViewPage lastViewPage;
+        public ViewPage lastViewPage { get; protected set; }
 
         [HideInInspector]
-        public ViewState lastViewState;
+        public ViewState lastViewState { get; protected set; }
 
         [HideInInspector]
-        public ViewPage currentViewPage;
+        public ViewPage currentViewPage { get; protected set; }
 
         [HideInInspector]
-        public ViewState currentViewState;
+        public ViewState currentViewState { get; protected set; }
+
+        public ViewPage nextViewPage { get; protected set; }
+        [HideInInspector]
+        public ViewPage nextOverlayViewPage { get; protected set; }
 
         [HideInInspector]
-        public ViewPage nextViewPage;
-        [HideInInspector]
-        public ViewPage nextOverlayViewPage;
-
-        [HideInInspector]
-        public ViewState nextViewState;
+        public ViewState nextViewState { get; protected set; }
 
         public ViewPageItem.PlatformOption platform
         {
