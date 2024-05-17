@@ -514,6 +514,10 @@ namespace MacacaGames.ViewSystem
                 }
                 else
                 {
+                    Debug.LogError($"item {item}");
+                    Debug.LogError($"item.runtimeParent {item.runtimeParent}");
+                    Debug.LogError($"nextViewPage {nextViewPage}");
+                    Debug.LogError($"item {nextViewPage.runtimePageRoot}");
                     item.runtimeParent = nextViewPage.runtimePageRoot;
                 }
 
