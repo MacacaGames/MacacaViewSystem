@@ -272,6 +272,10 @@ namespace MacacaGames.ViewSystem
         {
             values.Add(item);
         }
+        public void AddRange(List<ViewElementPropertyOverrideData> item)
+        {
+            values.AddRange(item);
+        }
     }
 
     [System.Serializable]

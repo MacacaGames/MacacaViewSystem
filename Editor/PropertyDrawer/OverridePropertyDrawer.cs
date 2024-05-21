@@ -207,17 +207,28 @@ namespace MacacaGames.ViewSystem
                  $"{viewElement.name}_Override.{extension}",
                 extension, "", "Assets");
             if (string.IsNullOrEmpty(filePath)) return;
+
+            ViewElementOverride viewElementOverrideData = new ViewElementOverride();
+            viewElementOverrideData.AddRange(viewElementOverride);
+
+            var clipBoard = new ClipBoard(viewElementOverrideData);
+            var copyItem = clipBoard.Paste<ViewElementOverride>();
+
+            if (!clipBoard.HasValue)
+            {
+                return;
+            }
             if (!File.Exists(filePath))
             {
                 var result = ScriptableObject.CreateInstance<ViewElementOverrideAsset>();
                 result.targetViewElement = original;
-                result.viewElementOverride = viewElementOverride;
+                result.viewElementOverride = copyItem.GetValues();
                 AssetDatabase.CreateAsset(result, filePath);
             }
             else
             {
                 var currentAsset = AssetDatabase.LoadAssetAtPath<ViewElementOverrideAsset>(filePath);
-                currentAsset.viewElementOverride = viewElementOverride;
+                currentAsset.viewElementOverride = copyItem.GetValues();
                 currentAsset.targetViewElement = original;
                 EditorUtility.SetDirty(currentAsset);
                 AssetDatabase.SaveAssets();
@@ -234,17 +245,23 @@ namespace MacacaGames.ViewSystem
             {
                 return;
             }
+
             var result = AssetDatabase.LoadAssetAtPath<ViewElementOverrideAsset>(path);
-            var data = new ViewElementOverride();
 
-            foreach (var item in result.viewElementOverride)
+            ViewElementOverride viewElementOverrideData = new ViewElementOverride();
+            viewElementOverrideData.AddRange(result.viewElementOverride);
+
+            var clipBoard = new ClipBoard(viewElementOverrideData);
+            if (!clipBoard.HasValue)
             {
-                data.Add(item);
+                return;
             }
+            var clone = clipBoard.Paste<ViewElementOverride>();
 
-            fieldInfo.SetValue(propertySource.serializedObject.targetObject, data);
+            fieldInfo.SetValue(propertySource.serializedObject.targetObject, clone);
             Refrersh();
         }
+
         void Refrersh()
         {
             Rebuild(viewElement);
