@@ -325,7 +325,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             if (viewState == null)
             {
-                dataReader.OnViewStateAdd(node);
+                dataReader.OnViewStateAdd(new Vector2(node.rect.x, node.rect.y), node.viewState);
             }
             viewStateList.Add(node);
             return node;
@@ -441,7 +441,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             node.OnDisConnect = OnDisconnect;
             if (viewPage == null)
             {
-                dataReader.OnViewPageAdd(node);
+                dataReader.OnViewPageAdd(new Vector2(node.rect.x, node.rect.y), node.viewPage);
             }
             viewPageList.Add(node);
             return node;

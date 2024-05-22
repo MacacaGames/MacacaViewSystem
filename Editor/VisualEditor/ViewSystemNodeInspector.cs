@@ -1289,7 +1289,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 {
                     ViewState vs = null;
 
-                    if (!string.IsNullOrEmpty(vp.viewState)) vs = saveData.viewStates.SingleOrDefault(m => m.viewState.name == vp.viewState).viewState;
+                    if (!string.IsNullOrEmpty(vp.viewState)) vs = saveData.GetViewStateSaveDatas().SingleOrDefault(m => m.viewState.name == vp.viewState).viewState;
                     editor.navigationWindow.SetViewPage(vp, vs);
                     editor.navigationWindow.Show();
                 }

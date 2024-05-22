@@ -38,8 +38,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 return;
             }
             string result = "";
-            var viewStates = saveData.viewStates.Select(m => m.viewState).ToList();
-            var viewPages = saveData.viewPages.Select(m => m.viewPage).ToList();
+            var viewStates = saveData.GetViewStateSaveDatas().Select(m => m.viewState).ToList();
+            var viewPages = saveData.GetViewPageSaveDatas().Select(m => m.viewPage).ToList();
 
             foreach (var states in viewStates)
             {
@@ -100,8 +100,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             gameObjectCannotBeFound.Clear();
 
-            var overrideDatasInPages = saveData.viewPages.Select(m => m.viewPage);
-            var overrideDatasInStates = saveData.viewStates.Select(m => m.viewState);
+            var overrideDatasInPages = saveData.GetViewPageSaveDatas().Select(m => m.viewPage);
+            var overrideDatasInStates = saveData.GetViewStateSaveDatas().Select(m => m.viewState);
 
             foreach (var viewPage in overrideDatasInPages)
             {
@@ -402,8 +402,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
         List<ViewPageItem> allOverrideDatas = new List<ViewPageItem>();
         void RefreshOverrideDatas()
         {
-            var overrideDatasInPages = saveData.viewPages.Select(m => m.viewPage).SelectMany(x => x.viewPageItems);
-            var overrideDatasInStates = saveData.viewStates.Select(m => m.viewState).SelectMany(x => x.viewPageItems);
+            var overrideDatasInPages = saveData.GetViewPageSaveDatas().Select(m => m.viewPage).SelectMany(x => x.viewPageItems);
+            var overrideDatasInStates = saveData.GetViewStateSaveDatas().Select(m => m.viewState).SelectMany(x => x.viewPageItems);
             allOverrideDatas.Clear();
             allOverrideDatas.AddRange(overrideDatasInPages);
             allOverrideDatas.AddRange(overrideDatasInStates);
@@ -411,8 +411,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
         List<ViewPageItem> allEventDatas = new List<ViewPageItem>();
         void RefreshEventDatas()
         {
-            var eventsDatasInPages = saveData.viewPages.Select(m => m.viewPage).SelectMany(x => x.viewPageItems);
-            var eventsDatasInStates = saveData.viewStates.Select(m => m.viewState).SelectMany(x => x.viewPageItems);
+            var eventsDatasInPages = saveData.GetViewPageSaveDatas().Select(m => m.viewPage).SelectMany(x => x.viewPageItems);
+            var eventsDatasInStates = saveData.GetViewStateSaveDatas().Select(m => m.viewState).SelectMany(x => x.viewPageItems);
             allEventDatas.Clear();
             allEventDatas.AddRange(eventsDatasInPages);
             allEventDatas.AddRange(eventsDatasInStates);
@@ -603,7 +603,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
                     if (item.delete == true)
                     {
-                        foreach (var vp in saveData.viewPages)
+                        foreach (var vp in saveData.GetViewPageSaveDatas())
                         {
                             foreach (var vpi in vp.viewPage.viewPageItems.Where(m => m.viewElement == item.originalNotFoundItem.viewElement))
                             {
@@ -611,7 +611,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                     m => m.targetTransformPath == item.originalNotFoundItem.viewSystemComponent.targetTransformPath);
                             }
                         }
-                        foreach (var vs in saveData.viewStates)
+                        foreach (var vs in saveData.GetViewStateSaveDatas())
                         {
                             // foreach (var vpi in vs.viewState.viewPageItems)
                             // {
@@ -758,14 +758,14 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
                         if (item2.delete && item2.fix == true)
                         {
-                            foreach (var vp in saveData.viewPages)
+                            foreach (var vp in saveData.GetViewPageSaveDatas())
                             {
                                 foreach (var vpi in vp.viewPage.viewPageItems)
                                 {
                                     vpi.overrideDatas.RemoveAll(m => m.targetComponentType == item.Key && m.targetPropertyName == item2.originalPropertyName);
                                 }
                             }
-                            foreach (var vs in saveData.viewStates)
+                            foreach (var vs in saveData.GetViewStateSaveDatas())
                             {
                                 foreach (var vpi in vs.viewState.viewPageItems)
                                 {

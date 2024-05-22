@@ -85,8 +85,8 @@ namespace MacacaGames.ViewSystem
             }
 
 
-            viewStates = viewSystemSaveData.viewStates.Select(m => m.viewState).ToDictionary(m => m.name, m => m);
-            viewPages = viewSystemSaveData.viewPages.Select(m => m.viewPage).ToDictionary(m => m.name, m => m);
+            viewStates = viewSystemSaveData.GetViewStateSaveDatas().Select(m => m.viewState).ToDictionary(m => m.name, m => m);
+            viewPages = viewSystemSaveData.GetViewPageSaveDatas().Select(m => m.viewPage).ToDictionary(m => m.name, m => m);
             viewStatesNames = viewStates.Values.Select(m => m.name);
 
             PrewarmSingletonViewElement();

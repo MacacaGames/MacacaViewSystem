@@ -34,7 +34,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             // 整理 Editor 資料
             List<ViewPageNode> viewPageNodes = new List<ViewPageNode>();
             //先整理 ViewPage Node
-            foreach (var item in data.viewPages)
+            foreach (var item in data.GetViewPageSaveDatas())
             {
                 var isOverlay = item.viewPage.viewPageType == ViewPage.ViewPageType.Overlay;
 
@@ -43,7 +43,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
 
             //在整理 ViewState Node
-            foreach (var item in data.viewStates)
+            foreach (var item in data.GetViewStateSaveDatas())
             {
                 var vp_of_vs = viewPageNodes.Where(m => m.viewPage.viewState == item.viewState.name);
                 var node = editor.AddViewStateNode(item.nodePosition, item.viewState);
@@ -99,29 +99,71 @@ namespace MacacaGames.ViewSystem.VisualEditor
             EditStart();
         }
 
-        public void OnViewPageAdd(ViewPageNode node)
+        public void MigrateToNewSaveData()
         {
-            data.viewPages.Add(new ViewSystemSaveData.ViewPageSaveData(new Vector2(node.rect.x, node.rect.y), node.viewPage));
+            foreach (var item in data.viewPages)
+            {
+                OnViewPageAdd(item.nodePosition, item.viewPage);
+            }
+            foreach (var item in data.viewStates)
+            {
+                OnViewStateAdd(item.nodePosition, item.viewState);
+            }
+
+            data.viewPages.Clear();
+            data.viewStates.Clear();
+            AssetDatabase.Refresh();
+        }
+
+        public void OnViewPageAdd(Vector2 nodePos, ViewPage viewPage)
+        {
+            var so = ScriptableObject.CreateInstance<ViewPageNodeSaveData>();
+            so.data = new ViewPageSaveData(nodePos, viewPage);
+
+            var filePath = ViewSystemResourceFolder + $"ViewPage_{RandomUtility.GetRandomString(8)}.asset";
+
+            if (!File.Exists(filePath))
+            {
+                AssetDatabase.CreateAsset(so, filePath);
+                AssetImporter.GetAtPath(filePath);
+                AssetDatabase.Refresh();
+            }
+
+            data.viewPagesNodeSaveDatas.Add(so);
             isDirty = true;
         }
 
-        public void OnViewStateAdd(ViewStateNode node)
+        public void OnViewStateAdd(Vector2 nodePos, ViewState viewState)
         {
-            data.viewStates.Add(new ViewSystemSaveData.ViewStateSaveData(new Vector2(node.rect.x, node.rect.y), node.viewState));
+            var so = ScriptableObject.CreateInstance<ViewStateNodeSaveData>();
+            so.data = new ViewStateSaveData(nodePos, viewState);
+
+            var filePath = ViewSystemResourceFolder + $"ViewState_{RandomUtility.GetRandomString(8)}.asset";
+
+            if (!File.Exists(filePath))
+            {
+                AssetDatabase.CreateAsset(so, filePath);
+                AssetImporter.GetAtPath(filePath);
+                AssetDatabase.Refresh();
+            }
+
+            data.viewStateNodeSaveDatas.Add(so);
             isDirty = true;
         }
 
         public void OnViewPageDelete(ViewPageNode node)
         {
-            var s = data.viewPages.SingleOrDefault(m => m.viewPage == node.viewPage);
-            data.viewPages.Remove(s);
+            var s = data.viewPagesNodeSaveDatas.SingleOrDefault(m => m.data.viewPage == node.viewPage);
+            data.viewPagesNodeSaveDatas.Remove(s);
             isDirty = true;
 
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(s));
+            AssetDatabase.Refresh();
         }
 
         public void OnViewStateDelete(ViewStateNode node)
         {
-            var s = data.viewStates.SingleOrDefault(m => m.viewState == node.viewState);
+            var s = data.viewStateNodeSaveDatas.SingleOrDefault(m => m.data.viewState == node.viewState);
             node.currentLinkedViewPageNode.All(
                 (m) =>
                 {
@@ -130,8 +172,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     return true;
                 }
             );
-            data.viewStates.Remove(s);
+            data.viewStateNodeSaveDatas.Remove(s);
             isDirty = true;
+
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(s));
+            AssetDatabase.Refresh();
         }
 
         public void GenerateDefaultUIRoot()
@@ -200,7 +245,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             //從 ViewPagePreset 尋找 (ViewState)
             if (!string.IsNullOrEmpty(viewPage.viewState))
             {
-                viewPagePresetTemp = data.viewStates.Select(m => m.viewState).SingleOrDefault(m => m.name == viewPage.viewState);
+                viewPagePresetTemp = data.GetViewStateSaveDatas().Select(m => m.viewState).SingleOrDefault(m => m.name == viewPage.viewState);
                 if (viewPagePresetTemp != null)
                 {
                     viewItemForNextPage.AddRange(viewPagePresetTemp.viewPageItems);
@@ -291,6 +336,16 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         public void Normalized()
         {
+            if (data.RequireMigration())
+            {
+                if (EditorUtility.DisplayDialog("Info", "Older version save data detected! \n Do you want to migrate to new version?", "Yes", "No"))
+                {
+                    MigrateToNewSaveData();
+                }
+                return;
+            }
+
+
             RepairPrefabReference();
             //Clear UI Root Object
             try
@@ -357,9 +412,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     {
                         continue;
                     }
-                    var vp = data.viewPages.SingleOrDefault(m => m.viewPage.name == item.viewPage.name);
+                    var vp = data.GetViewPageSaveDatas().SingleOrDefault(m => m.viewPage.name == item.viewPage.name);
                     item.SnapToGrid_Rect();
                     vp.nodePosition = new Vector2(item.rect.x, item.rect.y);
+
                 }
             }
 
@@ -371,7 +427,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     {
                         continue;
                     }
-                    var vs = data.viewStates.SingleOrDefault(m => m.viewState.name == item.viewState.name);
+                    var vs = data.GetViewStateSaveDatas().SingleOrDefault(m => m.viewState.name == item.viewState.name);
                     item.SnapToGrid_Rect();
                     vs.nodePosition = new Vector2(item.rect.x, item.rect.y);
                 }
@@ -385,9 +441,37 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (data.globalSetting.UIRootScene != null)
                     data.globalSetting.UIRoot = PrefabUtility.SaveAsPrefabAsset(data.globalSetting.UIRootScene, ViewSystemResourceFolder + data.globalSetting.UIRootScene.name + ".prefab");
             }
+
+            foreach (var item in data.viewPagesNodeSaveDatas)
+            {
+            
+
+                UnityEditor.EditorUtility.SetDirty(item);
+            }
+
+            foreach (var item in data.viewStateNodeSaveDatas)
+            {
+             
+                UnityEditor.EditorUtility.SetDirty(item);
+            }
+
             UnityEditor.EditorUtility.SetDirty(data);
-            isDirty = false;
             AssetDatabase.SaveAssets();
+            foreach (var item in data.viewPagesNodeSaveDatas)
+            {
+                var path = AssetDatabase.GetAssetPath(item);
+                AssetDatabase.RenameAsset(path, $"ViewPage_{item.data.viewPage.name}");
+
+            }
+
+            foreach (var item in data.viewStateNodeSaveDatas)
+            {
+                var path = AssetDatabase.GetAssetPath(item);
+                AssetDatabase.RenameAsset(path, $"ViewState_{item.data.viewState.name}");
+            }
+            AssetDatabase.SaveAssets();
+
+            isDirty = false;
         }
 
         public ViewSystemSaveData GetSaveData()
@@ -400,8 +484,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
         // https://issuetracker.unity3d.com/issues/prefabs-references-are-lost-when-modifying-prefab
         public void RepairPrefabReference()
         {
-            IEnumerable<ViewPageItem> allViewPageItems = data.viewPages.Select(m => m.viewPage).SelectMany(m => m.viewPageItems);
-            IEnumerable<ViewPageItem> allViewStateItems = data.viewStates.Select(m => m.viewState).SelectMany(m => m.viewPageItems);
+            IEnumerable<ViewPageItem> allViewPageItems = data.GetViewPageSaveDatas().Select(m => m.viewPage).SelectMany(m => m.viewPageItems);
+            IEnumerable<ViewPageItem> allViewStateItems = data.GetViewStateSaveDatas().Select(m => m.viewState).SelectMany(m => m.viewPageItems);
             foreach (var item in allViewPageItems)
             {
                 if (item == null || item.viewElementObject == null)

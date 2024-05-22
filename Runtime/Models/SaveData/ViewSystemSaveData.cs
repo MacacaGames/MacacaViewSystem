@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace MacacaGames.ViewSystem
 {
@@ -11,30 +12,26 @@ namespace MacacaGames.ViewSystem
         public List<ViewStateSaveData> viewStates = new List<ViewStateSaveData>();
         public List<ViewPageSaveData> viewPages = new List<ViewPageSaveData>();
 
-        [System.Serializable]
-        public class ViewPageSaveData
+        public List<ViewStateSaveData> GetViewStateSaveDatas()
         {
-            public ViewPageSaveData(Vector2 nodePosition, ViewPage viewPage)
-            {
-                this.nodePosition = nodePosition;
-                this.viewPage = viewPage;
-            }
-            public Vector2 nodePosition;
-            public ViewPage viewPage;
+            return viewStateNodeSaveDatas.Select(m => m.data).ToList();
+        }
+        public List<ViewPageSaveData> GetViewPageSaveDatas()
+        {
+            return viewPagesNodeSaveDatas.Select(m => m.data).ToList();
         }
 
-        //Save Data Model
-        [System.Serializable]
-        public class ViewStateSaveData
+        public List<ViewStateNodeSaveData> viewStateNodeSaveDatas = new List<ViewStateNodeSaveData>();
+        public List<ViewPageNodeSaveData> viewPagesNodeSaveDatas = new List<ViewPageNodeSaveData>();
+
+        public bool RequireMigration()
         {
-            public ViewStateSaveData(Vector2 nodePosition, ViewState viewState)
-            {
-                this.nodePosition = nodePosition;
-                this.viewState = viewState;
-            }
-            public Vector2 nodePosition;
-            public ViewState viewState;
+            return ((viewStates != null || viewStates.Count > 0) ||
+                    (viewPages != null || viewPages.Count > 0)) &&
+                    ((viewPagesNodeSaveDatas != null && viewPagesNodeSaveDatas.Count == 0) ||
+                    (viewStateNodeSaveDatas != null && viewStateNodeSaveDatas.Count == 0));
         }
+
 
         [System.Serializable]
         public class ViewSystemBaseSetting
@@ -144,4 +141,28 @@ namespace MacacaGames.ViewSystem
     }
 
 
+    [System.Serializable]
+    public class ViewPageSaveData
+    {
+        public ViewPageSaveData(Vector2 nodePosition, ViewPage viewPage)
+        {
+            this.nodePosition = nodePosition;
+            this.viewPage = viewPage;
+        }
+        public Vector2 nodePosition;
+        public ViewPage viewPage;
+    }
+
+    //Save Data Model
+    [System.Serializable]
+    public class ViewStateSaveData
+    {
+        public ViewStateSaveData(Vector2 nodePosition, ViewState viewState)
+        {
+            this.nodePosition = nodePosition;
+            this.viewState = viewState;
+        }
+        public Vector2 nodePosition;
+        public ViewState viewState;
+    }
 }
