@@ -258,11 +258,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     List<ViewSystemComponentData> componentDatas;
                     if (verifyTarget == VerifyTarget.Override)
                     {
-                        componentDatas = allOverrideDatas.Cast<ViewSystemComponentData>().ToList();
+                        componentDatas = allOverrideDatas.SelectMany(m => m.overrideDatas).Cast<ViewSystemComponentData>().ToList();
                     }
                     else
                     {
-                        componentDatas = allEventDatas.Cast<ViewSystemComponentData>().ToList();
+                        componentDatas = allEventDatas.SelectMany(m => m.eventDatas).Cast<ViewSystemComponentData>().ToList();
                     }
                     var window = ScriptableObject.CreateInstance<ComponentFixerWindow>();
                     window.SetData(typeNameCannotBeFound, componentDatas, () =>
