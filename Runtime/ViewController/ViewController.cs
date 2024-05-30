@@ -518,7 +518,7 @@ namespace MacacaGames.ViewSystem
                 }
                 else
                 {
-                 
+
                     item.runtimeParent = nextViewPageForCurrentChangePage.runtimePageRoot;
                 }
 
@@ -728,9 +728,16 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.Log("Leave Overlay Page wait for pervious page");
                 yield return new WaitUntil(() => !overlayPageState.IsTransition);
             }
-
-            var currentVe = currentViewPage.viewPageItems.Select(m => m.runtimeViewElement);
-            var currentVs = currentViewState.viewPageItems.Select(m => m.runtimeViewElement);
+            IEnumerable<ViewElement> currentVe = new List<ViewElement>();
+            IEnumerable<ViewElement> currentVs = new List<ViewElement>();
+            if (currentViewPage != null)
+            {
+                currentVe = currentViewPage.viewPageItems.Select(m => m.runtimeViewElement);
+            }
+            if (currentViewState != null)
+            {
+                currentVs = currentViewState.viewPageItems.Select(m => m.runtimeViewElement);
+            }
 
             var finishTime = ViewSystemUtilitys.CalculateOnLeaveDuration(overlayPageState.viewPage.viewPageItems.Select(m => m.runtimeViewElement));
 
