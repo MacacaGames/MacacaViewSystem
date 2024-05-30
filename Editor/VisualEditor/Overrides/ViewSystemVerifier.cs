@@ -67,6 +67,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             else
             {
+                EditorUtility.DisplayDialog("Info", "Great, everying looks good!", "Ok");
+
                 ViewSystemLog.Log("Great, all pages and states looks good!");
             }
         }
@@ -195,6 +197,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             else
             {
+                EditorUtility.DisplayDialog("Info", "Great, everying looks good!", "Ok");
+
                 ViewSystemLog.Log("GameObject looks good.");
             }
 
@@ -258,14 +262,14 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     List<ViewSystemComponentData> componentDatas;
                     if (verifyTarget == VerifyTarget.Override)
                     {
-                        componentDatas = allOverrideDatas.Cast<ViewSystemComponentData>().ToList();
+                        componentDatas = allOverrideDatas.SelectMany(m => m.overrideDatas).Cast<ViewSystemComponentData>().ToList();
                     }
                     else
                     {
-                        componentDatas = allEventDatas.Cast<ViewSystemComponentData>().ToList();
+                        componentDatas = allEventDatas.SelectMany(m => m.eventDatas).Cast<ViewSystemComponentData>().ToList();
                     }
                     var window = ScriptableObject.CreateInstance<ComponentFixerWindow>();
-                    window.SetData(typeNameCannotBeFound, componentDatas, () =>
+                    window.SetData(typeNameCannotBeFound, componentDatas, saveData, () =>
                          {
                              //Make sure SetDirty
                              EditorUtility.SetDirty(saveData);
@@ -345,6 +349,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             else
             {
+                EditorUtility.DisplayDialog("Info", "Great, everying looks good!", "Ok");
                 ViewSystemLog.Log("Great, everying looks good!");
             }
         }
@@ -395,6 +400,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             else
             {
+                EditorUtility.DisplayDialog("Info", "Great, everying looks good!", "Ok");
+
                 ViewSystemLog.Log("Great, all events looks good!");
             }
         }
@@ -666,7 +673,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     if (item.originalNotFoundItem.viewElement.transform.Find(item.tempPath) == null) GUILayout.Label(new GUIContent($"[{item.tempPath}] is not a vaild Path in target ViewElement", Drawer.miniErrorIcon), GUILayout.Height(EditorGUIUtility.singleLineHeight));
                     else GUILayout.Label(new GUIContent($"Good! GameObject can be found with the input Path"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
 
-                    item.delete = EditorGUILayout.ToggleLeft("This item is nolonger in use, help me delete it.(You also need to check the checkbox on the lefttop)", item.delete);
+                    item.delete = EditorGUILayout.ToggleLeft("This item is not in use, help me delete it.(You also need to check the checkbox on the lefttop)", item.delete);
                 }
             }
         }
@@ -849,14 +856,16 @@ namespace MacacaGames.ViewSystem.VisualEditor
             public string originalComponentName;
             public MonoScript targetComponentScript;
             public string targetComponentName;
+            public bool delete = false;
+
             public bool CanApply()
             {
-                return (modifyByMonoscript && targetComponentScript != null) || !string.IsNullOrEmpty(targetComponentName);
+                return (modifyByMonoscript && targetComponentScript != null) || !string.IsNullOrEmpty(targetComponentName) || delete;
             }
         }
         List<FixerData> fixerDatas = new List<FixerData>();
-        IEnumerable<ViewSystemComponentData> allOverrideDatas;
-        public void SetData(List<string> typeNameCannotBeFound, IEnumerable<ViewSystemComponentData> allOverrideDatas, Action OnComplete)
+        List<ViewSystemComponentData> allOverrideDatas;
+        public void SetData(List<string> typeNameCannotBeFound, List<ViewSystemComponentData> allOverrideDatas, ViewSystemSaveData saveData, Action OnComplete)
         {
             titleContent = new GUIContent("Missing component fixer");
             this.allOverrideDatas = allOverrideDatas;
@@ -903,6 +912,25 @@ namespace MacacaGames.ViewSystem.VisualEditor
                            }
                        );
                    }
+                   else if (item.delete)
+                   {
+                       foreach (var vp in saveData.viewPages)
+                       {
+                           foreach (var vpi in vp.viewPage.viewPageItems)
+                           {
+                               vpi.overrideDatas.RemoveAll(m => m.targetComponentType == item.originalComponentName);
+                           }
+                       }
+                       foreach (var vs in saveData.viewStates)
+                       {
+                           foreach (var vpi in vs.viewState.viewPageItems)
+                           {
+                               vpi.overrideDatas.RemoveAll(m => m.targetComponentType == item.originalComponentName);
+                           }
+                       }
+                       continue;
+
+                   }
                    else
                    {
                        allOverrideDatas.Where(m => m.targetComponentType == item.originalComponentName).All(
@@ -928,20 +956,24 @@ namespace MacacaGames.ViewSystem.VisualEditor
             {
                 foreach (var item in fixerDatas)
                 {
-                    using (var horizon = new GUILayout.HorizontalScope("box"))
+                    using (var vertical2 = new GUILayout.VerticalScope("box"))
                     {
-                        item.fix = EditorGUILayout.ToggleLeft(GUIContent.none, item.fix, GUILayout.Width(20));
-                        GUILayout.Label(new GUIContent(item.originalComponentName, item.originalComponentName));
-                        GUILayout.Label(Drawer.arrowIcon);
-                        item.modifyByMonoscript = EditorGUILayout.Toggle(item.modifyByMonoscript, new GUIStyle("IN LockButton"), GUILayout.Width(16));
-                        if (item.modifyByMonoscript)
+                        using (var horizon = new GUILayout.HorizontalScope())
                         {
-                            item.targetComponentScript = (MonoScript)EditorGUILayout.ObjectField(item.targetComponentScript, typeof(MonoScript), false);
+                            item.fix = EditorGUILayout.ToggleLeft(GUIContent.none, item.fix, GUILayout.Width(20));
+                            GUILayout.Label(new GUIContent(item.originalComponentName, item.originalComponentName));
+                            GUILayout.Label(Drawer.arrowIcon);
+                            item.modifyByMonoscript = EditorGUILayout.Toggle(item.modifyByMonoscript, new GUIStyle("IN LockButton"), GUILayout.Width(16));
+                            if (item.modifyByMonoscript)
+                            {
+                                item.targetComponentScript = (MonoScript)EditorGUILayout.ObjectField(item.targetComponentScript, typeof(MonoScript), false);
+                            }
+                            else
+                            {
+                                item.targetComponentName = EditorGUILayout.TextField(item.targetComponentName);
+                            }
                         }
-                        else
-                        {
-                            item.targetComponentName = EditorGUILayout.TextField(item.targetComponentName);
-                        }
+                        item.delete = EditorGUILayout.ToggleLeft(new GUIContent("The property is no longer needed, I want to delete this override.", Drawer.miniErrorIcon), item.delete);
                     }
                 }
             }
