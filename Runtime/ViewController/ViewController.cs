@@ -419,7 +419,7 @@ namespace MacacaGames.ViewSystem
             IEnumerable<ViewPageItem> viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
             List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
             // 如果兩個頁面之間的 ViewState 不同的話 才需要更新 ViewState 部分的 RuntimeViewElement
-            if (nextViewState != currentViewState)
+            if (_nextViewState != currentViewState)
             {
                 viewItemNextState = PrepareRuntimeReference(viewItemNextState);
             }
@@ -446,7 +446,7 @@ namespace MacacaGames.ViewSystem
             currentLiveElementsInViewPage.Clear();
             currentLiveElementsInViewPage = allViewElementForNextPageInViewPage;
 
-            if (nextViewState != currentViewState)
+            if (_nextViewState != currentViewState)
             {
                 foreach (var item in currentLiveElementsInViewState)
                 {
