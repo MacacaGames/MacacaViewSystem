@@ -728,6 +728,7 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.Log("Leave Overlay Page wait for pervious page");
                 yield return new WaitUntil(() => !overlayPageState.IsTransition);
             }
+            
             IEnumerable<ViewElement> currentVe = new List<ViewElement>();
             IEnumerable<ViewElement> currentVs = new List<ViewElement>();
             if (currentViewPage != null)
@@ -756,10 +757,30 @@ namespace MacacaGames.ViewSystem
                     ViewSystemLog.LogWarning($"ViewElement : {item.viewElement.name} is null in runtime.");
                     continue;
                 }
+                
                 // Unique 的 ViewElement 另外處理借用問題
-                // 暫時不處理 多個 overlay 之間借用的問題！！！
                 if (item.runtimeViewElement.IsUnique == true && IsPageTransition == false)
                 {
+                    // Handle unique ViewElement between multiply overlay page
+                    if (overlayPageStatusDict.Count > 1)
+                    {
+                        var overlayPageStatus = overlayPageStatusDict.Select(o => o.Value).OrderByDescending(o => o.viewPage.canvasSortOrder)
+                            .FirstOrDefault(c => c != overlayPageState);
+                        var vpi = overlayPageStatus?.viewPage.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
+                        
+                        if (vpi != null)
+                        {
+                            try
+                            {
+                                var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
+                                item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData, item.sortingOrder, tweenTimeIfNeed, 0);
+                                ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name + "Try to back to origin Transfrom parent : " + vpi.runtimeParent.name);
+                            }
+                            catch { }
+                            continue;
+                        }
+                    }
+                    
                     if (currentVe.Contains(item.runtimeViewElement))
                     {
                         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
