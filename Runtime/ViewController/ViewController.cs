@@ -764,7 +764,10 @@ namespace MacacaGames.ViewSystem
                     // Handle unique ViewElement between multiply overlay page
                     if (overlayPageStatusDict.Count > 1)
                     {
-                        var overlayPageStatus = overlayPageStatusDict.Select(o => o.Value).OrderByDescending(o => o.viewPage.canvasSortOrder)
+                        var overlayPageStatus = overlayPageStatusDict
+                            .Where(o => o.Value.viewPage.canvasSortOrder < overlayPageState.viewPage.canvasSortOrder)
+                            .Select(o => o.Value)
+                            .OrderByDescending(o => o.viewPage.canvasSortOrder)
                             .FirstOrDefault(c => c != overlayPageState);
                         var vpi = overlayPageStatus?.viewPage.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
                         
