@@ -99,7 +99,15 @@ namespace MacacaGames.ViewSystem
         }
         public void AddOverride(ViewElementPropertyOverrideData overrideDatas)
         {
-            runtimeOverride.ApplyOverride(overrideDatas);
+            AddOverrides(new []{overrideDatas});
+        }
+        public void AddOverrides(IEnumerable<ViewElementPropertyOverrideData> overrideDatas)
+        {
+            runtimeOverride.ApplyOverrides(overrideDatas) ;
+        }
+        public void AddOverrides(ViewElementOverride overrideDatas)
+        {
+            runtimeOverride.ApplyOverrides(overrideDatas.GetValues());
         }
         public void ApplyOverrides(ViewElementOverride overrideDatas)
         {
