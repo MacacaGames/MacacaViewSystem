@@ -553,7 +553,7 @@ namespace MacacaGames.ViewSystem
             ChangePageToCoroutine = null;
 
             //Callback
-            InvokeOnViewPageChangeEnd(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
+            InvokeOnViewPageChangeEnd(this, new ViewPageEventArgs(nextViewPageForCurrentChangePage, lastViewPage));
 
             nextViewPageForCurrentChangePage = null;
             nextViewState = null;
