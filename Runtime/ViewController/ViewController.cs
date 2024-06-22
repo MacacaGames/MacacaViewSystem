@@ -374,6 +374,7 @@ namespace MacacaGames.ViewSystem
 
         public override IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale, bool ignoreClickProtection, params object[] models)
         {
+            ViewSystemLog.Log($"ChangePage Invoke {viewPageName}");
             //取得 ViewPage 物件
             ViewPage nextViewPageForCurrentChangePage = null;
 
@@ -552,7 +553,7 @@ namespace MacacaGames.ViewSystem
             ChangePageToCoroutine = null;
 
             //Callback
-            InvokeOnViewPageChangeEnd(this, new ViewPageEventArgs(currentViewPage, lastViewPage));
+            InvokeOnViewPageChangeEnd(this, new ViewPageEventArgs(nextViewPageForCurrentChangePage, lastViewPage));
 
             nextViewPageForCurrentChangePage = null;
             nextViewState = null;
@@ -728,7 +729,7 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.Log("Leave Overlay Page wait for pervious page");
                 yield return new WaitUntil(() => !overlayPageState.IsTransition);
             }
-            
+
             IEnumerable<ViewElement> currentVe = new List<ViewElement>();
             IEnumerable<ViewElement> currentVs = new List<ViewElement>();
             if (currentViewPage != null)
@@ -757,7 +758,7 @@ namespace MacacaGames.ViewSystem
                     ViewSystemLog.LogWarning($"ViewElement : {item.viewElement.name} is null in runtime.");
                     continue;
                 }
-                
+
                 // Unique 的 ViewElement 另外處理借用問題
                 if (item.runtimeViewElement.IsUnique == true && IsPageTransition == false)
                 {
@@ -770,7 +771,7 @@ namespace MacacaGames.ViewSystem
                             .OrderByDescending(o => o.viewPage.canvasSortOrder)
                             .FirstOrDefault(c => c != overlayPageState);
                         var vpi = overlayPageStatus?.viewPage.viewPageItems.FirstOrDefault(m => ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
-                        
+
                         if (vpi != null)
                         {
                             try
@@ -783,7 +784,7 @@ namespace MacacaGames.ViewSystem
                             continue;
                         }
                     }
-                    
+
                     if (currentVe.Contains(item.runtimeViewElement))
                     {
                         //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
