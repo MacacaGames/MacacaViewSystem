@@ -1020,7 +1020,7 @@ namespace MacacaGames.ViewSystem
         #region Navigation
         void SetNavigationTarget(ViewPage vp)
         {
-            if (vp.IsNavigation && vp.firstSelected != null)
+            if (vp != null && vp.IsNavigation && vp.firstSelected != null)
             {
                 UnityEngine.EventSystems.EventSystem
                     .current.SetSelectedGameObject(vp.firstSelected.gameObject);
