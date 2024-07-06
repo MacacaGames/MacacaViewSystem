@@ -954,8 +954,9 @@ namespace MacacaGames.ViewSystem
 
         public override void TryLeaveAllOverlayPage()
         {
+            Debug.Log("TryLeaveAllOverlayPage");
             //清空自動離場
-            base.TryLeaveAllOverlayPage();
+            // base.TryLeaveAllOverlayPage();
             for (int i = 0; i < overlayPageStatusDict.Count; i++)
             {
                 var item = overlayPageStatusDict.ElementAt(i);
