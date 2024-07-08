@@ -88,7 +88,7 @@ namespace MacacaGames.ViewSystem
                 yield return null;
             }
         }
-
+        int i = 0;
         public ViewElement PrewarmUniqueViewElement(ViewElement source)
         {
             if (!source.IsUnique)
@@ -96,19 +96,20 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogWarning("The ViewElement trying to Prewarm is not an unique ViewElement");
                 return null;
             }
-
+            var i = source.GetInstanceID();
             if (!uniqueVeDicts.ContainsKey(source.GetInstanceID()))
             {
+
                 var temp = UnityEngine.Object.Instantiate(source, _hierachyPool.rectTransform);
                 temp.name = source.name;
-                uniqueVeDicts.Add(source.GetInstanceID(), temp);
+                uniqueVeDicts.Add(i, temp);
                 temp.gameObject.SetActive(false);
                 return temp;
             }
             else
             {
                 ViewSystemLog.LogWarning("ViewElement " + source.name + " has been prewarmed");
-                return uniqueVeDicts[source.GetInstanceID()];
+                return uniqueVeDicts[i];
             }
         }
         public ViewElement RequestViewElement(ViewElement source)

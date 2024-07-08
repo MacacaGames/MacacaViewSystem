@@ -18,6 +18,8 @@ namespace MacacaGames.ViewSystem
         [SerializeField]
         public bool initOnAwake = true;
         [SerializeField]
+        public bool autoPrewarm = true;
+        [SerializeField]
         private ViewSystemSaveData viewSystemSaveData;
 
         Transform transformCache;
@@ -89,7 +91,10 @@ namespace MacacaGames.ViewSystem
             viewPages = viewSystemSaveData.GetViewPageSaveDatas().Select(m => m.viewPage).ToDictionary(m => m.name, m => m);
             viewStatesNames = viewStates.Values.Select(m => m.name);
 
-            PrewarmSingletonViewElement();
+            if (autoPrewarm)
+            {
+                PrewarmSingletonViewElement();
+            }
 
             IsReady = true;
         }
@@ -133,15 +138,55 @@ namespace MacacaGames.ViewSystem
             }
             else
             {
+                IViewElementSingleton s = WarmupUniqueViewElement(typeof(T));
+                if (s != null)
+                {
+                    return (T)s;
+                }
                 ViewSystemLog.LogError("Target type cannot been found, are you sure your ViewElement which attach target Component is unique?");
+
             }
             return null;
         }
 
+        IViewElementSingleton WarmupUniqueViewElement(Type type)
+        {
+            var item = viewSystemSaveData.uniqueViewElementTable.FirstOrDefault(m => m.type == type.ToString());
+            IViewElementSingleton result = null;
+            if (item == null)
+            {
+                ViewSystemLog.Log("Cannot found matched type in the uniqueViewElementTable");
+                return result;
+            }
+
+            var r = runtimePool.PrewarmUniqueViewElement(item.viewElementGameObject.GetComponent<ViewElement>());
+            if (r != null)
+            {
+                foreach (var i in r.GetComponents<IViewElementSingleton>())
+                {
+                    if (i.GetType() == type)
+                    {
+                        result = i;
+                    }
+                    var c = (Component)i;
+                    var t = c.GetType();
+                    if (!SingletonViewElementDictionary.ContainsKey(t))
+                        SingletonViewElementDictionary.Add(t, c);
+                    else
+                    {
+                        ViewSystemLog.LogWarning("Type " + t + " has been injected");
+                        continue;
+                    }
+                }
+            }
+            return result;
+        }
+
         void PrewarmSingletonViewElement()
         {
-            var viewElementsInStates = viewStates.Values.Select(m => m.viewPageItems).SelectMany(ma => ma).Select(m => m.viewElement);
-            var viewElementsInPages = viewPages.Values.Select(m => m.viewPageItems).SelectMany(ma => ma).Select(m => m.viewElement);
+            var viewElementsInStates = viewStates.Values.Select(m => m.viewPageItems).SelectMany(ma => ma).Where(m => m.viewElement.IsUnique).Select(m => m.viewElement);
+            var viewElementsInPages = viewPages.Values.Select(m => m.viewPageItems).SelectMany(ma => ma).Where(m => m.viewElement.IsUnique).Select(m => m.viewElement);
+
             foreach (var item in viewElementsInStates)
             {
                 if (item == null)

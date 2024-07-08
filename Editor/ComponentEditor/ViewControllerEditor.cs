@@ -18,6 +18,7 @@ namespace MacacaGames.ViewSystem
 
         private SerializedProperty s_SaveData;
         private SerializedProperty s_initOnAwake;
+        private SerializedProperty s_autoPrewarm;
         private SerializedProperty s_vs;
         private SerializedProperty s_vp;
 
@@ -31,6 +32,7 @@ namespace MacacaGames.ViewSystem
             viewController = (ViewController)target;
             so = serializedObject;
             s_initOnAwake = so.FindProperty("initOnAwake");
+            s_autoPrewarm = so.FindProperty("autoPrewarm");
 
             s_SaveData = so.FindProperty("viewSystemSaveData");
             s_vs = so.FindProperty("viewStates");
@@ -51,6 +53,7 @@ namespace MacacaGames.ViewSystem
             using (var change = new EditorGUI.ChangeCheckScope())
             {
                 EditorGUILayout.PropertyField(s_initOnAwake);
+                EditorGUILayout.PropertyField(s_autoPrewarm);
                 EditorGUILayout.PropertyField(s_SaveData);
                 
                 if (change.changed)

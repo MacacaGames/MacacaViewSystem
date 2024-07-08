@@ -444,17 +444,68 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             foreach (var item in data.viewPagesNodeSaveDatas)
             {
-            
+
 
                 UnityEditor.EditorUtility.SetDirty(item);
             }
 
             foreach (var item in data.viewStateNodeSaveDatas)
             {
-             
+
                 UnityEditor.EditorUtility.SetDirty(item);
             }
+            data.uniqueViewElementTable.Clear();
+            var vpi = data.viewPagesNodeSaveDatas.SelectMany(m => m.data.viewPage.viewPageItems);
+            var vsi = data.viewStateNodeSaveDatas.SelectMany(m => m.data.viewState.viewPageItems);
+            foreach (var item in vpi)
+            {
+                if (item == null)
+                {
+                    ViewSystemLog.LogError($"item is null");
+                    continue;
+                }
 
+                foreach (var i in item.viewElementObject.GetComponents<IViewElementSingleton>())
+                {
+                    var t = i.GetType().ToString();
+                    if (data.uniqueViewElementTable.Count(m => m.type == t) > 0)
+                    {
+                        continue;
+                    }
+                    data.uniqueViewElementTable.Add(
+                        new UniqueViewElementTableData
+                        {
+                            type = t,
+                            viewElementGameObject = item.viewElementObject
+                        }
+                    );
+                }
+            }
+
+            foreach (var item in vsi)
+            {
+                if (item == null)
+                {
+                    ViewSystemLog.LogError($"item is null");
+                    continue;
+                }
+
+                foreach (var i in item.viewElementObject.GetComponents<IViewElementSingleton>())
+                {
+                    var t = i.GetType().ToString();
+                    if (data.uniqueViewElementTable.Count(m => m.type == t) > 0)
+                    {
+                        continue;
+                    }
+                    data.uniqueViewElementTable.Add(
+                        new UniqueViewElementTableData
+                        {
+                            type = t,
+                            viewElementGameObject = item.viewElementObject
+                        }
+                    );
+                }
+            }
             UnityEditor.EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             foreach (var item in data.viewPagesNodeSaveDatas)
@@ -469,8 +520,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 var path = AssetDatabase.GetAssetPath(item);
                 AssetDatabase.RenameAsset(path, $"ViewState_{item.data.viewState.name}");
             }
-            AssetDatabase.SaveAssets();
 
+
+
+            AssetDatabase.SaveAssets();
             isDirty = false;
         }
 

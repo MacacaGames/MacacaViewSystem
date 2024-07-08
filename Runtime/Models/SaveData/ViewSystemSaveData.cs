@@ -11,6 +11,7 @@ namespace MacacaGames.ViewSystem
         public ViewSystemBaseSetting globalSetting;
         public List<ViewStateSaveData> viewStates = new List<ViewStateSaveData>();
         public List<ViewPageSaveData> viewPages = new List<ViewPageSaveData>();
+        public List<UniqueViewElementTableData> uniqueViewElementTable = new List<UniqueViewElementTableData>();
 
         public List<ViewStateSaveData> GetViewStateSaveDatas()
         {
@@ -140,6 +141,13 @@ namespace MacacaGames.ViewSystem
         }
     }
 
+
+    [System.Serializable]
+    public class UniqueViewElementTableData
+    {
+        public GameObject viewElementGameObject;
+        public string type;
+    }
 
     [System.Serializable]
     public class ViewPageSaveData
