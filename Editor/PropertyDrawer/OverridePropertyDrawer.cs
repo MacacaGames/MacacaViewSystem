@@ -289,7 +289,7 @@ namespace MacacaGames.ViewSystem
                 Rebuild(viewElement);
             }
         }
-        ClipBoard clipBoard = null;
+        static ClipBoard clipBoard = null;
         private void CopyItem(int index)
         {
             if (reorderableList.list.Count <= index)
