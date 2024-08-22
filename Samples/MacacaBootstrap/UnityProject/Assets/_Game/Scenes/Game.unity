@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 204772394}
   - component: {fileID: 204772396}
   m_Layer: 0
-  m_Name: UINew
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -921,5 +921,5 @@ SceneRoots:
   - {fileID: 3479439114899406666}
   - {fileID: 1370296021}
   - {fileID: 963194228}
-  - {fileID: 569092855}
   - {fileID: 204772395}
+  - {fileID: 569092855}

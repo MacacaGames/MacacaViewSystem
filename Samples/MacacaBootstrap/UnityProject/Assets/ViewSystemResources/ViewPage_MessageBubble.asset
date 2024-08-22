@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfc96180cc9464cce899301591c0e0ba, type: 3}
-  m_Name: ViewPage_d1e93fb7
+  m_Name: ViewPage_MessageBubble
   m_EditorClassIdentifier: 
   data:
-    nodePosition: {x: 529, y: 104.78049}
+    nodePosition: {x: 528, y: 240}
     viewPage:
-      name: MessageBox
+      name: MessageBubble
       viewPageItems:
-      - Id: ba3e10e0
+      - Id: e394f660
         previewViewElement: {fileID: 0}
         name: 
-        viewElementObject: {fileID: 1587753696816790871, guid: 087cf54f2e5fa4f5aa11aae37b1b15d5,
+        viewElementObject: {fileID: 931797961995137977, guid: 68dddc0a7e4e74465a4bc034561c6e9c,
           type: 3}
         runtimeViewElement: {fileID: 0}
         overrideDatas: []
@@ -45,50 +45,10 @@ MonoBehaviour:
             localEulerAngles: {x: 0, y: 0, z: 0}
             anchoredPosition: {x: 0, y: 0, z: 0}
             pivot: {x: 0.5, y: 0.5}
-            sizeDelta: {x: 0, y: 0}
-            anchorMin: {x: 0, y: 0}
-            anchorMax: {x: 1, y: 1}
-          rectTransformFlag: -1
-        breakPointViewElementTransforms: []
-        TweenTime: 0.4
-        easeType: 6
-        delayIn: 0
-        delayOut: 0
-        navigationDatas: []
-        excludePlatform: 0
-        sortingOrder: 0
-      - Id: 65c96007
-        previewViewElement: {fileID: 0}
-        name: 
-        viewElementObject: {fileID: 2164306399258560436, guid: 42383333289ad6c45830ca057743e98f,
-          type: 3}
-        runtimeViewElement: {fileID: 0}
-        overrideDatas: []
-        eventDatas: []
-        runtimeParent: {fileID: 0}
-        parent: {fileID: 0}
-        parentPath: 
-        transformData:
-          localScale: {x: 0, y: 0, z: 0}
-          localEulerAngles: {x: 0, y: 0, z: 0}
-          anchoredPosition: {x: 0, y: 0, z: 0}
-          pivot: {x: 0, y: 0}
-          sizeDelta: {x: 0, y: 0}
-          anchorMin: {x: 0, y: 0}
-          anchorMax: {x: 0, y: 0}
-        transformFlag: -1
-        defaultTransformDatas:
-          parent: {fileID: 0}
-          parentPath: 
-          rectTransformData:
-            localScale: {x: 1, y: 1, z: 1}
-            localEulerAngles: {x: 0, y: 0, z: 0}
-            anchoredPosition: {x: 0, y: 100, z: 0}
-            pivot: {x: 0.5, y: 0.5}
-            sizeDelta: {x: 800, y: 786}
+            sizeDelta: {x: 100, y: 100}
             anchorMin: {x: 0.5, y: 0.5}
             anchorMax: {x: 0.5, y: 0.5}
-          rectTransformFlag: -1
+          rectTransformFlag: 126
         breakPointViewElementTransforms: []
         TweenTime: 0.4
         easeType: 6
@@ -102,7 +62,7 @@ MonoBehaviour:
       viewState: 
       viewPageType: 1
       viewPageTransitionTimingType: 0
-      canvasSortOrder: 2
+      canvasSortOrder: 1
       ignoreAutoSorting: 0
       edgeValues:
         left: 0

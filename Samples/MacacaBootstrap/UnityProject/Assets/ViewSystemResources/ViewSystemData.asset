@@ -36,11 +36,21 @@ MonoBehaviour:
     userBreakPoints: []
   viewStates: []
   viewPages: []
-  uniqueViewElementTable: []
+  uniqueViewElementTable:
+  - viewElementGameObject: {fileID: 2164306399258560436, guid: 42383333289ad6c45830ca057743e98f,
+      type: 3}
+    type: UI_MessageBox
+  - viewElementGameObject: {fileID: 931797961995137977, guid: 68dddc0a7e4e74465a4bc034561c6e9c,
+      type: 3}
+    type: UI_MessageBubble
+  - viewElementGameObject: {fileID: 3735135370969500442, guid: 925e49f8b78258b4fb524217277ed504,
+      type: 3}
+    type: UI_NavigationBar
   viewStateNodeSaveDatas:
   - {fileID: 11400000, guid: 294b6cd807d5a485f8d40e11a8c5dd2d, type: 2}
   - {fileID: 11400000, guid: fcdd19134f26847bb9ce70f06fb6a75a, type: 2}
   - {fileID: 11400000, guid: 34f2a0def77d04ca1b2cd4e400421938, type: 2}
+  - {fileID: 11400000, guid: 013b733c8492e4bc3aa6084af134e87a, type: 2}
   viewPagesNodeSaveDatas:
   - {fileID: 11400000, guid: 86c4e6f6f4a244f768bc21c049e74cb8, type: 2}
   - {fileID: 11400000, guid: 46e761f69abe9489d87153fc9f862c99, type: 2}
@@ -50,3 +60,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ddcfceca88a74732ba5cd62e2060e4c, type: 2}
   - {fileID: 11400000, guid: b5162566d3cd34a40823bfc363ca64a8, type: 2}
   - {fileID: 11400000, guid: d2ed617ab074f46228e6a08301f6e797, type: 2}
+  - {fileID: 11400000, guid: c43f149ca67f94a66bf6d6c1172281b0, type: 2}

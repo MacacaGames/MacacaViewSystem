@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0831a4d40a9254b1e9c5902659896d75, type: 3}
-  m_Name: ViewState_46f4ff85
+  m_Name: ViewState_Welcome
   m_EditorClassIdentifier: 
   data:
-    nodePosition: {x: 96, y: 12}
+    nodePosition: {x: 96, y: 0}
     viewState:
       name: Welcome
       viewPageItems:

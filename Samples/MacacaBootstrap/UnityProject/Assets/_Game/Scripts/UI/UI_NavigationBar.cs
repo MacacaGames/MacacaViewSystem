@@ -19,19 +19,12 @@ public class UI_NavigationBar : ViewElementLifeCycle, IViewElementInjectable
     float navWidth;
     [ReadOnly] public int currentIndex = 0;
 
- 
-
     void Awake()
     {
-        // NavBtnRoot.transform.GetComponent<RectTransform>()
-        //     .ObserveEveryValueChanged(m => m.rect)
-        //     .Subscribe(m => { navWidth = m.width; }
-        //     );
         for (int i = 0; i < NavBtns.Count; i++)
         {
             NavBtns[i].Init(i);
         }
-     
     }
 
 

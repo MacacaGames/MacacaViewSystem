@@ -4,8 +4,9 @@ using UnityEngine;
 using MacacaGames.GameSystem;
 using MacacaGames.ViewSystem;
 using System.Threading.Tasks;
+using UnityEngine.Rendering;
 
-public class UIManager : MonoBehaviourLifeCycle
+public class UIManager : MonoBehaviour
 {
     [Inject]
     MainGamePlayData gamePlaydata;
@@ -43,8 +44,19 @@ public class UIManager : MonoBehaviourLifeCycle
     {
         gamePlaydata.gamePlayController.FailedGamePlay();
     }
-
-    public override async Task Init()
+    
+    [ViewSystemEvent("OverridePropertyPage")]
+    public void OnOverridePropertyPageBtnPressed(Component c)
     {
+        var messageBoxCoroutine = UI_MessageBox.Show("Title", "call a function with ViewSystemEvent attribute in UIManager",
+            new UI_MessageBox.BtnWrapper[]{
+                new UI_MessageBox.BtnWrapper{
+                    text = "Confirm",
+                    OnClick = ()=>{ },
+                    color = UI_MessageBox.BtnColor.Success,
+                    interactable = true
+                }
+            }
+        );
     }
 }

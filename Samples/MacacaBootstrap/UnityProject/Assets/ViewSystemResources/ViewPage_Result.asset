@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfc96180cc9464cce899301591c0e0ba, type: 3}
-  m_Name: ViewPage_9f6966e7
+  m_Name: ViewPage_Result
   m_EditorClassIdentifier: 
   data:
-    nodePosition: {x: 528.75665, y: -9.439026}
+    nodePosition: {x: 320, y: 320}
     viewPage:
-      name: Loading
+      name: Result
       viewPageItems:
-      - Id: c9dc9a8d
+      - Id: 190e2bfc
         previewViewElement: {fileID: 0}
         name: 
-        viewElementObject: {fileID: 1587753696816790871, guid: 087cf54f2e5fa4f5aa11aae37b1b15d5,
+        viewElementObject: {fileID: 2484328897282732107, guid: e4344b4f0be124e14aae6aa90efb99e2,
           type: 3}
         runtimeViewElement: {fileID: 0}
         overrideDatas: []
@@ -42,12 +42,12 @@ MonoBehaviour:
           parentPath: 
           rectTransformData:
             localScale: {x: 1, y: 1, z: 1}
-            localEulerAngles: {x: 0, y: 0, z: 0}
+            localEulerAngles: {x: -0, y: 0, z: 0}
             anchoredPosition: {x: 0, y: 0, z: 0}
             pivot: {x: 0.5, y: 0.5}
-            sizeDelta: {x: 100, y: 100}
-            anchorMin: {x: 0, y: 0}
-            anchorMax: {x: 1, y: 1}
+            sizeDelta: {x: 395.18, y: 100}
+            anchorMin: {x: 0.5, y: 0.5}
+            anchorMax: {x: 0.5, y: 0.5}
           rectTransformFlag: -1
         breakPointViewElementTransforms: []
         TweenTime: 0.4
@@ -57,37 +57,52 @@ MonoBehaviour:
         navigationDatas: []
         excludePlatform: 0
         sortingOrder: 0
-      - Id: 0d09883c
+      - Id: 9fd4822b
         previewViewElement: {fileID: 0}
         name: 
-        viewElementObject: {fileID: 5884974384354150578, guid: 4a39b466194ca4374b37ba2b22181b47,
+        viewElementObject: {fileID: 2312344306213899656, guid: 4938f3d90ce924dc589fa892ae009e94,
           type: 3}
         runtimeViewElement: {fileID: 0}
-        overrideDatas: []
-        eventDatas: []
+        overrideDatas:
+        - targetTransformPath: root/Icon
+          targetComponentType: UnityEngine.UI.Image
+          targetPropertyName: m_Sprite
+          Value:
+            IsShowRawContent: 0
+            s_Type: 4
+            ObjectReferenceValue: {fileID: 21300000, guid: 93c512e44ef7c4193b6d2f665244d5e8,
+              type: 3}
+            StringValue: 
+            ModelReflectValue: 
+        eventDatas:
+        - targetTransformPath: 
+          targetComponentType: UnityEngine.UI.Button
+          targetPropertyName: m_OnClick
+          scriptName: UIManager
+          methodName: OnGameResultClick
         runtimeParent: {fileID: 0}
         parent: {fileID: 0}
         parentPath: 
         transformData:
-          localScale: {x: 0, y: 0, z: 0}
+          localScale: {x: 1, y: 1, z: 1}
           localEulerAngles: {x: 0, y: 0, z: 0}
           anchoredPosition: {x: 0, y: 0, z: 0}
-          pivot: {x: 0, y: 0}
-          sizeDelta: {x: 0, y: 0}
-          anchorMin: {x: 0, y: 0}
-          anchorMax: {x: 0, y: 0}
+          pivot: {x: 0.5, y: 0.5}
+          sizeDelta: {x: 100, y: 100}
+          anchorMin: {x: 0.5, y: 0.5}
+          anchorMax: {x: 0.5, y: 0.5}
         transformFlag: -1
         defaultTransformDatas:
           parent: {fileID: 0}
           parentPath: 
           rectTransformData:
             localScale: {x: 1, y: 1, z: 1}
-            localEulerAngles: {x: 0, y: 0, z: 0}
-            anchoredPosition: {x: 0, y: 0, z: 0}
-            pivot: {x: 0, y: 0}
-            sizeDelta: {x: 0, y: 0}
-            anchorMin: {x: 0, y: 0}
-            anchorMax: {x: 1, y: 1}
+            localEulerAngles: {x: -0, y: 0, z: 0}
+            anchoredPosition: {x: 0, y: -229.08, z: 0}
+            pivot: {x: 0.5, y: 0.5}
+            sizeDelta: {x: 320, y: 160}
+            anchorMin: {x: 0.5, y: 0.5}
+            anchorMax: {x: 0.5, y: 0.5}
           rectTransformFlag: -1
         breakPointViewElementTransforms: []
         TweenTime: 0.4
@@ -99,10 +114,10 @@ MonoBehaviour:
         sortingOrder: 0
       runtimePageRoot: {fileID: 0}
       customPageTransitionWaitTime: 0.5
-      viewState: 
-      viewPageType: 1
+      viewState: Result
+      viewPageType: 0
       viewPageTransitionTimingType: 0
-      canvasSortOrder: 3
+      canvasSortOrder: 0
       ignoreAutoSorting: 0
       edgeValues:
         left: 0

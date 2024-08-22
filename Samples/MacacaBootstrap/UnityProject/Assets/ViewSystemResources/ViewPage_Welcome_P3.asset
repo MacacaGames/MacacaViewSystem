@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfc96180cc9464cce899301591c0e0ba, type: 3}
-  m_Name: ViewPage_3da4473c
+  m_Name: ViewPage_Welcome_P3
   m_EditorClassIdentifier: 
   data:
-    nodePosition: {x: 307, y: -3}
+    nodePosition: {x: 304, y: 96}
     viewPage:
-      name: Welcome_P2
+      name: Welcome_P3
       viewPageItems:
-      - Id: 6fd3d911
+      - Id: f5ec54f8
         previewViewElement: {fileID: 0}
         name: 
         viewElementObject: {fileID: 2484328897282732107, guid: e4344b4f0be124e14aae6aa90efb99e2,
@@ -31,7 +31,7 @@ MonoBehaviour:
             IsShowRawContent: 0
             s_Type: 5
             ObjectReferenceValue: {fileID: 0}
-            StringValue: P2
+            StringValue: P3
             ModelReflectValue: 
         eventDatas: []
         runtimeParent: {fileID: 0}

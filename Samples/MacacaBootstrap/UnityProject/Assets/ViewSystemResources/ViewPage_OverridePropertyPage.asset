@@ -10,73 +10,46 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfc96180cc9464cce899301591c0e0ba, type: 3}
-  m_Name: ViewPage_ddc6e52f
+  m_Name: ViewPage_OverridePropertyPage
   m_EditorClassIdentifier: 
   data:
-    nodePosition: {x: 93, y: 100}
+    nodePosition: {x: 64, y: 592}
     viewPage:
-      name: Welcome_P1
+      name: OverridePropertyPage
       viewPageItems:
-      - Id: 32dc5ae0
+      - Id: bd89501c
         previewViewElement: {fileID: 0}
-        name: 
+        name: Button1
         viewElementObject: {fileID: 2312344306213899656, guid: 4938f3d90ce924dc589fa892ae009e94,
           type: 3}
         runtimeViewElement: {fileID: 0}
-        overrideDatas: []
-        eventDatas:
-        - targetTransformPath: 
-          targetComponentType: UnityEngine.UI.Button
-          targetPropertyName: m_OnClick
-          scriptName: UIManager
-          methodName: OnPlayButtonClick
-        runtimeParent: {fileID: 0}
-        parent: {fileID: 0}
-        parentPath: 
-        transformData:
-          localScale: {x: 0, y: 0, z: 0}
-          localEulerAngles: {x: 0, y: 0, z: 0}
-          anchoredPosition: {x: 0, y: 0, z: 0}
-          pivot: {x: 0, y: 0}
-          sizeDelta: {x: 0, y: 0}
-          anchorMin: {x: 0, y: 0}
-          anchorMax: {x: 0, y: 0}
-        transformFlag: -1
-        defaultTransformDatas:
-          parent: {fileID: 0}
-          parentPath: 
-          rectTransformData:
-            localScale: {x: 1, y: 1, z: 1}
-            localEulerAngles: {x: -0, y: 0, z: 0}
-            anchoredPosition: {x: 0, y: 500, z: 0}
-            pivot: {x: 0.5, y: 0.5}
-            sizeDelta: {x: 370, y: 116}
-            anchorMin: {x: 0.5, y: 0}
-            anchorMax: {x: 0.5, y: 0}
-          rectTransformFlag: -1
-        breakPointViewElementTransforms: []
-        TweenTime: 0.4
-        easeType: 6
-        delayIn: 0
-        delayOut: 0
-        navigationDatas: []
-        excludePlatform: 0
-        sortingOrder: 0
-      - Id: e91847ff
-        previewViewElement: {fileID: 0}
-        name: 
-        viewElementObject: {fileID: 2484328897282732107, guid: e4344b4f0be124e14aae6aa90efb99e2,
-          type: 3}
-        runtimeViewElement: {fileID: 0}
         overrideDatas:
-        - targetTransformPath: Text
+        - targetTransformPath: root/Text
           targetComponentType: TMPro.TextMeshProUGUI
           targetPropertyName: m_text
           Value:
             IsShowRawContent: 0
             s_Type: 5
             ObjectReferenceValue: {fileID: 0}
-            StringValue: P1
+            StringValue: OverrideValue1
+            ModelReflectValue: 
+        - targetTransformPath: root/Text
+          targetComponentType: UnityEngine.GameObject
+          targetPropertyName: m_IsActive
+          Value:
+            IsShowRawContent: 0
+            s_Type: 0
+            ObjectReferenceValue: {fileID: 0}
+            StringValue: True
+            ModelReflectValue: 
+        - targetTransformPath: root/Icon
+          targetComponentType: UnityEngine.GameObject
+          targetPropertyName: m_IsActive
+          Value:
+            IsShowRawContent: 0
+            s_Type: 0
+            ObjectReferenceValue: {fileID: 0}
+            StringValue: False
             ModelReflectValue: 
         eventDatas: []
         runtimeParent: {fileID: 0}
@@ -97,9 +70,9 @@ MonoBehaviour:
           rectTransformData:
             localScale: {x: 1, y: 1, z: 1}
             localEulerAngles: {x: 0, y: 0, z: 0}
-            anchoredPosition: {x: 0, y: 0, z: 0}
+            anchoredPosition: {x: 200, y: 0, z: 0}
             pivot: {x: 0.5, y: 0.5}
-            sizeDelta: {x: 100, y: 100}
+            sizeDelta: {x: 300, y: 200}
             anchorMin: {x: 0.5, y: 0.5}
             anchorMax: {x: 0.5, y: 0.5}
           rectTransformFlag: -1
@@ -111,13 +84,49 @@ MonoBehaviour:
         navigationDatas: []
         excludePlatform: 0
         sortingOrder: 0
-      - Id: f2df9740
+      - Id: eb29bc58
         previewViewElement: {fileID: 0}
-        name: 
-        viewElementObject: {fileID: 4838692966223852882, guid: aa93222f453a6c24b9fe5e710687e7b6,
+        name: Button2
+        viewElementObject: {fileID: 2312344306213899656, guid: 4938f3d90ce924dc589fa892ae009e94,
           type: 3}
         runtimeViewElement: {fileID: 0}
-        overrideDatas: []
+        overrideDatas:
+        - targetTransformPath: root/Text
+          targetComponentType: TMPro.TextMeshProUGUI
+          targetPropertyName: m_text
+          Value:
+            IsShowRawContent: 0
+            s_Type: 5
+            ObjectReferenceValue: {fileID: 0}
+            StringValue: OverrideValue2
+            ModelReflectValue: 
+        - targetTransformPath: root/Text
+          targetComponentType: UnityEngine.GameObject
+          targetPropertyName: m_IsActive
+          Value:
+            IsShowRawContent: 0
+            s_Type: 0
+            ObjectReferenceValue: {fileID: 0}
+            StringValue: True
+            ModelReflectValue: 
+        - targetTransformPath: root/Icon
+          targetComponentType: UnityEngine.GameObject
+          targetPropertyName: m_IsActive
+          Value:
+            IsShowRawContent: 0
+            s_Type: 0
+            ObjectReferenceValue: {fileID: 0}
+            StringValue: False
+            ModelReflectValue: 
+        - targetTransformPath: root/BG
+          targetComponentType: UnityEngine.UI.Image
+          targetPropertyName: m_Color
+          Value:
+            IsShowRawContent: 0
+            s_Type: 3
+            ObjectReferenceValue: {fileID: 0}
+            StringValue: 17C55EFF
+            ModelReflectValue: 
         eventDatas: []
         runtimeParent: {fileID: 0}
         parent: {fileID: 0}
@@ -136,12 +145,12 @@ MonoBehaviour:
           parentPath: 
           rectTransformData:
             localScale: {x: 1, y: 1, z: 1}
-            localEulerAngles: {x: -0, y: 0, z: 0}
-            anchoredPosition: {x: 0, y: -180, z: 0}
+            localEulerAngles: {x: 0, y: 0, z: 0}
+            anchoredPosition: {x: -200, y: 0, z: 0}
             pivot: {x: 0.5, y: 0.5}
-            sizeDelta: {x: 650, y: 100}
-            anchorMin: {x: 0.5, y: 1}
-            anchorMax: {x: 0.5, y: 1}
+            sizeDelta: {x: 300, y: 300}
+            anchorMin: {x: 0.5, y: 0.5}
+            anchorMax: {x: 0.5, y: 0.5}
           rectTransformFlag: -1
         breakPointViewElementTransforms: []
         TweenTime: 0.4
@@ -151,14 +160,19 @@ MonoBehaviour:
         navigationDatas: []
         excludePlatform: 0
         sortingOrder: 0
-      - Id: d0c29a3c
+      - Id: ecd94253
         previewViewElement: {fileID: 0}
-        name: 
-        viewElementObject: {fileID: 4782887798366624486, guid: 870a19eb0a7c17a42b3f7c7a82a0089c,
+        name: Button3
+        viewElementObject: {fileID: 2312344306213899656, guid: 4938f3d90ce924dc589fa892ae009e94,
           type: 3}
         runtimeViewElement: {fileID: 0}
         overrideDatas: []
-        eventDatas: []
+        eventDatas:
+        - targetTransformPath: 
+          targetComponentType: UnityEngine.UI.Button
+          targetPropertyName: m_OnClick
+          scriptName: UIManager
+          methodName: OnOverridePropertyPageBtnPressed
         runtimeParent: {fileID: 0}
         parent: {fileID: 0}
         parentPath: 
@@ -176,12 +190,12 @@ MonoBehaviour:
           parentPath: 
           rectTransformData:
             localScale: {x: 1, y: 1, z: 1}
-            localEulerAngles: {x: -0, y: 0, z: 0}
-            anchoredPosition: {x: 128, y: -104, z: 0}
+            localEulerAngles: {x: 0, y: 0, z: 0}
+            anchoredPosition: {x: 0, y: 200, z: 0}
             pivot: {x: 0.5, y: 0.5}
-            sizeDelta: {x: 325, y: 100}
-            anchorMin: {x: 0, y: 1}
-            anchorMax: {x: 0, y: 1}
+            sizeDelta: {x: 200, y: 100}
+            anchorMin: {x: 0.5, y: 0}
+            anchorMax: {x: 0.5, y: 0}
           rectTransformFlag: -1
         breakPointViewElementTransforms: []
         TweenTime: 0.4
@@ -193,7 +207,7 @@ MonoBehaviour:
         sortingOrder: 0
       runtimePageRoot: {fileID: 0}
       customPageTransitionWaitTime: 0.5
-      viewState: Welcome
+      viewState: OverridePropertyState
       viewPageType: 0
       viewPageTransitionTimingType: 0
       canvasSortOrder: 0
