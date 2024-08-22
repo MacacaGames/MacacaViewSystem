@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fb1aa929d9a3449e92f2971dd1270e1, type: 3}
+  m_Name: BtnRect_Primary
+  m_EditorClassIdentifier: 
+  addHighlightedColor: {r: 0.05, g: 0.05, b: 0.05, a: 0}
+  addPressedColor: {r: 0.1, g: 0.1, b: 0.1, a: 0}
+  normalColorV1: {r: 0.14509805, g: 0.5686275, b: 0.9725491, a: 1}
+  normalColorV2: {r: 0.14117648, g: 0.5686275, b: 0.97647065, a: 1}
+  disabledColorV1: {r: 0.41960785, g: 0.4627451, b: 0.4627451, a: 1}
+  disabledColorV2: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 1}
+  shadowNormalColor: {r: 0.11258457, g: 0.27704546, b: 0.4339623, a: 1}
+  shadowDisabledColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}

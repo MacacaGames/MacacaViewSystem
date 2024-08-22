@@ -1,0 +1,174 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UITexture
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: cb0c03048b64a43fa81937dbf9dc4e02, type: 3}
+    totalSpriteSurfaceArea: 4194459
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 539c8200f9b17cb4a8d4272a08e85483, type: 3}
+  - {fileID: 21300000, guid: 538908a0b2beb0540ab382defbfd506e, type: 3}
+  - {fileID: 21300000, guid: 5a7700e0efdc6bd4499b61c1fec74c34, type: 3}
+  - {fileID: 21300000, guid: dbc97c11dc5de4d8780d616182ee90d4, type: 3}
+  - {fileID: 21300000, guid: 3a930a518ea21c64c83756bdb2423672, type: 3}
+  - {fileID: 21300000, guid: c12cb5b1366bb4348ad727ba1983eb42, type: 3}
+  - {fileID: 21300000, guid: 468528e2d06a66045935f03b9711090d, type: 3}
+  - {fileID: 21300000, guid: 06826af2a8a4c6b4eb494e4cc7e2083d, type: 3}
+  - {fileID: 21300000, guid: 17a501a3c53be404f8e7c6c03ec586ce, type: 3}
+  - {fileID: 21300000, guid: 69c89bd3f813e48ec807dde714154d6b, type: 3}
+  - {fileID: 21300000, guid: 8226b13434f563f4f9515987669e2315, type: 3}
+  - {fileID: 21300000, guid: 14273984958a46a49b9edfbd92fdc6f1, type: 3}
+  - {fileID: 21300000, guid: 455cffd49021b42cbb6b848486aef849, type: 3}
+  - {fileID: 21300000, guid: 93c512e44ef7c4193b6d2f665244d5e8, type: 3}
+  - {fileID: 21300000, guid: 8a2b6bf4320784dd6944302e8a3cfc68, type: 3}
+  - {fileID: 21300000, guid: 0a723e15ef385406db7f277b7267ddaf, type: 3}
+  - {fileID: 21300000, guid: 7b70f0352d52fb74d90134ce8fb83b28, type: 3}
+  - {fileID: 21300000, guid: 8565243598a28d74fa4c4c2af173037d, type: 3}
+  - {fileID: 21300000, guid: 5e2f514527f7f014494c5152abfe82c0, type: 3}
+  - {fileID: 21300000, guid: f63b2a654ec1597418112f93df1d4407, type: 3}
+  - {fileID: 21300000, guid: 479d97a5a75e00744bca3a0bdb6fe729, type: 3}
+  - {fileID: 21300000, guid: a7d0d4d58673eb64d94821ee163f2787, type: 3}
+  - {fileID: 21300000, guid: b5022606c92e9fe4ca25cc3f92a84bff, type: 3}
+  - {fileID: 21300000, guid: ccbf5936723ebcf4c88342d8674a61e9, type: 3}
+  - {fileID: 21300000, guid: d9b2dc46618d1f241a8829f232d47d3d, type: 3}
+  - {fileID: 21300000, guid: b279d69617d634941a4f5b62dc0e3160, type: 3}
+  - {fileID: 21300000, guid: 38c080a6289a52640a4661d8fd58e853, type: 3}
+  - {fileID: 21300000, guid: 84234817f0a20b549b47df8f7d4a8ccd, type: 3}
+  - {fileID: 21300000, guid: 8306dc3753b324f8eb9c535cbc83a078, type: 3}
+  - {fileID: 21300000, guid: 48d1b6b7cb4e75f4bb87c1de1b4fb1d4, type: 3}
+  - {fileID: 21300000, guid: 7f69b5f7487c9fa4c93940fafbfa5ce4, type: 3}
+  - {fileID: 21300000, guid: b9b43bf7c3f4d544da4ee7db48f967b0, type: 3}
+  - {fileID: 21300000, guid: e33bda18cc1a51d41bce149ee73f506a, type: 3}
+  - {fileID: 21300000, guid: 552ec8a830f0d41e5875dcf8d0b23844, type: 3}
+  - {fileID: 21300000, guid: 3b5f3be80a85ee54689cc398f94b2e20, type: 3}
+  - {fileID: 21300000, guid: 4818bd29bdd8b024193911e3591c275f, type: 3}
+  - {fileID: 21300000, guid: 05bc4d397a67a784498bab33764dd4df, type: 3}
+  - {fileID: 21300000, guid: 7dd56a49f1a25914d8f78ac5c00dea5d, type: 3}
+  - {fileID: 21300000, guid: 92faaa696fc33784ca7716ccb38a9cd4, type: 3}
+  - {fileID: 21300000, guid: 52ea32e9d02565741af2d4de7e3a64d8, type: 3}
+  - {fileID: 21300000, guid: 12abea0a8f11f4d659cc368dee6b1c88, type: 3}
+  - {fileID: 21300000, guid: b9b03f0a22cf347cb820a468a3c04af7, type: 3}
+  - {fileID: 21300000, guid: 93b6473a9d7a745c1a09689c2b86a607, type: 3}
+  - {fileID: 21300000, guid: e3d7938b99705eb48a628fa1381d76f2, type: 3}
+  - {fileID: 21300000, guid: e3642b9b438d3884cb2a04c4e9eaa417, type: 3}
+  - {fileID: 21300000, guid: d4f4017c3e84e7c4db0dffc7fd71227a, type: 3}
+  - {fileID: 21300000, guid: 7188929c346dd104d8cd063de70fa96c, type: 3}
+  - {fileID: 21300000, guid: 7e5c9cbc197124b6599cf9fca751afec, type: 3}
+  - {fileID: 21300000, guid: 8e6d530da53721f459236234deb54945, type: 3}
+  - {fileID: 21300000, guid: 762b1a3dd04920a499a0d75b945bd0b9, type: 3}
+  - {fileID: 21300000, guid: 1dc3fc9d37c1d594da02abcf27a1252d, type: 3}
+  - {fileID: 21300000, guid: c9ed60cd854bbee4983f14dd69ec1df5, type: 3}
+  - {fileID: 21300000, guid: ef2d35dd6a68f244e8ed670aab0b0276, type: 3}
+  - {fileID: 21300000, guid: 233475edbee098d4ca51f7f2a7666916, type: 3}
+  - {fileID: 21300000, guid: 97cc905e19137cf44a0a2f6d01b32116, type: 3}
+  - {fileID: 21300000, guid: 20ef098ef5db04c0b810d33fae171bff, type: 3}
+  - {fileID: 21300000, guid: f27062be108d045e2aea91ac0e30a4c0, type: 3}
+  - {fileID: 21300000, guid: caea4d7f34e06b242a7eef97745c26e9, type: 3}
+  - {fileID: 21300000, guid: 298ae6af02166034cb90a374a6e20950, type: 3}
+  - {fileID: 21300000, guid: 948b32df283d4924e8d395046ce145c9, type: 3}
+  - {fileID: 21300000, guid: e00535df85c0e3f40b51782b594b05a3, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - UI_NavigationBar_PointFlower
+  - UI_NavigationBar_PointBG
+  - SongBtnBGOutline
+  - Icon_Credits_Art
+  - Icon_Finger
+  - CurveBGSlashLine
+  - SawTile_Soft
+  - Icon_Pin
+  - Icon_Play
+  - music-teacher
+  - UI_NavigationBar_Point
+  - Icon_Skin
+  - Icon_BGM_On
+  - Icon_Logout
+  - Icon_Vibrate_On
+  - Border
+  - CurveBG
+  - Icon_Chest
+  - NavigationBar_Side
+  - UI_NavigationBar_BG_L
+  - UI_RoundedRect
+  - Icon_Pause
+  - NavigationBar_CenterOutline
+  - Icon_AdVideo
+  - BG_blurInverse
+  - ModeItem_Blue
+  - Icon_Video
+  - Icon_Tri3
+  - Icon_Back
+  - Icon_Key_White
+  - SongBtnBG_HalfTop
+  - Icon_Giftbox
+  - Icon_Tri2
+  - ClickTipBG
+  - Icon_CD
+  - BG_blur
+  - SplashInk
+  - Icon_King
+  - NavigationBar_Center
+  - UI_HR01
+  - chest
+  - Icon_Audio_On
+  - Icon_Quality_LQ
+  - Icon_Home
+  - SongBtnBG
+  - UI_Star
+  - Icon_Coin
+  - UI_NodeWindowBoxLine
+  - UI_WhiteBlock
+  - Icon_FingerColor
+  - Icon_Lock
+  - UI_RoundedRectSmall
+  - NavigationBar_SideOutline
+  - SongBtnBG_Pink
+  - Icon_Setting
+  - Icon_Quality_HQ
+  - Icon_Key
+  - ModeItem_Pink
+  - SawTile
+  - Icon_Tri
+  - UI_NavigationBar_BG_R
+  m_Tag: UITexture
+  m_IsVariant: 0

@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1386491679 &1
+PresetManager:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_DefaultPresets:
+  - first:
+      m_NativeTypeID: 114
+      m_ManagedTypePPtr: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc,
+        type: 3}
+      m_ManagedTypeFallback: 
+    second:
+    - m_Preset: {fileID: 2655988077585873504, guid: 5519eb62b0bcf584b9aa25459f447550,
+        type: 2}
+      m_Filter: 

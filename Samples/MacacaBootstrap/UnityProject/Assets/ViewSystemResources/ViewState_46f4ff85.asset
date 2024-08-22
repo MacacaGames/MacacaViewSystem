@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0831a4d40a9254b1e9c5902659896d75, type: 3}
+  m_Name: ViewState_46f4ff85
+  m_EditorClassIdentifier: 
+  data:
+    nodePosition: {x: 96, y: 12}
+    viewState:
+      name: Welcome
+      viewPageItems:
+      - Id: 7cef52a5
+        previewViewElement: {fileID: 0}
+        name: 
+        viewElementObject: {fileID: 3735135370969500442, guid: 925e49f8b78258b4fb524217277ed504,
+          type: 3}
+        runtimeViewElement: {fileID: 0}
+        overrideDatas: []
+        eventDatas: []
+        runtimeParent: {fileID: 0}
+        parent: {fileID: 0}
+        parentPath: 
+        transformData:
+          localScale: {x: 1, y: 1, z: 1}
+          localEulerAngles: {x: 0, y: 0, z: 0}
+          anchoredPosition: {x: 0, y: 0, z: 0}
+          pivot: {x: 0.5, y: 0.5}
+          sizeDelta: {x: 100, y: 100}
+          anchorMin: {x: 0.5, y: 0.5}
+          anchorMax: {x: 0.5, y: 0.5}
+        transformFlag: -1
+        defaultTransformDatas:
+          parent: {fileID: 0}
+          parentPath: 
+          rectTransformData:
+            localScale: {x: 1, y: 1, z: 1}
+            localEulerAngles: {x: 0, y: 0, z: 0}
+            anchoredPosition: {x: 0, y: 10, z: 0}
+            pivot: {x: 0.5, y: 0}
+            sizeDelta: {x: 0, y: 178}
+            anchorMin: {x: 0, y: 0}
+            anchorMax: {x: 1, y: 0}
+          rectTransformFlag: -1
+        breakPointViewElementTransforms: []
+        TweenTime: 0.4
+        easeType: 6
+        delayIn: 0
+        delayOut: 0
+        navigationDatas: []
+        excludePlatform: 0
+        sortingOrder: 0
+      targetFrameRate: -1
