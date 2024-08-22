@@ -8,7 +8,6 @@ using UnityEditorInternal;
 using System.Reflection;
 using UnityEditor.IMGUI.Controls;
 using MacacaGames;
-using Sirenix.Utilities.Editor;
 
 namespace MacacaGames.ViewSystem.VisualEditor
 {
