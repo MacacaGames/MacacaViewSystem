@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0831a4d40a9254b1e9c5902659896d75, type: 3}
-  m_Name: ViewState_OverridePropertyState
+  m_Name: ViewState_FeatureDemo
   m_EditorClassIdentifier: 
   data:
-    nodePosition: {x: 64, y: 512}
+    nodePosition: {x: 48, y: 496}
     viewState:
-      name: OverridePropertyState
+      name: FeatureDemo
       viewPageItems: []
       targetFrameRate: -1

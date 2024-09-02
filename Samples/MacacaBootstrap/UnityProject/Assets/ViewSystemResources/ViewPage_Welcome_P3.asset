@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ViewPage_Welcome_P3
   m_EditorClassIdentifier: 
   data:
-    nodePosition: {x: 304, y: 96}
+    nodePosition: {x: 256, y: 64}
     viewPage:
       name: Welcome_P3
       viewPageItems:

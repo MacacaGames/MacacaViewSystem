@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ViewState_Play
   m_EditorClassIdentifier: 
   data:
-    nodePosition: {x: 80, y: 240}
+    nodePosition: {x: 48, y: 240}
     viewState:
       name: Play
       viewPageItems: []

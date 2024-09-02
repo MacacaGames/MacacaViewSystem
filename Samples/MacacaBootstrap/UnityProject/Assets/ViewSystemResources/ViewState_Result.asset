@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ViewState_Result
   m_EditorClassIdentifier: 
   data:
-    nodePosition: {x: 304, y: 240}
+    nodePosition: {x: 288, y: 240}
     viewState:
       name: Result
       viewPageItems: []

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ViewPage_Result
   m_EditorClassIdentifier: 
   data:
-    nodePosition: {x: 320, y: 320}
+    nodePosition: {x: 288, y: 320}
     viewPage:
       name: Result
       viewPageItems:
@@ -60,26 +60,11 @@ MonoBehaviour:
       - Id: 9fd4822b
         previewViewElement: {fileID: 0}
         name: 
-        viewElementObject: {fileID: 2312344306213899656, guid: 4938f3d90ce924dc589fa892ae009e94,
+        viewElementObject: {fileID: 2312344306213899656, guid: 9913a0877887c41fe828d7ddd69cd3ac,
           type: 3}
         runtimeViewElement: {fileID: 0}
-        overrideDatas:
-        - targetTransformPath: root/Icon
-          targetComponentType: UnityEngine.UI.Image
-          targetPropertyName: m_Sprite
-          Value:
-            IsShowRawContent: 0
-            s_Type: 4
-            ObjectReferenceValue: {fileID: 21300000, guid: 93c512e44ef7c4193b6d2f665244d5e8,
-              type: 3}
-            StringValue: 
-            ModelReflectValue: 
-        eventDatas:
-        - targetTransformPath: 
-          targetComponentType: UnityEngine.UI.Button
-          targetPropertyName: m_OnClick
-          scriptName: UIManager
-          methodName: OnGameResultClick
+        overrideDatas: []
+        eventDatas: []
         runtimeParent: {fileID: 0}
         parent: {fileID: 0}
         parentPath: 

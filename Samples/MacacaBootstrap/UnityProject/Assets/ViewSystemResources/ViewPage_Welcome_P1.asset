@@ -13,23 +13,18 @@ MonoBehaviour:
   m_Name: ViewPage_Welcome_P1
   m_EditorClassIdentifier: 
   data:
-    nodePosition: {x: 80, y: 96}
+    nodePosition: {x: 48, y: 64}
     viewPage:
       name: Welcome_P1
       viewPageItems:
       - Id: 32dc5ae0
         previewViewElement: {fileID: 0}
         name: 
-        viewElementObject: {fileID: 2312344306213899656, guid: 4938f3d90ce924dc589fa892ae009e94,
+        viewElementObject: {fileID: 2312344306213899656, guid: 9913a0877887c41fe828d7ddd69cd3ac,
           type: 3}
         runtimeViewElement: {fileID: 0}
         overrideDatas: []
-        eventDatas:
-        - targetTransformPath: 
-          targetComponentType: UnityEngine.UI.Button
-          targetPropertyName: m_OnClick
-          scriptName: UIManager
-          methodName: OnPlayButtonClick
+        eventDatas: []
         runtimeParent: {fileID: 0}
         parent: {fileID: 0}
         parentPath: 
