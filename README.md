@@ -1,8 +1,8 @@
 
 ## Use case
-<img src="./Img~/characterUpgrade.gif"  width="200">
-<img src="./Img~/characterMerge.gif"  width="200">
-<img src="./Img~/news.gif"  width="200">
+<img src="./Img~/skySurfing.gif">
+<img src="./Img~/skyBandit.gif">
+<img src="./Img~/rythemGo.gif">
 
 ## Introduction
 **ViewSystem** is a element based UI management system based on Unity GUI. It is developed and used by Macaca Games.
@@ -56,12 +56,12 @@ ViewController is the core component of ViewSystem, all control of the UI is bas
 
 <br>
 
-___
 
-<br>
 
-### To learn more about ViewSystem, check [Document](https://macacagames.github.io/MacacaViewSystemDocs/).
+## Links 
+
+### [Document](https://macacagames.github.io/MacacaViewSystemDocs/).
+
+### [Demo Unity project](https://github.com/MacacaGames/ViewSystemExample)
 
 ### [Script API](https://macacagames.github.io/MacacaViewSystem/api/MacacaGames.ViewSystem.html)
-
-### 
