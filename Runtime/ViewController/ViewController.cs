@@ -1161,6 +1161,16 @@ namespace MacacaGames.ViewSystem
             breakPointsStatus[breakPoint] = false;
             // currentCustomBreakPoints.Remove(breakPoint);
         }
+        public void ClearBreakPoint()
+        {
+            breakPointsStatus.Clear();
+        }
+
+        public List<string> GetActiveBreakPoints()
+        {
+            var breakPoints = breakPointsStatus.Where(m => m.Value == true).Select(m => m.Key).ToList();
+            return breakPoints;
+        }
         public SafePadding.PerEdgeValues GetSafePaddingSetting(ViewPage vp)
         {
             if (vp.useGlobalSafePadding)
