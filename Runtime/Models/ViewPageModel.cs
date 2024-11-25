@@ -175,7 +175,8 @@ namespace MacacaGames.ViewSystem
         {
             GenerateId();
         }
-        void GenerateId()
+    
+        public void GenerateId()
         {
             if (string.IsNullOrEmpty(Id))
                 Id = System.Guid.NewGuid().ToString().Substring(0, 8);

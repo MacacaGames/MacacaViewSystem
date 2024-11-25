@@ -274,6 +274,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
         ViewPageItem CopyItem(ClipBoard clipBoard, bool copyDefault = true, bool copyOverride = true, bool copyEvent = true, bool copyRectTransform = true)
         {
             var copyResult = clipBoard.Paste<ViewPageItem>();
+            copyResult.Id = null;
+            copyResult.GenerateId();
             // var copyResult = new ViewPageItem(copyPasteBuffer.viewElement);
             // if (copyDefault == true)
             // {
@@ -368,34 +370,34 @@ namespace MacacaGames.ViewSystem.VisualEditor
                                 GUI.changed = true;
                             }
                         );
-                    //     genericMenu.AddItem(new GUIContent("Paste (Transform Only)"), false,
-                    //         () =>
-                    //         {
-                    //             viewPageItemList[index] = CopyItem(clipBoard, false, false, false, true);
-                    //             GUI.changed = true;
-                    //         }
-                    //     );
-                    //     genericMenu.AddItem(new GUIContent("Paste (with Property Data)"), false,
-                    //         () =>
-                    //         {
-                    //             viewPageItemList[index] = CopyItem(clipBoard, true, true, false, true);
-                    //             GUI.changed = true;
-                    //         }
-                    //     );
-                    //     genericMenu.AddItem(new GUIContent("Paste (with Events Data)"), false,
-                    //        () =>
-                    //        {
-                    //            viewPageItemList[index] = CopyItem(clipBoard, true, false, true, true);
-                    //            GUI.changed = true;
-                    //        }
-                    //     );
-                    //     genericMenu.AddItem(new GUIContent("Paste (with All Data)"), false,
-                    //        () =>
-                    //        {
-                    //            viewPageItemList[index] = CopyItem(clipBoard, true, true, true, true);
-                    //            GUI.changed = true;
-                    //        }
-                    //    );
+                        //     genericMenu.AddItem(new GUIContent("Paste (Transform Only)"), false,
+                        //         () =>
+                        //         {
+                        //             viewPageItemList[index] = CopyItem(clipBoard, false, false, false, true);
+                        //             GUI.changed = true;
+                        //         }
+                        //     );
+                        //     genericMenu.AddItem(new GUIContent("Paste (with Property Data)"), false,
+                        //         () =>
+                        //         {
+                        //             viewPageItemList[index] = CopyItem(clipBoard, true, true, false, true);
+                        //             GUI.changed = true;
+                        //         }
+                        //     );
+                        //     genericMenu.AddItem(new GUIContent("Paste (with Events Data)"), false,
+                        //        () =>
+                        //        {
+                        //            viewPageItemList[index] = CopyItem(clipBoard, true, false, true, true);
+                        //            GUI.changed = true;
+                        //        }
+                        //     );
+                        //     genericMenu.AddItem(new GUIContent("Paste (with All Data)"), false,
+                        //        () =>
+                        //        {
+                        //            viewPageItemList[index] = CopyItem(clipBoard, true, true, true, true);
+                        //            GUI.changed = true;
+                        //        }
+                        //    );
                     }
                     genericMenu.ShowAsContext();
                 }
