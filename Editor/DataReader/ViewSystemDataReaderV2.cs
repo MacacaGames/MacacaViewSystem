@@ -461,7 +461,13 @@ namespace MacacaGames.ViewSystem.VisualEditor
             {
                 if (item == null)
                 {
-                    ViewSystemLog.LogError($"item is null");
+                    ViewSystemLog.LogError($"item is null ignore");
+                    continue;
+                }
+
+                if (item.viewElementObject == null)
+                {
+                    ViewSystemLog.LogError($"item in {item.name} is null, use verifier to find it.");
                     continue;
                 }
 
@@ -489,7 +495,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     ViewSystemLog.LogError($"item is null");
                     continue;
                 }
-
+                if (item.viewElementObject == null)
+                {
+                    ViewSystemLog.LogError($"item in {item.name} is null, use verifier to find it.");
+                    continue;
+                }
                 foreach (var i in item.viewElementObject.GetComponents<IViewElementSingleton>())
                 {
                     var t = i.GetType().ToString();
