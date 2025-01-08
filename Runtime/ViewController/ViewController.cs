@@ -932,11 +932,11 @@ namespace MacacaGames.ViewSystem
 
         public bool IsFullPageLive(string viewPageName)
         {
-            return currentViewPage.name == viewPageName;
+            return currentViewPage != null && currentViewPage.name == viewPageName;
         }
         public bool IsViewStateLive(string viewStateName)
         {
-            return currentViewState.name == viewStateName;
+            return currentViewPage != null && currentViewState.name == viewStateName;
         }
 
         public bool IsOverPageStateLive(string viewStateName, out string viewPageName, bool includeLeavingPage = false)
