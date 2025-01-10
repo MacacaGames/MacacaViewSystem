@@ -26,6 +26,7 @@ namespace MacacaGames.ViewSystem
     {
         #region  OverlayPage
         internal bool _replayWhileSamePage = false;
+        internal RectTransform _customRoot = null;
         internal bool _ignoreTransition = false;
         internal float _tweenTime = 0.4f;
         #endregion
@@ -39,11 +40,12 @@ namespace MacacaGames.ViewSystem
             _replayWhileSamePage = false;
             _ignoreTransition = false;
             _tweenTime = 0.4f;
+            _customRoot = null;
             return base.Reset();
         }
         public override YieldInstruction _Show()
         {
-            return _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnChanged, _OnComplete, _ignoreTimeScale, _ignoreClickProtection, _models);
+            return _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnChanged, _OnComplete, _ignoreTimeScale, _ignoreClickProtection, _customRoot, _models);
         }
         public YieldInstruction _Leave()
         {
@@ -94,6 +96,11 @@ namespace MacacaGames.ViewSystem
 
     public static class OverlayPageChangerExtension
     {
+        public static OverlayPageChanger SetCustomRoot(this OverlayPageChanger selfObj, RectTransform customRoot)
+        {
+            selfObj._customRoot = customRoot;
+            return selfObj;
+        }
         public static OverlayPageChanger SetIgnoreTransition(this OverlayPageChanger selfObj, bool ignoreTransition)
         {
             selfObj._ignoreTransition = ignoreTransition;
