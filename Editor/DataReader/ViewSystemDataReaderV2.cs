@@ -454,6 +454,33 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
                 UnityEditor.EditorUtility.SetDirty(item);
             }
+            
+            // save Unique
+            SaveUniqueData(false);
+            
+            UnityEditor.EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            foreach (var item in data.viewPagesNodeSaveDatas)
+            {
+                var path = AssetDatabase.GetAssetPath(item);
+                AssetDatabase.RenameAsset(path, $"ViewPage_{item.data.viewPage.name}");
+
+            }
+
+            foreach (var item in data.viewStateNodeSaveDatas)
+            {
+                var path = AssetDatabase.GetAssetPath(item);
+                AssetDatabase.RenameAsset(path, $"ViewState_{item.data.viewState.name}");
+            }
+
+
+
+            AssetDatabase.SaveAssets();
+            isDirty = false;
+        }
+
+        public void SaveUniqueData(bool SetDirtyAndSaveAssets)
+        {
             data.uniqueViewElementTable.Clear();
             var vpi = data.viewPagesNodeSaveDatas.SelectMany(m => m.data.viewPage.viewPageItems);
             var vsi = data.viewStateNodeSaveDatas.SelectMany(m => m.data.viewState.viewPageItems);
@@ -516,25 +543,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     );
                 }
             }
-            UnityEditor.EditorUtility.SetDirty(data);
-            AssetDatabase.SaveAssets();
-            foreach (var item in data.viewPagesNodeSaveDatas)
+
+            if (SetDirtyAndSaveAssets)
             {
-                var path = AssetDatabase.GetAssetPath(item);
-                AssetDatabase.RenameAsset(path, $"ViewPage_{item.data.viewPage.name}");
-
+                UnityEditor.EditorUtility.SetDirty(data);
+                AssetDatabase.SaveAssets();
             }
-
-            foreach (var item in data.viewStateNodeSaveDatas)
-            {
-                var path = AssetDatabase.GetAssetPath(item);
-                AssetDatabase.RenameAsset(path, $"ViewState_{item.data.viewState.name}");
-            }
-
-
-
-            AssetDatabase.SaveAssets();
-            isDirty = false;
         }
 
         public ViewSystemSaveData GetSaveData()

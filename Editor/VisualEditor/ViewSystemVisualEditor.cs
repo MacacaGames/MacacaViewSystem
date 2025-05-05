@@ -64,6 +64,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         bool inspectorResize = false;
         public void OnEnable()
         {
+            EditorApplication.playModeStateChanged += playModeStateChanged;
 
             Instance = this;
             RefreshData();
@@ -145,13 +146,14 @@ namespace MacacaGames.ViewSystem.VisualEditor
         }
         void Awake()
         {
-            EditorApplication.playModeStateChanged += playModeStateChanged;
         }
         private static void playModeStateChanged(PlayModeStateChange obj)
         {
             Debug.Log("playModeStateChanged");
             if (obj == PlayModeStateChange.ExitingEditMode)
             {
+                dataReader.SaveUniqueData(true);
+                
                 dataReader.EditEnd();
             }
         }
