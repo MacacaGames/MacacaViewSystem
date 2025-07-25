@@ -26,7 +26,9 @@ namespace MacacaGames.ViewSystem
         [NonSerialized]
         public int PoolKey;
         public bool IsUnique = false;
-
+        [Tooltip("If true, ViewElement will snap to new position instantly when changing page (no tween).")]
+        public bool useInstantPosition = false;
+        
         bool hasGroupSetup = false;
         public ViewElementGroup parentViewElementGroup;
         private ViewElementGroup _selfViewElementGroup;
@@ -413,8 +415,33 @@ namespace MacacaGames.ViewSystem
                         }
                         goto END;
                     }
-                    //其他的情況下用 Tween 過去
-                    if (TweenTime >= 0)
+                    
+                    // 其他的情況下使用useInstantPosition檢查是否要直接顯示在應在位置，或是需要 Tween 過去 
+                    if (useInstantPosition)
+                    {
+                        rectTransform.SetParent(parent, true);
+
+                        if (rectTransformData == null || !string.IsNullOrEmpty(rectTransformData.parentPath))
+                        {
+                            rectTransform.anchoredPosition3D = Vector3.zero;
+                            rectTransform.localScale = Vector3.one;
+                        }
+                        else
+                        {
+                            ApplyRectTransform(rectTransformData);
+                        }
+
+                        float time = 0;
+                        while (time < delayIn)
+                        {
+                            time += GlobalTimer.deltaTime;
+                            yield return null;
+                        }
+
+                        OnShow();
+                        goto END;
+                    }
+                    else if (TweenTime >= 0)
                     {
                         rectTransform.SetParent(parent, true);
                         if (rectTransformData == null || !string.IsNullOrEmpty(rectTransformData.parentPath))
@@ -493,7 +520,7 @@ namespace MacacaGames.ViewSystem
                         goto END;
                     }
                     //TweenTime 設定為 <0 的情況下，代表要完整 OnLeave 在 OnShow
-                    else
+                    else if(TweenTime < 0)
                     {
                         float time = 0;
                         while (time < delayIn)

@@ -54,6 +54,7 @@ namespace MacacaGames.ViewSystem
             bool ignoreTimeScale = false,
             bool ignoreClickProtection = false,
             RectTransform customRoot = null,
+            bool createPageCanvas = false,
             int? order = null,
             params object[] models)
         {
@@ -89,7 +90,7 @@ namespace MacacaGames.ViewSystem
                 }
 
             }
-            return StartCoroutine(ShowOverlayViewPageBase(nextOverlayViewPage, RePlayOnShowWhileSamePage, OnStart, OnChanged, OnComplete, ignoreTimeScale, ignoreClickProtection, customRoot, order, models));
+            return StartCoroutine(ShowOverlayViewPageBase(nextOverlayViewPage, RePlayOnShowWhileSamePage, OnStart, OnChanged, OnComplete, ignoreTimeScale, ignoreClickProtection, customRoot, createPageCanvas, order, models));
         }
 
         public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool ignoreClickProtection = false, bool waitForShowFinish = false)
@@ -176,6 +177,7 @@ namespace MacacaGames.ViewSystem
             bool ignoreTimeScale = false,
             bool ignoreClickProtection = false,
             RectTransform customRoot = null,
+            bool createPageCanvas = false,
             int? order = null,
             params object[] models)
         {

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -138,6 +138,9 @@ namespace MacacaGames.ViewSystem
                             hintText = "Only Unique ViewElement can be inject";
                         }
                         EditorGUILayout.HelpBox(hintText, MessageType.Info);
+                        
+                        viewElement.useInstantPosition = EditorGUILayout.Toggle("Use Instant Position", viewElement.useInstantPosition);
+                        EditorGUILayout.HelpBox("If enabled, this ViewElement will move instantly to new position instead of tweening.", MessageType.None);
                     }
                 }
                 if (change.changed)

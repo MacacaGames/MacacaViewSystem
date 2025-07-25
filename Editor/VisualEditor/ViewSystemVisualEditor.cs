@@ -25,7 +25,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
         static void OnPrefabInstanceUpdate(GameObject instance)
         {
             // UnityEngine.Debug.Log("[Callback] Prefab.Apply on instance id:" + instance.GetInstanceID() + ", name:" + instance.name);
-            ViewSystemVisualEditor.dataReader.RepairPrefabReference();
+            if (ViewSystemVisualEditor.dataReader != null)
+                ViewSystemVisualEditor.dataReader.RepairPrefabReference();
         }
     }
 
@@ -153,7 +154,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             if (obj == PlayModeStateChange.ExitingEditMode)
             {
                 dataReader.SaveUniqueData(true);
-                
+
                 dataReader.EditEnd();
             }
         }
