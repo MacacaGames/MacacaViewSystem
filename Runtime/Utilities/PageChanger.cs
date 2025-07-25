@@ -169,17 +169,26 @@ namespace MacacaGames.ViewSystem
 
     public static class FullPageChangerExtension
     {
+        public static OverlayPageChanger AsOverlayPage(this FullPageChanger selfObj)
+        {
+            return
+                (OverlayPageChanger)
+                ViewController
+                    .OverlayPageChanger()
+                    .SetPage(selfObj._targetPage)
+                    .SetWaitPreviousPageFinish(selfObj._waitPreviousPageFinish)
+                    .SetIgnoreTimeScale(selfObj._ignoreTimeScale)
+                    .SetIgnoreClickProtection(selfObj._ignoreClickProtection)
+                    .SetPageModel(selfObj._models)
+                    .OnStart(selfObj._OnStart)
+                    .OnChanged(selfObj._OnChanged)
+                    .OnComplete(selfObj._OnComplete);
+        }
+
         public static FullPageChanger SetPage(this FullPageChanger selfObj, string targetPageName)
         {
             return (FullPageChanger)PageChangerExtension.SetPage(selfObj, targetPageName);
         }
-
-        public static OverlayPageChanger AsOverlayPage(this FullPageChanger selfObj, Action OnComplete)
-        {
-            throw new NotImplementedException("Not yet has implemented in ViewController.");
-            return (OverlayPageChanger)null;
-        }
-
 
         public static FullPageChanger OnStart(this FullPageChanger selfObj, Action OnStart)
         {
@@ -255,7 +264,6 @@ namespace MacacaGames.ViewSystem
             return new WaitForStandardYieldInstruction(PageChanger._viewController, selfObj._Show());
         }
 
-
         /// <summary>
         /// Set the page Model obejct instances, so you can use those data in the ViewElementBehaviour with [ViewElementInject] attribute
         /// </summary>
@@ -267,22 +275,6 @@ namespace MacacaGames.ViewSystem
             selfObj._models = models;
             return selfObj;
         }
-
-        // public static YieldInstruction GetYieldInstruction(this PageChanger selfObj)
-        // {
-        //     if (selfObj._pageChangerRunner != null)
-        //         return selfObj._pageChangerRunner;
-        //     else
-        //         return selfObj.Show()._pageChangerRunner;
-        // }
-
-        // public static CustomYieldInstruction GetYieldInstruction(this PageChanger selfObj, bool customYieldInstruction)
-        // {
-        //     if (selfObj._pageChangerRunner != null)
-        //         return new ViewCYInstruction.WaitForStandardCoroutine(selfObj._pageChangerRunner);
-        //     else
-        //         return new ViewCYInstruction.WaitForStandardCoroutine(selfObj.Show()._pageChangerRunner);
-        // }
     }
 
 

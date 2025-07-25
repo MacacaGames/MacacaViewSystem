@@ -419,6 +419,14 @@ namespace MacacaGames.ViewSystem
 
         public override IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale, bool ignoreClickProtection, params object[] models)
         {
+
+            if (IsOverPageLive(viewPageName))
+            {
+                ViewSystemLog.LogError("The target FullPage is shown as Overlay page, there is not allow to shown as FullPage before it is as Overlay mode, Leave the Page first then change to FullPage.");
+                ChangePageToCoroutine = null;
+                yield break;
+            }
+
             ViewSystemLog.Log($"ChangePage Invoke {viewPageName}");
             //取得 ViewPage 物件
             ViewPage nextViewPageForCurrentChangePage = null;
@@ -445,10 +453,7 @@ namespace MacacaGames.ViewSystem
             //Prepare runtime page root
             string viewPageRootName = ViewSystemUtilitys.GetPageRootName(nextViewPageForCurrentChangePage);
             var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, nextViewPageForCurrentChangePage.canvasSortOrder, viewSystemSaveData.globalSetting.UIPageTransformLayerName);
-            if (nextViewPageForCurrentChangePage.runtimePageRoot == null)
-            {
-                nextViewPageForCurrentChangePage.runtimePageRoot = pageWrapper.rectTransform;
-            }
+            nextViewPageForCurrentChangePage.runtimePageRoot = pageWrapper.rectTransform;
 
             pageWrapper.safePadding.SetPaddingValue(GetSafePaddingSetting(nextViewPageForCurrentChangePage));
 
@@ -615,16 +620,17 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.Log("ViewPage is null");
                 yield break;
             }
-            if (vp.viewPageType != ViewPage.ViewPageType.Overlay)
-            {
-                ViewSystemLog.LogError("ViewPage " + vp.name + " is not an Overlay page");
-                yield break;
-            }
+
+            // if (vp.viewPageType != ViewPage.ViewPageType.Overlay)
+            // {
+            //     ViewSystemLog.LogError("ViewPage " + vp.name + " is not an Overlay page");
+            //     yield break;
+            // }
 
             //Not using customRoot, Prepare runtime page root,
             if (customRoot == null || createPageCanvas)
             {
-                string viewPageRootName = ViewSystemUtilitys.GetPageRootName(vp);
+                string viewPageRootName = ViewSystemUtilitys.GetPageRootName(vp, vp.viewPageType == ViewPage.ViewPageType.FullPage);
                 var parent = customRoot == null ? rootCanvasTransform : customRoot;
                 var orderValue = order.HasValue ? order.Value : vp.canvasSortOrder;
 

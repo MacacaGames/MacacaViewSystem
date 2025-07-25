@@ -235,10 +235,10 @@ namespace MacacaGames.ViewSystem
             result = target.GetComponent(t);
             return result;
         }
-        public static string GetPageRootName(ViewPage viewPage)
+        public static string GetPageRootName(ViewPage viewPage, bool fullPageAsOverlay = false)
         {
             string result = "Page_";
-            if (viewPage.viewPageType == ViewPage.ViewPageType.FullPage)
+            if (viewPage.viewPageType == ViewPage.ViewPageType.FullPage && fullPageAsOverlay == false)
             {
                 result += "FullPage";
             }
