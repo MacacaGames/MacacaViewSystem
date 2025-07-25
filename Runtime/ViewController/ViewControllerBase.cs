@@ -45,7 +45,17 @@ namespace MacacaGames.ViewSystem
             }
         }
 
-        public Coroutine ShowOverlayViewPage(string viewPageName, bool RePlayOnShowWhileSamePage = false, Action OnStart = null, Action OnChanged = null, Action OnComplete = null, bool ignoreTimeScale = false, bool ignoreClickProtection = false, RectTransform customRoot = null, params object[] models)
+        public Coroutine ShowOverlayViewPage(
+            string viewPageName,
+            bool RePlayOnShowWhileSamePage = false,
+            Action OnStart = null,
+            Action OnChanged = null,
+            Action OnComplete = null,
+            bool ignoreTimeScale = false,
+            bool ignoreClickProtection = false,
+            RectTransform customRoot = null,
+            int? order = null,
+            params object[] models)
         {
             if (!CheckTimeProtect())
             {
@@ -79,7 +89,7 @@ namespace MacacaGames.ViewSystem
                 }
 
             }
-            return StartCoroutine(ShowOverlayViewPageBase(nextOverlayViewPage, RePlayOnShowWhileSamePage, OnStart, OnChanged, OnComplete, ignoreTimeScale, ignoreClickProtection, customRoot, models));
+            return StartCoroutine(ShowOverlayViewPageBase(nextOverlayViewPage, RePlayOnShowWhileSamePage, OnStart, OnChanged, OnComplete, ignoreTimeScale, ignoreClickProtection, customRoot, order, models));
         }
 
         public Coroutine LeaveOverlayViewPage(string viewPageName, float tweenTimeIfNeed = 0.4F, Action OnComplete = null, bool ignoreTransition = false, bool ignoreTimeScale = false, bool ignoreClickProtection = false, bool waitForShowFinish = false)
@@ -158,7 +168,16 @@ namespace MacacaGames.ViewSystem
             return ChangePageToCoroutine;
         }
 
-        public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale = false, bool ignoreClickProtection = false, RectTransform customRoot = null, params object[] models)
+        public virtual IEnumerator ShowOverlayViewPageBase(ViewPage vp,
+            bool RePlayOnShowWhileSamePage,
+            Action OnStart,
+            Action OnChanged,
+            Action OnComplete,
+            bool ignoreTimeScale = false,
+            bool ignoreClickProtection = false,
+            RectTransform customRoot = null,
+            int? order = null,
+            params object[] models)
         {
             //Empty implement will override in child class
             yield return null;

@@ -29,6 +29,7 @@ namespace MacacaGames.ViewSystem
         internal RectTransform _customRoot = null;
         internal bool _ignoreTransition = false;
         internal float _tweenTime = 0.4f;
+        internal int? _order = null;
         #endregion
 
         public OverlayPageChanger(ViewControllerBase viewController) : base(viewController)
@@ -41,11 +42,12 @@ namespace MacacaGames.ViewSystem
             _ignoreTransition = false;
             _tweenTime = 0.4f;
             _customRoot = null;
+            _order = null;
             return base.Reset();
         }
         public override YieldInstruction _Show()
         {
-            return _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnChanged, _OnComplete, _ignoreTimeScale, _ignoreClickProtection, _customRoot, _models);
+            return _viewController.ShowOverlayViewPage(_targetPage, _replayWhileSamePage, _OnStart, _OnChanged, _OnComplete, _ignoreTimeScale, _ignoreClickProtection, _customRoot, _order, _models);
         }
         public YieldInstruction _Leave()
         {
@@ -96,6 +98,12 @@ namespace MacacaGames.ViewSystem
 
     public static class OverlayPageChangerExtension
     {
+        public static OverlayPageChanger SetOrder(this OverlayPageChanger selfObj, int order)
+        {
+            selfObj._order = order;
+            return selfObj;
+        }
+
         public static OverlayPageChanger SetCustomRoot(this OverlayPageChanger selfObj, RectTransform customRoot)
         {
             selfObj._customRoot = customRoot;
@@ -162,6 +170,13 @@ namespace MacacaGames.ViewSystem
         {
             return (FullPageChanger)PageChangerExtension.SetPage(selfObj, targetPageName);
         }
+
+        public static OverlayPageChanger AsOverlayPage(this FullPageChanger selfObj, Action OnComplete)
+        {
+            throw new NotImplementedException("Not yet has implemented in ViewController.");
+            return (OverlayPageChanger)null;
+        }
+
 
         public static FullPageChanger OnStart(this FullPageChanger selfObj, Action OnStart)
         {

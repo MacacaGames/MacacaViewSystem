@@ -437,7 +437,7 @@ namespace MacacaGames.ViewSystem
             if (nextViewPageForCurrentChangePage.viewPageType == ViewPage.ViewPageType.Overlay)
             {
                 ViewSystemLog.LogWarning("To shown Page is an Overlay ViewPage use ShowOverlayViewPage() instead method \n current version will redirect to this method automatically, but this behaviour may be changed in future release.");
-                ShowOverlayViewPageBase(nextViewPageForCurrentChangePage, true, OnStart, OnChanged, OnComplete, ignoreTimeScale, ignoreClickProtection, null);
+                ShowOverlayViewPageBase(nextViewPageForCurrentChangePage, true, OnStart, OnChanged, OnComplete, ignoreTimeScale, ignoreClickProtection, null, null);
                 ChangePageToCoroutine = null;
                 yield break;
             }
@@ -607,7 +607,7 @@ namespace MacacaGames.ViewSystem
             OnComplete?.Invoke();
         }
 
-        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale, bool ignoreClickProtection, RectTransform customRoot, params object[] models)
+        public override IEnumerator ShowOverlayViewPageBase(ViewPage vp, bool RePlayOnShowWhileSamePage, Action OnStart, Action OnChanged, Action OnComplete, bool ignoreTimeScale, bool ignoreClickProtection, RectTransform customRoot, int? order, params object[] models)
         {
             // Debug.Log("ShowOverlayViewPageBase " + vp.name);
             if (vp == null)
@@ -625,7 +625,8 @@ namespace MacacaGames.ViewSystem
             if (customRoot == null)
             {
                 string viewPageRootName = ViewSystemUtilitys.GetPageRootName(vp);
-                var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, vp.canvasSortOrder, viewSystemSaveData.globalSetting.UIPageTransformLayerName);
+                var orderValue = order.HasValue ? order.Value : vp.canvasSortOrder;
+                var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, rootCanvasTransform, orderValue, viewSystemSaveData.globalSetting.UIPageTransformLayerName);
                 pageWrapper.safePadding.SetPaddingValue(GetSafePaddingSetting(vp));
                 if (vp.runtimePageRoot == null)
                 {
