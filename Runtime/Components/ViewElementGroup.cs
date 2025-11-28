@@ -45,12 +45,18 @@ namespace MacacaGames.ViewSystem
                     childViewElements.RemoveAll(m => m == ve);
                 }
             }
-            
+            EnsureChildViewElements();
+        }
+
+        public void EnsureChildViewElements()
+        {
+            childViewElements.RemoveAll(m => m == null);
+
         }
 
         public void OnShowChild()
         {
-            childViewElements.RemoveAll(m => m == null);
+            EnsureChildViewElements();
             // childViewElementGroups.RemoveAll(m => m == null);
 
             if (childViewElements.Count == 0)
@@ -67,7 +73,7 @@ namespace MacacaGames.ViewSystem
 
         public void OnLeaveChild(bool ignoreTransition = false)
         {
-            childViewElements.RemoveAll(m => m == null);
+            EnsureChildViewElements();
             if (childViewElements.Count == 0)
             {
                 //ViewSystemLog.LogWarning("Target ViewElementGroup doesn't contain child ViewElement, Nothing will happend");
@@ -81,6 +87,8 @@ namespace MacacaGames.ViewSystem
 
         public float GetOutDuration()
         {
+            EnsureChildViewElements();
+
             if (childViewElements.Count == 0)
             {
                 return 0;
@@ -90,6 +98,8 @@ namespace MacacaGames.ViewSystem
         //GetOutAnimationLength in NestedViewElement is the longest animation length in child
         public float GetInDuration()
         {
+            EnsureChildViewElements();
+
             if (childViewElements.Count == 0)
             {
                 return 0;
