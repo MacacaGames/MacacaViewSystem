@@ -254,7 +254,7 @@ namespace MacacaGames.ViewSystem
         public string methodName;
     }
 
-    [System.Serializable, SerializeField]
+    [System.Serializable]
     public class ViewElementOverride
     {
         [SerializeField]

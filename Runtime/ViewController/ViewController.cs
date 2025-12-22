@@ -399,7 +399,7 @@ namespace MacacaGames.ViewSystem
         private float nextViewPageWaitTime = 0;
 
         List<ViewElement> tempCurrentLiveElements = new List<ViewElement>();
-        [SerializeField]
+   
         protected new List<ViewElement> currentLiveElements
         {
             get

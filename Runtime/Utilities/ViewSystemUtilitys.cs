@@ -10,7 +10,7 @@ namespace MacacaGames.ViewSystem
     public class ViewSystemUtilitys
     {
 
-        [SerializeField]
+        [Serializable]
         public class OverlayPageStatus
         {
             public bool IsTransition
