@@ -69,7 +69,7 @@ namespace MacacaGames.ViewSystem
                         overrideData.scriptName = source.GetType().ToString();
                     }
 
-                    viewElement.AddEvent(overrideData);
+                    viewElement.AddEvent(overrideData, source as UnityEngine.Component);
                 }
                 catch (System.Exception ex)
                 {
