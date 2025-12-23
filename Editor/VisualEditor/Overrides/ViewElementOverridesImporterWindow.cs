@@ -32,6 +32,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
             var groupedByTarget = group.Where(m => m.Key != null).ToDictionary(o => o.Key, o => o.ToList());
             foreach (var target in groupedByTarget.Keys)
             {
+                if (target.GetType() == typeof(ViewRuntimeOverride) ||
+                    target.GetType() == typeof(ViewElement)) // no support override itself
+                {
+                    continue;
+                }
                 var groupedByProperty = groupedByTarget[target].GroupBy(x => x.propertyPath.Split('.')[0]).ToDictionary(o => o.Key, o => o.ToList());
                 foreach (var property in groupedByProperty.Keys)
                 {

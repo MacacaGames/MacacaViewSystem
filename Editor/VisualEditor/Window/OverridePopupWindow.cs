@@ -583,6 +583,18 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         propertyName = ViewSystemUtilitys.ParseUnityEngineProperty(sp.propertyPath);
                     }
 
+                    if (parentType == (typeof(ViewRuntimeOverride)))
+                    {
+                        var content = new GUIContent("ViewRuntimeOverride is not supported with ViewSystem OverrideSystem");
+                        ViewSystemLog.LogError(content.text);
+#if UNITY_2019_1_OR_NEWER
+                        editor.ShowNotification(content, toastMessageFadeOutTimt);
+#else
+                        editor.ShowNotification(content);
+#endif
+                        return;
+                    }
+
                     System.Reflection.PropertyInfo pi = parentType.GetProperty(propertyName);
                     if (pi != null && fi == null)
                     {
@@ -604,6 +616,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 #endif
                         return;
                     }
+
 
                     var eventData = new ViewElementEventData();
                     eventData.targetTransformPath = AnimationUtility.CalculateTransformPath(c.transform, target.transform);
