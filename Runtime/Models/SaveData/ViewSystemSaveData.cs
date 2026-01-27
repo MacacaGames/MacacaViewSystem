@@ -40,6 +40,7 @@ namespace MacacaGames.ViewSystem
             public bool UseNavigationSetting = false;
             public string ViewControllerObjectPath;
             public string UIPageTransformLayerName = "Default";
+            public string customPageRootPath = "";
             public GameObject UIRoot;
             public GameObject UIRootScene;
             public SafePadding.PerEdgeValues edgeValues = new SafePadding.PerEdgeValues();

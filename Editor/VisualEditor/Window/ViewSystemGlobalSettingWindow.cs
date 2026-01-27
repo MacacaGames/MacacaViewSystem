@@ -44,7 +44,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     }
                 }
                 EditorGUILayout.HelpBox("The Override UI Root Object will generate and set as a child of 'View Controller GameObject' after View System init.", MessageType.Info);
+                saveData.globalSetting.customPageRootPath = EditorGUILayout.TextField("Custom Page Root path", saveData.globalSetting.customPageRootPath);
+                EditorGUILayout.HelpBox(" Define a custom path of the ViewPage, otherwise use the Canvas itself.", MessageType.Info);
 
+               
                 saveData.globalSetting._maxWaitingTime = EditorGUILayout.Slider(new GUIContent("Change Page Max Waiting", "The max waiting for change page, if previous page need time more than this value ,ViewController wiil force transition to next page."), saveData.globalSetting._maxWaitingTime, 0.5f, 2.5f);
                 //EditorGUILayout.HelpBox("The max waiting for change page, if previous page need time more than this value ,ViewController wiil force transition to next page.", MessageType.Info);
 
