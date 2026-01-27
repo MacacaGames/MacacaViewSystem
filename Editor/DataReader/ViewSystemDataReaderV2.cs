@@ -228,6 +228,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         public void OnViewPagePreview(ViewPage viewPage, Dictionary<string, bool> breakPoints)
         {
 
+            Debug.Log("ViewControllerTransform HERE",ViewControllerTransform);
             string UIRootName = "";
             if (data.globalSetting.UIRootScene == null)
             {
@@ -236,6 +237,29 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 return;
             }
             UIRootName = data.globalSetting.UIRoot.name;
+
+            Transform pageRootTransform;
+            if (!string.IsNullOrEmpty(data.globalSetting.customPageRootPath))
+            {
+                var target = ViewControllerTransform.Find($"{data.globalSetting.UIRoot.name}/{data.globalSetting.customPageRootPath}");
+                if (target == null)
+                {
+                    ViewSystemLog.LogWarning("Custom Page Root Path is set but not found, use Canvas as Page Root.");
+                }
+                else
+                {
+                    UIRootName = $"{data.globalSetting.UIRoot.name}/{data.globalSetting.customPageRootPath}";
+                }
+            }
+            else
+            {
+                ViewSystemLog.LogWarning("Custom Page Root Path not set use Canvas as Page Root.");
+            }
+            
+            Debug.Log($"UIRootName:{UIRootName}");
+            
+            
+            
             //throw new System.NotImplementedException();
             ClearAllViewElementInScene();
             // 打開所有相關 ViewElements
@@ -257,9 +281,9 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             Transform root = ViewControllerTransform;
 
-            var canvas = root.Find($"{UIRootName}").GetComponentInChildren<Canvas>().transform;
+            Transform targetTransform = root.Find($"{UIRootName}");
             string viewPageName = ViewSystemUtilitys.GetPageRootName(viewPage);
-            previewUIRootWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageName, canvas, viewPage.canvasSortOrder, data.globalSetting.UIPageTransformLayerName);
+            previewUIRootWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageName, targetTransform, viewPage.canvasSortOrder, data.globalSetting.UIPageTransformLayerName);
 
             ApplySafeArea(viewPage.useGlobalSafePadding ? data.globalSetting.edgeValues : viewPage.edgeValues);
             Transform fullPageRoot = previewUIRootWrapper.rectTransform;
