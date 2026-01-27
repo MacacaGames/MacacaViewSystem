@@ -29,6 +29,11 @@ namespace MacacaGames.ViewSystem
             return rootCanvasTransform.GetComponent<Canvas>();
         }
 
+        public Transform GetPageRootTransform()
+        {
+            return pageRootTransform;
+        }
+
         // Use this for initialization
         protected override void Awake()
         {
