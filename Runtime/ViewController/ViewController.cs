@@ -24,6 +24,9 @@ namespace MacacaGames.ViewSystem
 
         private Transform pageRootTransform;
 
+        // Add a field to store all Canvas transforms
+        private static List<Transform> _childCanvasTransforms = new List<Transform>();
+
         public override Canvas GetCanvas()
         {
             return rootCanvasTransform.GetComponent<Canvas>();
@@ -68,7 +71,9 @@ namespace MacacaGames.ViewSystem
             uiRoot.localPosition = viewSystemSaveData.globalSetting.UIRoot.transform.localPosition;
             uiRoot.gameObject.name = viewSystemSaveData.globalSetting.UIRoot.name;
 
-            rootCanvasTransform = uiRoot.GetComponentInChildren<Canvas>().transform;
+            
+            _childCanvasTransforms = uiRoot.GetComponentsInChildren<Canvas>().Select(canvas => canvas.transform).ToList();
+            rootCanvasTransform = _childCanvasTransforms[0];
 
             if (!string.IsNullOrEmpty(viewSystemSaveData.globalSetting.customPageRootPath))
             {
@@ -1202,6 +1207,27 @@ namespace MacacaGames.ViewSystem
 
                 InvokeOnViewStateChange(this, new ViewStateEventArgs(currentViewState, lastViewState));
             }
+        }
+        
+        public static Transform GetChildCanvasTransform(int index = 0)
+        {
+            if (index < 0 || index >= _childCanvasTransforms.Count)
+            {
+                ViewSystemLog.LogError($"Canvas index {index} is out of range. Returning root canvas transform.");
+                return _childCanvasTransforms[0];
+            }
+            return _childCanvasTransforms[index];
+        }
+        
+        public static Transform GetChildCanvasTransform(string name)
+        {
+            var transform = _childCanvasTransforms.FirstOrDefault(t => t.name == name);
+            if (transform == null)
+            {
+                ViewSystemLog.LogError($"Canvas with name {name} not found. Returning root canvas transform.");
+                return _childCanvasTransforms[0];
+            }
+            return transform;
         }
 
         #region Navigation
