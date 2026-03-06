@@ -19,7 +19,6 @@ namespace MacacaGames.ViewSystem
         [SerializeField] private ViewSystemSaveData viewSystemSaveData;
 
         Transform transformCache;
-        Canvas rootCanvas;
         Transform rootCanvasTransform;
 
         private Transform pageRootTransform;
@@ -48,6 +47,22 @@ namespace MacacaGames.ViewSystem
             {
                 Init();
             }
+        }
+        
+        /// <summary>
+        /// Dynamic load view system data
+        /// </summary>
+        /// <param name="viewSystemSaveData"></param>
+        public void SetSaveDataManually(ViewSystemSaveData viewSystemSaveData)
+        {
+            if (viewSystemSaveData == null)
+            {
+                ViewSystemLog.LogError("SetSaveDataManually called with null save data.");
+                return;
+            }
+
+            this.viewSystemSaveData = viewSystemSaveData;
+            Init();
         }
 
         public void Init()
@@ -98,7 +113,6 @@ namespace MacacaGames.ViewSystem
             go.transform.SetParent(transformCache);
             go.AddComponent<RectTransform>();
             viewElementPool = go.AddComponent<ViewElementPool>();
-            ;
 
             runtimePool = gameObject.AddComponent<ViewElementRuntimePool>();
             runtimePool.Init(viewElementPool);
