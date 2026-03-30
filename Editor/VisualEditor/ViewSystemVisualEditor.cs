@@ -187,6 +187,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
         List<Rect> calculateCache = new List<Rect>();
         void DrawNode()
         {
+            if (nodeViewContianer == null)
+            {
+                return;
+            }
+
             scriptViewRect = new Rect(nodeViewContianer.contentRect.x, nodeViewContianer.contentRect.y - menuBarHeight + 2, nodeViewContianer.contentRect.width / zoomScale, nodeViewContianer.contentRect.height / zoomScale);
 
             EditorZoomArea.NoGroupBegin(zoomScale, scriptViewRect);
@@ -194,15 +199,19 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             foreach (var item in viewStateList.ToArray())
             {
+                if (item?.viewState == null)
+                {
+                    continue;
+                }
 
                 if (!string.IsNullOrEmpty(item.viewState.name))
                 {
                     //Draw Bounds
                     calculateCache.Clear();
                     calculateCache.Add(item.drawRect);
-                    if (viewPageList.Count(m => m.viewPage.viewState == item.viewState.name) > 0)
+                    if (viewPageList.Count(m => m?.viewPage != null && m.viewPage.viewState == item.viewState.name) > 0)
                     {
-                        calculateCache.AddRange(viewPageList.Where(m => m.viewPage.viewState == item.viewState.name).Select(m => m.drawRect));
+                        calculateCache.AddRange(viewPageList.Where(m => m?.viewPage != null && m.viewPage.viewState == item.viewState.name).Select(m => m.drawRect));
                         Rect rect = VS_EditorUtility.CalculateBoundsRectFromRects(calculateCache, new Vector2(20, 20));
                         GUI.Box(rect, "", new GUIStyle("SelectionRect"));
                     }
@@ -211,10 +220,18 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             foreach (var item in viewPageList.ToArray())
             {
+                if (item?.viewPage == null)
+                {
+                    continue;
+                }
+
                 bool highlight = false;
                 if (Application.isPlaying && ViewController.Instance != null)
                 {
-                    if (item.viewPage.viewPageType == ViewPage.ViewPageType.FullPage) highlight = ViewController.Instance.currentViewPage.name == item.name;
+                    if (item.viewPage.viewPageType == ViewPage.ViewPageType.FullPage)
+                    {
+                        highlight = ViewController.Instance.currentViewPage != null && ViewController.Instance.currentViewPage.name == item.name;
+                    }
                     else highlight = ViewController.Instance.IsOverPageLive(item.name);
                 }
                 else

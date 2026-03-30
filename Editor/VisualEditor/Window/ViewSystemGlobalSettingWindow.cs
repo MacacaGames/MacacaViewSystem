@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
 using UnityEditor.AnimatedValues;
 
 namespace MacacaGames.ViewSystem.VisualEditor
@@ -65,9 +67,37 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     saveData.globalSetting.useAddressableLoading);
                 if (saveData.globalSetting.useAddressableLoading)
                 {
+                    EditorGUI.indentLevel++;
+                    var addrSettings = AddressableAssetSettingsDefaultObject.Settings;
+                    if (addrSettings != null)
+                    {
+                        var groupNames = addrSettings.groups
+                            .Where(g => g != null)
+                            .Select(g => g.Name)
+                            .ToArray();
+
+                        if (groupNames.Length > 0)
+                        {
+                            int idx = System.Array.IndexOf(groupNames, saveData.globalSetting.addressableGroupName);
+                            idx = EditorGUILayout.Popup("Addressable Group", Mathf.Max(0, idx), groupNames);
+                            if (idx >= 0 && idx < groupNames.Length)
+                                saveData.globalSetting.addressableGroupName = groupNames[idx];
+                        }
+                        else
+                        {
+                            EditorGUILayout.HelpBox("No Addressable Groups found.", MessageType.Error);
+                        }
+                    }
+                    else
+                    {
+                        EditorGUILayout.HelpBox("Addressable Asset Settings not initialized.", MessageType.Error);
+                    }
+                    EditorGUI.indentLevel--;
+
                     EditorGUILayout.HelpBox(
-                        "Addressable Loading is enabled. Make sure all ViewElement addresses have been populated via\n" +
-                        "MacacaGames > ViewSystem > ViewElement Address Populator.",
+                        "During build, ViewElement prefabs will be auto-registered to the selected Addressable Group\n" +
+                        "and direct references will be cleared to break bundle dependencies. References are restored after build.\n" +
+                        "Use MacacaGames > ViewSystem > ViewElement Address Populator for validation.",
                         MessageType.Info);
                 }
 

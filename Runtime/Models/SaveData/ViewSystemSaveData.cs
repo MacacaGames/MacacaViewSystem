@@ -70,6 +70,11 @@ namespace MacacaGames.ViewSystem
             /// </summary>
             public bool useAddressableLoading = false;
 
+            /// <summary>
+            /// The Addressable group name to assign ViewElement prefabs to during build.
+            /// </summary>
+            public string addressableGroupName = "";
+
             // public string[] builtInBreakPoints = new string[]{
             //     "Horizon",
             //     "Vertical"
