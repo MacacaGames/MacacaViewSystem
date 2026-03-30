@@ -55,7 +55,22 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 //EditorGUILayout.HelpBox("The minimum effective interval Show/Leave OverlayPage or ChangePage on FullPage call. If user the method call time interval less than this value, the call will be ignore!", MessageType.Info);
 
                 saveData.globalSetting.builtInClickProtection = EditorGUILayout.Toggle(new GUIContent("Enable Click Protection", "Enable the builtIn click protection or not, if true, the system will ignore the show page call if any page is transition"), saveData.globalSetting.builtInClickProtection);
-                
+
+                GUILayout.Space(10);
+                saveData.globalSetting.useAddressableLoading = EditorGUILayout.Toggle(
+                    new GUIContent("Use Addressable Loading",
+                        "When enabled, ViewElement prefabs will be loaded on-demand via Addressables instead of all at once.\n" +
+                        "Requires ViewElement Address Populator to populate addresses.\n" +
+                        "When disabled, the traditional direct reference approach is used."),
+                    saveData.globalSetting.useAddressableLoading);
+                if (saveData.globalSetting.useAddressableLoading)
+                {
+                    EditorGUILayout.HelpBox(
+                        "Addressable Loading is enabled. Make sure all ViewElement addresses have been populated via\n" +
+                        "MacacaGames > ViewSystem > ViewElement Address Populator.",
+                        MessageType.Info);
+                }
+
                 //SafePadding
                 GUILayout.Label("Global Safe Padding", new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
 

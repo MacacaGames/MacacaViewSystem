@@ -4,7 +4,9 @@
         "UnityEngine.UI",
         "Macaca.Utility",
         "Macaca.Utility.Editor",
-        "Macaca.ViewSystem"
+        "Macaca.ViewSystem",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor"
     ],
     "includePlatforms": [
         "Editor"

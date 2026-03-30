@@ -64,6 +64,12 @@ namespace MacacaGames.ViewSystem
             /// </summary> 
             public bool builtInClickProtection = true;
 
+            /// <summary>
+            /// Enable on-demand Addressable loading for ViewElement prefabs.
+            /// When disabled, the traditional direct reference approach (viewElementObject) is used.
+            /// </summary>
+            public bool useAddressableLoading = false;
+
             // public string[] builtInBreakPoints = new string[]{
             //     "Horizon",
             //     "Vertical"
@@ -143,11 +149,39 @@ namespace MacacaGames.ViewSystem
     }
 
 
+    /// <summary>
+    /// Delegate for loading a GameObject prefab by Addressable address.
+    /// Returns Task&lt;GameObject&gt; so it can be awaited from coroutines.
+    /// </summary>
+    public delegate System.Threading.Tasks.Task<GameObject> ViewElementLoadDelegate(string address);
+
+    /// <summary>
+    /// Delegate for releasing a previously loaded prefab by address.
+    /// </summary>
+    public delegate void ViewElementReleaseDelegate(string address);
+
     [System.Serializable]
     public class UniqueViewElementTableData
     {
         public GameObject viewElementGameObject;
+        public string viewElementAddress;
         public string type;
+
+        /// <summary>
+        /// Runtime cache for the loaded prefab GameObject (loaded via Addressables).
+        /// </summary>
+        [System.NonSerialized]
+        public GameObject loadedViewElementGameObject;
+
+        /// <summary>
+        /// Returns the effective GameObject: direct reference if available, otherwise the async-loaded cache.
+        /// </summary>
+        public GameObject ResolvedGameObject => viewElementGameObject != null ? viewElementGameObject : loadedViewElementGameObject;
+
+        /// <summary>
+        /// Whether this item needs async loading (has address but no direct ref or loaded cache yet)
+        /// </summary>
+        public bool NeedsAsyncLoad => !string.IsNullOrEmpty(viewElementAddress) && viewElementGameObject == null && loadedViewElementGameObject == null;
     }
 
     [System.Serializable]

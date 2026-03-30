@@ -109,6 +109,23 @@ namespace MacacaGames.ViewSystem
         public GameObject viewElementObject;
 
         /// <summary>
+        /// Addressable address for lazy loading this ViewElement prefab.
+        /// When set and viewElementObject is null, the system will load the prefab via ViewElementLoadDelegate at runtime.
+        /// </summary>
+        public string viewElementAddress;
+
+        /// <summary>
+        /// Runtime cache for the loaded prefab GameObject (loaded via Addressables).
+        /// </summary>
+        [System.NonSerialized]
+        public GameObject loadedViewElementObject;
+
+        /// <summary>
+        /// Whether this item needs async loading (has address but no direct ref loaded yet)
+        /// </summary>
+        public bool NeedsAsyncLoad => !string.IsNullOrEmpty(viewElementAddress) && viewElementObject == null && loadedViewElementObject == null;
+
+        /// <summary>
         /// The ViewElement in Asset
         /// If you wish to do something on ViewElement use <see cref="runtimeViewElement"> to avoid modify on Asset.
         /// </summary>
@@ -117,11 +134,12 @@ namespace MacacaGames.ViewSystem
         {
             get
             {
-                if (viewElementObject == null)
+                var target = viewElementObject != null ? viewElementObject : loadedViewElementObject;
+                if (target == null)
                 {
                     return null;
                 }
-                return viewElementObject?.GetComponent<ViewElement>();
+                return target.GetComponent<ViewElement>();
             }
             set
             {

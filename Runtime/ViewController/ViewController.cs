@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace MacacaGames.ViewSystem
 {
@@ -17,6 +18,27 @@ namespace MacacaGames.ViewSystem
         [SerializeField] public bool initOnAwake = true;
         [SerializeField] public bool autoPrewarm = true;
         [SerializeField] private ViewSystemSaveData viewSystemSaveData;
+
+        /// <summary>
+        /// Set this delegate before Init() to enable lazy Addressable loading of ViewElement prefabs.
+        /// If null, the system falls back to direct prefab references.
+        /// </summary>
+        public static ViewElementLoadDelegate LoadViewElementAsync;
+
+        /// <summary>
+        /// Optional: release a previously loaded ViewElement prefab by address.
+        /// </summary>
+        public static ViewElementReleaseDelegate ReleaseViewElement;
+
+        /// <summary>
+        /// Whether Addressable lazy loading is both enabled in settings AND delegate is wired.
+        /// </summary>
+        private bool UseAddressableLoading =>
+            viewSystemSaveData != null &&
+            viewSystemSaveData.globalSetting.useAddressableLoading &&
+            LoadViewElementAsync != null;
+
+        private bool _isAsyncPrewarmRunning = false;
 
         Transform transformCache;
         Transform rootCanvasTransform;
@@ -145,7 +167,12 @@ namespace MacacaGames.ViewSystem
                 PrewarmSingletonViewElement();
             }
 
-            IsReady = true;
+            // If async prewarm is running, IsReady will be set after it completes.
+            // Otherwise set it immediately.
+            if (!_isAsyncPrewarmRunning)
+            {
+                IsReady = true;
+            }
         }
 
         IEnumerator FixedTimeRecovery()
@@ -177,7 +204,7 @@ namespace MacacaGames.ViewSystem
 
         static Dictionary<System.Type, Component> SingletonViewElementDictionary;
 
-        [System.Obsolete("GetInjectionInstance is obsolete, use GetSingletonViewElement instead")]
+        [System.Obsolete("GetInjectionInstance is obsolete, use GetSingletonViewElement or GetSingletonViewElementAsync instead")]
         public T GetInjectionInstance<T>() where T : Component, IViewElementSingleton
         {
             return GetSingletonViewElement<T>();
@@ -198,28 +225,114 @@ namespace MacacaGames.ViewSystem
                 }
 
                 ViewSystemLog.LogError(
-                    "Target type cannot been found, are you sure your ViewElement which attach target Component is unique?");
+                    "Target type cannot been found, are you sure your ViewElement which attach target Component is unique? " +
+                    "If using Addressable loading, use GetSingletonViewElementAsync<T>() instead.");
             }
 
+            return null;
+        }
+
+        /// <summary>
+        /// Async version of GetSingletonViewElement. Supports on-demand Addressable loading.
+        /// Use this when Addressable lazy loading is enabled.
+        /// </summary>
+        public async Task<T> GetSingletonViewElementAsync<T>() where T : Component, IViewElementSingleton
+        {
+            // Fast path: already in dictionary
+            if (SingletonViewElementDictionary.TryGetValue(typeof(T), out Component result))
+            {
+                return (T)result;
+            }
+
+            // Try sync warmup first (works for direct refs or already-cached assets)
+            IViewElementSingleton s = WarmupUniqueViewElement(typeof(T));
+            if (s != null)
+            {
+                return (T)s;
+            }
+
+            // Async path: load via Addressables and wait
+            if (UseAddressableLoading)
+            {
+                var item = viewSystemSaveData.uniqueViewElementTable.FirstOrDefault(m => m.type == typeof(T).ToString());
+                if (item != null && !string.IsNullOrEmpty(item.viewElementAddress))
+                {
+                    ViewSystemLog.Log($"Async loading singleton ViewElement {typeof(T).Name} at address: {item.viewElementAddress}");
+                    try
+                    {
+                        var go = await LoadViewElementAsync(item.viewElementAddress);
+                        if (go != null)
+                        {
+                            item.loadedViewElementGameObject = go;
+                            var warmupResult = RegisterUniqueViewElement(go, typeof(T));
+                            if (warmupResult != null)
+                            {
+                                return (T)warmupResult;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewSystemLog.LogError($"Failed async load for singleton {typeof(T).Name}: {ex.Message}");
+                    }
+                }
+            }
+
+            ViewSystemLog.LogError(
+                $"Target type {typeof(T).Name} cannot been found even after async load attempt.");
             return null;
         }
 
         IViewElementSingleton WarmupUniqueViewElement(Type type)
         {
             var item = viewSystemSaveData.uniqueViewElementTable.FirstOrDefault(m => m.type == type.ToString());
-            IViewElementSingleton result = null;
             if (item == null)
             {
                 ViewSystemLog.Log("Cannot found matched type in the uniqueViewElementTable");
-                return result;
+                return null;
             }
 
-            var r = runtimePool.PrewarmUniqueViewElement(item.viewElementGameObject.GetComponent<ViewElement>());
+            // Use ResolvedGameObject which checks direct ref first, then async-loaded cache
+            var sourceGo = item.ResolvedGameObject;
+
+            // Fallback: try loading from Addressable delegate (returns synchronously if already cached)
+            if (sourceGo == null && !string.IsNullOrEmpty(item.viewElementAddress) && UseAddressableLoading)
+            {
+                try
+                {
+                    var task = LoadViewElementAsync(item.viewElementAddress);
+                    if (task.IsCompleted && !task.IsFaulted)
+                    {
+                        sourceGo = task.Result;
+                        item.loadedViewElementGameObject = sourceGo;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewSystemLog.LogError($"Failed on-demand load for {type}: {ex.Message}");
+                }
+            }
+
+            if (sourceGo == null)
+            {
+                return null;
+            }
+
+            return RegisterUniqueViewElement(sourceGo, type);
+        }
+
+        /// <summary>
+        /// Instantiate a unique ViewElement from a source prefab and register all IViewElementSingleton components.
+        /// </summary>
+        IViewElementSingleton RegisterUniqueViewElement(GameObject sourceGo, Type targetType)
+        {
+            IViewElementSingleton result = null;
+            var r = runtimePool.PrewarmUniqueViewElement(sourceGo.GetComponent<ViewElement>());
             if (r != null)
             {
                 foreach (var i in r.GetComponents<IViewElementSingleton>())
                 {
-                    if (i.GetType() == type)
+                    if (i.GetType() == targetType)
                     {
                         result = i;
                     }
@@ -231,7 +344,6 @@ namespace MacacaGames.ViewSystem
                     else
                     {
                         ViewSystemLog.LogWarning("Type " + t + " has been injected");
-                        continue;
                     }
                 }
             }
@@ -241,70 +353,153 @@ namespace MacacaGames.ViewSystem
 
         void PrewarmSingletonViewElement()
         {
-            var viewElementsInStates = viewStates.Values.Select(m => m.viewPageItems).SelectMany(ma => ma)
-                .Where(m => m.viewElement.IsUnique).Select(m => m.viewElement);
-            var viewElementsInPages = viewPages.Values.Select(m => m.viewPageItems).SelectMany(ma => ma)
-                .Where(m => m.viewElement.IsUnique).Select(m => m.viewElement);
+            // Collect all ViewPageItems that have direct prefab references and are unique (sync path)
+            var allItems = viewStates.Values.Select(m => m.viewPageItems).SelectMany(ma => ma)
+                .Concat(viewPages.Values.Select(m => m.viewPageItems).SelectMany(ma => ma));
 
-            foreach (var item in viewElementsInStates)
+            foreach (var pageItem in allItems)
             {
-                if (item == null)
-                {
-                    ViewSystemLog.Log("I'm null!!!");
+                if (pageItem.viewElement == null || !pageItem.viewElement.IsUnique)
                     continue;
-                }
 
-                if (!item.IsUnique)
-                {
-                    continue;
-                }
+                PrewarmSingleViewElement(pageItem.viewElement);
+            }
 
-                var r = runtimePool.PrewarmUniqueViewElement(item);
-                if (r != null)
+            // Sync prewarm for uniqueViewElementTable entries with direct references
+            foreach (var tableItem in viewSystemSaveData.uniqueViewElementTable)
+            {
+                if (tableItem.viewElementGameObject != null)
                 {
-                    foreach (var i in r.GetComponents<IViewElementSingleton>())
+                    var ve = tableItem.viewElementGameObject.GetComponent<ViewElement>();
+                    if (ve != null && ve.IsUnique)
                     {
-                        var c = (Component)i;
-                        var t = c.GetType();
-                        if (!SingletonViewElementDictionary.ContainsKey(t))
-                            SingletonViewElementDictionary.Add(t, c);
-                        else
-                        {
-                            ViewSystemLog.LogWarning("Type " + t + " has been injected");
-                            continue;
-                        }
+                        PrewarmSingleViewElement(ve);
                     }
                 }
             }
 
-            foreach (var item in viewElementsInPages)
+            // For items that need async loading, start a coroutine
+            if (UseAddressableLoading)
             {
-                if (item == null)
+                var asyncPageItems = allItems.Where(m => m.NeedsAsyncLoad).ToList();
+                var asyncUniqueItems = viewSystemSaveData.uniqueViewElementTable
+                    .Where(m => m.NeedsAsyncLoad).ToList();
+
+                ViewSystemLog.Log($"Async prewarm: {asyncPageItems.Count} page items, {asyncUniqueItems.Count} unique items to load.");
+                foreach (var u in asyncUniqueItems)
                 {
-                    ViewSystemLog.Log("I'm null!!!");
-                    continue;
+                    ViewSystemLog.Log($"  Unique item to load: type={u.type}, address={u.viewElementAddress}");
                 }
 
-                if (!item.IsUnique)
+                if (asyncPageItems.Count > 0 || asyncUniqueItems.Count > 0)
                 {
-                    continue;
+                    _isAsyncPrewarmRunning = true;
+                    StartCoroutine(PrewarmSingletonViewElementAsync(asyncPageItems, asyncUniqueItems));
                 }
-
-                var r = runtimePool.PrewarmUniqueViewElement(item);
-                if (r != null)
+                else
                 {
-                    foreach (var i in r.GetComponents<IViewElementSingleton>())
+                    ViewSystemLog.Log("No async items to prewarm.");
+                }
+            }
+        }
+
+        IEnumerator PrewarmSingletonViewElementAsync(List<ViewPageItem> pageItems, List<UniqueViewElementTableData> uniqueItems)
+        {
+            var loadTasks = new List<Task>();
+
+            // Load ViewPageItems via Addressables
+            foreach (var item in pageItems)
+            {
+                loadTasks.Add(LoadViewElementForItem(item));
+            }
+
+            // Load UniqueViewElementTable items via Addressables
+            foreach (var item in uniqueItems)
+            {
+                loadTasks.Add(LoadUniqueViewElementAsync(item));
+            }
+
+            var allTask = Task.WhenAll(loadTasks);
+            while (!allTask.IsCompleted)
+                yield return null;
+
+            if (allTask.IsFaulted)
+            {
+                ViewSystemLog.LogError($"Async prewarm had errors: {allTask.Exception?.Message}");
+            }
+
+            // Prewarm unique ViewElements from ViewPageItems
+            foreach (var item in pageItems)
+            {
+                if (item.viewElement != null && item.viewElement.IsUnique)
+                {
+                    PrewarmSingleViewElement(item.viewElement);
+                }
+            }
+
+            // Prewarm unique ViewElements from uniqueViewElementTable
+            foreach (var item in uniqueItems)
+            {
+                var go = item.ResolvedGameObject;
+                if (go != null)
+                {
+                    var ve = go.GetComponent<ViewElement>();
+                    if (ve != null && ve.IsUnique)
                     {
-                        var c = (Component)i;
-                        var t = c.GetType();
-                        if (!SingletonViewElementDictionary.ContainsKey(t))
-                            SingletonViewElementDictionary.Add(t, c);
-                        else
-                        {
-                            ViewSystemLog.LogWarning("Type " + t + " has been injected");
-                            continue;
-                        }
+                        ViewSystemLog.Log($"Prewarming unique element: {ve.name}");
+                        PrewarmSingleViewElement(ve);
                     }
+                    else
+                    {
+                        ViewSystemLog.LogWarning($"Loaded unique item at address {item.viewElementAddress} but it has no ViewElement or IsUnique=false");
+                    }
+                }
+                else
+                {
+                    ViewSystemLog.LogError($"Unique item at address {item.viewElementAddress} (type: {item.type}) still null after load");
+                }
+            }
+
+            _isAsyncPrewarmRunning = false;
+            IsReady = true;
+            ViewSystemLog.Log($"Async prewarm complete. SingletonViewElementDictionary has {SingletonViewElementDictionary.Count} entries. ViewController is ready.");
+        }
+
+        async Task LoadUniqueViewElementAsync(UniqueViewElementTableData item)
+        {
+            try
+            {
+                var go = await LoadViewElementAsync(item.viewElementAddress).ConfigureAwait(false);
+                if (go != null)
+                {
+                    item.loadedViewElementGameObject = go;
+                }
+                else
+                {
+                    ViewSystemLog.LogError($"LoadViewElementAsync returned null for unique element address: {item.viewElementAddress}");
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewSystemLog.LogError($"Failed to load unique ViewElement at address '{item.viewElementAddress}': {ex.Message}");
+            }
+        }
+
+        void PrewarmSingleViewElement(ViewElement item)
+        {
+            if (item == null || !item.IsUnique) return;
+
+            var r = runtimePool.PrewarmUniqueViewElement(item);
+            if (r != null)
+            {
+                foreach (var i in r.GetComponents<IViewElementSingleton>())
+                {
+                    var c = (Component)i;
+                    var t = c.GetType();
+                    if (!SingletonViewElementDictionary.ContainsKey(t))
+                        SingletonViewElementDictionary.Add(t, c);
+                    else
+                        ViewSystemLog.LogWarning("Type " + t + " has been injected");
                 }
             }
         }
@@ -471,6 +666,78 @@ namespace MacacaGames.ViewSystem
             return viewPageItems;
         }
 
+        /// <summary>
+        /// Async version: loads prefabs via LoadViewElementAsync delegate first, then requests from pool.
+        /// </summary>
+        IEnumerator PrepareRuntimeReferenceAsync(IEnumerable<ViewPageItem> viewPageItems, Action<List<ViewPageItem>> onComplete)
+        {
+            var itemList = viewPageItems.ToList();
+
+            // Phase 1: Kick off all async loads in parallel
+            var loadTasks = new List<Task>();
+            foreach (var item in itemList)
+            {
+                if (item.NeedsAsyncLoad && UseAddressableLoading)
+                {
+                    loadTasks.Add(LoadViewElementForItem(item));
+                }
+            }
+
+            // Phase 2: Busy-wait for all loads to complete
+            if (loadTasks.Count > 0)
+            {
+                var allTask = Task.WhenAll(loadTasks);
+                while (!allTask.IsCompleted)
+                {
+                    yield return null;
+                }
+
+                if (allTask.IsFaulted)
+                {
+                    ViewSystemLog.LogError($"Failed to load some ViewElement prefabs: {allTask.Exception?.Message}");
+                }
+            }
+
+            // Phase 3: Now all prefabs are loaded, do synchronous pool requests
+            foreach (var item in itemList)
+            {
+                if (item.viewElement != null)
+                {
+                    item.runtimeViewElement = runtimePool.RequestViewElement(item.viewElement);
+                }
+                else
+                {
+                    ViewSystemLog.LogError(
+                        $"The viewElement in ViewPageItem : {item.Id} (address: {item.viewElementAddress}) is null or missing after load attempt.");
+                }
+            }
+
+            onComplete?.Invoke(itemList);
+        }
+
+        /// <summary>
+        /// Loads a single ViewPageItem's prefab via the delegate.
+        /// </summary>
+        async Task LoadViewElementForItem(ViewPageItem item)
+        {
+            try
+            {
+                var go = await LoadViewElementAsync(item.viewElementAddress).ConfigureAwait(false);
+                if (go != null)
+                {
+                    item.loadedViewElementObject = go;
+                }
+                else
+                {
+                    ViewSystemLog.LogError($"LoadViewElementAsync returned null for address: {item.viewElementAddress}");
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewSystemLog.LogError($"Failed to load ViewElement at address '{item.viewElementAddress}': {ex.Message}");
+            }
+        }
+
         private float nextViewPageWaitTime = 0;
 
         List<ViewElement> tempCurrentLiveElements = new List<ViewElement>();
@@ -503,10 +770,10 @@ namespace MacacaGames.ViewSystem
             }
 
             ViewSystemLog.Log($"ChangePage Invoke {viewPageName}");
-            //取得 ViewPage 物件
+            //Get ViewPage object
             ViewPage nextViewPageForCurrentChangePage = null;
 
-            //沒有找到 
+            //Not found
             if (!viewPages.TryGetValue(viewPageName, out ViewPage _nextViewPage))
             {
                 ViewSystemLog.LogError("No view page match " + viewPageName + " Found");
@@ -538,21 +805,47 @@ namespace MacacaGames.ViewSystem
 
             // pageWrapper.safePadding.SetPaddingValue(nextViewPageForCurrentChangePage.edgeValues);
 
-            //所有檢查都通過開始換頁
+            //All checks passed, start page transition
             //IsPageTransition = true;
 
             nextViewState = null;
             viewStates.TryGetValue(nextViewPageForCurrentChangePage.viewState, out ViewState _nextViewState);
             nextViewState = _nextViewState;
 
-            IEnumerable<ViewPageItem> viewItemNextPage =
-                PrepareRuntimeReference(GetAllViewPageItemInViewPage(nextViewPageForCurrentChangePage));
+            var pageItems = GetAllViewPageItemInViewPage(nextViewPageForCurrentChangePage);
             IEnumerable<ViewPageItem> viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
             List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
-            // 如果兩個頁面之間的 ViewState 不同的話 才需要更新 ViewState 部分的 RuntimeViewElement
-            if (_nextViewState != currentViewState)
+
+            // Check if any items need async loading
+            bool anyPageNeedsAsync = UseAddressableLoading && pageItems.Any(i => i.NeedsAsyncLoad);
+            bool anyStateNeedsAsync = UseAddressableLoading &&
+                _nextViewState != currentViewState &&
+                viewItemNextState.Any(i => i.NeedsAsyncLoad);
+
+            IEnumerable<ViewPageItem> viewItemNextPage;
+            if (anyPageNeedsAsync || anyStateNeedsAsync)
             {
-                viewItemNextState = PrepareRuntimeReference(viewItemNextState);
+                // Async path: load page items
+                List<ViewPageItem> loadedPageItems = null;
+                yield return PrepareRuntimeReferenceAsync(pageItems, result => loadedPageItems = result);
+                viewItemNextPage = loadedPageItems;
+
+                // Async path: load state items if state changed
+                if (_nextViewState != currentViewState)
+                {
+                    List<ViewPageItem> loadedStateItems = null;
+                    yield return PrepareRuntimeReferenceAsync(viewItemNextState, result => loadedStateItems = result);
+                    viewItemNextState = loadedStateItems;
+                }
+            }
+            else
+            {
+                // Synchronous fallback (no addresses, or delegate not set)
+                viewItemNextPage = PrepareRuntimeReference(pageItems);
+                if (_nextViewState != currentViewState)
+                {
+                    viewItemNextState = PrepareRuntimeReference(viewItemNextState);
+                }
             }
 
             // All reference preparing is done start do the stuff for change page
@@ -567,11 +860,11 @@ namespace MacacaGames.ViewSystem
 
             foreach (var item in currentLiveElementsInViewPage)
             {
-                //不存在的話就讓他加入應該移除的列表
+                //If not present, add to the removal list
                 if (allViewElementForNextPageInViewPage.Contains(item) == false &&
                     allViewElementForNextPageInViewState.Contains(item) == false)
                 {
-                    //加入該移除的列表
+                    //Add to the removal list
                     viewElementDoesExitsInNextPage.Add(item);
                 }
             }
@@ -583,11 +876,11 @@ namespace MacacaGames.ViewSystem
             {
                 foreach (var item in currentLiveElementsInViewState)
                 {
-                    //不存在的話就讓他加入應該移除的列表
+                    //If not present, add to the removal list
                     if (allViewElementForNextPageInViewState.Contains(item) == false &&
                         allViewElementForNextPageInViewPage.Contains(item) == false)
                     {
-                        //加入該移除的列表
+                        //Add to the removal list
                         viewElementDoesExitsInNextPage.Add(item);
                     }
                 }
@@ -596,7 +889,7 @@ namespace MacacaGames.ViewSystem
                 currentLiveElementsInViewState = allViewElementForNextPageInViewState;
             }
 
-            //對離場的呼叫改變狀態
+            //Trigger state change for leaving elements
             foreach (var item in viewElementDoesExitsInNextPage)
             {
                 item.ChangePage(false, null, null, 0, 0);
@@ -621,7 +914,7 @@ namespace MacacaGames.ViewSystem
             nextViewPageWaitTime =
                 ViewSystemUtilitys.CalculateOnLeaveDuration(viewItemNextPage.Select(m => m.viewElement), maxClampTime);
 
-            //等上一個頁面的 OnLeave 結束，注意，如果頁面中有大量的 Animator 這裡只能算出預估的結果 並且會限制最長時間為一秒鐘
+            //Wait for previous page's OnLeave to finish. Note: if the page has many Animators, this is an estimate and will be clamped to max waiting time
             if (ignoreTimeScale)
                 yield return Yielders.GetWaitForSecondsRealtime(TimeForPerviousPageOnLeave);
             else
@@ -629,7 +922,7 @@ namespace MacacaGames.ViewSystem
 
             viewItemForNextPage.AddRange(viewItemNextPage);
             if (viewItemNextState != null) viewItemForNextPage.AddRange(viewItemNextState);
-            //對進場的呼叫改變狀態(ViewPage)
+            //Trigger state change for entering elements (ViewPage)
             foreach (var item in viewItemForNextPage.OrderBy(m => m.sortingOrder))
             {
                 if (item.runtimeViewElement == null)
@@ -642,7 +935,7 @@ namespace MacacaGames.ViewSystem
                 pageModelsCache = models;
                 item.runtimeViewElement.ApplyModelInject();
 
-                //套用複寫值
+                //Apply overrides
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvents(item.eventDatas);
 
@@ -670,7 +963,7 @@ namespace MacacaGames.ViewSystem
                 ViewSystemUtilitys.CalculateOnShowDuration(viewItemNextPage.Select(m => m.runtimeViewElement),
                     maxClampTime);
 
-            //更新狀態
+            //Update state
             UpdateCurrentViewStateAndNotifyEvent(nextViewPageForCurrentChangePage);
             foreach (var item in currentLiveElements)
             {
@@ -684,7 +977,7 @@ namespace MacacaGames.ViewSystem
             if (ignoreTimeScale)
                 yield return Yielders.GetWaitForSecondsRealtime(OnShowAnimationFinish);
             else
-                //通知事件
+                //Notify events
                 yield return Yielders.GetWaitForSeconds(OnShowAnimationFinish);
 
             ChangePageToCoroutine = null;
@@ -749,18 +1042,28 @@ namespace MacacaGames.ViewSystem
 
             string OverlayPageStateKey = GetOverlayStateKey(vp);
             bool samePage = false;
-            //檢查是否有同 State 的 Overlay 頁面在場上
+            //Check if an Overlay page with the same State is already on screen
             if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey,
                     out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
+                var overlayPageItems = GetAllViewPageItemInViewPage(vp);
+                if (UseAddressableLoading && overlayPageItems.Any(i => i.NeedsAsyncLoad))
+                {
+                    List<ViewPageItem> loaded = null;
+                    yield return PrepareRuntimeReferenceAsync(overlayPageItems, r => loaded = r);
+                    viewItemNextPage = loaded;
+                }
+                else
+                {
+                    viewItemNextPage = PrepareRuntimeReference(overlayPageItems);
+                }
 
-                //同 OverlayState 的頁面已經在場上，移除不同的部分，然後顯示新加入的部分
+                //Same OverlayState page is already on screen, remove different parts and show newly added parts
                 if (!string.IsNullOrEmpty(vp.viewState))
                 {
                     if (overlayPageStatus.viewPage.name != vp.name)
                     {
-                        // 同 State 不同 Page 的情況，找到差異的部分
+                        // Same State but different Page, find the diff
                         foreach (var item in overlayPageStatus.viewPage.viewPageItems)
                         {
                             if (!vp.viewPageItems.Select(m => m.runtimeViewElement).Contains(item.runtimeViewElement))
@@ -772,8 +1075,8 @@ namespace MacacaGames.ViewSystem
                 }
                 else
                 {
-                    //只有 ViewPage 卻還是進來這裡的話代表頁面還在場上
-                    // RePlayOnShowWhileSamePage == false 那就更新數值 所以停掉舊的 Coroutine
+                    //If only ViewPage but still entered here, it means the page is still on screen
+                    // RePlayOnShowWhileSamePage == false, update values and stop the old Coroutine
                     if (overlayPageStatus.pageChangeCoroutine != null)
                     {
                         StopCoroutine(overlayPageStatus.pageChangeCoroutine);
@@ -785,15 +1088,26 @@ namespace MacacaGames.ViewSystem
             }
             else
             {
-                //同 OverlayState 的頁面還不在場上 新建一個 Status
+                //Same OverlayState page is not on screen yet, create a new Status
 
                 overlayPageStatus = new ViewSystemUtilitys.OverlayPageStatus();
                 overlayPageStatus.viewPage = vp;
                 overlayPageStatus.viewState = viewState;
                 overlayPageStatus.transition = ViewSystemUtilitys.OverlayPageStatus.Transition.Show;
-                viewItemNextPage = PrepareRuntimeReference(GetAllViewPageItemInViewPage(vp));
 
-                // 沒有 viewState 的 Page 不需要處理 viewState 的 runtimeViewElement
+                var newOverlayPageItems = GetAllViewPageItemInViewPage(vp);
+                if (UseAddressableLoading && newOverlayPageItems.Any(i => i.NeedsAsyncLoad))
+                {
+                    List<ViewPageItem> loaded = null;
+                    yield return PrepareRuntimeReferenceAsync(newOverlayPageItems, r => loaded = r);
+                    viewItemNextPage = loaded;
+                }
+                else
+                {
+                    viewItemNextPage = PrepareRuntimeReference(newOverlayPageItems);
+                }
+
+                // Pages without viewState don't need to process viewState's runtimeViewElement
                 if (!string.IsNullOrEmpty(vp.viewState))
                 {
                     // nextViewState = viewStates.SingleOrDefault(m => m.name == vp.viewState);
@@ -801,11 +1115,20 @@ namespace MacacaGames.ViewSystem
                     {
                         nextViewState = _nextViewState;
                         viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
-                        viewItemNextState = PrepareRuntimeReference(viewItemNextState);
+                        if (UseAddressableLoading && viewItemNextState.Any(i => i.NeedsAsyncLoad))
+                        {
+                            List<ViewPageItem> loadedState = null;
+                            yield return PrepareRuntimeReferenceAsync(viewItemNextState, r => loadedState = r);
+                            viewItemNextState = loadedState;
+                        }
+                        else
+                        {
+                            viewItemNextState = PrepareRuntimeReference(viewItemNextState);
+                        }
                     }
                 }
 
-                overlayPageStatusDict.Add(OverlayPageStateKey, overlayPageStatus);
+                overlayPageStatusDict[OverlayPageStateKey] = overlayPageStatus;
             }
 
             OnStart?.Invoke();
@@ -818,7 +1141,7 @@ namespace MacacaGames.ViewSystem
                 ViewSystemUtilitys.CalculateOnShowDuration(viewItemNextPage.Select(m => m.runtimeViewElement));
             float onShowDelay = ViewSystemUtilitys.CalculateDelayInTime(viewItemNextPage);
 
-            //對離場的呼叫改變狀態
+            //Trigger state change for leaving elements
             foreach (var item in viewElementDoesExitsInNextPage)
             {
                 // Debug.LogWarning($"{item.name} not exsit in next page");
@@ -826,7 +1149,7 @@ namespace MacacaGames.ViewSystem
                 item.ChangePage(false, null, null, 0, 0, 0);
             }
 
-            //對進場的呼叫改變狀態
+            //Trigger state change for entering elements
             foreach (var item in viewItemForNextPage)
             {
                 if (RePlayOnShowWhileSamePage && samePage)
@@ -839,7 +1162,7 @@ namespace MacacaGames.ViewSystem
                 pageModelsCache = models;
                 item.runtimeViewElement.ApplyModelInject();
 
-                //套用複寫值
+                //Apply overrides
                 item.runtimeViewElement.ApplyOverrides(item.overrideDatas);
                 item.runtimeViewElement.ApplyEvents(item.eventDatas);
 
@@ -870,7 +1193,7 @@ namespace MacacaGames.ViewSystem
             OnChanged?.Invoke();
             InvokeOnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
 
-            //當所有表演都結束時
+            //When all transitions are finished
             if (ignoreTimeScale)
                 yield return Yielders.GetWaitForSecondsRealtime(onShowTime + onShowDelay);
             else
@@ -920,11 +1243,12 @@ namespace MacacaGames.ViewSystem
             {
                 if (item.runtimeViewElement == null)
                 {
-                    ViewSystemLog.LogWarning($"ViewElement : {item.viewElement.name} is null in runtime.");
+                    var veName = item.viewElement != null ? item.viewElement.name : item.viewElementAddress ?? "(unknown)";
+                    ViewSystemLog.LogWarning($"ViewElement : {veName} is null in runtime.");
                     continue;
                 }
 
-                // Unique 的 ViewElement 另外處理借用問題
+                // Unique ViewElements need special handling for borrowing
                 if (item.runtimeViewElement.IsUnique == true && IsPageTransition == false)
                 {
                     // Handle unique ViewElement between multiply overlay page
@@ -945,8 +1269,8 @@ namespace MacacaGames.ViewSystem
                                 var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
                                 item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData,
                                     item.sortingOrder, tweenTimeIfNeed, 0);
-                                ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name +
-                                                         "Try to back to origin Transfrom parent : " +
+                                ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name +
+                                                         " Try to back to origin Transform parent : " +
                                                          vpi.runtimeParent.name);
                             }
                             catch
@@ -959,7 +1283,7 @@ namespace MacacaGames.ViewSystem
 
                     if (currentVe.Contains(item.runtimeViewElement))
                     {
-                        //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
+                        //ViewElement scheduled for auto-leave is still in use by the current page, skip it
                         try
                         {
                             var vpi = currentViewPage.viewPageItems.FirstOrDefault(m =>
@@ -990,7 +1314,7 @@ namespace MacacaGames.ViewSystem
 
                     if (currentVs.Contains(item.runtimeViewElement))
                     {
-                        //準備自動離場的 ViewElement 目前的頁面正在使用中 所以不要對他操作
+                        //ViewElement scheduled for auto-leave is still in use by the current page, skip it
                         try
                         {
                             var vpi = currentViewState.viewPageItems.FirstOrDefault(m =>
@@ -1120,7 +1444,7 @@ namespace MacacaGames.ViewSystem
                 return false;
             }
 
-            //沒有找到 
+            //Not found
             if (viewPages.TryGetValue(viewPageName, out ViewPage vp))
             {
                 return IsOverPageLive(vp);
@@ -1156,7 +1480,7 @@ namespace MacacaGames.ViewSystem
         public override void TryLeaveAllOverlayPage()
         {
             Debug.Log("TryLeaveAllOverlayPage");
-            //清空自動離場
+            //Clear auto-leave list
             // base.TryLeaveAllOverlayPage();
             for (int i = 0; i < overlayPageStatusDict.Count; i++)
             {
