@@ -1,0 +1,933 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
+using UnityEngine.AddressableAssets;
+using System.IO;
+using System;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
+
+namespace MacacaGames.ViewSystem.VisualEditor
+{
+    public class ViewSystemDataReader
+    {
+        const string ViewSystemResourceFolder = "Assets/ViewSystemResources/";
+        const string ViewSystemSaveDataFileName = "ViewSystemData.asset";
+        const string ViewSystemSaveData_AddressableFileName = "ViewSystemData_Addressable.asset";
+        public ViewSystemDataReader(ViewSystemVisualEditor editor)
+        {
+            this.editor = editor;
+        }
+        ViewSystemVisualEditor editor;
+
+        ViewSystemSaveData data;
+        public Transform ViewControllerTransform;
+        public bool isDirty = false;
+        bool isInit = false;
+        public bool Init()
+        {
+            CheckAndCreateResourceFolder();
+
+            data = CheckOrReadSaveData();
+
+            // In addressable mode, viewElementObject was stripped on disk.
+            // Restore references from AssetReference GUIDs so the editor can display them.
+            if (data.globalSetting.useAddressableLoading)
+            {
+                RestoreViewElementReferencesFromAddressable();
+            }
+
+            // Organize editor data
+            List<ViewPageNode> viewPageNodes = new List<ViewPageNode>();
+            // Process ViewPage Nodes first
+            foreach (var item in data.GetViewPageSaveDatas())
+            {
+                var isOverlay = item.viewPage.viewPageType == ViewPage.ViewPageType.Overlay;
+
+                var node = editor.AddViewPageNode(item.nodePosition, isOverlay, item.viewPage);
+                viewPageNodes.Add(node);
+            }
+
+            // Then process ViewState Nodes
+            foreach (var item in data.GetViewStateSaveDatas())
+            {
+                var vp_of_vs = viewPageNodes.Where(m => m.viewPage.viewState == item.viewState.name);
+                var node = editor.AddViewStateNode(item.nodePosition, item.viewState);
+                editor.CreateConnection(node);
+            }
+            isInit = data ? true : false;
+            return isInit;
+        }
+        UnityEngine.SceneManagement.Scene newScene;
+        const string ViewSystemEditScene = "ViewSystemEditScene";
+        public void EditStart()
+        {
+            var exsitScene = SceneManager.GetSceneByName(ViewSystemEditScene);
+            if (exsitScene != null)
+            {
+                EditEnd();
+            }
+
+            newScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
+            newScene.name = ViewSystemEditScene;
+            // Create UI Hierarchy environment
+            if (!string.IsNullOrEmpty(data.globalSetting.ViewControllerObjectPath))
+            {
+                var go = new GameObject(data.globalSetting.ViewControllerObjectPath);
+                EditorSceneManager.MoveGameObjectToScene(go, newScene);
+                ViewControllerTransform = go.transform;
+            }
+            GameObject ui_root = null;
+            if (data.globalSetting.UIRoot != null && data.globalSetting.UIRootScene == null)
+            {
+                //Always generate a new one to avoid version conflict.
+#if UNITY_2019_1_OR_NEWER
+                ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot, ViewControllerTransform) as GameObject;
+#else
+                ui_root = PrefabUtility.InstantiatePrefab(data.globalSetting.UIRoot);
+               ((GameObject)ui_root).transform.SetParent(ViewControllerTransform);
+#endif
+                data.globalSetting.UIRootScene = ui_root;
+                PrefabUtility.UnpackPrefabInstance(data.globalSetting.UIRootScene, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
+            }
+        }
+
+        public void EditEnd()
+        {
+            EditorSceneManager.CloseScene(SceneManager.GetSceneByName(ViewSystemEditScene), true);
+            // EditorSceneManager.CloseScene(SceneManager.GetSceneByName("Untitled"), true);
+
+        }
+
+        public void RefeshEdit()
+        {
+            EditEnd();
+            EditStart();
+        }
+
+        public void MigrateToNewSaveData()
+        {
+            foreach (var item in data.viewPages)
+            {
+                OnViewPageAdd(item.nodePosition, item.viewPage);
+            }
+            foreach (var item in data.viewStates)
+            {
+                OnViewStateAdd(item.nodePosition, item.viewState);
+            }
+
+            data.viewPages.Clear();
+            data.viewStates.Clear();
+            AssetDatabase.Refresh();
+        }
+
+        public void OnViewPageAdd(Vector2 nodePos, ViewPage viewPage)
+        {
+            var so = ScriptableObject.CreateInstance<ViewPageNodeSaveData>();
+            so.data = new ViewPageSaveData(nodePos, viewPage);
+
+            var filePath = ViewSystemResourceFolder + $"ViewPage_{RandomUtility.GetRandomString(8)}.asset";
+
+            if (!File.Exists(filePath))
+            {
+                AssetDatabase.CreateAsset(so, filePath);
+                AssetImporter.GetAtPath(filePath);
+                AssetDatabase.Refresh();
+            }
+
+            data.viewPagesNodeSaveDatas.Add(so);
+            isDirty = true;
+        }
+
+        public void OnViewStateAdd(Vector2 nodePos, ViewState viewState)
+        {
+            var so = ScriptableObject.CreateInstance<ViewStateNodeSaveData>();
+            so.data = new ViewStateSaveData(nodePos, viewState);
+
+            var filePath = ViewSystemResourceFolder + $"ViewState_{RandomUtility.GetRandomString(8)}.asset";
+
+            if (!File.Exists(filePath))
+            {
+                AssetDatabase.CreateAsset(so, filePath);
+                AssetImporter.GetAtPath(filePath);
+                AssetDatabase.Refresh();
+            }
+
+            data.viewStateNodeSaveDatas.Add(so);
+            isDirty = true;
+        }
+
+        public void OnViewPageDelete(ViewPageNode node)
+        {
+            var s = data.viewPagesNodeSaveDatas.SingleOrDefault(m => m.data.viewPage == node.viewPage);
+            data.viewPagesNodeSaveDatas.Remove(s);
+            isDirty = true;
+
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(s));
+            AssetDatabase.Refresh();
+        }
+
+        public void OnViewStateDelete(ViewStateNode node)
+        {
+            var s = data.viewStateNodeSaveDatas.SingleOrDefault(m => m.data.viewState == node.viewState);
+            node.currentLinkedViewPageNode.All(
+                (m) =>
+                {
+                    m.currentLinkedViewStateNode = null;
+                    m.viewPage.viewState = "";
+                    return true;
+                }
+            );
+            data.viewStateNodeSaveDatas.Remove(s);
+            isDirty = true;
+
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(s));
+            AssetDatabase.Refresh();
+        }
+
+        public void GenerateDefaultUIRoot()
+        {
+            if (string.IsNullOrEmpty(data.globalSetting.ViewControllerObjectPath))
+            {
+                ViewSystemLog.LogError("Please set ViewController Object Path first");
+                return;
+            }
+            GameObject canvasObject = new GameObject("Canvas");
+            var viewControllerObject = GameObject.Find(data.globalSetting.ViewControllerObjectPath);
+            canvasObject.transform.SetParent(viewControllerObject.transform);
+
+            var canvas = canvasObject.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.additionalShaderChannels = AdditionalCanvasShaderChannels.TexCoord1;
+            var canvasScaler = canvasObject.AddComponent<UnityEngine.UI.CanvasScaler>();
+            canvasScaler.referenceResolution = new Vector2(1080, 1920);
+            canvasScaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasScaler.screenMatchMode = UnityEngine.UI.CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+            canvasScaler.matchWidthOrHeight = 1;
+            var graphicRaycaster = canvasObject.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+            var eventSystem = canvasObject.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            var inputModule = canvasObject.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+            SetUIRootObject(canvasObject);
+            UnityEngine.Object.DestroyImmediate(canvasObject);
+        }
+
+        public void SetUIRootObject(GameObject obj)
+        {
+            if (!Directory.Exists(ViewSystemResourceFolder))
+            {
+                CheckAndCreateResourceFolder();
+            }
+
+            var saveObject = PrefabUtility.SaveAsPrefabAsset(obj, ViewSystemResourceFolder + obj.name + ".prefab");
+            data.globalSetting.UIRoot = saveObject;
+        }
+
+        ViewSystemUtilitys.PageRootWrapper previewUIRootWrapper;
+        public void ApplySafeArea(SafePadding.PerEdgeValues edgeValues)
+        {
+            if (previewUIRootWrapper != null)
+            {
+                previewUIRootWrapper.safePadding.SetPaddingValue(edgeValues);
+            }
+        }
+
+        public void OnViewPagePreview(ViewPage viewPage, Dictionary<string, bool> breakPoints)
+        {
+
+            Debug.Log("ViewControllerTransform HERE",ViewControllerTransform);
+            string UIRootName = "";
+            if (data.globalSetting.UIRootScene == null)
+            {
+                ViewSystemLog.ShowNotification(editor, new GUIContent($"There is no canvas in your scene, do you enter EditMode?"), 2);
+                ViewSystemLog.LogError($"There is no canvas in your scene, do you enter EditMode?");
+                return;
+            }
+            UIRootName = data.globalSetting.UIRoot.name;
+
+            Transform pageRootTransform;
+            if (!string.IsNullOrEmpty(data.globalSetting.customPageRootPath))
+            {
+                var target = ViewControllerTransform.Find($"{data.globalSetting.UIRoot.name}/{data.globalSetting.customPageRootPath}");
+                if (target == null)
+                {
+                    ViewSystemLog.LogWarning("Custom Page Root Path is set but not found, use Canvas as Page Root.");
+                }
+                else
+                {
+                    UIRootName = $"{data.globalSetting.UIRoot.name}/{data.globalSetting.customPageRootPath}";
+                }
+            }
+            else
+            {
+                ViewSystemLog.LogWarning("Custom Page Root Path not set use Canvas as Page Root.");
+            }
+            
+            Debug.Log($"UIRootName:{UIRootName}");
+            
+            
+            
+            //throw new System.NotImplementedException();
+            ClearAllViewElementInScene();
+            // Open all related ViewElements
+            ViewState viewPagePresetTemp;
+            List<ViewPageItem> viewItemForNextPage = new List<ViewPageItem>();
+
+            // Find from ViewPagePreset (ViewState)
+            if (!string.IsNullOrEmpty(viewPage.viewState))
+            {
+                viewPagePresetTemp = data.GetViewStateSaveDatas().Select(m => m.viewState).SingleOrDefault(m => m.name == viewPage.viewState);
+                if (viewPagePresetTemp != null)
+                {
+                    viewItemForNextPage.AddRange(viewPagePresetTemp.viewPageItems);
+                }
+            }
+
+            // Find from ViewPage
+            viewItemForNextPage.AddRange(viewPage.viewPageItems);
+
+            Transform root = ViewControllerTransform;
+
+            Transform targetTransform = root.Find($"{UIRootName}");
+            string viewPageName = ViewSystemUtilitys.GetPageRootName(viewPage);
+            previewUIRootWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageName, targetTransform, viewPage.canvasSortOrder, data.globalSetting.UIPageTransformLayerName);
+
+            ApplySafeArea(viewPage.useGlobalSafePadding ? data.globalSetting.edgeValues : viewPage.edgeValues);
+            Transform fullPageRoot = previewUIRootWrapper.rectTransform;
+            //TO do apply viewPage component on fullPageRoot
+
+            // Instantiate corresponding objects
+            foreach (ViewPageItem item in viewItemForNextPage.OrderBy(m => m.sortingOrder))
+            {
+                if (item.viewElement == null)
+                {
+                    ViewSystemLog.LogWarning($"There are some ViewElement didn't setup correctly in this page or state");
+                    continue;
+                }
+
+
+                var temp = PrefabUtility.InstantiatePrefab(item.viewElement.gameObject);
+                ViewElement tempViewElement = ((GameObject)temp).GetComponent<ViewElement>();
+                tempViewElement.currentViewPageItem = item;
+                tempViewElement.currentViewPage = viewPage;
+
+                tempViewElement.gameObject.SetActive(true);
+                var rectTransform = tempViewElement.GetComponent<RectTransform>();
+                Transform tempParent = null;
+
+                // TODO preview viewpage with BreakPoint
+                var transformData = item.GetCurrentViewElementTransform(breakPoints);
+                if (!string.IsNullOrEmpty(transformData.parentPath))
+                {
+                    //Custom Parent implement
+                    tempParent = root.Find(transformData.parentPath);
+                }
+                else
+                {
+                    //RectTransform implement
+                    tempParent = fullPageRoot;
+                }
+                rectTransform.SetParent(tempParent, true);
+
+                if (!string.IsNullOrEmpty(transformData.parentPath))
+                {
+                    var mFix = tempViewElement.GetComponent<ViewMarginFixer>();
+                    if (mFix != null) mFix.ApplyModifyValue();
+                    tempViewElement.rectTransform.localScale = Vector3.one;
+                    tempViewElement.rectTransform.anchoredPosition3D = Vector3.zero;
+                }
+                else
+                {
+                    tempViewElement.ApplyRectTransform(transformData);
+                }
+
+                tempViewElement.ApplyOverrides(item.overrideDatas);
+                tempViewElement.ApplyNavigation(item.navigationDatas);
+
+                item.previewViewElement = tempViewElement;
+
+
+                //Sample animator traisintion viewlement to target frame
+                if (tempViewElement.transition != ViewElement.TransitionType.Animator)
+                    continue;
+
+                Animator animator = tempViewElement.animator;
+                AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+                foreach (AnimationClip clip in clips)
+                {
+                    if (clip.name.ToLower().Contains(tempViewElement.AnimationStateName_Loop.ToLower()))
+                    {
+                        clip.SampleAnimation(animator.gameObject, 0);
+                    }
+                }
+            }
+
+            UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
+        }
+
+        public void Normalized()
+        {
+            if (data.RequireMigration())
+            {
+                if (EditorUtility.DisplayDialog("Info", "Older version save data detected! \n Do you want to migrate to new version?", "Yes", "No"))
+                {
+                    MigrateToNewSaveData();
+                }
+                return;
+            }
+
+
+            RepairPrefabReference();
+            //Clear UI Root Object
+            try
+            {
+                UnityEngine.Object.DestroyImmediate(data.globalSetting.UIRootScene);
+            }
+            catch
+            {
+                var c = GameObject.Find(data.globalSetting.UIRoot.name);
+                UnityEngine.Object.DestroyImmediate(c);
+            }
+
+            editor.ClearEditor();
+            editor.EditMode = false;
+            EditEnd();
+            //throw new System.NotImplementedException();
+        }
+
+        public void ClearAllViewElementInScene()
+        {
+            // Unity Issue, prefab reference in scene will be modify after you apply/revert a prefab
+            // A hack to fix it
+            // https://issuetracker.unity3d.com/issues/prefabs-references-are-lost-when-modifying-prefab
+            RepairPrefabReference();
+
+            if (previewUIRootWrapper != null && previewUIRootWrapper.rectTransform)
+            {
+                UnityEngine.Object.DestroyImmediate(previewUIRootWrapper.rectTransform.gameObject);
+                previewUIRootWrapper = null;
+            }
+
+            if (ViewControllerTransform == null)
+            {
+                return;
+            }
+            var allViewElement = ViewControllerTransform.GetComponentsInChildren<ViewElement>();
+            //NestedViewElement is obslote do nothing with NestedViewElement.
+            //var allNestedViewElement = UnityEngine.Object.FindObjectsOfType<NestedViewElement>();
+            foreach (var item in allViewElement)
+            {
+                try
+                {
+                    UnityEngine.Object.DestroyImmediate(item.gameObject);
+                }
+                catch
+                {
+                    //ViewSystemLog.LogWarning($"ignore");
+                }
+            }
+        }
+
+        public void Save()
+        {
+            Save(null, null);
+        }
+
+        public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes)
+        {
+            if (viewPageNodes != null)
+            {
+                foreach (var item in viewPageNodes)
+                {
+                    if (string.IsNullOrEmpty(item.viewPage.name))
+                    {
+                        continue;
+                    }
+                    var vp = data.GetViewPageSaveDatas().SingleOrDefault(m => m.viewPage.name == item.viewPage.name);
+                    item.SnapToGrid_Rect();
+                    vp.nodePosition = new Vector2(item.rect.x, item.rect.y);
+
+                }
+            }
+
+            if (viewStateNodes != null)
+            {
+                foreach (var item in viewStateNodes)
+                {
+                    if (string.IsNullOrEmpty(item.viewState.name))
+                    {
+                        continue;
+                    }
+                    var vs = data.GetViewStateSaveDatas().SingleOrDefault(m => m.viewState.name == item.viewState.name);
+                    item.SnapToGrid_Rect();
+                    vs.nodePosition = new Vector2(item.rect.x, item.rect.y);
+                }
+            }
+
+            if (data.globalSetting != null)
+            {
+                //Delete all ViewElement in scene before save!!!!
+                ClearAllViewElementInScene();
+                //Apply Prefab
+                if (data.globalSetting.UIRootScene != null)
+                    data.globalSetting.UIRoot = PrefabUtility.SaveAsPrefabAsset(data.globalSetting.UIRootScene, ViewSystemResourceFolder + data.globalSetting.UIRootScene.name + ".prefab");
+            }
+
+            foreach (var item in data.viewPagesNodeSaveDatas)
+            {
+
+
+                UnityEditor.EditorUtility.SetDirty(item);
+            }
+
+            foreach (var item in data.viewStateNodeSaveDatas)
+            {
+
+                UnityEditor.EditorUtility.SetDirty(item);
+            }
+            
+            // save Unique
+            SaveUniqueData(false);
+            
+            UnityEditor.EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            foreach (var item in data.viewPagesNodeSaveDatas)
+            {
+                var path = AssetDatabase.GetAssetPath(item);
+                AssetDatabase.RenameAsset(path, $"ViewPage_{item.data.viewPage.name}");
+
+            }
+
+            foreach (var item in data.viewStateNodeSaveDatas)
+            {
+                var path = AssetDatabase.GetAssetPath(item);
+                AssetDatabase.RenameAsset(path, $"ViewState_{item.data.viewState.name}");
+            }
+
+
+
+            AssetDatabase.SaveAssets();
+            isDirty = false;
+
+            if (data.globalSetting.useAddressableLoading)
+            {
+                GenerateAddressableSaveData();
+            }
+            else
+            {
+                CleanupAddressableSaveData();
+            }
+        }
+
+        void GenerateAddressableSaveData()
+        {
+            var addressableFilePath = ViewSystemResourceFolder + ViewSystemSaveData_AddressableFileName;
+            var addressableData = AssetDatabase.LoadAssetAtPath<ViewSystemSaveData_Addressable>(addressableFilePath);
+            if (addressableData == null)
+            {
+                addressableData = ScriptableObject.CreateInstance<ViewSystemSaveData_Addressable>();
+                AssetDatabase.CreateAsset(addressableData, addressableFilePath);
+                AssetDatabase.Refresh();
+            }
+
+            var settings = AddressableAssetSettingsDefaultObject.Settings;
+            if (settings == null)
+            {
+                ViewSystemLog.LogError("Addressable Asset Settings not found. Please initialize Addressables first.");
+                return;
+            }
+
+            // Resolve target group
+            AddressableAssetGroup targetGroup = null;
+            if (!string.IsNullOrEmpty(data.globalSetting.addressableGroupName))
+            {
+                targetGroup = settings.groups.FirstOrDefault(g => g != null && g.Name == data.globalSetting.addressableGroupName);
+            }
+            if (targetGroup == null)
+            {
+                targetGroup = settings.DefaultGroup;
+                ViewSystemLog.LogWarning($"Addressable Group '{data.globalSetting.addressableGroupName}' not found, using default group '{targetGroup.Name}'.");
+            }
+
+            // Collect all unique prefab GUIDs from ViewPageItems
+            var allPageItems = data.viewPagesNodeSaveDatas.SelectMany(m => m.data.viewPage.viewPageItems);
+            var allStateItems = data.viewStateNodeSaveDatas.SelectMany(m => m.data.viewState.viewPageItems);
+            var processedGuids = new HashSet<string>();
+            var processedIds = new HashSet<string>();
+
+            addressableData.viewPageItemAssetRefs.Clear();
+            addressableData.uniqueViewElementAssetRefs.Clear();
+
+            foreach (var item in allPageItems.Concat(allStateItems))
+            {
+                if (item == null || item.viewElementObject == null)
+                    continue;
+                if (processedIds.Contains(item.Id))
+                    continue;
+                processedIds.Add(item.Id);
+
+                var assetPath = AssetDatabase.GetAssetPath(item.viewElementObject);
+                var guid = AssetDatabase.AssetPathToGUID(assetPath);
+                if (string.IsNullOrEmpty(guid))
+                {
+                    ViewSystemLog.LogWarning($"Cannot find GUID for ViewPageItem '{item.displayName}', skipping.");
+                    continue;
+                }
+
+                // Auto-assign to Addressable group
+                if (!processedGuids.Contains(guid))
+                {
+                    processedGuids.Add(guid);
+                    EnsureAddressableEntry(settings, targetGroup, guid, assetPath, item.viewElementObject.name);
+                }
+
+                addressableData.viewPageItemAssetRefs.Add(new ViewPageItemAssetRef
+                {
+                    viewPageItemId = item.Id,
+                    assetReference = new AssetReferenceGameObject(guid)
+                });
+            }
+
+            // Build AssetReference lookup for UniqueViewElementTable
+            foreach (var entry in data.uniqueViewElementTable)
+            {
+                if (entry.viewElementGameObject == null)
+                    continue;
+
+                var assetPath = AssetDatabase.GetAssetPath(entry.viewElementGameObject);
+                var guid = AssetDatabase.AssetPathToGUID(assetPath);
+                if (string.IsNullOrEmpty(guid))
+                    continue;
+
+                if (!processedGuids.Contains(guid))
+                {
+                    processedGuids.Add(guid);
+                    EnsureAddressableEntry(settings, targetGroup, guid, assetPath, entry.viewElementGameObject.name);
+                }
+
+                addressableData.uniqueViewElementAssetRefs.Add(new UniqueViewElementAssetRef
+                {
+                    type = entry.type,
+                    assetReference = new AssetReferenceGameObject(guid)
+                });
+            }
+
+            // Reference the same node data (not copies) and strip viewElementObject in place
+            addressableData.viewPagesNodeSaveDatas = new List<ViewPageNodeSaveData>(data.viewPagesNodeSaveDatas);
+            addressableData.viewStateNodeSaveDatas = new List<ViewStateNodeSaveData>(data.viewStateNodeSaveDatas);
+
+            // Null out viewElementObject on the original node assets to break bundle dependencies
+            foreach (var item in allPageItems.Concat(allStateItems))
+            {
+                if (item != null)
+                    item.viewElementObject = null;
+            }
+            foreach (var entry in data.uniqueViewElementTable)
+            {
+                entry.viewElementGameObject = null;
+            }
+
+            // Copy global settings
+            addressableData.globalSetting = data.globalSetting;
+
+            // Mark all node assets dirty after stripping
+            foreach (var item in data.viewPagesNodeSaveDatas)
+                EditorUtility.SetDirty(item);
+            foreach (var item in data.viewStateNodeSaveDatas)
+                EditorUtility.SetDirty(item);
+
+            EditorUtility.SetDirty(data);
+            EditorUtility.SetDirty(addressableData);
+            AssetDatabase.SaveAssets();
+
+            ViewSystemLog.Log($"ViewSystemSaveData_Addressable generated: {addressableData.viewPageItemAssetRefs.Count} asset refs, {addressableData.uniqueViewElementAssetRefs.Count} unique element refs, group: {targetGroup.Name}.");
+        }
+
+        void EnsureAddressableEntry(AddressableAssetSettings settings, AddressableAssetGroup targetGroup, string guid, string assetPath, string prefabName)
+        {
+            var existingEntry = settings.FindAssetEntry(guid);
+            if (existingEntry == null)
+            {
+                var newEntry = settings.CreateOrMoveEntry(guid, targetGroup);
+                newEntry.address = prefabName;
+                ViewSystemLog.Log($"Added '{prefabName}' to Addressable Group '{targetGroup.Name}'.");
+            }
+            else if (existingEntry.parentGroup != targetGroup)
+            {
+                settings.CreateOrMoveEntry(guid, targetGroup);
+                ViewSystemLog.Log($"Moved '{prefabName}' to Addressable Group '{targetGroup.Name}'.");
+            }
+        }
+
+        /// <summary>
+        /// Restore viewElementObject references from AssetReference GUIDs when editor opens in addressable mode.
+        /// This allows the editor to display ViewElement assignments even though they were stripped on disk.
+        /// </summary>
+        public void RestoreViewElementReferencesFromAddressable()
+        {
+            var addressableFilePath = ViewSystemResourceFolder + ViewSystemSaveData_AddressableFileName;
+            var addressableData = AssetDatabase.LoadAssetAtPath<ViewSystemSaveData_Addressable>(addressableFilePath);
+            if (addressableData == null)
+                return;
+
+            var assetRefLookup = addressableData.viewPageItemAssetRefs.ToDictionary(x => x.viewPageItemId, x => x.assetReference);
+
+            var allPageItems = data.viewPagesNodeSaveDatas.SelectMany(m => m.data.viewPage.viewPageItems);
+            var allStateItems = data.viewStateNodeSaveDatas.SelectMany(m => m.data.viewState.viewPageItems);
+            int restoredCount = 0;
+
+            foreach (var item in allPageItems.Concat(allStateItems))
+            {
+                if (item == null || item.viewElementObject != null)
+                    continue;
+                if (assetRefLookup.TryGetValue(item.Id, out var assetRef) && !string.IsNullOrEmpty(assetRef.AssetGUID))
+                {
+                    var path = AssetDatabase.GUIDToAssetPath(assetRef.AssetGUID);
+                    if (!string.IsNullOrEmpty(path))
+                    {
+                        item.viewElementObject = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                        restoredCount++;
+                    }
+                }
+            }
+
+            // Restore uniqueViewElementTable
+            var uniqueLookup = addressableData.uniqueViewElementAssetRefs.ToDictionary(x => x.type, x => x.assetReference);
+            foreach (var entry in data.uniqueViewElementTable)
+            {
+                if (entry.viewElementGameObject != null)
+                    continue;
+                if (uniqueLookup.TryGetValue(entry.type, out var assetRef) && !string.IsNullOrEmpty(assetRef.AssetGUID))
+                {
+                    var path = AssetDatabase.GUIDToAssetPath(assetRef.AssetGUID);
+                    if (!string.IsNullOrEmpty(path))
+                    {
+                        entry.viewElementGameObject = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                        restoredCount++;
+                    }
+                }
+            }
+
+            if (restoredCount > 0)
+                ViewSystemLog.Log($"Restored {restoredCount} ViewElement references from addressable data for editor use.");
+        }
+
+        void CleanupAddressableSaveData()
+        {
+            var addressableFilePath = ViewSystemResourceFolder + ViewSystemSaveData_AddressableFileName;
+            var addressableData = AssetDatabase.LoadAssetAtPath<ViewSystemSaveData_Addressable>(addressableFilePath);
+            if (addressableData == null)
+                return;
+
+            // Remove Addressable entries for all ViewElement prefabs
+            RemoveAllAddressableEntries(addressableData);
+
+            // Delete addressable save data asset
+            AssetDatabase.DeleteAsset(addressableFilePath);
+
+            AssetDatabase.Refresh();
+            ViewSystemLog.Log("Addressable save data and entries cleaned up.");
+        }
+
+        void RemoveAllAddressableEntries(ViewSystemSaveData_Addressable addressableData)
+        {
+            var settings = AddressableAssetSettingsDefaultObject.Settings;
+            if (settings == null)
+                return;
+
+            // Use the stored AssetReference GUIDs (more reliable than viewElementObject which may be null)
+            var guidsToRemove = new HashSet<string>();
+
+            foreach (var assetRef in addressableData.viewPageItemAssetRefs)
+            {
+                if (assetRef.assetReference != null && !string.IsNullOrEmpty(assetRef.assetReference.AssetGUID))
+                    guidsToRemove.Add(assetRef.assetReference.AssetGUID);
+            }
+            foreach (var assetRef in addressableData.uniqueViewElementAssetRefs)
+            {
+                if (assetRef.assetReference != null && !string.IsNullOrEmpty(assetRef.assetReference.AssetGUID))
+                    guidsToRemove.Add(assetRef.assetReference.AssetGUID);
+            }
+
+            int removedCount = 0;
+            foreach (var guid in guidsToRemove)
+            {
+                var existingEntry = settings.FindAssetEntry(guid);
+                if (existingEntry != null)
+                {
+                    settings.RemoveAssetEntry(guid);
+                    removedCount++;
+                }
+            }
+
+            if (removedCount > 0)
+                ViewSystemLog.Log($"Removed {removedCount} ViewElement prefabs from Addressable groups.");
+        }
+
+        public void SaveUniqueData(bool SetDirtyAndSaveAssets)
+        {
+            data.uniqueViewElementTable.Clear();
+            var vpi = data.viewPagesNodeSaveDatas.SelectMany(m => m.data.viewPage.viewPageItems);
+            var vsi = data.viewStateNodeSaveDatas.SelectMany(m => m.data.viewState.viewPageItems);
+            foreach (var item in vpi)
+            {
+                if (item == null)
+                {
+                    ViewSystemLog.LogError($"item is null ignore");
+                    continue;
+                }
+
+                if (item.viewElementObject == null)
+                {
+                    ViewSystemLog.LogError($"item in {item.name} is null, use verifier to find it.");
+                    continue;
+                }
+
+                foreach (var i in item.viewElementObject.GetComponents<IViewElementSingleton>())
+                {
+                    var t = i.GetType().ToString();
+                    if (data.uniqueViewElementTable.Count(m => m.type == t) > 0)
+                    {
+                        continue;
+                    }
+                    data.uniqueViewElementTable.Add(
+                        new UniqueViewElementTableData
+                        {
+                            type = t,
+                            viewElementGameObject = item.viewElementObject
+                        }
+                    );
+                }
+            }
+
+            foreach (var item in vsi)
+            {
+                if (item == null)
+                {
+                    ViewSystemLog.LogError($"item is null");
+                    continue;
+                }
+                if (item.viewElementObject == null)
+                {
+                    ViewSystemLog.LogError($"item in {item.name} is null, use verifier to find it.");
+                    continue;
+                }
+                foreach (var i in item.viewElementObject.GetComponents<IViewElementSingleton>())
+                {
+                    var t = i.GetType().ToString();
+                    if (data.uniqueViewElementTable.Count(m => m.type == t) > 0)
+                    {
+                        continue;
+                    }
+                    data.uniqueViewElementTable.Add(
+                        new UniqueViewElementTableData
+                        {
+                            type = t,
+                            viewElementGameObject = item.viewElementObject
+                        }
+                    );
+                }
+            }
+
+            if (SetDirtyAndSaveAssets)
+            {
+                UnityEditor.EditorUtility.SetDirty(data);
+                AssetDatabase.SaveAssets();
+            }
+        }
+
+        public ViewSystemSaveData GetSaveData()
+        {
+            return data;
+        }
+
+        // Unity Issue, prefab reference in scene will be changed after apply/revert a prefab which cause reference missing on ViewSystem editor
+        // A hack to fix it
+        // https://issuetracker.unity3d.com/issues/prefabs-references-are-lost-when-modifying-prefab
+        public void RepairPrefabReference()
+        {
+            IEnumerable<ViewPageItem> allViewPageItems = data.GetViewPageSaveDatas().Select(m => m.viewPage).SelectMany(m => m.viewPageItems);
+            IEnumerable<ViewPageItem> allViewStateItems = data.GetViewStateSaveDatas().Select(m => m.viewState).SelectMany(m => m.viewPageItems);
+            foreach (var item in allViewPageItems)
+            {
+                if (item == null || item.viewElementObject == null)
+                {
+                    ViewSystemLog.LogError("One or more item in ViewPage is null, use verifier to find out and fix.");
+                    continue;
+                }
+                PrefabInstanceStatus prefabInstanceStatus = PrefabUtility.GetPrefabInstanceStatus(item.viewElementObject);
+                PrefabAssetType prefabAssetType = PrefabUtility.GetPrefabAssetType(item.viewElementObject);
+                if (prefabInstanceStatus == PrefabInstanceStatus.Connected)
+                {
+                    ViewSystemLog.LogWarning($"Auto fixing reference : {item.viewElementObject.name}");
+                    var temp = item.viewElementObject;
+
+                    item.viewElementObject = PrefabUtility.GetCorrespondingObjectFromSource(temp);
+                    ViewSystemLog.LogWarning($"Auto fix reference done: {item.viewElementObject.name}");
+                }
+            }
+            foreach (var item in allViewStateItems)
+            {
+                if (item == null || item.viewElementObject == null)
+                {
+                    ViewSystemLog.LogError("One or more item in ViewPage is null, use verifier to find out and fix.");
+
+                    continue;
+                }
+                PrefabInstanceStatus prefabInstanceStatus = PrefabUtility.GetPrefabInstanceStatus(item.viewElementObject);
+                PrefabAssetType prefabAssetType = PrefabUtility.GetPrefabAssetType(item.viewElementObject);
+                if (prefabInstanceStatus == PrefabInstanceStatus.Connected)
+                {
+                    ViewSystemLog.LogWarning($"Auto fixing reference : {item.viewElementObject.name}");
+                    var temp = item.viewElementObject;
+
+                    item.viewElementObject = PrefabUtility.GetCorrespondingObjectFromSource(temp);
+                    ViewSystemLog.LogWarning($"Auto fix reference done: {item.viewElementObject.name}");
+                }
+            }
+        }
+
+        public static void CheckAndCreateResourceFolder()
+        {
+            if (!Directory.Exists(ViewSystemResourceFolder))
+            {
+                Directory.CreateDirectory(ViewSystemResourceFolder);
+                using (FileStream fs = File.Create(ViewSystemResourceFolder + "Auto Create by ViewSystem.txt"))
+                {
+                    Byte[] info = System.Text.Encoding.UTF8.GetBytes("This folder and contain datas is auto Created by ViewSystem, Delete this folder or any datas may cause ViewSystem works not properly.");
+                    // Add some information to the file.
+                    fs.Write(info, 0, info.Length);
+                }
+                AssetDatabase.Refresh();
+            }
+        }
+
+        ViewSystemSaveData CheckOrReadSaveData()
+        {
+            ViewSystemSaveData result = null;
+            var filePath = ViewSystemResourceFolder + ViewSystemSaveDataFileName;
+
+            if (!File.Exists(filePath))
+            {
+                result = ScriptableObject.CreateInstance<ViewSystemSaveData>();
+                AssetDatabase.CreateAsset(result, filePath);
+                AssetImporter.GetAtPath(filePath);
+                AssetDatabase.Refresh();
+                return result;
+            }
+
+            result = AssetDatabase.LoadAssetAtPath<ViewSystemSaveData>(filePath);
+            return result;
+        }
+
+        // public Transform GetViewControllerRoot()
+        // {
+        //     return ViewControllerTransform;
+        // }
+    }
+
+}
+

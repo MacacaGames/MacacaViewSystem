@@ -6,7 +6,8 @@
         "Macaca.Utility.Editor",
         "Macaca.ViewSystem",
         "Unity.Addressables",
-        "Unity.Addressables.Editor"
+        "Unity.Addressables.Editor",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [
         "Editor"

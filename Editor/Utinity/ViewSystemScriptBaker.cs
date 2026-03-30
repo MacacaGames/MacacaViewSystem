@@ -96,7 +96,7 @@ namespace MacacaGames.ViewSystem
         static string GetPathToGeneratedScriptLocalization()
         {
 
-            MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReaderV2.CheckAndCreateResourceFolder();
+            MacacaGames.ViewSystem.VisualEditor.ViewSystemDataReader.CheckAndCreateResourceFolder();
             string[] assets = AssetDatabase.FindAssets("ViewSystemScriptable");
             if (assets.Length > 0)
             {

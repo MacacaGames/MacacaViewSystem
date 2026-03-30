@@ -33,7 +33,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
     public class ViewSystemVisualEditor : EditorWindow
     {
         public static ViewSystemVisualEditor Instance;
-        public static ViewSystemDataReaderV2 dataReader;
+        public static ViewSystemDataReader dataReader;
         public static ViewSystemNodeInspector inspector;
         public static ViewSystemGlobalSettingWindow globalSettingWindow;
         static ViewPageOrderWindow viewPageOrderWindow;
@@ -111,13 +111,13 @@ namespace MacacaGames.ViewSystem.VisualEditor
         {
             ClearEditor();
             EditMode = false;
-            dataReader = new ViewSystemDataReaderV2(this);
+            dataReader = new ViewSystemDataReader(this);
             isInit = dataReader.Init();
-            saveData = ((ViewSystemDataReaderV2)dataReader).GetSaveData();
+            saveData = ((ViewSystemDataReader)dataReader).GetSaveData();
             inspector = new ViewSystemNodeInspector(this);
-            //ViewControllerRoot = ((ViewSystemDataReaderV2)dataReader).GetViewControllerRoot();
-            globalSettingWindow = new ViewSystemGlobalSettingWindow("Global Setting", this, (ViewSystemDataReaderV2)dataReader);
-            viewPageOrderWindow = new ViewPageOrderWindow("Overlay Order", this, (ViewSystemDataReaderV2)dataReader);
+            //ViewControllerRoot = ((ViewSystemDataReader)dataReader).GetViewControllerRoot();
+            globalSettingWindow = new ViewSystemGlobalSettingWindow("Global Setting", this, (ViewSystemDataReader)dataReader);
+            viewPageOrderWindow = new ViewPageOrderWindow("Overlay Order", this, (ViewSystemDataReader)dataReader);
             overridePopupWindow = new OverridePopupWindow("Override", this, inspector);
             navigationWindow = new ViewPageNavigationWindow("Navigation Setting", this);
             viewSystemVerifier = new ViewSystemVerifier(this, saveData);
@@ -802,7 +802,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     }
 
                     GUILayout.Space(5);
-                    if (GUILayout.Button(new GUIContent($"Save{(((ViewSystemDataReaderV2)dataReader).isDirty ? "*" : "")}", EditorGUIUtility.FindTexture("d_SaveAs@2x")), EditorStyles.toolbarButton, GUILayout.Width(50)))
+                    if (GUILayout.Button(new GUIContent($"Save{(((ViewSystemDataReader)dataReader).isDirty ? "*" : "")}", EditorGUIUtility.FindTexture("d_SaveAs@2x")), EditorStyles.toolbarButton, GUILayout.Width(50)))
                     {
                         if (isInit == false)
                         {
@@ -830,7 +830,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
                     if (GUILayout.Button(new GUIContent("Clear Preview", "Clear all preview item"), EditorStyles.toolbarButton))
                     {
-                        ((ViewSystemDataReaderV2)dataReader).ClearAllViewElementInScene();
+                        ((ViewSystemDataReader)dataReader).ClearAllViewElementInScene();
                     }
                     if (GUILayout.Button(new GUIContent("Normalized", "Normalized all item (Will Delete the Canvas Root Object in Scene)"), EditorStyles.toolbarButton))
                     {

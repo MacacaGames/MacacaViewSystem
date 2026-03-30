@@ -11,10 +11,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
     public class ViewPageOrderWindow : ViewSystemNodeWindow
     {
 
-        ViewSystemDataReaderV2 dataReader;
+        ViewSystemDataReader dataReader;
 
         static ViewSystemSaveData saveData => ViewSystemVisualEditor.saveData;
-        public ViewPageOrderWindow(string name, ViewSystemVisualEditor editor, ViewSystemDataReaderV2 dataReader)
+        public ViewPageOrderWindow(string name, ViewSystemVisualEditor editor, ViewSystemDataReader dataReader)
         : base(name, editor)
         {
             this.dataReader = dataReader;

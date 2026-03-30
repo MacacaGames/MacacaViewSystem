@@ -1,9 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AnimatedValues;
 
 namespace MacacaGames.ViewSystem.VisualEditor
@@ -11,10 +12,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
     public class ViewSystemGlobalSettingWindow : ViewSystemNodeWindow
     {
 
-        ViewSystemDataReaderV2 dataReader;
+        ViewSystemDataReader dataReader;
 
         static ViewSystemSaveData saveData => ViewSystemVisualEditor.saveData;
-        public ViewSystemGlobalSettingWindow(string name, ViewSystemVisualEditor editor, ViewSystemDataReaderV2 dataReader)
+        public ViewSystemGlobalSettingWindow(string name, ViewSystemVisualEditor editor, ViewSystemDataReader dataReader)
         : base(name, editor)
         {
             this.dataReader = dataReader;
@@ -49,57 +50,56 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 saveData.globalSetting.customPageRootPath = EditorGUILayout.TextField("Custom Page Root path", saveData.globalSetting.customPageRootPath);
                 EditorGUILayout.HelpBox(" Define a custom path of the ViewPage, otherwise use the Canvas itself.", MessageType.Info);
 
-               
+
                 saveData.globalSetting._maxWaitingTime = EditorGUILayout.Slider(new GUIContent("Change Page Max Waiting", "The max waiting for change page, if previous page need time more than this value ,ViewController wiil force transition to next page."), saveData.globalSetting._maxWaitingTime, 0.5f, 2.5f);
-                //EditorGUILayout.HelpBox("The max waiting for change page, if previous page need time more than this value ,ViewController wiil force transition to next page.", MessageType.Info);
 
                 saveData.globalSetting.minimumTimeInterval = EditorGUILayout.Slider(new GUIContent("Minimum Interval", "The minimum effective interval Show/Leave OverlayPage or ChangePage on FullPage call. If user the method call time interval less than this value, the call will be ignore!"), saveData.globalSetting.minimumTimeInterval, 0.05f, 1f);
-                //EditorGUILayout.HelpBox("The minimum effective interval Show/Leave OverlayPage or ChangePage on FullPage call. If user the method call time interval less than this value, the call will be ignore!", MessageType.Info);
 
                 saveData.globalSetting.builtInClickProtection = EditorGUILayout.Toggle(new GUIContent("Enable Click Protection", "Enable the builtIn click protection or not, if true, the system will ignore the show page call if any page is transition"), saveData.globalSetting.builtInClickProtection);
 
                 GUILayout.Space(10);
+                GUILayout.Label("Addressable Loading", new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));
                 saveData.globalSetting.useAddressableLoading = EditorGUILayout.Toggle(
                     new GUIContent("Use Addressable Loading",
-                        "When enabled, ViewElement prefabs will be loaded on-demand via Addressables instead of all at once.\n" +
-                        "Requires ViewElement Address Populator to populate addresses.\n" +
-                        "When disabled, the traditional direct reference approach is used."),
+                        "When enabled, Save will generate an addressable save data with AssetReferences for runtime lazy loading. The editor workflow remains unchanged."),
                     saveData.globalSetting.useAddressableLoading);
                 if (saveData.globalSetting.useAddressableLoading)
                 {
-                    EditorGUI.indentLevel++;
-                    var addrSettings = AddressableAssetSettingsDefaultObject.Settings;
-                    if (addrSettings != null)
+                    // Addressable Group selector dropdown
+                    var settings = AddressableAssetSettingsDefaultObject.Settings;
+                    if (settings != null)
                     {
-                        var groupNames = addrSettings.groups
+                        var groupNames = settings.groups
                             .Where(g => g != null)
                             .Select(g => g.Name)
                             .ToArray();
 
+                        int currentIndex = System.Array.IndexOf(groupNames, saveData.globalSetting.addressableGroupName);
+                        if (currentIndex < 0) currentIndex = 0;
+
+                        currentIndex = EditorGUILayout.Popup(
+                            new GUIContent("Addressable Group", "Select which Addressable Group to assign ViewElement prefabs to."),
+                            currentIndex, groupNames);
+
                         if (groupNames.Length > 0)
                         {
-                            int idx = System.Array.IndexOf(groupNames, saveData.globalSetting.addressableGroupName);
-                            idx = EditorGUILayout.Popup("Addressable Group", Mathf.Max(0, idx), groupNames);
-                            if (idx >= 0 && idx < groupNames.Length)
-                                saveData.globalSetting.addressableGroupName = groupNames[idx];
-                        }
-                        else
-                        {
-                            EditorGUILayout.HelpBox("No Addressable Groups found.", MessageType.Error);
+                            saveData.globalSetting.addressableGroupName = groupNames[currentIndex];
                         }
                     }
                     else
                     {
-                        EditorGUILayout.HelpBox("Addressable Asset Settings not initialized.", MessageType.Error);
+                        EditorGUILayout.HelpBox("Addressable Asset Settings not found. Please initialize Addressables first.", MessageType.Warning);
                     }
-                    EditorGUI.indentLevel--;
 
                     EditorGUILayout.HelpBox(
-                        "During build, ViewElement prefabs will be auto-registered to the selected Addressable Group\n" +
-                        "and direct references will be cleared to break bundle dependencies. References are restored after build.\n" +
-                        "Use MacacaGames > ViewSystem > ViewElement Address Populator for validation.",
+                        "Addressable Loading is enabled.\n" +
+                        "When you Save:\n" +
+                        "- All ViewElement prefabs will be auto-assigned to the selected Addressable Group.\n" +
+                        "- Two save data files will be generated.\n" +
+                        "- Assign ViewSystemData_Addressable to ViewController's Addressable Save Data field.",
                         MessageType.Info);
                 }
+                GUILayout.Space(10);
 
                 //SafePadding
                 GUILayout.Label("Global Safe Padding", new GUIStyle("TE toolbarbutton"), GUILayout.Height(EditorGUIUtility.singleLineHeight));

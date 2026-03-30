@@ -2,7 +2,9 @@
     "name": "Macaca.ViewSystem",
     "references": [
         "UnityEngine.UI",
-        "Macaca.Utility"
+        "Macaca.Utility",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

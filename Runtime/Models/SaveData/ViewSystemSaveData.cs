@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -61,7 +61,7 @@ namespace MacacaGames.ViewSystem
 
             /// <summary>
             /// Enable the builtIn click protection or not, if true, the system will ignore the show page call if any page is transition
-            /// </summary> 
+            /// </summary>
             public bool builtInClickProtection = true;
 
             /// <summary>
