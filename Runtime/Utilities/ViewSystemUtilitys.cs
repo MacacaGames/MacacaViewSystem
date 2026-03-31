@@ -148,7 +148,7 @@ namespace MacacaGames.ViewSystem
             return Mathf.Clamp(maxInAnitionTime, 0, maxClampTime);
             //return maxOutAnitionTime;
         }
-        public static float CalculateOnLeaveDuration(IEnumerable<ViewElement> viewElements, float maxClampTime = 1)
+        public static float CalculateOnLeaveDuration(IEnumerable<ViewElement> viewElements, float maxClampTime = 1, string callerContext = null)
         {
             float maxOutAnitionTime = 0;
 
@@ -156,7 +156,7 @@ namespace MacacaGames.ViewSystem
             {
                 if (item == null)
                 {
-                    ViewSystemLog.LogError($"One or more ViewElement is null in the page trying to Leave, ignore the item.");
+                    ViewSystemLog.LogError($"One or more ViewElement is null in the page trying to Leave, ignore the item.{(callerContext != null ? $" (caller: {callerContext})" : "")}");
                     continue;
                 }
                 float t = item.GetOutDuration();

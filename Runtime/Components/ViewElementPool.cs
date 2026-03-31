@@ -12,7 +12,7 @@ public class ViewElementPool : TransformCacheBase
         {
             if (_canvas == null)
             {
-                _canvas = (Canvas)FindObjectOfType(typeof(Canvas));
+                _canvas = (Canvas)FindAnyObjectByType(typeof(Canvas));
             }
             return _canvas;
         }

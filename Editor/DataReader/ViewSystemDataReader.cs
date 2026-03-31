@@ -556,7 +556,25 @@ namespace MacacaGames.ViewSystem.VisualEditor
             var allPageItems = data.viewPagesNodeSaveDatas.SelectMany(m => m.data.viewPage.viewPageItems);
             var allStateItems = data.viewStateNodeSaveDatas.SelectMany(m => m.data.viewState.viewPageItems);
             var processedGuids = new HashSet<string>();
-            var processedIds = new HashSet<string>();
+
+            // Detect and fix Id collisions before saving
+            var idToItem = new Dictionary<string, ViewPageItem>();
+            foreach (var item in allPageItems.Concat(allStateItems))
+            {
+                if (item == null)
+                    continue;
+                if (idToItem.TryGetValue(item.Id, out var existing))
+                {
+                    // Id collision detected — regenerate Id for this item
+                    var oldId = item.Id;
+                    item.Id = System.Guid.NewGuid().ToString().Replace("-", "");
+                    // Make sure the new Id doesn't collide either
+                    while (idToItem.ContainsKey(item.Id))
+                        item.Id = System.Guid.NewGuid().ToString().Replace("-", "");
+                    ViewSystemLog.LogWarning($"Id collision detected: '{oldId}' used by '{existing.displayName}' and '{item.displayName}'. Regenerated new Id: '{item.Id}' for '{item.displayName}'.");
+                }
+                idToItem[item.Id] = item;
+            }
 
             addressableData.viewPageItemAssetRefs.Clear();
             addressableData.uniqueViewElementAssetRefs.Clear();
@@ -565,9 +583,6 @@ namespace MacacaGames.ViewSystem.VisualEditor
             {
                 if (item == null || item.viewElementObject == null)
                     continue;
-                if (processedIds.Contains(item.Id))
-                    continue;
-                processedIds.Add(item.Id);
 
                 var assetPath = AssetDatabase.GetAssetPath(item.viewElementObject);
                 var guid = AssetDatabase.AssetPathToGUID(assetPath);
@@ -653,7 +668,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
             }
             else if (existingEntry.parentGroup != targetGroup)
             {
-                settings.CreateOrMoveEntry(guid, targetGroup);
+                var movedEntry = settings.CreateOrMoveEntry(guid, targetGroup);
+                movedEntry.address = prefabName;
                 ViewSystemLog.Log($"Moved '{prefabName}' to Addressable Group '{targetGroup.Name}'.");
             }
         }
@@ -669,7 +685,11 @@ namespace MacacaGames.ViewSystem.VisualEditor
             if (addressableData == null)
                 return;
 
-            var assetRefLookup = addressableData.viewPageItemAssetRefs.ToDictionary(x => x.viewPageItemId, x => x.assetReference);
+            var assetRefLookup = new Dictionary<string, AssetReferenceGameObject>();
+            foreach (var entry in addressableData.viewPageItemAssetRefs)
+            {
+                assetRefLookup[entry.viewPageItemId] = entry.assetReference;
+            }
 
             var allPageItems = data.viewPagesNodeSaveDatas.SelectMany(m => m.data.viewPage.viewPageItems);
             var allStateItems = data.viewStateNodeSaveDatas.SelectMany(m => m.data.viewState.viewPageItems);

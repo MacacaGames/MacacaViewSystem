@@ -269,7 +269,7 @@ namespace MacacaGames.ViewSystem
 
         void CheckEventSystem()
         {
-            if (FindObjectOfType<EventSystem>() == null)
+            if (FindAnyObjectByType<EventSystem>() == null)
             {
                 ViewSystemLog.Log("Create EventSystem due to no instance found on Scene");
                 var eventSystem = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));

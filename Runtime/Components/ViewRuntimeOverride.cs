@@ -162,7 +162,7 @@ namespace MacacaGames.ViewSystem
                 //The method impletmented Object
                 if (scriptInstance == null)
                 {
-                    scriptInstance = (Component)FindObjectOfType(type);
+                    scriptInstance = (Component)FindAnyObjectByType(type);
 
                     //Still null, generate new one
                     if (scriptInstance == null)

@@ -93,11 +93,13 @@ namespace MacacaGames.ViewSystem
         {
             get
             {
-                if (string.IsNullOrEmpty(name))
-                {
-                    return viewElement == null ? "ViewElement not Set" : viewElement.name;
-                }
-                else return name;
+                if (!string.IsNullOrEmpty(name))
+                    return name;
+                if (viewElement != null)
+                    return viewElement.name;
+                if (runtimeViewElement != null)
+                    return runtimeViewElement.name;
+                return "ViewElement not Set";
             }
         }
 
@@ -179,7 +181,7 @@ namespace MacacaGames.ViewSystem
         public void GenerateId()
         {
             if (string.IsNullOrEmpty(Id))
-                Id = System.Guid.NewGuid().ToString().Substring(0, 8);
+                Id = System.Guid.NewGuid().ToString().Replace("-", "");
         }
         public ViewElementTransform GetCurrentViewElementTransform(Dictionary<string, bool> currentBreakPoints)
         {

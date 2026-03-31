@@ -5,12 +5,10 @@ namespace MacacaGames.ViewSystem
 {
     public class ViewElementRuntimePool : MonoBehaviour
     {
-        bool init = false;
         ViewElementPool _hierachyPool;
         public void Init(ViewElementPool hierachyPool)
         {
             _hierachyPool = hierachyPool;
-            init = true;
         }
         [SerializeField]
         Dictionary<int, Queue<ViewElement>> veDicts = new Dictionary<int, Queue<ViewElement>>();
@@ -88,7 +86,6 @@ namespace MacacaGames.ViewSystem
                 yield return null;
             }
         }
-        int i = 0;
         public ViewElement PrewarmUniqueViewElement(ViewElement source)
         {
             if (!source.IsUnique)

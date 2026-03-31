@@ -154,9 +154,16 @@ namespace MacacaGames.ViewSystem
 
             if (_useAddressableLoading && saveData is ViewSystemSaveData_Addressable addressableSaveData)
             {
-                // Build AssetReference lookup dictionaries
-                _assetRefLookup = addressableSaveData.viewPageItemAssetRefs
-                    .ToDictionary(x => x.viewPageItemId, x => x.assetReference);
+                // Build AssetReference lookup dictionaries (use last entry if duplicate Ids exist)
+                _assetRefLookup = new Dictionary<string, AssetReferenceGameObject>();
+                foreach (var entry in addressableSaveData.viewPageItemAssetRefs)
+                {
+                    if (_assetRefLookup.ContainsKey(entry.viewPageItemId))
+                    {
+                        ViewSystemLog.LogWarning($"Duplicate viewPageItemId '{entry.viewPageItemId}' found in addressable save data, overwriting.");
+                    }
+                    _assetRefLookup[entry.viewPageItemId] = entry.assetReference;
+                }
                 _uniqueAssetRefLookup = addressableSaveData.uniqueViewElementAssetRefs
                     .ToDictionary(x => x.type, x => x.assetReference);
 
@@ -220,6 +227,11 @@ namespace MacacaGames.ViewSystem
 
         public T GetSingletonViewElement<T>() where T : Component, IViewElementSingleton
         {
+            if (!IsReady)
+            {
+                ViewSystemLog.LogWarning($"GetSingletonViewElement<{typeof(T).Name}> called before ViewSystem is ready. Use GetSingletonViewElementAsync instead.");
+            }
+
             if (SingletonViewElementDictionary.TryGetValue(typeof(T), out Component result))
             {
                 return (T)result;
@@ -241,9 +253,14 @@ namespace MacacaGames.ViewSystem
 
         IViewElementSingleton WarmupUniqueViewElement(Type type)
         {
-            if (_useAddressableLoading || saveData is not ViewSystemSaveData directSaveData)
+            if (_useAddressableLoading)
             {
-                ViewSystemLog.Log("In addressable mode, use GetSingletonViewElementAsync instead of sync warmup.");
+                return WarmupUniqueViewElementAddressable(type);
+            }
+
+            if (saveData is not ViewSystemSaveData directSaveData)
+            {
+                ViewSystemLog.LogWarning("SaveData is not ViewSystemSaveData, cannot warmup unique ViewElement.");
                 return null;
             }
 
@@ -256,24 +273,72 @@ namespace MacacaGames.ViewSystem
             }
 
             var r = runtimePool.PrewarmUniqueViewElement(item.viewElementGameObject.GetComponent<ViewElement>());
-            if (r != null)
-            {
-                foreach (var i in r.GetComponents<IViewElementSingleton>())
-                {
-                    if (i.GetType() == type)
-                    {
-                        result = i;
-                    }
+            return RegisterSingletonFromViewElement(r, type);
+        }
 
-                    var c = (Component)i;
-                    var t = c.GetType();
-                    if (!SingletonViewElementDictionary.ContainsKey(t))
-                        SingletonViewElementDictionary.Add(t, c);
-                    else
-                    {
-                        ViewSystemLog.LogWarning("Type " + t + " has been injected");
-                        continue;
-                    }
+        IViewElementSingleton WarmupUniqueViewElementAddressable(Type type)
+        {
+            if (!_uniqueAssetRefLookup.TryGetValue(type.ToString(), out var assetRef))
+            {
+                ViewSystemLog.LogWarning($"No AssetReference found for unique ViewElement type: {type.Name}");
+                return null;
+            }
+
+            if (!assetRef.RuntimeKeyIsValid())
+            {
+                ViewSystemLog.LogWarning($"Invalid AssetReference for unique ViewElement type: {type.Name}");
+                return null;
+            }
+
+            GameObject loadedAsset;
+            if (assetRef.OperationHandle.IsValid() && assetRef.OperationHandle.IsDone)
+            {
+                loadedAsset = assetRef.OperationHandle.Convert<GameObject>().Result;
+            }
+            else
+            {
+                ViewSystemLog.Log($"Sync loading unique ViewElement via Addressables: {type.Name}");
+                var handle = assetRef.LoadAssetAsync<GameObject>();
+                loadedAsset = handle.WaitForCompletion();
+            }
+
+            if (loadedAsset == null)
+            {
+                ViewSystemLog.LogError($"Failed to load unique ViewElement for type: {type.Name}");
+                return null;
+            }
+
+            var ve = loadedAsset.GetComponent<ViewElement>();
+            if (ve == null)
+            {
+                ViewSystemLog.LogError($"Loaded asset for {type.Name} does not have a ViewElement component.");
+                return null;
+            }
+
+            var r = runtimePool.PrewarmUniqueViewElement(ve);
+            return RegisterSingletonFromViewElement(r, type);
+        }
+
+        IViewElementSingleton RegisterSingletonFromViewElement(ViewElement r, Type type)
+        {
+            IViewElementSingleton result = null;
+            if (r == null) return result;
+
+            foreach (var i in r.GetComponents<IViewElementSingleton>())
+            {
+                if (i.GetType() == type)
+                {
+                    result = i;
+                }
+
+                var c = (Component)i;
+                var t = c.GetType();
+                if (!SingletonViewElementDictionary.ContainsKey(t))
+                    SingletonViewElementDictionary.Add(t, c);
+                else
+                {
+                    ViewSystemLog.LogWarning("Type " + t + " has been injected");
+                    continue;
                 }
             }
 
@@ -894,7 +959,7 @@ namespace MacacaGames.ViewSystem
 
             //  nextViewPageForCurrentChangePageWaitTime = ViewSystemUtilitys.CalculateDelayOutTime(viewItemNextPage);
             nextViewPageWaitTime =
-                ViewSystemUtilitys.CalculateOnLeaveDuration(viewItemNextPage.Select(m => m.viewElement), maxClampTime);
+                ViewSystemUtilitys.CalculateOnLeaveDuration(viewItemNextPage.Select(m => m.runtimeViewElement), maxClampTime, nextViewPageForCurrentChangePage?.name);
 
             // Wait for previous page OnLeave to finish. Note: with many Animators, this is an estimated duration clamped to max time
             if (ignoreTimeScale)
@@ -1214,11 +1279,22 @@ namespace MacacaGames.ViewSystem
             if (overlayPageState.viewState != null)
                 viewPageItems.AddRange(overlayPageState.viewState.viewPageItems);
 
+            // If all runtimeViewElements are null, the page was never fully loaded (e.g. Leave called during async loading)
+            if (viewPageItems.Count > 0 && viewPageItems.All(item => item.runtimeViewElement == null))
+            {
+                ViewSystemLog.LogWarning("All ViewElements are null, page was not fully loaded. Cleaning up overlay status.");
+                overlayPageState.IsTransition = false;
+                string key = GetOverlayStateKey(overlayPageState.viewPage);
+                overlayPageStatusDict.Remove(key);
+                OnComplete?.Invoke();
+                yield break;
+            }
+
             foreach (var item in viewPageItems)
             {
                 if (item.runtimeViewElement == null)
                 {
-                    ViewSystemLog.LogWarning($"ViewElement : {item.viewElement.name} is null in runtime.");
+                    ViewSystemLog.LogWarning($"ViewElement : {item.displayName} (Id: {item.Id}) is null in runtime.");
                     continue;
                 }
 
@@ -1243,8 +1319,8 @@ namespace MacacaGames.ViewSystem
                                 var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
                                 item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData,
                                     item.sortingOrder, tweenTimeIfNeed, 0);
-                                ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name +
-                                                         "Try to back to origin Transfrom parent : " +
+                                ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name +
+                                                         " Try to back to origin Transform parent : " +
                                                          vpi.runtimeParent.name);
                             }
                             catch
@@ -1275,8 +1351,8 @@ namespace MacacaGames.ViewSystem
 
                             item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData,
                                 item.sortingOrder, tweenTimeIfNeed, 0);
-                            ViewSystemLog.LogWarning("ViewElement : " + item.viewElement.name +
-                                                     "Try to back to origin Transfrom parent : " +
+                            ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name +
+                                                     " Try to back to origin Transform parent : " +
                                                      vpi.runtimeParent.name);
                         }
                         catch
@@ -1675,12 +1751,19 @@ namespace MacacaGames.ViewSystem
         //Get ViewElement in viewPage
         public ViewElement GetViewPageElementByName(ViewPage viewPage, string viewPageItemName)
         {
-            return viewPage.viewPageItems.SingleOrDefault((_) => _.displayName == viewPageItemName).runtimeViewElement;
+            var item = viewPage.viewPageItems.SingleOrDefault((_) => _.displayName == viewPageItemName);
+            if (item == null)
+            {
+                ViewSystemLog.LogWarning($"ViewPageItem with name '{viewPageItemName}' not found in ViewPage '{viewPage.name}'.");
+                return null;
+            }
+            return item.runtimeViewElement;
         }
 
         public T GetViewPageElementComponentByName<T>(ViewPage viewPage, string viewPageItemName) where T : Component
         {
-            return GetViewPageElementByName(viewPage, viewPageItemName).GetComponent<T>();
+            var ve = GetViewPageElementByName(viewPage, viewPageItemName);
+            return ve != null ? ve.GetComponent<T>() : null;
         }
 
         public ViewElement GetViewPageElementByName(string viewPageName, string viewPageItemName)
@@ -1695,7 +1778,8 @@ namespace MacacaGames.ViewSystem
 
         public T GetViewPageElementComponentByName<T>(string viewPageName, string viewPageItemName) where T : Component
         {
-            return GetViewPageElementByName(viewPageName, viewPageItemName).GetComponent<T>();
+            var ve = GetViewPageElementByName(viewPageName, viewPageItemName);
+            return ve != null ? ve.GetComponent<T>() : null;
         }
 
         public ViewElement GetCurrentViewPageElementByName(string viewPageItemName)
@@ -1705,7 +1789,8 @@ namespace MacacaGames.ViewSystem
 
         public T GetCurrentViewPageElementComponentByName<T>(string viewPageItemName) where T : Component
         {
-            return GetCurrentViewPageElementByName(viewPageItemName).GetComponent<T>();
+            var ve = GetCurrentViewPageElementByName(viewPageItemName);
+            return ve != null ? ve.GetComponent<T>() : null;
         }
 
         //Get viewElement in statePage
