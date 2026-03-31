@@ -1074,6 +1074,9 @@ namespace MacacaGames.ViewSystem
                 overlayPageStatus.viewState = viewState;
                 overlayPageStatus.transition = ViewSystemUtilitys.OverlayPageStatus.Transition.Show;
 
+                // Register early so that Leave calls during async loading can find this entry
+                overlayPageStatusDict[OverlayPageStateKey] = overlayPageStatus;
+
                 if (_useAddressableLoading)
                 {
                     yield return PrepareRuntimeReferenceAsync(GetAllViewPageItemInViewPage(vp), result => { viewItemNextPage = result; });
@@ -1101,8 +1104,6 @@ namespace MacacaGames.ViewSystem
                         }
                     }
                 }
-
-                overlayPageStatusDict.Add(OverlayPageStateKey, overlayPageStatus);
             }
 
             OnStart?.Invoke();
