@@ -34,7 +34,7 @@ namespace MacacaGames.ViewSystem
             s_initOnAwake = so.FindProperty("initOnAwake");
             s_autoPrewarm = so.FindProperty("autoPrewarm");
 
-            s_SaveData = so.FindProperty("viewSystemSaveData");
+            s_SaveData = so.FindProperty("saveData");
             s_vs = so.FindProperty("viewStates");
             s_vp = so.FindProperty("viewPages");
             s_current_element_vs = so.FindProperty("currentLiveElementsInViewState");

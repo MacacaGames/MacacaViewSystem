@@ -18,15 +18,11 @@ namespace MacacaGames.ViewSystem
         static float maxClampTime = 1;
         [SerializeField] public bool initOnAwake = true;
         [SerializeField] public bool autoPrewarm = true;
-        [SerializeField] private ViewSystemSaveData viewSystemSaveData;
-        [SerializeField] private ViewSystemSaveData_Addressable addressableSaveData;
+        [SerializeField] private ViewSystemSaveDataBase saveData;
 
         private Dictionary<string, AssetReferenceGameObject> _assetRefLookup;
         private Dictionary<string, AssetReferenceGameObject> _uniqueAssetRefLookup;
         private bool _useAddressableLoading = false;
-
-        private ViewSystemSaveData.ViewSystemBaseSetting ActiveGlobalSetting =>
-            _useAddressableLoading ? addressableSaveData.globalSetting : viewSystemSaveData.globalSetting;
 
         Transform transformCache;
         Transform rootCanvasTransform;
@@ -60,33 +56,17 @@ namespace MacacaGames.ViewSystem
         }
         
         /// <summary>
-        /// Dynamic load view system data
+        /// Dynamic load view system data (supports both ViewSystemSaveData and ViewSystemSaveData_Addressable)
         /// </summary>
-        /// <param name="viewSystemSaveData"></param>
-        public void SetSaveDataManually(ViewSystemSaveData viewSystemSaveData)
+        public void SetSaveDataManually(ViewSystemSaveDataBase data)
         {
-            if (viewSystemSaveData == null)
+            if (data == null)
             {
                 ViewSystemLog.LogError("SetSaveDataManually called with null save data.");
                 return;
             }
 
-            this.viewSystemSaveData = viewSystemSaveData;
-            Init();
-        }
-
-        /// <summary>
-        /// Dynamic load view system data with Addressable (Addressable) support
-        /// </summary>
-        public void SetAddressableSaveDataManually(ViewSystemSaveData_Addressable addressableData)
-        {
-            if (addressableData == null)
-            {
-                ViewSystemLog.LogError("SetAddressableSaveDataManually called with null addressable save data.");
-                return;
-            }
-
-            this.addressableSaveData = addressableData;
+            this.saveData = data;
             Init();
         }
 
@@ -98,17 +78,14 @@ namespace MacacaGames.ViewSystem
                 return;
             }
 
-            // Determine loading mode: if addressableSaveData is assigned, use it exclusively
-            // (viewSystemSaveData should NOT be assigned in addressable mode to avoid bundle loading)
-            _useAddressableLoading = addressableSaveData != null && addressableSaveData.globalSetting.useAddressableLoading;
-
-            if (!_useAddressableLoading && viewSystemSaveData == null)
+            if (saveData == null)
             {
-                ViewSystemLog.LogError("No save data assigned. Set either ViewSystemSaveData or ViewSystemSaveData_Addressable on ViewController.");
+                ViewSystemLog.LogError("No save data assigned. Set ViewSystemSaveData or ViewSystemSaveData_Addressable on ViewController.");
                 return;
             }
 
-            var globalSetting = _useAddressableLoading ? addressableSaveData.globalSetting : viewSystemSaveData.globalSetting;
+            _useAddressableLoading = saveData.IsAddressableMode;
+            var globalSetting = saveData.globalSetting;
 
             //Create ViewElementPool
             if (gameObject.name != globalSetting.ViewControllerObjectPath)
@@ -170,28 +147,20 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogError($"Error occur while proccess breakpoint {ex.Message}");
             }
 
-            if (_useAddressableLoading)
-            {
-                // Use Addressable stripped data (no direct refs, won't trigger bundle loading)
-                viewStates = addressableSaveData.GetViewStateSaveDatas().Select(m => m.viewState)
-                    .ToDictionary(m => m.name, m => m);
-                viewPages = addressableSaveData.GetViewPageSaveDatas().Select(m => m.viewPage)
-                    .ToDictionary(m => m.name, m => m);
+            viewStates = saveData.GetViewStateSaveDatas().Select(m => m.viewState)
+                .ToDictionary(m => m.name, m => m);
+            viewPages = saveData.GetViewPageSaveDatas().Select(m => m.viewPage)
+                .ToDictionary(m => m.name, m => m);
 
+            if (_useAddressableLoading && saveData is ViewSystemSaveData_Addressable addressableSaveData)
+            {
                 // Build AssetReference lookup dictionaries
                 _assetRefLookup = addressableSaveData.viewPageItemAssetRefs
                     .ToDictionary(x => x.viewPageItemId, x => x.assetReference);
                 _uniqueAssetRefLookup = addressableSaveData.uniqueViewElementAssetRefs
                     .ToDictionary(x => x.type, x => x.assetReference);
 
-                ViewSystemLog.Log($"ViewSystem Addressable addressable mode enabled: {_assetRefLookup.Count} asset refs, {_uniqueAssetRefLookup.Count} unique refs.");
-            }
-            else
-            {
-                viewStates = viewSystemSaveData.GetViewStateSaveDatas().Select(m => m.viewState)
-                    .ToDictionary(m => m.name, m => m);
-                viewPages = viewSystemSaveData.GetViewPageSaveDatas().Select(m => m.viewPage)
-                    .ToDictionary(m => m.name, m => m);
+                ViewSystemLog.Log($"ViewSystem Addressable mode enabled: {_assetRefLookup.Count} asset refs, {_uniqueAssetRefLookup.Count} unique refs.");
             }
 
             viewStatesNames = viewStates.Values.Select(m => m.name);
@@ -272,13 +241,13 @@ namespace MacacaGames.ViewSystem
 
         IViewElementSingleton WarmupUniqueViewElement(Type type)
         {
-            if (_useAddressableLoading || viewSystemSaveData == null)
+            if (_useAddressableLoading || saveData is not ViewSystemSaveData directSaveData)
             {
                 ViewSystemLog.Log("In addressable mode, use GetSingletonViewElementAsync instead of sync warmup.");
                 return null;
             }
 
-            var item = viewSystemSaveData.uniqueViewElementTable.FirstOrDefault(m => m.type == type.ToString());
+            var item = directSaveData.uniqueViewElementTable.FirstOrDefault(m => m.type == type.ToString());
             IViewElementSingleton result = null;
             if (item == null || item.viewElementGameObject == null)
             {
@@ -715,7 +684,15 @@ namespace MacacaGames.ViewSystem
             {
                 if (_assetRefLookup.TryGetValue(item.Id, out var assetRef) && assetRef.RuntimeKeyIsValid())
                 {
-                    var handle = assetRef.LoadAssetAsync<GameObject>();
+                    AsyncOperationHandle<GameObject> handle;
+                    if (assetRef.OperationHandle.IsValid())
+                    {
+                        handle = assetRef.OperationHandle.Convert<GameObject>();
+                    }
+                    else
+                    {
+                        handle = assetRef.LoadAssetAsync<GameObject>();
+                    }
                     loadHandles.Add((item, handle));
                 }
                 else if (item.viewElement != null)
@@ -816,7 +793,7 @@ namespace MacacaGames.ViewSystem
             string viewPageRootName = ViewSystemUtilitys.GetPageRootName(nextViewPageForCurrentChangePage);
             var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, pageRootTransform,
                 nextViewPageForCurrentChangePage.canvasSortOrder,
-                ActiveGlobalSetting.UIPageTransformLayerName);
+                saveData.globalSetting.UIPageTransformLayerName);
             nextViewPageForCurrentChangePage.runtimePageRoot = pageWrapper.rectTransform;
 
             pageWrapper.safePadding.SetPaddingValue(GetSafePaddingSetting(nextViewPageForCurrentChangePage));
@@ -1023,7 +1000,7 @@ namespace MacacaGames.ViewSystem
                 var orderValue = order.HasValue ? order.Value : vp.canvasSortOrder;
 
                 var pageWrapper = ViewSystemUtilitys.CreatePageTransform(viewPageRootName, parent, orderValue,
-                    ActiveGlobalSetting.UIPageTransformLayerName);
+                    saveData.globalSetting.UIPageTransformLayerName);
                 pageWrapper.safePadding.SetPaddingValue(GetSafePaddingSetting(vp));
 
                 if (customRoot != null || vp.runtimePageRoot == null)
@@ -1684,7 +1661,7 @@ namespace MacacaGames.ViewSystem
         {
             if (vp.useGlobalSafePadding)
             {
-                return ActiveGlobalSetting.edgeValues;
+                return saveData.globalSetting.edgeValues;
             }
 
             return vp.edgeValues;

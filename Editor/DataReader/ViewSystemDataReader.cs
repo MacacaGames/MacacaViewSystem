@@ -615,28 +615,24 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 });
             }
 
-            // Reference the same node data (not copies) and strip viewElementObject in place
+            // Copy shared base data to the addressable asset
             addressableData.viewPagesNodeSaveDatas = new List<ViewPageNodeSaveData>(data.viewPagesNodeSaveDatas);
             addressableData.viewStateNodeSaveDatas = new List<ViewStateNodeSaveData>(data.viewStateNodeSaveDatas);
-
-            // Null out viewElementObject on the original node assets to break bundle dependencies
-            foreach (var item in allPageItems.Concat(allStateItems))
-            {
-                if (item != null)
-                    item.viewElementObject = null;
-            }
-            foreach (var entry in data.uniqueViewElementTable)
-            {
-                entry.viewElementGameObject = null;
-            }
-
-            // Copy global settings
             addressableData.globalSetting = data.globalSetting;
 
+            // Null out viewElementObject on the node assets to break bundle dependencies
+            // (re-query since allPageItems/allStateItems may have been enumerated)
+            foreach (var nodeData in addressableData.viewPagesNodeSaveDatas)
+                foreach (var item in nodeData.data.viewPage.viewPageItems)
+                    if (item != null) item.viewElementObject = null;
+            foreach (var nodeData in addressableData.viewStateNodeSaveDatas)
+                foreach (var item in nodeData.data.viewState.viewPageItems)
+                    if (item != null) item.viewElementObject = null;
+
             // Mark all node assets dirty after stripping
-            foreach (var item in data.viewPagesNodeSaveDatas)
+            foreach (var item in addressableData.viewPagesNodeSaveDatas)
                 EditorUtility.SetDirty(item);
-            foreach (var item in data.viewStateNodeSaveDatas)
+            foreach (var item in addressableData.viewStateNodeSaveDatas)
                 EditorUtility.SetDirty(item);
 
             EditorUtility.SetDirty(data);

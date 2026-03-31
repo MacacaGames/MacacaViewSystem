@@ -4,26 +4,13 @@ using System.Linq;
 using UnityEngine;
 namespace MacacaGames.ViewSystem
 {
-    public class ViewSystemSaveData : ScriptableObject
+    public class ViewSystemSaveData : ViewSystemSaveDataBase
     {
+        public override bool IsAddressableMode => false;
 
-
-        public ViewSystemBaseSetting globalSetting;
         public List<ViewStateSaveData> viewStates = new List<ViewStateSaveData>();
         public List<ViewPageSaveData> viewPages = new List<ViewPageSaveData>();
         public List<UniqueViewElementTableData> uniqueViewElementTable = new List<UniqueViewElementTableData>();
-
-        public List<ViewStateSaveData> GetViewStateSaveDatas()
-        {
-            return viewStateNodeSaveDatas.Select(m => m.data).ToList();
-        }
-        public List<ViewPageSaveData> GetViewPageSaveDatas()
-        {
-            return viewPagesNodeSaveDatas.Select(m => m.data).ToList();
-        }
-
-        public List<ViewStateNodeSaveData> viewStateNodeSaveDatas = new List<ViewStateNodeSaveData>();
-        public List<ViewPageNodeSaveData> viewPagesNodeSaveDatas = new List<ViewPageNodeSaveData>();
 
         public bool RequireMigration()
         {
@@ -31,62 +18,6 @@ namespace MacacaGames.ViewSystem
                     (viewPages != null || viewPages.Count > 0)) &&
                     ((viewPagesNodeSaveDatas != null && viewPagesNodeSaveDatas.Count == 0) ||
                     (viewStateNodeSaveDatas != null && viewStateNodeSaveDatas.Count == 0));
-        }
-
-
-        [System.Serializable]
-        public class ViewSystemBaseSetting
-        {
-            public bool UseNavigationSetting = false;
-            public string ViewControllerObjectPath;
-            public string UIPageTransformLayerName = "Default";
-            public string customPageRootPath = "";
-            public GameObject UIRoot;
-            public GameObject UIRootScene;
-            public SafePadding.PerEdgeValues edgeValues = new SafePadding.PerEdgeValues();
-            public bool flipPadding = false;
-            public float MaxWaitingTime
-            {
-                get
-                {
-                    return Mathf.Clamp01(_maxWaitingTime);
-                }
-            }
-            public float _maxWaitingTime = 1.5f;
-            /// <summary>
-            /// The minimum effective interval Show/Leave OverlayPage or ChangePage on FullPage call.
-            /// If user the method call time interval less than this value, the call will be ignore!
-            /// </summary>
-            public float minimumTimeInterval = 0.2f;
-
-            /// <summary>
-            /// Enable the builtIn click protection or not, if true, the system will ignore the show page call if any page is transition
-            /// </summary>
-            public bool builtInClickProtection = true;
-
-            /// <summary>
-            /// Enable on-demand Addressable loading for ViewElement prefabs.
-            /// When disabled, the traditional direct reference approach (viewElementObject) is used.
-            /// </summary>
-            public bool useAddressableLoading = false;
-
-            /// <summary>
-            /// The Addressable group name to assign ViewElement prefabs to during build.
-            /// </summary>
-            public string addressableGroupName = "";
-
-            // public string[] builtInBreakPoints = new string[]{
-            //     "Horizon",
-            //     "Vertical"
-            // };
-            public List<string> userBreakPoints = new List<string>();
-            public IEnumerable<string> breakPoints
-            {
-                get
-                {
-                    return userBreakPoints;
-                }
-            }
         }
     }
 
