@@ -740,7 +740,7 @@ namespace MacacaGames.ViewSystem
             return viewPageItems;
         }
 
-        IEnumerator PrepareRuntimeReferenceAsync(IEnumerable<ViewPageItem> viewPageItems, Action<IEnumerable<ViewPageItem>> onComplete)
+        IEnumerable<ViewPageItem> PrepareRuntimeReferenceAsync(IEnumerable<ViewPageItem> viewPageItems)
         {
             var itemList = viewPageItems.ToList();
             var loadHandles = new List<(ViewPageItem item, AsyncOperationHandle<GameObject> handle)>();
@@ -771,11 +771,11 @@ namespace MacacaGames.ViewSystem
                 }
             }
 
-            // Wait for all async loads
+            // Synchronously wait for all async loads via WaitForCompletion
             foreach (var (item, handle) in loadHandles)
             {
                 if (!handle.IsDone)
-                    yield return handle;
+                    handle.WaitForCompletion();
 
                 if (handle.Status == AsyncOperationStatus.Succeeded)
                 {
@@ -795,7 +795,7 @@ namespace MacacaGames.ViewSystem
                 }
             }
 
-            onComplete?.Invoke(itemList);
+            return itemList;
         }
 
         private float nextViewPageWaitTime = 0;
@@ -878,14 +878,10 @@ namespace MacacaGames.ViewSystem
 
             if (_useAddressableLoading)
             {
-                yield return PrepareRuntimeReferenceAsync(
-                    GetAllViewPageItemInViewPage(nextViewPageForCurrentChangePage),
-                    result => { viewItemNextPage = result; });
-
+                viewItemNextPage = PrepareRuntimeReferenceAsync(GetAllViewPageItemInViewPage(nextViewPageForCurrentChangePage));
                 if (_nextViewState != currentViewState)
                 {
-                    yield return PrepareRuntimeReferenceAsync(viewItemNextState,
-                        result => { viewItemNextState = result; });
+                    viewItemNextState = PrepareRuntimeReferenceAsync(viewItemNextState);
                 }
             }
             else
@@ -1095,13 +1091,7 @@ namespace MacacaGames.ViewSystem
             {
                 if (_useAddressableLoading)
                 {
-                    yield return PrepareRuntimeReferenceAsync(GetAllViewPageItemInViewPage(vp), result => { viewItemNextPage = result; });
-                    // Check if Leave was called during async loading
-                    if (overlayPageStatus.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Show)
-                    {
-                        ViewSystemLog.LogWarning($"ShowOverlayViewPageBase interrupted: overlay '{vp.name}' transition changed to {overlayPageStatus.transition} during async loading.");
-                        yield break;
-                    }
+                    viewItemNextPage = PrepareRuntimeReferenceAsync(GetAllViewPageItemInViewPage(vp));
                 }
                 else
                 {
@@ -1145,18 +1135,11 @@ namespace MacacaGames.ViewSystem
                 overlayPageStatus.viewState = viewState;
                 overlayPageStatus.transition = ViewSystemUtilitys.OverlayPageStatus.Transition.Show;
 
-                // Register early so that Leave calls during async loading can find this entry
                 overlayPageStatusDict[OverlayPageStateKey] = overlayPageStatus;
 
                 if (_useAddressableLoading)
                 {
-                    yield return PrepareRuntimeReferenceAsync(GetAllViewPageItemInViewPage(vp), result => { viewItemNextPage = result; });
-                    // Check if Leave was called during async loading
-                    if (overlayPageStatus.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Show)
-                    {
-                        ViewSystemLog.LogWarning($"ShowOverlayViewPageBase interrupted: overlay '{vp.name}' transition changed to {overlayPageStatus.transition} during async loading.");
-                        yield break;
-                    }
+                    viewItemNextPage = PrepareRuntimeReferenceAsync(GetAllViewPageItemInViewPage(vp));
                 }
                 else
                 {
@@ -1173,13 +1156,7 @@ namespace MacacaGames.ViewSystem
                         viewItemNextState = GetAllViewPageItemInViewState(nextViewState);
                         if (_useAddressableLoading)
                         {
-                            yield return PrepareRuntimeReferenceAsync(viewItemNextState, result => { viewItemNextState = result; });
-                            // Check if Leave was called during async loading
-                            if (overlayPageStatus.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Show)
-                            {
-                                ViewSystemLog.LogWarning($"ShowOverlayViewPageBase interrupted: overlay '{vp.name}' transition changed to {overlayPageStatus.transition} during async loading.");
-                                yield break;
-                            }
+                            viewItemNextState = PrepareRuntimeReferenceAsync(viewItemNextState);
                         }
                         else
                         {

@@ -113,7 +113,7 @@ namespace MacacaGames.ViewSystem
 
             if (!overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + " found, the page may have already been left or was never shown. Skipping leave.");
+                ViewSystemLog.LogWarning("No live overlay viewPage of name: " + viewPageName + " found, the page may have already been left or was never shown. Skipping leave.");
                 return null;
             }
             else if (builtInClickProtection == true && ignoreClickProtection != false)
