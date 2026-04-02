@@ -113,13 +113,8 @@ namespace MacacaGames.ViewSystem
 
             if (!overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out ViewSystemUtilitys.OverlayPageStatus overlayPageStatus))
             {
-                ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + " found, try to fix.");
-                overlayPageStatus = new ViewSystemUtilitys.OverlayPageStatus();
-                overlayPageStatus.viewPage = nextOverlayViewPage;
-
-                viewStates.TryGetValue(nextOverlayViewPage.viewState, out ViewState _nextViewState);
-                nextViewState = _nextViewState;
-                if (nextViewState != null) { overlayPageStatus.viewState = nextViewState; }
+                ViewSystemLog.LogError("No live overlay viewPage of name: " + viewPageName + " found, the page may have already been left or was never shown. Skipping leave.");
+                return null;
             }
             else if (builtInClickProtection == true && ignoreClickProtection != false)
             {
@@ -133,6 +128,13 @@ namespace MacacaGames.ViewSystem
                     ViewSystemLog.LogError($"The Overlay page {nextOverlayViewPage.name} is in Leaving, ignore the LeaveOverlayViewPage call.");
                     return null;
                 }
+            }
+            // Stop the existing coroutine (e.g. Show) before starting the Leave coroutine,
+            // otherwise the Show coroutine may continue loading and showing elements
+            // after the Leave has already skipped them, causing elements to be permanently stuck on screen.
+            if (overlayPageStatus.pageChangeCoroutine != null)
+            {
+                StopCoroutine(overlayPageStatus.pageChangeCoroutine);
             }
             overlayPageStatus.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageStatus, tweenTimeIfNeed, OnComplete, ignoreTransition, ignoreTimeScale, ignoreClickProtection, waitForShowFinish));
             return overlayPageStatus.pageChangeCoroutine;

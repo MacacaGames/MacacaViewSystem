@@ -1096,6 +1096,12 @@ namespace MacacaGames.ViewSystem
                 if (_useAddressableLoading)
                 {
                     yield return PrepareRuntimeReferenceAsync(GetAllViewPageItemInViewPage(vp), result => { viewItemNextPage = result; });
+                    // Check if Leave was called during async loading
+                    if (overlayPageStatus.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Show)
+                    {
+                        ViewSystemLog.LogWarning($"ShowOverlayViewPageBase interrupted: overlay '{vp.name}' transition changed to {overlayPageStatus.transition} during async loading.");
+                        yield break;
+                    }
                 }
                 else
                 {
@@ -1145,6 +1151,12 @@ namespace MacacaGames.ViewSystem
                 if (_useAddressableLoading)
                 {
                     yield return PrepareRuntimeReferenceAsync(GetAllViewPageItemInViewPage(vp), result => { viewItemNextPage = result; });
+                    // Check if Leave was called during async loading
+                    if (overlayPageStatus.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Show)
+                    {
+                        ViewSystemLog.LogWarning($"ShowOverlayViewPageBase interrupted: overlay '{vp.name}' transition changed to {overlayPageStatus.transition} during async loading.");
+                        yield break;
+                    }
                 }
                 else
                 {
@@ -1162,6 +1174,12 @@ namespace MacacaGames.ViewSystem
                         if (_useAddressableLoading)
                         {
                             yield return PrepareRuntimeReferenceAsync(viewItemNextState, result => { viewItemNextState = result; });
+                            // Check if Leave was called during async loading
+                            if (overlayPageStatus.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Show)
+                            {
+                                ViewSystemLog.LogWarning($"ShowOverlayViewPageBase interrupted: overlay '{vp.name}' transition changed to {overlayPageStatus.transition} during async loading.");
+                                yield break;
+                            }
                         }
                         else
                         {
@@ -1323,8 +1341,9 @@ namespace MacacaGames.ViewSystem
                                                          " Try to back to origin Transform parent : " +
                                                          vpi.runtimeParent.name);
                             }
-                            catch
+                            catch (System.Exception ex)
                             {
+                                ViewSystemLog.LogError("Failed to restore unique ViewElement to overlay page: " + ex.Message);
                             }
 
                             continue;
@@ -1338,6 +1357,13 @@ namespace MacacaGames.ViewSystem
                         {
                             var vpi = currentViewPage.viewPageItems.FirstOrDefault(m =>
                                 ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
+
+                            if (vpi == null)
+                            {
+                                ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name +
+                                                         " exists in currentVe but no matching ViewPageItem found in currentViewPage, skip.");
+                                continue;
+                            }
 
                             var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
                             if (!string.IsNullOrEmpty(transformData.parentPath))
@@ -1355,8 +1381,9 @@ namespace MacacaGames.ViewSystem
                                                      " Try to back to origin Transform parent : " +
                                                      vpi.runtimeParent.name);
                         }
-                        catch
+                        catch (System.Exception ex)
                         {
+                            ViewSystemLog.LogError("Failed to restore unique ViewElement to currentViewPage: " + ex.Message);
                         }
 
                         continue;
@@ -1369,6 +1396,13 @@ namespace MacacaGames.ViewSystem
                         {
                             var vpi = currentViewState.viewPageItems.FirstOrDefault(m =>
                                 ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
+
+                            if (vpi == null)
+                            {
+                                ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name +
+                                                         " exists in currentVs but no matching ViewPageItem found in currentViewState, skip.");
+                                continue;
+                            }
 
                             var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
                             if (!string.IsNullOrEmpty(transformData.parentPath))
@@ -1383,11 +1417,12 @@ namespace MacacaGames.ViewSystem
                             item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData,
                                 item.sortingOrder, tweenTimeIfNeed, 0);
                             ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name +
-                                                     "Try to back to origin Transfrom parent : " +
+                                                     " Try to back to origin Transform parent : " +
                                                      vpi.runtimeParent.name);
                         }
-                        catch
+                        catch (System.Exception ex)
                         {
+                            ViewSystemLog.LogError("Failed to restore unique ViewElement to currentViewState: " + ex.Message);
                         }
 
                         continue;
