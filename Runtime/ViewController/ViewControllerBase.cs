@@ -135,6 +135,9 @@ namespace MacacaGames.ViewSystem
             if (overlayPageStatus.pageChangeCoroutine != null)
             {
                 StopCoroutine(overlayPageStatus.pageChangeCoroutine);
+                // The stopped coroutine can no longer complete its transition,
+                // so reset the flag to prevent LeaveOverlayViewPageBase from waiting forever.
+                overlayPageStatus.IsTransition = false;
             }
             overlayPageStatus.pageChangeCoroutine = StartCoroutine(LeaveOverlayViewPageBase(overlayPageStatus, tweenTimeIfNeed, OnComplete, ignoreTransition, ignoreTimeScale, ignoreClickProtection, waitForShowFinish));
             return overlayPageStatus.pageChangeCoroutine;
