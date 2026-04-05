@@ -1425,7 +1425,12 @@ namespace MacacaGames.ViewSystem
             overlayPageState.IsTransition = false;
 
             string OverlayPageStateKey = GetOverlayStateKey(overlayPageState.viewPage);
-            overlayPageStatusDict.Remove(OverlayPageStateKey);
+            // Only remove if the dict entry is still ours — a new Show may have replaced it
+            if (overlayPageStatusDict.TryGetValue(OverlayPageStateKey, out var currentStatus) &&
+                currentStatus == overlayPageState)
+            {
+                overlayPageStatusDict.Remove(OverlayPageStateKey);
+            }
 
             OnComplete?.Invoke();
         }
