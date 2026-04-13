@@ -14,8 +14,8 @@ namespace MacacaGames.ViewSystem
 
         public bool RequireMigration()
         {
-            return ((viewStates != null || viewStates.Count > 0) ||
-                    (viewPages != null || viewPages.Count > 0)) &&
+            return ((viewStates != null && viewStates.Count > 0) ||
+                    (viewPages != null && viewPages.Count > 0)) &&
                     ((viewPagesNodeSaveDatas != null && viewPagesNodeSaveDatas.Count == 0) ||
                     (viewStateNodeSaveDatas != null && viewStateNodeSaveDatas.Count == 0));
         }

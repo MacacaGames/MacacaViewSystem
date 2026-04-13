@@ -578,6 +578,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             addressableData.viewPageItemAssetRefs.Clear();
             addressableData.uniqueViewElementAssetRefs.Clear();
+            ClearAddressableNodeSubAssets(addressableFilePath, addressableData);
 
             foreach (var item in allPageItems.Concat(allStateItems))
             {
@@ -630,31 +631,94 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 });
             }
 
-            // Copy shared base data to the addressable asset
-            addressableData.viewPagesNodeSaveDatas = new List<ViewPageNodeSaveData>(data.viewPagesNodeSaveDatas);
-            addressableData.viewStateNodeSaveDatas = new List<ViewStateNodeSaveData>(data.viewStateNodeSaveDatas);
+            // Clone node assets into addressable-specific sub assets so strip operations do not mutate editor source data.
             addressableData.globalSetting = data.globalSetting;
 
-            // Null out viewElementObject on the node assets to break bundle dependencies
-            // (re-query since allPageItems/allStateItems may have been enumerated)
-            foreach (var nodeData in addressableData.viewPagesNodeSaveDatas)
-                foreach (var item in nodeData.data.viewPage.viewPageItems)
-                    if (item != null) item.viewElementObject = null;
-            foreach (var nodeData in addressableData.viewStateNodeSaveDatas)
-                foreach (var item in nodeData.data.viewState.viewPageItems)
-                    if (item != null) item.viewElementObject = null;
+            foreach (var sourceNode in data.viewPagesNodeSaveDatas)
+            {
+                if (sourceNode == null)
+                    continue;
 
-            // Mark all node assets dirty after stripping
-            foreach (var item in addressableData.viewPagesNodeSaveDatas)
-                EditorUtility.SetDirty(item);
-            foreach (var item in addressableData.viewStateNodeSaveDatas)
-                EditorUtility.SetDirty(item);
+                var clonedNode = CloneAddressableNode(sourceNode);
+                addressableData.viewPagesNodeSaveDatas.Add(clonedNode);
+                AssetDatabase.AddObjectToAsset(clonedNode, addressableData);
+                EditorUtility.SetDirty(clonedNode);
+            }
+
+            foreach (var sourceNode in data.viewStateNodeSaveDatas)
+            {
+                if (sourceNode == null)
+                    continue;
+
+                var clonedNode = CloneAddressableNode(sourceNode);
+                addressableData.viewStateNodeSaveDatas.Add(clonedNode);
+                AssetDatabase.AddObjectToAsset(clonedNode, addressableData);
+                EditorUtility.SetDirty(clonedNode);
+            }
+
+            if (addressableData.viewPagesNodeSaveDatas.Any(node => data.viewPagesNodeSaveDatas.Contains(node)) ||
+                addressableData.viewStateNodeSaveDatas.Any(node => data.viewStateNodeSaveDatas.Contains(node)))
+            {
+                throw new InvalidOperationException("Addressable save data still references editor node assets. Aborting save to avoid corrupting source data.");
+            }
 
             EditorUtility.SetDirty(data);
             EditorUtility.SetDirty(addressableData);
             AssetDatabase.SaveAssets();
 
             ViewSystemLog.Log($"ViewSystemSaveData_Addressable generated: {addressableData.viewPageItemAssetRefs.Count} asset refs, {addressableData.uniqueViewElementAssetRefs.Count} unique element refs, group: {targetGroup.Name}.");
+        }
+
+        void ClearAddressableNodeSubAssets(string addressableFilePath, ViewSystemSaveData_Addressable addressableData)
+        {
+            addressableData.viewPagesNodeSaveDatas.Clear();
+            addressableData.viewStateNodeSaveDatas.Clear();
+
+            foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(addressableFilePath))
+            {
+                if (asset == null || asset == addressableData)
+                    continue;
+
+                if (asset is ViewPageNodeSaveData || asset is ViewStateNodeSaveData)
+                {
+                    UnityEngine.Object.DestroyImmediate(asset, true);
+                }
+            }
+        }
+
+        T CloneAddressableNode<T>(T sourceNode) where T : ScriptableObject
+        {
+            var clonedNode = UnityEngine.Object.Instantiate(sourceNode);
+            clonedNode.name = sourceNode.name;
+
+            switch (clonedNode)
+            {
+                case ViewPageNodeSaveData pageNode:
+                    StripViewElementReferences(pageNode.data.viewPage.viewPageItems);
+                    pageNode.data.viewPage.runtimePageRoot = null;
+                    break;
+                case ViewStateNodeSaveData stateNode:
+                    StripViewElementReferences(stateNode.data.viewState.viewPageItems);
+                    break;
+            }
+
+            return clonedNode;
+        }
+
+        void StripViewElementReferences(IEnumerable<ViewPageItem> viewPageItems)
+        {
+            foreach (var item in viewPageItems)
+            {
+                if (item == null)
+                    continue;
+
+                item.viewElementObject = null;
+                item.runtimeViewElement = null;
+                item.runtimeParent = null;
+#if UNITY_EDITOR
+                item.previewViewElement = null;
+#endif
+            }
         }
 
         void EnsureAddressableEntry(AddressableAssetSettings settings, AddressableAssetGroup targetGroup, string guid, string assetPath, string prefabName)
