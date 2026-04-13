@@ -578,7 +578,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             addressableData.viewPageItemAssetRefs.Clear();
             addressableData.uniqueViewElementAssetRefs.Clear();
-            ClearAddressableNodeSubAssets(addressableFilePath, addressableData);
+            var existingNodeSubAssets = GetExistingAddressableNodeSubAssets(addressableFilePath, addressableData);
 
             foreach (var item in allPageItems.Concat(allStateItems))
             {
@@ -607,6 +607,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 });
             }
 
+            addressableData.viewPageItemAssetRefs = addressableData.viewPageItemAssetRefs
+                .OrderBy(entry => entry.viewPageItemId)
+                .ToList();
+
             // Build AssetReference lookup for UniqueViewElementTable
             foreach (var entry in data.uniqueViewElementTable)
             {
@@ -631,17 +635,22 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 });
             }
 
+            addressableData.uniqueViewElementAssetRefs = addressableData.uniqueViewElementAssetRefs
+                .OrderBy(entry => entry.type)
+                .ToList();
+
             // Clone node assets into addressable-specific sub assets so strip operations do not mutate editor source data.
             addressableData.globalSetting = data.globalSetting;
+            addressableData.viewPagesNodeSaveDatas.Clear();
+            addressableData.viewStateNodeSaveDatas.Clear();
 
             foreach (var sourceNode in data.viewPagesNodeSaveDatas)
             {
                 if (sourceNode == null)
                     continue;
 
-                var clonedNode = CloneAddressableNode(sourceNode);
+                var clonedNode = SyncAddressableNode(sourceNode, existingNodeSubAssets.viewPageNodes, addressableData);
                 addressableData.viewPagesNodeSaveDatas.Add(clonedNode);
-                AssetDatabase.AddObjectToAsset(clonedNode, addressableData);
                 EditorUtility.SetDirty(clonedNode);
             }
 
@@ -650,11 +659,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (sourceNode == null)
                     continue;
 
-                var clonedNode = CloneAddressableNode(sourceNode);
+                var clonedNode = SyncAddressableNode(sourceNode, existingNodeSubAssets.viewStateNodes, addressableData);
                 addressableData.viewStateNodeSaveDatas.Add(clonedNode);
-                AssetDatabase.AddObjectToAsset(clonedNode, addressableData);
                 EditorUtility.SetDirty(clonedNode);
             }
+
+            RemoveUnusedAddressableNodeSubAssets(existingNodeSubAssets);
 
             if (addressableData.viewPagesNodeSaveDatas.Any(node => data.viewPagesNodeSaveDatas.Contains(node)) ||
                 addressableData.viewStateNodeSaveDatas.Any(node => data.viewStateNodeSaveDatas.Contains(node)))
@@ -669,26 +679,43 @@ namespace MacacaGames.ViewSystem.VisualEditor
             ViewSystemLog.Log($"ViewSystemSaveData_Addressable generated: {addressableData.viewPageItemAssetRefs.Count} asset refs, {addressableData.uniqueViewElementAssetRefs.Count} unique element refs, group: {targetGroup.Name}.");
         }
 
-        void ClearAddressableNodeSubAssets(string addressableFilePath, ViewSystemSaveData_Addressable addressableData)
+        ExistingAddressableNodeSubAssets GetExistingAddressableNodeSubAssets(string addressableFilePath, ViewSystemSaveData_Addressable addressableData)
         {
-            addressableData.viewPagesNodeSaveDatas.Clear();
-            addressableData.viewStateNodeSaveDatas.Clear();
+            var result = new ExistingAddressableNodeSubAssets();
 
             foreach (var asset in AssetDatabase.LoadAllAssetsAtPath(addressableFilePath))
             {
                 if (asset == null || asset == addressableData)
                     continue;
 
-                if (asset is ViewPageNodeSaveData || asset is ViewStateNodeSaveData)
+                switch (asset)
                 {
-                    UnityEngine.Object.DestroyImmediate(asset, true);
+                    case ViewPageNodeSaveData pageNode:
+                        result.viewPageNodes[pageNode.name] = pageNode;
+                        break;
+                    case ViewStateNodeSaveData stateNode:
+                        result.viewStateNodes[stateNode.name] = stateNode;
+                        break;
                 }
             }
+
+            return result;
         }
 
-        T CloneAddressableNode<T>(T sourceNode) where T : ScriptableObject
+        T SyncAddressableNode<T>(T sourceNode, Dictionary<string, T> existingNodes, ViewSystemSaveData_Addressable addressableData) where T : ScriptableObject
         {
-            var clonedNode = UnityEngine.Object.Instantiate(sourceNode);
+            if (!existingNodes.TryGetValue(sourceNode.name, out var clonedNode))
+            {
+                clonedNode = UnityEngine.Object.Instantiate(sourceNode);
+                clonedNode.name = sourceNode.name;
+                AssetDatabase.AddObjectToAsset(clonedNode, addressableData);
+            }
+            else
+            {
+                EditorUtility.CopySerialized(sourceNode, clonedNode);
+                existingNodes.Remove(sourceNode.name);
+            }
+
             clonedNode.name = sourceNode.name;
 
             switch (clonedNode)
@@ -705,6 +732,19 @@ namespace MacacaGames.ViewSystem.VisualEditor
             return clonedNode;
         }
 
+        void RemoveUnusedAddressableNodeSubAssets(ExistingAddressableNodeSubAssets existingNodeSubAssets)
+        {
+            foreach (var node in existingNodeSubAssets.viewPageNodes.Values)
+            {
+                UnityEngine.Object.DestroyImmediate(node, true);
+            }
+
+            foreach (var node in existingNodeSubAssets.viewStateNodes.Values)
+            {
+                UnityEngine.Object.DestroyImmediate(node, true);
+            }
+        }
+
         void StripViewElementReferences(IEnumerable<ViewPageItem> viewPageItems)
         {
             foreach (var item in viewPageItems)
@@ -719,6 +759,12 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 item.previewViewElement = null;
 #endif
             }
+        }
+
+        class ExistingAddressableNodeSubAssets
+        {
+            public Dictionary<string, ViewPageNodeSaveData> viewPageNodes = new Dictionary<string, ViewPageNodeSaveData>();
+            public Dictionary<string, ViewStateNodeSaveData> viewStateNodes = new Dictionary<string, ViewStateNodeSaveData>();
         }
 
         void EnsureAddressableEntry(AddressableAssetSettings settings, AddressableAssetGroup targetGroup, string guid, string assetPath, string prefabName)
