@@ -317,6 +317,63 @@ MyClass myData;
 | `SharedFirst` | 先搜尋 SharedModel，再搜尋 PageModel |
 | `SharedOnly` | 僅搜尋 SharedModel |
 
+## Unique ViewElement
+
+`Unique ViewElement` 是 ViewSystem 裡「全域只會有一份 runtime instance」的 UI 元件。  
+它適合拿來做跨頁面共用、狀態需要延續、且不希望重複建立的 UI（例如全域浮層元件、共用入口元件、跨 Overlay 保留狀態的元件）。
+
+### 設計邏輯與設想
+
+1. 一份實例，多頁共用：  
+   同一顆元件在不同頁面間搬移，而不是每個頁面各生一份，避免狀態分裂與重複初始化。
+2. UI 行為應可預期：  
+   多頁面借用同一顆元件時，關頁後它「回到哪裡」要有一致規則，而不是依偶然排序。
+3. 對內容團隊友善：  
+   設計師與企劃可以把它當「可被借用的共用 UI」，不用每頁複製 prefab 變體。
+4. 與現有流程相容：  
+   保留 FullPage / Overlay / ViewState 的既有使用方式，不要求專案改頁面架構。
+5. 安全回收：  
+   若目前沒有任何活躍頁面需要它，直接回 pool，避免殘留在錯誤頁面或背景節點。
+
+### 適用情境（建議）
+
+1. 同一 UI 元件會在多個 Overlay 間流轉，且要保留當前狀態。
+2. 元件初始化成本高，不希望每次開頁都重建。
+3. 元件在視覺上是「共用資源」，而不是頁面私有內容。
+
+### 不適用情境（建議）
+
+1. 每個頁面都需要同時顯示各自獨立一份內容。
+2. 頁面之間不應共享狀態，離頁後必須完全重置。
+
+### 行為描述（目前實作）
+
+1. `Unique ViewElement` 在 runtime 只有一份實例。
+2. 當多個頁面借用它時，關閉 Overlay 會優先還給「前一個借用者」（LIFO）。
+3. 若前一個借用者已失效，會改找目前活躍頁面（其他 Overlay -> FullPage -> ViewState）。
+4. 若找不到任何活躍頁面仍在使用，則直接離場並回收進 pool。
+
+### 表演行為（動畫與視覺）
+
+1. 借用成功（還給上一個 owner）時：  
+   元件不會先銷毀再重建，而是同一份實例直接切回目標 parent/transform。
+2. 關閉 Overlay 且仍有有效 owner 時：  
+   會執行「回到目標頁面」的切換表演（透過 `ChangePage(true, ...)`），可使用既有 Tween/位置策略。
+3. 關閉 Overlay 且沒有任何有效 owner 時：  
+   會執行離場流程（`ChangePage(false, ...)`），完成後回收到 pool。
+4. 若元件啟用 `useInstantPosition`：  
+   位置切換會以即時方式到位；否則依原設定使用補間移動。
+5. 整體原則：  
+   優先維持「同一顆元件持續表演」，減少突兀閃爍與重建感。
+
+### 範例
+
+1. FullPage A -> Overlay B -> Overlay C 共用同一顆 Unique ViewElement：  
+   - 關閉 C：回到 B。  
+   - 關閉 B：回到 A。
+2. 若關閉時 A/B/C 都已不再活躍：  
+   - 元件直接回 pool，不會強制掛回舊頁面。
+
 ## 元件
 
 ### ViewElementGroup

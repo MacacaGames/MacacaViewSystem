@@ -310,6 +310,63 @@ Control search scope with `InjectScope`:
 MyClass myData;
 ```
 
+## Unique ViewElement
+
+`Unique ViewElement` means there is exactly one runtime instance shared across pages.  
+Use it for cross-page UI that should keep state and avoid duplicate instantiation.
+
+### Design Intent
+
+1. One instance, shared usage:
+   Move the same element between pages instead of spawning page-local copies.
+2. Predictable ownership:
+   In multi-overlay scenarios, return targets should follow a clear rule, not accidental order.
+3. Content-friendly workflow:
+   Teams can treat it as reusable shared UI without duplicating prefabs per page.
+4. Compatibility-first:
+   Keep existing FullPage / Overlay / ViewState workflows without forcing architecture changes.
+5. Safe recovery:
+   If no active page still needs it, recover it to pool.
+
+### Good Fit
+
+1. A UI element is reused across multiple overlays and should keep state.
+2. Initialization cost is high and repeated creation should be avoided.
+3. The element is conceptually shared, not page-private.
+
+### Not a Good Fit
+
+1. Multiple pages need independent simultaneous instances.
+2. State must never be shared across page boundaries.
+
+### Behavior Summary (Current Implementation)
+
+1. A Unique ViewElement has a single runtime instance.
+2. On overlay leave, it first returns to the previous borrower (LIFO).
+3. If that borrower is invalid, it falls back to active owners (other overlays -> full page -> view state).
+4. If no active owner exists, it leaves and is recovered to pool.
+
+### Presentation Behavior (Animation & Visuals)
+
+1. When ownership is restored:
+   The same instance is moved back to the target parent/transform (no destroy/recreate cycle).
+2. When closing an overlay with a valid owner:
+   It performs a return transition via `ChangePage(true, ...)`, reusing existing tween/position rules.
+3. When closing an overlay with no valid owner:
+   It runs leave flow via `ChangePage(false, ...)`, then recovers to pool.
+4. If `useInstantPosition` is enabled:
+   Repositioning snaps instantly; otherwise it follows configured interpolation behavior.
+5. Overall goal:
+   Keep a continuous visual performance with minimal flicker or "rebuilt" feeling.
+
+### Example
+
+1. FullPage A -> Overlay B -> Overlay C share one Unique ViewElement:
+   - Close C: return to B.
+   - Close B: return to A.
+2. If no owner is active anymore:
+   - Recover to pool instead of forcing it back to stale pages.
+
 ## Components
 
 ### ViewElementGroup

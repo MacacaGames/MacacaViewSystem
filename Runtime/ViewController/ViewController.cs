@@ -31,6 +31,24 @@ namespace MacacaGames.ViewSystem
 
         // Add a field to store all Canvas transforms
         private static List<Transform> _childCanvasTransforms = new List<Transform>();
+        enum UniqueOwnerType
+        {
+            Overlay,
+            FullPage,
+            ViewState
+        }
+
+        class UniqueBorrowOwnerContext
+        {
+            public UniqueOwnerType ownerType;
+            public string ownerKey;
+            public string viewPageItemId;
+            public bool isViewStateItem;
+        }
+
+        // key: runtime unique ViewElement instance id, value: owner stack (bottom -> top).
+        readonly Dictionary<int, List<UniqueBorrowOwnerContext>> uniqueBorrowStacks =
+            new Dictionary<int, List<UniqueBorrowOwnerContext>>();
 
         public override Canvas GetCanvas()
         {
@@ -965,6 +983,9 @@ namespace MacacaGames.ViewSystem
 
             viewItemForNextPage.AddRange(viewItemNextPage);
             if (viewItemNextState != null) viewItemForNextPage.AddRange(viewItemNextState);
+            var nextStateItemIdSet = viewItemNextState != null
+                ? new HashSet<string>(viewItemNextState.Select(m => m.Id))
+                : null;
             // Notify entering elements to change state (ViewPage)
             foreach (var item in viewItemForNextPage.OrderBy(m => m.sortingOrder))
             {
@@ -991,6 +1012,17 @@ namespace MacacaGames.ViewSystem
                 else
                 {
                     item.runtimeParent = nextViewPageForCurrentChangePage.runtimePageRoot;
+                }
+
+                if (item.runtimeViewElement.IsUnique)
+                {
+                    bool isViewStateItem = nextStateItemIdSet != null && nextStateItemIdSet.Contains(item.Id);
+                    RegisterUniqueOwnerContext(
+                        item.runtimeViewElement,
+                        item,
+                        isViewStateItem ? UniqueOwnerType.ViewState : UniqueOwnerType.FullPage,
+                        isViewStateItem ? nextViewState?.name : nextViewPageForCurrentChangePage?.name,
+                        isViewStateItem);
                 }
 
                 item.runtimeViewElement.ChangePage(true, item.runtimeParent, transformData, item.sortingOrder,
@@ -1170,6 +1202,9 @@ namespace MacacaGames.ViewSystem
 
             if (viewItemNextState != null) viewItemForNextPage.AddRange(viewItemNextState);
             viewItemForNextPage.AddRange(viewItemNextPage);
+            var overlayStateItemIdSet = viewItemNextState != null
+                ? new HashSet<string>(viewItemNextState.Select(m => m.Id))
+                : null;
 
 
             float onShowTime =
@@ -1187,6 +1222,18 @@ namespace MacacaGames.ViewSystem
             // Notify entering elements to change state
             foreach (var item in viewItemForNextPage)
             {
+                bool isViewStateItem = overlayStateItemIdSet != null && overlayStateItemIdSet.Contains(item.Id);
+
+                if (item.runtimeViewElement.IsUnique)
+                {
+                    RegisterUniqueOwnerContext(
+                        item.runtimeViewElement,
+                        item,
+                        UniqueOwnerType.Overlay,
+                        OverlayPageStateKey,
+                        isViewStateItem);
+                }
+
                 if (RePlayOnShowWhileSamePage && samePage)
                 {
                     item.runtimeViewElement.OnShow();
@@ -1296,114 +1343,67 @@ namespace MacacaGames.ViewSystem
                 // Handle unique ViewElement borrowing separately
                 if (item.runtimeViewElement.IsUnique == true && IsPageTransition == false)
                 {
-                    // Handle unique ViewElement between multiply overlay page
-                    if (overlayPageStatusDict.Count > 1)
+                    var uniqueElement = item.runtimeViewElement;
+                    bool restoredToActiveOwner = false;
+
+                    // LIFO borrow-chain restore first. If stack has valid previous owner, restore directly.
+                    if (TryRestoreUniqueElementByBorrowStack(uniqueElement, overlayPageState, tweenTimeIfNeed))
                     {
-                        var overlayPageStatus = overlayPageStatusDict
-                            .Where(o => o.Value.viewPage.canvasSortOrder < overlayPageState.viewPage.canvasSortOrder)
-                            .Select(o => o.Value)
-                            .OrderByDescending(o => o.viewPage.canvasSortOrder)
-                            .FirstOrDefault(c => c != overlayPageState);
-                        var vpi = overlayPageStatus?.viewPage.viewPageItems.FirstOrDefault(m =>
-                            ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
-
-                        if (vpi != null)
-                        {
-                            try
-                            {
-                                var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
-                                item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData,
-                                    item.sortingOrder, tweenTimeIfNeed, 0);
-                                ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name +
-                                                         " Try to back to origin Transform parent : " +
-                                                         vpi.runtimeParent.name);
-                            }
-                            catch (System.Exception ex)
-                            {
-                                ViewSystemLog.LogError("Failed to restore unique ViewElement to overlay page: " + ex.Message);
-                            }
-
-                            continue;
-                        }
-                    }
-
-                    if (currentVe.Contains(item.runtimeViewElement))
-                    {
-                        // The ViewElement is currently in use by the active page, do not modify it
-                        try
-                        {
-                            var vpi = currentViewPage.viewPageItems.FirstOrDefault(m =>
-                                ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
-
-                            if (vpi == null)
-                            {
-                                ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name +
-                                                         " exists in currentVe but no matching ViewPageItem found in currentViewPage, skip.");
-                                continue;
-                            }
-
-                            var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
-                            if (!string.IsNullOrEmpty(transformData.parentPath))
-                            {
-                                vpi.runtimeParent = transformCache.Find(transformData.parentPath);
-                            }
-                            else
-                            {
-                                vpi.runtimeParent = currentViewPage.runtimePageRoot;
-                            }
-
-                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData,
-                                item.sortingOrder, tweenTimeIfNeed, 0);
-                            ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name +
-                                                     " Try to back to origin Transform parent : " +
-                                                     vpi.runtimeParent.name);
-                        }
-                        catch (System.Exception ex)
-                        {
-                            ViewSystemLog.LogError("Failed to restore unique ViewElement to currentViewPage: " + ex.Message);
-                        }
-
                         continue;
                     }
 
-                    if (currentVs.Contains(item.runtimeViewElement))
+                    // 1) Try active Overlay owners (excluding the leaving overlay and overlays already leaving).
+                    var activeOverlayCandidate = overlayPageStatusDict
+                        .Where(o => o.Value != overlayPageState &&
+                                    o.Value.transition != ViewSystemUtilitys.OverlayPageStatus.Transition.Leave)
+                        .Select(o => o.Value)
+                        .OrderByDescending(o => o.viewPage.canvasSortOrder)
+                        .FirstOrDefault(status =>
+                            status.currentViewElements.Any(e => ReferenceEquals(e, uniqueElement)));
+
+                    if (activeOverlayCandidate != null)
                     {
-                        // The ViewElement is currently in use by the active page, do not modify it
-                        try
+                        var ownerItem = activeOverlayCandidate.viewPage.viewPageItems.FirstOrDefault(m =>
+                            ReferenceEquals(m.runtimeViewElement, uniqueElement));
+                        if (TryRestoreUniqueElementToOwner(uniqueElement, ownerItem, activeOverlayCandidate.viewPage.runtimePageRoot,
+                                ownerContext: "overlay", tweenTimeIfNeed))
                         {
-                            var vpi = currentViewState.viewPageItems.FirstOrDefault(m =>
-                                ReferenceEquals(m.runtimeViewElement, item.runtimeViewElement));
-
-                            if (vpi == null)
-                            {
-                                ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name +
-                                                         " exists in currentVs but no matching ViewPageItem found in currentViewState, skip.");
-                                continue;
-                            }
-
-                            var transformData = vpi.GetCurrentViewElementTransform(breakPointsStatus);
-                            if (!string.IsNullOrEmpty(transformData.parentPath))
-                            {
-                                vpi.runtimeParent = transformCache.Find(transformData.parentPath);
-                            }
-                            else
-                            {
-                                vpi.runtimeParent = currentViewPage.runtimePageRoot;
-                            }
-
-                            item.runtimeViewElement.ChangePage(true, vpi.runtimeParent, transformData,
-                                item.sortingOrder, tweenTimeIfNeed, 0);
-                            ViewSystemLog.LogWarning("ViewElement : " + item.runtimeViewElement.name +
-                                                     " Try to back to origin Transform parent : " +
-                                                     vpi.runtimeParent.name);
+                            restoredToActiveOwner = true;
                         }
-                        catch (System.Exception ex)
+                    }
+
+                    // 2) Try active FullPage owner.
+                    if (!restoredToActiveOwner && currentViewPage != null && currentVe.Contains(uniqueElement))
+                    {
+                        var ownerItem = currentViewPage.viewPageItems.FirstOrDefault(m =>
+                            ReferenceEquals(m.runtimeViewElement, uniqueElement));
+                        if (TryRestoreUniqueElementToOwner(uniqueElement, ownerItem, currentViewPage.runtimePageRoot,
+                                ownerContext: "currentViewPage", tweenTimeIfNeed))
                         {
-                            ViewSystemLog.LogError("Failed to restore unique ViewElement to currentViewState: " + ex.Message);
+                            restoredToActiveOwner = true;
                         }
+                    }
 
+                    // 3) Try active ViewState owner.
+                    if (!restoredToActiveOwner && currentViewState != null && currentVs.Contains(uniqueElement))
+                    {
+                        var ownerItem = currentViewState.viewPageItems.FirstOrDefault(m =>
+                            ReferenceEquals(m.runtimeViewElement, uniqueElement));
+                        if (TryRestoreUniqueElementToOwner(uniqueElement, ownerItem, currentViewPage?.runtimePageRoot,
+                                ownerContext: "currentViewState", tweenTimeIfNeed))
+                        {
+                            restoredToActiveOwner = true;
+                        }
+                    }
+
+                    if (restoredToActiveOwner)
+                    {
                         continue;
                     }
+
+                    ClearUniqueBorrowStack(uniqueElement);
+                    ViewSystemLog.Log("No active owner found for unique ViewElement : " + uniqueElement.name +
+                                      ", leave and recover to pool.");
                 }
 
                 // lastOverlayPageItemDelayOutTimes.TryGetValue(item.runtimeViewElement.name, out float delayOut);
@@ -1433,6 +1433,222 @@ namespace MacacaGames.ViewSystem
             }
 
             OnComplete?.Invoke();
+        }
+
+        void RegisterUniqueOwnerContext(
+            ViewElement uniqueElement,
+            ViewPageItem ownerItem,
+            UniqueOwnerType ownerType,
+            string ownerKey,
+            bool isViewStateItem)
+        {
+            if (uniqueElement == null || ownerItem == null || string.IsNullOrEmpty(ownerKey))
+            {
+                return;
+            }
+
+            int instanceId = uniqueElement.GetInstanceID();
+            if (!uniqueBorrowStacks.TryGetValue(instanceId, out var stack))
+            {
+                stack = new List<UniqueBorrowOwnerContext>();
+                uniqueBorrowStacks[instanceId] = stack;
+            }
+
+            // Refresh existing same owner record to stack top.
+            stack.RemoveAll(c =>
+                c.ownerType == ownerType &&
+                c.ownerKey == ownerKey &&
+                c.viewPageItemId == ownerItem.Id &&
+                c.isViewStateItem == isViewStateItem);
+
+            stack.Add(new UniqueBorrowOwnerContext
+            {
+                ownerType = ownerType,
+                ownerKey = ownerKey,
+                viewPageItemId = ownerItem.Id,
+                isViewStateItem = isViewStateItem
+            });
+        }
+
+        bool TryRestoreUniqueElementByBorrowStack(
+            ViewElement uniqueElement,
+            ViewSystemUtilitys.OverlayPageStatus leavingOverlayPageState,
+            float tweenTimeIfNeed)
+        {
+            if (uniqueElement == null)
+            {
+                return false;
+            }
+
+            int instanceId = uniqueElement.GetInstanceID();
+            if (!uniqueBorrowStacks.TryGetValue(instanceId, out var stack) || stack.Count == 0)
+            {
+                return false;
+            }
+
+            var leavingOverlayKey = GetOverlayStateKey(leavingOverlayPageState.viewPage);
+            // Pop all records that belong to the overlay currently leaving.
+            stack.RemoveAll(c => c.ownerType == UniqueOwnerType.Overlay && c.ownerKey == leavingOverlayKey);
+
+            while (stack.Count > 0)
+            {
+                var top = stack[stack.Count - 1];
+                if (TryRestoreUniqueElementFromBorrowContext(uniqueElement, top, tweenTimeIfNeed))
+                {
+                    return true;
+                }
+
+                // Top owner is stale, remove and continue searching down the stack.
+                stack.RemoveAt(stack.Count - 1);
+            }
+
+            uniqueBorrowStacks.Remove(instanceId);
+            return false;
+        }
+
+        bool TryRestoreUniqueElementFromBorrowContext(
+            ViewElement uniqueElement,
+            UniqueBorrowOwnerContext context,
+            float tweenTimeIfNeed)
+        {
+            if (!TryResolveBorrowContextTarget(uniqueElement, context, out var ownerItem, out var fallbackRoot, out var ownerContext))
+            {
+                return false;
+            }
+
+            return TryRestoreUniqueElementToOwner(uniqueElement, ownerItem, fallbackRoot, ownerContext, tweenTimeIfNeed);
+        }
+
+        bool TryResolveBorrowContextTarget(
+            ViewElement uniqueElement,
+            UniqueBorrowOwnerContext context,
+            out ViewPageItem ownerItem,
+            out Transform fallbackRoot,
+            out string ownerContext)
+        {
+            ownerItem = null;
+            fallbackRoot = null;
+            ownerContext = null;
+
+            if (context == null)
+            {
+                return false;
+            }
+
+            switch (context.ownerType)
+            {
+                case UniqueOwnerType.Overlay:
+                {
+                    if (!overlayPageStatusDict.TryGetValue(context.ownerKey, out var overlayStatus))
+                    {
+                        return false;
+                    }
+
+                    if (overlayStatus.transition == ViewSystemUtilitys.OverlayPageStatus.Transition.Leave)
+                    {
+                        return false;
+                    }
+
+                    var source = context.isViewStateItem
+                        ? overlayStatus.viewState?.viewPageItems
+                        : overlayStatus.viewPage?.viewPageItems;
+                    ownerItem = source?.FirstOrDefault(m => m.Id == context.viewPageItemId);
+                    fallbackRoot = overlayStatus.viewPage?.runtimePageRoot;
+                    ownerContext = "overlay-stack";
+                    break;
+                }
+                case UniqueOwnerType.FullPage:
+                {
+                    if (currentViewPage == null || currentViewPage.name != context.ownerKey)
+                    {
+                        return false;
+                    }
+
+                    ownerItem = currentViewPage.viewPageItems.FirstOrDefault(m => m.Id == context.viewPageItemId);
+                    fallbackRoot = currentViewPage.runtimePageRoot;
+                    ownerContext = "currentViewPage-stack";
+                    break;
+                }
+                case UniqueOwnerType.ViewState:
+                {
+                    if (currentViewState == null || currentViewState.name != context.ownerKey)
+                    {
+                        return false;
+                    }
+
+                    ownerItem = currentViewState.viewPageItems.FirstOrDefault(m => m.Id == context.viewPageItemId);
+                    fallbackRoot = currentViewPage?.runtimePageRoot;
+                    ownerContext = "currentViewState-stack";
+                    break;
+                }
+                default:
+                    return false;
+            }
+
+            if (ownerItem == null)
+            {
+                return false;
+            }
+
+            return ReferenceEquals(ownerItem.runtimeViewElement, uniqueElement);
+        }
+
+        void ClearUniqueBorrowStack(ViewElement uniqueElement)
+        {
+            if (uniqueElement == null)
+            {
+                return;
+            }
+
+            uniqueBorrowStacks.Remove(uniqueElement.GetInstanceID());
+        }
+
+        bool TryRestoreUniqueElementToOwner(
+            ViewElement uniqueElement,
+            ViewPageItem ownerItem,
+            Transform fallbackRoot,
+            string ownerContext,
+            float tweenTimeIfNeed)
+        {
+            if (ownerItem == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                var transformData = ownerItem.GetCurrentViewElementTransform(breakPointsStatus);
+                Transform targetParent = null;
+
+                if (transformData != null && !string.IsNullOrEmpty(transformData.parentPath))
+                {
+                    targetParent = transformCache.Find(transformData.parentPath);
+                }
+
+                if (targetParent == null)
+                {
+                    targetParent = ownerItem.runtimeParent != null ? ownerItem.runtimeParent : fallbackRoot;
+                }
+
+                if (targetParent == null)
+                {
+                    ViewSystemLog.LogWarning("Skip restoring unique ViewElement : " + uniqueElement.name +
+                                             " due to missing target parent in " + ownerContext + ".");
+                    return false;
+                }
+
+                ownerItem.runtimeParent = targetParent;
+                uniqueElement.ChangePage(true, targetParent, transformData,
+                    ownerItem.sortingOrder, tweenTimeIfNeed, 0);
+                ViewSystemLog.LogWarning("ViewElement : " + uniqueElement.name +
+                                         " restore to " + ownerContext + " parent : " + targetParent.name);
+                return true;
+            }
+            catch (System.Exception ex)
+            {
+                ViewSystemLog.LogError("Failed to restore unique ViewElement to " + ownerContext + ": " + ex.Message);
+                return false;
+            }
         }
 
         /// <summary>
