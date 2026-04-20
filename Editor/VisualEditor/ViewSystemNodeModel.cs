@@ -484,6 +484,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         public override void Draw(bool highlight)
         {
             DrawNode(viewPage.name, highlight);
+            DrawLinkedViewStateLabel();
             var btnRect = new Rect(drawRect.x, drawRect.y + drawRect.height - 40, drawRect.width, 18);
 
             bool btnInteractiable = IsInactivable;
@@ -503,6 +504,36 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 isSelect = false;
             }
         }
+
+        static GUIStyle _linkedViewStateLabelStyle;
+        static GUIStyle linkedViewStateLabelStyle
+        {
+            get
+            {
+                if (_linkedViewStateLabelStyle == null)
+                {
+                    _linkedViewStateLabelStyle = new GUIStyle(EditorStyles.miniLabel)
+                    {
+                        alignment = TextAnchor.MiddleCenter,
+                        fontSize = 9,
+                        clipping = TextClipping.Clip,
+                        padding = new RectOffset(4, 4, 0, 0)
+                    };
+                    _linkedViewStateLabelStyle.normal.textColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+                }
+                return _linkedViewStateLabelStyle;
+            }
+        }
+
+        void DrawLinkedViewStateLabel()
+        {
+            var stateName = viewPage != null ? viewPage.viewState : null;
+            if (string.IsNullOrEmpty(stateName)) return;
+
+            var labelRect = new Rect(drawRect.x + 2, drawRect.y + 22, drawRect.width - 4, 14);
+            GUI.Label(labelRect, new GUIContent("↳ " + stateName, "Linked ViewState: " + stateName), linkedViewStateLabelStyle);
+        }
+
         public override bool HasOverride()
         {
             if (viewPage == null)
