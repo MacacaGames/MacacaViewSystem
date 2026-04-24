@@ -76,10 +76,11 @@ namespace MacacaGames.ViewSystem
             if (viewElement == null)
             {
                 viewElement = GetComponentInParent<ViewElement>();
-                if (viewElement)
-                {
-                    viewElement.RegisterLifeCycleObject(this);
-                }
+            }
+
+            if (viewElement)
+            {
+                viewElement.RegisterLifeCycleObject(this);
             }
         }
 
@@ -88,6 +89,6 @@ namespace MacacaGames.ViewSystem
             if (viewElement)
                 viewElement.UnRegisterLifeCycleObject(this);
         }
-
+        
     }
 }

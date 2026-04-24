@@ -836,6 +836,51 @@ namespace MacacaGames.ViewSystem
         [ReadOnly, SerializeField] protected List<ViewElement> currentLiveElementsInViewPage = new List<ViewElement>();
         [ReadOnly, SerializeField] protected List<ViewElement> currentLiveElementsInViewState = new List<ViewElement>();
 
+        IEnumerator WaitForBeforeShowAsyncHooks(IEnumerable<ViewElement> viewElements, bool ignoreTimeScale, string context)
+        {
+            if (viewElements == null)
+            {
+                yield break;
+            }
+
+            var targets = viewElements.Where(m => m != null && m.HasBeforeShowAsyncHooks()).ToList();
+            if (targets.Count == 0)
+            {
+                yield break;
+            }
+
+            float timeout = ViewElement.BeforeShowAsyncHookTimeout + 0.1f;
+            float time = 0;
+            while (time < timeout)
+            {
+                bool allReady = true;
+                foreach (var item in targets)
+                {
+                    if (item != null && !item.IsBeforeShowReady)
+                    {
+                        allReady = false;
+                        break;
+                    }
+                }
+
+                if (allReady)
+                {
+                    yield break;
+                }
+
+                time += ignoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
+                yield return null;
+            }
+
+            foreach (var item in targets)
+            {
+                if (item != null && !item.IsBeforeShowReady)
+                {
+                    ViewSystemLog.LogWarning($"Wait before-show async hooks timeout in {context}: {item.name}", item);
+                }
+            }
+        }
+
         public override IEnumerator ChangePageBase(string viewPageName, Action OnStart, Action OnChanged,
             Action OnComplete, bool ignoreTimeScale, bool ignoreClickProtection, params object[] models)
         {
@@ -950,10 +995,25 @@ namespace MacacaGames.ViewSystem
                 currentLiveElementsInViewState = allViewElementForNextPageInViewState;
             }
 
+            bool nextPageHasAsyncBeforeShowHooks = allViewElementForNextPageInViewPage.Any(m => m != null && m.HasBeforeShowAsyncHooks()) ||
+                allViewElementForNextPageInViewState.Any(m => m != null && m.HasBeforeShowAsyncHooks());
+            bool delayPreviousLeaveUntilNextPrepared = nextPageHasAsyncBeforeShowHooks;
+            float previousPageLeaveDuration = delayPreviousLeaveUntilNextPrepared
+                ? ViewSystemUtilitys.CalculateOnLeaveDuration(viewElementDoesExitsInNextPage, maxClampTime,
+                    nextViewPageForCurrentChangePage?.name)
+                : 0;
+
             // Notify leaving elements to change state
             foreach (var item in viewElementDoesExitsInNextPage)
             {
-                item.ChangePage(false, null, null, 0, 0);
+                if (delayPreviousLeaveUntilNextPrepared)
+                {
+                    item.PrepareLeave();
+                }
+                else
+                {
+                    item.ChangePage(false, null, null, 0, 0);
+                }
             }
 
             float TimeForPerviousPageOnLeave = 0;
@@ -1034,6 +1094,12 @@ namespace MacacaGames.ViewSystem
                 item.rectTransform.SetAsLastSibling();
             }
 
+            var enteringViewElements = viewItemForNextPage
+                .Select(m => m.runtimeViewElement)
+                .Where(m => m != null)
+                .ToList();
+            float onShowDelay = ViewSystemUtilitys.CalculateDelayInTime(viewItemForNextPage);
+
             float OnShowAnimationFinish =
                 ViewSystemUtilitys.CalculateOnShowDuration(viewItemNextPage.Select(m => m.runtimeViewElement),
                     maxClampTime);
@@ -1048,6 +1114,30 @@ namespace MacacaGames.ViewSystem
             yield return runtimePool.RecoveryQueuedViewElement();
 
             OnChanged?.Invoke();
+
+            if (ignoreTimeScale)
+                yield return Yielders.GetWaitForSecondsRealtime(onShowDelay);
+            else
+                yield return Yielders.GetWaitForSeconds(onShowDelay);
+
+            yield return WaitForBeforeShowAsyncHooks(enteringViewElements, ignoreTimeScale,
+                $"ChangePage:{nextViewPageForCurrentChangePage?.name}");
+
+            if (delayPreviousLeaveUntilNextPrepared)
+            {
+                foreach (var item in viewElementDoesExitsInNextPage)
+                {
+                    item.CommitPreparedLeave();
+                }
+
+                float commitTransitionWait = Mathf.Max(OnShowAnimationFinish, previousPageLeaveDuration);
+                if (ignoreTimeScale)
+                    yield return Yielders.GetWaitForSecondsRealtime(commitTransitionWait);
+                else
+                    yield return Yielders.GetWaitForSeconds(commitTransitionWait);
+
+                OnShowAnimationFinish = 0;
+            }
 
             if (ignoreTimeScale)
                 yield return Yielders.GetWaitForSecondsRealtime(OnShowAnimationFinish);
@@ -1209,7 +1299,7 @@ namespace MacacaGames.ViewSystem
 
             float onShowTime =
                 ViewSystemUtilitys.CalculateOnShowDuration(viewItemNextPage.Select(m => m.runtimeViewElement));
-            float onShowDelay = ViewSystemUtilitys.CalculateDelayInTime(viewItemNextPage);
+            float onShowDelay = ViewSystemUtilitys.CalculateDelayInTime(viewItemForNextPage);
 
             // Notify leaving elements to change state
             foreach (var item in viewElementDoesExitsInNextPage)
@@ -1269,17 +1359,29 @@ namespace MacacaGames.ViewSystem
                 item.runtimeViewElement.rectTransform.SetAsLastSibling();
             }
 
+            var enteringViewElements = viewItemForNextPage
+                .Select(m => m.runtimeViewElement)
+                .Where(m => m != null)
+                .ToList();
+
             SetNavigationTarget(vp);
             yield return runtimePool.RecoveryQueuedViewElement();
             //Fire the event
             OnChanged?.Invoke();
             InvokeOnOverlayPageShow(this, new ViewPageEventArgs(vp, null));
 
-            // When all animations are finished
             if (ignoreTimeScale)
-                yield return Yielders.GetWaitForSecondsRealtime(onShowTime + onShowDelay);
+                yield return Yielders.GetWaitForSecondsRealtime(onShowDelay);
             else
-                yield return Yielders.GetWaitForSeconds(onShowTime + onShowDelay);
+                yield return Yielders.GetWaitForSeconds(onShowDelay);
+
+            yield return WaitForBeforeShowAsyncHooks(enteringViewElements, ignoreTimeScale,
+                $"Overlay:{vp?.name}");
+
+            if (ignoreTimeScale)
+                yield return Yielders.GetWaitForSecondsRealtime(onShowTime);
+            else
+                yield return Yielders.GetWaitForSeconds(onShowTime);
 
             overlayPageStatus.IsTransition = false;
 

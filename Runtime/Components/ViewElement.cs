@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -13,6 +15,16 @@ namespace MacacaGames.ViewSystem
     public class ViewElement : MonoBehaviour
     {
         const BindingFlags defaultBindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+        const BindingFlags asyncHookBindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
+        public const float BeforeShowAsyncHookTimeout = 2f;
+
+        class BeforeShowAsyncHookCall
+        {
+            public object target;
+            public string targetName;
+            public Task task;
+            public bool completionHandled;
+        }
 
 #if UNITY_EDITOR
         public ViewPageItem currentViewPageItem;
@@ -176,17 +188,29 @@ namespace MacacaGames.ViewSystem
 
         //ViewElementLifeCycle
         protected List<IViewElementLifeCycle> lifeCyclesObjects = new List<IViewElementLifeCycle>();
+        CancellationTokenSource showPrepareCts;
+        int showRequestVersion;
+        bool hasBeforeShowAsyncHooks;
+        bool isPreparingBeforeShow;
+        public bool IsBeforeShowReady { get; private set; } = true;
         public void RegisterLifeCycleObject(IViewElementLifeCycle obj)
         {
             if (!lifeCyclesObjects.Contains(obj))
             {
                 lifeCyclesObjects.Add(obj);
+                RefreshBeforeShowAsyncHookCache();
             }
         }
 
         public void UnRegisterLifeCycleObject(IViewElementLifeCycle obj)
         {
             lifeCyclesObjects.Remove(obj);
+            RefreshBeforeShowAsyncHookCache();
+        }
+
+        public bool HasBeforeShowAsyncHooks()
+        {
+            return hasBeforeShowAsyncHooks;
         }
 
         public enum TransitionType
@@ -292,6 +316,7 @@ namespace MacacaGames.ViewSystem
         {
             parentViewElementGroup = GetComponentInParent<ViewElementGroup>();
             lifeCyclesObjects = GetComponents<IViewElementLifeCycle>().ToList();
+            RefreshBeforeShowAsyncHookCache();
 
             if (parentViewElementGroup == null || parentViewElementGroup == selfViewElementGroup)
             {
@@ -569,6 +594,9 @@ namespace MacacaGames.ViewSystem
         Coroutine showCoroutine;
         public virtual void OnShow(bool manual = false)
         {
+            CancelBeforeShowPrepare();
+            showRequestVersion++;
+            IsBeforeShowReady = false;
             if (showCoroutine != null)
             {
                 viewController.StopMicroCoroutine(showCoroutine);
@@ -584,6 +612,7 @@ namespace MacacaGames.ViewSystem
         }
         public IEnumerator OnShowRunner(bool manual)
         {
+            int requestVersion = showRequestVersion;
             IsShowed = true;
             if (lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects.ToArray())
@@ -594,6 +623,18 @@ namespace MacacaGames.ViewSystem
                     }
                     catch (Exception ex) { ViewSystemLog.LogError(ex.ToString(), this); }
                 }
+
+            var beforeShowHookWaiter = WaitForBeforeShowAsyncHooks(requestVersion);
+            while (beforeShowHookWaiter.MoveNext())
+            {
+                yield return null;
+            }
+
+            if (requestVersion != showRequestVersion)
+            {
+                showCoroutine = null;
+                yield break;
+            }
 
             SetActive(true);
 
@@ -721,19 +762,58 @@ namespace MacacaGames.ViewSystem
         }
 
         bool OnLeaveWorking = false;
+        bool isLeavePrepared = false;
+        bool preparedLeaveNeedPool = true;
         //IDisposable OnLeaveDisposable;
         Coroutine leaveCoroutine;
-        public virtual void OnLeave(bool NeedPool = true, bool ignoreTransition = false)
+        public virtual void PrepareLeave(bool NeedPool = true)
         {
+            CancelBeforeShowPrepare();
+            showRequestVersion++;
+            IsBeforeShowReady = true;
+            isLeavePrepared = true;
+            preparedLeaveNeedPool = NeedPool;
+            if (showCoroutine != null)
+            {
+                viewController.StopMicroCoroutine(showCoroutine);
+                showCoroutine = null;
+            }
             DisableGameObjectOnComplete = !NeedPool;
+
+            if (lifeCyclesObjects != null)
+                foreach (var item in lifeCyclesObjects.ToArray())
+                {
+                    try
+                    {
+                        item.OnBeforeLeave();
+                    }
+                    catch (Exception ex) { ViewSystemLog.LogError(ex.Message, this); }
+                }
+        }
+
+        public virtual void CommitPreparedLeave(bool ignoreTransition = false)
+        {
+            if (!isLeavePrepared)
+            {
+                PrepareLeave();
+            }
+
             if (leaveCoroutine != null)
             {
                 viewController.StopMicroCoroutine(leaveCoroutine);
                 leaveCoroutine = null;
             }
-            leaveCoroutine = viewController.StartMicroCoroutine(OnLeaveRunner(NeedPool, ignoreTransition));
+
+            isLeavePrepared = false;
+            leaveCoroutine = viewController.StartMicroCoroutine(OnLeaveRunner(preparedLeaveNeedPool, ignoreTransition, invokeBeforeLeave: false));
         }
-        public IEnumerator OnLeaveRunner(bool NeedPool = true, bool ignoreTransition = false)
+
+        public virtual void OnLeave(bool NeedPool = true, bool ignoreTransition = false)
+        {
+            PrepareLeave(NeedPool);
+            CommitPreparedLeave(ignoreTransition);
+        }
+        public IEnumerator OnLeaveRunner(bool NeedPool = true, bool ignoreTransition = false, bool invokeBeforeLeave = true)
         {
 
             //ViewSystemLog.LogError("OnLeave " + name);
@@ -744,7 +824,7 @@ namespace MacacaGames.ViewSystem
             needPool = NeedPool;
             OnLeaveWorking = true;
 
-            if (lifeCyclesObjects != null)
+            if (invokeBeforeLeave && lifeCyclesObjects != null)
                 foreach (var item in lifeCyclesObjects.ToArray())
                 {
                     try
@@ -916,6 +996,7 @@ namespace MacacaGames.ViewSystem
         {
             IsShowed = false;
             OnLeaveWorking = false;
+            isLeavePrepared = false;
             leaveCoroutine = null;
             if (_allGraphics != null)
             {
@@ -1008,6 +1089,242 @@ namespace MacacaGames.ViewSystem
                 result = Mathf.Max(result, viewElementAnimation.GetInDuration());
             }
             return result;
+        }
+
+        void RefreshBeforeShowAsyncHookCache()
+        {
+            hasBeforeShowAsyncHooks = false;
+            if (lifeCyclesObjects == null)
+            {
+                return;
+            }
+
+            foreach (var item in lifeCyclesObjects)
+            {
+                if (item != null && TryGetBeforeShowAsyncMethod(item.GetType()) != null)
+                {
+                    hasBeforeShowAsyncHooks = true;
+                    return;
+                }
+            }
+        }
+
+        void CancelBeforeShowPrepare()
+        {
+            isPreparingBeforeShow = false;
+            if (showPrepareCts == null)
+            {
+                return;
+            }
+
+            try
+            {
+                showPrepareCts.Cancel();
+            }
+            catch
+            {
+            }
+
+            showPrepareCts.Dispose();
+            showPrepareCts = null;
+        }
+
+        IEnumerator WaitForBeforeShowAsyncHooks(int requestVersion)
+        {
+            if (!hasBeforeShowAsyncHooks || lifeCyclesObjects == null)
+            {
+                IsBeforeShowReady = true;
+                yield break;
+            }
+
+            CancelBeforeShowPrepare();
+            showPrepareCts = new CancellationTokenSource();
+            var token = showPrepareCts.Token;
+            var hookCalls = new List<BeforeShowAsyncHookCall>();
+
+            foreach (var item in lifeCyclesObjects.ToArray())
+            {
+                if (item == null)
+                {
+                    continue;
+                }
+
+                if (TryInvokeBeforeShowAsync(item, token, out var task, out var targetName))
+                {
+                    ObserveTaskException(task);
+                    hookCalls.Add(new BeforeShowAsyncHookCall
+                    {
+                        target = item,
+                        targetName = targetName,
+                        task = task,
+                    });
+                }
+            }
+
+            if (hookCalls.Count == 0)
+            {
+                IsBeforeShowReady = true;
+                CancelBeforeShowPrepare();
+                yield break;
+            }
+
+            isPreparingBeforeShow = true;
+            float startTime = Time.realtimeSinceStartup;
+
+            while (true)
+            {
+                if (requestVersion != showRequestVersion)
+                {
+                    CancelBeforeShowPrepare();
+                    yield break;
+                }
+
+                bool allCompleted = true;
+                foreach (var hookCall in hookCalls)
+                {
+                    if (hookCall.task == null)
+                    {
+                        continue;
+                    }
+
+                    if (!hookCall.task.IsCompleted)
+                    {
+                        allCompleted = false;
+                        continue;
+                    }
+
+                    if (hookCall.completionHandled)
+                    {
+                        continue;
+                    }
+
+                    hookCall.completionHandled = true;
+                    LogCompletedBeforeShowHook(hookCall);
+                }
+
+                if (allCompleted)
+                {
+                    break;
+                }
+
+                if (Time.realtimeSinceStartup - startTime >= BeforeShowAsyncHookTimeout)
+                {
+                    foreach (var hookCall in hookCalls)
+                    {
+                        if (hookCall.task != null && !hookCall.task.IsCompleted)
+                        {
+                            ViewSystemLog.LogWarning($"OnBeforeShowAsync timeout on {hookCall.targetName}", this);
+                        }
+                    }
+
+                    try
+                    {
+                        showPrepareCts.Cancel();
+                    }
+                    catch
+                    {
+                    }
+                    break;
+                }
+
+                yield return null;
+            }
+
+            isPreparingBeforeShow = false;
+            IsBeforeShowReady = true;
+            CancelBeforeShowPrepare();
+        }
+
+        void LogCompletedBeforeShowHook(BeforeShowAsyncHookCall hookCall)
+        {
+            if (hookCall.task == null)
+            {
+                return;
+            }
+
+            if (hookCall.task.IsFaulted)
+            {
+                var aggregateException = hookCall.task.Exception?.Flatten();
+                if (aggregateException != null)
+                {
+                    foreach (var innerException in aggregateException.InnerExceptions)
+                    {
+                        ViewSystemLog.LogError($"OnBeforeShowAsync failed on {hookCall.targetName}: {innerException}", this);
+                    }
+                }
+                return;
+            }
+
+            if (hookCall.task.IsCanceled)
+            {
+                ViewSystemLog.LogWarning($"OnBeforeShowAsync canceled on {hookCall.targetName}", this);
+            }
+        }
+
+        static void ObserveTaskException(Task task)
+        {
+            if (task == null)
+            {
+                return;
+            }
+
+            task.ContinueWith(t =>
+            {
+                var _ = t.Exception;
+            }, TaskContinuationOptions.OnlyOnFaulted);
+        }
+
+        bool TryInvokeBeforeShowAsync(object target, CancellationToken token, out Task task, out string targetName)
+        {
+            task = null;
+            targetName = target.GetType().FullName;
+            var method = TryGetBeforeShowAsyncMethod(target.GetType());
+            if (method == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                object result = method.GetParameters().Length == 0
+                    ? method.Invoke(target, null)
+                    : method.Invoke(target, new object[] { token });
+
+                if (result is Task beforeShowTask)
+                {
+                    task = beforeShowTask;
+                    return true;
+                }
+
+                ViewSystemLog.LogWarning($"OnBeforeShowAsync on {targetName} must return Task.", this);
+            }
+            catch (TargetInvocationException ex)
+            {
+                ViewSystemLog.LogError($"OnBeforeShowAsync invoke failed on {targetName}: {ex.InnerException ?? ex}", this);
+            }
+            catch (Exception ex)
+            {
+                ViewSystemLog.LogError($"OnBeforeShowAsync invoke failed on {targetName}: {ex}", this);
+            }
+
+            return false;
+        }
+
+        static MethodInfo TryGetBeforeShowAsyncMethod(Type targetType)
+        {
+            var zeroArgMethod = targetType.GetMethod("OnBeforeShowAsync", asyncHookBindingFlags, null, Type.EmptyTypes, null);
+            if (zeroArgMethod != null && typeof(Task).IsAssignableFrom(zeroArgMethod.ReturnType))
+            {
+                return zeroArgMethod;
+            }
+
+            var tokenMethod = targetType.GetMethod("OnBeforeShowAsync", asyncHookBindingFlags, null, new[] { typeof(CancellationToken) }, null);
+            if (tokenMethod != null && typeof(Task).IsAssignableFrom(tokenMethod.ReturnType))
+            {
+                return tokenMethod;
+            }
+
+            return null;
         }
 
 
