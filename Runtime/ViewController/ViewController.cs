@@ -1186,10 +1186,9 @@ namespace MacacaGames.ViewSystem
                     saveData.globalSetting.UIPageTransformLayerName);
                 pageWrapper.safePadding.SetPaddingValue(GetSafePaddingSetting(vp));
 
-                if (customRoot != null || vp.runtimePageRoot == null)
-                {
-                    vp.runtimePageRoot = pageWrapper.rectTransform;
-                }
+                // Always reset: a customRoot assigned by a previous Show must not
+                // persist into later Shows that didn't ask for one.
+                vp.runtimePageRoot = pageWrapper.rectTransform;
             }
             else
             {
