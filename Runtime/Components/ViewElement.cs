@@ -11,6 +11,13 @@ using UnityEngine.UI;
 using Coroutine = MacacaGames.ViewSystem.MicroCoroutine.Coroutine;
 namespace MacacaGames.ViewSystem
 {
+    public enum ViewElementRecoveryPolicy
+    {
+        KeepForever = 0,
+        KeepN = 1,
+        DestroyOnRecovery = 2,
+    }
+
     [DisallowMultipleComponent]
     public class ViewElement : MonoBehaviour
     {
@@ -38,6 +45,10 @@ namespace MacacaGames.ViewSystem
         [NonSerialized]
         public int PoolKey;
         public bool IsUnique = false;
+        [Tooltip("Controls what happens after a non-unique ViewElement has completed its leave lifecycle and enters the runtime pool.")]
+        public ViewElementRecoveryPolicy recoveryPolicy = ViewElementRecoveryPolicy.KeepForever;
+        [Min(0), Tooltip("Maximum queued instances for KeepN. Active and pending-recovery instances are not counted.")]
+        public int recoveryKeepCount = 1;
         [Tooltip("If true, ViewElement will snap to new position instantly when changing page (no tween).")]
         public bool useInstantPosition = false;
         

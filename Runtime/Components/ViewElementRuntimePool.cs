@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace MacacaGames.ViewSystem
 {
@@ -57,9 +58,32 @@ namespace MacacaGames.ViewSystem
                 if (!veDicts.TryGetValue(toRecovery.PoolKey, out Queue<ViewElement> veQueue))
                 {
                     ViewSystemLog.LogWarning("Cannot find pool of ViewElement " + toRecovery.name + ", Destroy directly.", toRecovery);
-                    UnityEngine.Object.Destroy(toRecovery);
+                    UnityEngine.Object.Destroy(toRecovery.gameObject);
                     return;
                 }
+
+                int nestedUniqueCount = toRecovery
+                    .GetComponentsInChildren<ViewElement>(true)
+                    .Count(x => x != toRecovery && x.IsUnique);
+                bool destroyRequested = toRecovery.recoveryPolicy == ViewElementRecoveryPolicy.DestroyOnRecovery ||
+                                        (toRecovery.recoveryPolicy == ViewElementRecoveryPolicy.KeepN &&
+                                         veQueue.Count >= Mathf.Max(0, toRecovery.recoveryKeepCount));
+
+                if (destroyRequested && nestedUniqueCount > 0)
+                {
+                    ViewSystemLog.LogWarning(
+                        $"Skip destroying ViewElement {toRecovery.name}: hierarchy contains {nestedUniqueCount} nested unique ViewElement(s).",
+                        toRecovery);
+                    destroyRequested = false;
+                }
+
+                if (destroyRequested)
+                {
+                    toRecovery.gameObject.SetActive(false);
+                    UnityEngine.Object.Destroy(toRecovery.gameObject);
+                    return;
+                }
+
                 toRecovery.gameObject.SetActive(false);
                 veQueue.Enqueue(toRecovery);
             }
