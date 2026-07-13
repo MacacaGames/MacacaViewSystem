@@ -70,6 +70,7 @@ namespace MacacaGames.ViewSystem
         }
 
         ViewElement viewElement;
+        protected ViewElementLifetimeScope Lifetime { get; private set; }
         protected virtual void Awake()
         {
             viewElement = GetComponent<ViewElement>();
@@ -80,6 +81,7 @@ namespace MacacaGames.ViewSystem
 
             if (viewElement)
             {
+                Lifetime = viewElement.Lifetime;
                 viewElement.RegisterLifeCycleObject(this);
             }
         }

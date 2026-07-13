@@ -58,16 +58,19 @@ namespace MacacaGames.ViewSystem
                 if (!veDicts.TryGetValue(toRecovery.PoolKey, out Queue<ViewElement> veQueue))
                 {
                     ViewSystemLog.LogWarning("Cannot find pool of ViewElement " + toRecovery.name + ", Destroy directly.", toRecovery);
-                    UnityEngine.Object.Destroy(toRecovery.gameObject);
+                    DestroyViewElementHierarchy(toRecovery);
                     return;
                 }
 
                 int nestedUniqueCount = toRecovery
                     .GetComponentsInChildren<ViewElement>(true)
                     .Count(x => x != toRecovery && x.IsUnique);
-                bool destroyRequested = toRecovery.recoveryPolicy == ViewElementRecoveryPolicy.DestroyOnRecovery ||
-                                        (toRecovery.recoveryPolicy == ViewElementRecoveryPolicy.KeepN &&
-                                         veQueue.Count >= Mathf.Max(0, toRecovery.recoveryKeepCount));
+                bool ignoreRecoveryPolicy = toRecovery.IgnoreRecoveryPolicyOnce;
+                toRecovery.IgnoreRecoveryPolicyOnce = false;
+                bool destroyRequested = !ignoreRecoveryPolicy &&
+                                        (toRecovery.recoveryPolicy == ViewElementRecoveryPolicy.DestroyOnRecovery ||
+                                         (toRecovery.recoveryPolicy == ViewElementRecoveryPolicy.KeepN &&
+                                          veQueue.Count >= Mathf.Max(0, toRecovery.recoveryKeepCount)));
 
                 if (destroyRequested && nestedUniqueCount > 0)
                 {
@@ -80,13 +83,24 @@ namespace MacacaGames.ViewSystem
                 if (destroyRequested)
                 {
                     toRecovery.gameObject.SetActive(false);
-                    UnityEngine.Object.Destroy(toRecovery.gameObject);
+                    DestroyViewElementHierarchy(toRecovery);
                     return;
                 }
 
                 toRecovery.gameObject.SetActive(false);
                 veQueue.Enqueue(toRecovery);
             }
+        }
+
+        internal static void DestroyViewElementHierarchy(ViewElement viewElement)
+        {
+            if (viewElement == null)
+            {
+                return;
+            }
+
+            viewElement.PrepareForPermanentDestroy();
+            UnityEngine.Object.Destroy(viewElement.gameObject);
         }
         const int maxRecoveryPerFrame = 5;
         public Coroutine RecoveryQueuedViewElement(bool force = false)

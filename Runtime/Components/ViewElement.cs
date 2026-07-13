@@ -45,6 +45,20 @@ namespace MacacaGames.ViewSystem
         [NonSerialized]
         public int PoolKey;
         public bool IsUnique = false;
+        ViewElementLifetimeScope lifetime;
+        bool permanentDestroyPrepared;
+        public ViewElementLifetimeScope Lifetime
+        {
+            get
+            {
+                if (lifetime == null)
+                {
+                    lifetime = new ViewElementLifetimeScope(this);
+                }
+
+                return lifetime;
+            }
+        }
         [Tooltip("Controls what happens after a non-unique ViewElement has completed its leave lifecycle and enters the runtime pool.")]
         public ViewElementRecoveryPolicy recoveryPolicy = ViewElementRecoveryPolicy.KeepForever;
         [Min(0), Tooltip("Maximum queued instances for KeepN. Active and pending-recovery instances are not counted.")]
@@ -320,7 +334,29 @@ namespace MacacaGames.ViewSystem
 
         void Awake()
         {
+            _ = Lifetime;
             Setup();
+        }
+
+        internal void PrepareForPermanentDestroy()
+        {
+            if (permanentDestroyPrepared)
+            {
+                return;
+            }
+
+            permanentDestroyPrepared = true;
+            CancelBeforeShowPrepare();
+            if (viewController != null)
+            {
+                NormalizeViewElement();
+            }
+            lifetime?.Dispose();
+        }
+
+        void OnDestroy()
+        {
+            PrepareForPermanentDestroy();
         }
         private Graphic[] _allGraphics;
         public virtual void Setup()
@@ -999,12 +1035,19 @@ namespace MacacaGames.ViewSystem
         /// A callback to user do something before recovery
         /// </summary>
         public Action OnBeforeRecoveryToPool;
+        internal Func<ViewElement, bool> RequestedPoolRecoveryHandler;
+        internal bool IgnoreRecoveryPolicyOnce;
         protected bool needPool = true;
         public bool DisableGameObjectOnComplete = true;
         [NonSerialized]
         public bool DestroyIfNoPool = true;
         public void OnLeaveAnimationFinish()
         {
+            if (permanentDestroyPrepared)
+            {
+                return;
+            }
+
             IsShowed = false;
             OnLeaveWorking = false;
             isLeavePrepared = false;
@@ -1029,7 +1072,25 @@ namespace MacacaGames.ViewSystem
 
             if (runtimePool != null)
             {
-                runtimePool.QueueViewElementToRecovery(this);
+                bool recoveryHandled = false;
+                if (RequestedPoolRecoveryHandler != null)
+                {
+                    try
+                    {
+                        recoveryHandled = RequestedPoolRecoveryHandler(this);
+                    }
+                    catch (Exception exception)
+                    {
+                        ViewSystemLog.LogError(
+                            $"Requested pool recovery failed for ViewElement {name}: {exception}",
+                            this);
+                    }
+                }
+
+                if (!recoveryHandled)
+                {
+                    runtimePool.QueueViewElementToRecovery(this);
+                }
                 OnBeforeRecoveryToPool?.Invoke();
                 OnBeforeRecoveryToPool = null;
                 if (runtimeOverride != null) runtimeOverride.ResetToDefaultValues();
@@ -1037,7 +1098,48 @@ namespace MacacaGames.ViewSystem
             else if (DestroyIfNoPool)
             {
                 // if there is no runtimePool instance, destroy the viewelement.
+                PrepareForPermanentDestroy();
                 Destroy(gameObject);
+            }
+        }
+
+        internal void RecoverImmediatelyToRequestedPool()
+        {
+            RecoverImmediately(false, false);
+        }
+
+        internal void RecoverImmediatelyToRuntimePool(bool ignoreRecoveryPolicy)
+        {
+            RecoverImmediately(true, ignoreRecoveryPolicy);
+        }
+
+        void RecoverImmediately(bool clearRequestedPoolHandler, bool ignoreRecoveryPolicy)
+        {
+            NormalizeViewElement();
+            if (clearRequestedPoolHandler)
+            {
+                RequestedPoolRecoveryHandler = null;
+            }
+            IgnoreRecoveryPolicyOnce = ignoreRecoveryPolicy;
+
+            if (lifeCyclesObjects != null)
+            {
+                foreach (IViewElementLifeCycle item in lifeCyclesObjects.ToArray())
+                {
+                    try
+                    {
+                        item.OnChangePage(false);
+                    }
+                    catch (Exception exception)
+                    {
+                        ViewSystemLog.LogError(exception.ToString(), this);
+                    }
+                }
+            }
+
+            var recovery = OnLeaveRunner(true, true);
+            while (recovery.MoveNext())
+            {
             }
         }
         void SetActive(bool active)
