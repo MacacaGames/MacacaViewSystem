@@ -81,6 +81,7 @@ Advisor 應整合 Editor prefab scan 與 runtime object graph。每個 source pr
 - `NeedsOwnerMigration`
 - `NeedsEventCleanup`
 - `NeedsAsyncLifetime`
+- `NeedsStaticOwnership`
 - `PinnedByUniqueOrSingleton`
 - `InsufficientRuntimeData`
 
@@ -217,6 +218,18 @@ Handle release 應晚於 instance ownership 與 pool policy 穩定，不宜先�
 - 建立 JSON schema、candidate ranking 與 dry run。
 - 不修改 prefab。
 
+目前 v1 Editor 工具入口：`MacacaGames > ViewSystem > Diagnostics > Pool Policy Advisor`。
+
+Advisor Window 的候選集合只來自指定 `ViewSystemSaveDataBase`：direct SaveData 解析 page、state 與 unique table 的 prefab reference；Addressable SaveData 解析 page item 與 unique element 的 AssetReference GUID。未被 SaveData 引用的 prefab 不納入分析。相同 prefab 在多個 page/state 被使用時只分析一次，報告保留所有 reference location。
+
+報告輸出到 host project 的 `MemoryLeakReports/viewsystem_pool_policy_advisor_*.json`。初次 Analyze 只使用 prefab hierarchy 與 component script 靜態訊號，固定標示 `dryRun=true`、`safeToApplyAutomatically=false`；大型 hierarchy 的 `DestroyOnRecovery` 只屬 provisional recommendation，必須再合併 runtime 使用頻率、active/queued/pending 與 reopen 成本後才能成為 `SafeAutomaticCandidate`。
+
+靜態 safety scan 分成 lifetime owner 與 supporting component 兩層。只有實作 ViewElement lifecycle/singleton、繼承 `ViewElementBehaviour`，或直接使用 lifetime/requested-pool ownership API 的 script 可以阻擋建議；UGUI、localization、視覺效果等 supporting component 的 static/Addressable 訊號只列為非阻擋 evidence。JSON schema v2 會為每種命中輸出 script path 與 line number，避免只看到無法追查的 aggregate count。
+
+JSON schema v4 與 Advisor Window 可逐次加入多份 `viewsystem_object_graph_*.json` runtime snapshot。Object graph pool entry 會輸出 prefab GUID/path，以及 active、queued、pending 三種狀態各自的完整 hierarchy GO/MonoBehaviour 數量。Window 優先使用穩定 identity 合併，並保留每份觀測、顯示跨快照峰值與「曾出現但在較後快照消失」；舊報告只能在 source name 唯一時 fallback，並標記低可信度。active hierarchy 指標會包含巢狀 requested-pool child，適合評估單一 root 的展開成本，但不同 pool source 間可能重複計數，不可直接加總。多份 snapshot 仍只是觀測證據；尚未量到足夠的 reopen cycle、使用頻率與 reopen cost 前，不得升級為 `SafeAutomaticCandidate`。
+
+JSON schema v5 將 policy 適配度與 migration safety 分離：`targetPolicy` / `targetKeepCount` 表示記憶體與使用型態上的目標，`migrationStatus` / `safetyBlockers` / `nextAction` 表示目前還需要的 code ownership 或 runtime 驗證工作，`policyConfidence` 與 `safetyConfidence` 分別計分。`NeedsCodeMigration`、`NeedsCodeReview` 或 `NeedsRuntimeValidation` 不得把 target fallback 成 KeepForever；現有 KeepN 或 DestroyOnRecovery 一律視為 intentional migration，靜態掃描只能要求 review/validation，不能建議回退。舊 `classification`、`recommendedPolicy` 與 `confidence` 暫時保留為相容 alias。
+
 ### Phase 2：Lifetime Scope
 
 - 在 `ViewElement` 建立 scope。
@@ -269,4 +282,3 @@ Handle release 應晚於 instance ownership 與 pool policy 穩定，不宜先�
 - Editor Instantiate timing 不能取代目標手機的實機量測。
 - 某些 UI 即使很大，若開啟頻率極高，仍可能應採 `KeepN(1)`。
 - unique/singleton 的行為屬於架構契約，不應由一般 memory heuristic 自動改寫。
-

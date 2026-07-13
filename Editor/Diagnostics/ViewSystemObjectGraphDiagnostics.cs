@@ -44,12 +44,25 @@ namespace MacacaGames.ViewSystem.Diagnostics
     {
         public int poolKey;
         public string sourceName;
+        public string prefabPath;
+        public string prefabGuid;
         public int queuedInstances;
         public int pendingRecoveryInstances;
         public int activeInstances;
+        public int activeGameObjects;
+        public int activeMonoBehaviours;
+        public int pendingRecoveryGameObjects;
+        public int pendingRecoveryMonoBehaviours;
         public int queuedGameObjects;
         public int queuedMonoBehaviours;
         public int nestedUniqueViewElements;
+        public int requestedPoolHandlerInstances;
+        public int queuedRequestedPoolHandlerInstances;
+        public int ownerAwareRequestedPoolInstances;
+        public int destroyWithOwnerRequestedPoolInstances;
+        public int disposedRequestedPoolInstances;
+        public List<string> activeInstancePaths = new();
+        public List<string> queuedInstancePaths = new();
         public string recoveryPolicy;
         public int recoveryKeepCount;
         public int trimmableInstances;
@@ -181,6 +194,9 @@ namespace MacacaGames.ViewSystem.Diagnostics
 
             var poolField = typeof(ViewElementRuntimePool).GetField("veDicts", BindingFlags.Instance | BindingFlags.NonPublic);
             var recoveryField = typeof(ViewElementRuntimePool).GetField("recycleQueue", BindingFlags.Instance | BindingFlags.NonPublic);
+            var requestedPoolHandlerField = typeof(ViewElement).GetField(
+                "RequestedPoolRecoveryHandler",
+                BindingFlags.Instance | BindingFlags.NonPublic);
             var pools = poolField?.GetValue(runtimePool) as Dictionary<int, Queue<ViewElement>>;
             var recoveryQueue = recoveryField?.GetValue(runtimePool) as Queue<ViewElement>;
             if (pools == null) return;
@@ -200,15 +216,71 @@ namespace MacacaGames.ViewSystem.Diagnostics
                 var queued = pair.Value.Where(x => x != null).ToList();
                 var queuedSet = new HashSet<int>(queued.Select(x => x.GetInstanceID()));
                 var allForKey = runtimeViewElements.Where(x => x.PoolKey == pair.Key).ToList();
-                var active = allForKey.Count(x => !queuedSet.Contains(x.GetInstanceID()) && !pendingSet.Contains(x.GetInstanceID()));
-                var pendingForKey = pendingRecovery.Count(x => x.PoolKey == pair.Key);
+                var activeInstances = allForKey
+                    .Where(x => !queuedSet.Contains(x.GetInstanceID()) && !pendingSet.Contains(x.GetInstanceID()))
+                    .ToList();
+                var active = activeInstances.Count;
+                var pendingInstances = pendingRecovery.Where(x => x.PoolKey == pair.Key).ToList();
+                var pendingForKey = pendingInstances.Count;
+
+                int activeGameObjects = activeInstances.Sum(
+                    instance => instance.GetComponentsInChildren<Transform>(true).Length);
+                int activeMonoBehaviours = activeInstances.Sum(
+                    instance => instance.GetComponentsInChildren<MonoBehaviour>(true).Length);
+                int pendingRecoveryGameObjects = pendingInstances.Sum(
+                    instance => instance.GetComponentsInChildren<Transform>(true).Length);
+                int pendingRecoveryMonoBehaviours = pendingInstances.Sum(
+                    instance => instance.GetComponentsInChildren<MonoBehaviour>(true).Length);
 
                 int queuedGameObjects = 0;
                 int queuedMonoBehaviours = 0;
                 int nestedUnique = 0;
+                int requestedPoolHandlerInstances = 0;
+                int queuedRequestedPoolHandlerInstances = 0;
+                int ownerAwareRequestedPoolInstances = 0;
+                int destroyWithOwnerRequestedPoolInstances = 0;
+                int disposedRequestedPoolInstances = 0;
                 int trimmableInstances = 0;
                 int trimmableGameObjects = 0;
                 string sourceName = queued.FirstOrDefault()?.name ?? allForKey.FirstOrDefault()?.name ?? $"PoolKey_{pair.Key}";
+                ResolvePoolSourceIdentity(
+                    pair.Key,
+                    allForKey.Concat(queued),
+                    out string prefabPath,
+                    out string prefabGuid);
+
+                foreach (var instance in allForKey)
+                {
+                    var handler = requestedPoolHandlerField?.GetValue(instance) as Delegate;
+                    if (handler == null)
+                    {
+                        continue;
+                    }
+
+                    requestedPoolHandlerInstances++;
+                    if (queuedSet.Contains(instance.GetInstanceID()))
+                    {
+                        queuedRequestedPoolHandlerInstances++;
+                    }
+
+                    if (handler.Target is ViewElementRequestedPool requestedPool)
+                    {
+                        if (requestedPool.IsOwnerAware)
+                        {
+                            ownerAwareRequestedPoolInstances++;
+                        }
+
+                        if (requestedPool.ChildRecoveryMode == ViewElementChildRecoveryMode.DestroyWithOwner)
+                        {
+                            destroyWithOwnerRequestedPoolInstances++;
+                        }
+
+                        if (requestedPool.IsDisposed)
+                        {
+                            disposedRequestedPoolInstances++;
+                        }
+                    }
+                }
 
                 foreach (var instance in queued)
                 {
@@ -233,12 +305,25 @@ namespace MacacaGames.ViewSystem.Diagnostics
                 {
                     poolKey = pair.Key,
                     sourceName = sourceName,
+                    prefabPath = prefabPath,
+                    prefabGuid = prefabGuid,
                     queuedInstances = queued.Count,
                     pendingRecoveryInstances = pendingForKey,
                     activeInstances = active,
+                    activeGameObjects = activeGameObjects,
+                    activeMonoBehaviours = activeMonoBehaviours,
+                    pendingRecoveryGameObjects = pendingRecoveryGameObjects,
+                    pendingRecoveryMonoBehaviours = pendingRecoveryMonoBehaviours,
                     queuedGameObjects = queuedGameObjects,
                     queuedMonoBehaviours = queuedMonoBehaviours,
                     nestedUniqueViewElements = nestedUnique,
+                    requestedPoolHandlerInstances = requestedPoolHandlerInstances,
+                    queuedRequestedPoolHandlerInstances = queuedRequestedPoolHandlerInstances,
+                    ownerAwareRequestedPoolInstances = ownerAwareRequestedPoolInstances,
+                    destroyWithOwnerRequestedPoolInstances = destroyWithOwnerRequestedPoolInstances,
+                    disposedRequestedPoolInstances = disposedRequestedPoolInstances,
+                    activeInstancePaths = activeInstances.Select(x => GetPath(x.transform)).ToList(),
+                    queuedInstancePaths = queued.Select(x => GetPath(x.transform)).ToList(),
                     recoveryPolicy = queued.FirstOrDefault()?.recoveryPolicy.ToString() ??
                                      allForKey.FirstOrDefault()?.recoveryPolicy.ToString() ?? string.Empty,
                     recoveryKeepCount = queued.FirstOrDefault()?.recoveryKeepCount ??
@@ -259,6 +344,45 @@ namespace MacacaGames.ViewSystem.Diagnostics
             report.dryRunBlockedByNestedUniqueCount = report.poolEntries
                 .Where(x => x.nestedUniqueViewElements > 0)
                 .Sum(x => x.queuedInstances);
+        }
+
+        private static void ResolvePoolSourceIdentity(
+            int poolKey,
+            IEnumerable<ViewElement> runtimeInstances,
+            out string prefabPath,
+            out string prefabGuid)
+        {
+            prefabPath = string.Empty;
+            prefabGuid = string.Empty;
+
+            UnityEngine.Object source = EditorUtility.EntityIdToObject(poolKey);
+            if (source is GameObject sourceGameObject)
+            {
+                source = sourceGameObject.GetComponent<ViewElement>();
+            }
+
+            if (source == null)
+            {
+                foreach (var instance in runtimeInstances.Where(instance => instance != null))
+                {
+                    source = PrefabUtility.GetCorrespondingObjectFromSource(instance);
+                    if (source != null)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (source == null)
+            {
+                return;
+            }
+
+            prefabPath = AssetDatabase.GetAssetPath(source);
+            if (!string.IsNullOrEmpty(prefabPath))
+            {
+                prefabGuid = AssetDatabase.AssetPathToGUID(prefabPath);
+            }
         }
 
         private static void CaptureHandleRegistry(ViewController controller, ViewSystemObjectGraphReport report)

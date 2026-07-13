@@ -1,0 +1,4 @@
+interface:
+  display_name: "ViewSystem Pool Migration"
+  short_description: "Migrate ViewElement pools with lifecycle safety checks"
+  default_prompt: "Use $viewsystem-pool-migration to analyze an Advisor report and migrate one ViewElement candidate safely."

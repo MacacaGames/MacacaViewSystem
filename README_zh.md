@@ -28,6 +28,7 @@ ViewSystem 透過**跨角色的關注點分離**來解決這個問題：
 
 - **元素式架構** — 以可重用的 ViewElement 組合 UI 頁面
 - **ViewElement 物件池** — 自動管理物件池，優化效能
+- **Pool 生命週期策略與診斷** — KeepN／DestroyOnRecovery、Object Graph dump 與證據導向的 Policy Advisor
 - **執行時期屬性與事件覆寫** — 無需建立 Prefab Variant 即可為不同頁面建立 ViewElement 變體
 - **節點式視覺編輯器** — 直接在編輯器中設計與預覽 UI 頁面
 - **Fluent API** — 以鏈式語法撰寫頁面切換，簡潔易讀
@@ -410,6 +411,116 @@ ViewController
     .SetPage(ViewSystemScriptable.ViewPages.ConfirmDialog)
     .Show();
 ```
+
+## Pool 生命週期、回收策略與診斷工具
+
+非 unique ViewElement 預設會永久保留在 runtime pool。這能減少重複 Instantiate，但大型或低頻 UI 第一次使用後，可能長期保留大量 inactive hierarchy。
+
+### Recovery Policy
+
+在 prefab 根節點的 `ViewElement` Inspector 設定：
+
+| Policy | Leave 並完成 recovery 後的行為 |
+|---|---|
+| `KeepForever` | 保留所有回收實例，這是向下相容的預設值。 |
+| `KeepN` | 該 prefab 最多保留 `recoveryKeepCount` 個 queued instance；active 與 pending-recovery 不計入上限。 |
+| `DestroyOnRecovery` | 不保留在 runtime pool，永久銷毀回收實例的完整 GameObject hierarchy。 |
+
+Recovery policy 只處理非 unique ViewElement。Unique／singleton ownership 是另一套契約，未檢查 ownership 前不可改成一般 parent destruction。
+
+也可以在 Project 視窗選取 prefab asset，使用：
+
+`Assets > MacacaGames > ViewSystem > Recovery Policy`
+
+此選單透過 Unity Editor API 寫入，Play Mode 中會停用。請逐一審查候選，不要只根據 hierarchy 大小批次套用 `DestroyOnRecovery`。
+
+### Permanent Lifetime Scope
+
+每個 runtime `ViewElement` 都提供 `Lifetime`。只有 runtime hierarchy 被永久銷毀時才會 Dispose；一般回收到 pool 不會 Dispose。
+
+可用於 cancellation、cleanup ownership 與 scope-bound event subscription：
+
+```csharp
+[SerializeField] ViewElement ownerViewElement;
+[SerializeField] ViewElement itemTemplate;
+
+ViewElementRequestedPool itemPool;
+
+void Awake()
+{
+    itemPool = ownerViewElement.Lifetime.CreatePool(
+        itemTemplate,
+        ViewElementChildRecoveryMode.DestroyWithOwner);
+
+    ownerViewElement.Lifetime.Subscribe<Action>(
+        handler => model.Changed += handler,
+        handler => model.Changed -= handler,
+        RefreshView);
+}
+
+async Task LoadAsync()
+{
+    var token = ownerViewElement.Lifetime.Token;
+    await LoadContentAsync(token);
+    if (token.IsCancellationRequested || !ownerViewElement.Lifetime.IsAlive)
+        return;
+
+    ApplyContent();
+}
+```
+
+Owner-aware requested pool 支援三種 child recovery mode：
+
+| Mode | Ownership 行為 |
+|---|---|
+| `ReturnToGlobalPool` | owner Dispose 時將 owned child 送回 global runtime pool。 |
+| `DestroyWithOwner` | 回收後先保留在 owner-local pool，owner Dispose 時銷毀完整 child hierarchy；包含 unique ViewElement 的 template 會被拒絕。 |
+| `UseChildPolicy` | child 回到 global runtime pool，並遵守 child 自己的 recovery policy。 |
+
+Runtime ViewElement 擁有的 pool 應優先使用 `ownerViewElement.Lifetime.CreatePool(...)`。舊的 ownerless `new ViewElementRequestedPool(...)` 與 `GetPool(...)` 仍維持 global ownership 行為。
+
+### Dump Runtime Object Graph
+
+進入 Play Mode，等待 `ViewController` 初始化完成後執行：
+
+`MacacaGames > ViewSystem > Diagnostics > Dump Object Graph`
+
+JSON 報告會輸出到 host project 的 `MemoryLeakReports/`。內容包含 runtime roots、pool prefab GUID/path identity、active/queued/pending instance、hierarchy GameObject 與 MonoBehaviour 數量、requested-pool ownership、nested unique、dry-run trimmable 數量與 Addressable handle 觀測。
+
+驗證一個遷移候選時，依序產生：
+
+1. 穩定頁面的 baseline；
+2. 目標 UI 開啟中；
+3. 返回穩定頁面並等待 recovery 完成；
+4. 第二次開啟目標 UI；
+5. 第二次返回穩定頁面。
+
+### Pool Policy Advisor
+
+開啟：
+
+`MacacaGames > ViewSystem > Diagnostics > Pool Policy Advisor`
+
+Advisor 只分析指定 `ViewSystemSaveDataBase` 引用的 prefab，支援 direct 與 Addressable SaveData。使用流程：
+
+1. 按 **Analyze** 產生 prefab 與 script 靜態證據。
+2. 按時間順序用 **Add Runtime** 匯入 Object Graph snapshots。
+3. 檢查 **Target policy**、**Migration status**、**Safety blockers** 與 **Next action**。
+4. 按 **Export Results** 將 Advisor JSON 輸出到 `MemoryLeakReports/`。
+
+Schema v5 會刻意分離 policy 適配度與 migration safety：
+
+- `targetPolicy` / `targetKeepCount`：記憶體策略目標；
+- `migrationStatus`：code migration、review 或 runtime validation 狀態；
+- `safetyBlockers`：具體 event、async、static、requested-pool 或 ownership 問題；
+- `policyConfidence` / `safetyConfidence`：分開計算的信心值；
+- `nextAction`：最小的後續行動。
+
+Safety blocker 不代表 `KeepForever` 是正確目標。已設定的 `KeepN` 與 `DestroyOnRecovery` 會被視為 intentional migration，靜態分析不會要求回退。Advisor 仍是 dry-run 證據工具，不會自動修改 prefab。
+
+需要 Agent 協助遷移時，將匯出的 Advisor report 交給 package 內的 [ViewSystem Pool Migration skill](.agents/skills/viewsystem-pool-migration/SKILL.md)。Skill 會引導 Agent 一次處理一個候選：檢查 event／async／ownership、實作 lifetime 修正、編譯、透過 Unity 套用 policy，再驗證 open／return／reopen。
+
+架構與已知失敗模式請參考 [Pool Policy Design](VIEW_ELEMENT_POOL_POLICY_DESIGN.md) 與 [Migration Case Study](VIEW_ELEMENT_POOL_POLICY_CASE_STUDY.md)。
 
 ## 疑難排解
 

@@ -28,6 +28,7 @@ The result: **designers own the visual details, engineers own the behavior and d
 
 - **Element-based architecture** — compose UI pages from reusable ViewElements
 - **ViewElement pooling** — automatic pool management for optimal performance
+- **Pool lifecycle policies & diagnostics** — KeepN/DestroyOnRecovery, object-graph dumps, and an evidence-based Policy Advisor
 - **Runtime property & event overrides** — create ViewElement variants per page without prefab variants
 - **Node-based visual editor** — design and preview UI pages directly in the editor
 - **Fluent API** — chain page transitions with a clean, readable syntax
@@ -403,6 +404,116 @@ ViewController
     .SetPage(ViewSystemScriptable.ViewPages.ConfirmDialog)
     .Show();
 ```
+
+## Pool Lifecycle, Recovery Policies, and Diagnostics
+
+By default, non-unique ViewElements are retained in the runtime pool forever. This minimizes repeated instantiation, but a large or infrequently used UI can retain a substantial inactive hierarchy after its first use.
+
+### Recovery policy
+
+Set the policy on the root `ViewElement` Inspector:
+
+| Policy | Behavior after leave and recovery |
+|---|---|
+| `KeepForever` | Retain every recovered instance. This is the backward-compatible default. |
+| `KeepN` | Retain at most `recoveryKeepCount` queued instances for that prefab. Active and pending-recovery instances are not included in the limit. |
+| `DestroyOnRecovery` | Permanently destroy the recovered GameObject hierarchy instead of retaining it in the runtime pool. |
+
+Recovery policies apply to non-unique ViewElements. Unique/singleton ownership is a separate contract and must not be converted to ordinary parent destruction without an ownership review.
+
+You can also select prefab assets in the Project window and use:
+
+`Assets > MacacaGames > ViewSystem > Recovery Policy`
+
+This menu writes through Unity Editor APIs and is disabled in Play Mode. Review candidates individually; do not batch-convert a project to `DestroyOnRecovery` based only on hierarchy size.
+
+### Permanent lifetime scope
+
+Every runtime `ViewElement` exposes `Lifetime`. The scope is disposed only when that runtime hierarchy is permanently destroyed; ordinary recovery to the pool does not dispose it.
+
+Use it for cancellation, cleanup ownership, and scope-bound subscriptions:
+
+```csharp
+[SerializeField] ViewElement ownerViewElement;
+[SerializeField] ViewElement itemTemplate;
+
+ViewElementRequestedPool itemPool;
+
+void Awake()
+{
+    itemPool = ownerViewElement.Lifetime.CreatePool(
+        itemTemplate,
+        ViewElementChildRecoveryMode.DestroyWithOwner);
+
+    ownerViewElement.Lifetime.Subscribe<Action>(
+        handler => model.Changed += handler,
+        handler => model.Changed -= handler,
+        RefreshView);
+}
+
+async Task LoadAsync()
+{
+    var token = ownerViewElement.Lifetime.Token;
+    await LoadContentAsync(token);
+    if (token.IsCancellationRequested || !ownerViewElement.Lifetime.IsAlive)
+        return;
+
+    ApplyContent();
+}
+```
+
+Owner-aware requested pools support three child recovery modes:
+
+| Mode | Ownership behavior |
+|---|---|
+| `ReturnToGlobalPool` | Return owned children to the global runtime pool when the owner is disposed. |
+| `DestroyWithOwner` | Keep recovered children owner-local and destroy their complete hierarchies with the owner. Templates containing unique ViewElements are rejected. |
+| `UseChildPolicy` | Return children through the global runtime pool and honor each child's recovery policy. |
+
+Prefer `ownerViewElement.Lifetime.CreatePool(...)` for pools owned by a runtime ViewElement. The legacy ownerless `new ViewElementRequestedPool(...)` and `GetPool(...)` APIs retain global ownership behavior.
+
+### Dump the runtime object graph
+
+Enter Play Mode, wait until `ViewController` is initialized, then run:
+
+`MacacaGames > ViewSystem > Diagnostics > Dump Object Graph`
+
+The JSON report is written to the host project's `MemoryLeakReports/` directory. It includes runtime roots, pool prefab GUID/path identity, active/queued/pending instances, hierarchy GameObject and MonoBehaviour counts, requested-pool ownership, nested unique elements, dry-run trimmable counts, and Addressable handle observations.
+
+For a migration candidate, capture snapshots in this order:
+
+1. stable baseline page;
+2. target UI open;
+3. returned stable page after recovery settles;
+4. target UI reopened;
+5. returned stable page again.
+
+### Pool Policy Advisor
+
+Open:
+
+`MacacaGames > ViewSystem > Diagnostics > Pool Policy Advisor`
+
+The Advisor analyzes only prefabs referenced by the selected `ViewSystemSaveDataBase`, including direct and Addressable SaveData variants. Its workflow is:
+
+1. Click **Analyze** for static prefab and script evidence.
+2. Click **Add Runtime** to import Object Graph snapshots in chronological order.
+3. Inspect **Target policy**, **Migration status**, **Safety blockers**, and **Next action**.
+4. Click **Export Results** to write an Advisor JSON report to `MemoryLeakReports/`.
+
+Schema v5 intentionally separates policy suitability from migration safety:
+
+- `targetPolicy` / `targetKeepCount`: the desired memory policy;
+- `migrationStatus`: code migration, review, or runtime validation state;
+- `safetyBlockers`: concrete event, async, static, requested-pool, or ownership concerns;
+- `policyConfidence` / `safetyConfidence`: independent confidence scores;
+- `nextAction`: the smallest recommended follow-up.
+
+A safety blocker does not mean `KeepForever` is the desired target. Existing `KeepN` and `DestroyOnRecovery` settings are treated as intentional migrations and are never reverted by static analysis alone. Advisor output remains dry-run evidence and does not automatically modify prefabs.
+
+For agent-assisted migration, use the package-local [ViewSystem Pool Migration skill](.agents/skills/viewsystem-pool-migration/SKILL.md) with the exported Advisor report. The skill guides an agent through one candidate at a time: inspect event/async/ownership code, implement lifetime fixes, compile, apply the policy through Unity, and validate open/return/reopen behavior.
+
+See [Pool Policy Design](VIEW_ELEMENT_POOL_POLICY_DESIGN.md) and [Migration Case Study](VIEW_ELEMENT_POOL_POLICY_CASE_STUDY.md) for the architecture and known failure modes.
 
 ## Troubleshooting
 
