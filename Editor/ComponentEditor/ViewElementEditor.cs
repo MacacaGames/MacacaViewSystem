@@ -21,6 +21,8 @@ namespace MacacaGames.ViewSystem
         private SerializedProperty m_Injection;
         private SerializedProperty onShowHandle;
         private SerializedProperty onLeaveHandle;
+        private SerializedProperty recoveryPolicy;
+        private SerializedProperty recoveryKeepCount;
         AnimBool showV2Setting = new AnimBool(true);
 
         void OnEnable()
@@ -31,6 +33,8 @@ namespace MacacaGames.ViewSystem
             parentViewElementGroup = parentViewElement?.GetComponent<ViewElementGroup>();
             onShowHandle = serializedObject.FindProperty("OnShowHandle");
             onLeaveHandle = serializedObject.FindProperty("OnLeaveHandle");
+            recoveryPolicy = serializedObject.FindProperty(nameof(ViewElement.recoveryPolicy));
+            recoveryKeepCount = serializedObject.FindProperty(nameof(ViewElement.recoveryKeepCount));
             showV2Setting.valueChanged.AddListener(Repaint);
         }
         void OnDisable()
@@ -39,6 +43,8 @@ namespace MacacaGames.ViewSystem
         }
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
+
             if ((parentViewElement != null && viewElement != parentViewElement) &&
                 (parentViewElementGroup == null && viewElementGroup != parentViewElementGroup))
             {
@@ -138,6 +144,43 @@ namespace MacacaGames.ViewSystem
                             hintText = "Only Unique ViewElement can be inject";
                         }
                         EditorGUILayout.HelpBox(hintText, MessageType.Info);
+
+                        EditorGUILayout.PropertyField(
+                            recoveryPolicy,
+                            new GUIContent(
+                                "Recovery Policy",
+                                "Controls what happens after a non-unique ViewElement completes leave and enters the runtime pool."));
+
+                        if (!recoveryPolicy.hasMultipleDifferentValues)
+                        {
+                            var policy = (ViewElementRecoveryPolicy)recoveryPolicy.enumValueIndex;
+                            if (policy == ViewElementRecoveryPolicy.KeepN)
+                            {
+                                EditorGUI.indentLevel++;
+                                EditorGUILayout.PropertyField(
+                                    recoveryKeepCount,
+                                    new GUIContent(
+                                        "Recovery Keep Count",
+                                        "Maximum queued instances. Active and pending-recovery instances are not counted."));
+                                EditorGUI.indentLevel--;
+                            }
+
+                            if (viewElement.IsUnique && policy != ViewElementRecoveryPolicy.KeepForever)
+                            {
+                                EditorGUILayout.HelpBox(
+                                    "Recovery Policy only applies to non-unique ViewElements. " +
+                                    "Unique ownership continues to use the existing ownership stack.",
+                                    MessageType.Warning);
+                            }
+                            else if (policy == ViewElementRecoveryPolicy.DestroyOnRecovery)
+                            {
+                                EditorGUILayout.HelpBox(
+                                    "The ViewElement hierarchy will be permanently destroyed after recovery. " +
+                                    "Requested child pools are destroyed with it only when the creating code uses DestroyWithOwner. " +
+                                    "Nested unique ViewElements will block unsafe destruction at runtime.",
+                                    MessageType.Info);
+                            }
+                        }
                         
                         viewElement.useInstantPosition = EditorGUILayout.Toggle("Use Instant Position", viewElement.useInstantPosition);
                         EditorGUILayout.HelpBox("If enabled, this ViewElement will move instantly to new position instead of tweening.", MessageType.None);
