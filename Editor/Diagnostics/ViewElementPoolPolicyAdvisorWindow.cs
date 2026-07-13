@@ -98,7 +98,7 @@ namespace MacacaGames.ViewSystem.Diagnostics
                     ImportRuntimeReport();
                 }
 
-                if (report.hasRuntimeTelemetry &&
+                if (report != null && report.hasRuntimeTelemetry &&
                     GUILayout.Button("Clear Runtime", EditorStyles.toolbarButton, GUILayout.Width(90f)))
                 {
                     ClearRuntimeTelemetry();
