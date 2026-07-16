@@ -6,6 +6,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Linq;
 using System;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MacacaGames.ViewSystem
 {
@@ -16,6 +18,9 @@ namespace MacacaGames.ViewSystem
         public static ViewElementRuntimePool runtimePool;
         public ViewElementPool viewElementPool;
         static float maxClampTime = 1;
+        const float PageShowHookTimeoutSeconds = 15f;
+        const float PageReadyTimeoutSeconds = 10f;
+        static long nextPageShowRequestId;
         [SerializeField] public bool initOnAwake = true;
         [SerializeField] public bool autoPrewarm = true;
         [SerializeField] private ViewSystemSaveDataBase saveData;
@@ -836,6 +841,140 @@ namespace MacacaGames.ViewSystem
         [ReadOnly, SerializeField] protected List<ViewElement> currentLiveElementsInViewPage = new List<ViewElement>();
         [ReadOnly, SerializeField] protected List<ViewElement> currentLiveElementsInViewState = new List<ViewElement>();
 
+        IEnumerator RunPageShowHooks(
+            ViewPageShowContext context,
+            IReadOnlyList<IViewPageShowHook> hooks,
+            bool beforePrepare)
+        {
+            if (hooks == null || hooks.Count == 0)
+                yield break;
+
+            foreach (var hook in hooks)
+            {
+                using var cancellation = new CancellationTokenSource();
+                Task task;
+                try
+                {
+                    task = beforePrepare
+                        ? hook.BeforePrepareAsync(context, cancellation.Token)
+                        : hook.AfterReadyAsync(context, cancellation.Token);
+                }
+                catch (Exception exception)
+                {
+                    ViewSystemLog.LogError(
+                        $"ViewPage show hook failed to start for {context?.ViewPage?.name}: {exception}");
+                    continue;
+                }
+
+                if (task == null)
+                    continue;
+
+                ObserveTaskException(task);
+                float startTime = Time.realtimeSinceStartup;
+                while (!task.IsCompleted &&
+                       Time.realtimeSinceStartup - startTime < PageShowHookTimeoutSeconds)
+                {
+                    yield return null;
+                }
+
+                if (!task.IsCompleted)
+                {
+                    cancellation.Cancel();
+                    ViewSystemLog.LogError(
+                        $"ViewPage show hook timeout ({(beforePrepare ? "BeforePrepare" : "AfterReady")}) " +
+                        $"for {context?.ViewPage?.name}: {hook.GetType().Name}");
+                    continue;
+                }
+
+                LogTaskFailure(task,
+                    $"ViewPage show hook {(beforePrepare ? "BeforePrepare" : "AfterReady")} failed " +
+                    $"for {context?.ViewPage?.name}: {hook.GetType().Name}");
+            }
+        }
+
+        IEnumerator WaitForPageReadySources(
+            IEnumerable<ViewElement> viewElements,
+            ViewPageShowContext context)
+        {
+            if (viewElements == null)
+                yield break;
+
+            var sources = viewElements
+                .Where(viewElement => viewElement != null)
+                .SelectMany(viewElement => viewElement
+                    .GetComponentsInChildren<MonoBehaviour>(true)
+                    .OfType<IViewPageReadySource>())
+                .Distinct()
+                .ToList();
+            if (sources.Count == 0)
+                yield break;
+
+            using var cancellation = new CancellationTokenSource();
+            var calls = new List<(IViewPageReadySource source, Task task)>();
+            foreach (var source in sources)
+            {
+                try
+                {
+                    var task = source.WaitUntilReadyAsync(cancellation.Token);
+                    if (task == null)
+                        continue;
+
+                    ObserveTaskException(task);
+                    calls.Add((source, task));
+                }
+                catch (Exception exception)
+                {
+                    ViewSystemLog.LogError(
+                        $"Page readiness source failed to start for {context?.ViewPage?.name}: " +
+                        $"{source.GetType().Name}: {exception}");
+                }
+            }
+
+            float startTime = Time.realtimeSinceStartup;
+            while (calls.Any(call => !call.task.IsCompleted) &&
+                   Time.realtimeSinceStartup - startTime < PageReadyTimeoutSeconds)
+            {
+                yield return null;
+            }
+
+            if (calls.Any(call => !call.task.IsCompleted))
+            {
+                cancellation.Cancel();
+                foreach (var call in calls.Where(call => !call.task.IsCompleted))
+                {
+                    ViewSystemLog.LogError(
+                        $"Page readiness timeout for {context?.ViewPage?.name}: " +
+                        $"{call.source.GetType().Name}");
+                }
+            }
+
+            foreach (var call in calls.Where(call => call.task.IsCompleted))
+            {
+                LogTaskFailure(call.task,
+                    $"Page readiness failed for {context?.ViewPage?.name}: {call.source.GetType().Name}");
+            }
+        }
+
+        static void ObserveTaskException(Task task)
+        {
+            task?.ContinueWith(
+                completedTask => { var _ = completedTask.Exception; },
+                TaskContinuationOptions.OnlyOnFaulted);
+        }
+
+        static void LogTaskFailure(Task task, string context)
+        {
+            if (task == null || !task.IsCompleted)
+                return;
+            if (task.IsCanceled)
+            {
+                ViewSystemLog.LogWarning($"{context} (canceled)");
+                return;
+            }
+            if (task.IsFaulted)
+                ViewSystemLog.LogError($"{context}: {task.Exception?.Flatten()}");
+        }
+
         IEnumerator WaitForBeforeShowAsyncHooks(IEnumerable<ViewElement> viewElements, bool ignoreTimeScale, string context)
         {
             if (viewElements == null)
@@ -916,6 +1055,16 @@ namespace MacacaGames.ViewSystem
                 ChangePageToCoroutine = null;
                 yield break;
             }
+
+            var pageShowContext = new ViewPageShowContext
+            {
+                RequestId = Interlocked.Increment(ref nextPageShowRequestId),
+                ViewPage = nextViewPageForCurrentChangePage,
+                IsOverlay = false,
+                IsReplay = false,
+            };
+            var pageShowHooks = GetViewPageShowHooks(pageShowContext);
+            yield return RunPageShowHooks(pageShowContext, pageShowHooks, beforePrepare: true);
 
             //Prepare runtime page root
             string viewPageRootName = ViewSystemUtilitys.GetPageRootName(nextViewPageForCurrentChangePage);
@@ -1123,6 +1272,9 @@ namespace MacacaGames.ViewSystem
             yield return WaitForBeforeShowAsyncHooks(enteringViewElements, ignoreTimeScale,
                 $"ChangePage:{nextViewPageForCurrentChangePage?.name}");
 
+            if (pageShowHooks.Count > 0)
+                yield return WaitForPageReadySources(enteringViewElements, pageShowContext);
+
             if (delayPreviousLeaveUntilNextPrepared)
             {
                 foreach (var item in viewElementDoesExitsInNextPage)
@@ -1145,10 +1297,12 @@ namespace MacacaGames.ViewSystem
                 // Notify event
                 yield return Yielders.GetWaitForSeconds(OnShowAnimationFinish);
 
-            ChangePageToCoroutine = null;
-
             //Callback
             InvokeOnViewPageChangeEnd(this, new ViewPageEventArgs(nextViewPageForCurrentChangePage, lastViewPage));
+
+            yield return RunPageShowHooks(pageShowContext, pageShowHooks, beforePrepare: false);
+
+            ChangePageToCoroutine = null;
 
             nextViewPageForCurrentChangePage = null;
             nextViewState = null;
@@ -1167,6 +1321,16 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.Log("ViewPage is null");
                 yield break;
             }
+
+            var pageShowContext = new ViewPageShowContext
+            {
+                RequestId = Interlocked.Increment(ref nextPageShowRequestId),
+                ViewPage = vp,
+                IsOverlay = true,
+                IsReplay = RePlayOnShowWhileSamePage,
+            };
+            var pageShowHooks = GetViewPageShowHooks(pageShowContext);
+            yield return RunPageShowHooks(pageShowContext, pageShowHooks, beforePrepare: true);
 
             // if (vp.viewPageType != ViewPage.ViewPageType.Overlay)
             // {
@@ -1241,6 +1405,9 @@ namespace MacacaGames.ViewSystem
                     if (overlayPageStatus.pageChangeCoroutine != null)
                     {
                         StopCoroutine(overlayPageStatus.pageChangeCoroutine);
+                        AbortViewPageShowHooks(
+                            overlayPageStatus.pageShowContext,
+                            overlayPageStatus.pageShowHooks);
                     }
 
                     samePage = true;
@@ -1286,6 +1453,9 @@ namespace MacacaGames.ViewSystem
                     }
                 }
             }
+
+            overlayPageStatus.pageShowContext = pageShowContext;
+            overlayPageStatus.pageShowHooks = pageShowHooks;
 
             OnStart?.Invoke();
 
@@ -1377,12 +1547,19 @@ namespace MacacaGames.ViewSystem
             yield return WaitForBeforeShowAsyncHooks(enteringViewElements, ignoreTimeScale,
                 $"Overlay:{vp?.name}");
 
+            if (pageShowHooks.Count > 0)
+                yield return WaitForPageReadySources(enteringViewElements, pageShowContext);
+
             if (ignoreTimeScale)
                 yield return Yielders.GetWaitForSecondsRealtime(onShowTime);
             else
                 yield return Yielders.GetWaitForSeconds(onShowTime);
 
             overlayPageStatus.IsTransition = false;
+
+            yield return RunPageShowHooks(pageShowContext, pageShowHooks, beforePrepare: false);
+            overlayPageStatus.pageShowContext = null;
+            overlayPageStatus.pageShowHooks = null;
 
             OnComplete?.Invoke();
         }

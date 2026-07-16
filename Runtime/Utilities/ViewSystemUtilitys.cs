@@ -35,6 +35,8 @@ namespace MacacaGames.ViewSystem
             public ViewState viewState;
             public Coroutine pageChangeCoroutine;
             public Transition transition;
+            [NonSerialized] public ViewPageShowContext pageShowContext;
+            [NonSerialized] public List<IViewPageShowHook> pageShowHooks;
             public enum Transition
             {
                 None,

@@ -9,6 +9,7 @@ namespace MacacaGames.ViewSystem
 {
     public abstract class ViewControllerBase : MonoBehaviour
     {
+        static readonly List<IViewPageShowHook> viewPageShowHooks = new List<IViewPageShowHook>();
 
         protected static float minimumTimeInterval = 0.2f;
         internal static bool builtInClickProtection = true;
@@ -31,6 +32,62 @@ namespace MacacaGames.ViewSystem
         /// <param name="viewPageName"></param>
         /// <returns></returns>
         public abstract bool IsViewPageExsit(string viewPageName);
+
+        public static void RegisterViewPageShowHook(IViewPageShowHook hook)
+        {
+            if (hook != null && !viewPageShowHooks.Contains(hook))
+                viewPageShowHooks.Add(hook);
+        }
+
+        public static void UnregisterViewPageShowHook(IViewPageShowHook hook)
+        {
+            if (hook != null)
+                viewPageShowHooks.Remove(hook);
+        }
+
+        protected static List<IViewPageShowHook> GetViewPageShowHooks(ViewPageShowContext context)
+        {
+            var result = new List<IViewPageShowHook>();
+            foreach (var hook in viewPageShowHooks.ToArray())
+            {
+                if (hook == null)
+                    continue;
+
+                try
+                {
+                    if (hook.ShouldHandle(context))
+                        result.Add(hook);
+                }
+                catch (Exception exception)
+                {
+                    ViewSystemLog.LogError(
+                        $"ViewPage show hook selection failed for {context?.ViewPage?.name}: {exception}");
+                }
+            }
+
+            return result;
+        }
+
+        protected static void AbortViewPageShowHooks(
+            ViewPageShowContext context,
+            IEnumerable<IViewPageShowHook> hooks)
+        {
+            if (context == null || hooks == null)
+                return;
+
+            foreach (var hook in hooks)
+            {
+                try
+                {
+                    hook?.OnAborted(context);
+                }
+                catch (Exception exception)
+                {
+                    ViewSystemLog.LogError(
+                        $"ViewPage show hook abort failed for {context.ViewPage?.name}: {exception}");
+                }
+            }
+        }
 
         #region Interface Impletetment
         protected string GetOverlayStateKey(ViewPage vp)
@@ -135,6 +192,11 @@ namespace MacacaGames.ViewSystem
             if (overlayPageStatus.pageChangeCoroutine != null)
             {
                 StopCoroutine(overlayPageStatus.pageChangeCoroutine);
+                AbortViewPageShowHooks(
+                    overlayPageStatus.pageShowContext,
+                    overlayPageStatus.pageShowHooks);
+                overlayPageStatus.pageShowContext = null;
+                overlayPageStatus.pageShowHooks = null;
                 // The stopped coroutine can no longer complete its transition,
                 // so reset the flag to prevent LeaveOverlayViewPageBase from waiting forever.
                 overlayPageStatus.IsTransition = false;
