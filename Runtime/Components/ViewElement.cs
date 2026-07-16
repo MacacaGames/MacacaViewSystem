@@ -1059,6 +1059,25 @@ namespace MacacaGames.ViewSystem
                     GraphicRegistry.UnregisterGraphicForCanvas(_allGraphics[i].canvas, _allGraphics[i]);
                 }
             }
+            if (needPool && runtimePool != null && lifeCyclesObjects != null)
+            {
+                foreach (var item in lifeCyclesObjects.ToArray())
+                {
+                    if (item is not IViewElementPoolLifeCycle poolLifeCycle)
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        poolLifeCycle.OnBeforeReturnToPool();
+                    }
+                    catch (Exception exception)
+                    {
+                        ViewSystemLog.LogError(exception.ToString(), this);
+                    }
+                }
+            }
             //先 SetParent 就好除了被託管的
             if (DisableGameObjectOnComplete)
             {

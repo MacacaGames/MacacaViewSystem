@@ -210,6 +210,127 @@ Handle release 應晚於 instance ownership 與 pool policy 穩定，不宜先�
 
 若 prefab 設為 `DestroyOnRecovery` 但 verifier 判定 unsafe，Editor 應顯示 error；runtime 可選擇保守 fallback 到 `KeepForever` 並記錄一次 warning，避免正式環境直接破壞 UI。
 
+## Policy 遷移偽代碼
+
+以下流程描述「證據收集、Agent code migration、Unity policy 套用、runtime 驗證」的責任邊界。Advisor 不應把 safety blocker 自動轉譯成 `KeepForever`；`targetPolicy` 是策略目標，`migrationStatus` 是目前能否安全前進的狀態。
+
+### Advisor：產生單一候選的 v5 decision
+
+```text
+function AnalyzeCandidate(prefab, saveData, runtimeSnapshots):
+    assert prefab is referenced by saveData
+
+    advice = ScanPrefabHierarchyAndScripts(prefab)
+    advice.currentPolicy = prefab.ViewElement.recoveryPolicy
+    advice.currentKeepCount = prefab.ViewElement.recoveryKeepCount
+    advice.runtime = MergeSnapshotsByPrefabGuidOrPath(runtimeSnapshots, prefab)
+
+    # 先決定「希望採用什麼 policy」，不要先看 safety blocker
+    if advice.currentPolicy != KeepForever:
+        advice.targetPolicy = advice.currentPolicy
+        advice.targetKeepCount = advice.currentKeepCount
+        advice.policyConfidence = 0.90
+    else if advice.gameObjects >= LARGE_HIERARCHY_THRESHOLD:
+        advice.targetPolicy = DestroyOnRecovery
+        advice.targetKeepCount = 0
+        advice.policyConfidence = 0.65
+    else if advice.gameObjects >= MEDIUM_HIERARCHY_THRESHOLD:
+        advice.targetPolicy = KeepN
+        advice.targetKeepCount = 1
+        advice.policyConfidence = 0.55
+    else:
+        advice.targetPolicy = Undetermined
+        advice.targetKeepCount = 0
+        advice.policyConfidence = 0.35
+
+    advice.safetyBlockers = VerifyOwnership(advice)
+
+    if advice.hasUniqueOrSingleton:
+        advice.targetPolicy = KeepForever
+        advice.targetKeepCount = 0
+        advice.migrationStatus = Pinned
+        advice.nextAction = "Preserve unique/singleton ownership"
+        advice.safetyConfidence = 0.95
+    else if advice.safetyBlockers is not empty:
+        advice.migrationStatus =
+            advice.currentPolicy != KeepForever ? NeedsCodeReview : NeedsCodeMigration
+        advice.nextAction = "Fix or review the cited ownership paths"
+        advice.safetyConfidence = 0.25
+    else if advice.currentPolicy != KeepForever:
+        advice.migrationStatus = NeedsRuntimeValidation
+        advice.nextAction = "Preserve current policy and validate reopen cycles"
+        advice.safetyConfidence = 0.65
+    else if advice.targetPolicy == Undetermined:
+        advice.migrationStatus = InsufficientEvidence
+        advice.nextAction = "Collect runtime cost and usage evidence"
+        advice.safetyConfidence = 0.55
+    else:
+        advice.migrationStatus = NeedsRuntimeEvidence
+        advice.nextAction = "Collect open/return/reopen snapshots and review ownership"
+        advice.safetyConfidence = 0.55
+
+    return advice
+```
+
+### Agent：處理一個需要遷移的候選
+
+```text
+function MigrateOneCandidate(advisorReport):
+    candidate = SelectOne(advisorReport.entries,
+        status in [NeedsCodeMigration, NeedsCodeReview, NeedsRuntimeEvidence])
+    if candidate is null:
+        return "No candidate requiring migration"
+
+    Read(AGENTS.md, CLAUDE.md, design docs, case study)
+    InspectDirtyWorktreeWithoutOverwritingUserChanges()
+    InspectCitedSourceLines(candidate.signalEvidence)
+
+    if candidate.migrationStatus == NeedsCodeMigration:
+        AddLifetimeCleanupAndAsyncGuards(candidate)
+        ReplaceOwnerlessRequestedPool(candidate,
+            owner.Lifetime.CreatePool(template, DestroyWithOwner))
+        BindEventsToScope(candidate,
+            owner.Lifetime.Subscribe(add, remove, handler))
+        CompileAffectedAssembly()
+
+    if candidate.targetPolicy != Undetermined and NoBlockingCodeIssue(candidate):
+        # prefab/asset 寫入只透過 Unity Editor API 或 Inspector
+        plan = {
+            prefabGuid: candidate.prefabGuid,
+            expectedCurrentPolicy: candidate.currentPolicy,
+            targetPolicy: candidate.targetPolicy,
+            targetKeepCount: candidate.targetKeepCount,
+        }
+        ApplyPolicyThroughUnityEditor(plan)
+
+    return "Capture runtime validation snapshots"
+```
+
+### Runtime：驗證 recovery 與 owner disposal
+
+```text
+function ValidateCandidate(candidate):
+    snapshots = [
+        DumpObjectGraph(baselinePage),
+        DumpObjectGraph(afterOpen(candidate)),
+        DumpObjectGraph(afterReturnAndRecoverySettles()),
+        DumpObjectGraph(afterReopen(candidate)),
+        DumpObjectGraph(afterSecondReturnAndRecoverySettles()),
+    ]
+
+    assert no MissingReferenceException / NullReferenceException / duplicate callback
+    assert queuedAndPendingCountsDoNotGrowAcrossReopen(snapshots)
+    assert ownerBoundChildrenDoNotRemainInGlobalPool(snapshots)
+    assert contentButtonsImagesAndInjectedDataAreCorrectOnReopen()
+    assert addressableHandleOwnershipIsUnchanged()
+
+    if allChecksPass:
+        return Validated
+    return NeedsRuntimeValidation
+```
+
+`ViewElementLifetimeScope.Dispose` 只代表永久銷毀；一般 leave/recovery 不應觸發 scope cleanup。`DestroyWithOwner` child 也應先回到 owner-local queue，直到 owner 永久銷毀時才釋放完整 hierarchy。這兩個條件是判讀 Object Graph 快照時的必要前提。
+
 ## 導入計畫
 
 ### Phase 1：只讀 Advisor
