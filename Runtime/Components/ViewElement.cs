@@ -786,6 +786,9 @@ namespace MacacaGames.ViewSystem
             {
                 for (int i = 0; i < _allGraphics.Length; i++)
                 {
+                    // Cached at Setup; children like LargeImagePageGraphic can be destroyed
+                    // and rebuilt at runtime, so skip stale entries.
+                    if (_allGraphics[i] == null) continue;
                     if (_allGraphics[i].raycastTarget == false)
                     {
                         GraphicRegistry.UnregisterGraphicForCanvas(_allGraphics[i].canvas, _allGraphics[i]);
@@ -1056,6 +1059,11 @@ namespace MacacaGames.ViewSystem
             {
                 for (int i = 0; i < _allGraphics.Length; i++)
                 {
+                    // Cached at Setup; children like LargeImagePageGraphic can be destroyed
+                    // and rebuilt at runtime, so skip stale entries. A throw here would kill
+                    // the leave runner before SetActive(false)/pool recovery below, leaving
+                    // the element alive and raycast-blocking whatever page comes next.
+                    if (_allGraphics[i] == null) continue;
                     GraphicRegistry.UnregisterGraphicForCanvas(_allGraphics[i].canvas, _allGraphics[i]);
                 }
             }
