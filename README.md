@@ -33,6 +33,7 @@ The result: **designers own the visual details, engineers own the behavior and d
 - **Node-based visual editor** — design and preview UI pages directly in the editor
 - **Fluent API** — chain page transitions with a clean, readable syntax
 - **Lifecycle hooks & dependency injection** — `IViewElementLifeCycle`, `ViewElementBehaviour`, and `[ViewElementInject]`
+- **ViewPage show hooks** — asynchronous page-level preconditions, ordered execution, and configurable timeouts
 - **Safe Area support** — per-page or global safe area configuration
 - **Breakpoint system** — responsive ViewElement transforms based on named breakpoints
 
@@ -246,6 +247,20 @@ public class MyUI : ViewElementBehaviour
     }
 }
 ```
+
+## ViewPage Show Hooks
+
+`IViewPageShowHook` provides an asynchronous lifecycle around a ViewPage show request. Use it for page-level prerequisites such as downloading Addressables or waiting for remote data; use `IViewElementLifeCycle` for individual element behavior.
+
+Hooks run in this order:
+
+```text
+BeforePrepareAsync → ViewPage/ViewElement preparation and show → AfterReadyAsync
+```
+
+Hooks are awaited sequentially. Implement `IViewPageShowHookExecutionPolicy` when ordering or timeout behavior must be explicit. Lower `Order` values run first, and `TimeoutSeconds <= 0` waits indefinitely for user-confirmed or long-running operations.
+
+See [ViewPage Show Hook](VIEW_PAGE_SHOW_HOOK.md) for the registration pattern, examples, and Transition integration guidance.
 
 ### Model Injection (`[ViewElementInject]`)
 

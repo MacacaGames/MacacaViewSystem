@@ -33,6 +33,7 @@ ViewSystem 透過**跨角色的關注點分離**來解決這個問題：
 - **節點式視覺編輯器** — 直接在編輯器中設計與預覽 UI 頁面
 - **Fluent API** — 以鏈式語法撰寫頁面切換，簡潔易讀
 - **生命週期鉤子與依賴注入** — `IViewElementLifeCycle`、`ViewElementBehaviour`、`[ViewElementInject]`
+- **ViewPage 顯示鉤子** — 支援頁面級非同步前置條件、明確執行順序與可設定 timeout
 - **Safe Area 支援** — 可針對單一頁面或全域設定安全區域
 - **Breakpoint 系統** — 依據命名斷點自適應調整 ViewElement 的 Transform
 
@@ -246,6 +247,26 @@ public class MyUI : ViewElementBehaviour
     }
 }
 ```
+
+## ViewPage 顯示鉤子
+
+`IViewPageShowHook` 是 ViewSystem 提供的頁面級非同步生命週期，適合處理進入整個 ViewPage 前必須完成的工作，例如下載 Addressables、等待遠端資料或檢查權限。單一 ViewElement 的動畫與資料刷新，仍應使用 `IViewElementLifeCycle`。
+
+Hook 的執行順序如下：
+
+```text
+BeforePrepareAsync → ViewPage／ViewElement prepare 與顯示 → AfterReadyAsync
+```
+
+符合條件的 hooks 會依序等待。需要明確控制順序或 timeout 時，額外實作 `IViewPageShowHookExecutionPolicy`：`Order` 數字越小越早執行；`TimeoutSeconds <= 0` 代表不限時，適合玩家確認 Dialog 或大型下載。
+
+例如下載 hook 設為 `Order = -100`、Transition hook 設為 `Order = 100`，即可保證流程為：
+
+```text
+下載提示／下載進度 → Transition PlayIn → ViewPage 顯示
+```
+
+完整註冊方式、範例與 Transition 整合說明，請參考 [ViewPage Show Hook](VIEW_PAGE_SHOW_HOOK.md)。
 
 ### Model 注入（`[ViewElementInject]`）
 
