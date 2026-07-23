@@ -552,6 +552,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 ViewSystemLog.LogWarning($"Addressable Group '{data.globalSetting.addressableGroupName}' not found, using default group '{targetGroup.Name}'.");
             }
 
+            var targetLabels = (data.globalSetting.addressableLabelName ?? string.Empty)
+                .Split(new[] { ',', ';', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(label => label.Trim())
+                .Where(label => !string.IsNullOrEmpty(label))
+                .Distinct(StringComparer.Ordinal)
+                .ToArray();
+            if (targetLabels.Length == 0)
+                ViewSystemLog.LogWarning("Addressable Labels are empty; ViewSystem prefabs will not receive a label.");
+
             // Collect all unique prefab GUIDs from ViewPageItems
             var allPageItems = data.viewPagesNodeSaveDatas.SelectMany(m => m.data.viewPage.viewPageItems);
             var allStateItems = data.viewStateNodeSaveDatas.SelectMany(m => m.data.viewState.viewPageItems);
@@ -597,7 +606,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (!processedGuids.Contains(guid))
                 {
                     processedGuids.Add(guid);
-                    EnsureAddressableEntry(settings, targetGroup, guid, assetPath, item.viewElementObject.name);
+                    EnsureAddressableEntry(settings, targetGroup, guid, assetPath, item.viewElementObject.name, targetLabels);
                 }
 
                 addressableData.viewPageItemAssetRefs.Add(new ViewPageItemAssetRef
@@ -625,7 +634,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (!processedGuids.Contains(guid))
                 {
                     processedGuids.Add(guid);
-                    EnsureAddressableEntry(settings, targetGroup, guid, assetPath, entry.viewElementGameObject.name);
+                    EnsureAddressableEntry(settings, targetGroup, guid, assetPath, entry.viewElementGameObject.name, targetLabels);
                 }
 
                 addressableData.uniqueViewElementAssetRefs.Add(new UniqueViewElementAssetRef
@@ -767,21 +776,45 @@ namespace MacacaGames.ViewSystem.VisualEditor
             public Dictionary<string, ViewStateNodeSaveData> viewStateNodes = new Dictionary<string, ViewStateNodeSaveData>();
         }
 
-        void EnsureAddressableEntry(AddressableAssetSettings settings, AddressableAssetGroup targetGroup, string guid, string assetPath, string prefabName)
+        void EnsureAddressableEntry(
+            AddressableAssetSettings settings,
+            AddressableAssetGroup targetGroup,
+            string guid,
+            string assetPath,
+            string prefabName,
+            IReadOnlyList<string> targetLabels)
         {
             var existingEntry = settings.FindAssetEntry(guid);
             if (existingEntry == null)
             {
                 var newEntry = settings.CreateOrMoveEntry(guid, targetGroup);
                 newEntry.address = prefabName;
+                ApplyLabels(newEntry, targetLabels);
                 ViewSystemLog.Log($"Added '{prefabName}' to Addressable Group '{targetGroup.Name}'.");
             }
             else if (existingEntry.parentGroup != targetGroup)
             {
                 var movedEntry = settings.CreateOrMoveEntry(guid, targetGroup);
                 movedEntry.address = prefabName;
+                ApplyLabels(movedEntry, targetLabels);
                 ViewSystemLog.Log($"Moved '{prefabName}' to Addressable Group '{targetGroup.Name}'.");
             }
+            else
+            {
+                ApplyLabels(existingEntry, targetLabels);
+            }
+        }
+
+        static void ApplyLabels(AddressableAssetEntry entry, IReadOnlyList<string> labels)
+        {
+            if (entry == null || labels == null)
+                return;
+
+            foreach (var label in labels)
+                if (!string.IsNullOrEmpty(label))
+                    // force=true also registers the label in Addressable Settings' global Label Table;
+                    // without it Unity displays the entry label with a strike-through.
+                    entry.SetLabel(label, true, force: true);
         }
 
         /// <summary>
@@ -1056,4 +1089,3 @@ namespace MacacaGames.ViewSystem.VisualEditor
     }
 
 }
-

@@ -46,6 +46,7 @@ namespace MacacaGames.ViewSystem
         public bool builtInClickProtection = true;
         public bool useAddressableLoading = false;
         public string addressableGroupName = "";
+        public string addressableLabelName = "ViewSystem";
         public List<string> userBreakPoints = new List<string>();
         public IEnumerable<string> breakPoints
         {

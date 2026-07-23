@@ -85,6 +85,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         {
                             saveData.globalSetting.addressableGroupName = groupNames[currentIndex];
                         }
+
+                        saveData.globalSetting.addressableLabelName = EditorGUILayout.TextField(
+                            new GUIContent("Addressable Labels", "Comma-separated labels assigned to every ViewElement prefab managed by ViewSystem."),
+                            saveData.globalSetting.addressableLabelName);
                     }
                     else
                     {
@@ -95,6 +99,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         "Addressable Loading is enabled.\n" +
                         "When you Save:\n" +
                         "- All ViewElement prefabs will be auto-assigned to the selected Addressable Group.\n" +
+                        "- All managed prefabs will receive the configured Addressable Labels (comma-separated).\n" +
                         "- Two save data files will be generated.\n" +
                         "- Assign ViewSystemData_Addressable to ViewController's Addressable Save Data field.",
                         MessageType.Info);
