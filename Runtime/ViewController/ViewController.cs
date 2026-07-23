@@ -871,8 +871,13 @@ namespace MacacaGames.ViewSystem
 
                 ObserveTaskException(task);
                 float startTime = Time.realtimeSinceStartup;
+                float timeoutSeconds =
+                    hook is IViewPageShowHookExecutionPolicy policy
+                        ? policy.TimeoutSeconds
+                        : PageShowHookTimeoutSeconds;
                 while (!task.IsCompleted &&
-                       Time.realtimeSinceStartup - startTime < PageShowHookTimeoutSeconds)
+                       (timeoutSeconds <= 0f ||
+                        Time.realtimeSinceStartup - startTime < timeoutSeconds))
                 {
                     yield return null;
                 }
@@ -881,7 +886,8 @@ namespace MacacaGames.ViewSystem
                 {
                     cancellation.Cancel();
                     ViewSystemLog.LogError(
-                        $"ViewPage show hook timeout ({(beforePrepare ? "BeforePrepare" : "AfterReady")}) " +
+                        $"ViewPage show hook timeout after {timeoutSeconds:F1}s " +
+                        $"({(beforePrepare ? "BeforePrepare" : "AfterReady")}) " +
                         $"for {context?.ViewPage?.name}: {hook.GetType().Name}");
                     continue;
                 }

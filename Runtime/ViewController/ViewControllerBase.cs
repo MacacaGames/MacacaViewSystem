@@ -65,7 +65,12 @@ namespace MacacaGames.ViewSystem
                 }
             }
 
-            return result;
+            return result
+                .OrderBy(hook =>
+                    hook is IViewPageShowHookExecutionPolicy policy
+                        ? policy.Order
+                        : 0)
+                .ToList();
         }
 
         protected static void AbortViewPageShowHooks(

@@ -22,4 +22,15 @@ namespace MacacaGames.ViewSystem
         Task AfterReadyAsync(ViewPageShowContext context, CancellationToken cancellationToken);
         void OnAborted(ViewPageShowContext context);
     }
+
+    /// <summary>
+    /// Optional execution policy for a ViewPage show hook.
+    /// Lower order values execute first. A timeout at or below zero waits indefinitely,
+    /// which is intended for user-confirmed downloads whose duration can't be predicted.
+    /// </summary>
+    public interface IViewPageShowHookExecutionPolicy
+    {
+        int Order { get; }
+        float TimeoutSeconds { get; }
+    }
 }
