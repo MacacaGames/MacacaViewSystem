@@ -313,24 +313,17 @@ namespace MacacaGames.ViewSystem
                 return null;
             }
 
-            GameObject loadedAsset;
-            if (assetRef.OperationHandle.IsValid() && assetRef.OperationHandle.IsDone)
-            {
-                loadedAsset = assetRef.OperationHandle.Convert<GameObject>().Result;
-            }
-            else
-            {
-                ViewSystemLog.Log($"Sync loading unique ViewElement via Addressables: {type.Name}");
-                var handle = assetRef.LoadAssetAsync<GameObject>();
-                loadedAsset = handle.WaitForCompletion();
-            }
+            var handle = GetOrLoadGameObjectHandle(assetRef);
+            if (!handle.IsDone)
+                handle.WaitForCompletion();
 
-            if (loadedAsset == null)
+            if (handle.Status != AsyncOperationStatus.Succeeded || handle.Result == null)
             {
                 ViewSystemLog.LogError($"Failed to load unique ViewElement for type: {type.Name}");
                 return null;
             }
 
+            var loadedAsset = handle.Result;
             var ve = loadedAsset.GetComponent<ViewElement>();
             if (ve == null)
             {
@@ -340,6 +333,13 @@ namespace MacacaGames.ViewSystem
 
             var r = runtimePool.PrewarmUniqueViewElement(ve);
             return RegisterSingletonFromViewElement(r, type);
+        }
+
+        static AsyncOperationHandle<GameObject> GetOrLoadGameObjectHandle(AssetReferenceGameObject assetRef)
+        {
+            return assetRef.OperationHandle.IsValid()
+                ? assetRef.OperationHandle.Convert<GameObject>()
+                : assetRef.LoadAssetAsync<GameObject>();
         }
 
         IViewElementSingleton RegisterSingletonFromViewElement(ViewElement r, Type type)
@@ -450,7 +450,7 @@ namespace MacacaGames.ViewSystem
                     continue;
                 }
 
-                var handle = entry.Value.LoadAssetAsync<GameObject>();
+                var handle = GetOrLoadGameObjectHandle(entry.Value);
                 loadHandles.Add((entry.Key, handle));
             }
 
@@ -507,7 +507,7 @@ namespace MacacaGames.ViewSystem
             {
                 if (assetRef.RuntimeKeyIsValid())
                 {
-                    var handle = assetRef.LoadAssetAsync<GameObject>();
+                    var handle = GetOrLoadGameObjectHandle(assetRef);
                     yield return handle;
 
                     if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -568,7 +568,7 @@ namespace MacacaGames.ViewSystem
             {
                 if (assetRef.RuntimeKeyIsValid())
                 {
-                    var handle = assetRef.LoadAssetAsync<GameObject>();
+                    var handle = GetOrLoadGameObjectHandle(assetRef);
                     await handle.Task;
 
                     if (handle.Status == AsyncOperationStatus.Succeeded)
