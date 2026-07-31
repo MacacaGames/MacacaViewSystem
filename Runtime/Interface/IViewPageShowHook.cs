@@ -33,4 +33,17 @@ namespace MacacaGames.ViewSystem
         int Order { get; }
         float TimeoutSeconds { get; }
     }
+
+    /// <summary>
+    /// Optional callback invoked after every selected BeforePrepare hook has completed.
+    /// This is a visual-cover boundary: hooks may safely tear down temporary UI here
+    /// because later hooks (for example the transition hook) have already taken over
+    /// the screen.
+    /// </summary>
+    public interface IViewPageShowPhaseCallback
+    {
+        Task OnBeforePreparePhaseCompletedAsync(
+            ViewPageShowContext context,
+            CancellationToken cancellationToken);
+    }
 }

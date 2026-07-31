@@ -896,6 +896,54 @@ namespace MacacaGames.ViewSystem
                     $"ViewPage show hook {(beforePrepare ? "BeforePrepare" : "AfterReady")} failed " +
                     $"for {context?.ViewPage?.name}: {hook.GetType().Name}");
             }
+
+            if (!beforePrepare)
+                yield break;
+
+            // This is the visual-cover boundary. Hooks such as the download manager
+            // can defer tearing down temporary UI until the transition hook has
+            // completed its BeforePrepare phase above.
+            foreach (var callback in hooks.OfType<IViewPageShowPhaseCallback>())
+            {
+                using var cancellation = new CancellationTokenSource();
+                Task task;
+                try
+                {
+                    task = callback.OnBeforePreparePhaseCompletedAsync(
+                        context, cancellation.Token);
+                }
+                catch (Exception exception)
+                {
+                    ViewSystemLog.LogError(
+                        $"ViewPage show phase callback failed to start for " +
+                        $"{context?.ViewPage?.name}: {exception}");
+                    continue;
+                }
+
+                if (task == null)
+                    continue;
+
+                ObserveTaskException(task);
+                float startTime = Time.realtimeSinceStartup;
+                while (!task.IsCompleted &&
+                       Time.realtimeSinceStartup - startTime < PageShowHookTimeoutSeconds)
+                {
+                    yield return null;
+                }
+
+                if (!task.IsCompleted)
+                {
+                    cancellation.Cancel();
+                    ViewSystemLog.LogError(
+                        $"ViewPage show phase callback timeout for " +
+                        $"{context?.ViewPage?.name}: {callback.GetType().Name}");
+                    continue;
+                }
+
+                LogTaskFailure(task,
+                    $"ViewPage show phase callback failed for " +
+                    $"{context?.ViewPage?.name}: {callback.GetType().Name}");
+            }
         }
 
         IEnumerator WaitForPageReadySources(
