@@ -21,30 +21,53 @@ namespace MacacaGames.ViewSystem
         }
         public override void OnInspectorGUI()
         {
+            var snapshot = runtimePool.GetGlobalPoolSnapshot(refreshNestedUniqueSafety: false);
 
-            GUILayout.Label($"Pool Status");
+            GUILayout.Label(
+                $"Global Queue: {snapshot.LogicalQueuedInstances} instances / " +
+                $"{snapshot.LogicalQueuedHierarchyGameObjects} GameObjects");
+            GUILayout.Label(
+                $"Pending Recovery: {snapshot.PendingRecoveryInstances} instances / " +
+                $"{snapshot.PendingRecoveryHierarchyGameObjects} GameObjects");
+            GUILayout.Label(
+                $"Pending Destroy: {snapshot.PendingDestroyInstances} instances / " +
+                $"{snapshot.PendingDestroyHierarchyGameObjects} GameObjects");
 
-            foreach (var item in runtimePool.GetDicts())
+            var entriesBySource = snapshot.QueuedEntries
+                .GroupBy(entry => entry.SourceKey)
+                .ToDictionary(group => group.Key, group => group.ToList());
+            foreach (int sourceKey in snapshot.SourceKeys)
             {
-                var queue = item.Value;
-                if (queue == null)
+                entriesBySource.TryGetValue(sourceKey, out var sourceEntries);
+                sourceEntries ??= new List<ViewElementRuntimePoolSnapshot.QueuedEntry>();
+                string sourceName = sourceEntries.FirstOrDefault()?.SourceName;
+                if (string.IsNullOrEmpty(sourceName) && snapshot.SourceNames.TryGetValue(sourceKey, out var knownName))
                 {
-                    continue;
+                    sourceName = knownName;
                 }
-                GUILayout.Label($"{TryGetPoolNameByInstanceId(item.Key)} : {queue.Count}");
+                if (string.IsNullOrEmpty(sourceName))
+                {
+                    sourceName = "ID:" + sourceKey;
+                }
+
+                int hierarchyGameObjects = sourceEntries.Sum(entry => entry.HierarchyGameObjectCount);
+                GUILayout.Label(
+                    $"{sourceName} ({sourceKey}) : {sourceEntries.Count} / " +
+                    $"{hierarchyGameObjects} GameObjects");
             }
+
             GUILayout.Label($"Recovery Queue Status");
 
-            foreach (var item in runtimePool.GetRecycleQueue())
+            foreach (int instanceId in snapshot.PendingRecoveryInstanceIds)
             {
-                var queue = item;
-                if (queue == null)
+                var viewElement = EditorUtility.InstanceIDToObject(instanceId) as ViewElement;
+                if (viewElement == null)
                 {
                     continue;
                 }
-                if (GUILayout.Button($"{queue.name}"))
+                if (GUILayout.Button(viewElement.name))
                 {
-                    EditorGUIUtility.PingObject(queue.gameObject);
+                    EditorGUIUtility.PingObject(viewElement.gameObject);
                 }
             }
 
@@ -52,13 +75,17 @@ namespace MacacaGames.ViewSystem
 
         public string TryGetPoolNameByInstanceId(int id)
         {
-            string name = "";
-            runtimePool.veNameDicts.TryGetValue(id, out name);
-            if (string.IsNullOrEmpty(name))
+            var snapshot = runtimePool.GetGlobalPoolSnapshot(refreshNestedUniqueSafety: false);
+            if (snapshot.SourceNames.TryGetValue(id, out var sourceName) && !string.IsNullOrEmpty(sourceName))
             {
-                return "ID:" + id.ToString();
+                return sourceName;
             }
-            return name;
+
+            var entry = snapshot.QueuedEntries
+                .FirstOrDefault(item => item.SourceKey == id);
+            return string.IsNullOrEmpty(entry?.SourceName)
+                ? "ID:" + id
+                : entry.SourceName;
         }
     }
 }

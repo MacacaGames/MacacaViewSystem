@@ -25,7 +25,27 @@ namespace MacacaGames.ViewSystem.Diagnostics
         public int inactivePoolGameObjects;
         public int poolSourceCount;
         public int queuedPoolInstanceCount;
+        public int queuedPoolGameObjectCount;
+        public bool budgetEnabled;
+        public string budgetMode;
+        public int highWatermarkInstances;
+        public int lowWatermarkInstances;
+        public int highWatermarkGameObjects;
+        public int lowWatermarkGameObjects;
+        public string dryRunBudgetMode;
+        public int eligibleQueuedInstanceCount;
+        public int blockedByNestedUniqueCount;
+        public int blockedByIneligibleCount;
+        public int blockedByTooYoungCount;
         public int pendingRecoveryCount;
+        public int pendingRecoveryGameObjectCount;
+        public int pendingDestroyCount;
+        public int pendingDestroyGameObjectCount;
+        public int postFrameActualPoolGameObjectCount;
+        public long poolMissCount;
+        public long instantiateCount;
+        public double instantiateMilliseconds;
+        public long trimCount;
         public int dryRunTrimmableInstanceCount;
         public int dryRunTrimmableGameObjects;
         public int dryRunBlockedByNestedUniqueCount;
@@ -192,35 +212,72 @@ namespace MacacaGames.ViewSystem.Diagnostics
             var runtimePool = ViewController.runtimePool;
             if (runtimePool == null) return;
 
-            var poolField = typeof(ViewElementRuntimePool).GetField("veDicts", BindingFlags.Instance | BindingFlags.NonPublic);
-            var recoveryField = typeof(ViewElementRuntimePool).GetField("recycleQueue", BindingFlags.Instance | BindingFlags.NonPublic);
+            // Keep configured-budget diagnostics separate from the explicit
+            // EmergencyHardCap dry-run used to estimate a worst-case clear.
+            // The latter must not make a disabled/Normal runtime budget appear
+            // enabled or configured as EmergencyHardCap.
+            var poolSnapshot = runtimePool.GetGlobalPoolSnapshot(
+                refreshNestedUniqueSafety: true);
+            var emergencyPoolSnapshot = runtimePool.GetGlobalPoolSnapshot(
+                ViewElementGlobalEvictionMode.EmergencyHardCap,
+                refreshNestedUniqueSafety: true);
             var requestedPoolHandlerField = typeof(ViewElement).GetField(
                 "RequestedPoolRecoveryHandler",
                 BindingFlags.Instance | BindingFlags.NonPublic);
-            var pools = poolField?.GetValue(runtimePool) as Dictionary<int, Queue<ViewElement>>;
-            var recoveryQueue = recoveryField?.GetValue(runtimePool) as Queue<ViewElement>;
-            if (pools == null) return;
-
-            var pendingRecovery = recoveryQueue != null
-                ? recoveryQueue.Where(x => x != null).ToList()
-                : new List<ViewElement>();
-            var pendingSet = new HashSet<int>(pendingRecovery.Select(x => x.GetInstanceID()));
-            report.pendingRecoveryCount = pendingRecovery.Count;
 
             var runtimeViewElements = Resources.FindObjectsOfTypeAll<ViewElement>()
                 .Where(x => x != null && x.gameObject.scene.IsValid() && !EditorUtility.IsPersistent(x))
                 .ToList();
+            var runtimeByInstanceId = runtimeViewElements.ToDictionary(x => x.GetInstanceID());
+            var queuedEntriesBySource = emergencyPoolSnapshot.QueuedEntries
+                .GroupBy(x => x.SourceKey)
+                .ToDictionary(x => x.Key, x => x.ToList());
+            var queuedEntriesByInstanceId = emergencyPoolSnapshot.QueuedEntries
+                .ToDictionary(x => x.InstanceId);
+            var pendingRecovery = poolSnapshot.PendingRecoveryInstanceIds
+                .Where(runtimeByInstanceId.ContainsKey)
+                .Select(x => runtimeByInstanceId[x])
+                .ToList();
+            var pendingSet = new HashSet<int>(poolSnapshot.PendingRecoveryInstanceIds);
+            report.pendingRecoveryCount = poolSnapshot.PendingRecoveryInstances;
+            report.queuedPoolInstanceCount = poolSnapshot.LogicalQueuedInstances;
+            report.queuedPoolGameObjectCount = poolSnapshot.LogicalQueuedHierarchyGameObjects;
+            report.budgetEnabled = poolSnapshot.BudgetEnabled;
+            report.budgetMode = poolSnapshot.BudgetMode.ToString();
+            report.highWatermarkInstances = poolSnapshot.HighWatermarkInstances;
+            report.lowWatermarkInstances = poolSnapshot.LowWatermarkInstances;
+            report.highWatermarkGameObjects = poolSnapshot.HighWatermarkHierarchyGameObjects;
+            report.lowWatermarkGameObjects = poolSnapshot.LowWatermarkHierarchyGameObjects;
+            report.dryRunBudgetMode = ViewElementGlobalEvictionMode.EmergencyHardCap.ToString();
+            report.eligibleQueuedInstanceCount = poolSnapshot.EligibleQueuedInstances;
+            report.blockedByNestedUniqueCount = poolSnapshot.BlockedNestedUniqueInstances;
+            report.blockedByIneligibleCount = poolSnapshot.BlockedIneligibleInstances;
+            report.blockedByTooYoungCount = poolSnapshot.BlockedTooYoungInstances;
+            report.pendingRecoveryGameObjectCount = poolSnapshot.PendingRecoveryHierarchyGameObjects;
+            report.pendingDestroyCount = poolSnapshot.PendingDestroyInstances;
+            report.pendingDestroyGameObjectCount = poolSnapshot.PendingDestroyHierarchyGameObjects;
+            report.postFrameActualPoolGameObjectCount = poolSnapshot.PostFrameActualHierarchyGameObjects;
+            report.poolMissCount = poolSnapshot.PoolMissCount;
+            report.instantiateCount = poolSnapshot.InstantiateCount;
+            report.instantiateMilliseconds = poolSnapshot.InstantiateMilliseconds;
+            report.trimCount = poolSnapshot.TrimCount;
 
-            foreach (var pair in pools)
+            foreach (var poolKey in poolSnapshot.SourceKeys)
             {
-                var queued = pair.Value.Where(x => x != null).ToList();
+                var queuedEntries = queuedEntriesBySource.TryGetValue(poolKey, out var entries)
+                    ? entries
+                    : new List<ViewElementRuntimePoolSnapshot.QueuedEntry>();
+                var queued = queuedEntries
+                    .Where(x => runtimeByInstanceId.ContainsKey(x.InstanceId))
+                    .Select(x => runtimeByInstanceId[x.InstanceId])
+                    .ToList();
                 var queuedSet = new HashSet<int>(queued.Select(x => x.GetInstanceID()));
-                var allForKey = runtimeViewElements.Where(x => x.PoolKey == pair.Key).ToList();
+                var allForKey = runtimeViewElements.Where(x => x.PoolKey == poolKey).ToList();
                 var activeInstances = allForKey
                     .Where(x => !queuedSet.Contains(x.GetInstanceID()) && !pendingSet.Contains(x.GetInstanceID()))
                     .ToList();
                 var active = activeInstances.Count;
-                var pendingInstances = pendingRecovery.Where(x => x.PoolKey == pair.Key).ToList();
+                var pendingInstances = pendingRecovery.Where(x => x.PoolKey == poolKey).ToList();
                 var pendingForKey = pendingInstances.Count;
 
                 int activeGameObjects = activeInstances.Sum(
@@ -242,9 +299,9 @@ namespace MacacaGames.ViewSystem.Diagnostics
                 int disposedRequestedPoolInstances = 0;
                 int trimmableInstances = 0;
                 int trimmableGameObjects = 0;
-                string sourceName = queued.FirstOrDefault()?.name ?? allForKey.FirstOrDefault()?.name ?? $"PoolKey_{pair.Key}";
+                string sourceName = queued.FirstOrDefault()?.name ?? allForKey.FirstOrDefault()?.name ?? $"PoolKey_{poolKey}";
                 ResolvePoolSourceIdentity(
-                    pair.Key,
+                    poolKey,
                     allForKey.Concat(queued),
                     out string prefabPath,
                     out string prefabGuid);
@@ -286,7 +343,10 @@ namespace MacacaGames.ViewSystem.Diagnostics
                 {
                     int gameObjects = instance.GetComponentsInChildren<Transform>(true).Length;
                     int behaviours = instance.GetComponentsInChildren<MonoBehaviour>(true).Length;
-                    int nestedUniqueForInstance = instance
+                    queuedEntriesByInstanceId.TryGetValue(
+                        instance.GetInstanceID(),
+                        out var queuedSnapshotEntry);
+                    int nestedUniqueForInstance = queuedSnapshotEntry?.NestedUniqueCount ?? instance
                         .GetComponentsInChildren<ViewElement>(true)
                         .Count(x => x != instance && x.IsUnique);
 
@@ -294,16 +354,16 @@ namespace MacacaGames.ViewSystem.Diagnostics
                     queuedMonoBehaviours += behaviours;
                     nestedUnique += nestedUniqueForInstance;
 
-                    if (!instance.IsUnique && nestedUniqueForInstance == 0)
+                    if (queuedSnapshotEntry?.IsEligible == true)
                     {
                         trimmableInstances++;
-                        trimmableGameObjects += gameObjects;
+                        trimmableGameObjects += queuedSnapshotEntry.HierarchyGameObjectCount;
                     }
                 }
 
                 report.poolEntries.Add(new ViewSystemPoolEntry
                 {
-                    poolKey = pair.Key,
+                    poolKey = poolKey,
                     sourceName = sourceName,
                     prefabPath = prefabPath,
                     prefabGuid = prefabGuid,
@@ -330,7 +390,11 @@ namespace MacacaGames.ViewSystem.Diagnostics
                                         allForKey.FirstOrDefault()?.recoveryKeepCount ?? 0,
                     trimmableInstances = trimmableInstances,
                     trimmableGameObjects = trimmableGameObjects,
-                    trimBlockReason = nestedUnique > 0 ? "ContainsNestedUniqueViewElement" : string.Empty,
+                    trimBlockReason = nestedUnique > 0
+                        ? "ContainsNestedUniqueViewElement"
+                        : trimmableInstances < queued.Count
+                            ? "RuntimePoolEligibilityOrIdleConstraint"
+                            : string.Empty,
                 });
             }
 

@@ -18,6 +18,7 @@ Use Unity-generated evidence to migrate one ViewElement candidate at a time. Tre
    - package `VIEW_ELEMENT_POOL_POLICY_CASE_STUDY.md`.
 4. Inspect dirty worktrees in both the host and package repositories. Preserve unrelated changes.
 5. Read [references/report-contract.md](references/report-contract.md) before interpreting or producing Advisor artifacts.
+6. Follow the executable gates and manifest contract in the design document's `Agent 可執行、可驗證的記憶體優化方案` section.
 
 ## Interpret evidence correctly
 
@@ -33,6 +34,8 @@ Use Unity-generated evidence to migrate one ViewElement candidate at a time. Tre
 Prefer a candidate with meaningful retained or active hierarchy cost, low expected use frequency, stable GUID/path evidence, and no unique/singleton pin. State why it was selected and which evidence is still missing.
 
 Do not batch-apply DestroyOnRecovery. Do not start Addressable handle-registry work as part of a pool migration.
+
+Create a migration manifest before editing. Record the prefab GUID/path, expected current policy, target policy, blockers, child pool modes, and required baseline/open/return/reopen snapshots. If the identity or current policy is stale, stop with `StaleEvidence`.
 
 ## Audit the ownership boundary
 
@@ -91,3 +94,5 @@ Lead with one of these outcomes:
 - `Insufficient evidence to choose a target policy`
 
 List changed files, compilation results, the exact remaining validation sequence, and any evidence that must be captured next.
+
+Only report `Validated` after all static, compile, policy-application, functional, and five-snapshot runtime gates pass. Otherwise preserve the current policy and report the concrete state (`NeedsCodeMigration`, `NeedsCodeReview`, `NeedsRuntimeValidation`, or `Blocked`).

@@ -354,6 +354,8 @@ namespace MacacaGames.ViewSystem
             lifetime?.Dispose();
         }
 
+        internal bool IsPermanentDestroyPrepared => permanentDestroyPrepared;
+
         void OnDestroy()
         {
             PrepareForPermanentDestroy();
