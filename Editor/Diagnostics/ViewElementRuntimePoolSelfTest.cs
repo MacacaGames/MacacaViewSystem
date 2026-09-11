@@ -516,7 +516,7 @@ namespace MacacaGames.ViewSystem
                 runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
                 {
                     Enabled = true,
-                    Mode = ViewElementGlobalEvictionMode.EmergencyHardCap,
+                    Mode = ViewElementGlobalEvictionMode.NormalBudget,
                     HighWatermarkInstances = 1,
                     LowWatermarkInstances = 0,
                     MaxEvictionsPerFrame = 1,
@@ -545,14 +545,14 @@ namespace MacacaGames.ViewSystem
                 Check(normalAfter.LogicalQueuedInstances == 1 &&
                       normalAfter.LastTrimResult != null &&
                       normalAfter.LastTrimResult.BlockedIneligible > 0,
-                    "low-memory fallback honors NormalBudget without emergency opt-in");
+                    "low-memory keeps NormalBudget without emergency opt-in");
                 Destroy(TakeQueued(normalSource));
                 yield return FlushDestroy();
 
                 runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
                 {
                     Enabled = true,
-                    Mode = ViewElementGlobalEvictionMode.EmergencyHardCap,
+                    Mode = ViewElementGlobalEvictionMode.NormalBudget,
                     HighWatermarkInstances = 1,
                     LowWatermarkInstances = 0,
                     MaxEvictionsPerFrame = 1,
@@ -580,9 +580,42 @@ namespace MacacaGames.ViewSystem
                 ViewElementRuntimePoolSnapshot emergencyAfter = runtimePool.GetGlobalPoolSnapshot();
                 Check(emergencyAfter.LogicalQueuedInstances == 0 &&
                       emergencyAfter.TrimEvictedInstances >= 1,
-                    "low-memory opt-in performs deferred EmergencyHardCap trim");
+                    "low-memory opt-in upgrades NormalBudget to deferred EmergencyHardCap trim");
+
+                runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
+                {
+                    Enabled = true,
+                    Mode = ViewElementGlobalEvictionMode.EmergencyHardCap,
+                    HighWatermarkInstances = 1,
+                    LowWatermarkInstances = 0,
+                    MaxEvictionsPerFrame = 1,
+                    AllowEmergencyHardCapOnLowMemory = false,
+                });
+
+                ViewElement globalEmergencySource = CreateSource(
+                    "LowMemoryGlobalEmergency",
+                    ViewElementRecoveryPolicy.KeepForever,
+                    0);
+                ViewElement globalEmergency = null;
+                yield return QueueAndRecover(
+                    globalEmergencySource,
+                    value => globalEmergency = value);
+
+                InvokeLowMemory();
+                for (int i = 0; i < 4; i++)
+                {
+                    yield return null;
+                }
+
+                ViewElementRuntimePoolSnapshot globalEmergencyAfter =
+                    runtimePool.GetGlobalPoolSnapshot();
+                Check(globalEmergencyAfter.LogicalQueuedInstances == 0 &&
+                      globalEmergencyAfter.LastTrimResult != null &&
+                      globalEmergencyAfter.LastTrimResult.EvictedInstances == 1,
+                    "global EmergencyHardCap remains emergency without low-memory opt-in");
                 _ = normal;
                 _ = emergency;
+                _ = globalEmergency;
                 yield return FlushDestroy();
             }
 

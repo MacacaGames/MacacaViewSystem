@@ -54,6 +54,11 @@ namespace MacacaGames.ViewSystem
         public int LowWatermarkHierarchyGameObjects;
         public int MaxEvictionsPerFrame = 5;
         public float MinimumIdleSeconds;
+
+        /// <summary>
+        /// Allows Application.lowMemory to upgrade a NormalBudget configuration
+        /// to EmergencyHardCap. Has no effect when Mode is already EmergencyHardCap.
+        /// </summary>
         public bool AllowEmergencyHardCapOnLowMemory;
 
         public ViewElementGlobalPoolBudgetOptions Clone()
@@ -981,10 +986,10 @@ namespace MacacaGames.ViewSystem
             }
 
             ViewElementGlobalEvictionMode lowMemoryMode = budgetOptions.Mode;
-            if (lowMemoryMode == ViewElementGlobalEvictionMode.EmergencyHardCap &&
-                !budgetOptions.AllowEmergencyHardCapOnLowMemory)
+            if (lowMemoryMode == ViewElementGlobalEvictionMode.NormalBudget &&
+                budgetOptions.AllowEmergencyHardCapOnLowMemory)
             {
-                lowMemoryMode = ViewElementGlobalEvictionMode.NormalBudget;
+                lowMemoryMode = ViewElementGlobalEvictionMode.EmergencyHardCap;
             }
 
             // Application.lowMemory is a notification only. Destruction is

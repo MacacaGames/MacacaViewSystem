@@ -546,6 +546,11 @@ EvictionRunner:
         yield next frame
 ```
 
+`Application.lowMemory` 會略過 high-watermark gate，強制排程同一個分幀 runner。
+日常 `Mode` 為 `NormalBudget` 時，只有明確開啟
+`AllowEmergencyHardCapOnLowMemory` 才會將該次 low-memory trim 升級為
+`EmergencyHardCap`；日常 `Mode` 已是 `EmergencyHardCap` 時則維持原模式，這個旗標不會反向降級。
+
 高水位觸發、淘汰到低水位可以避免在臨界值附近每次 recovery 都 Destroy 一個物件。若需要 idle TTL，再加低頻 coroutine 檢查 `minimumIdleSeconds`；不建議在 `Update()` 每 frame 對所有 queue 做 `Sum` 與 hierarchy scan。
 
 ### 淘汰順序
