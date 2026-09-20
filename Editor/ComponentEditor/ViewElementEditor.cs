@@ -23,6 +23,7 @@ namespace MacacaGames.ViewSystem
         private SerializedProperty onLeaveHandle;
         private SerializedProperty recoveryPolicy;
         private SerializedProperty recoveryKeepCount;
+        private SerializedProperty trimOnlyInEmergency;
         AnimBool showV2Setting = new AnimBool(true);
 
         void OnEnable()
@@ -35,6 +36,7 @@ namespace MacacaGames.ViewSystem
             onLeaveHandle = serializedObject.FindProperty("OnLeaveHandle");
             recoveryPolicy = serializedObject.FindProperty(nameof(ViewElement.recoveryPolicy));
             recoveryKeepCount = serializedObject.FindProperty(nameof(ViewElement.recoveryKeepCount));
+            trimOnlyInEmergency = serializedObject.FindProperty(nameof(ViewElement.trimOnlyInEmergency));
             showV2Setting.valueChanged.AddListener(Repaint);
         }
         void OnDisable()
@@ -150,6 +152,11 @@ namespace MacacaGames.ViewSystem
                             new GUIContent(
                                 "Recovery Policy",
                                 "Controls what happens after a non-unique ViewElement completes leave and enters the runtime pool."));
+                        EditorGUILayout.PropertyField(
+                            trimOnlyInEmergency,
+                            new GUIContent(
+                                "Trim Only In Emergency",
+                                "When enabled, NormalBudget cannot trim this queued ViewElement or a queued parent containing it. EmergencyHardCap can still trim it. Independent of Recovery Policy."));
 
                         if (!recoveryPolicy.hasMultipleDifferentValues)
                         {

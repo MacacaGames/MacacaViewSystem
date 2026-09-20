@@ -153,6 +153,7 @@ namespace MacacaGames.ViewSystem
 
             runtimePool = gameObject.AddComponent<ViewElementRuntimePool>();
             runtimePool.Init(viewElementPool);
+            ApplyGlobalPoolBudgetSetting(globalSetting.globalPoolBudget);
 
             ViewElement.runtimePool = runtimePool;
             ViewElement.viewElementPool = viewElementPool;
@@ -210,6 +211,30 @@ namespace MacacaGames.ViewSystem
             else
             {
                 IsReady = true;
+            }
+        }
+
+        void ApplyGlobalPoolBudgetSetting(ViewElementGlobalPoolBudgetSetting setting)
+        {
+            // Global trimming is opt-in. Existing save data may not contain this
+            // setting, and disabled legacy data may contain uninitialized values.
+            if (setting == null || !setting.enabled)
+            {
+                runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions());
+                return;
+            }
+
+            var runtimeOptions = setting.ToRuntimeOptions();
+
+            try
+            {
+                runtimePool.ConfigureGlobalPoolBudget(runtimeOptions);
+            }
+            catch (ArgumentException exception)
+            {
+                ViewSystemLog.LogError(
+                    $"Invalid global pool budget setting. Pool trimming is disabled. {exception.Message}");
+                runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions());
             }
         }
 

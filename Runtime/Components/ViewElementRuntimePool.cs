@@ -14,6 +14,25 @@ namespace MacacaGames.ViewSystem
         EmergencyHardCap = 1,
     }
 
+    public enum ViewElementGlobalEvictionEligibilityReason
+    {
+        Unknown = 0,
+        // Retain legacy numeric values for consumers of diagnostic snapshots.
+        // Eligibility is now independent of Recovery Policy and requested-pool origin.
+        EligibleByRecoveryPolicy = 1,
+        EligibleByExplicitOptIn = 2,
+        EligibleByEmergencyHardCap = 3,
+        EligibleByDefault = 4,
+        Stale = 10,
+        BlockedNestedUnique = 11,
+        BlockedKeepForever = 12,
+        BlockedActive = 13,
+        BlockedPendingRecovery = 14,
+        BlockedTooYoung = 15,
+        BlockedEmergencyOnly = 16,
+        BlockedNestedEmergencyOnly = 17,
+    }
+
     public sealed class ViewElementPoolTrimRequest
     {
         public bool DryRun;
@@ -53,7 +72,19 @@ namespace MacacaGames.ViewSystem
         public int HighWatermarkHierarchyGameObjects;
         public int LowWatermarkHierarchyGameObjects;
         public int MaxEvictionsPerFrame = 5;
-        public float MinimumIdleSeconds;
+        public float AutoTrimGraceSeconds;
+        public float IdleTrimAfterSeconds;
+
+        // Source compatibility for callers using the original combined setting.
+        public float MinimumIdleSeconds
+        {
+            get => AutoTrimGraceSeconds;
+            set
+            {
+                AutoTrimGraceSeconds = value;
+                IdleTrimAfterSeconds = value;
+            }
+        }
 
         /// <summary>
         /// Allows Application.lowMemory to upgrade a NormalBudget configuration
@@ -75,12 +106,14 @@ namespace MacacaGames.ViewSystem
             public int InstanceId { get; internal set; }
             public int HierarchyGameObjectCount { get; internal set; }
             public int NestedUniqueCount { get; internal set; }
+            public int NestedEmergencyOnlyCount { get; internal set; }
             public float QueuedAt { get; internal set; }
             public string SourceName { get; internal set; }
             public ViewElementRecoveryPolicy RecoveryPolicy { get; internal set; }
             public int RecoveryKeepCount { get; internal set; }
-            public bool ExplicitlyAllowsGlobalEviction { get; internal set; }
+            public bool TrimOnlyInEmergency { get; internal set; }
             public bool IsEligible { get; internal set; }
+            public ViewElementGlobalEvictionEligibilityReason EligibilityReason { get; internal set; }
             public bool IsActive { get; internal set; }
             public bool IsPendingRecovery { get; internal set; }
         }
@@ -92,6 +125,8 @@ namespace MacacaGames.ViewSystem
         public int HighWatermarkHierarchyGameObjects { get; internal set; }
         public int LowWatermarkHierarchyGameObjects { get; internal set; }
         public float MinimumIdleSeconds { get; internal set; }
+        public float AutoTrimGraceSeconds { get; internal set; }
+        public float IdleTrimAfterSeconds { get; internal set; }
         public int LogicalQueuedInstances { get; internal set; }
         public int LogicalQueuedHierarchyGameObjects { get; internal set; }
         public int EligibleQueuedInstances { get; internal set; }
@@ -127,24 +162,23 @@ namespace MacacaGames.ViewSystem
             public readonly int instanceId;
             public readonly int hierarchyGameObjectCount;
             public int nestedUniqueCount;
-            public bool explicitlyAllowsGlobalEviction;
+            public int nestedEmergencyOnlyCount;
             public readonly float queuedAt;
 
             public QueuedEntry(
                 ViewElement viewElement,
-                int sourceKey,
-                bool explicitlyAllowsGlobalEviction)
+                int sourceKey)
             {
                 this.viewElement = viewElement;
                 this.sourceKey = sourceKey;
-                this.explicitlyAllowsGlobalEviction = explicitlyAllowsGlobalEviction;
                 instanceId = viewElement.GetInstanceID();
                 hierarchyGameObjectCount = viewElement
                     .GetComponentsInChildren<Transform>(true)
                     .Length;
-                nestedUniqueCount = viewElement
-                    .GetComponentsInChildren<ViewElement>(true)
-                    .Count(x => x != viewElement && x.IsUnique);
+                CountNestedTrimProtection(
+                    viewElement,
+                    out nestedUniqueCount,
+                    out nestedEmergencyOnlyCount);
                 queuedAt = Time.unscaledTime;
             }
         }
@@ -182,7 +216,7 @@ namespace MacacaGames.ViewSystem
                 ScheduleBudgetEviction();
             }
 
-            if (budgetOptions.Enabled && budgetOptions.MinimumIdleSeconds > 0 && isActiveAndEnabled)
+            if (budgetOptions.Enabled && budgetOptions.IdleTrimAfterSeconds > 0 && isActiveAndEnabled)
             {
                 ScheduleIdleEviction();
             }
@@ -197,7 +231,7 @@ namespace MacacaGames.ViewSystem
                 ScheduleBudgetEviction();
             }
 
-            if (budgetOptions.Enabled && budgetOptions.MinimumIdleSeconds > 0)
+            if (budgetOptions.Enabled && budgetOptions.IdleTrimAfterSeconds > 0)
             {
                 ScheduleIdleEviction();
             }
@@ -351,7 +385,7 @@ namespace MacacaGames.ViewSystem
                 }
 
                 toRecovery.gameObject.SetActive(false);
-                EnqueueGlobalQueuedViewElement(veQueue, toRecovery, ignoreRecoveryPolicy);
+                EnqueueGlobalQueuedViewElement(veQueue, toRecovery);
             }
         }
 
@@ -468,21 +502,43 @@ namespace MacacaGames.ViewSystem
         {
             return GetGlobalPoolSnapshot(
                 budgetOptions.Mode,
+                budgetOptions.AutoTrimGraceSeconds,
                 refreshNestedUniqueSafety: false);
         }
 
         public ViewElementRuntimePoolSnapshot GetGlobalPoolSnapshot(bool refreshNestedUniqueSafety)
         {
-            return GetGlobalPoolSnapshot(budgetOptions.Mode, refreshNestedUniqueSafety);
+            return GetGlobalPoolSnapshot(
+                budgetOptions.Mode,
+                budgetOptions.AutoTrimGraceSeconds,
+                refreshNestedUniqueSafety);
         }
 
         public ViewElementRuntimePoolSnapshot GetGlobalPoolSnapshot(
             ViewElementGlobalEvictionMode mode,
             bool refreshNestedUniqueSafety)
         {
+            return GetGlobalPoolSnapshot(
+                mode,
+                budgetOptions.AutoTrimGraceSeconds,
+                refreshNestedUniqueSafety);
+        }
+
+        public ViewElementRuntimePoolSnapshot GetGlobalPoolSnapshot(
+            ViewElementGlobalEvictionMode mode,
+            float minimumIdleSeconds,
+            bool refreshNestedUniqueSafety)
+        {
             if (!Enum.IsDefined(typeof(ViewElementGlobalEvictionMode), mode))
             {
                 throw new ArgumentOutOfRangeException(nameof(mode));
+            }
+
+            if (float.IsNaN(minimumIdleSeconds) ||
+                float.IsInfinity(minimumIdleSeconds) ||
+                minimumIdleSeconds < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(minimumIdleSeconds));
             }
 
             RefreshPendingDestroyAccounting();
@@ -503,46 +559,49 @@ namespace MacacaGames.ViewSystem
             foreach (QueuedEntry entry in globalQueuedIndex)
             {
                 ViewElement viewElement = entry.viewElement;
-                // Nested unique ownership can change while an instance is
-                // queued. One-shot diagnostics can request a refresh so they
-                // never advertise a hierarchy that trim would protect. The
+                // Nested protection can change while an instance is queued.
+                // One-shot diagnostics can request a refresh so they never
+                // advertise a hierarchy that trim would protect. The
                 // default snapshot path keeps the cached value and does not
                 // scan every hierarchy during inspector/runtime repaint.
                 if (refreshNestedUniqueSafety)
                 {
-                    entry.nestedUniqueCount = CountNestedUniqueViewElements(viewElement);
+                    CountNestedTrimProtection(
+                        viewElement,
+                        out entry.nestedUniqueCount,
+                        out entry.nestedEmergencyOnlyCount);
                 }
                 if (!sourceNames.ContainsKey(entry.sourceKey))
                 {
                     sourceNames[entry.sourceKey] = GetSourceName(entry.sourceKey, viewElement);
                 }
-                bool isNestedUnique = entry.nestedUniqueCount > 0;
                 bool isActive = viewElement != null &&
                                 (viewElement.IsShowed || viewElement.gameObject.activeSelf);
                 bool isPending = viewElement != null && pendingRecoverySet.Contains(viewElement);
-                bool isTooYoung = budgetOptions.MinimumIdleSeconds > 0 &&
-                                  now - entry.queuedAt < budgetOptions.MinimumIdleSeconds;
+                bool isTooYoung = minimumIdleSeconds > 0 &&
+                                  now - entry.queuedAt < minimumIdleSeconds;
+                ViewElementGlobalEvictionEligibilityReason eligibilityReason =
+                    GetEligibilityReason(entry, mode, isActive, isPending, isTooYoung);
 
-                if (viewElement == null || viewElement.IsPermanentDestroyPrepared)
+                switch (eligibilityReason)
                 {
-                    // Stale entries are reported through the trim result when
-                    // a trim is requested, but are not eligible here.
-                }
-                else if (isNestedUnique)
-                {
-                    blockedNestedUniqueInstances++;
-                }
-                else if (!IsGlobalEvictionAllowed(entry, mode) || isActive || isPending)
-                {
-                    blockedIneligibleInstances++;
-                }
-                else if (isTooYoung)
-                {
-                    blockedTooYoungInstances++;
-                }
-                else
-                {
-                    eligibleQueuedInstances++;
+                    case ViewElementGlobalEvictionEligibilityReason.EligibleByDefault:
+                    case ViewElementGlobalEvictionEligibilityReason.EligibleByEmergencyHardCap:
+                        eligibleQueuedInstances++;
+                        break;
+                    case ViewElementGlobalEvictionEligibilityReason.BlockedNestedUnique:
+                        blockedNestedUniqueInstances++;
+                        break;
+                    case ViewElementGlobalEvictionEligibilityReason.BlockedTooYoung:
+                        blockedTooYoungInstances++;
+                        break;
+                    case ViewElementGlobalEvictionEligibilityReason.Stale:
+                        // Stale entries are reported through the trim result when
+                        // a trim is requested, but are not eligible here.
+                        break;
+                    default:
+                        blockedIneligibleInstances++;
+                        break;
                 }
 
                 entries.Add(new ViewElementRuntimePoolSnapshot.QueuedEntry
@@ -551,22 +610,16 @@ namespace MacacaGames.ViewSystem
                     InstanceId = entry.instanceId,
                     HierarchyGameObjectCount = entry.hierarchyGameObjectCount,
                     NestedUniqueCount = entry.nestedUniqueCount,
+                    NestedEmergencyOnlyCount = entry.nestedEmergencyOnlyCount,
                     QueuedAt = entry.queuedAt,
                     SourceName = GetSourceName(entry.sourceKey, viewElement),
                     RecoveryPolicy = viewElement != null
                         ? viewElement.recoveryPolicy
                         : ViewElementRecoveryPolicy.KeepForever,
                     RecoveryKeepCount = viewElement != null ? viewElement.recoveryKeepCount : 0,
-                    ExplicitlyAllowsGlobalEviction = entry.explicitlyAllowsGlobalEviction,
-                    IsEligible = viewElement != null &&
-                                 IsGlobalEvictionAllowed(entry, mode) &&
-                                 entry.nestedUniqueCount == 0 &&
-                                 !viewElement.IsShowed &&
-                                 !viewElement.gameObject.activeSelf &&
-                                 !pendingRecoverySet.Contains(viewElement) &&
-                                 !viewElement.IsPermanentDestroyPrepared &&
-                                 (budgetOptions.MinimumIdleSeconds <= 0 ||
-                                  now - entry.queuedAt >= budgetOptions.MinimumIdleSeconds),
+                    TrimOnlyInEmergency = viewElement != null && viewElement.trimOnlyInEmergency,
+                    IsEligible = IsEligibleReason(eligibilityReason),
+                    EligibilityReason = eligibilityReason,
                     IsActive = viewElement != null &&
                                (viewElement.IsShowed || viewElement.gameObject.activeSelf),
                     IsPendingRecovery = viewElement != null && pendingRecoverySet.Contains(viewElement),
@@ -590,7 +643,9 @@ namespace MacacaGames.ViewSystem
                 LowWatermarkInstances = budgetOptions.LowWatermarkInstances,
                 HighWatermarkHierarchyGameObjects = budgetOptions.HighWatermarkHierarchyGameObjects,
                 LowWatermarkHierarchyGameObjects = budgetOptions.LowWatermarkHierarchyGameObjects,
-                MinimumIdleSeconds = budgetOptions.MinimumIdleSeconds,
+                MinimumIdleSeconds = minimumIdleSeconds,
+                AutoTrimGraceSeconds = budgetOptions.AutoTrimGraceSeconds,
+                IdleTrimAfterSeconds = budgetOptions.IdleTrimAfterSeconds,
                 LogicalQueuedInstances = queuedInstanceCount,
                 LogicalQueuedHierarchyGameObjects = queuedHierarchyGameObjectCount,
                 EligibleQueuedInstances = eligibleQueuedInstances,
@@ -690,11 +745,21 @@ namespace MacacaGames.ViewSystem
                     continue;
                 }
 
-                int nestedUniqueCount = CountNestedUniqueViewElements(entry.viewElement);
-                entry.nestedUniqueCount = nestedUniqueCount;
-                if (nestedUniqueCount > 0)
+                CountNestedTrimProtection(
+                    entry.viewElement,
+                    out entry.nestedUniqueCount,
+                    out entry.nestedEmergencyOnlyCount);
+                if (entry.nestedUniqueCount > 0)
                 {
                     result.BlockedNestedUnique++;
+                    node = next;
+                    continue;
+                }
+
+                if (request.Mode == ViewElementGlobalEvictionMode.NormalBudget &&
+                    entry.nestedEmergencyOnlyCount > 0)
+                {
+                    result.BlockedIneligible++;
                     node = next;
                     continue;
                 }
@@ -831,11 +896,18 @@ namespace MacacaGames.ViewSystem
                 throw new ArgumentOutOfRangeException(nameof(options.MaxEvictionsPerFrame));
             }
 
-            if (float.IsNaN(options.MinimumIdleSeconds) ||
-                float.IsInfinity(options.MinimumIdleSeconds) ||
-                options.MinimumIdleSeconds < 0)
+            if (float.IsNaN(options.AutoTrimGraceSeconds) ||
+                float.IsInfinity(options.AutoTrimGraceSeconds) ||
+                options.AutoTrimGraceSeconds < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(options.MinimumIdleSeconds));
+                throw new ArgumentOutOfRangeException(nameof(options.AutoTrimGraceSeconds));
+            }
+
+            if (float.IsNaN(options.IdleTrimAfterSeconds) ||
+                float.IsInfinity(options.IdleTrimAfterSeconds) ||
+                options.IdleTrimAfterSeconds < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(options.IdleTrimAfterSeconds));
             }
         }
 
@@ -947,7 +1019,7 @@ namespace MacacaGames.ViewSystem
                             ? 0
                             : (int?)null,
                     MaxEvictions = automaticEvictionBudget,
-                    MinimumIdleSeconds = budgetOptions.MinimumIdleSeconds,
+                    MinimumIdleSeconds = budgetOptions.AutoTrimGraceSeconds,
                 });
                 RecordAutomaticEvictions(result.EvictedInstances);
 
@@ -999,7 +1071,7 @@ namespace MacacaGames.ViewSystem
 
         void ScheduleIdleEviction()
         {
-            if (!budgetOptions.Enabled || budgetOptions.MinimumIdleSeconds <= 0 ||
+            if (!budgetOptions.Enabled || budgetOptions.IdleTrimAfterSeconds <= 0 ||
                 !isActiveAndEnabled || idleEvictionRunner != null)
             {
                 return;
@@ -1012,15 +1084,17 @@ namespace MacacaGames.ViewSystem
         IEnumerator IdleEvictionRunner(int configurationVersion)
         {
             while (configurationVersion == budgetConfigurationVersion &&
-                   budgetOptions.Enabled && budgetOptions.MinimumIdleSeconds > 0)
+                   budgetOptions.Enabled && budgetOptions.IdleTrimAfterSeconds > 0)
             {
                 // Idle eviction is deliberately low frequency. The wait also
                 // prevents a blocked/too-young pool from becoming a busy loop.
                 yield return new WaitForSecondsRealtime(
-                    Mathf.Max(1f, Mathf.Min(10f, budgetOptions.MinimumIdleSeconds)));
+                    Mathf.Max(1f, Mathf.Min(10f,
+                        Mathf.Max(budgetOptions.AutoTrimGraceSeconds,
+                                  budgetOptions.IdleTrimAfterSeconds))));
 
                 if (configurationVersion != budgetConfigurationVersion ||
-                    !budgetOptions.Enabled || budgetOptions.MinimumIdleSeconds <= 0)
+                    !budgetOptions.Enabled || budgetOptions.IdleTrimAfterSeconds <= 0)
                 {
                     break;
                 }
@@ -1036,7 +1110,9 @@ namespace MacacaGames.ViewSystem
                 {
                     Mode = budgetOptions.Mode,
                     MaxEvictions = automaticEvictionBudget,
-                    MinimumIdleSeconds = budgetOptions.MinimumIdleSeconds,
+                    MinimumIdleSeconds = Mathf.Max(
+                        budgetOptions.AutoTrimGraceSeconds,
+                        budgetOptions.IdleTrimAfterSeconds),
                     IdleOnly = true,
                 });
                 // The idle result is intentionally not needed for control flow,
@@ -1116,16 +1192,35 @@ namespace MacacaGames.ViewSystem
                    ReferenceEquals(node.Value, entry);
         }
 
-        static int CountNestedUniqueViewElements(ViewElement viewElement)
+        static void CountNestedTrimProtection(
+            ViewElement viewElement,
+            out int nestedUniqueCount,
+            out int nestedEmergencyOnlyCount)
         {
+            nestedUniqueCount = 0;
+            nestedEmergencyOnlyCount = 0;
             if (viewElement == null)
             {
-                return 0;
+                return;
             }
 
-            return viewElement
-                .GetComponentsInChildren<ViewElement>(true)
-                .Count(x => x != viewElement && x.IsUnique);
+            foreach (ViewElement child in viewElement.GetComponentsInChildren<ViewElement>(true))
+            {
+                if (child == viewElement)
+                {
+                    continue;
+                }
+
+                if (child.IsUnique)
+                {
+                    nestedUniqueCount++;
+                }
+
+                if (child.trimOnlyInEmergency)
+                {
+                    nestedEmergencyOnlyCount++;
+                }
+            }
         }
 
         static bool IsGlobalEvictionAllowed(
@@ -1138,8 +1233,66 @@ namespace MacacaGames.ViewSystem
             }
 
             return mode == ViewElementGlobalEvictionMode.EmergencyHardCap ||
-                   entry.explicitlyAllowsGlobalEviction ||
-                   entry.viewElement.recoveryPolicy != ViewElementRecoveryPolicy.KeepForever;
+                   !entry.viewElement.trimOnlyInEmergency;
+        }
+
+        ViewElementGlobalEvictionEligibilityReason GetEligibilityReason(
+            QueuedEntry entry,
+            ViewElementGlobalEvictionMode mode,
+            bool isActive,
+            bool isPending,
+            bool isTooYoung)
+        {
+            ViewElement viewElement = entry?.viewElement;
+            if (viewElement == null || viewElement.IsPermanentDestroyPrepared)
+            {
+                return ViewElementGlobalEvictionEligibilityReason.Stale;
+            }
+
+            if (entry.nestedUniqueCount > 0)
+            {
+                return ViewElementGlobalEvictionEligibilityReason.BlockedNestedUnique;
+            }
+
+            if (mode == ViewElementGlobalEvictionMode.NormalBudget &&
+                entry.nestedEmergencyOnlyCount > 0)
+            {
+                return ViewElementGlobalEvictionEligibilityReason.BlockedNestedEmergencyOnly;
+            }
+
+            if (!IsGlobalEvictionAllowed(entry, mode))
+            {
+                return ViewElementGlobalEvictionEligibilityReason.BlockedEmergencyOnly;
+            }
+
+            if (isActive)
+            {
+                return ViewElementGlobalEvictionEligibilityReason.BlockedActive;
+            }
+
+            if (isPending)
+            {
+                return ViewElementGlobalEvictionEligibilityReason.BlockedPendingRecovery;
+            }
+
+            if (isTooYoung)
+            {
+                return ViewElementGlobalEvictionEligibilityReason.BlockedTooYoung;
+            }
+
+            if (mode == ViewElementGlobalEvictionMode.EmergencyHardCap &&
+                viewElement.trimOnlyInEmergency)
+            {
+                return ViewElementGlobalEvictionEligibilityReason.EligibleByEmergencyHardCap;
+            }
+
+            return ViewElementGlobalEvictionEligibilityReason.EligibleByDefault;
+        }
+
+        static bool IsEligibleReason(ViewElementGlobalEvictionEligibilityReason reason)
+        {
+            return reason == ViewElementGlobalEvictionEligibilityReason.EligibleByDefault ||
+                   reason == ViewElementGlobalEvictionEligibilityReason.EligibleByEmergencyHardCap;
         }
 
         static int GetRemainingOverBudget(int value, int? target)
@@ -1228,7 +1381,7 @@ namespace MacacaGames.ViewSystem
                 RemoveQueuedEntry(node.Value);
             }
 
-            SchedulePermanentDestroy(new QueuedEntry(viewElement, viewElement.PoolKey, false));
+            SchedulePermanentDestroy(new QueuedEntry(viewElement, viewElement.PoolKey));
         }
 
         void RemovePendingRecovery(ViewElement viewElement)
@@ -1557,8 +1710,7 @@ namespace MacacaGames.ViewSystem
 
         void EnqueueGlobalQueuedViewElement(
             Queue<ViewElement> sourceQueue,
-            ViewElement viewElement,
-            bool explicitlyAllowsGlobalEviction = false)
+            ViewElement viewElement)
         {
             if (viewElement == null || viewElement.IsPermanentDestroyPrepared || viewElement.IsUnique)
             {
@@ -1567,19 +1719,17 @@ namespace MacacaGames.ViewSystem
 
             if (QueueContainsReference(sourceQueue, viewElement))
             {
-                TrackGlobalQueuedViewElement(viewElement, explicitlyAllowsGlobalEviction);
+                TrackGlobalQueuedViewElement(viewElement);
                 ValidateBookkeeping();
                 return;
             }
 
             sourceQueue.Enqueue(viewElement);
-            TrackGlobalQueuedViewElement(viewElement, explicitlyAllowsGlobalEviction);
+            TrackGlobalQueuedViewElement(viewElement);
             ValidateBookkeeping();
         }
 
-        void TrackGlobalQueuedViewElement(
-            ViewElement viewElement,
-            bool explicitlyAllowsGlobalEviction = false)
+        void TrackGlobalQueuedViewElement(ViewElement viewElement)
         {
             if (viewElement == null || viewElement.IsPermanentDestroyPrepared || viewElement.IsUnique)
             {
@@ -1591,7 +1741,6 @@ namespace MacacaGames.ViewSystem
             {
                 if (ReferenceEquals(existingNode.Value.viewElement, viewElement))
                 {
-                    existingNode.Value.explicitlyAllowsGlobalEviction |= explicitlyAllowsGlobalEviction;
                     return;
                 }
 
@@ -1601,8 +1750,7 @@ namespace MacacaGames.ViewSystem
 
             var entry = new QueuedEntry(
                 viewElement,
-                viewElement.PoolKey,
-                explicitlyAllowsGlobalEviction);
+                viewElement.PoolKey);
             var node = globalQueuedIndex.AddLast(entry);
             globalQueuedNodesByInstanceId[entry.instanceId] = node;
             queuedInstanceCount++;

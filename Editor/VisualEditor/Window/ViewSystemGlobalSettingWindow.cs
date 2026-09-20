@@ -104,6 +104,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                         "- Assign ViewSystemData_Addressable to ViewController's Addressable Save Data field.",
                         MessageType.Info);
                 }
+                DrawGlobalPoolBudgetSettings();
                 GUILayout.Space(10);
 
                 //SafePadding
@@ -182,6 +183,169 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 Hide();
             }
             base.Draw(id);
+        }
+
+        void DrawGlobalPoolBudgetSettings()
+        {
+            GUILayout.Space(10);
+            GUILayout.Label(
+                "Global Pool Budget",
+                new GUIStyle("TE toolbarbutton"),
+                GUILayout.Height(EditorGUIUtility.singleLineHeight));
+
+            var globalSetting = saveData.globalSetting;
+            var setting = globalSetting.globalPoolBudget;
+            if (setting == null)
+            {
+                Undo.RecordObject(saveData, "Initialize Global Pool Budget Setting");
+                setting = new ViewElementGlobalPoolBudgetSetting();
+                globalSetting.globalPoolBudget = setting;
+                EditorUtility.SetDirty(saveData);
+            }
+
+            bool enabled = EditorGUILayout.Toggle(
+                new GUIContent(
+                    "Enable Global Pool Budget",
+                    "Enables automatic trimming of eligible queued ViewElements."),
+                setting.enabled);
+
+            ViewElementGlobalEvictionMode mode = setting.mode;
+            int highWatermarkInstances = setting.highWatermarkInstances;
+            int lowWatermarkInstances = setting.lowWatermarkInstances;
+            int highWatermarkHierarchyGameObjects = setting.highWatermarkHierarchyGameObjects;
+            int lowWatermarkHierarchyGameObjects = setting.lowWatermarkHierarchyGameObjects;
+            int maxEvictionsPerFrame = setting.maxEvictionsPerFrame;
+            float autoTrimGraceSeconds = setting.AutoTrimGraceSeconds;
+            float idleTrimAfterSeconds = setting.IdleTrimAfterSeconds;
+            bool allowEmergencyHardCapOnLowMemory = setting.allowEmergencyHardCapOnLowMemory;
+
+            using (new EditorGUI.DisabledScope(!enabled))
+            {
+                mode = (ViewElementGlobalEvictionMode)EditorGUILayout.EnumPopup(
+                    new GUIContent(
+                        "Eviction Mode",
+                        "NormalBudget preserves Trim Only In Emergency entries. EmergencyHardCap may trim them when otherwise eligible."),
+                    mode);
+
+                highWatermarkInstances = Mathf.Max(
+                    0,
+                    EditorGUILayout.IntField(
+                        new GUIContent(
+                            "High Watermark Instances",
+                            "Queued ViewElement count that triggers trimming. 0 disables this dimension."),
+                        highWatermarkInstances));
+                using (new EditorGUI.DisabledScope(highWatermarkInstances == 0))
+                {
+                    lowWatermarkInstances = EditorGUILayout.IntField(
+                        new GUIContent(
+                            "Low Watermark Instances",
+                            "After trimming starts, continue until the queued ViewElement count reaches this value."),
+                        lowWatermarkInstances);
+                }
+                lowWatermarkInstances = highWatermarkInstances == 0
+                    ? 0
+                    : Mathf.Clamp(lowWatermarkInstances, 0, highWatermarkInstances);
+
+                highWatermarkHierarchyGameObjects = Mathf.Max(
+                    0,
+                    EditorGUILayout.IntField(
+                        new GUIContent(
+                            "High Watermark GameObjects",
+                            "Queued hierarchy GameObject count that triggers trimming. 0 disables this dimension."),
+                        highWatermarkHierarchyGameObjects));
+                using (new EditorGUI.DisabledScope(highWatermarkHierarchyGameObjects == 0))
+                {
+                    lowWatermarkHierarchyGameObjects = EditorGUILayout.IntField(
+                        new GUIContent(
+                            "Low Watermark GameObjects",
+                            "After trimming starts, continue until the queued hierarchy GameObject count reaches this value."),
+                        lowWatermarkHierarchyGameObjects);
+                }
+                lowWatermarkHierarchyGameObjects = highWatermarkHierarchyGameObjects == 0
+                    ? 0
+                    : Mathf.Clamp(
+                        lowWatermarkHierarchyGameObjects,
+                        0,
+                        highWatermarkHierarchyGameObjects);
+
+                maxEvictionsPerFrame = Mathf.Max(
+                    1,
+                    EditorGUILayout.IntField(
+                        new GUIContent(
+                            "Max Evictions Per Frame",
+                            "Maximum number of automatic evictions shared by budget and idle runners in one frame."),
+                        maxEvictionsPerFrame));
+                autoTrimGraceSeconds = Mathf.Max(
+                    0f,
+                    EditorGUILayout.FloatField(
+                        new GUIContent(
+                            "Auto Trim Grace Seconds",
+                            "Minimum time since entering the pool before automatic budget or low-memory trim may evict an entry. Does not enable periodic idle trim."),
+                        autoTrimGraceSeconds));
+                idleTrimAfterSeconds = Mathf.Max(
+                    0f,
+                    EditorGUILayout.FloatField(
+                        new GUIContent(
+                            "Idle Trim After Seconds",
+                            "Time since entering the pool before periodic idle trim may evict an entry. 0 disables periodic idle trim. Automatic grace still applies."),
+                        idleTrimAfterSeconds));
+
+                using (new EditorGUI.DisabledScope(mode != ViewElementGlobalEvictionMode.NormalBudget))
+                {
+                    allowEmergencyHardCapOnLowMemory = EditorGUILayout.Toggle(
+                        new GUIContent(
+                            "Emergency On Low Memory",
+                            "Allows Application.lowMemory to temporarily upgrade NormalBudget trimming to EmergencyHardCap. Auto Trim Grace Seconds still applies."),
+                        allowEmergencyHardCapOnLowMemory);
+                }
+            }
+
+            if (enabled && highWatermarkInstances == 0 &&
+                highWatermarkHierarchyGameObjects == 0)
+            {
+                EditorGUILayout.HelpBox(
+                    "Both high watermarks are disabled. No watermark-based trim will run; idle and low-memory triggers remain available.",
+                    MessageType.Info);
+            }
+
+            if (enabled && mode == ViewElementGlobalEvictionMode.EmergencyHardCap)
+            {
+                EditorGUILayout.HelpBox(
+                    "EmergencyHardCap can evict Trim Only In Emergency entries after the automatic grace period. Nested unique hierarchies remain protected.",
+                    MessageType.Warning);
+            }
+
+            if (enabled && autoTrimGraceSeconds > 0 && idleTrimAfterSeconds == 0)
+            {
+                EditorGUILayout.HelpBox(
+                    "Periodic idle trim is off. If all candidates are within the automatic grace period, a budget or low-memory attempt stops without a timed retry. Another over-budget enqueue or low-memory event must trigger trimming again.",
+                    MessageType.Info);
+            }
+
+            if (enabled != setting.enabled ||
+                mode != setting.mode ||
+                highWatermarkInstances != setting.highWatermarkInstances ||
+                lowWatermarkInstances != setting.lowWatermarkInstances ||
+                highWatermarkHierarchyGameObjects != setting.highWatermarkHierarchyGameObjects ||
+                lowWatermarkHierarchyGameObjects != setting.lowWatermarkHierarchyGameObjects ||
+                maxEvictionsPerFrame != setting.maxEvictionsPerFrame ||
+                !Mathf.Approximately(autoTrimGraceSeconds, setting.AutoTrimGraceSeconds) ||
+                !Mathf.Approximately(idleTrimAfterSeconds, setting.IdleTrimAfterSeconds) ||
+                allowEmergencyHardCapOnLowMemory != setting.allowEmergencyHardCapOnLowMemory)
+            {
+                Undo.RecordObject(saveData, "Change Global Pool Budget Setting");
+                setting.enabled = enabled;
+                setting.mode = mode;
+                setting.highWatermarkInstances = highWatermarkInstances;
+                setting.lowWatermarkInstances = lowWatermarkInstances;
+                setting.highWatermarkHierarchyGameObjects = highWatermarkHierarchyGameObjects;
+                setting.lowWatermarkHierarchyGameObjects = lowWatermarkHierarchyGameObjects;
+                setting.maxEvictionsPerFrame = maxEvictionsPerFrame;
+                setting.AutoTrimGraceSeconds = autoTrimGraceSeconds;
+                setting.IdleTrimAfterSeconds = idleTrimAfterSeconds;
+                setting.allowEmergencyHardCapOnLowMemory = allowEmergencyHardCapOnLowMemory;
+                EditorUtility.SetDirty(saveData);
+            }
         }
 
     }

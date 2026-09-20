@@ -93,6 +93,7 @@ namespace MacacaGames.ViewSystem
         sealed class TestContext
         {
             readonly ViewElementRuntimePool runtimePool;
+            readonly ViewElementGlobalPoolBudgetOptions originalBudgetOptions;
             readonly List<ViewElement> sources = new List<ViewElement>();
             readonly List<ViewElement> instances = new List<ViewElement>();
             readonly List<int> uniqueSourceKeys = new List<int>();
@@ -106,6 +107,11 @@ namespace MacacaGames.ViewSystem
             public TestContext(ViewElementRuntimePool runtimePool)
             {
                 this.runtimePool = runtimePool;
+                FieldInfo budgetOptionsField = typeof(ViewElementRuntimePool).GetField(
+                    "budgetOptions", BindingFlags.Instance | BindingFlags.NonPublic);
+                originalBudgetOptions =
+                    ((ViewElementGlobalPoolBudgetOptions)budgetOptionsField?.GetValue(runtimePool))?.Clone() ??
+                    new ViewElementGlobalPoolBudgetOptions();
             }
 
             public IEnumerator Run()
@@ -113,8 +119,11 @@ namespace MacacaGames.ViewSystem
                 testRoot = new GameObject("__RuntimePoolSelfTest__");
                 testRoot.SetActive(false);
 
+                TestInitializedBudgetSetting();
+                TestSerializedBudgetBackwardCompatibility();
                 yield return TestDuplicateRecoveryAndFifo();
                 yield return TestNormalAndEmergencyModes();
+                yield return TestTrimEligibilityIndependentOfRecoveryPolicy();
                 yield return TestHierarchyBudgetAndStaleRequest();
                 yield return TestProtectedEntries();
                 yield return TestNullAndPermanentDestroyEntries();
@@ -122,7 +131,152 @@ namespace MacacaGames.ViewSystem
                 yield return TestRequestedPoolOwnershipModes();
                 yield return TestWatermarkAndReconfigureValidation();
                 yield return TestAutomaticBudgetAndIdleMinimum();
+                yield return TestSplitAutomaticTiming();
                 yield return TestLowMemoryScheduling();
+            }
+
+            void TestInitializedBudgetSetting()
+            {
+                ViewController controller = runtimePool.GetComponent<ViewController>();
+                FieldInfo saveDataField = typeof(ViewController).GetField(
+                    "saveData", BindingFlags.Instance | BindingFlags.NonPublic);
+                var data = controller != null
+                    ? saveDataField?.GetValue(controller) as ViewSystemSaveDataBase
+                    : null;
+                if (data?.globalSetting == null)
+                {
+                    Fail("initialized controller exposes its saved global setting");
+                    return;
+                }
+
+                ViewElementGlobalPoolBudgetSetting setting = data.globalSetting.globalPoolBudget;
+                if (setting == null || !setting.enabled)
+                {
+                    Check(!originalBudgetOptions.Enabled,
+                        "legacy or disabled saved budget starts with automatic trimming off");
+                    return;
+                }
+
+                Check(originalBudgetOptions.Enabled &&
+                      originalBudgetOptions.Mode == setting.mode &&
+                      originalBudgetOptions.HighWatermarkInstances == setting.highWatermarkInstances &&
+                      originalBudgetOptions.LowWatermarkInstances == setting.lowWatermarkInstances &&
+                      originalBudgetOptions.HighWatermarkHierarchyGameObjects ==
+                          setting.highWatermarkHierarchyGameObjects &&
+                      originalBudgetOptions.LowWatermarkHierarchyGameObjects ==
+                          setting.lowWatermarkHierarchyGameObjects &&
+                      originalBudgetOptions.MaxEvictionsPerFrame == setting.maxEvictionsPerFrame &&
+                      Mathf.Approximately(
+                          originalBudgetOptions.AutoTrimGraceSeconds, setting.AutoTrimGraceSeconds) &&
+                      Mathf.Approximately(
+                          originalBudgetOptions.IdleTrimAfterSeconds, setting.IdleTrimAfterSeconds) &&
+                      originalBudgetOptions.AllowEmergencyHardCapOnLowMemory ==
+                          setting.allowEmergencyHardCapOnLowMemory,
+                    "ViewController.Init applies the saved pool budget to runtime");
+            }
+
+            void TestSerializedBudgetBackwardCompatibility()
+            {
+                ViewController controller = runtimePool.GetComponent<ViewController>() ??
+                                            ViewController.Instance;
+                MethodInfo applySetting = typeof(ViewController).GetMethod(
+                    "ApplyGlobalPoolBudgetSetting",
+                    BindingFlags.Instance | BindingFlags.NonPublic);
+                FieldInfo runtimeOptionsField = typeof(ViewElementRuntimePool).GetField(
+                    "budgetOptions",
+                    BindingFlags.Instance | BindingFlags.NonPublic);
+
+                if (controller == null || applySetting == null || runtimeOptionsField == null)
+                {
+                    Fail("serialized budget compatibility test can access initialization bridge");
+                    return;
+                }
+
+                try
+                {
+                    applySetting.Invoke(controller, new object[] { null });
+                    Check(!runtimePool.GetGlobalPoolSnapshot().BudgetEnabled,
+                        "missing legacy budget setting keeps automatic trimming disabled");
+
+                    var disabledLegacySetting = new ViewElementGlobalPoolBudgetSetting
+                    {
+                        enabled = false,
+                        mode = (ViewElementGlobalEvictionMode)int.MaxValue,
+                        highWatermarkInstances = 0,
+                        lowWatermarkInstances = 1,
+                        maxEvictionsPerFrame = 0,
+                        minimumIdleSeconds = -1,
+                    };
+                    applySetting.Invoke(controller, new object[] { disabledLegacySetting });
+                    Check(!runtimePool.GetGlobalPoolSnapshot().BudgetEnabled,
+                        "disabled legacy budget ignores uninitialized inactive fields");
+
+                    var configuredSetting = new ViewElementGlobalPoolBudgetSetting
+                    {
+                        enabled = true,
+                        mode = ViewElementGlobalEvictionMode.NormalBudget,
+                        highWatermarkInstances = 9,
+                        lowWatermarkInstances = 3,
+                        highWatermarkHierarchyGameObjects = 90,
+                        lowWatermarkHierarchyGameObjects = 30,
+                        maxEvictionsPerFrame = 2,
+                        minimumIdleSeconds = 1.25f,
+                        allowEmergencyHardCapOnLowMemory = true,
+                    };
+                    applySetting.Invoke(controller, new object[] { configuredSetting });
+
+                    var appliedOptions =
+                        (ViewElementGlobalPoolBudgetOptions)runtimeOptionsField.GetValue(runtimePool);
+                    Check(appliedOptions.Enabled &&
+                          appliedOptions.Mode == configuredSetting.mode &&
+                          appliedOptions.HighWatermarkInstances == 9 &&
+                          appliedOptions.LowWatermarkInstances == 3 &&
+                          appliedOptions.HighWatermarkHierarchyGameObjects == 90 &&
+                          appliedOptions.LowWatermarkHierarchyGameObjects == 30 &&
+                          appliedOptions.MaxEvictionsPerFrame == 2 &&
+                          Mathf.Approximately(appliedOptions.AutoTrimGraceSeconds, 1.25f) &&
+                          Mathf.Approximately(appliedOptions.IdleTrimAfterSeconds, 1.25f) &&
+                          appliedOptions.AllowEmergencyHardCapOnLowMemory,
+                        "legacy minimum idle value maps to both automatic timing settings");
+
+                    configuredSetting.AutoTrimGraceSeconds = 2.5f;
+                    configuredSetting.IdleTrimAfterSeconds = 0;
+                    applySetting.Invoke(controller, new object[] { configuredSetting });
+                    appliedOptions =
+                        (ViewElementGlobalPoolBudgetOptions)runtimeOptionsField.GetValue(runtimePool);
+                    Check(Mathf.Approximately(appliedOptions.AutoTrimGraceSeconds, 2.5f) &&
+                          Mathf.Approximately(appliedOptions.IdleTrimAfterSeconds, 0) &&
+                          Mathf.Approximately(configuredSetting.minimumIdleSeconds, 1.25f),
+                        "split timing overrides legacy serialized value without changing it");
+
+                    var legacyOptions = new ViewElementGlobalPoolBudgetOptions
+                    {
+                        MinimumIdleSeconds = 3,
+                    };
+                    Check(Mathf.Approximately(legacyOptions.AutoTrimGraceSeconds, 3) &&
+                          Mathf.Approximately(legacyOptions.IdleTrimAfterSeconds, 3),
+                        "legacy runtime MinimumIdleSeconds setter configures both timings");
+
+                    var deserializedLegacySetting =
+                        JsonUtility.FromJson<ViewElementGlobalPoolBudgetSetting>(
+                            "{\"minimumIdleSeconds\":1.25}");
+                    Check(Mathf.Approximately(deserializedLegacySetting.AutoTrimGraceSeconds, 1.25f) &&
+                          Mathf.Approximately(deserializedLegacySetting.IdleTrimAfterSeconds, 1.25f),
+                        "deserialized legacy timing remains effective without new fields");
+
+                    configuredSetting.lowWatermarkInstances = 10;
+                    applySetting.Invoke(controller, new object[] { configuredSetting });
+                    Check(!runtimePool.GetGlobalPoolSnapshot().BudgetEnabled,
+                        "invalid enabled budget safely falls back to disabled trimming");
+                }
+                catch (Exception exception)
+                {
+                    Fail("serialized budget compatibility test threw: " + exception);
+                }
+                finally
+                {
+                    runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions());
+                }
             }
 
             IEnumerator TestDuplicateRecoveryAndFifo()
@@ -146,8 +300,15 @@ namespace MacacaGames.ViewSystem
             IEnumerator TestNormalAndEmergencyModes()
             {
                 ViewElement source = CreateSource("ModePolicy", ViewElementRecoveryPolicy.KeepForever, 0);
+                source.trimOnlyInEmergency = true;
                 ViewElement instance = null;
                 yield return QueueAndRecover(source, value => instance = value);
+                ViewElementRuntimePoolSnapshot normalSnapshot = runtimePool.GetGlobalPoolSnapshot(
+                    ViewElementGlobalEvictionMode.NormalBudget,
+                    refreshNestedUniqueSafety: true);
+                Check(normalSnapshot.QueuedEntries.Single().EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.BlockedEmergencyOnly,
+                    "NormalBudget snapshot explains emergency-only trim protection");
 
                 ViewElementPoolTrimResult normal = runtimePool.TrimQueuedPool(new ViewElementPoolTrimRequest
                 {
@@ -156,16 +317,18 @@ namespace MacacaGames.ViewSystem
                     MaxEvictions = 1,
                 });
                 Check(normal.EvictedInstances == 0 && normal.BlockedIneligible == 1,
-                    "NormalBudget protects KeepForever");
+                    "NormalBudget protects emergency-only queued entries");
                 Check(!normal.BudgetSatisfied && normal.RemainingOverBudgetInstances == 1,
                     "NormalBudget reports blocked remaining budget");
                 ViewElementRuntimePoolSnapshot emergencySnapshot = runtimePool.GetGlobalPoolSnapshot(
                     ViewElementGlobalEvictionMode.EmergencyHardCap,
                     refreshNestedUniqueSafety: true);
                 Check(emergencySnapshot.EligibleQueuedInstances == 1 &&
+                      emergencySnapshot.QueuedEntries.Single().EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.EligibleByEmergencyHardCap &&
                       emergencySnapshot.BudgetMode == ViewElementGlobalEvictionMode.EmergencyHardCap &&
                       runtimePool.GetGlobalPoolSnapshot().BudgetMode == ViewElementGlobalEvictionMode.NormalBudget,
-                    "Emergency snapshot mode reports KeepForever as eligible without changing runtime mode");
+                    "Emergency snapshot mode reports protected entry as eligible without changing runtime mode");
 
                 ViewElementPoolTrimResult emergency = runtimePool.TrimQueuedPool(new ViewElementPoolTrimRequest
                 {
@@ -173,7 +336,7 @@ namespace MacacaGames.ViewSystem
                     TargetQueuedInstances = 0,
                     MaxEvictions = 1,
                 });
-                Check(emergency.EvictedInstances == 1, "EmergencyHardCap evicts eligible KeepForever entry");
+                Check(emergency.EvictedInstances == 1, "EmergencyHardCap evicts emergency-only entry");
                 Check(emergency.AfterQueuedInstances == 0, "eviction removes logical queue entry before destroy");
                 Check(runtimePool.GetGlobalPoolSnapshot().PendingDestroyInstances == 1,
                     "eviction records deferred destroy accounting");
@@ -190,6 +353,56 @@ namespace MacacaGames.ViewSystem
                 _ = instance;
             }
 
+            IEnumerator TestTrimEligibilityIndependentOfRecoveryPolicy()
+            {
+                foreach (ViewElementRecoveryPolicy policy in new[]
+                         {
+                             ViewElementRecoveryPolicy.KeepForever,
+                             ViewElementRecoveryPolicy.KeepN,
+                         })
+                {
+                    foreach (bool emergencyOnly in new[] { false, true })
+                    {
+                        ViewElement source = CreateSource(
+                            $"TrimEligibility_{policy}_{emergencyOnly}", policy, 1);
+                        Check(!source.trimOnlyInEmergency,
+                            $"{policy} defaults to normal and emergency trim eligibility");
+                        source.trimOnlyInEmergency = emergencyOnly;
+                        yield return QueueAndRecover(source, null);
+
+                        ViewElementRuntimePoolSnapshot normal = runtimePool.GetGlobalPoolSnapshot(
+                            ViewElementGlobalEvictionMode.NormalBudget,
+                            refreshNestedUniqueSafety: true);
+                        ViewElementRuntimePoolSnapshot.QueuedEntry normalEntry = normal.QueuedEntries.Single();
+                        Check(normalEntry.TrimOnlyInEmergency == emergencyOnly &&
+                              normalEntry.IsEligible == !emergencyOnly &&
+                              normalEntry.EligibilityReason == (emergencyOnly
+                                  ? ViewElementGlobalEvictionEligibilityReason.BlockedEmergencyOnly
+                                  : ViewElementGlobalEvictionEligibilityReason.EligibleByDefault),
+                            $"{policy} normal eligibility follows trimOnlyInEmergency={emergencyOnly}");
+                        ViewElementPoolTrimResult normalDryRun = runtimePool.TrimQueuedPool(
+                            new ViewElementPoolTrimRequest
+                            {
+                                DryRun = true,
+                                Mode = ViewElementGlobalEvictionMode.NormalBudget,
+                                TargetQueuedInstances = 0,
+                                MaxEvictions = 1,
+                            });
+                        Check(normalDryRun.EvictedInstances == (emergencyOnly ? 0 : 1),
+                            $"{policy} normal dry-run follows trimOnlyInEmergency={emergencyOnly}");
+
+                        ViewElementRuntimePoolSnapshot emergency = runtimePool.GetGlobalPoolSnapshot(
+                            ViewElementGlobalEvictionMode.EmergencyHardCap,
+                            refreshNestedUniqueSafety: true);
+                        Check(emergency.QueuedEntries.Single().IsEligible,
+                            $"{policy} remains eligible in EmergencyHardCap");
+
+                        Destroy(TakeQueued(source));
+                        yield return FlushDestroy();
+                    }
+                }
+            }
+
             IEnumerator TestHierarchyBudgetAndStaleRequest()
             {
                 ViewElement source = CreateSource("HierarchyBudget", ViewElementRecoveryPolicy.KeepN, 1, childCount: 2);
@@ -197,7 +410,17 @@ namespace MacacaGames.ViewSystem
                 yield return QueueAndRecover(source, value => instance = value);
                 ViewElementRuntimePoolSnapshot snapshot = runtimePool.GetGlobalPoolSnapshot();
                 ViewElementRuntimePoolSnapshot.QueuedEntry entry = snapshot.QueuedEntries.Single();
-                Check(entry.HierarchyGameObjectCount >= 3, "recovery enqueue caches hierarchy GameObject cost");
+                Check(entry.HierarchyGameObjectCount >= 3 &&
+                      entry.EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.EligibleByDefault,
+                    "default trim eligibility includes hierarchy cost and reason");
+                ViewElementRuntimePoolSnapshot tooYoungSnapshot = runtimePool.GetGlobalPoolSnapshot(
+                    ViewElementGlobalEvictionMode.NormalBudget,
+                    minimumIdleSeconds: 60,
+                    refreshNestedUniqueSafety: true);
+                Check(tooYoungSnapshot.QueuedEntries.Single().EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.BlockedTooYoung,
+                    "snapshot idle override explains too-young eligibility block");
 
                 ViewElementPoolTrimResult hierarchyTrim = runtimePool.TrimQueuedPool(new ViewElementPoolTrimRequest
                 {
@@ -214,6 +437,13 @@ namespace MacacaGames.ViewSystem
                 ViewElement stale = null;
                 yield return QueueAndRecover(source, value => stale = value);
                 PrepareForPermanentDestroy(stale);
+                ViewElementRuntimePoolSnapshot staleSnapshot = runtimePool.GetGlobalPoolSnapshot(
+                    ViewElementGlobalEvictionMode.EmergencyHardCap,
+                    minimumIdleSeconds: 0,
+                    refreshNestedUniqueSafety: true);
+                Check(staleSnapshot.QueuedEntries.Single().EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.Stale,
+                    "snapshot explains stale queued entry");
                 ViewElementPoolTrimResult staleTrim = runtimePool.TrimQueuedPool(new ViewElementPoolTrimRequest
                 {
                     Mode = ViewElementGlobalEvictionMode.EmergencyHardCap,
@@ -256,6 +486,12 @@ namespace MacacaGames.ViewSystem
                 ViewElement active = null;
                 yield return QueueAndRecover(activeSource, value => active = value);
                 active.gameObject.SetActive(true);
+                ViewElementRuntimePoolSnapshot activeSnapshot = runtimePool.GetGlobalPoolSnapshot(
+                    ViewElementGlobalEvictionMode.EmergencyHardCap,
+                    refreshNestedUniqueSafety: true);
+                Check(activeSnapshot.QueuedEntries.Single().EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.BlockedActive,
+                    "active queued snapshot explains eligibility block");
                 ViewElementPoolTrimResult activeTrim = runtimePool.TrimQueuedPool(new ViewElementPoolTrimRequest
                 {
                     Mode = ViewElementGlobalEvictionMode.EmergencyHardCap,
@@ -270,6 +506,12 @@ namespace MacacaGames.ViewSystem
                 ViewElement nestedSource = CreateSource("NestedUnique", ViewElementRecoveryPolicy.KeepN, 1, nestedUnique: true);
                 ViewElement nested = null;
                 yield return QueueAndRecover(nestedSource, value => nested = value);
+                ViewElementRuntimePoolSnapshot nestedSnapshot = runtimePool.GetGlobalPoolSnapshot(
+                    ViewElementGlobalEvictionMode.EmergencyHardCap,
+                    refreshNestedUniqueSafety: true);
+                Check(nestedSnapshot.QueuedEntries.Single().EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.BlockedNestedUnique,
+                    "nested unique snapshot explains eligibility block");
                 ViewElementPoolTrimResult nestedTrim = runtimePool.TrimQueuedPool(new ViewElementPoolTrimRequest
                 {
                     Mode = ViewElementGlobalEvictionMode.EmergencyHardCap,
@@ -280,6 +522,45 @@ namespace MacacaGames.ViewSystem
                       !nestedTrim.BudgetSatisfied,
                     "nested unique hierarchy is blocked in EmergencyHardCap");
                 Destroy(TakeQueued(nestedSource));
+                yield return FlushDestroy();
+
+                ViewElement protectedParentSource = CreateSource(
+                    "NestedEmergencyOnly", ViewElementRecoveryPolicy.KeepForever, 0);
+                GameObject protectedChildObject = new GameObject(
+                    "ProtectedChild", typeof(RectTransform), typeof(Animator));
+                protectedChildObject.transform.SetParent(protectedParentSource.transform, false);
+                protectedChildObject.SetActive(false);
+                ViewElement protectedChild = protectedChildObject.AddComponent<ViewElement>();
+                protectedChild.transition = ViewElement.TransitionType.ActiveSwitch;
+                protectedChild.trimOnlyInEmergency = true;
+                protectedChild.Setup();
+                yield return QueueAndRecover(protectedParentSource, null);
+                ViewElementRuntimePoolSnapshot protectedParentSnapshot = runtimePool.GetGlobalPoolSnapshot(
+                    ViewElementGlobalEvictionMode.NormalBudget,
+                    refreshNestedUniqueSafety: true);
+                Check(protectedParentSnapshot.QueuedEntries.Single().NestedEmergencyOnlyCount == 1 &&
+                      protectedParentSnapshot.QueuedEntries.Single().EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.BlockedNestedEmergencyOnly,
+                    "normal trim protects a queued parent containing an emergency-only child");
+                ViewElementPoolTrimResult protectedParentNormalTrim = runtimePool.TrimQueuedPool(
+                    new ViewElementPoolTrimRequest
+                    {
+                        Mode = ViewElementGlobalEvictionMode.NormalBudget,
+                        TargetQueuedInstances = 0,
+                        MaxEvictions = 1,
+                    });
+                Check(protectedParentNormalTrim.EvictedInstances == 0 &&
+                      protectedParentNormalTrim.BlockedIneligible == 1,
+                    "normal trim cannot indirectly destroy an emergency-only child");
+                ViewElementPoolTrimResult protectedParentEmergencyTrim = runtimePool.TrimQueuedPool(
+                    new ViewElementPoolTrimRequest
+                    {
+                        Mode = ViewElementGlobalEvictionMode.EmergencyHardCap,
+                        TargetQueuedInstances = 0,
+                        MaxEvictions = 1,
+                    });
+                Check(protectedParentEmergencyTrim.EvictedInstances == 1,
+                    "emergency trim may destroy the protected parent hierarchy");
                 yield return FlushDestroy();
             }
 
@@ -360,7 +641,8 @@ namespace MacacaGames.ViewSystem
                 ownerLocalPool.Dispose();
 
                 ViewElement returnOwner = CreateSource("ReturnOwner", ViewElementRecoveryPolicy.KeepForever, 0);
-                ViewElement returnSource = CreateSource("ReturnChild", ViewElementRecoveryPolicy.KeepForever, 0);
+                ViewElement returnSource = CreateSource("ReturnChild", ViewElementRecoveryPolicy.DestroyOnRecovery, 0);
+                returnSource.trimOnlyInEmergency = true;
                 ViewElementRequestedPool returnPool = returnOwner.Lifetime.CreatePool(
                     returnSource,
                     ViewElementChildRecoveryMode.ReturnToGlobalPool);
@@ -374,8 +656,15 @@ namespace MacacaGames.ViewSystem
                     .GetGlobalPoolSnapshot()
                     .QueuedEntries
                     .Single(entry => entry.InstanceId == returned.GetInstanceID());
-                Check(returnEntry.ExplicitlyAllowsGlobalEviction && returnEntry.IsEligible,
-                    "ReturnToGlobalPool explicitly opts into NormalBudget eviction");
+                Check(returnEntry.TrimOnlyInEmergency && !returnEntry.IsEligible &&
+                      returnEntry.EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.BlockedEmergencyOnly,
+                    "ReturnToGlobalPool bypasses recovery policy without bypassing trim protection");
+                ViewElementRuntimePoolSnapshot emergencyReturnSnapshot = runtimePool.GetGlobalPoolSnapshot(
+                    ViewElementGlobalEvictionMode.EmergencyHardCap,
+                    refreshNestedUniqueSafety: true);
+                Check(emergencyReturnSnapshot.QueuedEntries.Single().IsEligible,
+                    "ReturnToGlobalPool child remains eligible for emergency trim");
                 Destroy(TakeQueued(returnSource));
                 returnPool.Dispose();
 
@@ -417,6 +706,18 @@ namespace MacacaGames.ViewSystem
                         MaxEvictionsPerFrame = 0,
                     }),
                     "max evictions per frame must be positive");
+                ExpectArgumentException(
+                    () => runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
+                    {
+                        AutoTrimGraceSeconds = -1,
+                    }),
+                    "automatic trim grace must be non-negative");
+                ExpectArgumentException(
+                    () => runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
+                    {
+                        IdleTrimAfterSeconds = float.NaN,
+                    }),
+                    "periodic idle threshold must be finite");
 
                 runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
                 {
@@ -511,6 +812,99 @@ namespace MacacaGames.ViewSystem
                 yield return FlushDestroy();
             }
 
+            IEnumerator TestSplitAutomaticTiming()
+            {
+                runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
+                {
+                    Enabled = true,
+                    Mode = ViewElementGlobalEvictionMode.NormalBudget,
+                    HighWatermarkInstances = 1,
+                    LowWatermarkInstances = 0,
+                    MaxEvictionsPerFrame = 1,
+                    AutoTrimGraceSeconds = 60,
+                    IdleTrimAfterSeconds = 0,
+                });
+                FieldInfo idleRunnerField = typeof(ViewElementRuntimePool).GetField(
+                    "idleEvictionRunner", BindingFlags.Instance | BindingFlags.NonPublic);
+                Check(idleRunnerField != null && idleRunnerField.GetValue(runtimePool) == null,
+                    "automatic grace alone does not start periodic idle trim");
+
+                ViewElement budgetSource = CreateSource(
+                    "SplitBudgetGrace", ViewElementRecoveryPolicy.KeepForever, 0);
+                for (int i = 0; i < 2; i++)
+                {
+                    ViewElement instance = Request(budgetSource);
+                    runtimePool.QueueViewElementToRecovery(instance);
+                }
+
+                yield return runtimePool.RecoveryQueuedViewElement(true);
+                for (int i = 0; i < 4; i++)
+                {
+                    yield return null;
+                }
+
+                ViewElementRuntimePoolSnapshot graceSnapshot = runtimePool.GetGlobalPoolSnapshot();
+                Check(graceSnapshot.LogicalQueuedInstances == 2 &&
+                      graceSnapshot.BlockedTooYoungInstances == 2 &&
+                      graceSnapshot.LastTrimResult != null &&
+                      graceSnapshot.LastTrimResult.BlockedTooYoung == 2 &&
+                      graceSnapshot.LastTrimResult.EvictedInstances == 0,
+                    "budget trim respects grace while periodic idle trim is disabled");
+
+                runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
+                {
+                    Enabled = true,
+                    Mode = ViewElementGlobalEvictionMode.NormalBudget,
+                    HighWatermarkInstances = 1,
+                    LowWatermarkInstances = 0,
+                    MaxEvictionsPerFrame = 1,
+                    AutoTrimGraceSeconds = 0,
+                    IdleTrimAfterSeconds = 0,
+                });
+                for (int i = 0; i < 8; i++)
+                {
+                    yield return null;
+                }
+
+                Check(runtimePool.GetGlobalPoolSnapshot().LogicalQueuedInstances == 0,
+                    "budget trim proceeds after grace is removed by reconfiguration");
+                yield return FlushDestroy();
+
+                runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
+                {
+                    Enabled = true,
+                    Mode = ViewElementGlobalEvictionMode.NormalBudget,
+                    MaxEvictionsPerFrame = 1,
+                    AutoTrimGraceSeconds = 60,
+                    IdleTrimAfterSeconds = 0.05f,
+                });
+                ViewElement idleSource = CreateSource(
+                    "SplitIdleGrace", ViewElementRecoveryPolicy.KeepForever, 0);
+                yield return QueueAndRecover(idleSource, null);
+                ViewElementRuntimePoolSnapshot protectedIdle = runtimePool.GetGlobalPoolSnapshot();
+                Check(idleRunnerField != null &&
+                      idleRunnerField.GetValue(runtimePool) != null &&
+                      protectedIdle.LogicalQueuedInstances == 1 &&
+                      protectedIdle.BlockedTooYoungInstances == 1 &&
+                      Mathf.Approximately(protectedIdle.AutoTrimGraceSeconds, 60) &&
+                      Mathf.Approximately(protectedIdle.IdleTrimAfterSeconds, 0.05f),
+                    "idle threshold starts periodic trim while automatic grace protects its entry");
+
+                runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
+                {
+                    Enabled = true,
+                    Mode = ViewElementGlobalEvictionMode.NormalBudget,
+                    MaxEvictionsPerFrame = 1,
+                    AutoTrimGraceSeconds = 0,
+                    IdleTrimAfterSeconds = 0.05f,
+                });
+                yield return new WaitForSecondsRealtime(1.2f);
+                Check(runtimePool.GetGlobalPoolSnapshot().LogicalQueuedInstances == 0,
+                    "periodic idle trim runs independently when its threshold is enabled");
+                runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions());
+                yield return FlushDestroy();
+            }
+
             IEnumerator TestLowMemoryScheduling()
             {
                 runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
@@ -527,8 +921,12 @@ namespace MacacaGames.ViewSystem
                     "LowMemoryNormal",
                     ViewElementRecoveryPolicy.KeepForever,
                     0);
+                normalSource.trimOnlyInEmergency = true;
                 ViewElement normal = null;
                 yield return QueueAndRecover(normalSource, value => normal = value);
+                Check(runtimePool.GetGlobalPoolSnapshot().QueuedEntries.Single().EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.BlockedEmergencyOnly,
+                    "low-memory NormalBudget test entry requires emergency trim");
 
                 InvokeLowMemory();
                 ViewElementRuntimePoolSnapshot immediate = runtimePool.GetGlobalPoolSnapshot();
@@ -543,7 +941,9 @@ namespace MacacaGames.ViewSystem
 
                 ViewElementRuntimePoolSnapshot normalAfter = runtimePool.GetGlobalPoolSnapshot();
                 Check(normalAfter.LogicalQueuedInstances == 1 &&
+                      normalAfter.TrimCount > immediate.TrimCount &&
                       normalAfter.LastTrimResult != null &&
+                      normalAfter.LastTrimResult.EvictedInstances == 0 &&
                       normalAfter.LastTrimResult.BlockedIneligible > 0,
                     "low-memory keeps NormalBudget without emergency opt-in");
                 Destroy(TakeQueued(normalSource));
@@ -563,8 +963,12 @@ namespace MacacaGames.ViewSystem
                     "LowMemoryEmergency",
                     ViewElementRecoveryPolicy.KeepForever,
                     0);
+                emergencySource.trimOnlyInEmergency = true;
                 ViewElement emergency = null;
                 yield return QueueAndRecover(emergencySource, value => emergency = value);
+                Check(runtimePool.GetGlobalPoolSnapshot().QueuedEntries.Single().EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.BlockedEmergencyOnly,
+                    "low-memory upgrade test entry starts protected in NormalBudget");
 
                 InvokeLowMemory();
                 immediate = runtimePool.GetGlobalPoolSnapshot();
@@ -579,7 +983,9 @@ namespace MacacaGames.ViewSystem
 
                 ViewElementRuntimePoolSnapshot emergencyAfter = runtimePool.GetGlobalPoolSnapshot();
                 Check(emergencyAfter.LogicalQueuedInstances == 0 &&
-                      emergencyAfter.TrimEvictedInstances >= 1,
+                      emergencyAfter.TrimCount > immediate.TrimCount &&
+                      emergencyAfter.LastTrimResult != null &&
+                      emergencyAfter.LastTrimResult.EvictedInstances == 1,
                     "low-memory opt-in upgrades NormalBudget to deferred EmergencyHardCap trim");
 
                 runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
@@ -596,10 +1002,14 @@ namespace MacacaGames.ViewSystem
                     "LowMemoryGlobalEmergency",
                     ViewElementRecoveryPolicy.KeepForever,
                     0);
+                globalEmergencySource.trimOnlyInEmergency = true;
                 ViewElement globalEmergency = null;
                 yield return QueueAndRecover(
                     globalEmergencySource,
                     value => globalEmergency = value);
+                Check(runtimePool.GetGlobalPoolSnapshot().QueuedEntries.Single().EligibilityReason ==
+                      ViewElementGlobalEvictionEligibilityReason.EligibleByEmergencyHardCap,
+                    "configured EmergencyHardCap accepts emergency-only queued entries");
 
                 InvokeLowMemory();
                 for (int i = 0; i < 4; i++)
@@ -613,6 +1023,54 @@ namespace MacacaGames.ViewSystem
                       globalEmergencyAfter.LastTrimResult != null &&
                       globalEmergencyAfter.LastTrimResult.EvictedInstances == 1,
                     "global EmergencyHardCap remains emergency without low-memory opt-in");
+
+                runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
+                {
+                    Enabled = true,
+                    Mode = ViewElementGlobalEvictionMode.NormalBudget,
+                    HighWatermarkInstances = 1,
+                    LowWatermarkInstances = 0,
+                    MaxEvictionsPerFrame = 1,
+                    AutoTrimGraceSeconds = 60,
+                    IdleTrimAfterSeconds = 0,
+                    AllowEmergencyHardCapOnLowMemory = true,
+                });
+                ViewElement graceSource = CreateSource(
+                    "LowMemoryGrace", ViewElementRecoveryPolicy.KeepForever, 0);
+                graceSource.trimOnlyInEmergency = true;
+                yield return QueueAndRecover(graceSource, null);
+                InvokeLowMemory();
+                for (int i = 0; i < 4; i++)
+                {
+                    yield return null;
+                }
+
+                ViewElementRuntimePoolSnapshot graceAfter = runtimePool.GetGlobalPoolSnapshot();
+                Check(graceAfter.LogicalQueuedInstances == 1 &&
+                      graceAfter.LastTrimResult != null &&
+                      graceAfter.LastTrimResult.BlockedTooYoung == 1 &&
+                      graceAfter.LastTrimResult.EvictedInstances == 0,
+                    "low-memory emergency upgrade still respects automatic grace");
+
+                runtimePool.ConfigureGlobalPoolBudget(new ViewElementGlobalPoolBudgetOptions
+                {
+                    Enabled = true,
+                    Mode = ViewElementGlobalEvictionMode.NormalBudget,
+                    HighWatermarkInstances = 1,
+                    LowWatermarkInstances = 0,
+                    MaxEvictionsPerFrame = 1,
+                    AutoTrimGraceSeconds = 0,
+                    IdleTrimAfterSeconds = 0,
+                    AllowEmergencyHardCapOnLowMemory = true,
+                });
+                InvokeLowMemory();
+                for (int i = 0; i < 4; i++)
+                {
+                    yield return null;
+                }
+
+                Check(runtimePool.GetGlobalPoolSnapshot().LogicalQueuedInstances == 0,
+                    "a new low-memory event can trim after grace is removed");
                 _ = normal;
                 _ = emergency;
                 _ = globalEmergency;
@@ -662,6 +1120,10 @@ namespace MacacaGames.ViewSystem
                 }
 
                 yield return FlushDestroy();
+                if (runtimePool != null)
+                {
+                    runtimePool.ConfigureGlobalPoolBudget(originalBudgetOptions);
+                }
             }
 
             ViewElement CreateSource(

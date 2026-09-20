@@ -63,6 +63,8 @@ namespace MacacaGames.ViewSystem
         public ViewElementRecoveryPolicy recoveryPolicy = ViewElementRecoveryPolicy.KeepForever;
         [Min(0), Tooltip("Maximum queued instances for KeepN. Active and pending-recovery instances are not counted.")]
         public int recoveryKeepCount = 1;
+        [Tooltip("If enabled, this non-unique ViewElement and any parent hierarchy containing it can only be globally trimmed in EmergencyHardCap mode. Recovery Policy still controls whether it enters the pool.")]
+        public bool trimOnlyInEmergency = false;
         [Tooltip("If true, ViewElement will snap to new position instantly when changing page (no tween).")]
         public bool useInstantPosition = false;
         

@@ -85,8 +85,10 @@ namespace MacacaGames.ViewSystem.Diagnostics
         public List<string> queuedInstancePaths = new();
         public string recoveryPolicy;
         public int recoveryKeepCount;
+        public bool trimOnlyInEmergency;
         public int trimmableInstances;
         public int trimmableGameObjects;
+        public List<string> eligibilityReasons = new();
         public string trimBlockReason;
     }
 
@@ -220,6 +222,7 @@ namespace MacacaGames.ViewSystem.Diagnostics
                 refreshNestedUniqueSafety: true);
             var emergencyPoolSnapshot = runtimePool.GetGlobalPoolSnapshot(
                 ViewElementGlobalEvictionMode.EmergencyHardCap,
+                minimumIdleSeconds: 0,
                 refreshNestedUniqueSafety: true);
             var requestedPoolHandlerField = typeof(ViewElement).GetField(
                 "RequestedPoolRecoveryHandler",
@@ -388,13 +391,22 @@ namespace MacacaGames.ViewSystem.Diagnostics
                                      allForKey.FirstOrDefault()?.recoveryPolicy.ToString() ?? string.Empty,
                     recoveryKeepCount = queued.FirstOrDefault()?.recoveryKeepCount ??
                                         allForKey.FirstOrDefault()?.recoveryKeepCount ?? 0,
+                    trimOnlyInEmergency = queued.FirstOrDefault()?.trimOnlyInEmergency ??
+                                          allForKey.FirstOrDefault()?.trimOnlyInEmergency ?? false,
                     trimmableInstances = trimmableInstances,
                     trimmableGameObjects = trimmableGameObjects,
-                    trimBlockReason = nestedUnique > 0
-                        ? "ContainsNestedUniqueViewElement"
-                        : trimmableInstances < queued.Count
-                            ? "RuntimePoolEligibilityOrIdleConstraint"
-                            : string.Empty,
+                    eligibilityReasons = queuedEntries
+                        .Select(entry => entry.EligibilityReason.ToString())
+                        .Distinct()
+                        .OrderBy(reason => reason)
+                        .ToList(),
+                    trimBlockReason = string.Join(
+                        ",",
+                        queuedEntries
+                            .Where(entry => !entry.IsEligible)
+                            .Select(entry => entry.EligibilityReason.ToString())
+                            .Distinct()
+                            .OrderBy(reason => reason)),
                 });
             }
 
