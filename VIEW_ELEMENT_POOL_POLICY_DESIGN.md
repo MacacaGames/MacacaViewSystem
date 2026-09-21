@@ -1,5 +1,8 @@
 # ViewElement Pool Policy 與 Lifetime 管理設計提案
 
+> 本文件保留設計沿革與提案內容，不代表所有細節都與目前 runtime 相同。<br>
+> 已實作的 Global Pool Trim 契約、停止／重試條件、相容性與相對本文件的差異，請以 [ViewElement Runtime Pool Trim 現行規格](VIEW_ELEMENT_RUNTIME_POOL_TRIM_SPEC.md) 為準。
+
 ## 背景
 
 目前 ViewSystem 的非 unique `ViewElement` 預設永久保留在 runtime pool。這能降低重複 Instantiate 的成本，但大型或低頻 UI 會在第一次開啟後永久占用 GameObject、MonoBehaviour、Graphic、layout cache 與 Addressable dependency。
