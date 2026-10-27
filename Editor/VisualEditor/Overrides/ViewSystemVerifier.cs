@@ -26,49 +26,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         public void VerifyPagesAndStates()
         {
-            if (editor == null)
+            var result = ViewSystemDataValidator.Validate(saveData, includeBindings: false);
+            if (!result.isValid)
             {
-                ViewSystemLog.LogError("Cannot verify save data, is editor init correctlly?");
-                return;
-            }
-
-            if (saveData == null)
-            {
-                ViewSystemLog.LogError("Cannot verify save data, is editor init correctlly?");
-                return;
-            }
-            string result = "";
-            var viewStates = saveData.GetViewStateSaveDatas().Select(m => m.viewState).ToList();
-            var viewPages = saveData.GetViewPageSaveDatas().Select(m => m.viewPage).ToList();
-
-            foreach (var states in viewStates)
-            {
-                foreach (var item in states.viewPageItems)
-                {
-                    if (item.viewElement == null)
-                    {
-                        result += $"One ViewElement in State : [{states.name}] is null.";
-                    }
-                }
-            }
-            foreach (var pages in viewPages)
-            {
-                foreach (var item in pages.viewPageItems)
-                {
-                    if (item.viewElement == null)
-                    {
-                        result += $"One ViewElement in Page : [{pages.name}] is null.";
-                    }
-                }
-            }
-            if (!string.IsNullOrEmpty(result))
-            {
-                ViewSystemLog.LogError(result);
+                ViewSystemLog.LogError(string.Join("\n", result.issues.Select(issue =>
+                    $"[{issue.code}] {issue.owner}: {issue.message}")));
             }
             else
             {
                 EditorUtility.DisplayDialog("Info", "Great, everying looks good!", "Ok");
-
                 ViewSystemLog.Log("Great, all pages and states looks good!");
             }
         }

@@ -17,11 +17,39 @@ namespace MacacaGames.ViewSystem.VisualEditor
     {
         const string ViewSystemResourceFolder = "Assets/ViewSystemResources/";
         const string ViewSystemSaveDataFileName = "ViewSystemData.asset";
-        const string ViewSystemSaveData_AddressableFileName = "ViewSystemData_Addressable.asset";
         public ViewSystemDataReader(ViewSystemVisualEditor editor)
         {
             this.editor = editor;
         }
+        private ViewSystemDataReader() { }
+
+        /// <summary>Open authoring data without creating a Visual Editor window.</summary>
+        public static ViewSystemDataReader Open(ViewSystemSaveData saveData)
+        {
+            if (saveData == null)
+                throw new ArgumentNullException(nameof(saveData));
+            var assetPath = AssetDatabase.GetAssetPath(saveData);
+            if (string.IsNullOrEmpty(assetPath) || !assetPath.StartsWith("Assets/", StringComparison.Ordinal))
+                throw new ArgumentException("Authoring data must be saved as an asset under Assets/.", nameof(saveData));
+
+            var reader = new ViewSystemDataReader { data = saveData, isInit = true };
+            if (saveData.globalSetting != null && saveData.globalSetting.useAddressableLoading)
+                reader.RestoreViewElementReferencesFromAddressable();
+            return reader;
+        }
+
+        public static ViewSystemDataReader Open(string assetPath)
+        {
+            var saveData = AssetDatabase.LoadAssetAtPath<ViewSystemSaveData>(assetPath);
+            if (saveData == null)
+                throw new ArgumentException($"ViewSystem authoring data not found: {assetPath}", nameof(assetPath));
+            return Open(saveData);
+        }
+
+        string SaveDataFolder => Path.GetDirectoryName(AssetDatabase.GetAssetPath(data)).Replace('\\', '/') + "/";
+        string AddressableSaveDataPath => SaveDataFolder +
+            Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(data)) + "_Addressable.asset";
+
         ViewSystemVisualEditor editor;
 
         ViewSystemSaveData data;
@@ -130,7 +158,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             var so = ScriptableObject.CreateInstance<ViewPageNodeSaveData>();
             so.data = new ViewPageSaveData(nodePos, viewPage);
 
-            var filePath = ViewSystemResourceFolder + $"ViewPage_{RandomUtility.GetRandomString(8)}.asset";
+            var filePath = SaveDataFolder + $"ViewPage_{RandomUtility.GetRandomString(8)}.asset";
 
             if (!File.Exists(filePath))
             {
@@ -148,7 +176,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             var so = ScriptableObject.CreateInstance<ViewStateNodeSaveData>();
             so.data = new ViewStateSaveData(nodePos, viewState);
 
-            var filePath = ViewSystemResourceFolder + $"ViewState_{RandomUtility.GetRandomString(8)}.asset";
+            var filePath = SaveDataFolder + $"ViewState_{RandomUtility.GetRandomString(8)}.asset";
 
             if (!File.Exists(filePath))
             {
@@ -163,17 +191,43 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         public void OnViewPageDelete(ViewPageNode node)
         {
-            var s = data.viewPagesNodeSaveDatas.SingleOrDefault(m => m.data.viewPage == node.viewPage);
-            data.viewPagesNodeSaveDatas.Remove(s);
-            isDirty = true;
+            DeleteViewPage(node.viewPage);
+        }
 
-            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(s));
+        public void DeleteViewPage(ViewPage viewPage)
+        {
+            var node = data.viewPagesNodeSaveDatas.SingleOrDefault(item => item.data.viewPage == viewPage);
+            if (node == null)
+                throw new ArgumentException("The page does not belong to this data asset.", nameof(viewPage));
+            data.viewPagesNodeSaveDatas.Remove(node);
+            DeleteNodeAsset(node);
+        }
+
+        public void DeleteViewState(ViewState viewState)
+        {
+            var node = data.viewStateNodeSaveDatas.SingleOrDefault(item => item.data.viewState == viewState);
+            if (node == null)
+                throw new ArgumentException("The state does not belong to this data asset.", nameof(viewState));
+            foreach (var page in data.GetViewPageSaveDatas())
+                if (page.viewPage.viewState == viewState.name)
+                    page.viewPage.viewState = string.Empty;
+            data.viewStateNodeSaveDatas.Remove(node);
+            DeleteNodeAsset(node);
+        }
+
+        void DeleteNodeAsset(ScriptableObject node)
+        {
+            if (AssetDatabase.IsSubAsset(node))
+                UnityEngine.Object.DestroyImmediate(node, true);
+            else
+                AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(node));
+            EditorUtility.SetDirty(data);
+            isDirty = true;
             AssetDatabase.Refresh();
         }
 
         public void OnViewStateDelete(ViewStateNode node)
         {
-            var s = data.viewStateNodeSaveDatas.SingleOrDefault(m => m.data.viewState == node.viewState);
             node.currentLinkedViewPageNode.All(
                 (m) =>
                 {
@@ -182,11 +236,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     return true;
                 }
             );
-            data.viewStateNodeSaveDatas.Remove(s);
-            isDirty = true;
-
-            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(s));
-            AssetDatabase.Refresh();
+            DeleteViewState(node.viewState);
         }
 
         public void GenerateDefaultUIRoot()
@@ -433,7 +483,10 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         public void Save()
         {
-            Save(null, null);
+            if (editor == null)
+                SaveData();
+            else
+                Save(null, null);
         }
 
         public void Save(List<ViewPageNode> viewPageNodes, List<ViewStateNode> viewStateNodes)
@@ -476,10 +529,28 @@ namespace MacacaGames.ViewSystem.VisualEditor
                     data.globalSetting.UIRoot = PrefabUtility.SaveAsPrefabAsset(data.globalSetting.UIRootScene, ViewSystemResourceFolder + data.globalSetting.UIRootScene.name + ".prefab");
             }
 
+            // Preserve the Visual Editor's existing automatic Addressable entry policy.
+            SaveData(updateAddressableEntries: true);
+        }
+
+        /// <summary>
+        /// Persist authoring data without modifying preview scenes or requiring a window.
+        /// By default, Addressable entries are owned by the caller's layout rules.
+        /// </summary>
+        public void SaveData(bool updateAddressableEntries = false)
+        {
+            if (data == null || !AssetDatabase.Contains(data))
+                throw new InvalidOperationException("Open a persistent ViewSystemSaveData asset before saving.");
+            if (data.RequireMigration())
+                throw new InvalidOperationException("Call MigrateToNewSaveData before saving legacy data.");
+            if (data.globalSetting == null)
+                data.globalSetting = new ViewSystemBaseSetting();
+
+            if (data.globalSetting.useAddressableLoading && !updateAddressableEntries)
+                RequireAddressableEntries();
+
             foreach (var item in data.viewPagesNodeSaveDatas)
             {
-
-
                 UnityEditor.EditorUtility.SetDirty(item);
             }
 
@@ -496,35 +567,77 @@ namespace MacacaGames.ViewSystem.VisualEditor
             AssetDatabase.SaveAssets();
             foreach (var item in data.viewPagesNodeSaveDatas)
             {
-                var path = AssetDatabase.GetAssetPath(item);
-                AssetDatabase.RenameAsset(path, $"ViewPage_{item.data.viewPage.name}");
+                RenameNodeAsset(item, $"ViewPage_{item.data.viewPage.name}");
 
             }
 
             foreach (var item in data.viewStateNodeSaveDatas)
             {
-                var path = AssetDatabase.GetAssetPath(item);
-                AssetDatabase.RenameAsset(path, $"ViewState_{item.data.viewState.name}");
+                RenameNodeAsset(item, $"ViewState_{item.data.viewState.name}");
             }
 
 
 
             AssetDatabase.SaveAssets();
-            isDirty = false;
-
             if (data.globalSetting.useAddressableLoading)
             {
-                GenerateAddressableSaveData();
+                GenerateAddressableSaveData(updateAddressableEntries);
             }
             else
             {
-                CleanupAddressableSaveData();
+                CleanupAddressableSaveData(updateAddressableEntries);
+            }
+            isDirty = false;
+        }
+
+        static void RenameNodeAsset(ScriptableObject node, string name)
+        {
+            if (AssetDatabase.IsSubAsset(node))
+            {
+                node.name = name;
+                EditorUtility.SetDirty(node);
+            }
+            else
+            {
+                AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(node), name);
             }
         }
 
-        void GenerateAddressableSaveData()
+        /// <summary>Bake names from this data asset, without loading a window.</summary>
+        public void Bake(string scriptAssetPath = null)
         {
-            var addressableFilePath = ViewSystemResourceFolder + ViewSystemSaveData_AddressableFileName;
+            ViewSystemScriptBaker.BakeAllViewPageName(
+                data.GetViewPageSaveDatas().Select(item => item.viewPage).ToList(),
+                data.GetViewStateSaveDatas().Select(item => item.viewState).ToList(),
+                data.globalSetting?.breakPoints.ToList(),
+                scriptAssetPath ?? SaveDataFolder + "ViewSystemScriptable.cs");
+        }
+
+        public ViewSystemValidationResult Validate()
+        {
+            return ViewSystemDataValidator.Validate(data);
+        }
+
+        void RequireAddressableEntries()
+        {
+            var settings = AddressableAssetSettingsDefaultObject.Settings;
+            if (settings == null)
+                throw new InvalidOperationException("Initialize Addressables and apply layout rules before saving.");
+            var items = data.viewPagesNodeSaveDatas.SelectMany(node => node.data.viewPage.viewPageItems)
+                .Concat(data.viewStateNodeSaveDatas.SelectMany(node => node.data.viewState.viewPageItems));
+            foreach (var item in items)
+            {
+                if (item == null || item.viewElementObject == null)
+                    continue;
+                var guid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(item.viewElementObject));
+                if (string.IsNullOrEmpty(guid) || settings.FindAssetEntry(guid, true) == null)
+                    throw new InvalidOperationException($"Apply Addressable layout rules for '{item.displayName}' before saving.");
+            }
+        }
+
+        void GenerateAddressableSaveData(bool updateAddressableEntries)
+        {
+            var addressableFilePath = AddressableSaveDataPath;
             var addressableData = AssetDatabase.LoadAssetAtPath<ViewSystemSaveData_Addressable>(addressableFilePath);
             if (addressableData == null)
             {
@@ -542,14 +655,15 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
             // Resolve target group
             AddressableAssetGroup targetGroup = null;
-            if (!string.IsNullOrEmpty(data.globalSetting.addressableGroupName))
+            if (updateAddressableEntries)
             {
-                targetGroup = settings.groups.FirstOrDefault(g => g != null && g.Name == data.globalSetting.addressableGroupName);
-            }
-            if (targetGroup == null)
-            {
-                targetGroup = settings.DefaultGroup;
-                ViewSystemLog.LogWarning($"Addressable Group '{data.globalSetting.addressableGroupName}' not found, using default group '{targetGroup.Name}'.");
+                if (!string.IsNullOrEmpty(data.globalSetting.addressableGroupName))
+                    targetGroup = settings.groups.FirstOrDefault(g => g != null && g.Name == data.globalSetting.addressableGroupName);
+                if (targetGroup == null)
+                {
+                    targetGroup = settings.DefaultGroup;
+                    ViewSystemLog.LogWarning($"Addressable Group '{data.globalSetting.addressableGroupName}' not found, using default group '{targetGroup.Name}'.");
+                }
             }
 
             var targetLabels = (data.globalSetting.addressableLabelName ?? string.Empty)
@@ -558,7 +672,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 .Where(label => !string.IsNullOrEmpty(label))
                 .Distinct(StringComparer.Ordinal)
                 .ToArray();
-            if (targetLabels.Length == 0)
+            if (updateAddressableEntries && targetLabels.Length == 0)
                 ViewSystemLog.LogWarning("Addressable Labels are empty; ViewSystem prefabs will not receive a label.");
 
             // Collect all unique prefab GUIDs from ViewPageItems
@@ -606,7 +720,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (!processedGuids.Contains(guid))
                 {
                     processedGuids.Add(guid);
-                    EnsureAddressableEntry(settings, targetGroup, guid, assetPath, item.viewElementObject.name, targetLabels);
+                    if (updateAddressableEntries)
+                        EnsureAddressableEntry(settings, targetGroup, guid, assetPath, item.viewElementObject.name, targetLabels);
                 }
 
                 addressableData.viewPageItemAssetRefs.Add(new ViewPageItemAssetRef
@@ -634,7 +749,8 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 if (!processedGuids.Contains(guid))
                 {
                     processedGuids.Add(guid);
-                    EnsureAddressableEntry(settings, targetGroup, guid, assetPath, entry.viewElementGameObject.name, targetLabels);
+                    if (updateAddressableEntries)
+                        EnsureAddressableEntry(settings, targetGroup, guid, assetPath, entry.viewElementGameObject.name, targetLabels);
                 }
 
                 addressableData.uniqueViewElementAssetRefs.Add(new UniqueViewElementAssetRef
@@ -685,7 +801,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
             EditorUtility.SetDirty(addressableData);
             AssetDatabase.SaveAssets();
 
-            ViewSystemLog.Log($"ViewSystemSaveData_Addressable generated: {addressableData.viewPageItemAssetRefs.Count} asset refs, {addressableData.uniqueViewElementAssetRefs.Count} unique element refs, group: {targetGroup.Name}.");
+            ViewSystemLog.Log($"ViewSystemSaveData_Addressable generated: {addressableData.viewPageItemAssetRefs.Count} asset refs, {addressableData.uniqueViewElementAssetRefs.Count} unique element refs, group: {(updateAddressableEntries ? targetGroup.Name : "preserved")}.");
         }
 
         ExistingAddressableNodeSubAssets GetExistingAddressableNodeSubAssets(string addressableFilePath, ViewSystemSaveData_Addressable addressableData)
@@ -823,7 +939,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
         /// </summary>
         public void RestoreViewElementReferencesFromAddressable()
         {
-            var addressableFilePath = ViewSystemResourceFolder + ViewSystemSaveData_AddressableFileName;
+            var addressableFilePath = AddressableSaveDataPath;
             var addressableData = AssetDatabase.LoadAssetAtPath<ViewSystemSaveData_Addressable>(addressableFilePath);
             if (addressableData == null)
                 return;
@@ -874,15 +990,16 @@ namespace MacacaGames.ViewSystem.VisualEditor
                 ViewSystemLog.Log($"Restored {restoredCount} ViewElement references from addressable data for editor use.");
         }
 
-        void CleanupAddressableSaveData()
+        void CleanupAddressableSaveData(bool removeAddressableEntries)
         {
-            var addressableFilePath = ViewSystemResourceFolder + ViewSystemSaveData_AddressableFileName;
+            var addressableFilePath = AddressableSaveDataPath;
             var addressableData = AssetDatabase.LoadAssetAtPath<ViewSystemSaveData_Addressable>(addressableFilePath);
             if (addressableData == null)
                 return;
 
             // Remove Addressable entries for all ViewElement prefabs
-            RemoveAllAddressableEntries(addressableData);
+            if (removeAddressableEntries)
+                RemoveAllAddressableEntries(addressableData);
 
             // Delete addressable save data asset
             AssetDatabase.DeleteAsset(addressableFilePath);

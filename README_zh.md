@@ -559,3 +559,7 @@ Safety blocker 不代表 `KeepForever` 是正確目標。已設定的 `KeepN` �
 - [原始碼](https://github.com/MacacaGames/MacacaViewSystem)
 - [範例專案](https://github.com/MacacaGames/ViewSystemExample)
 - [Script API 參考](https://macacagames.github.io/MacacaViewSystem/api/MacacaGames.ViewSystem.html)
+
+## 無視窗 Editor 編輯
+
+可直接編輯、驗證、儲存與烘焙資料資產，無須建立 Visual Editor 視窗。視窗與自動化共用儲存核心；完整 API、Addressable 規則整合及範例見 [無視窗資料編輯](Documentation~/WindowlessAuthoring_zh.md)。

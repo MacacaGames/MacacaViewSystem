@@ -546,3 +546,7 @@ See [Pool Policy Design](VIEW_ELEMENT_POOL_POLICY_DESIGN.md) and [Migration Case
 - [Source Code](https://github.com/MacacaGames/MacacaViewSystem)
 - [Demo Project](https://github.com/MacacaGames/ViewSystemExample)
 - [Script API Reference](https://macacagames.github.io/MacacaViewSystem/api/MacacaGames.ViewSystem.html)
+
+## Window-free Editor authoring
+
+Edit, validate, save, and bake authoring assets without creating a Visual Editor window. See [Windowless Authoring](Documentation~/WindowlessAuthoring.md) for the shared Editor API and automation examples.

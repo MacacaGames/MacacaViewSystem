@@ -1,0 +1,11 @@
+{
+    "name": "Macaca.ViewSystem.Editor.Tests",
+    "references": [
+        "Macaca.ViewSystem",
+        "Macaca.ViewSystem.Editor",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor"
+    ],
+    "includePlatforms": ["Editor"],
+    "optionalUnityReferences": ["TestAssemblies"]
+}
